@@ -87,7 +87,6 @@ sub AddFiles
 
   $arch = `uname -m`; chomp $arch;
   $arch = "ix86" if $arch =~ /^i\d86$/;
-  $arch = "sparc" if $arch =~ /^sparc/;
 
   $tag = "" unless defined $tag;
 

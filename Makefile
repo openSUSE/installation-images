@@ -56,12 +56,6 @@ root: dirs
 yast2: dirs initrd2
 	bin/mk_yast2
 
-yast2_cd: boot yast2
-	bin/mk_yast2_cd
-
-yast2_nfs: boot yast2
-	bin/mk_yast2_nfs
-
 html:
 	@for i in $(PLIBS); do echo $$i; pod2html --noindex --title=$$i --outfile=doc/$$i.html lib/$$i.pm; done
 	@for i in $(PBINS); do echo $$i; pod2html --noindex --title=$$i --outfile=doc/$$i.html bin/$$i; done

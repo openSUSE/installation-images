@@ -24,6 +24,12 @@ l linuxrc bin/init
 l linuxrc bin/portmap
 l linuxrc etc/nothing
 
+x etc/host.conf etc
+
+devs:
+m /usr/doc/packages/devs/makedevs.floppy /
+c 0755 0 0 makedevs.floppy
+
 kbd:
 d consoletrans
 m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat1u.uni,lat2u.uni,lat7u.uni,latin2u.scrnmap,trivial} consoletrans
@@ -71,11 +77,13 @@ g /usr/lib/kbd/keymaps/ppc/mac-us-ext.map.gz keytables/mac-us-ext.map
 g /usr/lib/kbd/keymaps/ppc/mac-us-std.map.gz keytables/mac-us-std.map
 endif
 
-ifarch sparc
+ifarch sparc sparc64
 g /usr/lib/kbd/keymaps/sun/sunkeymap.map.gz keytables/sunkeymap.map
+g /usr/lib/kbd/keymaps/sun/sundvorak.map.gz keytables/sundvorak.map
 g /usr/lib/kbd/keymaps/sun/sun-pl-altgraph.map.gz keytables/sun-pl-altgraph.map
 g /usr/lib/kbd/keymaps/sun/sun-pl.map.gz keytables/sun-pl.map
 g /usr/lib/kbd/keymaps/sun/sunt4-es.map.gz keytables/sunt4-es.map
+g /usr/lib/kbd/keymaps/sun/sunt4-no-latin1.map.gz keytables/sunt4-no-latin1.map
 g /usr/lib/kbd/keymaps/sun/sunt5-de-latin1.map.gz keytables/sunt5-de-latin1.map
 g /usr/lib/kbd/keymaps/sun/sunt5-es.map.gz keytables/sunt5-es.map
 g /usr/lib/kbd/keymaps/sun/sunt5-fi-latin1.map.gz keytables/sunt5-fi-latin1.map
@@ -101,9 +109,9 @@ endif
 
 t modules/{MORE,NET,SCSI,OTHER}
 
-ifnarch sparc
 <kernel_rpm>:
 
+ifarch ix86 alpha ppc
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
 a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
@@ -112,9 +120,59 @@ a /lib/modules/<kernel_ver>/misc/input.o /modules
 a /lib/modules/<kernel_ver>/misc/hid.o /modules
 a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
 a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
+endif
 
+ifarch alpha ppc
+a /lib/modules/<kernel_ver>/block/*.o /modules
+a /lib/modules/<kernel_ver>/net/*.o /modules
+a /lib/modules/<kernel_ver>/scsi/*.o /modules
+
+# scsi
+r /modules/ide-scsi.o
+r /modules/scsi_debug.o
+r /modules/sg.o
+
+# block
+r /modules/nbd.o
+r /modules/xd.o
+
+# net
+r /modules/soundmodem.o
+r /modules/wanpipe.o
+r /modules/{pppox,ppp,ppp_deflate}.o
+r /modules/slip.o
+r /modules/{irda,irda_deflate}.o
+r /modules/syncppp.o
+r /modules/sktr.o
+
+r /modules/comx-hw-comx.o
+r /modules/comx-hw-locomx.o
+r /modules/comx-hw-mixcom.o
+r /modules/comx-proto-fr.o
+r /modules/comx-proto-lapb.o
+r /modules/comx-proto-ppp.o
+r /modules/comx.o
+r /modules/6pack.o
+r /modules/baycom_epp.o
+r /modules/baycom_par.o
+r /modules/bpqether.o
+r /modules/baycom_ser_fdx.o
+r /modules/baycom_ser_hdx.o
+r /modules/dlci.o
+r /modules/dmascc.o
+r /modules/hdlcdrv.o
+r /modules/ipddp.o
+r /modules/lapbether.o
+r /modules/mkiss.o
+r /modules/scc.o
+r /modules/sdla.o
+r /modules/sdladrv.o
+r /modules/x25_asy.o
+r /modules/yam.o
+endif
+
+ifarch ix86
 ifdef 2.88
-
 a /lib/modules/<kernel_ver>/block/*.o /modules
 a /lib/modules/<kernel_ver>/net/*.o /modules
 a /lib/modules/<kernel_ver>/scsi/*.o /modules
@@ -199,6 +257,7 @@ a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
 
 else	# !2.88
+
 ### a /lib/modules/<kernel_ver>/block/DAC960.o /modules
 ### a /lib/modules/<kernel_ver>/block/cpqarray.o /modules
 
@@ -263,9 +322,19 @@ a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
 # a /lib/modules/<kernel_ver>/pcmcia/serial_cs.o /modules
 # a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
 endif
-
 endif	# 2.88
 endif
 
-x etc/host.conf etc
+ifarch sparc sparc64
+a /lib/modules/<kernel_ver>/fc4/*.o /modules
+a /lib/modules/<kernel_ver>/fs/openpromfs.o /modules
+a /lib/modules/<kernel_ver>/net/myri_sbus.o /modules
+a /lib/modules/<kernel_ver>/net/sunbmac.o /modules
+a /lib/modules/<kernel_ver>/net/sunhme.o /modules
+a /lib/modules/<kernel_ver>/net/sunqe.o /modules
+a /lib/modules/<kernel_ver>/scsi/fcal.o /modules
+a /lib/modules/<kernel_ver>/scsi/pluto.o /modules
+a /lib/modules/<kernel_ver>/scsi/qlogicpti.o /modules
+a /lib/modules/<kernel_ver>/misc/openprom.o /modules
+endif
 

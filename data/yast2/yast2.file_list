@@ -76,6 +76,7 @@ util:
   /lib/modules/<kernel_ver>/misc/serial.o
   /lib/modules/<kernel_ver>/misc/lp.o
 
+ifdef blub
   /lib/modules/<kernel_ver>/net/{pppox,ppp,ppp_deflate}.o
   /lib/modules/<kernel_ver>/net/slip.o
   /lib/modules/<kernel_ver>/net/{irda,irda_deflate}.o
@@ -86,16 +87,19 @@ util:
   /lib/modules/<kernel_ver>/net/dlci.o
   /lib/modules/<kernel_ver>/net/sdla.o
   /lib/modules/<kernel_ver>/net/sdladrv.o
+endif
 
 # add link to initrd modules
 # check mk_yast2 before you're going to change this!!!
 d /lib/modules/default
 s ../../../modules /lib/modules/default/misc
 
+ifnarch sparc sparc64
 pcmcia:
   /sbin/cardmgr
   /sbin/cardctl
   /sbin/dump_cis
+endif
 
 ncurses:
   /lib/libncurses.so.5{,.0}
@@ -147,11 +151,12 @@ ext2fs:
   /sbin/*
 
 file:
-#  /etc/magic
   /usr/bin/file
 
+ifarch ix86
 lilo:
   /sbin/activate
+endif
 
 mdutils:
   /sbin/*
@@ -170,10 +175,9 @@ umsprogs:
 c 0755 0 0 /sbin/umssync
 s /sbin/umssync /bin/umssync
 
+# clock no longer in util package
 util:
-  /sbin/{clock,ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
-
-# var
+  /sbin/{ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
@@ -252,10 +256,24 @@ s /var/X11R6/bin/X /usr/X11R6/bin/X
 xfbdev:
   .
 
-ifnarch ppc
+ifarch ix86 alpha
 xsvga:
   .
+endif
+
+ifarch ix86
 xvga16:
+  .
+endif
+
+ifarch sparc sparc64
+xsun:
+  .
+xsunmono:
+  .
+xsun24:
+  .
+xmach64:
   .
 endif
 
@@ -272,19 +290,14 @@ xf86:
   /usr/X11R6/lib/X11/xkb
   /usr/X11R6/lib/X11/xserver
 # unicode stuff
-#  /usr/X11R6/lib/X11/fonts/{75dpi,latin2,misc}
 d /usr/X11R6/lib/X11/fonts/{misc,uni}
+  /usr/X11R6/lib/X11/fonts/misc/{6x13,cursor}.pcf.gz
+
 x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
-x /usr/X11R6/lib/X11/fonts/misc/*gz /usr/X11R6/lib/X11/fonts/misc
-x /usr/X11R6/lib/X11/fonts/uni/fonts.* /usr/X11R6/lib/X11/fonts/uni
-x /usr/X11R6/lib/X11/fonts/uni/*gz /usr/X11R6/lib/X11/fonts/uni
-
-#  /usr/X11R6/bin/xsetroot
-
-#xfntscl:
-#  /usr/X11R6/lib/X11/fonts/Type1
-
 x /usr/X11R6/lib/X11/XF86Config /usr/X11R6/lib/X11
+
+yast2:
+  /usr/X11R6/lib/X11/fonts/uni
 
 c 0755 0 0 /usr
 c 0755 0 0 /usr/X11R6
@@ -310,14 +323,13 @@ c 0755 0 0 /lib/YaST2
 c 0755 0 0 /var/lib
 c 0755 0 0 /var/lib/YaST2
 
-# just this time - remove later!!!
-# x /lib/YaST2/bin/YaST2 /lib/YaST2/bin
-
 # remove these:
 r root mnt tmp usr/libexec
 
+ifarch ix86
 syslinux:
   /usr/sbin/syslinux
+endif
 
 # we need ISaX
 isax:

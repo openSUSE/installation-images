@@ -76,20 +76,12 @@ if(-d($tmpdir)) {
 AddFiles $tmpdir, "${srcdir}/initrd.file_list", $srcdir, "2.88" or
   die "$Script: failed to setup initrd image";
 
-system "cp $srcdir/makedevs.floppy $tmpdir";
 SUSystem "sh -c 'cd $tmpdir; ./makedevs.floppy >/dev/null'" and
   die "$Script: could not create all devices";
-system "rm $tmpdir/makedevs.floppy";
-
-#SUSystem "cp $idlist $tmpdir" and
-#  die "$Script: could not add the id list";
+SUSystem "rm $tmpdir/makedevs.floppy";
 
 SUSystem "cp $lxrc $tmpdir/linuxrc" and
   die "$Script: linuxrc not copied";
-
-# add info   
-# SUSystem "cp ${CfgPath}info $tmpdir" and
-#  print STDERR "$Script: no info file";
 
 # strip everything
 SUSystem "strip_dir $tmpdir";
