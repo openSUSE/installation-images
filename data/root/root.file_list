@@ -441,7 +441,7 @@ if arch ne 'alpha'
     /usr/X11R6/lib/modules/fonts/libbitmap.a
     /usr/X11R6/lib/modules/input
     /usr/X11R6/lib/modules/linux
-  ifarch ne 'ia64'
+  if arch ne 'ia64'
       /usr/X11R6/lib/modules/*.uc
   endif
     /usr/X11R6/lib/modules/lib*.a
