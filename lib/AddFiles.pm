@@ -148,7 +148,7 @@ sub AddFiles
     }
 
     s/<(kernel_ver|kernel_rpm|kernel_img|suse_release|suse_major|suse_minor)>/$ConfigData{$1}/g;
-    for $i (qw( linuxrc )) {
+    for $i (qw( linuxrc lang )) {
       s/<$i>/$ENV{$i}/g if exists $ENV{$i};
     }
 

@@ -178,8 +178,8 @@ mount -n -t proc proc /proc
 # [ -f /sbin/portmap ] && /sbin/portmap
 mount /S.u.S.E.
 
-rmdir /.mnt 2>/dev/null
-[ -d /.mnt ] && umount /.mnt 2>/dev/null && rmdir /.mnt 2>/dev/null
+rmdir /initrd 2>/dev/null
+[ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
 
 # move us out of the way...
 mv $0 /sbin/live-setup
@@ -330,8 +330,7 @@ perl -pi -e 's/^(SUSEWM_UPDATE=).*/$1\"no\"/' /etc/rc.config
 rm -f /sbin/conf.d/SuSEconfig.{perl,groff,alsa}
 
 if [ -f /etc/install.inf ] ; then
-  # german version
-  # echo "Locale: de_DE" >>/etc/install.inf
+  # localization tag - do not remove #
   perl -pi -e 's/^(Sourcemounted:).*/$1 1/' /etc/install.inf
   eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
   [ ! "$LANG" -a -f /lang ] && export LANG=`cat /lang`
@@ -469,11 +468,13 @@ if [ ! "$nodisk" ] ; then
       mount /home
       rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
 
-      # make truetype dir
-      mkdir /home/truetype
-      cp -a /usr/X11R6/lib/X11/fonts/truetype/* /home/truetype
-      link_dir usr/X11R6/lib/X11 usr/X11R6/lib/X11/fonts
-      ln -snf /home/truetype  /usr/X11R6/lib/X11/fonts/truetype
+      if [ -d /usr/X11R6/lib/X11/fonts/truetype ] ; then
+        # make truetype dir
+        mkdir /home/truetype
+        cp -a /usr/X11R6/lib/X11/fonts/truetype/* /home/truetype
+        link_dir usr/X11R6/lib/X11 usr/X11R6/lib/X11/fonts
+        ln -snf /home/truetype  /usr/X11R6/lib/X11/fonts/truetype
+      fi
     fi
     /sbin/syslogd
 
@@ -481,7 +482,7 @@ if [ ! "$nodisk" ] ; then
     [ -x /sbin/pcmcia.postin ] && /sbin/pcmcia.postin >/dev/null 2>&1
     rm -f /sbin/pcmcia.postin
 
-    [ -d /.mnt ] && umount /.mnt 2>/dev/null && rmdir /.mnt 2>/dev/null
+    [ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
 
     deb_stop
 
@@ -654,7 +655,9 @@ if [ "$nodisk" ] ; then
   rm -f /sbin/live-shutdown /etc/.SuSEfiles
 fi
 
-[ -d /.mnt ] && umount /.mnt 2>/dev/null && rmdir /.mnt 2>/dev/null
+[ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
+# ok, if nothing helps, remove at least the files...
+[ -d /initrd ] && rm -rf /initrd 2>/dev/null
 
 [ "$deb_shell" ] && kill -9 "$deb_shell"
 

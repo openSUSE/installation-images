@@ -11,7 +11,7 @@ for (`find .`) {
   chomp;
   s/^\.//;
   next if $_ eq "";
-  next if m#^/sbin/(find_config|live-setup|mk_links)$#;
+  next if m#^/(sbin/(find_config|live-setup|mk_links)|initrd)$#;
   print F "$_\n"
 }
 

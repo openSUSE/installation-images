@@ -85,15 +85,5 @@ else {
     die "$Script: error in shared lib config, please fix\n";
 }
 
-#if(-d "$tmpdir/lib/modules/$ConfigData{kernel_ver}") {
-#  SUSystem "mkdir $tmpdir/modules";
-#  SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
-#  SUSystem "depmod -a -F $tmpdir/System.map -b $tmpdir $ConfigData{kernel_ver}";
-#  die "$Script: failed to run depmod" unless -f "$tmpdir/lib/modules/$ConfigData{kernel_ver}/modules.dep";
-#  SUSystem "rm -r $tmpdir/modules";
-#  SUSystem "rm $tmpdir/System.map";
-#  SUSystem "ln -snf /modules $tmpdir/lib/modules/$ConfigData{kernel_ver}/initrd";
-#}
-
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
 

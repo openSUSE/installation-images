@@ -1,5 +1,4 @@
-d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var
-d .mnt
+d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var initrd
 c 1777 0 0 tmp
 
 devs:
@@ -14,14 +13,10 @@ c 0711 0 0 /root
   /etc/modules.conf
   /etc/ld.so.conf
   /sbin/mk_initrd
-if suse_release >= 7.1
-  if suse_release < 7.2
-    /sbin/blogd
-  endif
-  /etc/init.d
-else
-  /sbin/init.d
+if suse_release < 7.2
+  /sbin/blogd
 endif
+  /etc/init.d
   /etc/SuSE-release
   /etc/rc.status
   /etc/cron.daily/aaa_base
@@ -32,11 +27,6 @@ endif
 # aaa_base's preinstall
   /sbin/SuSEconfig
 p /sbin/SuSEconfig.patch
-
-if suse_release == 7.0
-  p /sbin/boot.patch_70
-  p /sbin/halt.patch_70
-endif
 
 if suse_release == 7.1
   p /sbin/boot.patch_71
@@ -49,43 +39,26 @@ if suse_release == 7.2
 endif
 
 aaa_dir:
-if suse_release >= 7.1
   /etc/init.d
-else
-  /sbin/init.d
-endif
   /etc/{news,ppp,rc.config.d}
   /var
 
 kbd:
-if suse_release >= 7.1
   /etc/init.d
-else
-  /sbin/init.d
-endif
-
-if suse_release < 7.1
-  xsvga:
-    /dev/agpgarti810
-endif
 
 ncurses:
   /lib/libncurses.so.5*
 
-if suse_release >= 7.1
-  glibc:
-    /lib/libutil.so.1
-    # to make chown work
-    /lib/libnss_compat.so.2
-    /lib/libnsl.so.1
-else
-  shlibs:
-endif
+glibc:
+  /lib/libutil.so.1
+  # to make chown work
+  /lib/libnss_compat.so.2
+  /lib/libnsl.so.1
   /lib/ld-2.*.so
 if arch eq 'ppc'
-    /lib/ld.so.1
+  /lib/ld.so.1
 else
-    /lib/ld-linux.so.2
+  /lib/ld-linux.so.2
 endif
   /lib/libcrypt.so.1
   /lib/{libc.so.6,libdl.so.2}
@@ -101,28 +74,15 @@ endif
   /lib/libreadline.so.4*
   /lib/libhistory.so.4*
 
-if suse_release >= 7.1
-  sh-utils:
-else
-  sh_utils:
-endif
-  /bin/{date,echo,false,sleep,stty,true,uname}
+sh-utils:
+/bin/{date,echo,false,sleep,stty,true,uname}
 
-if suse_release >= 7.1   
-  util-linux:
-else
-  util:
-endif
+util-linux:
   /bin/{kill,mount,umount}
   /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,clock,hwclock,losetup}
 
-if suse_release >= 7.1
-  fileutils:
-    /bin/touch
-else
-  fileutil:
-endif
-  /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir,dd}
+fileutils:
+  /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir,dd,touch}
 
 pam:
   /etc
@@ -137,11 +97,7 @@ sysvinit:
   /sbin/{reboot,shutdown,startproc,telinit,sulogin}
   /etc/powerd.conf
 
-if suse_release >= 7.1
-  e2fsprogs:
-else
-  ext2fs:
-endif
+e2fsprogs:
   /sbin/{e2fsck,e2label,fsck,fsck.ext2}
   /lib
 r /lib/libe2p.so*
@@ -153,19 +109,11 @@ bdflush:
 netcfg:
   /etc/{hosts,inetd.conf,networks}
 
-if suse_release >= 7.1
-  net-tools:
-else
-  net_tool:
-endif
+net-tools:
   /bin/{hostname,domainname}
   /sbin/{ifconfig,route}
 
-if suse_release >= 7.1
-  textutils:
-else
-  textutil:
-endif
+textutils:
   /bin/cat
 
 cron:
@@ -186,35 +134,31 @@ else
 endif
   m /usr/lib/YaST2/bin/startshell /sbin
 
-if special eq 'cloop' || special eq 'loopc'
-  if special eq 'cloop'
-    X /tmp/cloop.o /lib
-    b 240 0 /dev/cloop
-  else
-    X /tmp/loopc.o /lib
-    b 240 0 /dev/loopc0
-  endif
-
-  if suse_release >= 7.1
-   libz:
-     /lib/libz.so.1*
-    modutils:
-  else
-    modules:
-  endif
-    /sbin/{insmod,rmmod}
+if special eq 'cloop'
+  X /tmp/cloop.o /lib
+  b 240 0 /dev/cloop
 endif
+
+x /sbin/loopc-<kernel_ver>.o /lib/loopc.o
+b 240 0 /dev/loopc0
+b 240 1 /dev/loopc1
+b 240 2 /dev/loopc2
+b 240 3 /dev/loopc3
+
+libz:
+  /lib/libz.so.1*
+
+modutils:
+  /sbin/{insmod,rmmod}
 
 x /etc/{HOSTNAME,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
 
 x /sbin/init /sbin
-if demo eq 'eval'
+d etc/X11
+if demo eq 'eval' || demo eq ''
   x /sbin/{live-shutdown,find_config,fix_fstab,letool} /sbin
-  d etc/X11
   x /etc/XF86Config_3 /etc/XF86Config
   x /etc/XF86Config_4 /etc/X11/XF86Config
-else
-  d etc/X11
 endif
 
 x sbin/pcmcia.postin /sbin
@@ -224,9 +168,11 @@ r /etc/httpd
 r /lib/modules
 r /var
 
+if lang ne ''
+  R s/^\s*# localization tag - do not remove #/  echo \"Locale: <lang>\" >>\/etc\/install.inf/ /sbin/init
+endif
+
 # write a basic fstab
 e echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
 e echo "proc /proc proc defaults 0 0" >>/etc/fstab
 
-# default language
-# e echo de_DE >/lang

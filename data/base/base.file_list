@@ -122,6 +122,10 @@ if arch eq 'ia32'
     /usr/share/syslinux/isolinux*
 endif
 
+<kernel_rpm>:
+m /boot/System.map-* /System.map
+f / modules.dep /
+
 aaa_base: prein,postin
 e prein
   /etc
