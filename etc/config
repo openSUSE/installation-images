@@ -47,7 +47,7 @@ update	= /linux/suse/<arch>-<rel>
 
 [Theme Home]
 yast	= SuSELinux
-splash	= SuSE
+splash	= SuSE-Home
 product	= SUSE LINUX
 version = 9.1
 update	= /linux/suse/<arch>-<rel>

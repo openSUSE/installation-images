@@ -1,5 +1,10 @@
+29/3/2004:	v5.33
 	- added pmtools (#36818)
 	- changed sshd message (#36928)
+	- use linemode on ppc (#35826)
+	- japanese keyboard (#31417)
+	- added setctsid, showconsole, FvwmCommand
+	- added sata_sis.ko, edd.ko
 
 24/3/2004:	v5.32
 	- fvwmrc now fvwmrc.notitle again

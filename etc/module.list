@@ -47,6 +47,7 @@ kernel/fs/reiserfs/
 kernel/fs/smbfs/
 kernel/fs/vfat/
 kernel/fs/xfs
+kernel/drivers/firmware/edd.ko
 
 # kernel pcmcia
 # see data/initrd/initrd_base.list

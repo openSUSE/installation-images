@@ -391,6 +391,7 @@ if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch
     g /usr/share/kbd/keymaps/i386/qwerty/gr.map.gz kbd/keymaps/gr.map
     g /usr/share/kbd/keymaps/i386/qwertz/hu.map.gz kbd/keymaps/hu.map
     g /usr/share/kbd/keymaps/i386/qwerty/it.map.gz kbd/keymaps/it.map
+    g /usr/share/kbd/keymaps/i386/qwerty/jp106.map.gz kbd/keymaps/jp106.map
     g /usr/share/kbd/keymaps/i386/qwerty/nl.map.gz kbd/keymaps/nl.map
     g /usr/share/kbd/keymaps/i386/qwerty/no-latin1.map.gz kbd/keymaps/no-latin1.map
     g /usr/share/kbd/keymaps/i386/qwerty/pt-latin1.map.gz kbd/keymaps/pt-latin1.map
@@ -402,6 +403,7 @@ if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch
     m /usr/share/kbd/keymaps/i386/include/linux-with-modeshift-altgr.inc kbd/keymaps/include
     m /usr/share/kbd/keymaps/i386/include/linux-keys-extd.inc kbd/keymaps/include
     m /usr/share/kbd/keymaps/i386/include/azerty-layout.inc kbd/keymaps/include
+    m /usr/share/kbd/keymaps/i386/include/linux-with-two-alt-keys.inc kbd/keymaps/include
   endif
 
   g /usr/share/kbd/keymaps/i386/qwerty/us.map.gz kbd/keymaps/us.map
@@ -579,5 +581,9 @@ endif
 if liveeval
   e echo "UseIDESCSI:	1" >>linuxrc.config
   e echo "LiveConfig:	suselive.900" >>linuxrc.config
+endif
+
+if arch eq 'ppc'
+  e echo "Linemode:	1" >>linuxrc.config
 endif
 

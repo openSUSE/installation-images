@@ -119,6 +119,7 @@ util-linux:
   /sbin/losetup
   /sbin/blockdev
   /sbin/fdisk
+  /usr/sbin/setctsid
 
 <kernel_rpm>:
 if arch eq 'alpha'
@@ -498,6 +499,8 @@ if with_yast2 ne 'no'
 
   fvwm2:
     /usr/X11R6/bin/fvwm{,2}
+    /usr/X11R6/bin/FvwmCommand
+    /usr/X11R6/lib/X11/fvwm2/FvwmCommandS
     /usr/X11R6/share/fvwm/ConfigFvwmDefaults
     x etc/fvwmrc /usr/X11R6/share/fvwm/fvwmrc.notitle
 
@@ -773,6 +776,8 @@ endif
 
 sysvinit:
   /sbin/checkproc
+  /sbin/showconsole
+  /sbin/setconsole
 
 syslogd:
   /sbin/klogd
