@@ -42,6 +42,26 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
   A gen/module.shortconfig.fs modules/module.config
   A gen/module.config.other modules/module.config
 
+elsif arch eq 'ia32' && initrd eq 'medium'
+
+  # for ia32 CD2 image
+
+  include gen/module.files.autoload
+  include gen/module.files.firewire
+  include gen/module.files.pcmcia
+  include gen/module.files.usb
+
+  # note: order _does_ matter
+  A gen/module.config.autoload modules/module.config
+  A gen/module.shortconfig.scsi modules/module.config
+  A gen/module.shortconfig.cdrom modules/module.config
+  A gen/module.shortconfig.net modules/module.config
+  A gen/module.config.pcmcia modules/module.config
+  A gen/module.config.usb modules/module.config
+  A gen/module.config.firewire modules/module.config
+  A gen/module.shortconfig.fs modules/module.config
+  A gen/module.config.other modules/module.config
+
 else
 
   # all other archs with no restrictions to initrd size

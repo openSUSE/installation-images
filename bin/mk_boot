@@ -130,6 +130,9 @@ else {
 if($ENV{'boot'} eq 'small') {
   ($blocks, $block_size) = MakeFATImage($image, $label, 1)
 }
+elsif($ENV{'boot'} eq 'medium') {
+  ($blocks, $block_size) = MakeFATImage($image, $label, 2, 36)
+}
 elsif($ENV{'boot'} eq 'hd') {
   # about 20MB image; see lib/MakeFATImage.pm for the meaning of the args
   ($blocks, $block_size) = MakeFATImage($image, $label, 2, 63, 4, 160, "$image.mbr", $mboot_file)
