@@ -1,3 +1,6 @@
+16/1/2004:	v2.121
+	- make it build on s390
+
 16/01/2004:	v2.120
 	- fixed buglet in create_interface causing nameserver entry to be
 	  omitted (bug #33197)
