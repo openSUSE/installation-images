@@ -380,8 +380,8 @@ for (@f) {
       $r = $a
     }
     else {
-      die "No usable /.rpm-cache:\n";
-      system "ls -la /.rpm-cache"
+      system "ls -la /.rpm-cache";
+      die "No usable /.rpm-cache!\n"
     }
     $base = $AutoBuild = "/.rpm-cache/$r"
   }
