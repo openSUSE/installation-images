@@ -1,3 +1,7 @@
+29/7/2003:	v2.98
+	- fixed for new kernel, rearranged modules to fit on 4 module disks;
+	  note: firewire mods no longer included in initrd on bootdisk & cd2
+
 25/6/2003:	v2.97
 	- ensure loop devices are freed on build errors
 
