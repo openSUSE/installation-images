@@ -3,7 +3,6 @@
 # vim: syntax=sh
 
 echo 'sshd found, prepare remote login'
-unset SSH_FAILED
 test -L /etc/ssh && { rm -f /etc/ssh ; mkdir -p /etc/ssh ; }
 test -L /root && rm -f /root
 mkdir -p /root
@@ -28,7 +27,7 @@ test -z "$THIS_HOST_IP" || hostname $THIS_HOST_IP
 test -z "$domain" || domainname $domain
 fi
 #
-if grep -qi nosshkey < /proc/cmdline ; then
+if grep -qwi nosshkey < /proc/cmdline ; then
 	# for inst-sys testing
 	cp -av $INSTSYS/etc/ssh/*key* /etc/ssh/
 else
@@ -56,6 +55,7 @@ echo "Starting SSH daemon  ...  "
 #
 /usr/sbin/sshd || {
 export SSH_FAILED=true
+export YAST2_SSH=false
 echo 'sshd did NOT start!'
 }
 if [ ! "$SSH_FAILED" ] ; then
@@ -64,19 +64,11 @@ if [ ! "$SSH_FAILED" ] ; then
 	for i in  `grep eth /proc/net/dev | cut -f 1 -d : ` ; do
 	    /sbin/ifconfig $i | grep UP > /dev/null 2>&1 && /sbin/ifconfig $i | head -n 2
 	done
+	export YAST2_SSH=true
 	cat <<EOF
 
       ***  sshd has been started  ***
 
-  Press return to contiunue...
 EOF
-	read
 fi
-
-grep -iq < /proc/cmdline debug && {
-export Y2DEBUG=1
-export Y2MAXLOGSIZE=50000
-export Y2MAXLOGNUM=5
-test -d $INSTSYS/root/.yast2 && cp -a $INSTSYS/root/.yast2 /root
-}
 

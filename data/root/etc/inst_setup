@@ -2,6 +2,9 @@
 
 yast="$1"
 shift
+echo $yast > /tmp/linuxrc_installer_name
+export YAST2_SSH=false
+unset SSH_FAILED
 
 exec 2>&1
 stty sane
@@ -88,36 +91,76 @@ if grep -q "^UseSSH:.*1" /etc/install.inf ; then
 	test -x /sbin/inst_setup_ssh  &&  . /sbin/inst_setup_ssh
 fi
 
+# for yast debugging.
+grep -iwq < /proc/cmdline debug && {
+export Y2DEBUG=1
+export Y2MAXLOGSIZE=50000
+export Y2MAXLOGNUM=5
+test -d $INSTSYS/root/.yast2 && cp -a $INSTSYS/root/.yast2 /root
+}
+
+
 # yast1 doesn't like it
 rm -f /etc/fstab
 
 # start shell, useful on iSeries or via serial console
-grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell... (use 'exit' to proceed)" ; bash --init-file /root/.bash_login ; }
+grep -qwi start_shell /proc/cmdline && {
+echo 
+echo "ATTENTION"
+echo "Starting shell... (use 'exit' to proceed)"
+bash --init-file /root/.bash_login
+}
 
+ec=
+if [ "$YAST2_SSH" = "true" ] ; then
+cat <<EOF
+
+           *** login via ssh: root@`hostname` ***
+      *** run '$yast' to start the installation ***
+
+EOF
+while true ; do
+#echo -n .
+sleep 3
+# this file is created from YaST2.firstboot after installation
+test ! -f /tmp/YaST2_ssh_installation_finished && continue
+# you can touch this file to keep the ssh shell
+# useful for debugging the installer
+test -f /tmp/YaST2_keep_sshd_running && continue
+break
+done
+
+ec=$(cat /tmp/YaST2_ssh_installation_finished)
+rm -f /tmp/YaST2_ssh_installation_finished
+elif [ "$yast" = yast ] ; then
 # now, run yast
 echo "starting yast..."
-ec=
-if [ "$yast" = yast ] ; then
   /sbin/yast "$@" ; ec=$?
 elif [ "$yast" ] ; then
+# now, run yast
+echo "starting $yast..."
   "$yast" "$@" ; ec=$?
 fi
 
 # start shell, useful on iSeries or via serial console
-grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell... (use 'exit' to proceed)" ; bash --init-file /root/.bash_login ; }
+if [ "$YAST2_SSH" = "false" ] ; then
+grep -qwi start_shell /proc/cmdline && {
+echo
+echo "ATTENTION"
+echo "Starting shell... (use 'exit' to proceed)"
+bash --init-file /root/.bash_login
+}
+fi
 
-case "$arch" in
-    s390|s390x)
-	test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
-	[ $ec -ne 0 ] && echo "An Error happened during installation"
-	ec=0
-	;;
-    *)
-	# stop vnc
-	killall Xvnc 2>/dev/null >/dev/null
-	# stop sshd
-	killall sshd 2>/dev/null >/dev/null
-esac
+test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
+# still needed?
+#[ $ec -ne 0 ] && echo "An Error happened during installation"
+#ec=0
+
+# stop vnc
+killall Xvnc 2>/dev/null >/dev/null
+# stop sshd
+killall sshd 2>/dev/null >/dev/null
 
 umount devpts 2>/dev/null
 
