@@ -1,0 +1,4 @@
+* SuSE Linux for zSeries 900 Installation/Rescue System
+suse/images/vmrdr.ikr 0x00000000
+suse/images/initrd 0x00800000
+suse/images/parmfile 0x00010480
