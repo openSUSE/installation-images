@@ -40,7 +40,7 @@ for (sort keys %st) {
     "  d /$_\n" .
     "  m /usr/share/splash/themes/$_/bootloader/message /$_/bootlogo\n";
 
-  for $res (qw ( 800x600 1024x768 1280x1024 )) {
+  for $res (split /\s|,/, $ConfigData{ini}{Splash}{sizes}) {
     $res2 = sprintf "%04u%04u", split(/x/, $res);
     print W "  E splash -s -f /usr/share/splash/themes/$_/config/bootsplash-${res}.cfg >/$_/${res2}.spl\n"
   }
