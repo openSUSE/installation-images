@@ -1,3 +1,5 @@
+19/9/2002:	v2.69
+	- added samba installation support for s390
 18/9/2002:	v2.68
 	- added yast2 translations
 	- driver updates are looked for in
