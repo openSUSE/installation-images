@@ -1,5 +1,5 @@
 5/10/2004:	v6.15
-	- xxx
+	- set lower_zone_protection & local-oom-kill (#46535)
 
 1/10/2004:	v6.14
 	- added yast2-trans-zh_TW
