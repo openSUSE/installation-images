@@ -677,18 +677,15 @@ syslogd:
 
 if pre_release
   # will not appear in final release
-  openssh-server:
-    /etc/pam.d/sshd
-    /etc/ssh
-    /usr/sbin/sshd
-
-  openssh-client:
-    /etc/ssh
-    /usr/bin/ssh
 
   openssh:
     /etc/ssh
     /usr/bin/scp
+    /etc/pam.d/sshd
+    /etc/ssh
+    /usr/sbin/sshd
+    /etc/ssh
+    /usr/bin/ssh
 
   pam:
     /etc/pam.d/other

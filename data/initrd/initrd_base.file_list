@@ -275,14 +275,12 @@ if arch eq 's390' || arch eq 's390x'
     /etc/ssh/moduli
     /usr/bin/scp
     /usr/bin/ssh-keygen
-  openssh-server:
     /etc/init.d/sshd
     /etc/pam.d/sshd
     /etc/ssh/sshd_config
     /usr/sbin/sshd
     # ??? do we need more ssh preconfiguration?
     t /etc/sysconfig/ssh
-  openssh-client:
     /etc/ssh/ssh_config
     /usr/bin/ssh
   syslogd:
