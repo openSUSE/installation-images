@@ -50,8 +50,11 @@ if(@ex_yes != 0) {
 
 for (@ml) {
   s#^/lib/modules/[^/]+/##;
-  $_ = "" if $ex_yes && !/^($ex_yes)/;
-  $_ = "" if $ex_no && /^($ex_no)/;
+  if(/^(\S+):/) {
+    $m = $1;
+    $_ = "" if $ex_yes && $m !~ /($ex_yes)/;
+    $_ = "" if $ex_no && $m =~ /($ex_no)/;
+  }
 
   s#^(\S+)/##;
   $p = $1;

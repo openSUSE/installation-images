@@ -45,12 +45,14 @@ else {
     die "$Script: error in shared lib config, please fix\n";
 }
 
-system "module_list $tmpdir/modules.dep ${CfgPath}install_modules >${BasePath}tmp/mod_deps" and
+system "module_list $tmpdir/modules.dep ${CfgPath}module.list >${BasePath}tmp/mod_deps" and
   die "$Script: base system broken\n";
 
 system "grep -v '^#' ${BasePath}tmp/mod_deps  >${BasePath}tmp/module_deps";
 system "grep '^#' ${BasePath}tmp/mod_deps | sed -e 's/^# //' | sort >${BasePath}tmp/module_list";
 system "rm ${BasePath}tmp/mod_deps";
+
+system "mlist";
 
 print "$Script: base system ready\n";
 

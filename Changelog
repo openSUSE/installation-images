@@ -1,8 +1,8 @@
-4/1/2001:	v1.110
+4/1/2002:	v1.110
 	- added more yast2 packages
 	- added wget & openssl
 
-3/1/2001:	v1.109
+3/1/2002:	v1.109
 	- fixed minor bug in bin/check_libs
 	- XftConfig is no in xf86tools
 	- added libusb
