@@ -386,6 +386,10 @@ for (@f) {
     $base = $AutoBuild = "/.rpm-cache/$r"
   }
 
+  for (qw (kernel_ver suse_release suse_xrelease suse_base suse_major_release suse_minor_release) ) {
+    $ConfigData{$_} = $ENV{$_}
+  }
+
   die "No SuSE release identified.\n" unless $a ne "" && $v ne "";
 
   print "Building for SuSE Linux $v ($a,$ENV{'kernel_rpm'},$ENV{'kernel_ver'}) [$base].\n";
