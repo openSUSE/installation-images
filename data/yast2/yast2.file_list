@@ -216,8 +216,11 @@ s /var/X11R6/bin/X /usr/X11R6/bin/X
 xfbdev:
   .
 
+ifnarch ppc
 xsvga:
   .
+endif
+
 c 0755 0 0 /dev
 
 xshared:

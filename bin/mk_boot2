@@ -93,7 +93,7 @@ AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
   die "$Script: failed to setup boot image";
 
 # add info
-if(!$Config{in_abuild}) {
+if(!$ConfigData{in_abuild}) {
   SUSystem "cp ${CfgPath}info /mnt" and
     die "$Script: failed to copy info";
 }
