@@ -348,7 +348,7 @@ X /etc/{passwd,group,shadow,nsswitch.conf,protocols} /etc
 
 # the agp module from xsvga may cause 700 permissions; fix it here
 c 0755 0 0 /lib/modules
-ifndef ppc
+ifnarch ppc
 c 0755 0 0 /lib/modules/<kernel_ver>
 c 0755 0 0 /lib/modules/<kernel_ver>/misc
 endif
@@ -384,11 +384,13 @@ d /mnt
 d /proc
 d /tmp
 
+ifnarch ppc
 reiserfs:
   /sbin/dumpreiserfs
   /sbin/mkreiserfs
   /sbin/resize_reiserfs
   /sbin/unpackreiserfs
+endif
 
 ifarch ppc
 pdisk:
