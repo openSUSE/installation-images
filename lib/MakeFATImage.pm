@@ -204,7 +204,7 @@ sub MakeFATImage
 
   @i = (time);
   if(defined %ConfigData) {
-    @i = (0 , @ConfigData{'SuSE_minor_release', 'SuSE_major_release'});
+    @i = (0 , @ConfigData{'suse_minor_release', 'suse_major_release'});
     $i[1] *= 10;
   }
 

@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/perl
 
 # Create an initrd and put everything on it.
 #
@@ -14,7 +14,7 @@ C<mk_initrd> creates an initial ram disk C<initrd>.
 The files to go onto the ram disk (aka initrd) are taken from
 C<data/initrd/initrd.file_list>.
 
-The initrd uses a Minix file system. The actual fs size and inode numbers
+The initrd uses a Ext2 file system. The actual fs size and inode numbers
 are coded in the C<mk_initrd> script. You I<can> vary these values but it
 doesn't really pay of much. You will gain or loose a few bytes of the
 compressed initrd size only.
@@ -45,21 +45,19 @@ die "usage: $Script\n" if @ARGV;
 
 $srcdir = "${DataPath}initrd";
 $tmpdir = "${BasePath}tmp/initrd";
+$tmpdirx = "${BasePath}tmp/.initrd";
 $image = "${ImagePath}initrd";
 
 # the compressed image size varies only slightly with these; about +-1k with
 # reasonable inode/block combinations
 
 # leave that much space
-$extra_size = 400;		# kbyte
+$extra_size = 600;		# kbyte
 $extra_inodes = 200;
 
 # just make them large enough
-$start_size = 6000;		# kbyte
-$start_inodes = 4000;
-
-# $idlist = "$BasePath$ConfigData{idlist}";
-# die "$Script: where is our id list?" unless $ConfigData{idlist} && -f $idlist;
+$start_size = 7000;		# kbyte
+$start_inodes = 7000;
 
 $lxrc = "$BasePath$ConfigData{linuxrc}";
 die "$Script: where is linuxrc?" unless $ConfigData{linuxrc} && -f $lxrc;
@@ -67,35 +65,39 @@ die "$Script: where is linuxrc?" unless $ConfigData{linuxrc} && -f $lxrc;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
-# clean up
-if(-d($tmpdir)) {
-  SUSystem "rm -rf $tmpdir" and
-    die "$Script: failed to remove old $tmpdir";
+if($ENV{'keep_initrd'} ne 'yes') {
+  # clean up
+  if(-d $tmpdir) {
+    SUSystem "rm -rf $tmpdir" and
+      die "$Script: failed to remove old $tmpdir";
+  }
+  if(-d $tmpdirx) {
+    SUSystem "rm -rf $tmpdirx" and
+      die "$Script: failed to remove old $tmpdirx";
+  }
+
+  AddFiles $tmpdir, "${srcdir}/initrd.file_list", $srcdir, $ENV{'initrd'}, "${BasePath}tmp/initrd.opt_mods" or
+    die "$Script: failed to setup initrd image";
+
+  SUSystem "sh -c 'cd $tmpdir; ./makedevs.floppy >/dev/null'" and
+    die "$Script: could not create all devices";
+  SUSystem "rm $tmpdir/makedevs.floppy";
+
+  SUSystem "cp $lxrc $tmpdir/linuxrc" and
+    die "$Script: linuxrc not copied";
+
+  # strip everything
+  SUSystem "strip_dir $tmpdir";
 }
 
-AddFiles $tmpdir, "${srcdir}/initrd.file_list", $srcdir or
-  die "$Script: failed to setup initrd image";
-
-SUSystem "sh -c 'cd $tmpdir; ./makedevs.floppy >/dev/null'" and
-  die "$Script: could not create all devices";
-SUSystem "rm $tmpdir/makedevs.floppy";
-
-SUSystem "cp $lxrc $tmpdir/linuxrc" and
-  die "$Script: linuxrc not copied";
-
-# strip everything
-SUSystem "strip_dir $tmpdir";
-
 # create the image
-Conv2Image $image, $tmpdir, 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+# alternatively, check if ENV{initrd} eq 'small'
+$fstype = $ConfigData{suse_arch} eq 'i386' ? 'minix' : 'ext2';
+Conv2Image $image, $tmpdir, $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
 
 # compress it
-system "gzip -f -9 $image" and
-  die "$Script: gzip failed";
-
+system "gzip -f -9 $image" and die "$Script: gzip failed";
 rename "${image}.gz", "$image";
 
 $i = -s "$image";
-
 print "$Script: compressed initrd to \"$image\" ($i bytes)\n";
-

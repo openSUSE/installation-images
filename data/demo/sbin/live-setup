@@ -12,11 +12,24 @@ preserve=`echo /sbin/{init,live-setup} /bin/bash\
 
 echo -n "Integrating Live CD"
 
+nodisk=
+[ "$live" = nodisk ] && nodisk=1
+
 mount /S.u.S.E.
+
+ln -snf /S.u.S.E./var/lib/rpm /var/lib
 
 /sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter\
   opt opt/kde opt/kde/share var/X11R6/xfine\
-  sbin/init.d sbin/conf.d etc/pcmcia
+  sbin/init.d sbin/conf.d etc/pcmcia etc/httpd
+
+if [ ! -x /bin/y2qt ] ; then
+  ln -s y2bignfat /bin/y2qt
+fi
+
+if [ ! "$nodisk" ] ; then
+  /sbin/mk_links sbin/init.d/rc?.d
+fi
 
 cp -af /S.u.S.E./etc/pam.d/* /etc/pam.d
 rm -f /etc/pam.d/TRANS.TBL
@@ -28,16 +41,24 @@ cp -af /S.u.S.E./etc/SuSEconfig /etc
 rm -f /etc/SuSEconfig/TRANS.TBL
 cp -af /S.u.S.E./sbin/init.d/{boot,halt}.local /sbin/init.d
 cp -af /S.u.S.E./etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
+cp -af /S.u.S.E./etc/httpd/httpd.conf /etc/httpd
+cp -af /S.u.S.E./etc/wvdial.conf /etc
+cp -af /S.u.S.E./etc/ppp/* /etc/ppp
+cp -af /S.u.S.E./etc/isdn/* /etc/isdn
+cp -af /S.u.S.E./etc/vbox/* /etc/vbox
+cp -af /S.u.S.E./etc/rc.config.d/* /etc/rc.config.d
+rm -f /etc/{ppp,isdn,vbox,rc.config.d}/TRANS.TBL
 
 rm -f /etc/conf.modules
 touch -r /lib/modules/`uname -r`/modules.dep /etc/modules.conf
 
-nodisk=
-[ "$live" = nodisk ] && nodisk=1
+perl -pi -e 's/-(?=FollowSymLinks)//g' /etc/httpd/httpd.conf
 
 perl -pi -e 's/^(FQHOSTNAME=).*/$1\"suse\"/' /etc/rc.config
 perl -pi -e 's/^(SUSEWM_UPDATE=).*/$1\"no\"/' /etc/rc.config
 rm -f /sbin/conf.d/SuSEconfig.{perl,groff}
+
+perl -pi -e 's/^(Sourcemounted:).*/$1 1/' /etc/install.inf
 
 if [ -f /etc/install.inf ]; then
   eval `grep ': ' /etc/install.inf | sed -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /'`
@@ -49,9 +70,13 @@ if [ "$Language" ] ; then
   perl -pi -e 'if(/unsetenv LANG/) { $_ = "    setenv LANG \"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/csh.cshrc
 fi
 
-if [ "Keytable" ] ; then
+if [ "$Keytable" ] ; then
   perl -pi -e 's/^(KEYTABLE=).*/$1\"'"$Keytable"'\"/' /etc/rc.config
 fi
+
+#if [ "$Nameserver" ] ; then
+#  echo "nameserver $Nameserver" >>/etc/resolv.conf
+#fi
 
 part=
 touch /etc/SuSElive
@@ -59,7 +84,7 @@ if [ "$Disks" -a ! "$nodisk" ]; then
   mount -n -t proc proc /proc
   cat /proc/mounts >/etc/mtab
   /sbin/find_config $Disks >/etc/SuSElive
-  umount -n /proc
+  umount /proc
   . /etc/SuSElive
 fi
 
@@ -116,7 +141,8 @@ if [ "$part" ]; then
 else
   if [ ! "$nodisk" ] ; then
     echo
-    echo "Found no usable partition. Your data will not be saved to disk."
+    echo -e "\aFound no usable partition. Your data will NOT be saved to disk."
+    sleep 4
     error=99
   fi
 fi
@@ -149,7 +175,9 @@ if [ ! "$nodisk" ] ; then
     mount /proc
     rmdir /mnt ; ln -s / /mnt
     cp /etc/fstab /tmp/fstab.save
-    mkswap /host/$suseswap >/dev/null
+    if [ "$suseswap" ] ; then
+      mkswap /host/$suseswap >/dev/null
+    fi
     swapon -a
     if [ "$susehome" ] ; then
       mount /home
@@ -189,14 +217,13 @@ fi
 
 if [ "$umount" != no ] ; then
   umount /S.u.S.E.
-  echo 
 else
   echo "/S.u.S.E not unmounted"
 fi
 
 echo -e "\033[71G\033[32mdone\033[m"
 
-[ "$livetest" ] ||  rm -f /sbin/{find_config,fix_fstab,mk_links}
+[ "$livetest" ] ||  rm -f /sbin/{find_config,fix_fstab}
 if [ "$nodisk" ] ; then
   rm -f /sbin/live-shutdown /etc/.SuSEfiles
 fi

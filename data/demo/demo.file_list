@@ -2,7 +2,11 @@ d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var
 c 1777 0 0 tmp
 
 devs:
+ifenv suse_major_release 6
 m /usr/doc/packages/devs/makedevs /
+else
+m /usr/share/doc/packages/devs/makedevs /
+endif
 c 0755 0 0 makedevs
 
 # s /S.u.S.E./{boot,opt,usr} /
@@ -36,6 +40,9 @@ aaa_dir:
   /sbin/init.d
   /etc/{news,ppp,rc.config.d}
   /var
+
+kbd:
+  /sbin/init.d
 
 xsvga:
   /dev/agpgarti810
@@ -137,6 +144,10 @@ t /var/log/news/news.{crit,err,notice}
 c 0755 9 13 /var/log/news
 c 0640 0 13 /var/log/news/news.{crit,err,notice}
 
+d /var/log/httpd
+d /var/state/dhcp
+d /var/lock/subsys/httpd
+
 d /var/adm/{live,mount}
 t /var/adm/live/{gpm,i4l,sax,xf86,kbase}
 c 0755 0 0 /var/adm/live
@@ -149,7 +160,7 @@ x /var/lib/news/{mailname,whoami} /var/lib/news
 d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled,xfine/tmp}
 d /opt/kde/share/config
 d /sbin/conf.d
-d /etc/pcmcia
+d /etc/{pcmcia,httpd,isdn,vbox}
 
 x /sbin/{live-setup,mk_links} /sbin
 ifnenv demo old

@@ -61,16 +61,17 @@ sub AddFiles
 {
   local $_;
   my ($dir, $file_list, $ext_dir, $arch, $if_val, $tag);
-  my ($rpms, $tdir, $p, $r, $d, $u, $g, $files);
+  my ($rpms, $tdir, $tfile, $p, $r, $d, $u, $g, $files);
+  my ($mod_list, @mod_list, %mod_list);
 
-  ($dir, $file_list, $ext_dir, $tag) = @_;
+  ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
   if(!$AutoBuild) {
-    $rpms = "$ConfigData{SuSE_base}/suse";
-    die "$Script: where are the rpms?" unless $ConfigData{SuSE_base} && -d $rpms;
+    $rpms = "$ConfigData{suse_base}/suse";
+    die "$Script: where are the rpms?" unless $ConfigData{suse_base} && -d $rpms;
   }
   else {
-    print STDERR "running in autobuild environment\n"
+    print "running in autobuild environment\n"
   }
 
   if(! -d $dir) {
@@ -79,6 +80,7 @@ sub AddFiles
 
   $tdir = "${TmpBase}.dir";
   die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
+  $tfile = "${TmpBase}.afile";
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # now we really start...
@@ -127,7 +129,7 @@ sub AddFiles
         die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
 #        SUSystem "sh -c 'cd / ; rpm -ql $p | tar -T - -cf - | tar -C $tdir -xpf -'" and
 #          die "$Script: failed to extract $p";
-        print STDERR "adding package $p...\n";
+        print "adding package $p...\n";
         SUSystem "sh -c 'cd $tdir ; rpm -ql $p | cpio --quiet -o 2>/dev/null | cpio --quiet -dim --no-absolute-filenames'" and
           die "$Script: failed to extract $r";
       }
@@ -187,7 +189,7 @@ sub AddFiles
     }
     elsif(/^a\s+(\S+)\s+(\S+)$/) {
       SUSystem "sh -c \"cp -a $tdir/$1 $dir/$2\"" and
-        print STDERR "$Script: $1 not copied to $2 (ignored)\n";
+        print "$Script: $1 not copied to $2 (ignored)\n";
     }
     elsif(/^p\s+(\S+)$/) {
       SUSystem "patch -d $dir -p0 <$ext_dir/$1 >/dev/null" and
@@ -199,7 +201,7 @@ sub AddFiles
     }
     elsif(/^X\s+(\S+)\s+(\S+)$/) {
       SUSystem "cp -fdR $1 $dir/$2 2>/dev/null" and
-        print STDERR "$Script: $1 not copied to $2 (ignored)\n";
+        print "$Script: $1 not copied to $2 (ignored)\n";
     }
     elsif(/^g\s+(\S+)\s+(\S+)$/) {
       SUSystem "sh -c 'gunzip -c $tdir/$1 >$dir/$2'" and
@@ -221,6 +223,19 @@ sub AddFiles
       SUSystem "mknod $dir/$3 c $1 $2" and
         die "$Script: failto to make char dev $3 ($1, $2)";
     }
+    elsif(/^M\s+(\S+)\s+(\S+)$/) {
+      SUSystem "sh -c \"cp -av $tdir/$1 $dir/$2\" >$tfile" and
+        print "$Script: $1 not copied to $2 (ignored)\n";
+
+      my ($f, $g);
+      for $f (`cat $tfile`) {
+        if($f =~ /\s->\s$dir\/(.*)\n?$/) {
+          $g = $1; $g =~ s/^\/*//;
+          push @mod_list, "$g\n" unless exists $mod_list{$g};
+          $mod_list{$g} = 1;
+        }
+      }
+    }
     else {
       die "$Script: unknown entry: \"$_\"\n";
     }
@@ -230,6 +245,13 @@ sub AddFiles
   close F;
 
   SUSystem "rm -rf $tdir";
+  SUSystem "rm -f $tfile";
+
+  if(@mod_list && $mod_list) {
+    open F, ">$mod_list";
+    print F @mod_list;
+    close F;
+  }
 
   return 1;
 }

@@ -44,7 +44,10 @@ sub Conv2Image
 
     die "$Script: failed to create a $fs fs on \"$image\"" unless $tmp_inodes;
 
-    printf "$Script: created ${cnt}. image \"%s\": %u kbyte, %u inodes\n", $image, $tmp_k, $tmp_inodes;
+#    printf "$Script: created ${cnt}. image \"%s\": %u kbyte, %u inodes\n", $image, $tmp_k, $tmp_inodes;
+    if($cnt == 2) {
+      printf "$Script: created \"%s\": %u kbyte, %u inodes\n", $image, $tmp_k, $tmp_inodes;
+    }
 
     SUSystem "mount -oloop $image /mnt" and die "$Script: mount failed";
 

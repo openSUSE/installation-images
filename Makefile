@@ -28,18 +28,8 @@ initrd_test: initrd
 	bin/mk_initrd_test
 	@echo "now, run bin/initrd_test"
 
-initrd2: dirs
-	bin/mk_initrd2
-
-initrd2_test: initrd2
-	bin/mk_initrd2_test
-	@echo "now, run bin/initrd2_test"
-
 boot: initrd
 	bin/mk_boot
-
-boot2: initrd2
-	bin/mk_boot2
 
 boot_axp: initrd
 	bin/mk_boot_axp
@@ -47,7 +37,7 @@ boot_axp: initrd
 install_xx: initrd
 	bin/mk_install_xx
 
-yast2: dirs initrd2
+yast2: dirs initrd
 	bin/mk_yast2
 
 demo: dirs

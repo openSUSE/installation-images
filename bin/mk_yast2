@@ -40,7 +40,7 @@ die "usage: $Script\n" if @ARGV;
 
 $srcdir = "${DataPath}yast2";
 $tmpdir = "${BasePath}tmp/yast2";
-$tmpinitrd = "${BasePath}tmp/initrd2";
+$tmpinitrd = "${BasePath}tmp/initrd";
 $image = "${ImagePath}yast2";
 
 # leave that much space

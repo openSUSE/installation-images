@@ -11,7 +11,11 @@ for i in "$@" ; do
 #      echo $k
       if [ -e "$p/$k" -a ! -e "$i/$k" ] ; then
 #        echo "$p/$k"
-        ( cd $i; ln -snf "$p/$k" . )
+        if [ -L "$p/$k" ] ; then
+          ( cd $i; cp -a "$p/$k" . )
+        else
+          ( cd $i; ln -snf "$p/$k" . )
+        fi
       fi
     fi
   done

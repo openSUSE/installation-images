@@ -94,6 +94,7 @@ sub MakeExt2Image
   $inodes = "-N $inodes" if defined $inodes;
 
   system "mke2fs -q -F -b 1024 -m 0 $inodes $file_name 2>/dev/null";
+  system "tune2fs -i 0 $file_name >/dev/null 2>&1";
 
   for ( `tune2fs -l $file_name 2>/dev/null` ) {
     $xinodes = $1 if /^Free inodes:\s*(\d+)/;

@@ -4,11 +4,11 @@
 #  - Only shell variable assignments are allowed.
 #  - No continuation lines (using '\' at line breaks)!!!
 
-SuSE_major_release=6
-SuSE_minor_release=4
+# leave it empty for current 'stable' tree; not relevant for autobuild
+# suserelease=7.0
 
-syslinux=/usr/sbin/syslinux
-linuxrc=/usr/sbin/linuxrc
+# check if we are in autobuild
+in_abuild=`if [ -x /bin/uname.bin ] ; then echo yes ; fi`
 
 suse_arch=`uname -m`
 suse_arch=`if [ $suse_arch = i686 ] ; then echo i386 ; else echo $suse_arch ; fi`
@@ -16,10 +16,14 @@ suse_arch=`if [ $suse_arch = alpha ] ; then echo axp ; else echo $suse_arch ; fi
 suse_arch=`if [ $suse_arch = sparc64 ] ; then echo sparc ; else echo $suse_arch ; fi`
 
 # the SuSE distribution (we get our rpm's from there - unless we are in autobuild)
-SuSE_base=/work/CDs/full-6.4-$suse_arch
-
-# check if we are in autobuild
-in_abuild=`if [ -x /bin/uname.bin ] ; then echo yes ; fi`
+suse_release="$suserelease"
+suse_release=`if [ "$in_abuild" ] ; then grep VERSION /etc/SuSE-release | cut -d " " -f 3 ; else echo "$suse_release" ; fi`
+suse_release=`if [ "$suse_release" ] ; then echo "$suse_release-" ; else echo "$suse_release" ; fi`
+suse_base="/work/CDs/full-$suse_release$suse_arch"
+suse_release=`( mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $suse_base/suse/a1/aaa_base.rpm | cpio -id --quiet etc/SuSE-release ; grep VERSION etc/SuSE-release | cut -d " " -f 3 ; rm -r /tmp/r$$ )`
+suse_major_release=`echo "$suse_release" | cut -c 1`
+suse_minor_release=`echo "$suse_release" | cut -c 3`
+suse_release=`echo $suse_major_release.$suse_minor_release`
 
 # kernel img name
 kernel_img=vmlinuz
@@ -31,5 +35,9 @@ kernel_rpm=k_deflt
 kernel_rpm=`if [ "$in_abuild" ] ; then rpm -qf /boot/$kernel_img | head -1 | cut -d- -f1 ; else echo $kernel_rpm ; fi`
 
 # kernel version (needed to locate the module directory)
-kernel_ver=`if [ "$in_abuild" ] ; then uname -r ; else rpm -qlp $SuSE_base/suse/images/$kernel_rpm.rpm 2>/dev/null | grep modules | head -1 | cut -d / -f 4 ; fi`
+kernel_ver=`if [ "$in_abuild" ] ; then uname -r ; else rpm -qlp $suse_base/suse/images/$kernel_rpm.rpm 2>/dev/null | grep modules | head -1 | cut -d / -f 4 ; fi`
+
+# some basic stuff
+syslinux=/usr/sbin/syslinux
+linuxrc=/usr/sbin/linuxrc
 

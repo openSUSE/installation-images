@@ -18,11 +18,11 @@ die "usage: $Script\n" if @ARGV;
 $srcdir = "${DataPath}demo";
 $tmpdir = "${BasePath}tmp/demo";
 $image = "${ImagePath}demo";
-# $tmpinitrd = "${BasePath}tmp/initrd2";
+# $tmpinitrd = "${BasePath}tmp/initrd";
 
 # leave that much space
 $extra_size = 3000;              # kbyte
-$extra_inodes = 1000;
+$extra_inodes = 3000;
 
 # just make them large enough
 $start_size = 10000;             # kbyte

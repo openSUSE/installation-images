@@ -15,8 +15,8 @@ base:
 
 bash:
   /bin/bash
-  /lib/libreadline.so.4.0
-  /lib/libhistory.so.4.0
+  /lib/libreadline.so.4*
+  /lib/libhistory.so.4*
 s bash /bin/sh
 
 ash:
@@ -49,7 +49,7 @@ ps:
   /bin/ps
 
 recode:
-  /usr/lib/librecode.so{,.0,.0.0.0}
+  /usr/lib/librecode.so*
 
 rpm:
   /bin/rpm
@@ -104,8 +104,8 @@ pcmcia:
 endif
 
 ncurses:
-  /lib/libncurses.so.5{,.0}
-  /usr/lib/lib{form,menu,panel}.so{,.5,.5.0}
+  /lib/libncurses.so.5*
+  /usr/lib/lib{form,menu,panel}.so*
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
 
@@ -117,15 +117,9 @@ ifarch ppc
 else
   /lib/ld-linux.so.2
 endif
-ifarch alpha
-  /lib/{libc.so.6.1,libcrypt.so.1.1,libdb.so.2.1,libdb.so.3,libdl.so.2.1,libm.so.6.1,libnsl.so.1.1}
+  /lib/{libc.so.6*,libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libm.so.6*,libnsl.so.1*}
   /lib/{libnss_compat.so.2,libnss_db.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
-  /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2.1,librt.so.1,libutil.so.1.1}
-else
-  /lib/{libc.so.6,libcrypt.so.1,libdb.so.2,libdb.so.3,libdl.so.2,libm.so.6,libnsl.so.1}
-  /lib/{libnss_compat.so.2,libnss_db.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
-  /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2,librt.so.1,libutil.so.1}
-endif
+  /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt.so.1,libutil.so.1*}
   /usr/sbin/rpcinfo
   /usr/{bin,lib}
   /etc/rpc
@@ -184,7 +178,11 @@ mkdosfs:
 net_tool:
   /sbin/{ifconfig,route,plipconfig}
 
+ifenv suse_major_release 6
 nkitb:
+else
+portmap:
+endif
   /sbin/portmap
 
 umsprogs:
@@ -274,19 +272,6 @@ d /usr/X11R6/{bin,include/X11,share}
 s X11R6 /usr/X11
 s /var/X11R6/bin/X /usr/X11R6/bin/X
 
-xfbdev:
-  .
-
-ifarch ix86 alpha
-xsvga:
-  .
-endif
-
-ifarch ix86
-xvga16:
-  .
-endif
-
 ifarch sparc sparc64
 xsun:
   .
@@ -298,30 +283,74 @@ xmach64:
   .
 endif
 
+xfbdev:
+  .
+
+# old XF86 3.3
+ifarch ix86 alpha
+xsvga:
+  .
+endif
+
+ifarch ix86
+xvga16:
+  .
+endif
 c 0755 0 0 /dev
+
+# new XF86 4.0
+xloader:
+  /usr/X11R6/bin/XFree86
+
+xmodules:
+  /usr/X11R6/lib/modules/codeconv
+  /usr/X11R6/lib/modules/drivers
+# video4linux stuff
+r /usr/X11R6/lib/modules/drivers/linux
+  /usr/X11R6/lib/modules/extensions/lib{dbe,extmod}.a
+  /usr/X11R6/lib/modules/fonts/libbitmap.a
+  /usr/X11R6/lib/modules/input
+  /usr/X11R6/lib/modules/linux
+  /usr/X11R6/lib/modules/*.uc
+  /usr/X11R6/lib/modules/lib*.a
 
 # no yast2 for alpha yet
 ifnarch alpha
 
 xshared:
-  /usr/X11R6/lib/libX{11.so,11.so.6,11.so.6.1,ext.so,ext.so.6,ext.so.6.3}
+  /usr/X11R6/lib/lib{X11,Xext}.so*
+ifnenv suse_major_release 6
+  /usr/X11R6/lib/lib{SM,ICE}.so*
+endif
 d /usr/X11R6/lib/{X11,modules}
 
 xf86:
   /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
   /usr/X11R6/lib/X11/locale
-  /usr/X11R6/lib/X11/nls
   /usr/X11R6/lib/X11/xkb
+ifenv suse_major_release 6
+  /usr/X11R6/lib/X11/nls
   /usr/X11R6/lib/X11/xserver
+else
+  /etc/X11/xserver
+s /etc/X11/xserver /usr/X11R6/lib/X11
+endif
 # unicode stuff
 d /usr/X11R6/lib/X11/fonts/{misc,uni}
   /usr/X11R6/lib/X11/fonts/misc/{6x13,cursor}.pcf.gz
 
 x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
-x /usr/X11R6/lib/X11/XF86Config /usr/X11R6/lib/X11
+x /usr/X11R6/lib/X11/XF86Config /usr/X11R6/lib/X11/XF86Config_3
+x /etc/XF86Config /usr/X11R6/lib/X11/XF86Config_4
 
 yast2:
   /usr/X11R6/lib/X11/fonts/uni
+
+libpng:
+  /usr/lib/libpng.so.2*
+
+libz:
+  /usr/lib/libz.so.1*
 
 # no yast2 for alpha yet
 endif
@@ -329,14 +358,13 @@ endif
 c 0755 0 0 /usr
 c 0755 0 0 /usr/X11R6
 c 0755 0 0 /usr/X11R6/bin
-
+c 0755 0 0 /etc/X11
 
 gppshare:
-  /usr/lib/libstdc++-libc6.1-2.so.3
-  /usr/lib/libstdc++-3-libc6.1-2-2.10.0.so
+  /usr/lib/libstdc++-*.so*
 
 libjpeg:
-  /usr/lib/libjpeg.so{,.62,.62.0.0}
+  /usr/lib/libjpeg.so*
 
 eject:
   /usr/bin/eject
@@ -348,7 +376,12 @@ qtlib2:
   /usr/lib/*
 
 y2base:
+ifenv suse_major_release 6
   /bin/y2bignfat
+else
+  /bin/y2bignqt
+  /bin/y2bigncurses
+endif
   /lib/YaST2
   /var/lib/YaST2
 c 0755 0 0 /lib
@@ -438,5 +471,4 @@ fbset:
 endif
 
 x /usr/bin/setclock /usr/bin
-
 

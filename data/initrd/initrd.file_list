@@ -1,7 +1,7 @@
 d bin dev etc mnt proc tmp
 d var/run var/adm/mount var/lib/YaST var/spool var/lock var/log var/tmp
 
-d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults
+d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11
 s /usr/X11R6/lib/X11 var/X11R6/lib
 
 d modules
@@ -33,7 +33,11 @@ l linuxrc etc/nothing
 x etc/host.conf etc
 
 devs:
+ifenv suse_major_release 6
 m /usr/doc/packages/devs/makedevs.floppy /
+else
+m /usr/share/doc/packages/devs/makedevs.floppy /
+endif
 c 0755 0 0 makedevs.floppy
 
 kbd:
@@ -257,7 +261,7 @@ r /modules/e2100.o
 r /modules/lne390.o
 r /modules/ne3210.o
 
-ifndef 2.88
+ifdef small
 r /modules/arlan.o
 r /modules/arlan-proc.o
 r /modules/dgrs.o
@@ -315,7 +319,37 @@ endif
 endif
 
 ifarch ix86
-ifdef 2.88
+
+ifdef small	# (test) initrd for 1.44MB floppies
+a /lib/modules/<kernel_ver>/net/3c59x.o /modules
+a /lib/modules/<kernel_ver>/net/pcnet32.o /modules
+a /lib/modules/<kernel_ver>/net/tulip.o /modules
+a /lib/modules/<kernel_ver>/net/via-rhine.o /modules
+a /lib/modules/<kernel_ver>/net/dmfe.o /modules
+
+a /lib/modules/<kernel_ver>/net/8390.o /modules
+a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
+a /lib/modules/<kernel_ver>/misc/parport.o /modules
+a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
+
+ifndef blub
+M /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
+M /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
+else
+M /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
+M /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
+M /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
+
+M /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
+M /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
+M /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
+
+M /lib/modules/<kernel_ver>/pcmcia/serial_cb.o /modules
+M /lib/modules/<kernel_ver>/pcmcia/serial_cs.o /modules
+M /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
+endif
+
+else	# normal initrd (for 2.88MB floppies on i386)
 a /lib/modules/<kernel_ver>/block/*.o /modules
 a /lib/modules/<kernel_ver>/net/*.o /modules
 a /lib/modules/<kernel_ver>/scsi/*.o /modules
@@ -328,10 +362,10 @@ a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
 a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
 
 # to fill up the disk...
-a /lib/modules/<kernel_ver>/cdrom/gscd.o /modules
-a /lib/modules/<kernel_ver>/cdrom/mcdx.o /modules
-a /lib/modules/<kernel_ver>/cdrom/mcd.o /modules
-a /lib/modules/<kernel_ver>/cdrom/cm206.o /modules
+M /lib/modules/<kernel_ver>/cdrom/gscd.o /modules
+M /lib/modules/<kernel_ver>/cdrom/mcdx.o /modules
+M /lib/modules/<kernel_ver>/cdrom/mcd.o /modules
+M /lib/modules/<kernel_ver>/cdrom/cm206.o /modules
 
 # scsi
 r /modules/ide-scsi.o
@@ -399,82 +433,17 @@ a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
 
-else	# !2.88
-
-### a /lib/modules/<kernel_ver>/block/DAC960.o /modules
-### a /lib/modules/<kernel_ver>/block/cpqarray.o /modules
-
-### a /lib/modules/<kernel_ver>/scsi/BusLogic.o /modules
-### a /lib/modules/<kernel_ver>/scsi/a100u2w.o /modules
-### a /lib/modules/<kernel_ver>/scsi/atp870u.o /modules
-### a /lib/modules/<kernel_ver>/scsi/eata.o /modules
-### a /lib/modules/<kernel_ver>/scsi/fdomain.o /modules
-### a /lib/modules/<kernel_ver>/scsi/gdth.o /modules
-### a /lib/modules/<kernel_ver>/scsi/initio.o /modules
-### a /lib/modules/<kernel_ver>/scsi/ips.o /modules
-### a /lib/modules/<kernel_ver>/scsi/megaraid.o /modules
-### a /lib/modules/<kernel_ver>/scsi/qlogicisp.o /modules
-### a /lib/modules/<kernel_ver>/scsi/dc395x_trm.o /modules
-### a /lib/modules/<kernel_ver>/scsi/tmscsim.o /modules
-
-a /lib/modules/<kernel_ver>/net/3c59x.o /modules
-a /lib/modules/<kernel_ver>/net/de4x5.o /modules
-### a /lib/modules/<kernel_ver>/net/eepro100.o /modules
-## a /lib/modules/<kernel_ver>/net/epic100.o /modules
-### a /lib/modules/<kernel_ver>/net/ne2k-pci.o /modules
-## a /lib/modules/<kernel_ver>/net/rtl8139.o /modules
-### a /lib/modules/<kernel_ver>/net/tlan.o /modules
-# a /lib/modules/<kernel_ver>/net/lance.o /modules
-# a /lib/modules/<kernel_ver>/net/pcnet32.o /modules
-#a /lib/modules/<kernel_ver>/net/tulip.o /modules
-a /lib/modules/<kernel_ver>/net/via-rhine.o /modules
-a /lib/modules/<kernel_ver>/net/dmfe.o /modules
-
-# a /lib/modules/<kernel_ver>/net/3c515.o /modules
-a /lib/modules/<kernel_ver>/net/8390.o /modules
-# a /lib/modules/<kernel_ver>/net/at1700.o /modules
-# a /lib/modules/<kernel_ver>/net/ne.o /modules
-# a /lib/modules/<kernel_ver>/net/smc-ultra.o /modules
-# a /lib/modules/<kernel_ver>/scsi/aha1542.o /modules
-# a /lib/modules/<kernel_ver>/scsi/aha152x.o /modules
-# a /lib/modules/<kernel_ver>/scsi/aha1740.o /modules
-# a /lib/modules/<kernel_ver>/scsi/dtc.o /modules
-# a /lib/modules/<kernel_ver>/scsi/psi240i.o /modules
-# a /lib/modules/<kernel_ver>/scsi/seagate.o /modules
-# a /lib/modules/<kernel_ver>/scsi/t128.o /modules
-# a /lib/modules/<kernel_ver>/scsi/u14-34f.o /modules
-
-a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
-
-a /lib/modules/<kernel_ver>/misc/parport.o /modules
-a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
-
-ifndef blub
-a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
-# a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
-else
-a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
-
-# a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
-# a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
-# a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
-
-# a /lib/modules/<kernel_ver>/pcmcia/serial_cb.o /modules
-# a /lib/modules/<kernel_ver>/pcmcia/serial_cs.o /modules
-# a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
-endif
-endif	# 2.88
+endif	# small
 endif
 
 ifarch sparc sparc64
 a /lib/modules/<kernel_ver>/fc4/*.o /modules
 a /lib/modules/<kernel_ver>/fs/openpromfs.o /modules
-a /lib/modules/<kernel_ver>/net/myri_sbus.o /modules
-a /lib/modules/<kernel_ver>/net/sunbmac.o /modules
-a /lib/modules/<kernel_ver>/net/sunhme.o /modules
-a /lib/modules/<kernel_ver>/net/sunqe.o /modules
+a /lib/modules/<kernel_ver>/misc/openprom.o /modules
+a /lib/modules/<kernel_ver>/misc/myri_sbus.o /modules
+a /lib/modules/<kernel_ver>/misc/sunbmac.o /modules
+a /lib/modules/<kernel_ver>/misc/sunhme.o /modules
+a /lib/modules/<kernel_ver>/misc/sunqe.o /modules
 a /lib/modules/<kernel_ver>/scsi/fcal.o /modules
 a /lib/modules/<kernel_ver>/scsi/pluto.o /modules
 a /lib/modules/<kernel_ver>/scsi/qlogicpti.o /modules
