@@ -1,5 +1,6 @@
 24/2/2003:	v3.15
 	- added fdisk (#23864)
+	- support Bitstream Vera fonts
 
 24/2/2003:	v3.14
 	- updated module config

@@ -552,12 +552,17 @@ if with_yast2 ne 'no'
   gpart:
     /usr/bin
 
-  ghostscript-fonts-std:
-    /usr/X11R6/lib/X11/fonts/URW
-    /usr/share/ghostscript/fonts/fonts.scale
-    /usr/share/ghostscript/fonts/n019003l.pfb
-    /usr/share/ghostscript/fonts/n019004l.pfb
-    /usr/share/ghostscript/fonts/n019024l.pfb
+  if with_vera_font ne 'no'
+    bitstream-vera:
+      /usr/X11R6/lib/X11/fonts/truetype/tt????gn.ttf
+  else
+    ghostscript-fonts-std:
+      /usr/X11R6/lib/X11/fonts/URW
+      /usr/share/ghostscript/fonts/fonts.scale
+      /usr/share/ghostscript/fonts/n019003l.pfb
+      /usr/share/ghostscript/fonts/n019004l.pfb
+      /usr/share/ghostscript/fonts/n019024l.pfb
+  endif
 
 endif
 
@@ -822,14 +827,18 @@ xf86tools:
   /usr/X11R6/lib/X11/XftConfig
 
 if with_yast2 ne 'no'
-  r usr/share/ghostscript/fonts/fonts.dir
-  r usr/share/ghostscript/fonts/fonts.scale
+  if with_vera_font ne 'no'
+    e mkfontscale usr/X11R6/lib/X11/fonts/truetype
+    e mkfontdir usr/X11R6/lib/X11/fonts/truetype
+    e fc-cache usr/X11R6/lib/X11/fonts/truetype
+  else
+    e mkfontscale usr/share/ghostscript/fonts
+    e mkfontdir usr/share/ghostscript/fonts
+    e fc-cache usr/share/ghostscript/fonts
+  endif
   e mkfontdir usr/X11R6/lib/X11/fonts/misc
   e mkfontdir usr/X11R6/lib/X11/fonts/uni
   e mkfontscale usr/X11R6/lib/X11/fonts/uni
-  e mkfontscale usr/share/ghostscript/fonts
-  e mkfontdir usr/share/ghostscript/fonts
-  e fc-cache usr/share/ghostscript/fonts
   e fc-cache usr/X11R6/lib/X11/fonts/uni
 
   e touch usr/X11R6/lib/X11/fonts/*/*

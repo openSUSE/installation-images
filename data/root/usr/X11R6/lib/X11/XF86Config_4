@@ -1,6 +1,7 @@
 # generic XFree86 4.x configuration file
 
 Section "Files"
+  FontPath	"/usr/X11R6/lib/X11/fonts/truetype/"
   FontPath	"/usr/X11R6/lib/X11/fonts/URW/"
   FontPath	"/usr/X11R6/lib/X11/fonts/uni/"
   FontPath	"/usr/X11R6/lib/X11/fonts/misc/"
