@@ -1,3 +1,7 @@
+	- added 'failsafe' boot menu entry
+	- added yast2-lib-sequencer
+	- fixed typo in rescue system
+
 10/8/2001:	v1.78
 	- added more files for ssh login into the instsys
 
