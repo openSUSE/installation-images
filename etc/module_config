@@ -1,0 +1,395 @@
+# line format:
+#
+# category  module  bootdisk  moddisk  instsys  [-]module description
+#
+# category:
+#
+#   Menu item name where the module is offered in linuxrc; currently
+#   'other', 'net' and 'scsi' are defined.
+#
+#
+# module:
+#
+#  module name
+#
+# priories:
+#
+#   bootdisk
+#     0		will not appear on any bootdisk
+#     1..99	might be on boot image
+#     100	must be on every boot image
+#
+#   moddisk
+#     0		will not appear on any modules disk
+#     >0	on modules disk
+#
+#   instsys (modules that are needed by YaST2 to access hard disks)
+#     0		will not appear in installation system (on CD)
+#     >0	in installation system
+#
+# module description:
+#
+#   If the module description starts with a '-', the module will not be
+#   offered in linuxrc menus (but might still be loaded implicitly).
+#
+
+# some basic things
+none	nvram		100	0	0	-CMOS/NV-RAM driver
+none	openprom	100	0	0	-PROM configuration driver
+
+# usb
+none	usbcore		100	0	100	-
+none	usb-uhci	100	0	100	-
+none	usb-ohci	100	0	100	-
+none	input		100	0	100	-
+none	hid		100	0	100	-
+none	keybdev		100 	0	100	-
+none	mousedev	50	0	100	-
+none	usb-storage	100	0	100	-
+
+# fs/raid
+none	linear		0	0	100	-
+none	lvm-mod		0	0	100	-
+none	md		0	0	100	-
+none	raid0		0	0	100	-
+none	raid1		0	0	100	-
+none	raid5		0	0	100	-
+none	xor		0	0	100	-
+none	reiserfs	0	0	100	-
+none	hpfs		0	0	100	-
+none	loop_fish2	0	0	100	-
+
+# isa pnp
+none	isa-pnp		0	0	100	-
+
+# agp
+none	agp		0	0	100	-
+
+# why ???
+none	lp		0	0	100	-
+
+# old cdrom
+cdrom	aztcd		0	10	0	Aztech/Orchid/Okano/Wearnes/TXC
+cdrom	cdu31a		0	10	0	Sony CDU31A/CDU33A
+cdrom	cm206		0	10	0	Philips/LMS CM206
+cdrom	gscd		0	10	0	Goldstar R420
+cdrom	isp16		0	10	0	ISP16/MAD16/Mozart
+cdrom	mcd		0	10	0	Mitsumi (standard)
+cdrom	mcdx		0	10	0	Mitsumi (XA/MultiSession)
+cdrom	optcd		0	10	0	Optics Storage DOLPHIN 8000AT
+cdrom	sbpcd		0	10	0	SBPCD (Matsushita/Panasonic etc.)
+cdrom	sjcd		0	10	0	Sanyo CDR-H94A
+cdrom	sonycd535	0	10	0	Sony CDU535
+
+# parallel port
+other	parport		0	10	100	-Parallel port support
+other	parport_pc	0	10	100	-Parallel port for 8255-based hardware
+other	parport_serial	0	0	0	-???
+
+# parport ide
+other	paride		0	10	0	-Parallel port IDE support
+other	pcd		0	10	0	-Parallel port ATAPI CD-ROM
+other	aten		0	10	0	ATEN EH-100 parallel port
+other	bpck		0	10	0	MicroSolutions parallel port
+other	comm		0	10	0	DataStor (old) parallel port
+other	dstr		0	10	0	DataStor EP2000 parallel port
+other	epat		0	10	0	Shuttle EPAT parallel port
+other   epia		0	10	0	Shuttle EPIA parallel port
+other	fit2		0	10	0	FIT TD-2000 parallel port
+other	fit3		0	10	0	FIT TD-3000 parallel port
+other	friq		0	10	0	Freecom Power IQ (vers. 2)
+other	frpw		0	10	0	Freecom Power parallel port
+other	kbic		0	10	0	KBIC-951A/971A parallel port
+other	ktti		0	10	0	KT Technology parallel port
+other	on20		0	10	0	OnSpec 90c20 parallel port
+other	on26		0	10	0	OnSpec 90c26 parallel port
+
+# i2o
+scsi	i2o_block	0	10	0	Intelligent I/O Block
+scsi	i2o_config	0	10	0	Intelligent I/O Config
+scsi	i2o_core	0	10	0	Intelligent I/O Core
+scsi	i2o_pci		0	10	0	Intelligent I/O PCI
+scsi	i2o_scsi	0	10	0	Intelligent I/O SCSI
+
+# block
+scsi	DAC960		0	10	100	Mylex DAC-960/DAC1100
+scsi	cciss		0	10	100	Compaq CISS Array
+scsi	cpqarray	0	10	100	Compaq SMART2 RAID
+scsi	drbd		0	0	0	Network Block Device
+scsi	nbd		0	0	0	Network Block Device
+scsi	xd		0	0	0	XT Hard Disk Controller (DTC 5150X)
+
+# scsi
+scsi	3w-xxxx		0	10	100	3ware RAID
+scsi	53c7,8xx	0	10	100	NCR 53c7,8xx (old driver)
+scsi	AM53C974	0	10	100	AM53/79C974
+scsi	BusLogic	0	10	100	BusLogic
+scsi	NCR53c406a	0	10	0	NCR53c406a
+scsi	a100u2w		0	10	100	Initio INI-A100U2W
+scsi	aacraid		0	10	0	Adaptec RAID
+scsi	advansys	0	10	100	AdvanSys
+scsi	aha152x		0	10	0	Adaptec 1505/151x/152x/2825
+scsi	aha1542		0	10	0	Adaptec 154x
+scsi	aha1740		0	10	0	Adaptec 1740
+scsi	aic7xxx		0	10	100	Adaptec 274x/284x/294x
+scsi	atp870u		0	10	100	ACARD AEC-671X
+scsi	cpqfc		0	10	0	Compaq Fibre Channel 64-bit/66Mhz
+scsi	dc395x_trm	0	10	100	Tekram Tekram DC395U/UW/F, DC315/U
+scsi	dpt_i2o		0	10	100	DPT I2O SmartRAID V
+scsi	dtc		0	10	0	DTC 3180/3280
+scsi	eata		0	10	50	EATA (E)ISA (PM2011/021/012 etc)
+# eata_dma is obsolete according to Configure.help
+scsi	eata_dma	0	0	0	EATA-DMA (DPT, NEC, AT&T, SNI etc)
+scsi	eata_pio	0	10	0	EATA-PIO (old DPT PM2001, PM2012A)
+scsi	fdomain		0	10	100	Future Domain 16xx
+scsi	g_NCR5380	0	10	0	Generic NCR5380/53c400
+scsi	gdth		0	10	100	ICP Vortex GDTH Disk Array
+scsi	ide-scsi	0	0	100	SCSI host adapter emulation for IDE devices
+scsi	in2000		0	10	0	Always IN 2000
+scsi	initio		0	10	100	Initio INI-9X00U/UW
+scsi	ips		0	10	100	IBM ServeRAID
+scsi	megaraid	0	10	100	AMI Megaraid
+scsi	ncr53c8xx	0	10	100	NCR 53c8xx
+scsi	osst		0	0	0	OnStream SC-x0 SCSI tape support
+scsi	pas16		0	10	0	Pro Audio Spectrum SCSI
+scsi	pci2000		0	10	100	PCI-2000
+scsi	pci2220i	0	10	100	PCI-2220I
+scsi	psi240i		0	10	0	PSI-240i
+scsi	qla2x00		0	10	100	QLogic ISP2x00
+scsi	qlogicfas	0	10	0	Qlogic FAS
+scsi	qlogicfc	0	10	100	QLogic ISP 2100 SCSI-FCP
+scsi	qlogicisp	0	10	100	QLogic ISP 1020
+scsi	qlogicpti	0	10	0	PTI Qlogic ISP Driver
+scsi	scsi_debug	0	0	0	-Simulates a host adapter with 2 disks attached
+scsi	seagate		0	10	0	Seagate ST-02/Fut. Domain TMC-8xx
+scsi	sg		0	0	0	-Generic SCSI interface
+scsi	sim710		0	10	0	Simple 53c710 (Compaq, NCR)
+scsi	sym53c416	0	10	0	Symbios 53C416
+scsi	sym53c8xx	0	10	100	Symbios 53c8xx
+scsi	t128		0	10	0	Trantor T128/T128F/T228
+scsi	tmscsim		0	10	100	Tekram DC390(T) (AM53C974 chip)
+scsi	u14-34f		0	10	0	UltraStor 14F/34F
+scsi	ultrastor	0	10	0	UltraStor (alternate driver)
+scsi	wd7000		0	10	0	Western Digital 7000 FASST
+
+# parport scsi adapters
+scsi	imm		0	0	100	IOMEGA Parallel Port new driver
+scsi	ppa		0	0	100	IOMEGA Parallel Port ZIP drive
+scsi	ppscsi		0	0	0	Common code for parport SCSI adapters
+scsi	epsa2		0	0	0	Shuttle Technologies EPSA2 ppSCSI Adapter
+scsi	epst		0	0	0	Shuttle Technologies EPST ppSCSI Adapter
+scsi	onscsi		0	0	0	OnSpec 90c26 ppSCSI Adapter
+scsi	t348		0	0	0	Trantor T348 ppSCSI Adapter
+scsi	t358		0	0	0	Trantor T358 ppSCSI Adapter
+scsi	sparcsi		0	0	0	WBS-11A ppSCSI Adapter
+scsi	vpi0		0	0	0	ppSCSI protocol module for the Iomega VPI0 adapter
+scsi	vpi2		0	0	0	ppSCSI protocol module for the Iomega VPI2 adapter
+
+
+# network
+net	8390		0	0	0	-NS8390 ethernet driver core
+net	3c501		0	10	0	3Com 3c501
+net	3c503		0	10	0	3Com 3c503
+net	3c505		0	10	0	3Com 3c505
+net	3c507		0	10	0	3Com 3c507
+net	3c509		0	10	0	3Com 3c509/3c579
+net	3c515		0	10	0	3Com 3c515
+net	3c59x		0	10	0	3Com 3c59x/3c90x (592/595/597)
+net	3c90x		0	10	0	3Com 3c90x/3c980 B/C series
+net	6pack		0	0	0	6pack Protocol Module (AX.25)
+net	8139too		0	10	0	RealTek RTL8139
+net	82596		0	10	0	i82596 Ethernet Driver
+net	ac3200		0	10	0	Ansel Communications EISA 3200
+net	acenic		0	10	0	Alteon AceNIC/3C985/NetGear GA620
+net	apricot		0	0	0	Apricot Xen-II on board ethernet
+net	arc-rimi	0	0	0	ARCnet COM90xx (RIM I) chipset driver
+net	arcnet		0	10	0	ARCnet
+net	arlan		0	10	0	Aironet Arlan 655
+net	arlan-proc	0	0	0	-???
+net	at1700		0	10	0	AT1700
+net	atp		0	0	0	AT-LAN-TEC/RealTek pocket adaptor
+net	baycom_epp	0	0	0	baycom epp radio modem driver (AX.25)
+net	baycom_par	0	0	0	baycom par96 and picpar radio modem driver
+net	baycom_ser_fdx	0	0	0	baycom ser12 fullduplex radio modem driver
+net	baycom_ser_hdx	0	0	0	baycom ser12 halfduplex radio modem driver
+net	bonding		0	0	0	bonding/etherchannel/sun trunking net driver
+net	bpqether	0	0	0	G8BPQ compatible "AX.25 via ethernet" driver
+net	bsd_comp	0	0	0	BSD compression code (PPP)
+net	c101		0	0	0	Moxa C101 synchronous serial card
+net	com20020	0	0	0	ARCnet COM20020
+net	com90io		0	0	0	ARCnet COM90xx (IO mapped)
+net	com90xx		0	0	0	ARCnet COM90xx (RIM I)
+net	comx		0	0	0	COMX synchronous serial board
+net	comx-hw-comx	0	0	0	-???
+net	comx-hw-locomx	0	0	0	-???
+net	comx-hw-mixcom	0	0	0	-???
+net	comx-proto-fr	0	0	0	-???
+net	comx-proto-lapb	0	0	0	-???
+net	comx-proto-ppp	0	0	0	-???
+net	cops		0	0	0	COPS LocalTalk PC card
+net	cosa		0	0	0	SRP and COSA synchronous serial cards
+net	cs89x0		0	10	0	CS89x0
+net	de4x5		0	10	0	DE425, DE434, DE435, DE450, DE500
+net	de600		0	10	0	D-Link DE600 pocket adaptor
+net	de620		0	10	0	D-Link DE620 pocket adaptor
+net	depca		0	10	0	DEPCA,DE10x,DE200,DE201,DE202,DE422
+net	dgrs		0	10	0	Digi Intl. RightSwitch SE-X
+net	dlci		0	0	0	Frame Relay Protocol Implementation
+net	dmascc		0	0	0	driver for high-speed SCC boards (AX.25)
+net	dmfe		0	10	0	DM9102 PCI Fast Ethernet
+net	dummy		0	0	0	-Dummy network driver
+net	e100		0	10	0	EtherExpress Pro 100 (Intel driver)
+net	e1000		0	10	0	EtherExpress Pro 1000 (Intel)
+net	e2100		0	10	0	Cabletron E21xx
+net	eepro		0	10	0	Intel EtherExpressPro
+net	eepro100	0	10	0	Intel EtherExpress Pro 100
+net	eexpress	0	10	0	Intel EtherExpress 16
+net	epic100		0	10	0	SMC 83c170 EPIC/100
+net	eql		0	0	0	Equalizer Load-balancer for serial network interfaces
+net	es3210		0	10	0	Racal-Interlan EISA ES3210
+net	eth16i		0	10	0	ICL EtherTeam 16i/32
+net	ethertap	0	0	0	Ethertap network tap
+net	ewrk3		0	10	0	EtherWORKS 3 (DE203, DE204, DE205)
+net	fmv18x		0	10	0	FMV-181/182/183/184
+net	hamachi		0	10	0	Packet Engines GNIC-II PCI Gigabit Ethernet Adapter
+net	hdlc		0	0	0	Generic HDLC support
+net	hdlcdrv		0	0	0	HDLC packet radio network driver
+net	hostess_sv11	0	0	0	Comtrol SV11
+net	hp		0	10	0	HP PCLAN (27245 / 27xxx)
+net	hp100		0	10	0	HP 10/100VG PCLAN (ISA, EISA, PCI)
+net	hp-plus		0	10	0	HP PCLAN+ (27247B and 27252A)
+net	ibmtr		0	10	0	IBM Tropic chipset token ring
+net	ipddp		0	0	0	IP to Appletalk-IP Encapsulation driver
+net	ircomm		0	0	0	-???
+net	irda		0	0	0	-???
+net	irda_deflate	0	0	0	-???
+net	irlan		0	0	0	-???
+net	lance		0	10	0	AMD LANCE and PCnet (AT1500/NE2100)
+net	lanstreamer	0	5		IBM Auto LANStreamer
+net	lapbether	0	0	0	LAPB via ethernet
+net	lne390		0	10	0	Mylex EISA LNE390A/B
+net	ltpc		0	0	0	Apple/Farallon LocalTalk PC card
+net	mkiss		0	0	0	MKISS Driver (AX.25)
+net	myri_sbus	0	10	0	MyriCOM Gigabit Ethernet
+net	n2		0	0	0	SDL Inc. RISCom/N2 synchronous serial card
+net	ne		0	10	0	NE 2000 / NE 1000 (ISA)
+net	ne2k-pci	0	10	0	NE 2000 (PCI)
+net	ne3210		0	10	0	Novell/Eagle/Microdyne NE3210 EISA
+net	ni5010		0	10	0	NI5010
+net	ni52		0	10	0	NI5210
+net	ni65		0	10	0	ni6510 (am7990 "lance" chip)
+net	old_tulip	0	10	0	DEC Tulip (DC21x4x) (old driver)
+net	olympic		0	10	0	IBM Olympic chipset PCI Token Ring
+net	pc300		0	0	0	Cyclades-PC300
+net	pci-scan	0	10	0	-PCI network card support module
+net	pcnet32		0	10	0	AMD PCI PCnet32 (PCI bus NE2100)
+net	ppp		0	0	0	-???
+net	ppp_deflate	0	0	0	-???
+net	ppp_mppe	0	0	0	-???
+net	pppox		0	0	0	-???
+net	plip		0	10	0	PLIP (IP via parallel port)
+net	rcpci		0	0	0	-???
+net	rl100a		0	10	0	Compex RL-100ATX
+net	rrunner		0	10	0	Essential RoadRunner HIPPI
+net	rtl8139		0	10	0	RealTek RTL8129/8139
+net	sb1000		0	0	0	General Instrument SURFboard 1000 internal cable modem
+net	sbni		0	0	0	Granch SBNI-12 leased line network adapter
+net	scc		0	0	0	Z8530 SCC driver (AX.25)
+net	sdla		0	0	0	Sangoma S502/S508
+net	sdladrv		0	0	0	SDLA Support Module
+net	sealevel	0	0	0	Sealevel Systems ACB 56 serial I/O adapter
+net	shaper		0	0	0	traffic shaper
+net	sis900		0	10	0	SiS 900 PCI Fast Ethernet
+net	sk98lin		0	10	0	SysKonnect Gigabit Ethernet 984x
+net	skfp		0	10	0	SysKonnect FDDI (SK-55xx/SK-58xx)
+net	sktr		0	10	0	SysKonnect Token Ring
+net	slhc		0	0	0	compress and uncompress tcp packets
+net	slip		0	0	0	SLIP protocol implementation
+net	smc9194		0	10	0	SMC 9194
+net	smc-ultra	0	10	0	SMC Ultra
+net	smc-ultra32	0	10	0	SMC Ultra32
+net	soundmodem	0	0	0	Sound card modem driver for AX.25
+net	starfire	0	10	0	Adaptec Starfire
+net	strip		0	0	0	Starmode Radio IP
+net	sunbmac		0	10	0	Sun BigMAC 10/100baseT
+net	sunhme		0	10	0	Sun Happy Meal 10/100baseT
+net	sunqe		0	10	0	Sun QuadEthernet
+net	syncppp		0	0	0	synchronous PPP implementation
+net	tlan		0	10	0	Compaq Netelligent 10/100/NetFlex 3
+net	tulip		0	10	0	DEC Tulip (DC21x4x) PCI
+net	via-rhine	0	10	0	VIA VT86c100A Rhine-II
+net	wanpipe		0	0	0	Sangoma WANPIPE
+net	wanxl		0	0	0	SBE wanXL driver
+net	wavelan		0	0	0	AT&T WaveLAN & DEC RoamAbout
+net	wd		0	10	0	Western Digital WD80x3
+net	x25_asy		0	0	0	X.25 async driver
+net	yam		0	0	0	YAM radio modem driver (AX.25)
+net	yellowfin	0	10	0	Packet Engines Yellowfin Gigabit
+net	z85230		0	0	0	-???
+
+# pcmcia core
+pcmcia	pcmcia_core	0	10	0	-
+pcmcia	cb_enabler	0	10	0	-
+pcmcia	ds		0	10	0	-
+pcmcia	i82365		0	10	0	-
+pcmcia	tcic		0	10	0	-
+pcmcia	dummy_cs	0	10	0	-
+
+# pcmcia ethernet
+pcmcia	3c574_cs	0	10	0	-
+pcmcia	3c575_cb	0	10	0	-
+pcmcia	3c589_cs	0	10	0	-
+pcmcia	cs89x0_cs	0	10	0	-
+pcmcia	eepro100_cb	0	10	0	-
+pcmcia	epic_cb		0	10	0	-
+pcmcia	fmvj18x_cs	0	10	0	-
+pcmcia	nmclan_cs	0	10	0	-
+pcmcia	pcnet_cs	0	10	0	-
+pcmcia	smc91c92_cs	0	10	0	-
+pcmcia	tulip_cb	0	10	0	-
+pcmcia	xirc2ps_cs	0	10	0	-
+
+# pcmcia tokenring
+pcmcia	ibmtr_cs	0	10	0	-
+
+# pcmcia scsi
+pcmcia	SYM53C500	0	10	0	-
+pcmcia	aha152x_cs	0	10	0	-
+pcmcia	apa1480_cb	0	10	0	-
+pcmcia	fdomain_cs	0	10	0	-
+pcmcia	nin_cs		0	10	0	-
+pcmcia	qlogic_cs	0	10	0	-
+pcmcia	sym53c500_cs	0	10	0	-
+
+# pcmcia ide
+pcmcia	ide_cs		0	10	0	-
+
+# pcmcia wireless network adapters
+pcmcia	airo		0	0	0	-
+pcmcia	airo_cs		0	0	0	-
+pcmcia	netwave_cs	0	0	0	-
+pcmcia	ray_cs		0	0	0	-
+pcmcia	spectrum24_cs	0	0	0	-
+pcmcia	wavelan2_cs	0	0	0	-
+pcmcia	wavelan_cs	0	0	0	-
+pcmcia	wvlan_cs	0	0	0	-
+
+# pcmcia other
+pcmcia	avma1_cs	0	0	0	-
+pcmcia	avm_cs		0	0	0	-
+pcmcia	elsa_cs		0	0	0	-
+pcmcia	ftl_cs		0	10	0	-
+pcmcia	iflash2_mtd	0	0	0	-
+pcmcia	iflash2+_mtd	0	0	0	-
+pcmcia	memory_cb	0	0	0	-
+pcmcia	memory_cs	0	0	0	-
+pcmcia	mpsuni_cs	0	0	0	-
+pcmcia	parport_cs	0	0	0	-
+pcmcia	sedlbauer_cs	0	0	0	-
+pcmcia	sedl_cs		0	0	0	-
+pcmcia	serial_cb	0	0	0	-
+pcmcia	serial_cs	0	0	0	-
+pcmcia	sram_mtd	0	0	0	-
+pcmcia	ss5136dn_cs	0	0	0	-
+pcmcia	teles_cs	0	0	0	-
+pcmcia	pcilynx_cb	0	10	0	-
