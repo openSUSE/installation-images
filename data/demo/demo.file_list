@@ -168,7 +168,7 @@ d /sbin/conf.d
 d /etc/{pcmcia,httpd,isdn,vbox}
 
 x /sbin/{live-setup,mk_links} /sbin
-ifnenv demo old
+ifenv demo eval
 x /sbin/{live-shutdown,find_config,fix_fstab} /sbin
 x /etc/XF86Config /etc
 endif

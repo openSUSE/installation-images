@@ -2,7 +2,11 @@
 include initrd_base.file_list
 
 # modules differ
+ifarch sparc sparc64
+t modules/{NET,SCSI}
+else
 t modules/{MORE,NET,SCSI,OTHER}
+endif
 
 <kernel_rpm>:
 
@@ -325,6 +329,9 @@ r /modules/bonding.o
 r /modules/rcpci.o
 r /modules/pc300.o
 r /modules/eata_dma.o
+
+r /modules/ppa.o
+r /modules/imm.o
 
 a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules

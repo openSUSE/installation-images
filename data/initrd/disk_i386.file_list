@@ -55,7 +55,6 @@ a /lib/modules/<kernel_ver>/net/dgrs.o /
 a /lib/modules/<kernel_ver>/net/dmfe.o /
 a /lib/modules/<kernel_ver>/net/e2100.o /
 a /lib/modules/<kernel_ver>/net/eepro100.o /
-a /lib/modules/<kernel_ver>/net/eepro100-old.o /
 a /lib/modules/<kernel_ver>/net/eepro.o /
 a /lib/modules/<kernel_ver>/net/eexpress.o /
 a /lib/modules/<kernel_ver>/net/epic100.o /
@@ -217,4 +216,115 @@ a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /
 #pcmcia/other
 a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /
 endif	# other
+
+
+# network mods for 2nd modules disk
+ifdef net2
+t {NEEDMOD,NET}
+
+a /lib/modules/<kernel_ver>/net/3c501.o /
+a /lib/modules/<kernel_ver>/net/3c503.o /
+a /lib/modules/<kernel_ver>/net/3c505.o /
+a /lib/modules/<kernel_ver>/net/3c507.o /
+a /lib/modules/<kernel_ver>/net/3c509.o /
+a /lib/modules/<kernel_ver>/net/3c515.o /
+a /lib/modules/<kernel_ver>/net/3c90x.o /
+a /lib/modules/<kernel_ver>/net/82596.o /
+a /lib/modules/<kernel_ver>/net/ac3200.o /
+a /lib/modules/<kernel_ver>/net/acenic.o /
+a /lib/modules/<kernel_ver>/net/arcnet.o /
+a /lib/modules/<kernel_ver>/net/at1700.o /
+a /lib/modules/<kernel_ver>/net/cs89x0.o /
+a /lib/modules/<kernel_ver>/net/de4x5.o /
+a /lib/modules/<kernel_ver>/net/de600.o /
+a /lib/modules/<kernel_ver>/net/de620.o /
+a /lib/modules/<kernel_ver>/net/depca.o /
+a /lib/modules/<kernel_ver>/net/dgrs.o /
+a /lib/modules/<kernel_ver>/net/dmfe.o /
+a /lib/modules/<kernel_ver>/net/e2100.o /
+a /lib/modules/<kernel_ver>/net/eepro100.o /
+a /lib/modules/<kernel_ver>/net/eepro.o /
+a /lib/modules/<kernel_ver>/net/eexpress.o /
+a /lib/modules/<kernel_ver>/net/epic100.o /
+a /lib/modules/<kernel_ver>/net/es3210.o /
+a /lib/modules/<kernel_ver>/net/eth16i.o /
+a /lib/modules/<kernel_ver>/net/ewrk3.o /
+a /lib/modules/<kernel_ver>/net/fmv18x.o /
+a /lib/modules/<kernel_ver>/net/hp100.o /
+a /lib/modules/<kernel_ver>/net/hp.o /
+a /lib/modules/<kernel_ver>/net/hp-plus.o /
+a /lib/modules/<kernel_ver>/net/ibmtr.o /
+a /lib/modules/<kernel_ver>/net/lance.o /
+a /lib/modules/<kernel_ver>/net/lne390.o /
+a /lib/modules/<kernel_ver>/net/ne3210.o /
+a /lib/modules/<kernel_ver>/net/ne2k-pci.o /
+a /lib/modules/<kernel_ver>/net/ni5010.o /
+a /lib/modules/<kernel_ver>/net/ni52.o /
+a /lib/modules/<kernel_ver>/net/ni65.o /
+a /lib/modules/<kernel_ver>/net/olympic.o /
+a /lib/modules/<kernel_ver>/net/pcnet32.o /
+a /lib/modules/<kernel_ver>/net/plip.o /
+a /lib/modules/<kernel_ver>/net/rl100a.o /
+a /lib/modules/<kernel_ver>/net/rrunner.o /
+a /lib/modules/<kernel_ver>/net/rtl8139.o /
+a /lib/modules/<kernel_ver>/net/sis900.o /
+a /lib/modules/<kernel_ver>/net/sk98lin.o /
+a /lib/modules/<kernel_ver>/net/sktr.o /
+a /lib/modules/<kernel_ver>/net/smc9194.o /
+a /lib/modules/<kernel_ver>/net/smc-ultra32.o /
+a /lib/modules/<kernel_ver>/net/smc-ultra.o /
+a /lib/modules/<kernel_ver>/net/tlan.o /
+a /lib/modules/<kernel_ver>/net/old_tulip.o /
+a /lib/modules/<kernel_ver>/net/via-rhine.o /
+a /lib/modules/<kernel_ver>/net/wd.o /
+a /lib/modules/<kernel_ver>/net/yellowfin.o /
+endif	# net
+
+
+# pcmcia mods for 2nd modules disk
+ifdef other2
+t {NEEDMOD,OTHER}
+
+a /lib/modules/<kernel_ver>/cdrom/cm206.o /
+
+#pcmcia/core
+a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /
+a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /
+a /lib/modules/<kernel_ver>/pcmcia/ds.o /
+a /lib/modules/<kernel_ver>/pcmcia/i82365.o /
+a /lib/modules/<kernel_ver>/pcmcia/tcic.o /
+a /lib/modules/<kernel_ver>/pcmcia/dummy_cs.o /
+
+# pcmcia/eth
+a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /
+a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/cs89x0_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /
+a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/nmclan_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /
+a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /
+
+# pcmcia/tr
+a /lib/modules/<kernel_ver>/pcmcia/ibmtr_cs.o /
+
+#pcmcia/scsi
+a /lib/modules/<kernel_ver>/pcmcia/SYM53C500.o /
+a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /
+a /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/nin_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/sym53c500_cs.o /
+
+#pcmcia/ide
+a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /
+
+#pcmcia/other
+a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /
+endif	# other
+
 

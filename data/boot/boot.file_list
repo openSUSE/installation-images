@@ -3,16 +3,25 @@ ifarch ix86
 <kernel_rpm>:
 m /boot/<kernel_img> /linux
 
-ifenv demo yes
-x message-demo /message
-x syslinux-demo.cfg /syslinux.cfg
+ifenv demo eval
+x message-eval /message
+x syslinux-eval.cfg /syslinux.cfg
 else
-ifenv demo old
-x message-demoold /message
-x syslinux-demoold.cfg /syslinux.cfg
+ifenv demo live
+x message-live /message
+x syslinux-live.cfg /syslinux.cfg
+else
+ifenv demo ps
+x message-ps /message
+x syslinux-ps.cfg /syslinux.cfg
+else
+ifenv lang fr
+x message.fr /message
 else
 x message /
+endif
 x syslinux.cfg /
+endif
 endif
 endif
 

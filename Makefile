@@ -5,7 +5,7 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root mk_yast2\
           mk_yast2_cd mk_yast2_nfs
 
 .PHONY: all dirs initrd initrd_test boot boot_axp\
-        yast2 demo modules html clean distdir install install_xx
+        yast2 demo ps modules html clean distdir install install_xx
 
 all:
 
@@ -42,6 +42,9 @@ yast2: dirs initrd
 
 demo: dirs
 	bin/mk_demo
+
+ps: dirs
+	bin/mk_ps
 
 modules: dirs
 	bin/mk_modules

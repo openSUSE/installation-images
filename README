@@ -22,15 +22,15 @@ Then you can do:
   make yast2
     - build a root image ('yast2' for historical reasons)
 
-  demo=old make demo
-  demo=yes make demo
+  demo=live make demo
+  demo=eval make demo
     - build a root image for a Live/LiveEval CD
 
   make boot
     - build a (2.88MB) boot image (for ix86)
 
-  demo=old make boot
-  demo=yes make boot
+  demo=live make boot
+  demo=eval make boot
     - build a (2.88MB) Live/LiveEval boot image (for ix86)
     - add 'boot=small initrd=small' to get a 1.44MB *test* image
 

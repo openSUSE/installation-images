@@ -1,0 +1,11 @@
+partition=1
+default=linux
+read-write
+timeout=100
+message=/boot/message
+image[sun4u]=/boot/vmlinuz64
+        label=linux
+	initrd=/boot/initrd64
+image[sun4c,sun4d,sun4m]=/boot/vmlinuz32
+        label=linux
+	initrd=/boot/initrd32

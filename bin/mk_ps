@@ -1,0 +1,60 @@
+#! /usr/bin/perl -w
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
+
+die "usage: $Script\n" if @ARGV;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$srcdir = "${DataPath}ps";
+$tmpdir = "${BasePath}tmp/ps";
+$image = "${ImagePath}ps";
+
+# leave that much space
+$extra_size = 3000;              # kbyte
+$extra_inodes = 3000;
+
+# just make them large enough
+$start_size = 10000;             # kbyte
+$start_inodes = 5000;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+# clean up
+if(-d($tmpdir)) {
+  SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
+}
+
+AddFiles $tmpdir, "${srcdir}/ps.file_list", $srcdir or
+  die "$Script: failed to setup ps image";
+
+SUSystem "sh -c 'cd $tmpdir; ./makedevs >/dev/null'" and
+  die "$Script: could not create all devices";
+SUSystem "rm $tmpdir/makedevs";
+
+# strip everything
+SUSystem "fix_perms $tmpdir";
+SUSystem "strip_dir $tmpdir";
+
+Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
+
+# compress it
+system "gzip -f -9 $image" and
+  die "$Script: gzip failed";
+
+rename "${image}.gz", "$image";
+
+$i = -s "$image";
+
+print "$Script: compressed ps to \"$image\" ($i bytes)\n";
+

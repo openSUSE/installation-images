@@ -244,10 +244,11 @@ s ../var/spool /usr/spool
 s ../var/tmp /usr/tmp
 
 base:
-  /usr/bin/{,e,f}grep
 ifenv suse_major_release 6
+  /usr/bin/{,e,f}grep
   /usr/bin/sed
 else
+  /bin/{,e,f}grep
   /bin/sed
 endif
 

@@ -1,0 +1,65 @@
+d bin cdrom dev etc floppy home lib mnt proc sbin tmp var
+c 1777 0 0 tmp
+
+devs:
+m /usr/share/doc/packages/devs/makedevs /
+c 0755 0 0 makedevs
+
+aaa_base:
+  /etc/modules.conf
+  /etc/ld.so.conf
+  /etc/SuSE-release
+
+sysvinit:
+  /sbin/{reboot,halt,shutdown}
+
+ncurses:
+  /usr/bin/clear
+  /lib/libncurses.so.5*
+  /usr/lib/lib{panel,form}.so.5*
+
+shlibs:
+  /lib/ld-2.*.so
+  /lib/ld-linux.so.2
+  /lib/{libc.so.6,libdl.so.2,libm.so.6}
+
+bash:
+  /bin/bash
+  /lib/libreadline.so.4*
+  /lib/libhistory.so.4*
+s bash /bin/sh
+
+base:
+  /bin/{grep,sed}
+
+sh_utils:
+  /bin/{date,echo,false,sleep,stty,true,uname}
+ifabuild
+X /bin/uname.bin bin/uname
+endif
+
+util:
+  /bin/{kill,mount,umount}
+  /sbin/{ctrlaltdel,swapoff,swapon}
+
+fileutil:
+  /bin/{rm,rmdir,sync,chmod,chown,ls}
+
+ext2fs:
+  /sbin/{e2fsck,e2label,fsck,fsck.ext2,mkfs.ext2,mke2fs}
+  /lib
+
+taper:
+  /sbin/taper
+
+textutil:
+  /bin/cat
+
+surprise:
+  /lib
+  /sbin
+  /usr/bin
+  /usr/surprise
+
+x /sbin/live-setup /sbin
+

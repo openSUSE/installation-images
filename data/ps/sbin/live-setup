@@ -1,0 +1,13 @@
+#! /bin/sh
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+cd /
+
+mount -t proc proc /proc
+cat /proc/mounts >/etc/mtab
+
+bash </dev/tty2 >/dev/tty2 2>/dev/tty2 &
+
+/usr/surprise/surboot/surboot
+
+/sbin/reboot -f

@@ -120,6 +120,7 @@ Section "Device"
   Identifier	"Device[0]"
   #BusID		"98:76:54"
   # device_options
+  Option	"sw_cursor"	"on"
 EndSection
 
 Section "Device"
