@@ -80,7 +80,7 @@ $i3 = $i2*10;
 SUSystem "touch -d $i1:$i3 /mnt/*";
 
 print "contents of $image:\n";
-system "ls -lU /mnt";
+SUSystem "ls -lU /mnt";
 
 SUSystem "umount /mnt" and
   die "$Script: umount failed";
