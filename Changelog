@@ -1,3 +1,6 @@
+03/12/2003:	v2.119
+	- fixed permissions of create_interface on s390*
+
 27/10/2003:	v2.118
 	- qla2x00-60650 modules added
 
