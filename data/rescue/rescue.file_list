@@ -197,6 +197,11 @@ if arch eq 'ppc'
   ibmsis:
     /etc/microcode
     /sbin
+  hotplug:
+    /sbin/hotplug
+    /etc/hotplug/firmware.agent
+    /etc/hotplug/hotplug.functions
+    /usr/lib/hotplug/firmware
   ncurses:
     /usr/lib/libpanel.so.*
     /usr/lib/libform.so.*
