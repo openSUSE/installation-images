@@ -73,8 +73,10 @@ sub Conv2Image
     SUSystem "mount -oloop $image /mnt" and die "$Script: mount failed";
 
     # copy everything
-    SUSystem "sh -c 'tar -C $dir -cf - . | tar -C /mnt -xpf -'" and
-      die "$Script: could not add all files to the image";
+    if(SUSystem "sh -c 'tar -C $dir -cf - . | tar -C /mnt -xpf -'") {
+      SUSystem "umount /mnt" and warn "$Script: umount failed";
+      die "$Script: could not add all files to image";
+    }
 
     # check the current disk usage
     for ( `df -Pk /mnt 2>/dev/null` ) {
