@@ -54,6 +54,13 @@ unset SSH_FAILED
 stty sane
 
 if [ -s /etc/install.inf ]; then
+  # fix fonts for japanese
+  lang=`awk '{ if(/^Locale:/) print $2 }' /etc/install.inf`
+  if [ "$lang" = ja_JP ]; then
+    rm -f /usr/X11R6/lib/X11/fonts/truetype/FZSongTi.ttf
+    rm -f /usr/X11R6/lib/X11/fonts/truetype/gulim.ttf
+  fi
+
   hostname=`sed -n -e 's,^Hostname: ,,p' /etc/install.inf`
 else
   hostname=`hostname`

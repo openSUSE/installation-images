@@ -1,5 +1,7 @@
+16/3/2005:	v6.39
 	- removed LC_CTYPE from /etc/profile (#72145)
 	- create_interface fix (#72903)
+	- fix fonts for japanese
 
 14/3/2005:	v6.38
 	- added crypto modules (#71766)
