@@ -1,7 +1,12 @@
-<kernel_rpm>:
-
 if arch eq 'ia32'
-  m /boot/<kernel_img> /linux
+
+  if boot eq 'small' && kernel_rpm eq "k_deflt" && suse_release >= 7.3
+    k_inst:
+      m /boot/vminst /linux
+  else
+    <kernel_rpm>:
+      m /boot/<kernel_img> /linux
+  endif
 
   if special eq 'e2compr'
   X /boot/bzImage.e2compr /linux
@@ -60,6 +65,8 @@ if arch eq 'ia32'
   endif
 
   R s/x\.y/<suse_release>/ /message
+else
+  <kernel_rpm>:
 endif		# arch eq 'ia32'
 
 if arch eq 'ia64'
