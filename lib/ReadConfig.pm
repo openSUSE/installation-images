@@ -621,6 +621,13 @@ for (@f) {
     $update_dir = "/linux/suse/$real_arch-slec1";
     $load_image = 96*1024;
   }
+  elsif($theme eq "Sun") {
+    $yast_theme = "Sun";
+    $splash_theme = "Sun";
+    $product_name = "Linux";
+    $update_dir = "/linux/suse/$real_arch-slec1";
+    $load_image = 96*1024;
+  }
   else {
     die "don't know theme \"$theme\""
   }

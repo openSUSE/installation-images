@@ -514,9 +514,20 @@ if with_yast2 ne 'no'
   liby2util:
    /
 
+  if theme eq 'Sun'
+    yast2-theme-SuSELinux:
+      /
+      e mv usr/share/YaST2/theme/SuSELinux usr/share/YaST2/theme/Sun
+  endif
+
   yast2-theme-<yast_theme>:
     /
     s <yast_theme> usr/share/YaST2/theme/current
+
+  if theme eq 'Sun'
+    e mv usr/share/YaST2/theme/Sun/images/* usr/share/YaST2/images/
+    r usr/share/YaST2/theme/Sun/images
+  endif
 
 endif
 
