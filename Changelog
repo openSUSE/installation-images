@@ -1,3 +1,6 @@
+11/08/2003:	v2.104
+	- s390: qeth is GPL now, do not show OCO license when loading it
+
 8/8/2003:       v2.103
 	- s390: added fscks for reiserfs and jfs (#27331)
 	- s390: added options to ignore networking errors (#25872)
