@@ -344,7 +344,7 @@ openssl:
   /usr/lib*/libcrypto.so.*
   /usr/lib*/libssl.so.*
 
-cyrus-sasl2:
+cyrus-sasl:
   /usr/lib*/libsasl2.so.*
 
 db:
@@ -357,6 +357,9 @@ heimdal-lib:
   /usr/lib*/libgssapi.so.*
   /usr/lib*/libkrb5.so.*
   /usr/lib*/libroken.so.*
+
+krb4-lib:
+  /usr/lib/libkrb.so.*
 
 strace:
   /usr/bin/strace

@@ -1,7 +1,8 @@
 ; versions
 [Version]
-default	= 8.2
-beta	= 8.2,beta
+default	= 8.3
+beta	= 8.3,beta
+debug   = 8.3,debug
 8.2	= 8.2
 8.1	= 8.1
 ul1	= 8.1

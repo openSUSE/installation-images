@@ -117,18 +117,17 @@ endif
 freetype2:
     /usr/lib*/libfreetype.so.*
 
-xf86tools:
-    /usr/X11R6/lib*/X11/XftConfig*
-
 XFree86:
-    /etc/fonts/*
-  m /usr/X11R6/bin/fc-cache /usr/bin
   m /usr/X11R6/bin/mkfontscale /usr/bin
   m /usr/X11R6/bin/mkfontdir /usr/bin
 
 XFree86-libs:
-  /usr/X11R6/lib*/libfontconfig.so*
-  /usr/X11R6/lib*/libXfont.so*
+  /usr/X11R6/lib*/libXfont.so.*
+
+fontconfig:
+  /etc/fonts/fonts.conf
+  /usr/lib*/libfontconfig.so.*
+  /usr/bin/fc-cache
 
 gawk:
   /bin

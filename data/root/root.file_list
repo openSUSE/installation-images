@@ -364,22 +364,23 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xrender,Xpm,Xrandr}.so*
     /usr/X11R6/lib*/libXft.so.2*
-    /usr/X11R6/lib*/libfontconfig.so*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
- expat:
+
+  expat:
     /usr/lib*/libexpat.so*
 
- XFree86-compat-libs:
+  XFree86-compat-libs:
    /usr/X11R6/lib*/lib{Xxf86misc,Xxf86vm}.so*
 
-  mesasoft:
-    /
-    E /usr/X11R6/bin/switch2mesasoft || true
-    r /usr/X11R6/bin/switch2mesasoft
+  fontconfig:
+    /etc/fonts/fonts.conf
+    /usr/lib*/libfontconfig.so.*
+    /usr/bin/fc-cache
 
-  mesaglu:
-    /usr/lib*
+  XFree86-Mesa:
+    /usr/lib*/libGL.so.*
+    /usr/lib*/libGLU.so.*
 
   XFree86:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
@@ -388,7 +389,6 @@ if with_yast2 ne 'no'
     /usr/X11R6/bin/xkbcomp
     /usr/X11R6/bin/setxkbmap
     /usr/X11R6/bin/mkfontdir
-    /usr/X11R6/bin/fc-cache
     /usr/X11R6/lib/X11/locale
     /etc/X11/xserver
   r /etc/X11/xserver/C
@@ -550,7 +550,7 @@ if with_yast2 ne 'no'
 
   if with_vera_font ne 'no'
     bitstream-vera:
-      /usr/X11R6/lib/X11/fonts/truetype/tt????gn.ttf
+      /usr/X11R6/lib/X11/fonts/truetype/Vera*.ttf
   else
     ghostscript-fonts-std:
       /usr/X11R6/lib/X11/fonts/URW
@@ -729,6 +729,9 @@ heimdal-lib:
   /usr/lib*/libkrb5.so.*
   /usr/lib*/libroken.so.*
 
+krb4-lib:
+  /usr/lib/libkrb.so.*
+
 db:
   /usr/lib*/libdb-4*.so  
 
@@ -832,7 +835,6 @@ gdbm:
 
 xf86tools:
   /etc/fonts/fonts.conf
-  /usr/X11R6/lib/X11/XftConfig
   /usr/sbin/fonts-config
 
 if with_yast2 ne 'no'
