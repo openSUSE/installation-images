@@ -1,0 +1,52 @@
+#!/bin/bash
+
+usage="$0 FROMDIR TODIR [SUBDIR]...
+
+This scomamnd is similar to 'lndir -ignorelinks FROMDIR TODIR', but
+more conservative: it symlinks each file in FROMDIR, unless the file
+exists.  In that case the file is left intact.
+
+$0 descends into common subdirectories of FROMDIR and TODIR.
+
+If any SUBDIRs are given, $0 just descends into these and ignores the
+top level.
+
+If TODIR is neither a relative path from FROMDIR to TODIR nor an
+absolute path the resulting symlinks my be dangling or useless."
+
+FROMDIR="$1"; shift
+TODIR="$1"; shift
+
+
+function descend_fs # FROMDIR TODIR
+{
+    local FROMDIR="$1"; shift
+    local TODIR="$1"; shift
+
+    for from_file in "$FROMDIR"/* "$FROMDIR"/.*
+    do
+	case "$from_file" in
+	    "$FROMDIR"/.|"$FROMDIR"/..|"${FROMDIR}*") break;;
+	esac
+	to_file="${TODIR}/${from_file#$FROMDIR}"
+	if test -e "$to_file"
+	then
+	    if test -d "$to_file" -a \! -L "$to_file"
+	    then
+		descend_fs "$from_file" "$to_file"
+	    fi
+	else
+	    ln -s "$from_file" "$to_file"
+	fi
+    done
+}
+
+if test $# -gt 0 
+then
+    for root # in "$*"
+    do
+	descend_fs "$FROMDIR/$root" "$TODIR/$root"
+    done
+else
+    descend_fs "$FROMDIR" "$TODIR"
+fi

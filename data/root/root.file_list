@@ -743,3 +743,4 @@ if ! pre_release
 r /root
 endif
  
+x usr/bin/conservative_lndir usr/bin
