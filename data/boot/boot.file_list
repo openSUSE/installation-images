@@ -53,15 +53,15 @@ endif		# arch eq 'ia32'
 
 if arch eq 'ia64'
   m /boot/<kernel_img> /linux
-    elilo:
+  elilo:
     d /efi/boot
     if suse_release > 8.0
       m /boot/efi/SuSE/elilo.efi /efi/boot/bootia64.efi
     else
       m /boot/elilo.efi /efi/boot/bootia64.efi
     endif
-  x elilo.conf /
-  x textmenu /
+  x elilo.conf /efi/boot/
+  x textmenu /efi/boot/
 endif
 
 if arch eq 'alpha'
