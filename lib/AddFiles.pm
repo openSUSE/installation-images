@@ -69,6 +69,7 @@ sub AddFiles
   my ($old_warn, $ver, $i, $cache_dir, $tmp_cache_dir, $tmp_rpm);
   my (@scripts, $s, @s, %script, $use_cache);
   my (@packs, $sl, $rpm_cmd);
+  my (@plog);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
@@ -297,6 +298,8 @@ sub AddFiles
         $sl .= "\L$s";
       }
       $ver .= " \{$sl\}" if $sl;
+
+      push @plog, "$p$ver\n";
 
       print "adding package $p$ver\n" if $debug =~ /\bpkg\b/;
 
@@ -592,6 +595,10 @@ sub AddFiles
 
   open F, ">${dir}.rpms";
   print F @packs;
+  close F;
+
+  open F, ">${dir}.rpmlog";
+  print F @plog;
   close F;
 
   if($ENV{'nomods'}) {

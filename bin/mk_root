@@ -67,6 +67,10 @@ if($ENV{'keeproot'} != 1) {
   AddFiles $tmpdir, "${srcdir}/root.file_list", $srcdir or
     die "$Script: failed to setup root image";
 
+  if(-f "${BasePath}tmp/root.rpmlog") {
+    SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' ${BasePath}tmp/root.rpmlog | sort >$tmpdir/.packages";
+  }
+
 #  print "fix locale...\n";
 #  SUSystem "fix_locale $tmpdir";
   print "fix permissions of directories...\n";

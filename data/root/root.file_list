@@ -87,6 +87,9 @@ hwinfo:
   /usr/lib*
   /usr/sbin
 
+udev:
+  /usr/lib*/libsysfs.so*
+
 mktemp:
   /bin/mktemp
 

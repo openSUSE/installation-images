@@ -423,6 +423,12 @@ gdbm:
 hwinfo:
   /usr/{sbin,lib*}
 
+udev:
+  /etc
+  /usr/lib*/libsysfs.so*
+  /usr/bin
+  /sbin  
+
 parted:
   /usr/lib*
   /usr/sbin

@@ -1,4 +1,4 @@
-d bin dev etc mnt proc tmp
+d bin dev etc mnt proc sys tmp
 d var/run var/spool var/lock var/tmp var/log/YaST2 var/adm/mount
 d var/lib/YaST var/lib/dhcpcd var/lib/hardware
 
