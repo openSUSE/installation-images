@@ -41,7 +41,7 @@ case "$arch" in
 	    # echo "search suse.de" >> /etc/resolv.conf
 	    mkdir -p /dev/pts
 	    mkdir -p /dev/shm
-	    # mount -v -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
+	    mount -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
 	    /usr/sbin/sshd || {
 	        export SSH_FAILED=true
 	        echo 'sshd did NOT start!'
@@ -59,7 +59,7 @@ case "$arch" in
   This is only done during beta tests.
   It is NOT a feature of the final release.
 
-  Press return to continue...
+  Press return to contiunue...
 xxx
 	        read
 	    fi
