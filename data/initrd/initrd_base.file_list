@@ -8,12 +8,6 @@ d modules
 d dev/usb
 d mounts
 
-if demo eq 'eval'
-  if lang eq 'cs_CZ'
-    E echo "Language: czech" >info
-  endif
-endif
-
 t var/run/utmp
 
 c 1777 0 0 tmp
@@ -506,5 +500,13 @@ if with_gdb
     E echo run >zap
     E echo -e "#! /bin/sh\ngdb --command /zap /bin/linuxrc" >linuxrc
 
+endif
+
+if lang
+  E echo "Language:	<lang>" >>linuxrc.config
+endif
+
+if demo
+  E echo "Demo:		1" >>linuxrc.config
 endif
 

@@ -176,6 +176,8 @@ deb_stop
 mount -n -oremount,rw /
 mount -n -t proc proc /proc
 [ -x /sbin/portmap ] && /sbin/portmap
+[ -f /lib/nls_iso8859-1.o ] && insmod /lib/nls_iso8859-1.o
+
 mount /S.u.S.E.
 
 rmdir /initrd 2>/dev/null
@@ -208,9 +210,9 @@ if [ -f /S.u.S.E./suse/images/susee ] ; then
         -e "s/\.SuSE iso9660/.SuSE $fstype/" /etc/fstab >/tmp/fstab
     mv /tmp/fstab /etc/fstab
   fi
-  sed -e '/^# mount Live CD/ a \' -e 'mount -v /.SuSE' /etc/init.d/boot >/tmp/boot
-  mv /tmp/boot /etc/init.d/boot
-  chmod 744 /etc/init.d/boot
+  sed -e '/# mount Live CD/ a \' -e '	mount -v /.SuSE' /etc/init.d/boot.localfs >/tmp/boot
+  mv /tmp/boot /etc/init.d/boot.localfs
+  chmod 744 /etc/init.d/boot.localfs
 
   sed -e '/^  # mount Live CD/ a \' -e '  [ ! -f /.SuSE/'"$suseloop"' ] && mount -n /.SuSE' \
       -e '/^# umount Live CD/ i \' -e 'losetup -d /dev/loopc0\' -e 'umount -n /.SuSE' \
@@ -271,29 +273,38 @@ link_dir etc/init.d
 link_dir etc/httpd
 link_dir etc/X11
 link_dir etc/init.d/rc[S0-6].d
+link_dir etc/init.d/boot.d
 link_dir etc/ssh
 link_dir etc/susehelp.d
 
-link_dir opt opt/kde2 opt/kde2/share
-link_dir etc/opt etc/opt/kde2 etc/opt/kde2/share etc/opt/kde2/share/config
+link_dir opt opt/kde3 opt/kde3/share
+link_dir etc/opt etc/opt/kde3 etc/opt/kde3/share etc/opt/kde3/share/config
 
 link_dir usr usr/lib usr/X11R6 usr/X11R6/bin
 link_dir usr/X11R6/lib usr/X11R6/lib/modules usr/X11R6/lib/modules/extensions
 
-add_to_root sbin/init
+add_to_root bin/basename
 
-add_to_root etc/pcmcia etc/pam.d etc/rc.config
+add_to_root sbin/init
+add_to_root sbin/ifup-dhcp
+
+add_to_root etc/pcmcia etc/pam.d etc/rc.config etc/sysconfig
+add_to_root etc/security etc/default
 add_to_root etc/SuSEconfig
 add_to_root etc/init.d/{boot,halt}.local
 add_to_root etc/{passwd,group,shadow,gshadow,nsswitch.conf,wvdial.conf,rc.dialout}
 add_to_root etc/httpd/httpd.conf
-add_to_root etc/ppp etc/isdn etc/vbox etc/rc.config.d
+add_to_root etc/ppp etc/isdn etc/vbox
 add_to_root etc/suse-blinux.conf
 add_to_root etc/{a2ps-site.cfg,pppoed.conf}
 add_to_root etc/usbmgr
+add_to_root etc/{host.conf,nntpserver,HOSTNAME}
+add_to_root etc/{lpdfilter,printcap,lpd.conf,lpd.perms}
 
-add_to_root opt/kde2/share/config
-add_to_root etc/opt/kde2/share/config/kdm
+add_to_root opt/kde3/share/config
+add_to_root etc/opt/kde3/share/config/kdm
+
+cp /usr/bin/lsof /bin
 
 deb_stop
 
@@ -330,8 +341,7 @@ mods=/lib/modules/`uname -r`
 
 [ -f /etc/httpd/httpd.conf ] && perl -pi -e 's/-(?=FollowSymLinks)//g' /etc/httpd/httpd.conf
 
-perl -pi -e 's/^(FQHOSTNAME=).*/$1\"suse\"/' /etc/rc.config
-perl -pi -e 's/^(SUSEWM_UPDATE=).*/$1\"no\"/' /etc/rc.config
+perl -pi -e 's/^(SUSEWM_UPDATE=).*/$1\"no\"/' /etc/sysconfig/windowmanager
 rm -f /sbin/conf.d/SuSEconfig.{perl,groff,alsa}
 
 if [ -f /etc/install.inf ] ; then
@@ -343,13 +353,13 @@ fi
 rm -f /lang
 
 if [ "$Language" ] ; then
-  perl -pi -e 's/^(LANGUAGE=).*/$1\"'"$Language"'\"/' /etc/rc.config
+#  perl -pi -e 's/^(LANGUAGE=).*/$1\"'"$Language"'\"/' /etc/rc.config
   perl -pi -e 'if(/unset LANG/) { $_ = "    export LANG=\"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/profile
   perl -pi -e 'if(/unsetenv LANG/) { $_ = "    setenv LANG \"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/csh.cshrc
 fi
 
 if [ "$Keytable" ] ; then
-  perl -pi -e 's/^(KEYTABLE=).*/$1\"'"$Keytable"'\"/' /etc/rc.config
+  perl -pi -e 's/^(KEYTABLE=).*/$1\"'"$Keytable"'\"/' /etc/sysconfig/keyboard
 fi
 
 #if [ "$Nameserver" ] ; then
@@ -377,7 +387,7 @@ if [ "$part" ]; then
   [ "$dosdrive" ] && i="$dosdrive, "
 
   echo
-  echo "Pou¾ívám "\""suselive.730"\"" na $part ($i$fstype, $partsize MB) k ukládání dat."
+  echo "Pou¾ívám "\""suselive.800"\"" na $part ($i$fstype, $partsize MB) k ukládání dat."
 
   mkdir /host || error=20
   mount $part /host || error=21
@@ -400,8 +410,8 @@ if [ "$part" ]; then
     fi
     rm -f /etc/.SuSErmlist
   else
-    suseimg=suselive.730
-    perl -pi -e 's/^(suseimg=).*/$1suselive.730/' /etc/SuSElive
+    suseimg=suselive.800
+    perl -pi -e 's/^(suseimg=).*/$1suselive.800/' /etc/SuSElive
     if [ "$clean" ] ; then
       rm -f "/host/$suseswap" "/host/$susehome" 2>/dev/null
     fi
@@ -509,6 +519,7 @@ if [ ! "$nodisk" ] ; then
     kill_and_wait ipppd
     kill_and_wait pppd
     kill_and_wait usbmgr
+    kill_and_wait xidle
 
     [ -d /proc/asound ] && /etc/init.d/alsasound stop
 
@@ -526,7 +537,7 @@ if [ ! "$nodisk" ] ; then
     rm -f /mnt ; mkdir /mnt
     [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
     cmp -s /etc/fstab /tmp/fstab.save || {
-      grep -v /proc /etc/fstab >>/tmp/fstab.save
+      perl -ne 'print unless /^\s*proc\s+\/proc\s+proc/' /etc/fstab >>/tmp/fstab.save
       mv /tmp/fstab.save /etc/fstab
     }
 
@@ -569,7 +580,7 @@ if [ ! "$nodisk" ] ; then
       tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
 
       if [ ! -f /mnt/suselive.txt ] ; then
-        echo -e "$suseimg obsahuje data va¹eho SuSE Linux 7.3 Evaluation CD.\r" >/mnt/suselive.txt
+        echo -e "$suseimg obsahuje data va¹eho SuSE Linux 8.0 Evaluation CD.\r" >/mnt/suselive.txt
         echo -e "suselive.swp (existuje-li) je odkládací soubor.\r" >>/mnt/suselive.txt
         echo -e "suselive.usr (existuje-li) je souborový systém ext2 s domovským adresáøem u¾ivatele.\r" >>/mnt/suselive.txt
       fi

@@ -1,3 +1,12 @@
+14/4/2003:	v1.134
+	- fixed module config for new kernel
+
+24/5/2002:	v1.133
+	- adapted for new kernel
+
+24/5/2002:	v1.132
+	- liveeval changes
+
 24/3/2002:	v1.131
 	- add sg.o module and sg* devices to initrd, they are needed
 	  for usb (scsi emulation!)
