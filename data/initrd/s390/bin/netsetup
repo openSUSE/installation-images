@@ -94,9 +94,7 @@ function yes_no () {
 #
 function check_memory () {
 	MEM=`grep MemTotal /proc/meminfo|sed 's,[^0-9]*\([0-9]*\)[^0-9]*,\1,g'`
-	# 1GB of memory is enough and bash cannot use nums >2^31 (signed int)
-	[ ${MEM} -gt 9 ] && return
-	let MEM="$MEM/1024/1024"
+	let MEM="($MEM >> 15) + 1 << 5" # round up to next 32M
 	if [ $MEM -lt 80 ]; then
 	    echo "Warning: The kernel has only $MEM MB memory for applications"
 	    echo "80 MB are recommended for installation thru FTP and updating."
@@ -454,11 +452,6 @@ function activate_config() {
 	    case "$NETSELECT" in
 	    	tr|eth|qeth|hsi|qeth-tr)
                     NTRY=3
-                    if [ "$NETSELECT" = qeth -o "$NETSELECT" = qeth-tr ]; then
-                        echo -n "Waiting 12s for network device $IP_DEV."
-			for i in 1 2 3 4 5 6 7 8 9 a b;do sleep 1;echo -n .;done
-			echo ..done.
-		    fi
 		    if [ "$IP_GATEWAY" ]; then
 			echo "Trying to ping the IP address of the Gateway:"
 			execcmd "ping -w 10 -n -c $NTRY $IP_GATEWAY" 
@@ -493,7 +486,15 @@ function activate_config() {
 			    case "$NETSELECT" in
 				ctc|escon)
 				    echo "Statistics from $IP_DEV:"
-				    cat /proc/net/ctc/$IP_DEV/statistics
+				    STATS_DIR=/sys/class/net/$IP_DEV/statistics
+				    for file in $STATS_DIR/*; do
+					if [ -r $file ]; then
+					    read num < $file;
+					    if [ $num -ne 0 ]; then
+						echo $(basename $file): $num
+					    fi
+					fi
+				    done
 				;;
 			    esac
 			    continue_anyway && break
@@ -1218,7 +1219,7 @@ function load_CTC () {
 	return 1
   fi
   echo "List of first 10 $NETTYPE Channels that were detected:"
-  echo "CHPIDS  Dev. Channel type"
+  echo "Device   Channel type"
   head -n 10 ctc_detected
   ANSW="yes"
   NO_ERROR=yes
@@ -1448,6 +1449,14 @@ function calc_broadcast_enh()
         IFS=". " read ip1 ip2 ip3 ip4  nm1 nm2 nm3 nm4 rest
         echo $(( ($ip1 & $nm1 | ~$nm1) & 255)).$(( ($ip2 & $nm2 | ~$nm2) & 255)).$(( ($ip3 & $nm3 | ~$nm3) & 255)).$((($ip4 & $nm4 | ~$nm4) & 255))
 }
+
+# suggest a gateway address
+function calc_gateway()
+{
+	IFS=". " read ip1 ip2 ip3 ip4  nm1 nm2 nm3 nm4 rest
+	echo $(($ip1 & $nm1)).$(($ip2 & $nm2)).$(($ip3 & $nm3)).$((($ip4 & $nm4) + 1))
+}
+
 #
 #
 # MAIN
@@ -1546,6 +1555,7 @@ while [ $CONFIG_IS_OK = 0 ]; do
 		    IP_BROADCAST=$(echo $IP_ADDR $IP_NETMASK | calc_broadcast_enh)
 		    readln "Please enter the broadcast address if different from ($IP_BROADCAST): "
 		    [ "$ANSW" ] && export IP_BROADCAST=$ANSW
+		    IP_GATEWAY=$(echo $IP_ADDR $IP_NETMASK | calc_gateway)
 		    readln "Please enter the gateway's IP address, e.g. '192.168.0.254' ($IP_GATEWAY): "
 		    [ "$ANSW" ] && export IP_GATEWAY=$ANSW
 	    fi
