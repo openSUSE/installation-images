@@ -1,3 +1,6 @@
+30/8/2001:	v1.89
+	- non-ia32 archs don't like modules
+
 29/8/2001:	v1.88
 	- bootdisk: kernel from k_inst, modules from k_deflt
 
