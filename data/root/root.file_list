@@ -439,6 +439,8 @@ if with_yast2 ne 'no'
     /
   yast2-transfer:
     /
+  yast2-trans-de:
+    /
   yast2-theme-SuSELinux:
     /
   yast2-x11:
