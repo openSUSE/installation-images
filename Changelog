@@ -1,3 +1,7 @@
+1/8/2003:	v4.10
+	- didn't catch all build errors
+	- make s390 happy
+
 31/7/2003:	v4.09
 	- yast2-network-instsys has been deleted
 	- kbd package changes
