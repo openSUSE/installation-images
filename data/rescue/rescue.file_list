@@ -412,6 +412,9 @@ ddrescue:
 hex:
   /usr/bin/hex
 
+mdadm:
+  /sbin
+
 openssh:
   /etc/ssh
   /usr/bin

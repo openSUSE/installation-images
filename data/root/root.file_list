@@ -797,6 +797,9 @@ hex:
 bzip2:
   /usr/lib*/libbz2.so*
 
+mdadm:
+  /sbin/mdadm
+
 sock:
   /usr/bin/sock
 
