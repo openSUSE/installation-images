@@ -658,26 +658,26 @@ IP: $IP_ADDR"
     [ "$CHAN" ]       && echo "Chandev: $CHAN"
     if [ "$NETSELECT" = tr -o "$NETSELECT" = eth ]; then
       echo "Alias: $IP_DEV lcs"
-#      echo "Options lcs $PARM"
+#      echo "Options: lcs $PARM"
       echo "ConnectWait: 3"
     fi
     if [ "$NETSELECT" = "qeth" -o "$NETSELECT" = hsi ]; then
       echo "Alias: $IP_DEV qeth"
-#      echo "Options qeth $PARM"
+#      echo "Options: qeth $PARM"
       echo "ConnectWait: 15"
     fi
     if [ "$NETSELECT" = "ctc" -o "$NETSELECT" = "escon" ]; then
 #      echo "Alias: $IP_DEV ctc"
-#      echo "Options ctc $PARM"
+#      echo "Options: ctc $PARM"
       echo "ConnectWait: 30"
     fi
     if [ "$NETSELECT" = "c7000" ]; then
       echo "Alias: $IP_DEV c7000"
-      echo "Options c7000 $PARM"
+      echo "Options: c7000 $PARM"
     fi
     if [ "$NETSELECT" = "iucv" ]; then
 #      echo "Alias: $IP_DEV netiucv"
-      echo "$PARM" | sed "s/iucv=\(.*\)/Options netiucv iucv='\`echo \1\`'/g"
+      echo "$PARM" | sed "s/iucv=\(.*\)/Options: netiucv iucv=\1/g"
     fi
     [ "$IP_HOST" ]        && echo "Machinename: $IP_HOST"
     [ "$IP_DNS" ]         && echo "Nameserver: $IP_DNS"
@@ -1323,12 +1323,12 @@ function load_CTC () {
 	echo "but be careful if you share channel devices!"
 	echo "ctc options:"
         readln "Device address for read channel, e.g. '40A' ($DEVNO): "
-	if [ $ANSW ]; then export DEVNO=$ANSW; fi
+	[ $ANSW ] && export DEVNO=$ANSW
         if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
           PARM=""
         else
 	  readln "Device address for write channel, e.g. '40B' ($DEVNO2): "
-	  if [ $ANSW ]; then export DEVNO2=$ANSW; fi
+	  [ $ANSW ] &&  export DEVNO2=$ANSW
 	  echo "The network device name used will be: $IP_DEV"
           PARM="setup='\"ctc=0,0x$DEVNO,0x$DEVNO2,$IP_DEV\"'"
         fi
@@ -1365,8 +1365,8 @@ function load_IUCV () {
     echo "In VIF this is normally \$TCPIP, in VM normally TCPIP."
     echo ""
     readln "The name of the peer guest, e.g. 'TCPIP' ($PEER): "
-    if [ "$ANSW" ]; then export PEER=$ANSW; fi
-    if [ "$PEER" ]; then PARM="iucv='$PEER'"; fi
+    [ "$ANSW" ] && export PEER=$ANSW
+    [ "$PEER" ] && PARM="iucv='$PEER'"
     if grep netiucv /proc/modules; then
       echo "Unloading netiucv module..."
       execcmd "/sbin/rmmod netiucv"
@@ -1409,7 +1409,7 @@ function load_C7000 () {
 	echo ""
 	echo "c7000 options:"
         readln "Base unit address of the channel attached router, e.g. '336C' ($DEVNO): "
-	if [ $ANSW ]; then export DEVNO=$ANSW; fi
+	[ $ANSW ] && export DEVNO=$ANSW
         if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
           PARM=""
         else
@@ -1418,28 +1418,28 @@ function load_C7000 () {
 #
 	echo   "Local host name        - claw directive 'host-name' (first string)"
 	readln "default: 'UTS' ($LHOST): "
-	if [ $ANSW ]; then export LHOST=$ANSW; fi
-	if [ $LHOST ]; then PARM="$PARM lhost0=\"$LHOST\""; fi
+	[ $ANSW ] && export LHOST=$ANSW
+	[ $LHOST ] && PARM="$PARM lhost0=\"$LHOST\""
 #
 	echo   "Unit name              - claw directive 'device-name' (second string)"
 	readln "default: 'C7011' ($UHOST): "
-	if [ $ANSW ]; then export UHOST=$ANSW; fi
-	if [ $UHOST ]; then PARM="$PARM uhost0=\"$UHOST\""; fi
+	[ $ANSW ] && export UHOST=$ANSW
+	[ $UHOST ] && PARM="$PARM uhost0=\"$UHOST\""
 #
 	echo   "Local application name - claw directive 'host-app' (third string)"
 	readln "default: 'TCPIP' ($LAPPL): "
-	if [ $ANSW ]; then export LAPPL=$ANSW; fi
-	if [ $LAPPL ]; then PARM="$PARM lappl0=\"$LAPPL\""; fi
+	[ $ANSW ] && export LAPPL=$ANSW
+	[ $LAPPL ] && PARM="$PARM lappl0=\"$LAPPL\""
 #
 	echo   "Unit application name  - claw directive 'device-app' (fourth string)"
 	readln "default: 'TCPIP' ($UAPPL): "
-	if [ $ANSW ]; then export UAPPL=$ANSW; fi
-	if [ $UAPPL ]; then PARM="$PARM uappl0=\"$UAPPL\""; fi
+	[ $ANSW ] && export UAPPL=$ANSW
+	[ $UAPPL ] && PARM="$PARM uappl0=\"$UAPPL\""
 #
 	echo   "Message level - higher numbers will result in additional diagnostic messages"
 	readln "default: '0' ($DBG): "
-	if [ $ANSW ]; then export DBG=$ANSW; fi
-	if [ $DBG ]; then PARM="$PARM dbg=$DBG"; fi
+	[ $ANSW ] && export DBG=$ANSW
+	[ $DBG ] && PARM="$PARM dbg=$DBG"
 #
         echo "The network device name used will be: $IP_DEV"
 	if grep c7000 /proc/modules; then
@@ -1573,23 +1573,23 @@ while [ $CONFIG_IS_OK = 0 ]; do
   [ $CONFIG_IS_OK = 1 -o $EXIT_SCRIPT = 1 ] && break
   echo
   readln "Please enter your full host name, e.g. 'linux.example.com' ($IP_HOST): "
-  if [ $ANSW ]; then export IP_HOST=$ANSW; fi
+  [ $ANSW ] && export IP_HOST=$ANSW
   readln "Please enter your IP address, e.g. '192.168.0.1' ($IP_ADDR): "
-  if [ $ANSW ]; then export IP_ADDR=$ANSW; fi
+  [ $ANSW ] && export IP_ADDR=$ANSW
   case "$NETSELECT" in
     tr|eth|qeth|hsi|c7000)
 	    readln "Please enter the net mask, e.g. '255.255.255.0' ($IP_NETMASK): "
-	    if [ $ANSW ]; then export IP_NETMASK=$ANSW; fi
+	    [ $ANSW ] && export IP_NETMASK=$ANSW
 	    IP_BROADCAST=$(echo $IP_ADDR $IP_NETMASK | calc_broadcast_enh)
 	    readln "Please enter the broadcast address if different from ($IP_BROADCAST): "
-	    if [ $ANSW ]; then IP_BROADCAST=$ANSW; fi
+	    [ $ANSW ] && export IP_BROADCAST=$ANSW
 	    readln "Please enter the gateway's IP address, e.g. '192.168.0.254' ($IP_GATEWAY): "
-	    if [ $ANSW ]; then export IP_GATEWAY=$ANSW; fi
+	    [ $ANSW ] && export IP_GATEWAY=$ANSW
 	    ;;
 #    peer-to-peer networks
     ctc|escon|iucv)
 	    readln "Please enter the IP address of your peer, e.g. '192.168.0.254' ($IP_PEER): "
-	    if [ $ANSW ]; then export IP_PEER=$ANSW; fi
+	    [ $ANSW ] && export IP_PEER=$ANSW
 	    export IP_GATEWAY=$IP_PEER
 	    export IP_NETMASK=255.255.255.255
 	    ;;
@@ -1602,7 +1602,7 @@ while [ $CONFIG_IS_OK = 0 ]; do
   if [ "$IP_DNS" ]; then
     [ -z "$IP_SEARCH" ] && IP_SEARCH=${IP_HOST#*.}
     readln "Please enter the DNS search domain, e.g. 'example.com' ($IP_SEARCH): "
-    if [ $ANSW ]; then export IP_SEARCH=$ANSW; fi
+    [ $ANSW ] && export IP_SEARCH=$ANSW
   else
     IP_SEARCH=none
   fi
@@ -1634,21 +1634,15 @@ while [ $CONFIG_IS_OK = 0 ]; do
     [ $(( ${IP_MTU//[A-z]*/} + 0 )) -eq 0 ] && IP_MTU=0
     case "$NETSELECT" in
       ctc|escon|iucv)
-        if [ $IP_MTU -ge 576 -a $IP_MTU -le 32768 -o $IP_MTU = 0 ]; then
-	  break
-	fi
+        [ $IP_MTU -ge 576 -a $IP_MTU -le 32768 -o $IP_MTU = 0 ] && break
 	echo "For the CTC/IUCV driver, the MTU must be in the range 576-32768."
         ;;
       tr|eth)
-    	if [ $IP_MTU -ge  68 -a $IP_MTU -le 1500 -o $IP_MTU = 0 ]; then
-	  break
-	fi
+    	[ $IP_MTU -ge  68 -a $IP_MTU -le 1500 -o $IP_MTU = 0 ] && break
 	echo "For the LCS driver, the MTU must be in the range 68-1500."
         ;;
       c7000|qeth)
-    	if [ $IP_MTU -ge 576 -a $IP_MTU -le 1500 -o $IP_MTU = 0 ]; then
-	  break
-	fi
+    	[ $IP_MTU -ge 576 -a $IP_MTU -le 1500 -o $IP_MTU = 0 ] && break
 	echo "The installation MTU range for qeth/c7000 is 576-1500, set other values later."
 	;;
       hsi)
@@ -1663,12 +1657,8 @@ while [ $CONFIG_IS_OK = 0 ]; do
   case "$NETSELECT" in
     tr|eth|qeth|hsi|c7000)
 	    echo "Net mask         : $IP_NETMASK"
-	    if test $IP_BROADCAST ; then
-		echo "Broadcast address: $IP_BROADCAST"
-	    fi
-	    if test $IP_GATEWAY ; then
-		echo "Gateway address  : $IP_GATEWAY"
-	    fi
+	    [ "$IP_BROADCAST" ] && echo "Broadcast address: $IP_BROADCAST"
+	    [ "$IP_GATEWAY" ] && echo "Gateway address  : $IP_GATEWAY"
 	    ;;
     ctc|escon|iucv)
 	    echo "Peer IP address  : $IP_PEER"
@@ -1676,12 +1666,8 @@ while [ $CONFIG_IS_OK = 0 ]; do
     *)
 	    echo "Something went wrong with $NETSELECT..."
   esac
-  if test $IP_DNS ; then
-    echo "DNS IP address   : $IP_DNS"
-  fi
-  if test $IP_SEARCH ; then
-    echo "DNS search domain: $IP_SEARCH"
-  fi
+  [ "$IP_DNS" ] && echo "DNS IP address   : $IP_DNS"
+  [ "$IP_SEARCH" ] && echo "DNS search domain: $IP_SEARCH"
   if test $IP_MTU ; then
     if [ $IP_MTU != 0 ]; then
       echo "MTU size         : $IP_MTU"

@@ -24,13 +24,10 @@ MODCONFFILETMP=$ROOT/etc/modules.conf.tmp
 if [ -f $INSTALLINF ]
 then
 #	Check for chandev
-	CHANDEV=`grep Chandev: $INSTALLINF | uniq | sed -e 's/Chandev: \\(.*\\)/\\1/'`
-	if [ ! -z "$CHANDEV" ]
-	then
-		echo $CHANDEV >> $CHANDEVCONF
-	fi
+#	CHANDEV=`grep Chandev: $INSTALLINF | uniq | sed -e 's/Chandev: \\(.*\\)/\\1/'`
+#	[ ! -z "$CHANDEV" ] && echo $CHANDEV >> $CHANDEVCONF
 #
-#	Create modules.conf Entry
+#	Create modules.conf Entry (alias)
 #
 	MODCONF=`grep Alias: $INSTALLINF | uniq | sed -e 's/Alias: \\(.*\\)/\\1/'`
 	if [ ! -z "$MODCONF" ]
@@ -50,6 +47,22 @@ then
 		fi
 	fi
 #
+#	Create modules.conf Entry (Options)
+#
+	MODCONF=`grep Options: $INSTALLINF | uniq | sed -e 's/Options: \\(.*\\)/\\1/'`
+	if [ ! -z "$MODCONF" ]
+	then
+		egrep "options[[:space:]]*$1[[:space:]]*" $MODCONFFILE 2>&1 > /dev/null
+		if [ $? -eq 0 ]
+		then
+#			Entry found
+			egrep -v "options[[:space:]]*$1[[:space:]]*" $MODCONFFILE > $MODCONFFILETMP
+			[ $? -eq 0 ] && mv $MODCONFFILETMP $MODCONFFILE
+			
+		fi
+		echo "options $MODCONF" >> $MODCONFFILE
+	fi
+#
 #	Create interfacefile
 #
 	NETDEV=`grep Netdevice: $INSTALLINF | grep -v sit0 | uniq | sed -e 's/Netdevice: \\(.*\\)/\\1/'`
@@ -62,44 +75,26 @@ then
 #	Create pointopoint Interfaces
 #
 	PTOP=`grep Pointopoint: $INSTALLINF | uniq | sed -e 's/Pointopoint: \\(.*\\)/\\1/'`
-	if [ ! -z "$PTOP" ]
-	then
-		echo "REMOTE_IPADDR=\"$PTOP\"" >> $DEVICEFILE
-	fi
+	[ ! -z "$PTOP" ] && echo "REMOTE_IPADDR=\"$PTOP\"" >> $DEVICEFILE
 #
 #	create broadcast-interface
 #
 	NWMASK=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
-	if [ ! -z "$NWMASK" ]
-	then
-		echo "NETMASK=\"$NWMASK\"" >> $DEVICEFILE
-	fi
+	[ ! -z "$NWMASK" ] && echo "NETMASK=\"$NWMASK\"" >> $DEVICEFILE
 	NW=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
-	if [ ! -z "$NW" ]
-	then
-		echo "NETWORK=\"$NW\"" >> $DEVICEFILE
-	fi
+	[ ! -z "$NW" ] && echo "NETWORK=\"$NW\"" >> $DEVICEFILE
 	NWBROADCAST=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
-	if [ ! -z "$NWBROADCAST" ]
-	then
-		echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
-	fi
+	[ ! -z "$NWBROADCAST" ] && echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
 #	
 #	Create routingfile
 #
 	GW=`grep Gateway: $INSTALLINF | uniq | sed -e 's/Gateway: \\(.*\\)/\\1/'`
-	if [ ! -z "$GW" ]
-	then
-		echo "default $GW 0.0.0.0 $NETDEV" >> $ROUTINGFILE
-	fi
+	[ ! -z "$GW" ] && echo "default $GW 0.0.0.0 $NETDEV" >> $ROUTINGFILE
 #
 #	Create /etc/HOSTNAME
 #
 	HOSTNAME=`grep Machinename: $INSTALLINF | uniq | sed -e 's/Machinename: \\(.*\\)/\\1/'`
-	if [ ! -z "$HOSTNAME" ]
-	then
-		echo "$HOSTNAME" > $HOSTFILE
-	fi
+	[ ! -z "$HOSTNAME" ] && echo "$HOSTNAME" > $HOSTFILE
 #
 #	Create /etc/resolv.conf
 #
