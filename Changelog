@@ -1,3 +1,6 @@
+30/7/2001:	v1.73
+	- dropped some mods to make it build
+
 30/7/2001:	v1.72
 	- schwab: add filesystem kernel modules to initrd on ia64
 	- schwab: increase initial initrd size

@@ -167,6 +167,8 @@ if arch eq 'ia32'
     M starfire hamachi ibmtr de4x5 rrunner hp100
     M eepro100 olympic
 
+    r /modules/{apa1480_cb,wavelan_cs}.o
+
   endif
 
 endif		# arch eq 'ia32'
