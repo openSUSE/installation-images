@@ -39,6 +39,7 @@ bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
 	/boot/vmlinux-*-ppc64 \
 	$bdir/initrd-kernel-ppc64 \
 	$CD1/install
+/lib/lilo/chrp/mkzimage_cmdline -a 1 -c $CD1/install
 #
 /lib/lilo/iseries/iseries-addRamDisk \
 	$bdir/initrd-kernel-iseries64 \
