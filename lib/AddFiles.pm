@@ -63,7 +63,7 @@ sub AddFiles
   my ($dir, $file_list, $ext_dir, $arch, $if_val, $tag);
   my ($rpms, $tdir, $tfile, $p, $r, $d, $u, $g, $files);
   my ($mod_list, @mod_list, %mod_list);
-  my ($inc_file, $inc_it, $debug);
+  my ($inc_file, $inc_it, $debug, $eshift);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
@@ -101,6 +101,8 @@ sub AddFiles
 
   $if_val = 0;
 
+  $eshift = 1;
+
   while($_ = $inc_it ? <I> : <F>) {
     if($inc_it && eof(I)) {
       undef $inc_it;
@@ -120,7 +122,7 @@ sub AddFiles
     s/<kernel_rpm>/$ConfigData{kernel_rpm}/g;
     s/<kernel_img>/$ConfigData{kernel_img}/g;
 
-    if(/^endif/) { $if_val >>= 1; next }
+    if(/^endif/) { $if_val >>= $eshift; next }
 
     if(/^else/) { $if_val ^= 1; next }
 
@@ -140,6 +142,7 @@ sub AddFiles
       my ( $eif );
 
       $eif = $1 ? 1 : 0;
+      $eshift = 1 if !$eif;
       $re = $2;
       $re0 = $re;
       $re0 =~ s/(('[^']*')|("[^"]*")|\b(defined|lt|gt|le|ge|eq|ne|cmp|not|and|or|xor)\b|(\(|\)))/' ' x length($1)/ge;
@@ -156,12 +159,9 @@ sub AddFiles
       }
       $i = eval "if($re) { 0 } else { 1 }";
       die "$Script: sytax error in 'if' statement" unless defined $i;
-      if($eif) {
-        $if_val = ($if_val & ~1) | $i;
-      }
-      else {
-        $if_val <<= 1; $if_val |= $i;
-      }
+      $if_val ^= 1 if $eif;
+      $if_val <<= 1; $if_val |= $i;
+      $eshift++ if $eif;
       next
     }
 
