@@ -1,4 +1,5 @@
-	- add dummy bin/mk_ppc_installation-images_bootbinaries.sh
+22/2/2004:	v5.13
+	- add bin/mk_ppc_installation-images_bootbinaries.sh
 	- update pseries64 initrd content, all scsi stuff is a module now
 	- create /lib/modules/<version> if it does not exist
 
