@@ -1,3 +1,8 @@
+11/9/2002:	v2.64
+	- run linuxrc in linemode on s390
+	- add uncompressed length after spash
+	- don't build uncompressed root image
+
 9/9/2002:	v2.63
 	- don't remove /root
 

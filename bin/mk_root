@@ -52,7 +52,8 @@ $start_inodes = 5000;
 # now we really start...
 
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
-$use_cramfs = exists($ENV{'use_cramfs'}) ? $ENV{'use_cramfs'} : "";
+$use_cramfs = exists($ENV{'use_cramfs'}) ? $ENV{'use_cramfs'} : 1;
+$uncompressed_root = exists($ENV{'uncompressed_root'}) ? $ENV{'uncompressed_root'} : "";
 
 
 if($ENV{'keeproot'} != 1) {
@@ -106,5 +107,7 @@ if($use_cramfs) {
   print "$Script: created \"$image.cramfs\" ($i bytes)\n";
 }
 
-Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
+if($uncompressed_root) {
+  Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
+}
 

@@ -21,8 +21,11 @@ o general options
 
 o root
 
-  use_cramfs=1
-  - build cramfs image (named root.cramfs) in addition to the normal (uncompressed) image
+  use_cramfs=0
+  - do not build cramfs image (root.cramfs)
+  
+  uncompressed_root=1
+  - build uncompressed image
   
   keeproot=1
   - don't rebuild everything, just recreate (copy the cached tree and compress) the
