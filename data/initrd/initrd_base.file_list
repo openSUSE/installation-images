@@ -11,6 +11,8 @@ s /usr/X11R6/lib/X11 var/X11R6/lib
 d lib/modules/<kernel_ver>
 d lib/modules/<kernel_mods>/initrd
 s lib/modules/<kernel_mods>/initrd modules
+s ../<kernel_mods> lib/modules/<kernel_ver>/updates
+
 d mounts
 d root
 
@@ -51,11 +53,21 @@ endif
   m /usr/share/kbd/consoletrans/trivial kbd/consoletrans
 
   d kbd/consolefonts
+
+if 0
   g /usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz kbd/consolefonts/LatArCyrHeb-16.psfu
   g /usr/share/kbd/consolefonts/lat1-16.psfu.gz kbd/consolefonts/lat1-16.psfu
   g /usr/share/kbd/consolefonts/lat2-16.psfu.gz kbd/consolefonts/lat2-16.psfu
   g /usr/share/kbd/consolefonts/iso07u-16.psfu.gz kbd/consolefonts/lat7-16.psfu
   g /usr/share/kbd/consolefonts/Cyr_a8x16.psfu.gz kbd/consolefonts/Cyr_a8x16.psfu
+endif
+
+linuxrc:
+  g /usr/share/linuxrc/linuxrc-16.psfu.gz kbd/consolefonts/linuxrc-16.psfu
+  g /usr/share/linuxrc/linuxrc2-16.psfu.gz kbd/consolefonts/linuxrc2-16.psfu
+
+kbd:
+
 if arch ne 'sparc' && arch ne 'sparc64'
   d kbd/keymaps/include
   m usr/share/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
@@ -78,6 +90,7 @@ if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch
     g /usr/share/kbd/keymaps/i386/qwerty/pt-latin1.map.gz kbd/keymaps/pt-latin1.map
     g /usr/share/kbd/keymaps/i386/qwerty/ru1.map.gz kbd/keymaps/ru1.map
     g /usr/share/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz kbd/keymaps/sk-qwerty.map
+    g /usr/share/kbd/keymaps/i386/qwerty/sv-latin1.map.gz kbd/keymaps/sv-latin1.map
     g /usr/share/kbd/keymaps/i386/qwerty/uk.map.gz kbd/keymaps/uk.map
     g /usr/share/kbd/keymaps/i386/azerty/fr-latin1.map.gz kbd/keymaps/fr-latin1.map
 

@@ -37,6 +37,7 @@ e prein
 r /etc/{csh*,default*,mailcap,mime.types,permissions*}
 r /etc/{rc.d.README,runlevel.fallback,zshrc,cron.daily}
   /sbin
+r /sbin/quick_*
   /root
 r /etc/init.d/rc?.d/*kerneld
 r /etc/init.d/rc?.d/*cron
