@@ -361,7 +361,6 @@ db:
 heimdal-lib:
   /etc
   /usr/lib*/libasn1.so.*
-  /usr/lib*/libcom_err.so.*
   /usr/lib*/libgssapi.so.*
   /usr/lib*/libkrb5.so.*
   /usr/lib*/libroken.so.*

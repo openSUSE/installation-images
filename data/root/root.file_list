@@ -178,16 +178,16 @@ glibc-locale:
 if !(arch eq 's390' || arch eq 's390x')
 kbd:
   /usr/share/kbd
-  /bin/loadkeys
-  /usr/bin/{loadunimap,kbd_mode}
+  /bin/{loadkeys,dumpkeys}
+  /bin/{loadunimap,kbd_mode}
   /bin/{chvt,loadkeys}
-  /usr/bin/{chvt,loadkeys}
-  /usr/bin/unicode_st{art,op}
+  /bin/{chvt,loadkeys}
+  /bin/unicode_st{art,op}
   m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
 
 # temporary fix for yast's setfont problems
-m /usr/bin/setfont /usr/bin/setfont.bin
-x /usr/bin/setfont /usr/bin
+m /bin/setfont /bin/setfont.bin
+x /usr/bin/setfont /bin
 endif
 
 if !(arch eq 's390' || arch eq 's390x')
@@ -454,6 +454,9 @@ if with_yast2 ne 'no'
     /usr/X11R6/share/fvwm/ConfigFvwmDefaults
     x etc/fvwmrc /usr/X11R6/share/fvwm/fvwmrc
 
+  fribidi:
+    /usr/lib*/libfribidi.so*
+
   libstroke:
     /usr/lib*/libstroke.so*
 
@@ -475,8 +478,6 @@ if with_yast2 ne 'no'
   yast2-mouse:
     /
   yast2-ncurses:
-    /
-  yast2-network-instsys:
     /
   yast2-packagemanager:
     /
@@ -730,7 +731,6 @@ openssh: prein
 heimdal-lib:
   /etc
   /usr/lib*/libasn1.so.*
-  /usr/lib*/libcom_err.so.*
   /usr/lib*/libgssapi.so.*
   /usr/lib*/libkrb5.so.*
   /usr/lib*/libroken.so.*

@@ -458,7 +458,7 @@ if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
   endif
 
   g /usr/share/kbd/keymaps/i386/qwerty/us.map.gz kbd/keymaps/us.map
-  g /usr/share/kbd/keymaps/i386/qwertz/de-lat1-nd.map.gz kbd/keymaps/de-lat1-nd.map
+  g /usr/share/kbd/keymaps/i386/qwertz/de-latin1-nodeadkeys.map.gz kbd/keymaps/de-lat1-nd.map
   g /usr/share/kbd/keymaps/i386/qwertz/de-latin1.map.gz kbd/keymaps/de-latin1.map
 
   m /usr/share/kbd/keymaps/i386/include/linux-keys-bare.inc kbd/keymaps/include

@@ -1,3 +1,7 @@
+31/7/2003:	v4.09
+	- yast2-network-instsys has been deleted
+	- kbd package changes
+
 25/7/2003:	v4.08
 	- added glx to XFree config 
 
