@@ -81,7 +81,7 @@ else
   # the inst-sys is symlinked to from the initrd.  To avoid
   # symlinks for each file in empty directories of the initrd, these
   # empty directories are removed now.
-  E bin/remove-empty-directories etc/initrd_keep_files
+  e bin/remove-empty-directories etc/initrd_keep_files
   r bin/remove-empty-directories
   r etc/initrd_keep_files
 endif # not arch s390

@@ -328,8 +328,8 @@ if arch eq 's390' || arch eq 's390x'
 
   modutils:
     /sbin/depmod
-#   e /sbin/depmod -a -F /System.map
-  e /sbin/depmod -a -F /System.map <kernel_ver>
+#   E /sbin/depmod -a -F /System.map
+  E /sbin/depmod -a -F /System.map <kernel_ver>
   r /sbin/depmod
 
 ###################################################################
@@ -473,7 +473,7 @@ endif
 if with_smb
 
   d etc/samba
-  E echo "; just to make smbmount happy" >etc/samba/smb.conf
+  e echo "; just to make smbmount happy" >etc/samba/smb.conf
 
   if arch eq 'ia32' || arch eq 'x86_64'
 
@@ -532,16 +532,16 @@ if with_gdb
   linuxrc:
     m /usr/sbin/linuxrc /bin/linuxrc
 
-    E echo run >zap
-    E echo -e "#! /bin/sh\ngdb --command /zap /bin/linuxrc" >linuxrc
+    e echo run >zap
+    e echo -e "#! /bin/sh\ngdb --command /zap /bin/linuxrc" >linuxrc
 
 endif
 
 if lang
-  E echo "Language:	<lang>" >>linuxrc.config
+  e echo "Language:	<lang>" >>linuxrc.config
 endif
 
 if demo
-  E echo "Demo:		1" >>linuxrc.config
+  e echo "Demo:		1" >>linuxrc.config
 endif
 

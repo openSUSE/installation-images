@@ -491,50 +491,50 @@ sub AddFiles
       push @mod_list, @ml
     }
     elsif(/^([eE])\s+(.+)$/) {
-      my ($cmd, $xdir, $basedir, $r, $e);
+      my ($cmd, $xdir, $basedir, $r, $e, $pm, $is_script);
 
       $e = $1;
       $cmd = $2;
       $xdir = $dir;
       $xdir =~ s#/*$##;
       $basedir = $1 if $xdir =~ s#(.*)/##;
+      $pm = "\"$cmd\" script";
+      $is_script = exists $script{$cmd};
 
       die "internal oops" unless $basedir ne "" && $xdir ne "";
 
-      if($e eq 'e' && exists($script{$cmd})) {
+      if($is_script) {
         SUSystem "sh -c 'mkdir $dir/install && chmod 777 $dir/install'" and
           die "$Script: failed to create $dir/install";
-        die "$Script: unable to create script \"$cmd\"" unless open W, ">$dir/install/inst.sh";
+        die "$Script: unable to create $pm" unless open W, ">$dir/install/inst.sh";
         print W @{$script{$cmd}};
         close W;
 
-        print "running \"$cmd\" script\n" if $debug =~ /\bpkg\b/;
-#        SUSystem "sh -c 'cd $dir; sh install/inst.sh'"
-        if($xdir eq 'base') {
+        $e = 'E' if $xdir eq 'base';
+      }
+
+      print "running $pm\n" if $debug =~ /\bpkg\b/;
+      if($e eq 'e') {
+        SUSystem "mv $dir $basedir/base/xxxx" and die "oops";
+        if($is_script) {
+          $r = SUSystem "chroot $basedir/base /bin/sh -c 'cd xxxx ; sh install/inst.sh 1'";
+        }
+        else {
+          $r = SUSystem "chroot $basedir/base /bin/sh -c 'cd xxxx ; $cmd'";
+        }
+        SUSystem "mv $basedir/base/xxxx $dir" and die "oops";
+      }
+      else {
+        if($is_script) {
           $r = SUSystem "chroot $dir /bin/sh -c 'sh install/inst.sh 1'";
         }
         else {
-          SUSystem "mv $dir $basedir/base/xxxx" and die "oops";
-          $r = SUSystem "chroot $basedir/base /bin/sh -c 'cd xxxx ; sh install/inst.sh 1'";
-          SUSystem "mv $basedir/base/xxxx $dir" and die "oops";
+          $r = SUSystem "chroot $dir /bin/sh -c '$cmd'";
         }
+      }
+      warn "$Script: execution of $pm failed" if $r;
 
-        warn "$Script: execution of \"$cmd\" script failed" if $r;
-        SUSystem "rm -rf $dir/install";
-      }
-      else {
-        print "running \"$cmd\"\n" if $debug =~ /\bpkg\b/;
-        if($e eq 'e') {
-          # run in chroot env
-          SUSystem "chroot $dir /bin/sh -c '$cmd'" and warn "\"$cmd\" failed";
-        }
-        else {
-          SUSystem "mv $dir $basedir/base/xxxx" and die "oops";
-          $r = SUSystem "chroot $basedir/base /bin/sh -c 'cd xxxx ; $cmd'";
-          SUSystem "mv $basedir/base/xxxx $dir" and die "oops";
-          warn "$Script: execution of \"$cmd\" failed" if $r;
-        }
-      }
+      SUSystem "rm -rf $dir/install" if $is_script;
     }
     elsif(/^R\s+(.+?)\s+(\S+)$/) {
       my ($file, $re, @f, $i);

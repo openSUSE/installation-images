@@ -166,11 +166,11 @@ gdbm:
   /usr/lib*/libgdbm.so.*
 
 # run depmod
-e /sbin/depmod -a -F /System.map <kernel_ver>
-e cp /lib/modules/<kernel_ver>/modules.dep /
+E /sbin/depmod -a -F /System.map <kernel_ver>
+E cp /lib/modules/<kernel_ver>/modules.dep /
 r /lib/modules
 
 # create splash
-e splash -s -f /usr/share/splash/bootsplash-800x600.cfg >>/usr/share/splash/inst_splash
-e splash -s -f /usr/share/splash/bootsplash-1024x768.cfg >>/usr/share/splash/inst_splash
+E splash -s -f /usr/share/splash/bootsplash-800x600.cfg >>/usr/share/splash/inst_splash
+E splash -s -f /usr/share/splash/bootsplash-1024x768.cfg >>/usr/share/splash/inst_splash
 

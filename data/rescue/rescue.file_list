@@ -188,7 +188,7 @@ netcat:
 netcfg:
   /etc
 r /etc/{diphosts,ftpusers,hosts.*}
-E echo Rescue.local >etc/HOSTNAME
+e echo Rescue.local >etc/HOSTNAME
 
 if 0
 # conflicts with nfs-utils
@@ -396,15 +396,15 @@ else
 endif 
 
   # run depmod
-  e /sbin/depmod -a -F /System.map <kernel_ver>
+  E /sbin/depmod -a -F /System.map <kernel_ver>
   r /System.map /sbin/depmod
 endif
 
 # now run SuSEconfig
-e echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
-e echo "proc /proc proc defaults 0 0" >>/etc/fstab
-e echo "devpts /dev/pts devpts defaults 0 0" >>/etc/fstab
-e /sbin/SuSEconfig --force --norestarts
+E echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
+E echo "proc /proc proc defaults 0 0" >>/etc/fstab
+E echo "devpts /dev/pts devpts defaults 0 0" >>/etc/fstab
+E /sbin/SuSEconfig --force --norestarts
 
 r /var/adm/fillup-templates
 

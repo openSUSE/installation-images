@@ -228,19 +228,18 @@ o <action> <arg1> <arg2> ...
     A <src> <dst>
 
   - execute a program/rpm-script
-    <program> is run within a chroot env, but <script> is _not_
-    <script> must be one of the scripts given after the package name
+    <program/script> is run from within the 'base' environment. $PWD will
+    be at the root of the filesystem which is currently built
 
     e <program> <arg1> <arg2> ...
     e <script>
 
-  - execute a program
-    <program> is _not_ run within a chroot env (use 'e' if you want to chroot)
-
-    <program> is run from within the 'base' environment.  $PWD will
-    be at the root of the filesystem which is currently built.
+  - execute a program/rpm-script (with chroot)
+    <program/script> is run within a chroot env. <script> must be one of the
+    scripts given after the package name
 
     E <program> <arg1> <arg2> ...
+    E <script>
 
   - apply a perl regexp in a sed-like fashion to a file, <regexp> may contain
     white space but not <file>

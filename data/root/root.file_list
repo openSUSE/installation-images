@@ -369,7 +369,7 @@ if with_yast2 ne 'no'
 
   mesasoft:
     /
-    e /usr/X11R6/bin/switch2mesasoft || true
+    E /usr/X11R6/bin/switch2mesasoft || true
     r /usr/X11R6/bin/switch2mesasoft
 
   mesaglu:
@@ -491,7 +491,7 @@ if with_yast2 ne 'no'
 #  qt3-non-mt:
     /usr/lib*/libqt*.so.3
     /usr/lib*/qt-*/lib*/libqt*.so*
-    e echo -e "[General]\nenableXft=false\nuseXft=false" >/etc/X11/qtrc
+    E echo -e "[General]\nenableXft=false\nuseXft=false" >/etc/X11/qtrc
 endif
 
 # remove these:
@@ -667,7 +667,7 @@ hex:
 
 if with_yast2 ne 'no'
   # make fonts.dir
-  E mkfontdir usr/X11R6/lib/X11/fonts/misc
+  e mkfontdir usr/X11R6/lib/X11/fonts/misc
 endif
 
 c 644 0 0 /etc/shadow
@@ -682,7 +682,7 @@ c 755 0 0 /sbin/inst_setup
 #e /bin/ln -s /modules/*.o /lib/modules/<kernel_ver>/initrd
 
 # run depmod
-e /sbin/depmod -a -F /System.map <kernel_ver>
+E /sbin/depmod -a -F /System.map <kernel_ver>
 
 # final clean up
 r /etc/X11/xserver/C
