@@ -1,9 +1,14 @@
+18/9/2002:	v2.68
+	- added yast2 translations
+
 16/9/2002:	v2.67
 	- Added missing files for samba-client
 	- changed check for installation media for s390
+
 13/9/2002:	v2.66
 	- Removed writing entries in chandev.log in create_interfaces
 	- Removed bug in netsetup for iucv-Parameters
+
 13/9/2002:	v2.65
 	- changed parmline for installation boot
 	- changed create_interface to write entry in
