@@ -1,0 +1,4 @@
+* SuSE Linux for zSeries Installation/Rescue System
+boot/vmrdr.ikr 0x00000000
+boot/initrd 0x00800000
+boot/parmfile 0x00010480
