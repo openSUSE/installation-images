@@ -1,20 +1,22 @@
 #!/bin/bash
+echo "Setting up loopback..."
 /sbin/ifconfig lo 127.0.0.1 netmask 255.0.0.0 up
 hostname suse
+
 # Creating /var/log/boot.msg:
+echo "Saving boot messages in /var/log/boot.msg"
 /sbin/klogd -s -o -n -f /var/log/boot.msg
-# Not syslog kernel symbol parsing takes _many_ seconds, so give it some time!
+
+echo "Enabling system logging..."
+/sbin/syslogd -m 720
+
 /sbin/klogd -p -c 7
-[ ! -f /proc/version ] && mount -t proc virtual-proc-filesystem /proc
-echo Mounted /proc
-echo Creating /var/log/boot.msg
+
 if [ -f /proc/sys/kernel/userprocess_debug ]; then
 	echo 1 > /proc/sys/kernel/userprocess_debug
 fi
-echo "Enabling system logging..."
-/sbin/syslogd -m 720
+
 function do_SIGINT () {
-	echo reset_conf >/proc/chandev
 	exec /linuxrc
 }
 trap do_SIGINT SIGINT

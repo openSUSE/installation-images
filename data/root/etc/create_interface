@@ -7,7 +7,7 @@
 # Martin Vidner <mvidner@suse.cz>
 # Ihno Krumreich <ihno@suse.de>
 #
-# $Id: create_interface,v 1.14.2.3 2004/06/08 14:41:16 uli Exp $
+# $Id: create_interface,v 1.14.2.4 2004/06/22 15:46:23 snwint Exp $
 
 ROOT=$1
 INSTALLINF=/etc/install.inf
@@ -72,8 +72,8 @@ then
 #	Create interface file
 #
 	# interface config
-	# always use by-bus for qeth, hsi
-	if echo "$myhwcfg"|grep -E "(qeth|hsi)" 
+	# always use by-bus for qeth, hsi, ctc, and lcs
+	if echo "$myhwcfg"|grep -E "(qeth|hsi|ctc|lcs)" 
 	then
 	# use by-bus naming
 		myifcfg=ifcfg-$myhwcfg
