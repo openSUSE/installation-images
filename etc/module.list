@@ -40,7 +40,11 @@ kernel/drivers/message/i2o/
 kernel/fs/cramfs/
 kernel/fs/ext3/
 kernel/fs/fat/
+kernel/fs/hfs/
+kernel/fs/hfsplus/
 kernel/fs/hpfs/
+kernel/fs/isofs/
+kernel/fs/udf/
 kernel/fs/jbd/
 kernel/fs/jfs/
 kernel/fs/ntfs/
@@ -51,8 +55,7 @@ kernel/fs/vfat/
 kernel/fs/xfs
 kernel/fs/exportfs/
 kernel/fs/ncpfs/
-kernel/fs/nls/nls_cp437.ko
-kernel/fs/nls/nls_iso8859-1.ko
+kernel/fs/nls/
 kernel/drivers/firmware/edd.ko
 kernel/drivers/acpi/
 

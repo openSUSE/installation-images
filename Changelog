@@ -1,3 +1,7 @@
+	- handle fully modular nls and cd drivers
+	- add st and rtas_flash for pseries
+	- enable hfs and hfsplus
+
 18/3/2005:	v6.41
 	- README updated (#66710)
 
