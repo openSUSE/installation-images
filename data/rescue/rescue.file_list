@@ -192,6 +192,8 @@ endif
 if arch eq 'ppc'
   pdisk:
     /sbin/pdisk
+  iprutils:
+    /sbin
   ibmsis:
     /etc/microcode
     /sbin

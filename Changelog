@@ -6,6 +6,7 @@
 	- added getcfg & create_interface (#35624)
 	- updated README/LIESMICH
 	- add arch info to isolinux.cfg
+	- add iprutils for PPC.
 
 1/4/2004:	v5.35
 	- s390: added initrd size to suse.ins*
