@@ -359,6 +359,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/lib{Xmu,Xi,Xt,Xft,Xrender,Xpm}.so*
     /usr/X11R6/lib/X11/locale
+    /usr/X11R6/bin/xauth
 
  XFree86-compat-libs:
    /usr/X11R6/lib*/lib{Xxf86misc,Xxf86vm}.so*
