@@ -2,6 +2,7 @@
 	- fixed minor bug in bin/check_libs
 	- XftConfig is no in xf86tools
 	- added libusb
+	- disable xft
 
 18/12/2001:	v1.108
 	- yast2 needs qt3
