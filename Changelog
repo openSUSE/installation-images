@@ -1,3 +1,6 @@
+28/10/2002:	v2.87
+	- fixed labeling of product in suse.ins files
+
 28/10/2002:	v2.86
 	- check entered machine and path for ftp-installation (#20792)
 	- MTU-is only written to parameterfile if != 0 (#21119)
