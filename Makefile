@@ -5,7 +5,7 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root
 
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue\
         root demo modules html clean distdir install install_xx rdemo brescue
-	rescue_cd mboot base
+	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd
 
 all:
 
@@ -30,6 +30,18 @@ initrd_test: initrd
 
 boot: initrd mboot
 	bin/mk_boot
+
+bootcd2:
+	linuxrc=linuxrc_tiny nousb=1 fewkeymaps=1 initrd_name=small initrd=small bootlogo=no boot=small make boot
+
+bootdisk:
+	linuxrc=linuxrc with_smb=1 noinitrd=small initrd=small bootsplash=yes bootlogo=yes boot=small make boot
+
+bootcd:
+	with_smb=1 initrd=large boot=isolinux make boot
+
+rootcd:
+	use_cramfs=1 make root
 
 boot_axp: initrd
 	bin/mk_boot_axp

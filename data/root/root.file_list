@@ -52,11 +52,7 @@ gzip:
 
 joe:
   /usr/bin/joe
-if suse_release >= 7.3
   /etc/joerc
-else
-  /usr/lib/joerc
-endif
 
 hwinfo:
   /usr/lib
@@ -116,15 +112,13 @@ ncurses:
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
 
-if suse_release >= 7.3 && (arch eq 'alpha' || suse_xrelease eq 'beta')
+if arch eq 'alpha' || suse_xrelease eq 'beta'
   libgcc:
     /lib
 endif
 
-if suse_release >= 8.0
-  popt:
-    /usr/lib/libpopt.so*
-endif
+popt:
+  /usr/lib/libpopt.so*
 
 glibc:
   /sbin/ldconfig
@@ -395,26 +389,26 @@ if with_yast2 ne 'no'
   x /usr/X11R6/lib/X11/fonts/misc/fonts.alias /usr/X11R6/lib/X11/fonts/misc
   x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
 
-  if suse_release >= 8.0
-    xf86tools:
-      /usr/X11R6/lib/X11/XftConfig
+  xf86tools:
+    /usr/X11R6/lib/X11/XftConfig
 
-    libusb:
-      /usr/lib/libusb*.so.*
+  libusb:
+    /usr/lib/libusb*.so.*
 
-    xpenguins:
-      /usr/bin
-      /usr/share/xpenguins/themes/Penguins
+  xpenguins:
+    /usr/bin
+    /usr/share/xpenguins/themes/Penguins
 
-    xf86:
-      /usr/X11R6/lib/X11/fonts/misc/{cursor.pcf.gz,encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
+  xf86:
+    /usr/X11R6/lib/X11/fonts/misc/{cursor.pcf.gz,encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
 
-    vnc:
-      /usr/X11R6/bin/Xvnc
-      /usr/X11R6/bin/vncpasswd.arg
+  vnc:
+    /usr/X11R6/bin/Xvnc
+    /usr/X11R6/bin/vncpasswd.arg
 
+  libxml2:
+    /usr/lib/libxml2.so*
 
-  endif
 endif
 
 if with_yast2 ne 'no'
@@ -453,6 +447,8 @@ if with_yast2 ne 'no'
   yast2-config-mouse:
     /
   yast2-config-timezone:
+    /
+  yast2-config-x11:
     /
   yast2-core-clients:
     /
@@ -555,21 +551,14 @@ liblcms:
   /usr/lib/liblcms.so*
 
 if with_yast2 ne 'no'
-  if suse_release >= 8.0
-    qt3:
-      /etc/X11/qtrc
-      /usr/lib/qt-*/etc/settings/qtrc
-      /usr/lib/qt3
-    qt3-non-mt:
-      /usr/lib/libqt*.so.3
-      /usr/lib/qt-*/lib/libqt*.so*
-      e echo -e "[General]\nenableXft=false\nuseXft=false" >/etc/X11/qtrc
-  else
-    qt:
-      /usr/lib/libqt.so.2
-      /usr/lib/qt2
-      /usr/lib/qt-2.*/lib/libqt.so*
-  endif
+  qt3:
+    /etc/X11/qtrc
+    /usr/lib/qt-*/etc/settings/qtrc
+    /usr/lib/qt3
+  qt3-non-mt:
+    /usr/lib/libqt*.so.3
+    /usr/lib/qt-*/lib/libqt*.so*
+    e echo -e "[General]\nenableXft=false\nuseXft=false" >/etc/X11/qtrc
 endif
 
 # remove these:
@@ -602,36 +591,6 @@ lvm:
   /sbin/lv*  
   /sbin/pv* 
   /sbin/vg*
-
-if suse_release >= 8.0
-    x /usr/lib/YaST/.Reh /usr/lib/YaST2
-else
-    yast:
-  if with_yast1 ne 'no'
-    r /sbin/yast
-    m /sbin/YaST /sbin/yast
-    s /sbin/yast /sbin/YaST
-      /usr/lib/YaST
-  else
-      /usr/lib/YaST/fdisk
-  endif
-    s /usr/lib/YaST/fdisk /sbin/fdisk
-    d /var/adm/YaST
-    d /var/adm/backup/rpmdb
-    d /var/adm/inst-log
-    d /var/adm/mount
-    d /var/adm/packages
-    d /var/adm/removed_packages
-    d /var/adm/removed_scripts
-    d /var/adm/scripts
-      /var/adm/setup/setup.*
-      /var/lib/YaST
-    x /usr/lib/YaST/.Reh /usr/lib/YaST
-    x /usr/lib/YaST/convert_to_elf /usr/lib/YaST
-    d /mnt
-    d /proc
-    d /tmp
-endif
 
 reiserfs:
   /sbin
@@ -670,9 +629,7 @@ endif
 if arch eq 'ia32'
   xfiregl1:
     /usr/X11R6/lib/modules/drivers/firegl1_drv.o
-if suse_release >= 8.0
   xfiregl23:
-endif
     /usr/X11R6/lib/modules/drivers/firegl23_drv.o
 endif
 
@@ -746,7 +703,7 @@ endif
 endif
 
 parted:
-  /sbin
+  /usr/sbin
   /usr/lib
 
 jfsutils:
@@ -779,6 +736,7 @@ endif
 
 c 644 0 0 /etc/shadow
 
+x /usr/lib/YaST/.Reh /usr/lib/YaST2
 x etc/inst_setup /sbin/inst_setup
 c 755 0 0 /sbin/inst_setup
 

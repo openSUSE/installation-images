@@ -350,7 +350,7 @@ hwinfo:
 
 parted:
   /usr/lib
-  /sbin
+  /usr/sbin
 
 gawk:
   /bin

@@ -314,7 +314,12 @@ if arch eq 's390' || arch eq 's390x'
 else # arch is not s390 or s390x
 
   if linuxrc
-    X <linuxrc> /linuxrc
+    if linuxrc =~ m#^[^/]#
+      linuxrc:
+        m /usr/sbin/<linuxrc> /linuxrc
+    else
+      X <linuxrc> /linuxrc
+    endif
   else
     linuxrc:
       if initrd eq 'small'
