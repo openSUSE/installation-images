@@ -1,9 +1,11 @@
+2/4/2004:	v5.36
 	- s390: make memory sanity check more dynamic (bug #21606)
 	- s390: netsetup: accept spaces in QETH channel list (bug #37058)
 	- add ipr to iseries initrd
 	- add more dm-* modules to ppc initrds
 	- added getcfg & create_interface (#35624)
 	- updated README/LIESMICH
+	- add arch info to isolinux.cfg
 
 1/4/2004:	v5.35
 	- s390: added initrd size to suse.ins*

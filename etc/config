@@ -40,7 +40,7 @@ floppy	=
 [Theme SuSE]
 yast	= SuSELinux
 splash	= SuSE
-product	= SUSE LINUX
+product	= SUSE Linux
 version = 9.1
 update	= /linux/suse/<arch>-<rel>
 
@@ -48,7 +48,7 @@ update	= /linux/suse/<arch>-<rel>
 [Theme Home]
 yast	= SuSELinux
 splash	= SuSE-Home
-product	= SUSE LINUX
+product	= SUSE Linux
 version = 9.1
 update	= /linux/suse/<arch>-<rel>
 
@@ -57,7 +57,7 @@ update	= /linux/suse/<arch>-<rel>
 yast	= SuSELinux
 # splash	= SuSE-SLES
 splash	= SuSE
-product	= SuSE Linux
+product	= SUSE Linux
 update	= /linux/suse/<arch>-<sles>
 image	= 128
 

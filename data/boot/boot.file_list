@@ -64,3 +64,12 @@ if arch eq 'alpha'
   a /boot/<kernel_img> /vmlinux.gz
 endif
 
+
+if boot eq 'isolinux'
+  if arch eq 'x86_64'
+    e echo -e "notice\t\t6" >>syslinux.cfg
+  else
+    e echo -e "notice\t\t2" >>syslinux.cfg
+  endif
+endif
+
