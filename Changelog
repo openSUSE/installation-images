@@ -1,3 +1,5 @@
+	- s390: added dasdro script to initrd
+
 26/4/2004:	v5.43
 	- handle fractional kernel release numbers
 	- s390: better gateway default (bug #38895)
