@@ -179,7 +179,7 @@ r /etc/{diphosts,ftpusers,hosts.*}
 nfs-server: postin
   /etc/init.d
   /usr/sbin/{rpc.*,showmount}
-  /var/state/nfs
+  /var/lib/nfs
 e postin
 
 icmpinfo:

@@ -1,3 +1,8 @@
+18/9/2001:	v1.96
+	- nfs-server: /var/state/nfs -> /var/lib/nfs
+	- splash is taken from splashanim package
+	- handle PReP zImage in yast1 post install
+
 18/9/2001:	v1.95
 	- prepare to build initrd with ext2 on ia32
 	- replace qla2x00.o with qla2[23]00.o
