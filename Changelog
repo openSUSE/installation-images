@@ -1,3 +1,7 @@
+13/1/2003:	v3.03
+	- knows about libgdbm_compat
+	- added sysconfig.keyboard
+
 9/1/2003:	v3.02
 	- acl & attr package split
 	- depmod.old etc.
