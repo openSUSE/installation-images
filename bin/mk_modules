@@ -84,10 +84,12 @@ else {
 # strip everything
 SUSystem "strip_dir $tmpdir";
 
+$fstype = !$ENV{'nominix'} ? 'minix' : 'ext2';
+
 # create the image & compress it
 if($disk == 2) {
-  Conv2Image "$image/net2mod", "$tmpdir/net2mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
-  Conv2Image "$image/other2mo", "$tmpdir/other2mo", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+  Conv2Image "$image/net2mod", "$tmpdir/net2mod", $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
+  Conv2Image "$image/other2mo", "$tmpdir/other2mo", $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
 
   system "gzip -f -9 $image/net2mod" and die "$Script: gzip failed";
   system "gzip -f -9 $image/other2mo" and die "$Script: gzip failed";
@@ -99,9 +101,9 @@ if($disk == 2) {
   print "$Script: compressed initrd to \"$image/other2mo.gz\" ($i bytes)\n";
 }
 else {
-  Conv2Image "$image/net-mod", "$tmpdir/net-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
-  Conv2Image "$image/other-mod", "$tmpdir/other-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
-  Conv2Image "$image/scsi-mod", "$tmpdir/scsi-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+  Conv2Image "$image/net-mod", "$tmpdir/net-mod", $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
+  Conv2Image "$image/other-mod", "$tmpdir/other-mod", $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
+  Conv2Image "$image/scsi-mod", "$tmpdir/scsi-mod", $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
 
   system "gzip -f -9 $image/net-mod" and die "$Script: gzip failed";
   system "gzip -f -9 $image/other-mod" and die "$Script: gzip failed";

@@ -1,3 +1,7 @@
+24/9/2001:	v1.99
+	- remove 'rw' kernel parameter, this caused a fs check
+	  in some cases
+
 20/9/2001:	v1.98
 	- added /sbin/blockdev to inst-sys
 	- i386 bootdisk no longer defaults to 'manual'
