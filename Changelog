@@ -4,6 +4,8 @@
 	- fixed typo in LIESMICH
 	- applied create_interface patch from #39401#c5
 	- added megaide (#39570)
+	- xfsdump has moved
+	- fixed some dangling symlinks
 
 16/5/2004:	v5.55
 	- add pcnet32 and acenic for chrp, fix typo in yaboot.conf
