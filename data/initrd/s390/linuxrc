@@ -46,13 +46,13 @@ mount -t devpts devpts /dev/pts
 
 . /bin/netsetup
 
-cat /etc/netsetup.inf
-echo Next step 
-read muell
+# cat /etc/netsetup.inf
+# echo Next step 
+# read muell
 #
 #	Ask for Installation source & start yast
 #
-. /inst_source
+# . /inst_source
 #
 #
 #
