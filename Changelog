@@ -1,5 +1,6 @@
-6/7/2004:	v6.0
 	- s390: eliminate invalid check for qeth data channel (bug #42538)
+
+6/7/2004:	v6.0
 	- fvwmrc.notitle now fvwmrc.yast2, taken from sax2.rpm (#36488)
 	- XFree86 --> xorg-x11 package renaming
 	- joined changes up to 5.75 from 9.1 branch:
