@@ -16,6 +16,9 @@ if arch eq 'ia32'
 
     f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
     f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
+    if initrd eq 'large'
+      f /lib/modules/<kernel_ver>/pcmcia *.o /modules
+    endif
 
     f / DAC960.o /modules
     f / cciss.o /modules
@@ -100,25 +103,29 @@ if arch eq 'ia32'
   r /modules/{baycom_ser_hdx,dlci,dmascc,hdlcdrv,ipddp,lapbether,mkiss,scc,sdla,sdladrv}.o
   r /modules/{x25_asy,yam,strip,wavelan,bonding,rcpci,pc300,eata_dma}.o
 
-  r /modules/{ppa,imm}.o
+  if initrd ne 'large'
+    r /modules/{ppa,imm}.o
 
-  # really huge (gigabit) networks mods: make room for other stuff
-  r /modules/{skfp,sk98lin,dgrs,acenic}.o
+    # really huge (gigabit) networks mods: make room for other stuff
+    r /modules/{skfp,sk98lin,dgrs,acenic}.o
 
-  r /modules/{tlan,arlan,arlan-proc,ltpc,de620,de600,depca}.o
+    r /modules/{tlan,arlan,arlan-proc,ltpc,de620,de600,depca}.o
 
-  # who needs these ACRNet things anyway?
-  r /modules/{arcnet,com20020,com90io,com90xx}.o
+    # who needs these ACRNet things anyway?
+    r /modules/{arcnet,com20020,com90io,com90xx}.o
 
-  r /modules/{ppp_mppe,ethertap,arc-rimi,yellowfin,shaper,3c503,3c501,3c509,3c507,3c505}.o
-  r /modules/{hp-plus,ni65,ni5010}.o
+    r /modules/{ppp_mppe,ethertap,arc-rimi,yellowfin,shaper,3c503,3c501,3c509,3c507,3c505}.o
+    r /modules/{hp-plus,ni65,ni5010}.o
+  endif
 
   if suse_release >= 7.2
 
-    r /modules/{aironet4500_proc,aironet4500_core,aironet4500_card,osst}.o
+    if initrd ne 'large'
+      r /modules/{aironet4500_proc,aironet4500_core,aironet4500_card,osst}.o
 
-    # make it really small!
-    r /modules/{BusLogic,advansys,qlogicfc,qla2x00}.o
+      # make it really small!
+      r /modules/{BusLogic,advansys,qlogicfc,qla2x00}.o
+    endif
 
   else
 

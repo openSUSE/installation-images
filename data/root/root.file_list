@@ -721,13 +721,22 @@ if arch eq 'ia32'
     /sbin/unpackreiserfs
 endif
 
+if suse_release >= 7.2
+  gawk:
+    /bin
+endif
+
 if arch eq 'ppc'
   pdisk:
     /sbin/pdisk
   lilo:
     /bin/show_of_path.sh
-  gawk:
-    /bin/{g,}awk
+
+  if suse_release < 7.2
+    gawk:
+      /bin/{g,}awk
+  endif
+
   fbset:
     /etc/fb.modes
     /usr/sbin/fbset
