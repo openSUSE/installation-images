@@ -351,14 +351,8 @@ then
 #
 	write_info_file
 #
-	if [ "$INST_SCREEN" != "SSH" ] 
-	then
-		/bin/linuxrc
-	fi
+	[ "$INST_SCREEN" != "SSH" ]  && /bin/linuxrc
 #
-	if [ ! -z "$CONDOM" ]
-	then
-		set
-	fi
+	[ ! -z "$CONDOM" ] && set
 fi
 :
