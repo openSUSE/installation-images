@@ -82,6 +82,8 @@ if with_yast2 ne 'no'
 
   fontconfig:
     /etc/fonts/*.conf
+    r /etc/fonts/local.conf
+    m /etc/fonts/local.conf.instsys /etc/fonts/local.conf
     /usr/lib*/libfontconfig.so.*
     /usr/bin/fc-{cache,list,match}
 

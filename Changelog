@@ -1,6 +1,12 @@
-	- fixed syntax error in data/rescue/etc/init.d/boot.local
-	  (bug #71759)
-	- merge kernel-pseries64+kernel-pmac64 into kernel-ppc64
+14/3/2005:	v6.38
+	- added crypto modules (#71766)
+	- umount install source in inst_setup
+	- adjusted yast mem limits (#71989)
+	- added acpi modules
+	- added japanese font
+	- added ntfs module to rescue system (#72280)
+	- fixed syntax error in data/rescue/etc/init.d/boot.local (#71759)
+	- merge kernel-pseries64+kernel-pmac64 into kernel-ppc64 (#72344)
 
 8/3/2005:	v6.37
 	- lilo exists on amd64, too

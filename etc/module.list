@@ -5,7 +5,6 @@
 #
 kernel/drivers/base/
 kernel/drivers/block/
--kernel/drivers/block/cryptoloop
 -kernel/drivers/block/paride
 kernel/drivers/cdrom/cdrom.ko
 kernel/drivers/i2o/
@@ -55,6 +54,7 @@ kernel/fs/ncpfs/
 kernel/fs/nls/nls_cp437.ko
 kernel/fs/nls/nls_iso8859-1.ko
 kernel/drivers/firmware/edd.ko
+kernel/drivers/acpi/
 
 # kernel pcmcia
 # see data/initrd/initrd_base.list
@@ -76,4 +76,7 @@ kernel/drivers/s390/
 kernel/net/ipv6/ipv6.ko
 kernel/lib/zlib_inflate/
 kernel/lib/crc-ccitt.ko
+
+kernel/crypto/twofish.ko
+
 

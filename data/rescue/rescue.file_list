@@ -558,6 +558,7 @@ if arch ne 'sparc'
     f / hpfs.ko
     f / xfs.ko
     f / exportfs.ko
+    f / ntfs.ko
     endif
 
     if arch eq 's390' || arch eq 's390x'

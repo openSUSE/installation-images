@@ -113,7 +113,7 @@ if test -x /sbin/syslogd
 then
     checkproc /sbin/syslogd || {
 	echo "starting syslog (messages are logged to /dev/tty4)..."
-	sh -c '/sbin/syslogd >&1'
+	sh -c '/sbin/syslogd >&1' 2>/dev/null
     }
 fi
 
@@ -242,5 +242,8 @@ done
 
 rm -f /etc/modules.conf
 rm -f /.start_shell
+
+# clean up after yast
+awk '{ if($2 ~ /^\/var/) system("umount " $2) }' /proc/mounts
 
 exit $ec

@@ -4,3 +4,6 @@ ttf-founder-simplified:
 baekmuk-ttf:
   /usr/X11R6/lib/X11/fonts/truetype/gulim.ttf
 
+IPAGothic:
+  /usr/X11R6/lib/X11/fonts/truetype/ipag.ttf
+
