@@ -24,7 +24,12 @@ ash:
 
 fileutil:
   /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
-  /usr/bin/{du,touch}
+  /usr/bin/du
+ifenv suse_major_release 6
+  /usr/bin/touch
+else
+  /bin/touch
+endif
 
 gzip:
   bin/g{un,}zip
@@ -221,7 +226,11 @@ s ../var/tmp /usr/tmp
 
 base:
   /usr/bin/{,e,f}grep
+ifenv suse_major_release 6
   /usr/bin/sed
+else
+  /bin/sed
+endif
 
 diff:
   /usr/bin/{cmp,diff}
@@ -247,7 +256,12 @@ timezone:
   /usr/share/zoneinfo/{iso3166,zone}.tab
 
 sh_utils:
-  /usr/bin/{basename,dirname,chroot,test,tty}
+  /usr/bin/{dirname,chroot,test,tty}
+ifenv suse_major_release 6
+  /usr/bin/basename
+else
+  /bin/basename
+endif
 
 strace:
   /usr/bin/strace
@@ -259,10 +273,20 @@ ltrace:
 endif
 
 cpio:
-  /usr/bin/{cpio,mt}
+  /usr/bin/mt
+ifenv suse_major_release 6
+  /usr/bin/cpio
+else
+  /bin/cpio
+endif
 
 textutil:
-  /usr/bin/{cut,head,md5sum,sort,tail,uniq,wc}
+  /usr/bin/{cut,head,md5sum,tail,uniq,wc}
+ifenv suse_major_release 6
+  /usr/bin/sort
+else
+  /bin/sort
+endif
 
 c 0755 0 0 /usr/bin
 c 0755 0 0 /usr/lib
@@ -274,7 +298,8 @@ x /etc/ld.so.conf /etc
 d /usr/X11R6/{bin,include/X11,share}
 
 s X11R6 /usr/X11
-s /var/X11R6/bin/X /usr/X11R6/bin/X
+# Don't do this!
+# s /var/X11R6/bin/X /usr/X11R6/bin/X
 
 ifarch sparc sparc64
 xsun:
@@ -344,8 +369,12 @@ d /usr/X11R6/lib/X11/fonts/{misc,uni}
   /usr/X11R6/lib/X11/fonts/misc/{6x13,cursor}.pcf.gz
 
 x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
+ifenv suse_major_release 6
+x /usr/X11R6/lib/X11/XF86Config /usr/X11R6/lib/X11/XF86Config
+else
 x /usr/X11R6/lib/X11/XF86Config /usr/X11R6/lib/X11/XF86Config_3
 x /etc/XF86Config /usr/X11R6/lib/X11/XF86Config_4
+endif
 
 ifenv suse_major_release 6
 
@@ -397,15 +426,15 @@ ifenv suse_major_release 6
   /lib/YaST2
 c 0755 0 0 /lib
 c 0755 0 0 /lib/YaST2
+  /var/lib/YaST2
+c 0755 0 0 /var/lib
+c 0755 0 0 /var/lib/YaST2
 else
   /usr/lib/YaST2
 c 0755 0 0 /usr
 c 0755 0 0 /usr/lib
 c 0755 0 0 /usr/lib/YaST2
 endif
-  /var/lib/YaST2
-c 0755 0 0 /var/lib
-c 0755 0 0 /var/lib/YaST2
 
 # no yast2 for alpha yet
 endif
