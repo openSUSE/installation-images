@@ -642,6 +642,8 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
 
   $ConfigData{kernel_ver} = $kv;
 
+  $ConfigData{module_type} = $kv =~ /^2\.[0-4]\./ ? "o" : "ko";
+
   # print STDERR "kernel_img = $ConfigData{kernel_img}\n";
   # print STDERR "kernel_rpm = $ConfigData{kernel_rpm}\n";
   # print STDERR "kernel_ver = $ConfigData{kernel_ver}\n";

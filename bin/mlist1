@@ -17,6 +17,7 @@ $md = "${BasePath}tmp/base/modules.dep";
 $ex = "${CfgPath}module.list";
 $deps = "${BasePath}tmp/module_deps";
 $list = "${BasePath}tmp/module_list";
+$mod_type = $ConfigData{module_type};
 
 $arch = `uname -m`; chomp $arch; $arch = "ia32" if $arch =~ /^i\d86$/;
 
@@ -74,7 +75,7 @@ for (@ml) {
   s#^(\S+)/##;
   $p = $1;
   s#/\S+/##g;
-  s/\.o\b//g;
+  s/\.$mod_type\b//g;
   s/\s+/ /g;
   s/\s+$//;
 
@@ -90,7 +91,7 @@ for (@ml) {
   if(/^(\S+)\s+(\S+):\s*(.*?)$/) {
     $p = $1;
     if(exists $ml{$2}) {
-      print STDERR "  duplicate module: $p/$2.o, $path{$2}/$2.o\n"
+      print STDERR "  duplicate module: $p/$2, $path{$2}/$2\n"
     }
     $ml{$2} = $3;
   }

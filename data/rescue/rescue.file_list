@@ -440,30 +440,30 @@ smartmontools:
 
 if arch ne 'sparc'
   <kernel_rpm>:
-    f / st.o
+    f / st.ko
     if arch ne 'ppc'
-    f / sg.o
-    f / scsi_mod.o
-    f / reiserfs.o
+    f / sg.ko
+#    f / scsi_mod.o
+    f / reiserfs.ko
     if arch ne 'ia64'
-      f / jfs.o
+      f / jfs.ko
     endif
-    f / jbd.o
-    f / ext3.o
-    f / hpfs.o
-    f / loop_fish2.o
-    f / xfs.o
-#    f / xfs_support.o
-#    f / xfs_dmapi.o
+    f / jbd.ko
+    f / ext3.ko
+    f / hpfs.ko
+#    f / loop_fish2.o
+    f / xfs.ko
+#    f / xfs_support.ko
+#    f / xfs_dmapi.ko
     endif
 
 
-    f / linear.o
-    f / lvm-mod.o
-    f / raid0.o
-    f / raid1.o
-    f / raid5.o
-    f / xor.o
+    f / linear.ko
+#    f / lvm-mod.o
+    f / raid0.ko
+    f / raid1.ko
+    f / raid5.ko
+    f / xor.ko
 if arch eq 'alpha'
     m /boot/System.map-* /System.map
 else

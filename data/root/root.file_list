@@ -155,7 +155,7 @@ glibc:
   /sbin/ldconfig
   /lib*/ld*
   /lib*/lib{c,m}.so.6*
-  /lib*/{libcrypt.so.1*,libdb.so.2*,libdl.so.2*,libnsl.so.1*}
+  /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
   /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
   /lib*/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt.so.1,libutil.so.1*}
   /usr/sbin/rpcinfo
@@ -368,14 +368,12 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xrender,Xpm,Xrandr,Xcursor}.so*
     /usr/X11R6/lib*/libXft.so.2*
+    /usr/X11R6/lib*/libxkbfile.so.*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
 
   expat:
     /usr/lib*/libexpat.so*
-
-  XFree86-compat-libs:
-   /usr/X11R6/lib*/lib{Xxf86misc,Xxf86vm}.so*
 
   fontconfig:
     /etc/fonts/fonts.conf
@@ -691,13 +689,6 @@ endif
 initviocons:
   /bin/initviocons
   /usr/bin/termprobes
-
-if arch eq 'ia32'
-  xfiregl1:
-    /usr/X11R6/lib/modules/drivers/firegl1_drv.o
-  xfiregl23:
-    /usr/X11R6/lib/modules/drivers/firegl23_drv.o
-endif
 
 if arch eq 'ia32'
   # needed for blinux start script

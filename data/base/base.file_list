@@ -136,6 +136,7 @@ XFree86:
 
 XFree86-libs:
   /usr/X11R6/lib*/libXfont.so.*
+  /usr/X11R6/lib*/libfontenc.so.*
 
 fontconfig:
   /etc/fonts/fonts.conf

@@ -25,6 +25,7 @@ $mdisk_c = "${BasePath}tmp/module_disks_create";
 $mdisk_l = "${BasePath}tmp/module_disks_list";
 $mdisk_i = "${BasePath}tmp/module_disks_images";
 $dst = "${DataPath}initrd/gen/module.";
+$mod_type = $ConfigData{module_type};
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
@@ -50,7 +51,7 @@ die "$Script: $fnames: $!\n" unless open F, $fnames;
 while(<F>) {
   chomp;
   if(/^(\S+):\s*(\S+)/) {
-    $fname{$2} = "$1/$2.o";
+    $fname{$2} = "$1/$2.$mod_type";
   }
 }
 close F;
@@ -225,11 +226,13 @@ for (@sect) {
   open W, ">${dst}files.$s";
   for $f (sort { $fname{$a} cmp $fname{$b} } keys %{$sect{$_}{'a'}}) {
     next if $sect{$_}{'r'}{$f};
-    if($_ eq 'cd1') {
-      print W "  /lib/modules/<kernel_ver>/$fname{$f}\n";
-    }
-    else {
-      print W "a /lib/modules/<kernel_ver>/$fname{$f} /modules\n";
+    if($fname{$f}) {
+      if($_ eq 'cd1') {
+        print W "  /lib/modules/<kernel_ver>/$fname{$f}\n";
+      }
+      else {
+        print W "a /lib/modules/<kernel_ver>/$fname{$f} /modules\n";
+      }
     }
   }
   close W;

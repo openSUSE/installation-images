@@ -4,11 +4,14 @@
 # The lines below are actually perl regexps, so be careful.
 #
 kernel/drivers/block/
+-kernel/drivers/block/cryptoloop
 kernel/drivers/cdrom/
 kernel/drivers/i2o/
 kernel/drivers/ide/
 kernel/drivers/ieee1394/
 kernel/drivers/input/
+-kernel/drivers/input/joystick
+-kernel/drivers/input/gameport
 kernel/drivers/iseries/
 kernel/drivers/md/
 kernel/drivers/net/
@@ -25,17 +28,12 @@ kernel/drivers/pnp/
 kernel/drivers/scsi/
 kernel/drivers/usb/storage/
 kernel/drivers/usb/host/
-kernel/drivers/usb/hid.o
-kernel/drivers/usb/uhci.o
-kernel/drivers/usb/usb-ohci.o
-kernel/drivers/usb/usb-uhci.o
-kernel/drivers/usb/hcd/ehci-hcd.o
-kernel/drivers/usb/usbcore.o
-kernel/drivers/usb/pegasus.o
-kernel/drivers/char/nvram.o
+kernel/drivers/usb/core/
+kernel/drivers/usb/net/
+kernel/drivers/char/nvram.ko
 kernel/drivers/char/agp/
-kernel/drivers/message/fusion
-kernel/drivers/message/i2o
+kernel/drivers/message/fusion/
+kernel/drivers/message/i2o/
 kernel/fs/cramfs/
 kernel/fs/ext3/
 kernel/fs/fat/
@@ -48,21 +46,13 @@ kernel/fs/smbfs/
 kernel/fs/vfat/
 kernel/fs/xfs
 
-# external pcmcia
-# see data/initrd/initrd_base.list
-#pcmcia-external/
-#-/pcmcia/
-#-pcmcia-external/net/8390.o
-
 # kernel pcmcia
 # see data/initrd/initrd_base.list
--pcmcia-external/
 /pcmcia/
+-kernel/drivers/char/pcmcia/synclink_cs.ko
 
--kernel/drivers/parport/parport_cs.o
 kernel/net/packet/
 # for pcilynx
-kernel/drivers/i2c/i2c-core.o
-kernel/drivers/i2c/i2c-algo-bit.o
-kernel/lib/zlib_deflate/zlib_deflate.o
-kernel/lib/qsort.o
+kernel/lib/zlib_deflate/
+kernel/drivers/i2c/i2c-core.ko
+kernel/drivers/i2c/algos/i2c-algo-bit.ko
