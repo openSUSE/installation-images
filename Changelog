@@ -1,3 +1,6 @@
+25/7/2002:	v2.26
+	- make it actually work on s390
+
 24/7/2002:	v2.25
 	- openssh needs kerberos libs now
 	- fixed initrd modules layout for non-ix86/x86_64 archs

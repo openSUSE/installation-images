@@ -292,8 +292,7 @@ if arch eq 's390' || arch eq 's390x'
   openssl:
     /usr/lib/libcrypto.so.*
     /usr/lib/libssl.so.*
-  openssh: prein,postin
-  e prein
+  openssh: prein
     /etc/ssh
     /etc/ssh/moduli
     /usr/bin/scp
@@ -310,7 +309,18 @@ if arch eq 's390' || arch eq 's390x'
     /var/adm/fillup-templates/sysconfig.ssh
     /var/empty
     /var/lib/sshd
-  e postin
+  E prein
+
+  heimdal-lib:
+    /etc
+    /usr/lib*/libasn1.so.*
+    /usr/lib*/libcom_err.so.*
+    /usr/lib*/libkrb5.so.*
+    /usr/lib*/libroken.so.*
+
+  db:
+    /usr/lib*/libdb-4*.so  
+
   syslogd:
     /etc/init.d/syslog
     /sbin/klogd

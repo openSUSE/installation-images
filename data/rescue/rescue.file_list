@@ -333,7 +333,10 @@ e postin
 sysvinit: postin
 n /dev/initctl
 c 600 0 0 /dev/initctl
-  /{etc,sbin}
+  /sbin
+if arch ne 's390' && arch ne 's390x'
+  /etc
+endif
 # r /sbin/{powerd,runlevel,setserialbits,start-stop-daemon,sulogin}
   /usr/bin
   /bin/usleep
@@ -349,7 +352,10 @@ traceroute:
 util-linux: postin
   /etc
   /bin/{dmesg,kill,mount,umount,guessfstype}
-  /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,hwclock,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
+if arch ne 's390' && arch ne 's390x'
+  /sbin/hwclock
+endif
+  /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
   /sbin/agetty
   /usr/{bin,sbin}
 e postin
