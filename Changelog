@@ -7,6 +7,7 @@
 	- add sgiioc4 module (#38628)
 	- support SGI XPNET (#35867)
 	- no rpc.statd
+	- no error if module config mentions nonexistent modules
 
 8/4/2004:	v5.40
 	- support SuSE-SLES theme

@@ -133,8 +133,13 @@ for (@sect) {
         push @new_pre, $p1 unless $l{$p1};
         $l{$p1} = 1;
       }
-      push @new_pre, $p unless $l{$p};
-      $l{$p} = 1;
+      if(defined $fname{$p}) {
+        push @new_pre, $p unless $l{$p};
+        $l{$p} = 1;
+      }
+      else {
+        print STDERR "warning: \"$p\" not needed\n";
+      }
     }
 
     for $p (@{$dep{$mod}}) {
@@ -149,8 +154,13 @@ for (@sect) {
         push @new_post, $p1 unless $l{$p1};
         $l{$p1} = 1;
       }
-      push @new_post, $p unless $l{$p};
-      $l{$p} = 1;
+      if(defined $fname{$p}) {
+        push @new_post, $p unless $l{$p};
+        $l{$p} = 1;
+      }
+      else {
+        print STDERR "warning: \"$p\" not needed\n";
+      }
     }
 
     for $k (keys %l) {
