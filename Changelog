@@ -1,4 +1,6 @@
+16/8/2004:
 	- add usbhid (#43764)
+	- old initrd fonts are back
 
 10/8/2004:	v6.3
 	- dropped module disks; modules are integrated into boot disks
