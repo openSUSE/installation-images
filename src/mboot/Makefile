@@ -10,4 +10,4 @@ boottest: boottest.asm
 	nasm -f bin -o $@ -l $(@).lst $<
 
 clean:
-	@rm -f mboot boottest *~ *.lst
+	@rm -f boot mboot boottest *~ *.lst
