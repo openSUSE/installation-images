@@ -212,6 +212,7 @@ glibc:
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
   /lib*/libpthread.so.0
+  /lib*/libthread_db*
 
 glibc-locale:
   /usr/lib*/gconv/ISO8859*
@@ -267,7 +268,7 @@ if arch eq 's390' || arch eq 's390x'
   s390-tools: postin
     /sbin/zipl
     /lib*
-    /etc/zipl.conf.sample
+    /etc
     /sbin/dasdfmt
     /sbin/fdasd
     /sbin/zgetdump
@@ -309,9 +310,6 @@ util-linux:
 
 gdb:
   /usr/bin/gdb
-
-glibc:
-  /lib*/libthread_db*
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
@@ -425,8 +423,10 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/modules/lib*.a
   endif
 
-  XFree86-server-glx:
-    /usr/X11R6/lib*/modules/extensions/lib{glx,GLcore}.a
+  if arch ne 's390' && arch ne 's390x'
+    XFree86-server-glx:
+      /usr/X11R6/lib*/modules/extensions/lib{glx,GLcore}.a
+  endif
 
   XFree86-libs:
     /usr/X11R6/lib*/lib{X11,Xext}.so*
@@ -496,8 +496,7 @@ if with_yast2 ne 'no'
 #    these libs are needed for 32-Bit vnc
 
     glibc-32bit:
-      /lib/ld.so.1
-      /lib/ld-2.2.5.so
+      /lib/ld*.so
       /lib/libc.so.6
       /lib/libdl.so.2
       /lib/libm.so.6
@@ -650,7 +649,7 @@ endif
     /usr/bin
 
   if with_suse_font ne 'no'
-    desktop-data-SuSE:
+    desktop-data-SLES:
       /usr/X11R6/lib/X11/fonts/truetype/SUSESans*.ttf
   else
     ghostscript-fonts-std:
@@ -810,6 +809,7 @@ endif
 sysvinit:
   /sbin/checkproc
   /sbin/showconsole
+  c 755 0 0 /sbin/showconsole
   /sbin/setconsole
 
 syslogd:

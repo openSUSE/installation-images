@@ -1,4 +1,41 @@
+28/4/2004:	v5.45
+	- desktop-data-SuSE -> *-SLES
+
+27/4/2004:	v5.44
+	- s390: round up detected memory size (bug #39504)
+	- s390: netsetup: cosmetic fixes
+	- s390: added dasdro script to initrd
+
+26/4/2004:	v5.43
+	- handle fractional kernel release numbers
+	- s390: better gateway default (bug #38895)
+	- added e100-intel
+	- minor s390* fixes
+
+19/4/2004:	v5.42
+	- rescue system: mount /sys (#38933), mount usbfs,
+	  start device-mapper (#38990)
+	- add ibmvscsis vscsi server for pseries
+	- add /etc/shadow to the file list for S/390
+	- added card bus modules to network module list (#36572)
+
+16/4/2004:	v5.41
+	- Fixed netsetup to not sleep for qeth deviced (#38816).
+	  Using correct path for statistics in netsetup.
+	- add CD2/suseboot to trigger the HFS part,
+	  avoid 8.3 filenames and allow OF booting
+	- /lib/modules/<kernel>/extras -> extra/ibmsis
+	- add sgiioc4 module (#38628)
+	- support SGI XPNET (#35867)
+	- no rpc.statd
+	- no error if module config mentions nonexistent modules
+
+8/4/2004:	v5.40
+	- support SuSE-SLES theme
+
+5/4/2004:	v5.39
 	- increased boot timeout to 20s (#38252)
+	- lowered YaST memory limit, YaST checks itself (#38298)
 
 3/4/2004:	v5.38
 	- adjusted YaST memory limits (#34537)

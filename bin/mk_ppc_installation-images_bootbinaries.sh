@@ -17,6 +17,8 @@ mkdir -pv $CD1/ppc/chrp
 mkdir -pv $CD1/etc
 mkdir -pv $CD1/boot
 mkdir -pv $CD1/suseboot
+# to trigger the HFS part, avoid 8.3 filenames and allow OF booting
+mkdir -pv $CD2/suseboot
 mkdir -pv $CD2/boot
 #
 cp -pfv $bdir/initrd-* $CD2/boot/
