@@ -80,6 +80,10 @@ f / parport.o /
 f / parport_pc.o /
 
 f / isa-pnp.o /
+
+f / hptraid.o /
+f / pdcraid.o /
+f / ataraid.o /
 endif	# scsi
 
 

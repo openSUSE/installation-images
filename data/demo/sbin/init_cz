@@ -275,6 +275,7 @@ link_dir etc/ssh
 link_dir etc/susehelp.d
 
 link_dir opt opt/kde2 opt/kde2/share
+link_dir etc/opt etc/opt/kde2 etc/opt/kde2/share etc/opt/kde2/share/config
 
 link_dir usr usr/lib usr/X11R6 usr/X11R6/bin
 link_dir usr/X11R6/lib usr/X11R6/lib/modules usr/X11R6/lib/modules/extensions
@@ -292,6 +293,7 @@ add_to_root etc/{a2ps-site.cfg,pppoed.conf}
 add_to_root etc/usbmgr
 
 add_to_root opt/kde2/share/config
+add_to_root etc/opt/kde2/share/config/kdm
 
 deb_stop
 

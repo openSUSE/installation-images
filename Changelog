@@ -1,3 +1,9 @@
+8/11/2001:	v1.104
+	- add checkproc and klogd on ppc
+	  hides kernel messages on the iSeries telnet console
+	- added ide raid modules
+	- improved liveeval init script
+
 19/10/2001:	v1.103
 	- add 15bit to the fbdev section, needed on old pmacs (#11788)
 	- remove unused files from initrd for 32bit SPARC

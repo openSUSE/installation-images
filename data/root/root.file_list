@@ -680,6 +680,13 @@ if arch eq 'ia32'
 
 endif
 
+if arch eq 'ppc'
+sysvinit:
+    /sbin/checkproc
+syslogd:
+    /sbin/klogd
+endif
+
 syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd

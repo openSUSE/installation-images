@@ -38,6 +38,14 @@ then
     }
 fi
 
+if test -x /sbin/klogd
+then
+    checkproc /sbin/klogd || {
+	echo "starting klogd ..."
+	/sbin/klogd -f /dev/null -c 1
+}
+fi
+
 arch=$(uname -m)
 
 case "$arch" in
