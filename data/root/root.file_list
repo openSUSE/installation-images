@@ -406,7 +406,7 @@ if with_yast2 ne 'no'
   XFree86-server:
     /usr/X11R6/bin/XFree86
     /usr/X11R6/lib*/modules/codeconv
-    /usr/X11R6/lib*/modules/drivers/{vga,fbdev}_drv.o
+    /usr/X11R6/lib*/modules/drivers/{vga,fbdev,nv}_drv.o
   if arch eq 'ia32' || arch eq 'ia64' || arch eq 'x86_64'
     /usr/X11R6/lib*/modules/drivers/vesa_drv.o
   endif
