@@ -1,11 +1,13 @@
 #! /bin/sh
 set -x
-# check in y2image to /work/src/done/PPC
+# check in y2image to /work/src/done/SLES8-BETA/
 # it creates the initrd, used in k_deflt etc.
 # call from the installation-images directory
 
 ver=`cat VERSION`
 y2image_tmpdir=/tmp/y2image-$ver
+work_done=/work/src/done/SLES8-BETA/y2image
+work_SRC=/work/SRC/old-versions/8.1/BETA/arch/ppc/y2image
 
 if [ "$ver" = "" ] ; then
   echo "no version info?"
@@ -31,15 +33,16 @@ if [ "$1" = test ] ; then
   exit
 fi
 
-if mkdir /work/src/done/PPC/y2image ; then
-  cd /work/src/done/PPC/y2image
-  cp $y2image_tmpdir.tar.bz2 /work/SRC/arch/ppc/y2image/y2image.{changes,spec} .
-  [ -f /work/SRC/arch/ppc/y2image/config-dist.sh ] && cp /work/SRC/arch/ppc/y2image/config-dist.sh .
-  perl -pi -e 's/^(Version:\s+)\S+/${1}'$ver'/' /work/src/done/PPC/y2image/y2image.spec
-  perl -pi -e 's/^(Source.+-)\S+?(\.tar\.bz2)/${1}'$ver'${2}/' /work/src/done/PPC/y2image/y2image.spec
+if mkdir $work_done ; then
+  cd $work_done
+  cp $y2image_tmpdir.tar.bz2 ${work_SRC}/y2image.{changes,spec} .
+  [ -f ${work_SRC}/config-dist.sh ] && cp ${work_SRC}/config-dist.sh .
+  perl -pi -e 's/^(Version:\s+)\S+/${1}'$ver'/' ${work_done}/y2image.spec
+  perl -pi -e 's/^(Source.+-)\S+?(\.tar\.bz2)/${1}'$ver'${2}/' ${work_done}/y2image.spec
+  sleep 2
   . /work/src/bin/.profile
   vc y2image
-  rm -fv /work/src/done/PPC/y2image/*~
+  rm -fv ${work_done}/*~
   pwd
   check_if_valid_source_dir
   echo "ok"
