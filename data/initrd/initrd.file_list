@@ -356,10 +356,11 @@ a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
 
-# temporary solution...
-#r /modules/fdomain_cs.o
-#r /modules/qlogic_cs.o
-#r /modules/ftl_cs.o
+# who needs these ACRNet things anyway?
+M /lib/modules/<kernel_ver>/net/com20020.o /modules
+M /lib/modules/<kernel_ver>/net/com90io.o /modules
+M /lib/modules/<kernel_ver>/net/com90xx.o /modules
+
 
 endif	# !small
 endif
