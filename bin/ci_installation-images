@@ -22,7 +22,7 @@ find . -depth -name CVS -exec rm -r {} \;
 rm -rf bin/ci_* MAINTAINER cache data/boot/linux.loopc
 cd /tmp
 
-tar -cf --bzip2 $installation_images.tar.bz2 installation-images-$ver
+tar --bzip2 --create --file=$installation_images.tar.bz2 installation-images-$ver
 
 if [ "$1" = test ] ; then
   echo "installation-images directory tree: $installation_images"
