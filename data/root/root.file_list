@@ -5,6 +5,12 @@
 d bin dev etc lib mnt root sbin tmp usr var
 c 1777 0 0 tmp
 
+# add some /etc files
+x /etc/* /etc
+r /etc/ssh
+r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
+r /etc/inst_setup
+
 aaa_base: prein,postin
 e prein
   /etc/init.d
@@ -608,8 +614,6 @@ if with_yast1 ne 'no'
     /var/lib/YaST
   x /usr/lib/YaST/.Reh /usr/lib/YaST
   x /usr/lib/YaST/convert_to_elf /usr/lib/YaST
-  x /etc/* /etc
-  x /etc/rpm /etc
   d /mnt
   d /proc
   d /tmp
