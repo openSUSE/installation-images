@@ -13,6 +13,7 @@ CD2=$targetdir/CD2
 k_deflt=`rpm -qf --qf %{VERSION} /boot/vmlinux-*-default`
 k_pmac64=`rpm -qf --qf %{VERSION} /boot/vmlinux-*-pmac64`
 #
+mkdir -pv $CD1/ppc/netboot
 mkdir -pv $CD1/ppc/chrp
 mkdir -pv $CD1/etc
 mkdir -pv $CD1/boot
@@ -31,6 +32,10 @@ cp -pfv $bdir/initrd-kernel-pmac64 $CD1/initrd64
 cp -pfv $bdir/initrd-kernel-iseries64 $CD1/boot
 cp -pfv $bdir/initrd-kernel-pseries64 $CD1/boot
 
+if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
+	cp -pfv /lib/lilo/chrp/mkzimage_cmdline $CD1/ppc/netboot
+	chmod 0755 $CD1/ppc/netboot/mkzimage_cmdline
+fi
 #
 bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
 	/var/tmp/chrpinitrd.$$ \
