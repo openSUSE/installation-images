@@ -51,3 +51,6 @@ pcmcia-external/
 -pcmcia-external/net/8390.o
 -kernel/drivers/parport/parport_cs.o
 kernel/net/packet/
+# for pcilynx
+kernel/drivers/i2c/i2c-core.o
+kernel/drivers/i2c/i2c-algo-bit.o

@@ -1,6 +1,8 @@
 9/9/2002:	v2.62
 	- create a 2.88MB boot image for CD2
 	- updated README/LIESMICH (#19132)
+	- pcilynx needs i2c mods
+	- fixed braille support
 
 6/9/2002:	v2.61
 	- fixed pcmcia cardmanager config (#18311)
