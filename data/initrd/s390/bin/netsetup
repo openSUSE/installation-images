@@ -1517,9 +1517,10 @@ function calc_broadcast_enh()
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 #
 #
-# Ensure that we have /proc mounted:
+# Ensure that we have /proc, /sys mounted:
 #
 [ ! -f /proc/version ] && mount -t proc virtual-proc-filesystem /proc
+[ ! -d /sys/devices ] && mount -t sysfs none /sys
 #
 #
 # We want to save the kernel message ring buffer to a file:

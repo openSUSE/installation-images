@@ -6,6 +6,7 @@
 ./root
 ./root/.gnupg
 ./root/bin
+./sys
 ./tmp
 ./tmp/.X11-unix
 ./var/X11R6/bin

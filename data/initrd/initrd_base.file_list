@@ -113,7 +113,7 @@ if arch eq 's390' || arch eq 's390x'
     /usr/share/samba/codepages/unicode_map.ISO8859-15
   cups-libs:
     /usr/lib*/libcups.so.*
-  installation-kernel-rdripl:
+  kernel-s390:
     /lib*/modules
   <kernel_rpm>:
     m /boot/System.map-* /System.map

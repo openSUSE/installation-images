@@ -10,7 +10,7 @@ chmod +x /linuxrc
 function movetotmpfs
 {
     mkdir newroot
-    mount -t shm -onr_inodes=10240 shmfs /newroot
+    mount -t tmpfs -onr_inodes=10240 shmfs /newroot
     cp -ax / newroot
     cd newroot
     mv newroot oldroot.old

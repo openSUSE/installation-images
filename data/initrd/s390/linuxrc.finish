@@ -33,6 +33,7 @@ godown() {
 	    test "$type" = "devpts" && umount -t devpts $fs
 	    test "$type" = "devfs"  && umount -t devfs  $fs
 	    test "$type" = "shm"    && umount -t shm    $fs
+	    test "$type" = "tmpfs"    && umount -t tmpfs    $fs
 	done < $mounts
 	umount -avt noproc,nonfs || UMOUNT_FAILED=true
 	if [ "$UMOUNT_FAILED" = true ]; then
