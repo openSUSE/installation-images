@@ -41,12 +41,12 @@ $tmpdir = "${BasePath}tmp/root";
 $image = "${ImagePath}root";
 
 # leave that much space
-$extra_size = 500;              # kbyte
-$extra_inodes = 100;
+$extra_size = 1000;              # kbyte
+$extra_inodes = 200;
 
 # just make them large enough
-$start_size = 150000;             # kbyte
-$start_inodes = 5000;
+$start_size = 170000;             # kbyte
+$start_inodes = 7000;
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...

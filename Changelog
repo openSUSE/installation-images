@@ -1,3 +1,8 @@
+10/3/2004:	v5.23
+	- added vesa driver (x86-like archs only)
+	- added vesa-section to XF86Config
+	- larger root image
+
 8/3/2004:	v5.22
 	- added udp-receiver
 	- made cd2 boot image small enough

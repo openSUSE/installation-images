@@ -147,6 +147,21 @@ Section "Screen"
   Monitor	"Monitor[0]"
 EndSection
 
+# Screen Section for vesa support
+# ----------------------------------
+Section "Screen"
+  SubSection "Display"
+    Depth	16
+    Modes	"default"            
+  EndSubSection
+  SubSection "Display"
+    Depth	8
+    Modes	"default"  
+  EndSubSection
+  Device	"Device[vesa]"
+  Identifier	"Screen[vesa]"
+EndSection
+
 Section "Device"
   Driver	"ChangeMe"
   Identifier	"Device[0]"
@@ -170,6 +185,11 @@ Section "Device"
   # vga_options
   Option	"KGAUniversal"
   Option	"VGAClocks"
+EndSection
+
+Section "Device"
+  Driver	"vesa"
+  Identifier	"Device[vesa]"
 EndSection
 
 Section "ServerLayout"
