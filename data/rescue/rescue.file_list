@@ -8,7 +8,7 @@ aaa_dir:
   /etc/{ppp,rc.d,uucp}
   /etc/rc.config.d
   /root
-  /sbin/init.d
+  /etc/init.d
   /usr/lib/db*
   /usr/tmp
   /var
@@ -21,13 +21,13 @@ r /etc/{csh*,default*,mailcap,mime.types,permissions*}
 r /etc/{rc.d.README,runlevel.fallback,zshrc,cron.daily}
   /bin
   /sbin
-r /sbin/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
-r /sbin/init.d/rc?.d/*kerneld
-r /sbin/init.d/rc?.d/*cron
-r /sbin/init.d/rc?.d/*pcnfsd
-r /sbin/init.d/rc?.d/*routed
-r /sbin/init.d/rc?.d/*nfs
-r /sbin/init.d/rc?.d/*xdm
+r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
+r /etc/init.d/rc?.d/*kerneld
+r /etc/init.d/rc?.d/*cron
+r /etc/init.d/rc?.d/*pcnfsd
+r /etc/init.d/rc?.d/*routed
+r /etc/init.d/rc?.d/*nfs
+r /etc/init.d/rc?.d/*xdm
   /usr/bin
 r /usr/bin/ChangeSymlinks
   /lib/YaST/SuSEconfig.functions
@@ -138,7 +138,7 @@ less:
   /usr/bin
 
 libz:
-  /usr/lib/libz.so*
+  /lib/libz.so*
 
 lilo:
   /boot
@@ -185,8 +185,8 @@ netcfg:
   /etc
 r /etc/{diphosts,ftpusers,hosts.*}
 
-nfsserv:
-  /sbin/init.d
+nfs-server:
+  /etc/init.d
   /usr/sbin/{rpc.*,showmount}
   /var/state/nfs
 
@@ -250,7 +250,7 @@ strace:
   /usr/bin/strace
 
 syslogd: postin
-  /{etc,sbin}
+  /etc
   /usr/sbin/{klogd,syslogd}
   /var/adm/fillup-templates/rc.config.syslogd
 e postin

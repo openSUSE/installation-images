@@ -3,8 +3,8 @@
 CLOCKCMD=hwclock
 while read line; do
         case "$line" in
-                *MacRISC*)  CLOCKCMD=clock ;;
                 *MTX\ Plus*) CLOCKCMD="hwclock --mtxplus --directisa" ;;
+		*PReP\ Dual\ MTX*) CLOCKCMD="hwclock --mtxplus --directisa" ;;
         esac
 done < /proc/cpuinfo
 

@@ -1,4 +1,21 @@
+9/1/2001:	v1.26
+	- drop all XFree86 3.x servers (ia32 only)
+	- add /usr/bin/od
+
+7/1/2001:	v1.25
+	- fixed rescue-system
+	- added 8139too.o/BusLogic.o to module disk
+
+7/1/2001:	v1.24
 	- add firegl2 & 3 driver
+	- dropped serial.o
+	- kukuk: updates for SPARC
+	- kukuk: fix location of libz
+	- kendy: patched bin/fix_locale to link iso2 languages to cs_CZ, not en_US
+	- msvec: added trivial console translation
+	- olh: update for ppc instsys
+	- ro: dosfstls -> dosfstools
+	- re-added fbdev_drv.o
 
 18/12/2000:	v1.23
 	- agpgarti810 device no longer in xsvga package

@@ -1,6 +1,7 @@
 #! /bin/sh
 
-# make all locales links to en_US
+# make all locales links to en_US, cs_CZ or ru_RU
+# according to the needed iso...
 
 cd $1/usr/lib/locale || {
   echo "oops, no locale?"
@@ -10,8 +11,15 @@ cd $1/usr/lib/locale || {
 for i in * ; do
   [ -L $i ] && continue
   [ -d $i ] || continue
-  [ "$i" = en_US ] && continue
+  # leave them alone...
+  case $i in
+    en_US|cs_CZ|ru_RU.koi8r) continue ;;
+  esac
   # just check we don't accidentally erase the whole disk...
   [ -d $i/LC_MESSAGES ] && rm -rf $i
-  ln -s en_US $i
+  # create the right link
+  case $i in
+    hr_HR|hu_HU|ro_RO|sk_SK|sl_SI|pl_PL) ln -s cs_CZ $i ;;
+    *)                                   ln -s en_US $i ;;
+  esac
 done

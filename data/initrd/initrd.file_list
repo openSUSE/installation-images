@@ -35,28 +35,18 @@ if arch eq 'ppc'
 
     a /lib/modules/<kernel_ver>/*/ide-tape.o /modules
     a /lib/modules/<kernel_ver>/*/nbd.o /modules
-    a /lib/modules/<kernel_ver>/*/adfs.o /modules
-    a /lib/modules/<kernel_ver>/*/affs.o /modules
     a /lib/modules/<kernel_ver>/*/binfmt_misc.o /modules
-    a /lib/modules/<kernel_ver>/*/coda.o /modules
-    a /lib/modules/<kernel_ver>/*/efs.o /modules
     a /lib/modules/<kernel_ver>/*/fat.o /modules
-    a /lib/modules/<kernel_ver>/*/hpfs.o /modules
     a /lib/modules/<kernel_ver>/*/msdos.o /modules
     a /lib/modules/<kernel_ver>/*/ncpfs.o /modules
-    a /lib/modules/<kernel_ver>/*/ntfs.o /modules
-    a /lib/modules/<kernel_ver>/*/qnx4.o /modules
-    a /lib/modules/<kernel_ver>/*/romfs.o /modules
     a /lib/modules/<kernel_ver>/*/smbfs.o /modules
     a /lib/modules/<kernel_ver>/*/sysv.o /modules
     a /lib/modules/<kernel_ver>/*/udf.o /modules
     a /lib/modules/<kernel_ver>/*/ufs.o /modules
-    a /lib/modules/<kernel_ver>/*/umsdos.o /modules
     a /lib/modules/<kernel_ver>/*/vfat.o /modules
     a /lib/modules/<kernel_ver>/*/ip_masq_autofw.o /modules
     a /lib/modules/<kernel_ver>/*/ip_masq_ftp.o /modules
     a /lib/modules/<kernel_ver>/*/ipv6.o /modules
-    a /lib/modules/<kernel_ver>/*/dmasound.o /modules
     a /lib/modules/<kernel_ver>/*/ipx.o /modules
     a /lib/modules/<kernel_ver>/*/rose.o /modules
     a /lib/modules/<kernel_ver>/*/sc.o /modules
