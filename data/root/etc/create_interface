@@ -7,7 +7,7 @@
 # Martin Vidner <mvidner@suse.cz>
 # Ihno Krumreich <ihno@suse.de>
 #
-# $Id: create_interface,v 1.14 2004/04/01 12:39:50 snwint Exp $
+# $Id: create_interface,v 1.14.2.4 2004/06/22 15:46:23 snwint Exp $
 
 ROOT=$1
 INSTALLINF=/etc/install.inf
@@ -37,37 +37,47 @@ then
 #	Get configuration for the installation device
 #
 	NETDEV=`grep Netdevice: $INSTALLINF | grep -v sit0 | uniq | sed -e 's/Netdevice: \\(.*\\)/\\1/'`
-	eval `getcfg $NETDEV`
+	eval `getcfg -f hwcfg- -d /etc/sysconfig/hardware $NETDEV`
 
 
 #
-#	Create hardware configuration file
+#	Create hardware configuration file if it doesn't exist
 #
-	# hardware config
-	if [ "$HWD_BUS_N" -gt 0 ] ; then
-	# use bus info
-		eval HWD_BUSNAME=\$HWD_BUSNAME_$((HWD_BUS_N-1))
-		eval HWD_BUSID=\$HWD_BUSID_$((HWD_BUS_N-1))
-		myhwcfg=hwcfg-bus-${HWD_BUSNAME}-${HWD_BUSID}
+        if [ "$HWD_CONFIG_N" -gt 0 ] ; then
+            # hwcfg file exist, do not modify it
+            eval HWD_CONFIG=\$HWD_CONFIG_$((HWD_CONFIG_N-1))
+            myhwcfg=${HWD_CONFIG}
+        elif [ "$HWD_BUS_N" -gt 0 ] ; then
+	    # use bus info
+	    eval HWD_BUSNAME=\$HWD_BUSNAME_$((HWD_BUS_N-1))
+	    eval HWD_BUSID=\$HWD_BUSID_$((HWD_BUS_N-1))
+	    myhwcfg=hwcfg-bus-${HWD_BUSNAME}-${HWD_BUSID}
 	else
-	# use static name
-		myhwcfg=hwcfg-static-0
+	    # use static name
+	    myhwcfg=hwcfg-static-0
 	fi
 	: hwcfg $myhwcfg
 	HARDWAREFILE=${HARDWAREDIR}$myhwcfg
 
-	# Here save Aliases and Options for $NETDEV
-	MODULE=`grep "Alias: $NETDEV" $INSTALLINF | uniq | sed -e "s/Alias: $NETDEV \\(.*\\)/\\1/"`
-	MODULE_OPTIONS=`grep "Options: $NETDEV" $INSTALLINF | uniq | sed -e "s/Options: $NETDEV \\(.*\\)/\\1/"`
-	echo "STARTMODE='auto'" > $HARDWAREFILE
-	echo "MODULE='$MODULE'" >> $HARDWAREFILE
-	echo "MODULE_OPTIONS='$MODULE_OPTIONS'" >> $HARDWAREFILE
+	if [ ! -f ${HARDWAREFILE} ] ; then
+	    # Here save Aliases and Options for $NETDEV
+	    MODULE=`grep "Alias: $NETDEV" $INSTALLINF | uniq | sed -e "s/Alias: $NETDEV \\(.*\\)/\\1/"`
+	    MODULE_OPTIONS=`grep "Options: $NETDEV" $INSTALLINF | uniq | sed -e "s/Options: $NETDEV \\(.*\\)/\\1/"`
+	    echo "STARTMODE='auto'" > $HARDWAREFILE
+	    echo "MODULE='$MODULE'" >> $HARDWAREFILE
+	    echo "MODULE_OPTIONS='$MODULE_OPTIONS'" >> $HARDWAREFILE
+	fi
 
 #
 #	Create interface file
 #
 	# interface config
-	if [ -z "$HWD_ID" ] ; then
+	# always use by-bus for qeth, hsi, ctc, and lcs
+	if echo "$myhwcfg"|grep -E "(qeth|hsi|ctc|lcs)" 
+	then
+	# use by-bus naming
+		myifcfg=ifcfg-$myhwcfg
+	elif [ -z "$HWD_ID" ] ; then
 	# use kernel name
 		myifcfg=ifcfg-$NETDEV
 	else
@@ -117,7 +127,8 @@ then
 #	Create routingfile
 #
 	GW=`grep Gateway: $INSTALLINF | uniq | sed -e 's/Gateway: \\(.*\\)/\\1/'`
-	[ -n "$GW" ] && echo "default $GW 0.0.0.0 $NETDEV" >> $ROUTINGFILE
+	# do not specify the interface, #39401
+	[ -n "$GW" ] && echo "default $GW - -" >> $ROUTINGFILE
 
 #
 #	Create /etc/HOSTNAME
