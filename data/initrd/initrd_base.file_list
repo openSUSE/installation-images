@@ -99,8 +99,7 @@ if arch eq 's390' || arch eq 's390x'
   libacl:
     /lib*/libacl.so.*
   popt:
-    /usr/lib*/libpopt.so.0
-    /usr/lib*/libpopt.so.0.0.0
+    /usr/lib*/libpopt.so*
   samba-client:
     m /usr/lib*/samba/classic/smbmount /bin/smbmount
     m /usr/lib*/samba/classic/smbmnt /bin/smbmnt

@@ -14,4 +14,4 @@ else
 	blub
 fi
 
-/sbin/syslogd.bin
+exec -a /sbin/syslogd /sbin/syslogd.bin ${1+"$@"}
