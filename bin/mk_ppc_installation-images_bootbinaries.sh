@@ -111,7 +111,7 @@ cat > $CD1/etc/yaboot.conf <<EOF
 message=yaboot.txt
 image=install
   label=install
-#  append="ide0=noautotune"
+#  append="quiet ide0=noautotune       "
 image=cdrom:1,\\vmlinux32
   label=install32
   initrd=cdrom:1,\\initrd32
@@ -130,8 +130,8 @@ SuSE Linux for PowerMac
 </DESCRIPTION>
 <BOOT-SCRIPT>
 : printf fb8-write drop ;                                                                                               
-: we-are-64-bit " 64bit "(0d 0a)" printf " cd:,installpmac64" \$boot ;
-: we-are-32-bit " 32bit "(0d 0a)" printf " cd:,installpmac" \$boot ;
+: we-are-64-bit " 64bit "(0d 0a)" printf " cd:,installpmac64 quiet" \$boot ;
+: we-are-32-bit " 32bit "(0d 0a)" printf " cd:,installpmac quiet" \$boot ;
 
 " screen" output
 dev screen
