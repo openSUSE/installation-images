@@ -286,6 +286,9 @@ finger:
 rsh:
   /usr/bin
 
+resmgr:
+  /lib*/libresmgr.so.*
+
 pam:
   /{etc,lib*,sbin}
 

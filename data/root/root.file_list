@@ -210,6 +210,7 @@ e2fsprogs:
   /lib*
 
 file:
+  m /usr/share/misc/magic /etc/magic
   /usr/bin/file
 
 if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ppc64'
