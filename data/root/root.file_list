@@ -539,6 +539,8 @@ if with_yast2 ne 'no'
     /
   yast2-trans-zh_CN:
     /
+  yast2-tune:
+    /
   yast2-x11:
     /
   yast2-xml:

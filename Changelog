@@ -1,5 +1,7 @@
+3/2/2004:	v5.04
 	- add package list to inst-sys
 	- some 2.6 module cleanup
+	- added yast2-tune
 
 30/1/2004:	v5.03
 	- conservative_lndir no longer needed, linuxrc does it
