@@ -35,10 +35,12 @@ bootcd2:
 	linuxrc=linuxrc_tiny nousb=1 fewkeymaps=1 initrd_name=small initrd=small bootlogo=no boot=small make boot
 
 bootdisk:
-	linuxrc=linuxrc with_smb=1 noinitrd=small initrd=small bootsplash=yes bootlogo=yes boot=small make boot
+# with_smb=1
+	linuxrc=linuxrc noinitrd=small initrd=small bootsplash=yes bootlogo=yes boot=small make boot
 
 bootcd:
-	with_smb=1 initrd=large boot=isolinux make boot
+# with_smb=1
+	initrd=large boot=isolinux make boot
 
 rootcd:
 	use_cramfs=1 make root

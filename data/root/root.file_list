@@ -673,15 +673,18 @@ syslogd:
 
 if pre_release
   # will not appear in final release
-  openssh:
+  openssh-server:
     /etc/pam.d/sshd
     /etc/ssh
-  #  /etc/ssh/primes
-  #  /etc/ssh/ssh_config
-  #  /etc/ssh/sshd_config
-    /usr/bin/scp
-    /usr/bin/ssh
     /usr/sbin/sshd
+
+  openssh-client:
+    /etc/ssh
+    /usr/bin/ssh
+
+  openssh:
+    /etc/ssh
+    /usr/bin/scp
 
   pam:
     /etc/pam.d/other
@@ -771,6 +774,9 @@ r /usr/share/doc/packages/*
 # r /modules
 r /System.map
 r /sbin/insserv
+
+# some scripts write to /dev/null...
+r /dev
 
 if ! pre_release
 r /root

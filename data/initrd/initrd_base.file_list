@@ -469,7 +469,7 @@ if with_smb
   d etc/samba
   E echo "; just to make smbmount happy" >etc/samba/smb.conf
 
-  if arch eq 'ia32'
+  if arch eq 'ia32' || arch eq 'x86_64'
 
     smbmount-diet:
       m /usr/bin/smbmount /bin/smbmount
