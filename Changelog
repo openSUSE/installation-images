@@ -2,6 +2,7 @@
 	- added autoyast2-installation
 	- no kdb/pcmcia in initrd on ppc
 	- use makedevs.floppy on ppc
+	- add ide-floppy, mesh and mac53c94 to modules list
 
 5/7/2002:	v2.10
 	- libpng fixes
