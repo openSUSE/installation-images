@@ -1,29 +1,28 @@
 SUSE LINUX 9.3-Bootdisketten erstellen
 --------------------------------------
 
-Die Bootdateien sind auf sechs Disketten aufgeteilt.
+Die Bootdateien sind auf mehrere Disketten aufgeteilt.
 
-Sie können die Bootdisketten erstellen, wenn Sie Zugang
-zu einem laufenden Linux- oder DOS-System haben.
+Um Bootdisketten zu erstellen, verwenden Sie 'mkbootdisk' (zu finden in
+diesem Verzeichnis) auf einem Linux-System:
 
-Benutzen Sie unter DOS das Programm CD1:/dosutils/rawrite/rawrite.exe, um
-bootdsk1-bootdsk6 auf eine formatierte (d.h. fehlerfreie) 1.44MB-Diskette zu
-schreiben. Für Windows gibt es entspechend
-CD1:/dosutils/rawwritewin/rawwritewin.exe.
+1. Mounten Sie CD1 oder die DVD (z.B. nach /media/cdrom).
 
-Unter Linux gehen Sie bitte so vor:
+2. Führen Sie 
 
-  cd /where_CD1_is_mounted/boot
+     /media/cdrom/boot/mkbootdisk /media/cdrom
 
-# Legen Sie die erste Bootdiskette ein und führen Sie folgenden
-# Befehl aus:
+   aus. Damit werden die Bootdateien bootdisk1 - bootdiskN erstellt.
 
-  dd if=bootdsk1 of=/dev/fd0u1440
+3. Schreiben Sie diese Dateien auf Disketten. z.B. mit
 
-wiederholen Sie dies mit bootdsk2-bootdsk6.
+     dd if=bootdisk1 of=/dev/fd0
 
-Sie haben nun sechs Bootdisketten. Starten Sie Ihren Rechner mit der
-ersten Bootdiskette.
+   (und entsprechend auch bootdisk2 - bootdiskN).
+
+4. Einen kurzen Überblick über die Bedienung des Programms 'mkbootdisk' gibt
+
+     mkbootdisk --help
 
 
 
@@ -34,20 +33,18 @@ Es befindet sich bereits ein Rettungssystem auf dieser CD. Für den
 Fall, dass Ihr Rechner nicht auf das CD-Laufwerk zugreifen kann oder das
 Rettungssystem zu groß ist, können Sie eine Rettungsdiskette erstellen.
 
-Unter Windows/DOS verwenden Sie rawrite wie in "Bootdisketten erstellen"
-beschrieben vor. Unter Linux gehen Sie bitte so vor:
+Gehen Sie bitte so vor:
 
-  cd /where_CD1_is_mounted/boot
-  dd if=rescuefloppy of=/dev/fd0u1440
+  dd if=/where_CD1_is_mounted/boot/rescuefloppy of=/dev/fd0
 
 
 
 Was bedeuten die anderen Dateien in diesem Verzeichnis?
 -------------------------------------------------------
 
-rescue:    (Großes) Rettungssystem.
+rescue:		Rettungssystem.
+root:		Installationssystem.
+root.fonts:	Zusätzliche Schriften.
+loader:		Vom Bootmanager benötigte Dateien.
 
-root:      Installationssystem.
-
-loader:    Vom Bootmanager benötigte Dateien.
 

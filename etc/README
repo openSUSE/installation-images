@@ -1,26 +1,27 @@
 Creating SUSE LINUX 9.3 Boot Disks
 ----------------------------------
 
-The boot files are split across six floppy disks.
+The boot files are split across several floppy disks.
 
-You can create the boot disks if you have access to a running Linux
-box or a running DOS box.
+To create boot disks, run 'mkbootdisk' (the program is in this directory) on
+a Linux system:
 
-Under DOS, write bootdsk1-bootdsk6 to formatted (i.e., error-free)
-1.44MB-floppies using CD1:/dosutils/rawrite/rawrite.exe. For Windows
-systems, there is CD1:/dosutils/rawwritewin/rawwritewin.exe.
+1. Mount CD1 or DVD (e.g. to /media/cdrom).
 
-With Linux, use commands like:
+2. Run
+     /media/cdrom/boot/mkbootdisk /media/cdrom
 
-  cd /where_CD1_is_mounted/boot
+   to create boot disk image files bootdisk1 - bootdiskN.
 
-  # insert first boot floppy, then run:
+3. Write these image files to floppies, using e.g. 
 
-  dd if=bootdsk1 of=/dev/fd0u1440
+     dd if=bootdisk1 of=/dev/fd0
 
-and repeat that with bootdsk2-bootdsk6.
-  
-Now you have six boot disks. Start your computer using the first disk.
+   (and bootdisk2 - bootdiskN accordingly).
+
+4. A short usage summary of 'mkbootdisk' gives
+
+     mkbootdisk --help
 
 
 
@@ -30,20 +31,18 @@ Creating a Rescue Floppy
 There is already a rescue system on CD. If you cannot access the CD
 or just want a smaller rescue system, you can create a rescue floppy.
 
-Under Windows or DOS, use rawrite as described in 'Creating Boot Disks'. Under
-Linux, use a command like
+Use a command like
 
-  cd /where_CD1_is_mounted/boot
-  dd if=rescuefloppy of=/dev/fd0u1440
+  dd if=/where_CD1_is_mounted/boot/rescuefloppy of=/dev/fd0
 
 
 
 Other Files in This Directory
 -----------------------------
 
-rescue:    (Large) rescue system.
+rescue:		Rescue system.
+root:		Installation system.
+root.fonts:	Additional fonts.
+loader:		Boot loader and files it needs.
 
-root:      Installation system.
-
-loader:    Boot loader and files it needs.
 
