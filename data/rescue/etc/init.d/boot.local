@@ -1,0 +1,86 @@
+#! /bin/sh
+#
+# Copyright (c) 1996 SuSE GmbH Nuernberg, Germany.  All rights reserved.
+#
+# Author: Werner Fink <werner@suse.de>, 1996
+#         Burchard Steinbild <bs@suse.de>, 1996
+#
+# /etc/init.d/boot.local
+#
+# script with local commands to be executed from init on system startup
+#
+#
+# Here you should add things, that should happen directly after booting
+# before we're going to the first run level.
+#
+
+date
+while read line; do
+        case "$line" in
+                *MacRISC*)    MACHINE="mac";;
+                *CHRP*)       MACHINE="chrp";;
+                *PReP*)       MACHINE="prep" ;;
+                *iSeries*)    MACHINE="iseries";;
+        esac
+done < /proc/cpuinfo
+
+echo "$MACHINE: running $0 $*"
+my_REDIRECT="$(echo $REDIRECT | sed 's#^/dev/##')"
+my_DEVICE="$(echo $my_REDIRECT | sed 's#^tty##')"
+my_SPEED="$(stty speed)"
+echo REDIRECT $REDIRECT  $my_REDIRECT
+echo my_DEVICE $my_DEVICE
+echo my_SPEED $my_SPEED
+
+# compose a line like that for inittab
+# S0:12345:respawn:/sbin/agetty -L 9600 ttyS0 vt102
+
+if [ "$MACHINE" = "iseries" ] ; then
+echo "changing inittab"
+sed '/^.*mingetty.*$/d' /etc/inittab > /etc/inittab.tmp
+diff /etc/inittab /etc/inittab.tmp &>/dev/null || mv -v /etc/inittab.tmp /etc/inittab
+
+cat >> /etc/inittab <<-EOF
+
+
+# iSeries virtual console:
+1:2345:respawn:/sbin/mingetty --noclear tty1
+
+# to allow only root to log in on the console, use this:
+# 1:2345:respawn:/sbin/sulogin /dev/console
+
+# to disable authentication on the console, use this:
+# y:2345:respawn:/bin/bash
+
+EOF
+
+# syslog.conf
+if grep -q tty10 /etc/syslog.conf; then
+	echo "changing syslog.conf"
+	sed '/.*tty10.*/d; /.*xconsole.*/d' /etc/syslog.conf > /etc/syslog.conf.tmp
+	diff /etc/syslog.conf /etc/syslog.conf.tmp &>/dev/null || mv -v /etc/syslog.conf.tmp /etc/syslog.conf
+fi
+
+
+fi
+
+case $my_REDIRECT in
+	ttyS*)
+	echo adding this line to inittab
+	echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102"
+	echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102" >> /etc/inittab
+	echo $my_REDIRECT >> /etc/securetty
+		;;
+
+	hvc*)
+	echo adding this line to inittab
+	echo "$my_DEVICE:12345:respawn:/sbin/agetty $my_REDIRECT"
+	echo "$my_DEVICE:12345:respawn:/sbin/agetty $my_REDIRECT" >> /etc/inittab
+	echo $my_REDIRECT >> /etc/securetty
+		;;
+
+	*)	;;
+esac
+
+telinit q
+
