@@ -54,49 +54,47 @@ $start_inodes = 5000;
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
 $use_cramfs = exists($ENV{'use_cramfs'}) ? $ENV{'use_cramfs'} : "";
 
-# clean up
-if(-d($tmpdir)) {
-  SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
-}
 
-mkdir $tmpdir || die "$Script: failed to create $tmpdir";
+if($ENV{'keeproot'} != 1) {
+  # clean up
+  if(-d($tmpdir)) {
+    SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
+  }
 
-#if(-d "$tmpinitrd/modules" ) {
-#  SUSystem "mkdir $tmpdir/modules";
-#  SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
-#}
+  mkdir $tmpdir || die "$Script: failed to create $tmpdir";
 
-AddFiles $tmpdir, "${srcdir}/root.file_list", $srcdir or
-  die "$Script: failed to setup root image";
+  AddFiles $tmpdir, "${srcdir}/root.file_list", $srcdir or
+    die "$Script: failed to setup root image";
 
-print "fix locale...\n";
-SUSystem "fix_locale $tmpdir";
-print "fix permissions of directories...\n";
-SUSystem "fix_perms $tmpdir";
-print "strip everything...\n";
-SUSystem "strip_dir $tmpdir";
+  print "fix locale...\n";
+  SUSystem "fix_locale $tmpdir";
+  print "fix permissions of directories...\n";
+  SUSystem "fix_perms $tmpdir";
+  print "strip everything...\n";
+  SUSystem "strip_dir $tmpdir";
 
-print "running ldconfig...";
-SUSystem "ldconfig -r $tmpdir";
-die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
+  print "running ldconfig...";
+  SUSystem "ldconfig -r $tmpdir";
+  die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
-if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
-  system "check_libs $tmpdir" and
-    warn "$Script: error in shared lib config, please fix\n";
-}
-else {
-  system "check_libs $tmpdir" and
-    die "$Script: error in shared lib config, please fix\n";
-}
-
-if(!exists($ENV{'with_yast2'}) || $ENV{'with_yast2'} ne 'no') {
-  if($debug =~ /\bignore\b/) {
-    system "yast2-deps" and
-      warn "$Script: error in yast2 package list, please fix\n";
+  if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+    system "check_libs $tmpdir" and
+      warn "$Script: error in shared lib config, please fix\n";
   }
   else {
-    system "yast2-deps" and
-      die "$Script: error in yast2 package list, please fix\n";
+    system "check_libs $tmpdir" and
+      die "$Script: error in shared lib config, please fix\n";
+  }
+
+  if(!exists($ENV{'with_yast2'}) || $ENV{'with_yast2'} ne 'no') {
+    if($debug =~ /\bignore\b/) {
+      system "yast2-deps" and
+        warn "$Script: error in yast2 package list, please fix\n";
+    }
+    else {
+      system "yast2-deps" and
+        die "$Script: error in yast2 package list, please fix\n";
+    }
   }
 }
 

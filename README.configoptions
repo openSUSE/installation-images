@@ -16,6 +16,10 @@ o root
   use_cramfs=1
   - build cramfs image (named root.cramfs) in addition to the normal (uncompressed) image
   
+  keeproot=1
+  - don't rebuild everything, just recreate (copy the cached tree and compress) the
+    last image (useful to speed up testing)
+
 
 o rescue
 

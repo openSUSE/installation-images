@@ -88,7 +88,7 @@ else
     m /boot/System.map-* /System.map
 endif
 
-if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arch eq 's390x')
+if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 's390' || arch eq 's390x')
 
   include ../initrd/gen/module.files.cd1
 
@@ -555,7 +555,7 @@ if with_yast2 ne 'no'
     /etc/X11/qtrc
     /usr/lib/qt-*/etc/settings/qtrc
     /usr/lib/qt3
-  qt3-non-mt:
+#  qt3-non-mt:
     /usr/lib/libqt*.so.3
     /usr/lib/qt-*/lib/libqt*.so*
     e echo -e "[General]\nenableXft=false\nuseXft=false" >/etc/X11/qtrc
