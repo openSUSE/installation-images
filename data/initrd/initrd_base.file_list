@@ -151,7 +151,7 @@ if arch eq 's390' || arch eq 's390x'
     /usr/bin/chattr
     /usr/bin/lsattr
     /usr/bin/uuidgen
-  fileutils:
+  coreutils:
     /bin/chgrp
     /bin/chmod
     /bin/chown
