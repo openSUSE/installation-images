@@ -241,6 +241,7 @@ if arch eq 's390' || arch eq 's390x'
   readline:
     /lib*
   tcpd:
+    /usr/lib*/libwrap.so.*
     /usr/sbin/tcpd
   util-linux:
     /bin
