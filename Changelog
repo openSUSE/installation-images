@@ -1,6 +1,9 @@
 4/9/2001:	v1.91
 	- added root password for instsys
 	- added tulip & isa-pnp to module disks
+	- remove more modules on SPARC
+	- don't include PS/2 keymaps (not needed on sparc32)
+	- add lvm/raid kernel modules to initrd on SPARC
 
 30/8/2001:	v1.90
 	- remove 3.3.6 X server for SPARC, 4.1.0 works for all now
