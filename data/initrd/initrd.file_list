@@ -205,6 +205,7 @@ if arch eq 'ia32'
       r /modules/{cs89x0,sundance,iph5526}.o
 
       M sb1000 3c515 ni52 at1700 lne390 tms380tr smctr ewrk3 eth16i
+      M eepro100 olympic airo
 
     endif
 

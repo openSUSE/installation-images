@@ -46,6 +46,9 @@ if arch eq 'ia32'
       m /usr/share/gfxboot/suseinstall /suselogo
       if demo eq 'eval'
         x suseeval /suselogo
+        if lang eq 'cs_CZ'
+          x suseeval_cz /suselogo
+        endif
       endif
   endif
 

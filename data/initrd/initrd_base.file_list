@@ -7,6 +7,12 @@ s /usr/X11R6/lib/X11 var/X11R6/lib
 d modules
 d dev/usb
 
+if demo eq 'eval'
+  if lang eq 'cs_CZ'
+    E echo "Language: czech" >info
+  endif
+endif
+
 if suse_release < 7.1
   # agpgarti810 device
   if arch eq 'ia32'

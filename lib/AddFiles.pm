@@ -453,17 +453,18 @@ sub AddFiles
       }
       push @mod_list, @ml
     }
-    elsif(/^e\s+(.+)$/) {
-      my ($cmd, $xdir, $basedir, $r);
+    elsif(/^([eE])\s+(.+)$/) {
+      my ($cmd, $xdir, $basedir, $r, $e);
 
-      $cmd = $1;
+      $e = $1;
+      $cmd = $2;
       $xdir = $dir;
       $xdir =~ s#/*$##;
       $basedir = $1 if $xdir =~ s#(.*)/##;
 
       die "internal oops" unless $basedir ne "" && $xdir ne "";
 
-      if(exists($script{$cmd})) {
+      if($e eq 'e' && exists($script{$cmd})) {
         SUSystem "sh -c 'mkdir $dir/install && chmod 777 $dir/install'" and
           die "$Script: failed to create $dir/install";
         die "$Script: unable to create script \"$cmd\"" unless open W, ">$dir/install/inst.sh";
@@ -485,9 +486,17 @@ sub AddFiles
         SUSystem "rm -rf $dir/install";
       }
       else {
-        # run in chroot env
         print "running \"$cmd\"\n" if $debug =~ /\bpkg\b/;
-        SUSystem "chroot $dir /bin/sh -c '$cmd'" and warn "\"$cmd\" failed";
+        if($e eq 'e') {
+          # run in chroot env
+          SUSystem "chroot $dir /bin/sh -c '$cmd'" and warn "\"$cmd\" failed";
+        }
+        else {
+          SUSystem "mv $dir $basedir/base/xxxx" and die "oops";
+          $r = SUSystem "chroot $basedir/base /bin/sh -c 'cd xxxx ; $cmd'";
+          SUSystem "mv $basedir/base/xxxx $dir" and die "oops";
+          warn "$Script: execution of \"$cmd\" failed" if $r;
+        }
       }
     }
     elsif(/^R\s+(.+?)\s+(\S+)$/) {

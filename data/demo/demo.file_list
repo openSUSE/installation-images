@@ -161,6 +161,11 @@ if demo eq 'eval' || demo eq ''
   x /etc/XF86Config_4 /etc/X11/XF86Config
 endif
 
+if lang eq 'cs_CZ'
+  x /sbin/init_cz /sbin/init
+  x /sbin/live-shutdown_cz /sbin/live-shutdown
+endif
+
 x sbin/pcmcia.postin /sbin
 
 r /etc/init.d/xdm

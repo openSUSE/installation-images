@@ -1,3 +1,7 @@
+12/7/2001:	v1.66
+	- new 'E' command
+	- support language specific configurations for liveeval
+
 20/6/2001:	v1.65
 	- integrated latest ia64/sparc patches
 	- added new 'F' command (cf. README)
