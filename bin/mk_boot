@@ -188,7 +188,7 @@ print defined($xfree) ? "; $xfree bytes free\n" : "\n";
 sub opt_initrd
 {
   my ($isize, $maxsize, @mlist, %mlist, @mods, %mods, $i, $j, $m);
-  my (@xl, $rb, $gzsize, $tsize);
+  my (@xl, $rb, $gzsize, $tsize, $lastfree);
   local ($_);
 
   $maxsize = shift;
@@ -227,6 +227,7 @@ sub opt_initrd
 
   # now re-add them one by one
   if($isize < $maxsize) {
+    $lastfree = $maxsize - $isize;
     # see if we can add some mods
     for (@mlist) {
       $m = $mods[$mlist{$_}];
@@ -239,7 +240,7 @@ sub opt_initrd
         $gzsize = 0;
       }
       $tsize = $gzsize > 1024 ? $gzsize / 2 : 0;
-      if($tsize <= $maxsize - $isize) {
+      if($tsize <= $lastfree) {
         print "$Script: trying to add $_ ($j/$gzsize bytes)\n";
         SUSystem "mv $initrddirx/$m $initrddir/$_";
         system "bin/mk_initrd";
@@ -253,6 +254,7 @@ sub opt_initrd
           $rb = 1;
         }
         else {
+          $lastfree = $j;
           print "$Script: yup, that worked ($j bytes left)\n";
         }
       }
