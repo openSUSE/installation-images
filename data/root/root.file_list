@@ -612,6 +612,7 @@ if pre_release
     /etc/pam.d/other
     /lib*/security
     /lib*/libpam.so.*
+    /lib*/libpam_misc.so.*
 
   pam-modules:
     /{etc,lib*,sbin}
@@ -672,6 +673,10 @@ timezone:
 
 hex:
   /usr/bin/hex
+
+shadow:
+  /etc/pam.d/shadow
+  /usr/sbin/chpasswd
 
 if with_yast2 ne 'no'
   # make fonts.dir
