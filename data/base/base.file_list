@@ -156,9 +156,7 @@ bootsplash-theme-UnitedLinux:
 
 bootsplash-theme-SuSE-SLES:
   /
-if 0
   m /usr/share/splash/themes/SuSE-SLES/bootloader/message /SuSE-SLES.boot
-endif
 
 <kernel_rpm>:
   /lib/modules

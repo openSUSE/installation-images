@@ -1,3 +1,6 @@
+26/9/2002:	v2.76
+	- bootlogo back on SLES
+
 26/9/2002:	v2.75
 	- yast uses SL theme on SLES
 	- fixed bootlogo handling
