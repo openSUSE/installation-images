@@ -13,6 +13,8 @@ endif
 if arch eq 'ia32'
 
   a /lib/modules/<kernel_ver>/misc/nvram.o /modules
+  a /lib/modules/<kernel_ver>/net/8390.o /modules
+
   if suse_major == 6
     a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
     a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules

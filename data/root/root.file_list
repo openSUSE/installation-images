@@ -111,6 +111,28 @@ endif
     /lib/modules/<kernel_ver>/misc/parport_probe.o
     /lib/modules/<kernel_ver>/scsi/imm.o
     /lib/modules/<kernel_ver>/scsi/ppa.o
+
+    /lib/modules/<kernel_ver>/scsi/3w-xxxx.o
+    /lib/modules/<kernel_ver>/scsi/BusLogic.o
+    /lib/modules/<kernel_ver>/scsi/a100u2w.o
+    /lib/modules/<kernel_ver>/scsi/advansys.o
+    /lib/modules/<kernel_ver>/scsi/aha152x.o
+    /lib/modules/<kernel_ver>/scsi/aic7xxx.o
+    /lib/modules/<kernel_ver>/scsi/atp870u.o
+    /lib/modules/<kernel_ver>/scsi/dc395x_trm.o
+    /lib/modules/<kernel_ver>/scsi/dpt_i2o.o
+    /lib/modules/<kernel_ver>/scsi/eata.o
+    /lib/modules/<kernel_ver>/scsi/fdomain.o
+    /lib/modules/<kernel_ver>/scsi/gdth.o
+    /lib/modules/<kernel_ver>/scsi/initio.o
+    /lib/modules/<kernel_ver>/scsi/ips.o
+    /lib/modules/<kernel_ver>/scsi/megaraid.o
+    /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o
+    /lib/modules/<kernel_ver>/scsi/qla2x00.o
+    /lib/modules/<kernel_ver>/scsi/qlogicisp.o
+    /lib/modules/<kernel_ver>/scsi/sym53c8xx.o
+    /lib/modules/<kernel_ver>/scsi/tmscsim.o
+
   if suse_release >= 7.0 && arch ne 'alpha'
     /lib/modules/<kernel_ver>/misc/agpgart.o
   endif

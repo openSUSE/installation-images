@@ -10,6 +10,7 @@ t modules/{MORE,NEEDMOD}
 <kernel_rpm>:
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
+a /lib/modules/<kernel_ver>/net/8390.o /modules
 
 a /lib/modules/<kernel_ver>/usb/usbcore.o /modules
 a /lib/modules/<kernel_ver>/usb/usb-uhci.o /modules

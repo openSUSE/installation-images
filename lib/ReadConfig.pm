@@ -307,7 +307,7 @@ for (@f) {
   # kernel_ver
   # (used to be in etc/config)
 
-  my ( $r, $r0, $rx, $in_abuild, $base, $a, $v, $kv, $kn );
+  my ( $r, $r0, $rx, $in_abuild, $base, $a, $v, $kv, $kn, $rf );
 
   $a = $ENV{'suse_arch'};
 
@@ -316,6 +316,7 @@ for (@f) {
   if($in_abuild) {
     $r0 = `grep VERSION /etc/SuSE-release`;
     $r0 =~ s/^.*=\s*//;
+    $r0 =~ s/\s*$//;
     $r0 = "\L$r0";
   }
   else {
@@ -323,12 +324,15 @@ for (@f) {
   }
 
   $r0 = "" unless defined $r0;
+  $rf = $r0;
 
   $rx = "";
   $rx = "$1-" if $r0 =~ s/-(.+)\s*$//;
   $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
   $r0 = "$r0-" if $r0 ne "";
-  $base = "/work/CDs/full-$r0$rx$a";
+#  $base = "/work/CDs/full-$r0$rx$a";
+  $base = "/work/CDs/full-$rf-$a";
+  $base = "/work/CDs/full-$a" unless -d $base;
 
   if(!$in_abuild) {
     die "invalid SuSE release" unless -f "$base/suse/a1/aaa_base.rpm";
@@ -336,7 +340,10 @@ for (@f) {
 
     $r0 = `grep VERSION /tmp/r$$/etc/SuSE-release`;
     $r0 =~ s/^.*=\s*//;
+    $r0 =~ s/\s*$//;
     $r0 = "\L$r0";
+
+    $rf = $r0;
 
     $rx = "$1-" if $r0 =~ s/-(.+)\s*$//;
     $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
@@ -367,7 +374,8 @@ for (@f) {
     if($use_cache) {
       $cache_dir = `pwd`;
       chomp $cache_dir;
-      $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}"
+#      $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}"
+      $cache_dir .= "/${BasePath}cache/$rf-$ENV{'suse_arch'}"
     }
 
     undef $kv;
@@ -395,15 +403,18 @@ for (@f) {
   ($v = "$r0$rx") =~ s/-?$//;
 
   if($in_abuild) {
-    if(-d "/.rpm-cache/$v-$a") {
-      $r = "$v-$a"
+#    if(-d "/.rpm-cache/$v-$a") {
+#      $r = "$v-$a"
+#    }
+    if(-d "/.rpm-cache/$rf-$a") {
+      $r = "$rf-$a"
     }
     elsif(-d "/.rpm-cache/$a") {
       $r = $a
     }
     else {
       system "ls -la /.rpm-cache";
-      die "No usable /.rpm-cache!\n"
+      die "No usable /.rpm-cache (looking for \"$rf-$a\" or \"$a\")!\n"
     }
     $base = $AutoBuild = "/.rpm-cache/$r"
   }
@@ -413,6 +424,8 @@ for (@f) {
   }
 
   die "No SuSE release identified.\n" unless $a ne "" && $v ne "";
+
+  $v .= " [$rf]" if $v ne $rf;
 
   print "Building for SuSE Linux $v ($a,$ENV{'kernel_rpm'},$ENV{'kernel_ver'}) [$base].\n";
 
