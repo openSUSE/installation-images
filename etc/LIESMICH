@@ -35,4 +35,4 @@ Moduldiskette ein.
 modules:   SCSI/EIDE- und PCMCIA-Module, alte (non-ATAPI) CDROM-Treiber,
            einige Netzwerk-Module.
 
-modules2:  Netzwerk- und PCMCIA-Module.
+modules2:  Netzwerk-Module.

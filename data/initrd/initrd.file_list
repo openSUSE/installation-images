@@ -408,7 +408,11 @@ if arch eq 'ia32'
     M /lib/modules/<kernel_ver>/net/dgrs.o /modules
     M /lib/modules/<kernel_ver>/net/acenic.o /modules
 
+    M /lib/modules/<kernel_ver>/net/arlan.o /modules
+    M /lib/modules/<kernel_ver>/net/arlan-proc.o /modules
+
     # who needs these ACRNet things anyway?
+    M /lib/modules/<kernel_ver>/net/arcnet.o /modules
     M /lib/modules/<kernel_ver>/net/com20020.o /modules
     M /lib/modules/<kernel_ver>/net/com90io.o /modules
     M /lib/modules/<kernel_ver>/net/com90xx.o /modules

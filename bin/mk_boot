@@ -188,13 +188,13 @@ print defined($xfree) ? "; $xfree bytes free\n" : "\n";
 sub opt_initrd
 {
   my ($isize, $maxsize, @mlist, %mlist, @mods, %mods, $i, $j, $m);
-  my (@dl, @al, @xl, $rb);
+  my (@xl, $rb, $gzsize, $tsize);
   local ($_);
 
   $maxsize = shift;
   $isize = -s $initdisk;
   die "$Script: failed to create $initrddirx ($!)" unless mkdir $initrddirx, 0777;
-  $ENV{'keep_initrd'} = 'yes';
+  $ENV{'keepinitrd'} = 1;
   open M, "$tmpdir/initrd.opt_mods"; @mlist = <M>; close M;
   chop @mlist;
   $j = 0;
@@ -207,49 +207,60 @@ sub opt_initrd
     $j++;
   }
 
-  for (reverse @mlist) {
-    $m = $mods[$mlist{$_}];
-    die "$Script: oops" if $m eq "";
-    unshift @dl, $_;
-    $j = -s "$initrddir/$_";
-    print "$Script: dropping $_ ($j bytes)\n";
+  # first, remove all optional mods
+  for (@mlist) {
     SUSystem "mv $initrddir/$_ $initrddirx/$m";
-    system "bin/mk_initrd";
-    $isize = -s $initdisk;
-    die "$Script: $initdisk missing" unless $isize > 0;
-    if($isize >= $maxsize) {
-      $i = $isize - $maxsize;
-      print "$Script: initrd still $i bytes too big\n";
-    }
-    else {
-      last
-    }
   }
 
+  # see if that works
+  system "bin/mk_initrd";
+  $isize = -s $initdisk;
+  die "$Script: $initdisk missing" unless $isize > 0;
+  if($isize >= $maxsize) {
+    $i = $isize - $maxsize;
+    print "$Script: initrd $i bytes too big: make more modules optional\n";
+  }
+  else {
+    $i = $maxsize - $isize;
+    print "$Script: $i bytes left for optional modules\n";
+  }
+
+  # now re-add them one by one
   if($isize < $maxsize) {
-    @al = @dl;
-    shift @al;
     # see if we can add some mods
-    for (@al) {
+    for (@mlist) {
       $m = $mods[$mlist{$_}];
       die "$Script: oops" if $m eq "";
       $j = -s "$initrddirx/$m";
-      print "$Script: trying to re-add $_ ($j bytes)\n";
-      SUSystem "mv $initrddirx/$m $initrddir/$_";
-      system "bin/mk_initrd";
-      $isize = -s $initdisk;
-      die "$Script: $initdisk missing" unless $isize > 0;
-      $rb = 0;
-      if($isize >= $maxsize) {
-        print "$Script: well, that was too much\n";
-        SUSystem "mv $initrddir/$_ $initrddirx/$m";
-        $rb = 1;
+      if($j) {
+        $gzsize = `gzip -c -9 $initrddirx/$m | wc -c` + 0;
       }
       else {
+        $gzsize = 0;
+      }
+      $tsize = $gzsize > 1024 ? $gzsize / 2 : 0;
+      if($tsize <= $maxsize - $isize) {
+        print "$Script: trying to add $_ ($j/$gzsize bytes)\n";
+        SUSystem "mv $initrddirx/$m $initrddir/$_";
+        system "bin/mk_initrd";
+        $isize = -s $initdisk;
+        die "$Script: $initdisk missing" unless $isize > 0;
+        $rb = 0;
         $j = $maxsize - $isize;
-        print "$Script: yup, that worked ($j bytes left)\n";
+        if($isize >= $maxsize) {
+          print "$Script: well, that was too much ($j bytes left)\n";
+          SUSystem "mv $initrddir/$_ $initrddirx/$m";
+          $rb = 1;
+        }
+        else {
+          print "$Script: yup, that worked ($j bytes left)\n";
+        }
+      }
+      else {
+        print "$Script: module $_ is far too big ($j/$gzsize bytes), skipping it\n";
       }
     }
+
     if($rb) {
       system "bin/mk_initrd";
       $isize = -s $initdisk;
@@ -257,7 +268,7 @@ sub opt_initrd
     }
   }
 
-  for (@dl) {
+  for (@mlist) {
     $m = $mods[$mlist{$_}];
     die "$Script: oops" if $m eq "";
     if(-f "$initrddirx/$m") {

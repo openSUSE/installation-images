@@ -59,7 +59,7 @@ $start_inodes = 7000;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
-if($ENV{'keep_initrd'} ne 'yes') {
+if($ENV{'keepinitrd'} != 1) {
   # clean up
   if(-d $tmpdir) {
     SUSystem "rm -rf $tmpdir" and

@@ -17,27 +17,16 @@ a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
+# a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
+
+M /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
+M /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
+M /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
+M /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /modules
 
 M /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /modules
 M /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /modules
 M /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /modules
 M /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /modules
 M /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /modules
-M /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
-M /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
-M /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
-M /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /modules
 
-# these mods are optional (most important first)
-M /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /modules
-M /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /modules
-M /lib/modules/<kernel_ver>/pcmcia/ibmtr_cs.o /modules
-
-M /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
-M /lib/modules/<kernel_ver>/pcmcia/nmclan_cs.o /modules
-M /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
-M /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
-M /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /modules
-
-M /lib/modules/<kernel_ver>/pcmcia/dummy_cs.o /modules

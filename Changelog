@@ -1,3 +1,12 @@
+14/12/2000:	v1.21
+	- dropped 'update' boot option
+	- booting with 'yast1' now makes linuxrc load scsi/blkdev mods
+	- less modules
+	- creation of boot disks now considerably faster
+
+13/12/2000:	v1.20
+	- chvt & loadkeys have been moved to /bin
+
 12/12/2000:	v1.19
 	- hwinfo needs its shared lib
 	- added locale again (all linked to en_US)

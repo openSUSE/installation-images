@@ -37,4 +37,4 @@ just insert the appropriate modules disk as soon as linuxrc starts.
 modules:   SCSI/EIDE and PCMCIA modules, old (non-ATAPI) CDROM drivers, some
            network modules.
 
-modules2:  Network and PCMCIA modules.
+modules2:  Network modules.

@@ -194,7 +194,12 @@ if suse_release < 7.1
   /usr/share/locale
 endif
   /bin/loadkeys
-  /usr/bin/{chvt,loadkeys,loadunimap,kbd_mode}
+  /usr/bin/{loadunimap,kbd_mode}
+if suse_release >= 7.1
+  /bin/{chvt,loadkeys}
+else
+  /usr/bin/{chvt,loadkeys}
+endif
 
 # temporary fix for yast's setfont problems
 m /usr/bin/setfont /usr/bin/setfont.bin
