@@ -55,9 +55,17 @@ Section "Device"
   BoardName	"---AUTO DETECTED---"
 EndSection
 
+Section "Device"
+    Identifier  "Generic VGA"
+    VendorName  "Unknown"
+    BoardName   "Unknown"
+    Chipset     "generic"
+EndSection
+
+
 Section "Screen"  
   Driver	"VGA16"
-  Device	"Primary-Card"
+  Device	"Generic VGA"
   Monitor	"Primary-Monitor"
   BlankTime	0
   SubSection "Display"

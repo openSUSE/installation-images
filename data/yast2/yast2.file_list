@@ -88,6 +88,7 @@ util:
   /lib/modules/<kernel_ver>/net/sdladrv.o
 
 # add link to initrd modules
+# check mk_yast2 before you're going to change this!!!
 d /lib/modules/default
 s ../../../modules /lib/modules/default/misc
 

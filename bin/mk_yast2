@@ -74,6 +74,7 @@ SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
 SUSystem "depmod -a -F /boot/System.map-$ConfigData{kernel_ver} -b $tmpdir $ConfigData{kernel_ver}";
 die "$Script: failed to run depmod" unless -f "$tmpdir/lib/modules/$ConfigData{kernel_ver}/modules.dep";
 SUSystem "rm -r $tmpdir/modules";
+SUSystem "ln -snf /modules $tmpdir/lib/modules/default/misc";
 
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
 
