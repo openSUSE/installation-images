@@ -96,7 +96,9 @@ if initrd eq 'initrd_ppc_power3'
 endif
 if initrd eq 'initrd_ppc_pseries64'
   include gen/module.files.ppc_pseries64
+  include gen/module.files.usb
   A gen/module.config.ppc_pseries64 modules/module.config
+  A gen/module.config.usb modules/module.config
 endif
 if initrd eq 'initrd_ppc_iseries64'
   include gen/module.files.ppc_iseries64
