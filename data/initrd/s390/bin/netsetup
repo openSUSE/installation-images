@@ -40,10 +40,7 @@ export IP_DNS
 export IP_SEARCH
 export IP_MTU
 #
-if [ "$LINUXRC_RECORD" ]; then
-  LINUXRC_READ=""
-fi
-#
+[ "$LINUXRC_RECORD" ] && LINUXRC_READ=""
 #
 # readln reads a line into $ANSW.
 #
@@ -455,9 +452,9 @@ function select_network_device_type() {
       echo "5) Escon"
       echo "6) IUCV"
       # The UTS c7000 driver has not been ported to 2.4 yet:
-      if [ "`uname -r`" = 2.2.19 ]; then
-        echo "7) CLAW (Cisco Mainframe Channel Connection)"
-      fi
+#      if [ "`uname -r`" = 2.2.19 ]; then
+#        echo "7) CLAW (Cisco Mainframe Channel Connection)"
+#      fi
       echo "8) Hipersockets"
       echo "9) Show subchannels and detected devices"
       readln "Enter your choice (0-9): "
@@ -551,7 +548,7 @@ function activate_config() {
 	execcmd "/sbin/ifconfig $IP_DEV"
         sleep 1
 	echo "Trying to ping my IP address:"
-	execcmd "ping -n -c 3 -w 1 $IP_ADDR"
+	execcmd "ping -n -c 3 $IP_ADDR"
 	if [ $EXIT_CODE -gt 0 ]; then
 	    echo "Warning: Could not ping my IP address!"
 	else
@@ -565,7 +562,7 @@ function activate_config() {
 		    fi
 		    if [ "$IP_GATEWAY" ]; then
 			echo "Trying to ping the IP address of the Gateway:"
-			execcmd "ping -n -c $NTRY -w 1 $IP_GATEWAY" 
+			execcmd "ping -n -c $NTRY $IP_GATEWAY" 
 			if [ $EXIT_CODE -eq 0 ]; then
 			    echo "Gateway seems to respond to our pings, continuing."
 			    break
@@ -587,7 +584,7 @@ function activate_config() {
 			    done
 			fi
 			echo "Trying to ping the IP address of the peer:"
-			execcmd "ping -n -c 3 -w 1 $IP_PEER"
+			execcmd "ping -n -c 3 $IP_PEER"
 			if [ $EXIT_CODE -eq 0 ]; then
 			    echo "Peer seems to respond to our pings, continuing."
 			    break
@@ -613,7 +610,7 @@ function activate_config() {
     fi
     if [ "$IP_DNS" ]; then
 	echo "Trying to ping the IP address of the DNS Server:"
-	execcmd "ping -c 3 -w 1 $IP_DNS"
+	execcmd "ping -c 3 $IP_DNS"
 	if [ $EXIT_CODE -gt 0 ]; then
 	    echo "Warning: The DNS address $IP_DNS did not ping."
 	    echo "Diagnostics:"
@@ -681,18 +678,10 @@ IP: $IP_ADDR"
       echo "alias $IP_DEV netiucv"
       echo "$PARM" | sed "s/iucv=\(.*\)/options netiucv iucv='\`echo \1\`'/g"
     fi
-    if [ "$IP_HOST" ]; then
-      echo "Machinename: $IP_HOST"
-    fi
-    if [ "$IP_DNS" ]; then
-      echo "Nameserver: $IP_DNS"
-    fi
-    if [ "$NFS_SERVER" ]; then
-      echo "Server: $NFS_SERVER"
-    fi
-    if [ "$NFS_SERVER_DIR" ]; then
-      echo "Serverdir: $NFS_SERVER_DIR"
-    fi
+    [ "$IP_HOST" ]        && echo "Machinename: $IP_HOST"
+    [ "$IP_DNS" ]         && echo "Nameserver: $IP_DNS"
+    [ "$NFS_SERVER" ]     && echo "Server: $NFS_SERVER"
+    [ "$NFS_SERVER_DIR" ] && echo "Serverdir: $NFS_SERVER_DIR"
 }
 #
 #
@@ -1267,20 +1256,15 @@ function load_CTC_chandev () {
         DEVNO="000$DEVNO"
 	DEVNO=${DEVNO:${#DEVNO}-4:4}
 	grep "^$DEVNO " ctc_detected >ctc_DEVNO
-	[ -s ctc_DEVNO ] ||
-		echo "Warning: $DEVNO is not a detected $NETTYPE channel"
-	[ "$LAST_DEVNO" = "$DEVNO" ] ||
-	   DEVNO2=`echo |
-		sed -n "1,/$DEVNO /d;s/^\(....\).*/\1/p;q" - ctc_detected`
-	[ -z "$DEVNO2" -o "$DEVNO2" = auto ] &&
-           DEVNO2=`cut -d' ' -f 1 ctc_detected | head -2|tail -1`
+	[ -s ctc_DEVNO ] || echo "Warning: $DEVNO is not a detected $NETTYPE channel"
+	[ "$LAST_DEVNO" = "$DEVNO" ] || DEVNO2=`echo | sed -n "1,/$DEVNO /d;s/^\(....\).*/\1/p;q" - ctc_detected`
+	[ -z "$DEVNO2" -o "$DEVNO2" = auto ] && DEVNO2=`cut -d' ' -f 1 ctc_detected | head -2|tail -1`
 	readln "Device address for write channel ($DEVNO2): "
 	if [ $ANSW ]; then export DEVNO2=$ANSW; fi
         DEVNO2="000$DEVNO2"
 	DEVNO2=${DEVNO2:${#DEVNO2}-4:4}
 	grep "^$DEVNO2 " ctc_detected >ctc_DEVNO2
-	[ -s ctc_DEVNO2 ] ||
-		echo "Warning: $DEVNO2 is not a detected $NETTYPE channel"
+	[ -s ctc_DEVNO2 ] || echo "Warning: $DEVNO2 is not a detected $NETTYPE channel"
         ask_select_protocol
         PARM="ctc=$IP_DEV:0x$DEVNO:0x$DEVNO2:$PROTOCOL"
         CHAN="$IP_DEV,0x$DEVNO,0x$DEVNO2,0,$PROTOCOL"
@@ -1558,7 +1542,7 @@ fi
 #
 # set debug to yes/no
 #set -vx
-: ${DEBUG:=yes}
+: ${DEBUG:=no}
 #
 if [ "$DEBUG" = "no" ]
 then INSTALLINF="/etc/install.inf"
@@ -1594,16 +1578,14 @@ fi
 #
 echo "\
 =                                                                   =
-==-    Welcome to SuSE Linux Enterprise Server 7 for zSeries      -==
+==-    Welcome to SuSE Linux Enterprise Server 8 for zSeries      -==
 =                                                                   ="
-if [ "$DEBUG" = "yes" ]; then echo "- Running in DEBUG mode. -"; echo ; fi
+[ "$DEBUG" = "yes" ] && echo -e "\n- Running in DEBUG mode. -\n"
 EXIT_SCRIPT=0
 CONFIG_IS_OK=0
 while [ $CONFIG_IS_OK = 0 ]; do
   select_network_device_type
-  if [ $CONFIG_IS_OK = 1 -o $EXIT_SCRIPT = 1 ]; then
-    break
-  fi
+  [ $CONFIG_IS_OK = 1 -o $EXIT_SCRIPT = 1 ] && break
   echo
   readln "Please enter your full host name, e.g. 'linux.example.com' ($IP_HOST): "
   if [ $ANSW ]; then export IP_HOST=$ANSW; fi

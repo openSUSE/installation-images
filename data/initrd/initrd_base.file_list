@@ -12,6 +12,9 @@ t var/run/utmp
 
 c 1777 0 0 tmp
 
+aaa_base:
+  /etc/nsswitch.conf
+
 if arch eq 's390' || arch eq 's390x'
 
 #  include initrd_s390.file_list
@@ -31,21 +34,21 @@ if arch eq 's390' || arch eq 's390x'
     #/etc/init.d/network
     #/etc/init.d/route
     # for ssh key generation?
+    /bin/fillup
     /etc/init.d/random
     /etc/ld.so.conf
     /etc/rc.status
-    /bin/fillup
-    /var/adm/fillup-templates
     /etc/{modules.conf,insserv.conf}
+    /root
     /sbin/get_kernel_version
     /sbin/insserv
+    /var/adm/fillup-templates
   e postin
   r /var/adm/fillup-templates
+  r /root/.exrc
+  r /root/.xinitrc
   aaa_dir:
     /
-  devs:
-    /dev/pts
-    /dev/dasd*
   glibc:
     /etc/nscd.conf
     /etc/rpc
@@ -94,14 +97,14 @@ if arch eq 's390' || arch eq 's390x'
     m /usr/bin/smbmount /bin/smbmount
     m /usr/bin/smbmnt   /bin/smbmnt
     # to make mount(8) -t smbfs work:
-    l ../bin/smbmount  /sbin/mount.smbfs
+    l /bin/smbmount  /sbin/mount.smbfs
     # /lib/libnss_wins.so?
   cups-libs:
     /usr/lib/libcups.so.*
   installation-kernel-rdripl:
     /lib/modules
   <kernel_rpm>:
-    m /boot/k_deflt/System.map /System.map
+    m /boot/System.map-* /System.map
   e2fsprogs:
     /lib/libcom_err.so.*
     /lib/libcom_err.so.*
@@ -223,6 +226,8 @@ if arch eq 's390' || arch eq 's390x'
     /bin/login
     /etc/login.defs
     /etc/pam.d/login
+    /usr/sbin/groupadd
+    /usr/sbin/useradd
   iputils:
     /bin/ping
     /bin/ping6
@@ -240,16 +245,17 @@ if arch eq 's390' || arch eq 's390x'
     /usr/sbin/tcpd
   textutils:
     /bin/cat
+    /bin/sort
     /usr/bin/wc
     /usr/bin/cut
     /usr/bin/head
     /usr/bin/tail
-    /usr/bin/sort
   sh-utils:
     /bin/uname
     /bin/sleep
     /bin/date
     /usr/bin/expr
+    /usr/bin/chroot
   util-linux:
     /bin
     /sbin
@@ -270,7 +276,8 @@ if arch eq 's390' || arch eq 's390x'
   openssl:
     /usr/lib/libcrypto.so.*
     /usr/lib/libssl.so.*
-  openssh: prein
+  openssh: prein,postin
+  e prein
     /etc/ssh
     /etc/ssh/moduli
     /usr/bin/scp
@@ -278,19 +285,23 @@ if arch eq 's390' || arch eq 's390x'
     /etc/init.d/sshd
     /etc/pam.d/sshd
     /etc/ssh/sshd_config
-    /usr/sbin/sshd
     # ??? do we need more ssh preconfiguration?
     t /etc/sysconfig/ssh
     /etc/ssh/ssh_config
     /usr/bin/ssh
-    e prein
+    /usr/sbin/sshd
+    /var/adm/fillup-templates/sysconfig.ssh
+    /var/empty
+    /var/lib/sshd
+  e postin
   syslogd:
     /etc/init.d/syslog
     /sbin/klogd
     /sbin/syslogd
     # /var/adm/fillup-templates/rc.config.syslogd
   linuxrc:
-    m /usr/sbin/linuxrc_tiny /bin/linuxrc
+    m /usr/sbin/linuxrc /bin/linuxrc
+    l /bin/linuxrc  /bin/freeramdisk
 
   strace:
     /usr/bin/strace
@@ -304,14 +315,16 @@ if arch eq 's390' || arch eq 's390x'
   x s390/etc/inetd.conf  /etc/inetd.conf
   x s390/etc/inittab     /etc/inittab
   x s390/etc/profile     /etc/profile
+  x s390/ihno            /ihno
+  x s390/linuxrc         /linuxrc
+  x s390/linuxrc.finish  /linuxrc.finish
+  x s390/linuxrc.init    /linuxrc.init
   x s390/sbin/halt       /sbin/halt
   x s390/sbin/nodns      /sbin/nodns
   x s390/sbin/start_yast /sbin/start_yast
   x s390/sbin/realchroot /sbin/realchroot
-  x s390/linuxrc         /linuxrc
-  x s390/linuxrc.finish  /linuxrc.finish
-  x s390/linuxrc.init    /linuxrc.init
 
+  c 0755 0 0 /linuxrc
   c 0755 0 0 /bin/netsetup
   c 0755 0 0 /sbin/halt
   c 0755 0 0 /sbin/nodns
@@ -359,9 +372,12 @@ endif
 x etc/host.conf etc
 
 devs:
-  if arch eq 's390' || arch eq 's390x' || arch eq 'ppc' || arch eq 'ppc64'
+  if arch eq 'ppc' || arch eq 'ppc64'
     m /usr/share/doc/packages/devs/makedevs /makedevs.floppy
   else
+    if arch eq 's390' || arch eq 's390x'
+    	/dev/dasd*
+    endif 
     m /usr/share/doc/packages/devs/makedevs.floppy /
   endif
 
@@ -506,9 +522,6 @@ if with_smb
 
 endif
 
-aaa_base:
-  /etc/nsswitch.conf
-
 if with_gdb
 
   gdb:
@@ -552,3 +565,5 @@ if demo
   e echo "Demo:		1" >>linuxrc.config
 endif
 
+  # r /usr/sbin/groupadd
+  # r /usr/sbin/useradd

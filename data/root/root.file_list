@@ -82,16 +82,12 @@ util-linux:
   /sbin/blockdev
 
 <kernel_rpm>:
-if arch eq 's390'
-    m /boot/k_deflt/System.map /System.map
-else
 if arch eq 'alpha'
 # ???
 #    m /boot/System.map-*.default /System.map
     m /boot/System.map-* /System.map
 else
     m /boot/System.map-* /System.map
-endif
 endif
 
 if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 's390' || arch eq 's390x')
@@ -595,13 +591,15 @@ syslogd:
 
 if pre_release
   # will not appear in final release
-  openssh: prein
+  openssh: prein,postin
+    e prein
     /etc/pam.d/sshd
     /etc/ssh
     /usr/sbin/sshd
     /usr/bin/ssh
     /usr/bin/scp
-    e prein
+    /var/empty
+    e postin
 
   pam:
     /etc/pam.d/other

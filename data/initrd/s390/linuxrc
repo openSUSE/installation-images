@@ -1,12 +1,51 @@
 echo 'This is SuSE Instsys Version %{version} Rel. %{release}'
 echo 'Build date: Tue Aug  7 14:49:34 CEST 2001'
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+change_to_tmpfs()
+{
+#
+#	move everything to tmpfs
+#
+NEWROOT=/newroot
+echo -e "\nSwitching to tmpfs\n"
+cd /
+[ ! -d $NEWROOT ] && mkdir $NEWROOT
+mount -t shm shmfs $NEWROOT
+ls  | grep -v newroot  | grep -v proc  | while read a
+do 
+	cp -R $a $NEWROOT
+done
+cd $NEWROOT
+mkdir oldroot
+pivot_root . oldroot
+chroot .
+#
+#	Oeffnen der Devices
+#
+
+echo -e "\nEnd switching to tmpfs.\n"
+} # change_to_tmpfs
+#
+#	Main
+#
+
 . /bin/netsetup
+mount -t devpts devpts /dev/pts
+
+# if [ ! -d /oldroot ]
+# then
+	# change_to_tmpfs
+# else
+	# umount /oldroot
+	# freeramdisk /dev/ram0
+# fi
 dmesg > /kernel.msg
-echo
-echo "You should be able to login via telnet/ssh now."
-echo "To restart network setup, enter:"
-echo "netsetup"
-echo
+echo "
+You should be able to login via telnet/ssh now.
+To restart network setup, enter:
+
+netsetup
+"
 while bash -login
 do echo "linuxrc $$: restarting bash"; sleep 1; done
