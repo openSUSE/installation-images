@@ -40,7 +40,7 @@ close F;
 
 ($i1, $i2) = split /\./, $ConfigData{suse_release};      
 
-if($ConfigData{product} eq "UnitedLinux") {
+if($ConfigData{product_name} eq "UnitedLinux") {
   $label = "UNITEDLINUX";
 }
 else {
@@ -51,7 +51,7 @@ else {
 ($blocks, $block_size) = MakeFATImage(
   $image, $label, 1,
   undef, undef, undef, undef, undef,
-  "\r\nI'm $ConfigData{product} module disk $disk. I cannot boot. :-(\r\n"
+  "\r\nI'm $ConfigData{product_name} module disk $disk. I cannot boot. :-(\r\n"
 );
 
 die "$Script: failed to create DOS disk image \"$image\"\n" unless defined $blocks;
@@ -68,12 +68,24 @@ SUSystem "mount -oloop -t vfat $image /mnt" and
 SUSystem "cp ${DataPath}initrd/module.help /mnt/module.config";
 unlink "$image.txt";
 for (@modimages_i) {
-  SUSystem "cp  $srcdir/$_ /mnt" and die "$Script: could not add $_";
+  $s = $_;
+  $s =~ s/\@[^@]+?\b//;
+  if(SUSystem "cp  $srcdir/$_ /mnt/$s") {
+    print "--\n";
+    system "du $srcdir/$_";
+    system "df -Pk /mnt | grep -v Filesystem";
+    print "--\n";
+    die "$Script: could not add $_";
+  }
 }
 
 for (@modimages_l) {
   SUSystem "sh -c 'cat ${gen}config.$_ >>/mnt/module.config'";
   system "sh -c 'cat ${gen}list.$_ >>$image.txt'";
+}
+
+if($disk == 1 && $ENV{hp1}) {
+  system "sh -c 'cat ${DataPath}initrd/module.list.hp1 >>$image.txt'";
 }
 
 $i3 = $i2*10;

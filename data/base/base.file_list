@@ -4,6 +4,19 @@ c 1777 0 0 tmp
 devs:
   /dev
 
+### SLD/SLEC
+expat:
+  /usr/lib*/libexpat.so.*
+
+freetype2:
+    /usr/lib*/libfreetype.so.*
+
+fontconfig:
+  /etc/fonts/*
+  /usr/lib*/libfontconfig.so*
+
+### /SLEC
+
 if suse_release >= 8.1
 filesystem:
 else
@@ -148,11 +161,21 @@ libjpeg:
 
 bootsplash-theme-SuSE:
   /
-  m /usr/share/splash/themes/SuSE/bootloader/message /SuSE.boot
 
 bootsplash-theme-UnitedLinux:
   /
-  m /usr/share/splash/themes/UnitedLinux/bootloader/message /UnitedLinux.boot
+
+bootsplash-theme-SuSE-SLES:
+  /
+
+bootsplash-theme-OpenXchange:
+  /
+
+gfxboot-devel:
+  m /usr/share/gfxboot/SuSE/bootlogo /SuSE.boot
+  m /usr/share/gfxboot/SuSE/bootlogo /UnitedLinux.boot
+  m /usr/share/gfxboot/SuSE/bootlogo /SuSE-SLES.boot
+  m /usr/share/gfxboot/SuSE/bootlogo /OpenXchange.boot
 
 <kernel_rpm>:
   /lib/modules
@@ -199,8 +222,11 @@ E cp /lib/modules/<kernel_ver>/modules.pcimap /
 r /lib/modules
 
 # create splash
-E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-800x600.cfg >>/SuSE.splash
-E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-1024x768.cfg >>/SuSE.splash
-E splash -s -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-800x600.cfg >>/UnitedLinux.splash
-E splash -s -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-1024x768.cfg >>/UnitedLinux.splash
-
+E splash -s -n -f /usr/share/splash/themes/SuSE/config/bootsplash-800x600.cfg >>/SuSE.splash
+E splash -s -n -f /usr/share/splash/themes/SuSE/config/bootsplash-1024x768.cfg >>/SuSE.splash
+E splash -s -n -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-800x600.cfg >>/UnitedLinux.splash
+E splash -s -n -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-1024x768.cfg >>/UnitedLinux.splash
+E splash -s -n -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-800x600.cfg >>/SuSE-SLES.splash
+E splash -s -n -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-1024x768.cfg >>/SuSE-SLES.splash
+E splash -s -n -f /usr/share/splash/themes/OpenXchange/config/bootsplash-800x600.cfg >>/OpenXchange.splash
+E splash -s -n -f /usr/share/splash/themes/OpenXchange/config/bootsplash-1024x768.cfg >>/OpenXchange.splash
