@@ -95,6 +95,23 @@ function yes_no () {
     echo $ENTER_YES_NO
   done
 }
+
+#
+# asks user whether to ignore the previous error
+#
+function continue_anyway()
+{
+	echo
+	echo 'Do you want to ignore this error and continue anyway? (Yes/No)'
+	yes_no
+	if test "$ANSW" = "yes"
+	then
+		return 0
+	else
+		return 1
+	fi
+}
+
 #
 #	Ask for the IP-Number of the server for nfs/samba/ftp/http
 #
@@ -112,6 +129,7 @@ do
 		$CONDOM ping -w 10 -n -c 3 $INST_IP_ADDR
 		[ $? -eq 0 ] && break
 		echo -en $IP_ERROR1
+		continue_anyway && break
 	fi
 done
 } # ask_ip
@@ -132,6 +150,7 @@ do
 		$CONDOM ping -w 10 -n -c 3 $INST_X_ADDR
 		[ $? -eq 0 ] && break
 		echo -en $IP_ERROR1
+		continue_anyway && break
 	fi
 done
 } # ask_ip_server

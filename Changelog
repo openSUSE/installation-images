@@ -1,3 +1,8 @@
+8/8/2003:       v2.103
+	- s390: added fscks for reiserfs and jfs (#27331)
+	- s390: added options to ignore networking errors (#25872)
+	- s390: added HSTR support by ihno (#22820)
+
 7/8/2003:	v2.102
 	- new kernel modules
 
