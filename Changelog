@@ -1,3 +1,5 @@
+	- add /sbin/hotplug, drop remove events (#39109, #39894)
+
 8/5/2004:	v5.50
 	- fixed .timestamp creation
 
