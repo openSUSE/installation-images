@@ -1,3 +1,4 @@
+16/2/2004:	v5.10
 	- added yast2-runlevel
 	- add /usr/bin/stat to instsys on ppc
 	- fixed module setup in inst_setup
