@@ -1,3 +1,6 @@
+11/8/2003:	v4.14
+	- s390: qeth is GPL now, do not show OCO license when loading it
+
 11/8/2003:	v4.13
 	- kernel module issues
 	- sysrq key enabled in rescue system

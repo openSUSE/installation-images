@@ -1090,7 +1090,6 @@ function load_QETH () {
       return 1
     fi
   fi
-  display_license || return 0
   if [ $NUMCHANS -gt 20 ]; then
     echo "Summary of all $NETTYPE channels detected:"
     echo "Device Addresses CHPID(s)"
