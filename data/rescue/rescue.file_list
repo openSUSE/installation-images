@@ -72,6 +72,9 @@ diffutils:
 dump:
   /sbin/{dump,restore}
 
+hdparm:
+  /sbin
+
 e2fsprogs:
   /{lib,sbin}
   /usr/{,s}bin
@@ -212,6 +215,9 @@ ps:
   /usr/bin
 
 reiserfs:
+  /sbin
+
+jfsprogs:
   /sbin
 
 rpm:

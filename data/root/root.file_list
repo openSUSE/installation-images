@@ -713,6 +713,9 @@ if arch eq 'ppc'
     /usr/lib/libparted.so*
 endif
 
+jfsprogs:
+  /sbin/{fsck.jfs,mkfs.jfs}
+
 if with_yast2 ne 'no'
   # make fonts.dir
   E mkfontdir usr/X11R6/lib/X11/fonts/misc

@@ -1,6 +1,9 @@
+13/8/2001:	v1.79
 	- added 'failsafe' boot menu entry
 	- added yast2-lib-sequencer
 	- fixed typo in rescue system
+	- added jfsprogs to inst-sys & rescue
+	- added hdparm to rescue
 
 10/8/2001:	v1.78
 	- added more files for ssh login into the instsys
