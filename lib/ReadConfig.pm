@@ -585,6 +585,11 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
     $i = $ConfigData{buildroot} ? "-r $ConfigData{buildroot}" : "";
 
     my $kn = `rpm $i -qf /boot/$ConfigData{kernel_img} | head -n 1 | cut -d- -f1` if -f "$ConfigData{buildroot}/boot/$ConfigData{kernel_img}";
+    # file ... not owned by any package
+    if ( $kn =~ /^file / ) {
+        $ConfigData{kernel_img} = readlink ( "/boot/$ConfigData{kernel_img}" );
+        $kn = `rpm $i -qf /boot/$ConfigData{kernel_img} | head -n 1 | cut -d- -f1` if -f "$ConfigData{buildroot}/boot/$ConfigData{kernel_img}";
+    }
     chomp $kn if $kn;
 
     $ConfigData{kernel_rpm} = $kn if !$ENV{kernel} && $kn;

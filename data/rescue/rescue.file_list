@@ -50,6 +50,9 @@ e postin
 # r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
 t /etc/fstab
 
+mkinitrd:
+  /
+
 grep:
   /bin
 
@@ -311,13 +314,14 @@ libattr:
 attr:
   /usr/bin
 
-dmapi:
-  /usr/lib*
+# dmapi:
+#   /lib*
 
 rpm:
   /bin
   /usr/bin
   /{usr,var}/lib/rpm
+  /usr/lib*/librpm*.so
 r /usr/lib/rpm/rpm{get,put}text
 r /usr/bin/rpmqpack
 

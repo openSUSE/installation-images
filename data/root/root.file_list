@@ -31,8 +31,6 @@ e prein
   /etc/inputrc
   /etc/rc.status
   /etc/modules.conf{,.local}
-  /sbin/mk_initrd
-  /sbin/get_kernel_version
   /usr/bin/old
   /root/.gnupg/suse_build_key
   /root/.gnupg/suse_build_key
@@ -93,8 +91,9 @@ iputils:
 
 rpm:
   /bin/rpm
-  /usr/lib/rpm/{rpm{popt,rc},macros}
-  /usr/lib*/librpm.so*
+  /usr/lib/rpm/{rpmrc,macros}
+  /usr/lib/rpm/rpmpopt*
+  /usr/lib*/librpm*.so
 
 util-linux:
   /bin/guessfstype
@@ -362,7 +361,7 @@ if with_yast2 ne 'no'
   XFree86-libs:
     /usr/X11R6/lib*/lib{X11,Xext}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
-    /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xrender,Xpm,Xrandr}.so*
+    /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xrender,Xpm,Xrandr,Xcursor}.so*
     /usr/X11R6/lib*/libXft.so.2*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
@@ -389,7 +388,6 @@ if with_yast2 ne 'no'
     /usr/X11R6/bin/xkbcomp
     /usr/X11R6/bin/setxkbmap
     /usr/X11R6/bin/mkfontdir
-    /usr/X11R6/lib/X11/locale
     /etc/X11/xserver
   r /etc/X11/xserver/C
   s /etc/X11/xserver /usr/X11R6/lib/X11
@@ -428,8 +426,9 @@ if with_yast2 ne 'no'
       /lib/libdl.so.2
       /lib/libm.so.6
   endif
-  vnc:
+  XFree86-Xvnc:
     /usr/X11R6/bin/Xvnc
+  tightvnc:
     /usr/X11R6/bin/vncpasswd.arg
     /usr/share/vnc/classes
 
@@ -834,7 +833,6 @@ gdbm:
   /usr/lib*/libgdbm_compat.so.*
 
 xf86tools:
-  /etc/fonts/fonts.conf
   /usr/sbin/fonts-config
 
 if with_yast2 ne 'no'

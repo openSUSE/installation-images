@@ -1,3 +1,8 @@
+27/5/2003:	v4.02
+	- rename vnc -> tightvnc, add XFree86-Xvnc
+	- kernel rpm fixes
+	- lib fixes
+
 24/4/2003:	v4.01
 	- use setxkbmap
 	- integrated 8.2 live eval changes 
