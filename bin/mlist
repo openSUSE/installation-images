@@ -1,0 +1,229 @@
+#! /usr/bin/perl
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
+
+sub lsplit;
+sub add_quotes;
+
+die "usage: $Script\n" if @ARGV;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$cfg = "${CfgPath}module.config";
+$deps = "${BasePath}tmp/module_deps";
+$fnames = "${BasePath}tmp/module_list";
+$dst = "${DataPath}initrd/gen/module.";
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+
+$err = 0;
+
+die "$Script: $deps: $!\n" unless open F, $deps;
+while(<F>) {
+  chomp;
+  @i = split " ", $_;
+  $i[0] =~ s/:$//;
+  $i = shift @i;
+  $dep{$i} = [ @i ];
+}
+close F;
+
+
+die "$Script: $fnames: $!\n" unless open F, $fnames;
+while(<F>) {
+  chomp;
+  if(/^(\S+):\s*(\S+)/) {
+    $fname{$2} = "$1/$2.o";
+  }
+}
+close F;
+
+
+die "$Script: $cfg: $!\n" unless open F, $cfg;
+
+while(<F>) {
+  chomp;
+  s/^\s*([#;].*)?//;
+  next if $_ eq "";
+  if(/^\[(.+)\]/) {
+    $sect = $1;
+    push @sect, $sect unless exists $sect{$sect};
+    $sect{$sect}{'tag'} = undef;
+    next;
+  }
+  if(/MoreModules=(.*)/i) {
+    $sect{$sect}{'MoreModules'} = $1;
+    next;
+  }
+
+  @l = lsplit $_;
+  if(defined $fname{$l[0]}) {
+    $all{$l[0]} = 1;
+    push @{$sect{$sect}{'m'}}, [ @l ];
+  }
+  else {
+    print STDERR "warning: no such module: $l[0]\n"
+  }
+}
+close F;
+
+
+# fix pre/post install fields
+for (@sect) {
+  for $m (@{$sect{$_}{'m'}}) {
+    $pre = $$m[3];
+    $post = $$m[4];
+    $mod = $$m[0];
+    undef %l;
+    undef @new_pre;
+    undef @new_post;
+
+    @p = split ' ', $pre;
+    for $p (@p) {
+      for $p1 (@{$dep{$p}}) {
+        push @new_pre, $p1 unless $l{$p1};
+        $l{$p1} = 1;
+      }
+      push @new_pre, $p unless $l{$p};
+      $l{$p} = 1;
+    }
+
+    for $p (@{$dep{$mod}}) {
+      push @new_pre, $p unless $l{$p};
+      $l{$p} = 1;
+    }
+    $l{$mod} = 1;
+
+    @p = split ' ', $post;
+    for $p (@p) {
+      for $p1 (@{$dep{$p}}) {
+        push @new_post, $p1 unless $l{$p1};
+        $l{$p1} = 1;
+      }
+      push @new_post, $p unless $l{$p};
+      $l{$p} = 1;
+    }
+
+    for $k (keys %l) {
+      $sect{$_}{'a'}{$k} = 1;
+      if(!$all{$k}) {
+        $err = 10;
+        print STDERR "warning: no config for \"$k\" (needed by $mod)\n";
+      }
+    }
+
+    $$m[3] = join ' ', @new_pre;
+    $$m[4] = join ' ', @new_post;
+  }
+}
+
+
+for (sort { $fname{$a} cmp $fname{$b} } keys %fname) {
+  if(!$all{$_}) {
+    $err = 11;
+    print STDERR "warning: nothing known about \"$fname{$_}\"\n";
+  }
+}
+
+
+mkdir "${DataPath}initrd/gen", 0755;
+
+for (@sect) {
+  next if /notuseful/;
+
+  $s = $_;
+  $s =~ s/\s*//g;
+  $s = $1 if exists($sect{$_}{MoreModules}) && $sect{$_}{MoreModules} =~ /^(\S+)-mod/;
+
+  open W, ">${dst}config.$s";
+  print W "[$_]\n";
+  print W "MoreModules=$sect{$_}{MoreModules}\n\n" if exists $sect{$_}{MoreModules};
+  for $m (@{$sect{$_}{'m'}}) {
+    $l = join ',', add_quotes(@$m);
+    $l =~ s/,*$//;
+    print W "$l\n";
+  }
+  print W "\n\n";
+  close W;
+
+  open W, ">${dst}shortconfig.$s";
+  print W "[$_]\n";
+  print W "MoreModules=$sect{$_}{MoreModules}\n" if exists $sect{$_}{MoreModules};
+  print W "\n\n";
+  close W;
+
+  open W, ">${dst}files.$s";
+  for $f (sort { $fname{$a} cmp $fname{$b} } keys %{$sect{$_}{'a'}}) {
+    if($_ eq 'cd1') {
+      print W "  /lib/modules/<kernel_ver>/$fname{$f}\n";
+    }
+    else {
+      print W "a /lib/modules/<kernel_ver>/$fname{$f} /modules\n";
+    }
+  }
+  close W;
+
+  open W, ">${dst}list.$s";
+  print W ";\n; $_ modules\n;\n";
+  for $m (@{$sect{$_}{'m'}}) {
+    if($$m[1]) {
+      printf W "%-15s\t%s\n", $$m[0], $$m[1];
+    }
+  }
+  print W "\n";
+  close W;
+}
+
+exit $err;
+
+
+sub lsplit
+{
+  local $_;
+  my ($l, $f, @l);
+
+  $l = shift;
+
+  while($l =~ s/^\s*([^,"]*|\".*?(?<!\\)\")\s*,//) {
+    $f = $1;
+    $f =~ s/^"(.*)"$/$1/;
+    $f =~ s/\\\"/"/g;
+    push @l, $f;
+  }
+  $l =~ s/^\s*|\s*$//g;
+  $l =~ s/^"(.*)"$/$1/;
+  $l =~ s/\\\"/"/g;
+  push @l, $l if $l ne "";
+
+  return @l;
+}
+
+sub add_quotes
+{
+  local $_;
+  my (@i);
+
+  @i = @_;
+
+  for (@i) {
+    if(/[,"]/) {
+      s/"/\\"/g;
+      $_ = "\"$_\"";
+    }
+  }
+
+  return @i
+}
+
+
