@@ -1,16 +1,18 @@
 #!/bin/sh
 
-# Create interface and chandev entry
+# Create interface
 #
 # Olaf Hering <olh@suse.de>
 # Michal Svec <msvec@suse.cz>
+# Martin Vidner <mvidner@suse.cz>
 # Ihno Krumreich <ihno@suse.de>
 #
-# $Id: create_interface,v 1.13 2004/03/15 10:17:44 uli Exp $
+# $Id: create_interface,v 1.14 2004/04/01 12:39:50 snwint Exp $
 
 ROOT=$1
 INSTALLINF=/etc/install.inf
-CHANDEVCONF=$ROOT/etc/chandev.conf
+# files copied to $ROOT at the end of script
+HARDWAREDIR=/etc/sysconfig/hardware/
 DEVICEDIR=$ROOT/etc/sysconfig/network/
 ROUTINGFILE=$ROOT/etc/sysconfig/network/routes
 HOSTFILE=$ROOT/etc/HOSTNAME
@@ -24,7 +26,6 @@ MODCONFFILE=$ROOT/etc/modules.conf
 MODCONFFILETMP=$ROOT/etc/modules.conf.tmp
 # INSTALLINF=netsetup.inf
 # INSTALLINF=install.inf
-# CHANDEVCONF=chandev.conf
 # DEVICEDIR=
 # ROUTINGFILE=routes
 #
@@ -32,52 +33,49 @@ MODCONFFILETMP=$ROOT/etc/modules.conf.tmp
 if [ -f $INSTALLINF ]
 then
 
-#	Check for chandev
-#	CHANDEV=`grep Chandev: $INSTALLINF | uniq | sed -e 's/Chandev: \\(.*\\)/\\1/'`
-#	[ -n "$CHANDEV" ] && echo $CHANDEV >> $CHANDEVCONF
 #
-#	Create modules.conf Entry (alias)
-#
-	MODCONF=`grep Alias: $INSTALLINF | uniq | sed -e 's/Alias: \\(.*\\)/\\1/'`
-	if [ -n "$MODCONF" ]
-	then
-		set -- $MODCONF
-		if [ $# -eq 2 ]
-		then
-			egrep "alias[[:space:]]*$1[[:space:]]*" $MODCONFFILE 2>&1 > /dev/null
-			if [ $? -eq 0 ]
-			then
-#				Entry found
-				egrep -v "alias[[:space:]]*$1[[:space:]]*" $MODCONFFILE > $MODCONFFILETMP
-				[ $? -eq 0 ] && mv $MODCONFFILETMP $MODCONFFILE
-				
-			fi
-			echo "alias $MODCONF" >> $MODCONFFILE
-		fi
-	fi
-
-#
-#	Create modules.conf Entry (Options)
-#
-	MODCONF=`grep Options: $INSTALLINF | uniq | sed -e 's/Options: \\(.*\\)/\\1/'`
-	if [ -n "$MODCONF" ]
-	then
-		egrep "options[[:space:]]*$1[[:space:]]*" $MODCONFFILE 2>&1 > /dev/null
-		if [ $? -eq 0 ]
-		then
-#			Entry found
-			egrep -v "options[[:space:]]*$1[[:space:]]*" $MODCONFFILE > $MODCONFFILETMP
-			[ $? -eq 0 ] && mv $MODCONFFILETMP $MODCONFFILE
-			
-		fi
-		echo "options $MODCONF" >> $MODCONFFILE
-	fi
-
-#
-#	Create interfacefile
+#	Get configuration for the installation device
 #
 	NETDEV=`grep Netdevice: $INSTALLINF | grep -v sit0 | uniq | sed -e 's/Netdevice: \\(.*\\)/\\1/'`
-	DEVICEFILE=${DEVICEDIR}ifcfg-$NETDEV
+	eval `getcfg $NETDEV`
+
+
+#
+#	Create hardware configuration file
+#
+	# hardware config
+	if [ "$HWD_BUS_N" -gt 0 ] ; then
+	# use bus info
+		eval HWD_BUSNAME=\$HWD_BUSNAME_$((HWD_BUS_N-1))
+		eval HWD_BUSID=\$HWD_BUSID_$((HWD_BUS_N-1))
+		myhwcfg=hwcfg-bus-${HWD_BUSNAME}-${HWD_BUSID}
+	else
+	# use static name
+		myhwcfg=hwcfg-static-0
+	fi
+	: hwcfg $myhwcfg
+	HARDWAREFILE=${HARDWAREDIR}$myhwcfg
+
+	# Here save Aliases and Options for $NETDEV
+	MODULE=`grep "Alias: $NETDEV" $INSTALLINF | uniq | sed -e "s/Alias: $NETDEV \\(.*\\)/\\1/"`
+	MODULE_OPTIONS=`grep "Options: $NETDEV" $INSTALLINF | uniq | sed -e "s/Options: $NETDEV \\(.*\\)/\\1/"`
+	echo "STARTMODE='auto'" > $HARDWAREFILE
+	echo "MODULE='$MODULE'" >> $HARDWAREFILE
+	echo "MODULE_OPTIONS='$MODULE_OPTIONS'" >> $HARDWAREFILE
+
+#
+#	Create interface file
+#
+	# interface config
+	if [ -z "$HWD_ID" ] ; then
+	# use kernel name
+		myifcfg=ifcfg-$NETDEV
+	else
+	# use LLA address
+		myifcfg=ifcfg-${HWD_DEVTYPE}-id-${HWD_ID}
+	fi
+	: ifcfg $myifcfg
+	DEVICEFILE=${DEVICEDIR}$myifcfg
 
 	# Choose correct boot protocol (#23708)
 	BOOTPROTO="dhcp"
@@ -158,6 +156,7 @@ fi
 #
 #	Copy all hwcfg-files to the installed system
 #
+# Originally only for s390, now also the NETDEV hwcfg
 ERG=`ls /etc/sysconfig/hardware/hwcfg-* 2> /dev/null`
 if [ $? = 0 ]
 then
