@@ -1,3 +1,5 @@
+	- include xauth for ssh -X mode
+
 29/8/2002:	v2.49
 	- do start_shell also with usessh, there is a console anyway
 	- remove the info file for YaST1, not needed anymore
