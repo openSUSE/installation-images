@@ -39,10 +39,10 @@ tar:
 sed:
   /bin/sed
 
-acl:
+libacl:
   /lib*
 
-attr:
+libattr:
   /lib*
 
 bash:
@@ -276,6 +276,7 @@ less:
 
 modutils:
  /sbin/{depmod,genksyms,insmod,ksyms,lsmod,modinfo,modprobe,rmmod,insmod.static}
+ /sbin/{depmod,insmod,lsmod,modprobe,rmmod}.old
 
 ps:
   /bin/ps

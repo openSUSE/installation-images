@@ -102,9 +102,9 @@ if arch eq 's390' || arch eq 's390x'
     /usr/lib*/libcrack.so*
   gdbm:
     /usr/lib*/libgdbm.so*
-  attr:
+  libattr:
     /lib*/libattr.so.*
-  acl:
+  libacl:
     /lib*/libacl.so.*
   popt:
     /usr/lib*/libpopt.so.0
@@ -607,6 +607,7 @@ if with_gdb
 
 endif
 
+e echo "UseUSBSCSI:	1" >>linuxrc.config
 e echo "Product:	<product_name>" >>linuxrc.config
 e echo "UpdateDir:	<update_dir>" >>linuxrc.config
 

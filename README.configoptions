@@ -116,6 +116,9 @@ o boot
   use_k_inst=1
   - use kernel image from k_inst for booting
 
+  fastboot=1
+  - don't use syslinux' '-s' option for floppies
+
 
 o modules
 

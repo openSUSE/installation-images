@@ -106,7 +106,7 @@ dosfstools:
 findutils:
   /usr/bin/{find,xargs}
 
-acl:
+libacl:
   /lib*
 
 if arch eq 'alpha' || suse_xrelease eq 'beta'
@@ -217,6 +217,7 @@ mktemp:
 
 modutils:
   /sbin/{insmod,modprobe,rmmod,lsmod,ksyms,depmod}
+  /sbin/depmod.old
 
 ncurses:
   /lib*/libncurses.so.5*
@@ -274,7 +275,7 @@ pam-modules: postin
 E postin
 
 pciutils:
-  /sbin
+  /usr/sbin
 
 portmap: postin
   /etc
@@ -302,8 +303,10 @@ xfsprogs:
 xfsdump:
   /usr/sbin
 
-attr:
+libattr:
   /lib*
+
+attr:
   /usr/bin
 
 dmapi:
@@ -400,7 +403,7 @@ vim:
   /usr/bin/vi{,m}
 
 gdbm:
-  /usr/lib*/libgdbm.so.2*
+  /usr/lib*/libgdbm.so*
 
 hwinfo:
   /usr/{sbin,lib*}

@@ -28,6 +28,7 @@ tar:
 
 bash:
   /bin
+
 readline:
   /lib*
 
@@ -35,10 +36,10 @@ fileutils:
   /bin
   /usr/bin
 
-acl:
+libacl:
   /lib*
 
-attr:
+libattr:
   /lib*
 
 findutils:
@@ -71,6 +72,7 @@ mktemp:
 
 modutils:
   /sbin/depmod
+  /sbin/depmod.old
 
 ps:
   /{,s}bin
@@ -119,6 +121,7 @@ gawk:
 
 bootsplash:
   /
+  r /sbin/fbtruetype
 
 liblcms:
   /usr/lib*/liblcms.so*
