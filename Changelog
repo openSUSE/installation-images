@@ -1,8 +1,9 @@
-9/10/2002:	v2.80A
+9/10/2002:	v2.80
 	- fixed missing traceroutecommand in netsetup   (s390/s390x) #20462
 	- fixed mising MTU-parameter in interfacefile   (s390/s390x) #20644
 	- fixed wrong motd                              (s390/s390x) #20404
 	- fixed mising / in ftp/Samba-path              (s390/s390x) #19967/#20152
+
 7/10/2002:	v2.79
 	- say "SuSE Linux" unless it's UnitedLinux (#20336)
 	- add ibmsis to neededforbuild (rescue image)
