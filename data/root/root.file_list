@@ -108,6 +108,7 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arc
 
   f / reiserfs.o
   f / jfs.o
+  f / ext3.o
   f / hpfs.o
   f / loop_fish2.o
 
