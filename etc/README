@@ -26,7 +26,7 @@ In addition to a boot disk you will also need modules disk 1!
 Create a modules disk
 ---------------------
 
-Only a few modules fit on the bootdisk. Therefore four modules floppies
+Only a few modules fit on the bootdisk. Therefore five modules floppies
 exist. If you do not find the driver for your hardware on the normal disk,
 just insert the appropriate modules disk as soon as linuxrc starts.
 
@@ -45,11 +45,13 @@ modules1:  USB modules.
 
 modules2:  IDE/RAID/SCSI modules.
 
-modules3:  Network modules and old (non-ATAPI) CDROM drivers.
+modules3:  Network modules.
 
 modules4:  PCMCIA, FireWire (IEEE1394), file system and more SCSI modules.
 
-See modules[1234].txt for a detailed listing.
+modules5:  Old (non-ATAPI) CDROM drivers.
+
+See modules[12345].txt for a detailed listing.
 
 
 

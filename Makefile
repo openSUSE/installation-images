@@ -87,6 +87,7 @@ usbdisks:
 	modules=2 make modules
 	modules=3 make modules
 	modules=4 make modules
+	modules=5 make modules
 
 mboot:
 	make -C src/mboot
