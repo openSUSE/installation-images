@@ -781,4 +781,4 @@ fi
 [ "$stop" ] && debug=1
 deb_stop
 
-rm -f /sbin/live-setup ; umount -a ; [ $$ = 1 ] && exec /sbin/init
+rm -f /sbin/live-setup ; umount -a 2>/dev/null ; [ $$ = 1 ] && exec /sbin/init
