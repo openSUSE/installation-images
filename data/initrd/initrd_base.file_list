@@ -89,10 +89,10 @@ if arch eq 's390' || arch eq 's390x'
   gdbm:
     /usr/lib/libgdbm.so*
   samba-client:
-    m /usr/bin/smbmount /bin/smbmount
-    m /usr/bin/smbmnt   /bin/smbmnt
+    /usr/bin/smbmount
+    /usr/bin/smbmnt
     # to make mount(8) -t smbfs work:
-    l ../bin/smbmount  /sbin/mount.smbfs
+    s ../usr/bin/smbmount  /sbin/mount.smbfs
     # /lib/libnss_wins.so?
   cups-libs:
     /usr/lib/libcups.so.*
