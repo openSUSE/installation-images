@@ -119,6 +119,7 @@ if arch eq 's390' || arch eq 's390x'
     /usr/share/samba/codepages/codepage.850
     /usr/share/samba/codepages/unicode_map.850
     /usr/share/samba/codepages/unicode_map.ISO8859-1
+    /usr/share/samba/codepages/unicode_map.ISO8859-15
   cups-libs:
     /usr/lib*/libcups.so.*
   installation-kernel-rdripl:

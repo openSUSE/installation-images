@@ -1,3 +1,7 @@
+25/9/2002:	v2.74
+	- Writing MTU to Devicefile
+	- added missing sambafile to initrd
+	- adding necessary parameters for ssh-install
 25/9/2002:	v2.73
 	- support SuSE-SLES theme
 

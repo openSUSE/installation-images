@@ -268,6 +268,12 @@ write_info_file()
 			echo "VNCPassword: $VNCPW" >> $INFOFILENAME
 		;;
 		SSH)
+			echo "UseSSH: 1" >> $NETSETUPFILE
+#
+#			Setting console to this value
+#			means, that yast is asking for the terminaltype
+#
+			echo "Console: ttyS0,9600" >> $NETSETUPFILE
 		;;
 		*)
 		;;
@@ -375,7 +381,7 @@ then
 #
 	write_info_file
 #
-	[ "$INST_SCREEN" != "SSH" ] && /bin/linuxrc
+#	[ "$INST_SCREEN" != "SSH" ] && /bin/linuxrc
 #
 	[ ! -z "$CONDOM" ] && set
 fi

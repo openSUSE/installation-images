@@ -71,6 +71,8 @@ then
 	echo "STARTMODE=\"onboot\"" >> $DEVICEFILE
 	IP=`grep "^IP:" $INSTALLINF | uniq | sed -e 's/IP: \\(.*\\)/\\1/'`
 	echo "IPADDR=\"$IP\"" >> $DEVICEFILE
+	IP_MTU=`grep "^IP_MTU:" $INSTALLINF | uniq | sed -e 's/IP_MTU: \\(.*\\)/\\1/'`
+	[ ! -z "$IP_MTU" ] && echo "MTU=\"$NWMASK\"" >> $DEVICEFILE
 #
 #	Create pointopoint Interfaces
 #

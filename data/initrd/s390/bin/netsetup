@@ -681,6 +681,7 @@ IP: $IP_ADDR"
     fi
     [ "$IP_HOST" ]        && echo "Machinename: $IP_HOST"
     [ "$IP_DNS" ]         && echo "Nameserver: $IP_DNS"
+    [ "$IP_MTU" ]         && echo "IP_MUT: $IP_MTU"
 }
 #
 #
@@ -1239,7 +1240,7 @@ function load_CTC_chandev () {
            DEVNO=`cut -d' ' -f 1 ctc_detected | head -1`
         LAST_DEVNO="$DEVNO"
         readln "Device address for read channel ($DEVNO): "
-	if [ $ANSW ]; then export DEVNO=$ANSW; fi
+	[ $ANSW ] && export DEVNO=$ANSW
         DEVNO="000$DEVNO"
 	DEVNO=${DEVNO:${#DEVNO}-4:4}
 	grep "^$DEVNO " ctc_detected >ctc_DEVNO
@@ -1247,7 +1248,7 @@ function load_CTC_chandev () {
 	[ "$LAST_DEVNO" = "$DEVNO" ] || DEVNO2=`echo | sed -n "1,/$DEVNO /d;s/^\(....\).*/\1/p;q" - ctc_detected`
 	[ -z "$DEVNO2" -o "$DEVNO2" = auto ] && DEVNO2=`cut -d' ' -f 1 ctc_detected | head -2|tail -1`
 	readln "Device address for write channel ($DEVNO2): "
-	if [ $ANSW ]; then export DEVNO2=$ANSW; fi
+	[ $ANSW ] && export DEVNO2=$ANSW
         DEVNO2="000$DEVNO2"
 	DEVNO2=${DEVNO2:${#DEVNO2}-4:4}
 	grep "^$DEVNO2 " ctc_detected >ctc_DEVNO2
