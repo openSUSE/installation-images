@@ -128,7 +128,12 @@ kbd:
   /usr/lib/kbd
   /usr/share/locale
   /bin/loadkeys
-  /usr/bin/{chvt,loadkeys,setfont,loadunimap,kbd_mode}
+  /usr/bin/{chvt,loadkeys,loadunimap,kbd_mode}
+
+# temporary fix for yast's setfont problems
+m /usr/bin/setfont /usr/bin/setfont.bin
+x /usr/bin/setfont /usr/bin
+
 c 0755 0 0 /usr/share/locale/nl
 c 0755 0 0 /usr/share/locale/ru
 

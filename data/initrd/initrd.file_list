@@ -131,7 +131,6 @@ a /lib/modules/<kernel_ver>/cdrom/gscd.o /modules
 a /lib/modules/<kernel_ver>/cdrom/mcdx.o /modules
 a /lib/modules/<kernel_ver>/cdrom/mcd.o /modules
 a /lib/modules/<kernel_ver>/cdrom/cm206.o /modules
-a /lib/modules/<kernel_ver>/cdrom/sonycd535.o /modules
 
 # scsi
 r /modules/ide-scsi.o

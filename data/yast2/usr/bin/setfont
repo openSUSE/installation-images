@@ -1,0 +1,6 @@
+#! /bin/sh
+mv    /dev/tty /dev/tty.bak
+mknod /dev/tty c 4 1
+setfont.bin "$@"
+rm    /dev/tty
+mv    /dev/tty.bak /dev/tty
