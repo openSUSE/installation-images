@@ -197,7 +197,6 @@ if arch eq 's390' || arch eq 's390x'
   s390-tools: postin
     /sbin/zipl
     /lib*
-    /boot
     /etc/zipl.conf.sample
     /sbin/dasdfmt
     /sbin/fdasd
