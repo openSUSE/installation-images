@@ -397,6 +397,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xrender,Xpm,Xrandr,Xcursor}.so*
     /usr/X11R6/lib*/libXft.so.2*
     /usr/X11R6/lib*/libxkbfile.so.*
+    /usr/X11R6/lib*/libXxf86vm.so.*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
     /usr/X11R6/lib*/libXxf86vm.so.*
@@ -524,6 +525,10 @@ if with_yast2 ne 'no'
     /
   yast2-runlevel:
     /
+if arch eq 's390' || arch eq 's390x'
+  yast2-s390:
+    /
+endif
   yast2-storage:
     /
   yast2-transfer:
@@ -700,6 +705,7 @@ lvm2:
 
 device-mapper:
   /lib*
+  /sbin/devmap_mknod.sh
 
 reiserfs:
   /sbin
@@ -905,6 +911,9 @@ evms:
 screen:
   /etc
   /usr/bin/screen
+
+utempter:
+  /usr/lib*/libutempter.so.*
 
 # freefont:
 #  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
