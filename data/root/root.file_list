@@ -85,7 +85,7 @@ util-linux:
 <kernel_rpm>:
   m /boot/System.map-* /System.map
 
-if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arch eq 's390x')
+if !(arch eq 'ppc' || arch eq 'sparc' || arch eq 's390' || arch eq 's390x')
 
   f / usbcore.o
   f / usb-uhci.o
