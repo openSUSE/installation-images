@@ -124,9 +124,11 @@ gawk:
   /bin
   /usr/bin
 
-splashanim:
-  /bin/splash
-  /usr/share/splash
+bootsplash:
+  /
+
+bootsplash-theme-SuSE:
+  /
 
 <kernel_rpm>:
   /lib/modules
@@ -174,6 +176,6 @@ E cp /lib/modules/<kernel_ver>/modules.pcimap /
 r /lib/modules
 
 # create splash
-E splash -s -f /usr/share/splash/bootsplash-800x600.cfg >>/usr/share/splash/inst_splash
-E splash -s -f /usr/share/splash/bootsplash-1024x768.cfg >>/usr/share/splash/inst_splash
+E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-800x600.cfg >>/usr/share/splash/inst_splash
+E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-1024x768.cfg >>/usr/share/splash/inst_splash
 
