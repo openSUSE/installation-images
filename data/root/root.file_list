@@ -739,10 +739,12 @@ if suse_release >= 7.1
   liblcms:
     /usr/lib/liblcms.so*
 
-  qt:
-    /usr/lib/libqt.so.2
-    /usr/lib/qt2
-    /usr/lib/qt-2.*/lib/libqt.so*
+  if with_yast2 ne 'no'
+    qt:
+      /usr/lib/libqt.so.2
+      /usr/lib/qt2
+      /usr/lib/qt-2.*/lib/libqt.so*
+  endif
 else
   qtlib2:
     /usr/lib/*
@@ -907,6 +909,8 @@ endif
 e /sbin/depmod -a -F /System.map <kernel_ver>
 
 # final clean up
+r /etc/X11/xserver/C
+
 r /modules /System.map
 r /sbin/insserv
 r /root
