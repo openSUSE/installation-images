@@ -179,14 +179,14 @@ bzip2:
   /usr/bin
   /usr/lib*/libbz2.so*	
 
-if arch eq 'ia32' || arch eq 'ppc'
+if arch eq 'ia32' || arch eq 'ppc' || arch eq 'x86_64'
   lilo:
     if arch eq 'ppc'
       /lib/lilo
       /bin
     endif
     /sbin
-    if arch eq 'ia32'
+    if arch eq 'ia32' || arch eq 'x86_64'
       /usr/sbin
     endif
 endif

@@ -200,7 +200,7 @@ file:
   /usr/lib*/libmagic.so*
   /usr/bin/file
 
-if arch eq 'ia32'
+if arch eq 'ia32' || arch eq 'x86_64'
   lilo:
     /sbin/activate
 endif
