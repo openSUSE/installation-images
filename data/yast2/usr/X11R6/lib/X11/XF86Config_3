@@ -16,6 +16,7 @@ EndSection
 Section "Keyboard"
   Protocol	"Standard"
   XkbRules	"xfree86"
+  XkbKeycodes	"xfree86"
   XkbModel	"pc104"
   XkbLayout	"de"
   XkbVariant	"nodeadkeys"

@@ -69,7 +69,8 @@ SUSystem "strip_dir $tmpdir";
 SUSystem "ldconfig -r $tmpdir";
 die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
-if(-d "$tmpinitrd/modules$ConfigData{kernel_ver}") {
+# if(-d "$tmpinitrd/modules$ConfigData{kernel_ver}") {
+if(-d "$tmpdir/lib/modules/$ConfigData{kernel_ver}") {
   SUSystem "mkdir $tmpdir/modules";
   SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
   SUSystem "depmod -a -F $tmpdir/System.map -b $tmpdir $ConfigData{kernel_ver}";

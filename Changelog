@@ -1,3 +1,8 @@
+5/7/2000:	v0.86
+	- added XkbKeycodes to XF86Config
+	- added parport mods (for Zip)
+	- fixed: modules.dep was not created
+
 3/7/2000:	v0.85
 	- added BlankTime option to XF4 config file
 	- Andreas' ia64 patches

@@ -81,6 +81,10 @@ util:
 ifnarch ppc ia64
   /lib/modules/<kernel_ver>/misc/serial.o
   /lib/modules/<kernel_ver>/misc/lp.o
+  /lib/modules/<kernel_ver>/misc/parport.o
+  /lib/modules/<kernel_ver>/misc/parport_pc.o
+  /lib/modules/<kernel_ver>/scsi/imm.o
+  /lib/modules/<kernel_ver>/scsi/ppa.o
 ifnenv suse_major_release 6
   /lib/modules/<kernel_ver>/misc/agpgart.o
 endif
