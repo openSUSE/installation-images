@@ -20,6 +20,10 @@ t var/run/utmp
 
 c 1777 0 0 tmp
 
+if arch eq 'x86_64'
+  d lib64
+endif
+
 glibc:
   /etc/nsswitch.conf
 

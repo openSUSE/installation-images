@@ -1,3 +1,6 @@
+10/1/2005:	v6.17
+	- x86-64: add (empty) /lib64 directory to initrd (needed for patch cd)
+
 5/10/2004:	v6.16
 	- don't set lower_zone_protection (#46535)
 	- mount root image from CD if mem less about 350MB (#46535)
