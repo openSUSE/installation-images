@@ -55,11 +55,7 @@ if arch eq 's390' || arch eq 's390x'
   r /var/adm/fillup-templates
   r /root/.exrc
   r /root/.xinitrc
-  if suse_release >= 8.1
   filesystem:
-  else
-  aaa_dir:
-  endif
     /
   glibc:
     /etc/nscd.conf

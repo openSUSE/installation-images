@@ -8,11 +8,7 @@ fillup:
   /bin
   /var/adm/fillup-templates
 
-if suse_release >= 8.1
 filesystem:
-else
-aaa_dir:
-endif
   /etc/{ppp,rc.d,uucp}
   /etc/sysconfig
   /root
@@ -63,10 +59,9 @@ sed:
 tar:
   /bin
 
-if suse_release < 8.1
-base:
+star:
+  /etc
   /usr/{,s}bin
-endif
 
 bash:
   /bin
@@ -144,11 +139,7 @@ gzip:
 
 joe:
   /usr/bin/{joe,jmacs}
-if suse_release >= 7.3
   /etc/{joerc,jmacsrc}
-else
-  /usr/lib/{joerc,jmacsrc}
-endif
 
 less:
   /etc

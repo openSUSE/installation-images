@@ -579,11 +579,9 @@ liblcms:
 if with_yast2 ne 'no'
   qt3:
     /etc/X11/qtrc
-    /usr/lib*/qt-*/etc/settings/qtrc
     /usr/lib*/qt3
-#  qt3-non-mt:
     /usr/lib*/libqt*.so.3
-    /usr/lib*/qt-*/lib*/libqt*.so*
+    /usr/lib*/qt3/lib*/libqt*.so*
     E echo -e "[General]\nenableXft=false\nuseXft=false\nstyle=Platinum" >/etc/X11/qtrc
 endif
 
@@ -686,70 +684,64 @@ syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 
-if suse_release >= 8.1
+openssh: prein
+  /etc/init.d/sshd
+  /etc/pam.d/sshd
+  /etc/ssh
+  /usr/sbin/sshd
+  /usr/bin/ssh
+  /usr/bin/ssh-keygen
+  /usr/bin/scp
+  e prein
 
-  openssh: prein
-    /etc/init.d/sshd
-    /etc/pam.d/sshd
-    /etc/ssh
-    /usr/sbin/sshd
-    /usr/bin/ssh
-    /usr/bin/ssh-keygen
-    /usr/bin/scp
-    e prein
+heimdal-lib:
+  /etc
+  /usr/lib*/libasn1.so.*
+  /usr/lib*/libcom_err.so.*
+  /usr/lib*/libgssapi.so.*
+  /usr/lib*/libkrb5.so.*
+  /usr/lib*/libroken.so.*
 
-  heimdal-lib:
-    /etc
-    /usr/lib*/libasn1.so.*
-    /usr/lib*/libcom_err.so.*
-    /usr/lib*/libgssapi.so.*
-    /usr/lib*/libkrb5.so.*
-    /usr/lib*/libroken.so.*
+db:
+  /usr/lib*/libdb-4*.so  
 
-  db:
-    /usr/lib*/libdb-4*.so  
+pam:
+  /etc/pam.d/other
+  /lib*/security
+  /lib*/libpam.so.*
+  /lib*/libpam_misc.so.*
 
-  pam:
-    /etc/pam.d/other
-    /lib*/security
-    /lib*/libpam.so.*
-    /lib*/libpam_misc.so.*
+pam-modules:
+  /{etc,lib*,sbin}
 
-  pam-modules:
-    /{etc,lib*,sbin}
+  # don't use cracklib
+  c 755 0 0 /etc/security
+  R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
 
-    # don't use cracklib
-    c 755 0 0 /etc/security
-    R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
+libxcrypt:
+  /lib*/libxcrypt.so.*
 
-  libxcrypt:
-    /lib*/libxcrypt.so.*
+cracklib:
+  /usr/lib*/libcrack.so*
 
-  cracklib:
-    /usr/lib*/libcrack.so*
+gdbm:
+  /usr/lib*/libgdbm.so*
 
-  gdbm:
-    /usr/lib*/libgdbm.so*
+vim:
+  /bin/vim
+  /bin/vi
 
-  vim:
-    /bin/vim
-    /bin/vi
+ r /lib*/security/pam_userdb.so
 
-   r /lib*/security/pam_userdb.so
-
-   x etc/inst_setup_ssh /sbin/
-   c 755 0 0 /sbin/inst_setup_ssh
-   x etc/ssh /etc
-   c 644 0 0 /etc/ssh/*
-   d /root
-if 0
-   x root/.ssh /root
-endif
-   x root/.yast2 /root
-   x root/.bash_history /root
-   x root/.bash_login /root
-   x root/.vimrc /root
-endif
+ x etc/inst_setup_ssh /sbin/
+ c 755 0 0 /sbin/inst_setup_ssh
+ x etc/ssh /etc
+ c 644 0 0 /etc/ssh/*
+ d /root
+ x root/.yast2 /root
+ x root/.bash_history /root
+ x root/.bash_login /root
+ x root/.vimrc /root
 
 parted:
   /usr/sbin
@@ -781,6 +773,9 @@ hex:
 
 bzip2:
   /usr/lib*/libbz2.so*
+
+sock:
+  /usr/bin/sock
 
 shadow:
   /etc/pam.d/shadow
