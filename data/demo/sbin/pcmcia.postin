@@ -1,0 +1,32 @@
+FILL_NAME=var/adm/fillup-templates/rc.config.pcmcia
+echo -n "Trying to determine PCMCIA chipset... "
+if [ -x usr/sbin/probe ] ; then
+  PC_CH=`usr/sbin/probe -m`
+  if [ $? -eq 0 ] ; then
+    echo -n " $PC_CH: "
+    usr/sbin/probe | sed 's/^.*://'
+  else
+    echo " - No supported PCMCIA chipset found."
+  fi
+  usr/bin/sed -e "s@PCMCIA=\"\"@PCMCIA=\"$PC_CH\"@" $FILL_NAME > $FILL_NAME.tmp
+  mv $FILL_NAME.tmp $FILL_NAME
+fi
+echo "Updating etc/rc.config..."
+if [ -x bin/fillup ] ; then
+  bin/fillup -x -q -d = etc/rc.config $FILL_NAME
+else
+  echo "ERROR: fillup not found. This should not happen. Please compare"
+  echo "etc/rc.config and $FILL_NAME and"
+  echo "update by hand."
+fi
+if [ -e sbin/insserv ] ; then # 7.1 or newer
+  sbin/insserv etc/init.d/pcmcia
+fi
+# %preun
+# FILL_NAME=/var/adm/fillup-templates/rc.config.pcmcia
+# FILLUP=`which fillup`
+# if [ -x $FILLUP -a -f $FILL_NAME ] ; then 
+#   echo "removing pcmcia related entries from rc.config ..."
+#   $FILLUP -r -q -d = /etc/rc.config $FILL_NAME
+#   test -f /etc/rc.config.new && mv /etc/rc.config.new /etc/rc.config
+# fi
