@@ -640,11 +640,20 @@ if with_yast2 ne 'no'
     /usr/lib/qt3/lib*/libqt*.so*
   r /usr/lib/qt3/plugins/imageformats/libqmng*
 
+if theme eq 'Home'
+  kdebase3-Home:
+else
   kdebase3-SuSE:
+endif
     /opt/kde3/share/config/SuSE/default/qtrc
 
+if theme eq 'Home'
+  kdeartwork3:
+    /opt/kde3/lib*/kde3/plugins/styles/plastik.so
+else
   thinkeramik:
     /opt/kde3/lib*/kde3/plugins/styles/thinkeramik.so
+endif
 
   kdelibs3:
     /opt/kde3/lib*/libkdefx.so*
