@@ -54,6 +54,8 @@ $rpmarch = $ENV{RPM_ARCH} ? $ENV{RPM_ARCH} : "";
 SUSystem "sh -c 'cd $tmpdir/initrddevs; RPM_ARCH=$rpmarch ../makedevs.floppy >/dev/null'" and
   die "$Script: could not create all devices";
 
+system "demolocale" and die "$Script: base system broken\n";
+
 system "mlist1" and die "$Script: base system broken\n";
 
 if($debug =~ /\bignore\b/) {

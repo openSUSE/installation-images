@@ -1,0 +1,17 @@
+--- etc/init.d/halt
++++ etc/init.d/halt
+@@ -207,6 +207,14 @@
+ #    rc_status -v1 -r
+ #fi
+ 
++if [ -x /sbin/live-shutdown -a -f /etc/SuSElive ] ; then
++  . /etc/SuSElive
++  if [ "$part" -a "$suseimg" ] ; then
++    /sbin/live-shutdown
++    rc_status -v -r
++  fi
++fi
++
+ # on umsdos fs this would lead to an error message, so direct errors to
+ # /dev/null
+ mount -no remount,ro / 2> /dev/null

@@ -106,4 +106,4 @@ clean:
 	-@rm -rf images test tmp
 	-@rm -f `find -name '*~'`
 	-@rm -rf /tmp/mk_base_* /tmp/mk_initrd_* /tmp/mk_rescue_* /tmp/mk_root_* 
-	-@rm -rf data/initrd/gen data/boot/gen data/base/gen
+	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/demo/gen

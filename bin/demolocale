@@ -1,0 +1,36 @@
+#! /usr/bin/perl
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+
+die "usage: $Script\n" if @ARGV;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$dst = "${DataPath}demo/gen/locale";
+$src = "${DataPath}demo/po";
+
+%locales = (
+  "cs" => "cs_CZ",
+  "de" => "de_DE"
+);
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+
+mkdir "${DataPath}demo/gen", 0755;
+mkdir $dst, 0755;
+
+for $l (sort keys %locales) {
+  mkdir "$dst/$locales{$l}", 0755;
+  mkdir "$dst/$locales{$l}/LC_MESSAGES", 0755;
+  system "msgfmt -o $dst/$locales{$l}/LC_MESSAGES/livecd.mo $src/$l.po";
+  symlink $locales{$l}, "$dst/$locales{$l}\@euro";
+}
+
