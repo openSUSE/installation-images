@@ -50,7 +50,7 @@ install_xx: initrd
 yast2: dirs initrd2
 	bin/mk_yast2
 
-demo: dirs initrd2
+demo: dirs
 	bin/mk_demo
 
 html:

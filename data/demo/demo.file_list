@@ -150,6 +150,9 @@ x /var/lib/news/{mailname,whoami} /var/lib/news
 d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled,xfine/tmp}
 d /opt/kde/share/config
 
-x /sbin/{live-setup,live-shutdown,mk_links,find_config} /sbin
+x /sbin/{live-setup,mk_links} /sbin
+ifnenv demo old
+x /sbin/{live-shutdown,find_config} /sbin
 x /etc/XF86Config /etc
+endif
 
