@@ -1,7 +1,11 @@
 if arch eq 'ia32'
 
   x message /
-  x syslinux.cfg /
+  if boot eq 'small'
+    x syslinux-small.cfg /
+  else
+    x syslinux.cfg /
+  endif
 
   if boot eq 'small' && kernel_rpm eq "k_deflt" && suse_release >= 7.3
     if bootsplash eq 'yes'

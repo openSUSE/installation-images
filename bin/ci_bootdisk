@@ -5,10 +5,6 @@
 
 # filelist:		disk_i386.file_list
 # kernel:		k_i386
-# linuxrc:		linuxrc_mini
-# syslinux config:	syslinux.cfg
-#   - NO frame buffe entry in syslinux.cfg
-#   - 'manual' is default boot entry
 
 ver=`cat VERSION`
 bootdisk=/tmp/bootdisk-$ver
@@ -28,9 +24,6 @@ cd $bootdisk
 find . -depth -name CVS -exec rm -r {} \;
 rm -rf bin/ci_* MAINTAINER cache
 perl -pi -e 's/k_deflt/k_i386/g' etc/config
-perl -pi -e 's/^(default\s+)linux/$1manual/' data/boot/syslinux.cfg{,.fr}
-# k_i386_24 has framebuffer support
-# perl -ni -e 'print unless /^framebuffer/' data/boot/syslinux.cfg{,.fr}
 cd /tmp
 
 if [ "$1" = test ] ; then

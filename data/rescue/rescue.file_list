@@ -171,11 +171,14 @@ netcfg:
   /etc
 r /etc/{diphosts,ftpusers,hosts.*}
 
+if 0
+# conflicts with nfs-utils
 nfs-server: postin
   /etc/init.d
   /usr/sbin/{rpc.*,showmount}
   /var/lib/nfs
 e postin
+endif
 
 icmpinfo:
   /usr/sbin/icmpinfo

@@ -81,6 +81,7 @@ util-linux:
   /bin/{u,}mount
   /bin/dmesg
   /sbin/losetup
+  /sbin/blockdev
 
 <kernel_rpm>:
   m /boot/System.map-* /System.map
