@@ -244,7 +244,11 @@ endif
 if suse_major == 6
   mkdosfs:
 else
-  dosfstls:
+  if suse_release >= 7.1
+    dosfstools:
+  else
+    dosfstls:
+  endif
 endif
    /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
 
