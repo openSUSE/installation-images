@@ -1,3 +1,6 @@
+9/4/2003:	v3.30
+	- live eval changes
+
 27/3/2003:	v3.29
 	- scsi mod disk too large
 	- don't ignore mod disk build errors (#25874)
