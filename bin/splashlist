@@ -42,7 +42,7 @@ for (sort keys %st) {
     "  d /$_/floppy\n" .
     "if arch eq 'ia32' || arch eq 'x86_64'\n" .
     "    E make -C /usr/share/gfxboot/themes/$_\n" .
-    "    X /usr/share/gfxboot/themes/$_/bootlogo /$_\n" .
+    "    E cp /usr/share/gfxboot/themes/$_/bootlogo /$_\n" .
     "endif\n";
 }
 
