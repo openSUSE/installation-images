@@ -1,6 +1,27 @@
+25/9/2002:	v2.71
+	- don't use cracklib to check passwords (#20121)
+
+23/9/2002:	v2.70
+	- lower memory limit for loading inst-sys into ramdisk
+
+19/9/2002:	v2.69
+	- added samba installation support for s390
+
+18/9/2002:	v2.68
+	- added yast2 translations
+	- driver updates are looked for in
+	  linux/UnitedLinux/<arch>-ul1 for UL and
+	  linux/UnitedLinux/<arch>-sles8 for SLES8 (#19442)
+	- added activation of network for s390/s390x/i&p-series
+
+16/9/2002:	v2.67
+	- Added missing files for samba-client
+	- changed check for installation media for s390
+
 13/9/2002:	v2.66
 	- Removed writing entries in chandev.log in create_interfaces
 	- Removed bug in netsetup for iucv-Parameters
+
 13/9/2002:	v2.65
 	- changed parmline for installation boot
 	- changed create_interface to write entry in

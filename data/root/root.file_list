@@ -452,9 +452,15 @@ if with_yast2 ne 'no'
     /
   yast2-trans-cs:
     /
+  yast2-trans-da:
+    /
   yast2-trans-de:
     /
   yast2-trans-el_GR:
+    /
+  yast2-trans-en_GB:
+    /
+  yast2-trans-en_US:
     /
   yast2-trans-es:
     /
@@ -465,6 +471,8 @@ if with_yast2 ne 'no'
   yast2-trans-it:
     /
   yast2-trans-ja:
+    /
+  yast2-trans-ko:
     /
   yast2-trans-lt:
     /
@@ -481,6 +489,8 @@ if with_yast2 ne 'no'
   yast2-trans-tr:
     /
   yast2-trans-zh_CN:
+    /
+  yast2-trans-zh_TW:
     /
   yast2-x11:
     /
@@ -680,6 +690,10 @@ if pre_release || suse_release >= 8.1
 
   pam-modules:
     /{etc,lib*,sbin}
+
+    # don't use cracklib
+    c 755 0 0 /etc/security
+    R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
 
   libxcrypt:
     /lib*/libxcrypt.so.*

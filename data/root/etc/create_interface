@@ -115,5 +115,6 @@ then
 		sed "s/^WAIT_FOR_INTERFACES=.*/WAIT_FOR_INTERFACES=$WAIT_FOR_INTERFACES/" < $CONFIGFILE > $CONFIGFILETMP
 		[ $? -eq 0 ] && mv $CONFIGFILETMP $CONFIGFILE
 	fi
+	chroot $ROOT chkconfig network on
 fi
 :
