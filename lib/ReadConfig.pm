@@ -322,6 +322,8 @@ for (@f) {
     $r0 = $ENV{'suserelease'};
   }
 
+  $r0 = "" unless defined $r0;
+
   $rx = "";
   $rx = "$1-" if $r0 =~ s/-(.+)\s*$//;
   $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
