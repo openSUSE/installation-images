@@ -687,6 +687,22 @@ if pre_release
     /etc/pam.d/other
     /lib/security
     /lib/libpam.so.*
+
+  cracklib:
+    /usr/lib/libcrack.so*
+
+  vim:
+    /bin/vim
+    /bin/vi
+
+   r /lib/security/pam_userdb.so
+
+   d /root/.ssh
+   x etc/ssh /etc
+   c 644 0 0 /etc/ssh/*
+   x root/.ssh /root
+   x root/.bash_login /root
+   x root/.vimrc /root
 endif
 
 if arch eq 'ppc'
@@ -716,5 +732,8 @@ r /etc/X11/xserver/C
 
 r /modules /System.map
 r /sbin/insserv
+
+if ! pre_release
 r /root
+endif
  

@@ -1,7 +1,48 @@
 #! /bin/sh
-
+echo
 yast="$1"
 shift
+
+# start sshd 
+if [ -x /usr/sbin/sshd ] ; then
+	SSH_FAILED=
+	echo running $0 $*
+	echo /usr/sbin/sshd found, prepare remote login
+	rm -fv /etc/ssh
+	rm -fv /root
+	rm -fv /etc/shadow
+	mkdir -p /root/.ssh
+	cp -av /var/adm/mount/suse/inst-sys/root/.ssh/* /root/.ssh
+	cp -a /var/adm/mount/suse/inst-sys/root/.bash_login /root
+	cp -a /var/adm/mount/suse/inst-sys/root/.vimrc /root
+	cp -a /var/adm/mount/suse/inst-sys/root/shadow /etc
+	cp -a /var/adm/mount/suse/inst-sys/etc/ssh /etc
+	chmod -R og-rxw  /etc/ssh /root /etc/shadow
+	chown -R 0.0  /etc/ssh /root /etc/shadow
+	echo "nameserver 10.10.0.1" > /etc/resolv.conf
+	echo "nameserver 10.10.11.1" >> /etc/resolv.conf
+	echo "search suse.de" >> /etc/resolv.conf
+	mkdir -p /dev/pts
+	mkdir -p /dev/shm
+	mount -v -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
+	/usr/sbin/sshd || {
+	export SSH_FAILED=true
+	echo SSH_FAILED ... 
+	}
+	echo /sbin/ifconfig `grep eth /proc/net/dev | cut -f 1 -d : `
+	for i in  `grep eth /proc/net/dev | cut -f 1 -d : ` ; do
+		/sbin/ifconfig $i | grep UP > /dev/null 2>&1 && /sbin/ifconfig $i | head -n 2
+	 done
+	echo
+	for i in 5 4 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
+	echo
+	echo mach bunt...
+	echo press return
+	read i
+	for i in 5 4 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
+	echo
+fi
+
 
 exec 2>&1
 stty sane
@@ -15,3 +56,4 @@ if [ "$yast" = yast2 ] ; then
   /usr/lib/YaST2/bin/YaST2.start "$@"
 fi
 
+umount devpts 2>/dev/null
