@@ -90,6 +90,11 @@ k_deflt:
 d /lib/modules/default
 s ../../../modules /lib/modules/default/misc
 
+pcmcia:
+  /sbin/cardmgr
+  /sbin/cardctl
+  /sbin/dump_cis
+
 ncurses:
   /lib/libncurses.so.5{,.0}
   /usr/lib/lib{form,menu,panel}.so{,.5,.5.0}
