@@ -185,7 +185,7 @@ gfxboot-devel:
   m /usr/share/gfxboot/SuSE/bootlogo /SuSE-SLES.boot
   m /usr/share/gfxboot/SuSE/bootlogo /OpenXchange.boot
   m /usr/share/gfxboot/SuSE-SLEC/bootlogo /SuSE-SLEC.boot
-  m /usr/share/gfxboot/SuSE-SLEC/bootlogo /Sun.boot
+  m /usr/share/gfxboot/Sun/bootlogo /Sun.boot
 
 <kernel_rpm>:
   /lib/modules
