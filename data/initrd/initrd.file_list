@@ -78,19 +78,6 @@ if arch eq 'ia32'
 
   else
 
-    if initrd eq 'large'
-
-      if suse_release == 7.2
-        f /lib/modules/<kernel_ver>/pcmcia *.o /modules
-      else
-        f /lib/modules/<kernel_ver>/pcmcia-external *.o /modules
-      endif
-
-      r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs}.o
-      r /modules/{sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
-
-    endif
-
     f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
     f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
 
@@ -122,6 +109,19 @@ if arch eq 'ia32'
     f / i2o_block.o /modules
 
     f / isp16.o /modules
+
+    if initrd eq 'large'
+
+      if suse_release == 7.2
+        f /lib/modules/<kernel_ver>/pcmcia *.o /modules
+      else
+        f /lib/modules/<kernel_ver>/pcmcia-external *.o /modules
+      endif
+
+      r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs}.o
+      r /modules/{sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
+
+    endif
 
   endif
 
