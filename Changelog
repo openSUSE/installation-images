@@ -2,6 +2,7 @@
 	- started to switch to new package names
 	- improved error handling on missing files
 	- dropped locale stuff
+	- integrated 7.0-ppc changes
 
 14/11/2000:	v1.08
 	- added support for loopc.o compression module (image "susee")

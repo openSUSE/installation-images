@@ -32,68 +32,66 @@ if arch eq 'ix86'
 endif
 
 if arch eq 'ppc'
-  a /lib/modules/<kernel_ver>/misc/parport.o /modules
-  a /lib/modules/<kernel_ver>/misc/paride.o /modules
-  a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
-  a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
 
-  a /lib/modules/<kernel_ver>/net/*.o /modules
-  a /lib/modules/<kernel_ver>/scsi/*.o /modules
+    a /lib/modules/<kernel_ver>/*/ide-tape.o /modules
+    a /lib/modules/<kernel_ver>/*/nbd.o /modules
+    a /lib/modules/<kernel_ver>/*/adfs.o /modules
+    a /lib/modules/<kernel_ver>/*/affs.o /modules
+    a /lib/modules/<kernel_ver>/*/binfmt_misc.o /modules
+    a /lib/modules/<kernel_ver>/*/coda.o /modules
+    a /lib/modules/<kernel_ver>/*/efs.o /modules
+    a /lib/modules/<kernel_ver>/*/fat.o /modules
+    a /lib/modules/<kernel_ver>/*/hpfs.o /modules
+    a /lib/modules/<kernel_ver>/*/msdos.o /modules
+    a /lib/modules/<kernel_ver>/*/ncpfs.o /modules
+    a /lib/modules/<kernel_ver>/*/ntfs.o /modules
+    a /lib/modules/<kernel_ver>/*/qnx4.o /modules
+    a /lib/modules/<kernel_ver>/*/romfs.o /modules
+    a /lib/modules/<kernel_ver>/*/smbfs.o /modules
+    a /lib/modules/<kernel_ver>/*/sysv.o /modules
+    a /lib/modules/<kernel_ver>/*/udf.o /modules
+    a /lib/modules/<kernel_ver>/*/ufs.o /modules
+    a /lib/modules/<kernel_ver>/*/umsdos.o /modules
+    a /lib/modules/<kernel_ver>/*/vfat.o /modules
+    a /lib/modules/<kernel_ver>/*/ip_masq_autofw.o /modules
+    a /lib/modules/<kernel_ver>/*/ip_masq_ftp.o /modules
+    a /lib/modules/<kernel_ver>/*/ipv6.o /modules
+    a /lib/modules/<kernel_ver>/*/dmasound.o /modules
+    a /lib/modules/<kernel_ver>/*/ipx.o /modules
+    a /lib/modules/<kernel_ver>/*/rose.o /modules
+    a /lib/modules/<kernel_ver>/*/sc.o /modules
+    a /lib/modules/<kernel_ver>/*/3c59x.o /modules
+    a /lib/modules/<kernel_ver>/*/3c90x.o /modules
+    a /lib/modules/<kernel_ver>/*/8390.o /modules
+    a /lib/modules/<kernel_ver>/*/arc-rimi.o /modules
+    a /lib/modules/<kernel_ver>/*/arcnet.o /modules
+    a /lib/modules/<kernel_ver>/*/arlan-proc.o /modules
+    a /lib/modules/<kernel_ver>/*/arlan.o /modules
+    a /lib/modules/<kernel_ver>/*/bonding.o /modules
+    a /lib/modules/<kernel_ver>/*/bpqether.o /modules
+    a /lib/modules/<kernel_ver>/*/bsd_comp.o /modules
+    a /lib/modules/<kernel_ver>/*/com20020.o /modules
+    a /lib/modules/<kernel_ver>/*/eepro100.o /modules
+    a /lib/modules/<kernel_ver>/*/lance.o /modules
+    a /lib/modules/<kernel_ver>/*/ne2k-pci.o /modules
+    a /lib/modules/<kernel_ver>/*/old_tulip.o /modules
+    a /lib/modules/<kernel_ver>/*/olympic.o /modules
+    a /lib/modules/<kernel_ver>/*/rcpci.o /modules
+    a /lib/modules/<kernel_ver>/*/rl100a.o /modules
+    a /lib/modules/<kernel_ver>/*/rtl8139.o /modules
+    a /lib/modules/<kernel_ver>/*/sb1000.o /modules
+    a /lib/modules/<kernel_ver>/*/scc.o /modules
+    a /lib/modules/<kernel_ver>/*/tlan.o /modules
+    a /lib/modules/<kernel_ver>/*/tulip.o /modules
+    a /lib/modules/<kernel_ver>/*/via-rhine.o /modules
+    a /lib/modules/<kernel_ver>/*/ide-scsi.o /modules
+    a /lib/modules/<kernel_ver>/*/scsi_debug.o /modules
+    a /lib/modules/<kernel_ver>/*/sg.o /modules
+    a /lib/modules/<kernel_ver>/*/st.o /modules
+    a /lib/modules/<kernel_ver>/*/hid.o /modules
+    a /lib/modules/<kernel_ver>/*/usb-storage.o /modules
+    a /lib/modules/<kernel_ver>/*/usbserial.o /modules
 
-  # scsi
-  r /modules/ide-scsi.o
-  r /modules/scsi_debug.o
-  r /modules/sg.o
-  r /modules/qlogicfc.o
-  r /modules/gdth.o
-  r /modules/53c7,8xx.o
-  r /moduels/ncr53c8xx.o
-  r /modules/dc395x_trm.o
-  r /modules/BusLogic.o
-  r /modules/tmscsim.o
-  r /modules/qlogicisp.o
-  r /modules/dpt_i2o.o
-  r /modules/eata_dma.o
-  r /modules/eata.o
-  r /modules/g_NCR5380.o
-  r /modules/NCR53c406a.o
-  r /modules/sym53c416.o
-
-  # net
-  r /modules/soundmodem.o
-  r /modules/wanpipe.o
-  r /modules/{pppox,ppp,ppp_deflate}.o
-  r /modules/slip.o
-  r /modules/{irda,irda_deflate}.o
-  r /modules/syncppp.o
-  r /modules/sktr.o
-
-  r /modules/comx-hw-comx.o
-  r /modules/comx-hw-locomx.o
-  r /modules/comx-hw-mixcom.o
-  r /modules/comx-proto-fr.o
-  r /modules/comx-proto-lapb.o
-  r /modules/comx-proto-ppp.o
-  r /modules/comx.o
-  r /modules/6pack.o
-  r /modules/baycom_epp.o
-  r /modules/baycom_par.o
-  r /modules/bpqether.o
-  r /modules/baycom_ser_fdx.o
-  r /modules/baycom_ser_hdx.o
-  r /modules/dlci.o
-  r /modules/dmascc.o
-  r /modules/hdlcdrv.o
-  r /modules/ipddp.o
-  r /modules/lapbether.o
-  r /modules/mkiss.o
-  r /modules/scc.o
-  r /modules/sdla.o
-  r /modules/sdladrv.o
-  r /modules/x25_asy.o
-  r /modules/yam.o
-  r /modules/tulip.o
-  r /modules/acenic.o
 endif	# arch eq 'ppc'
 
 if arch eq 'alpha'

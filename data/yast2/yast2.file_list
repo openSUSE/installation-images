@@ -214,13 +214,8 @@ endif
 file:
   /usr/bin/file
 
-if arch eq 'ix86'
+if arch eq 'ix86' || arch eq 'ppc'
   lilo:
-    /sbin/activate
-endif
-
-if arch eq 'ppc'
-  activate:
     /sbin/activate
 endif
 
@@ -262,6 +257,7 @@ else
 endif
   /sbin/{ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
 if arch eq 'ppc'
+    /etc/filesystems
     /sbin/clock
 endif
 
@@ -412,24 +408,22 @@ if arch ne 'alpha'
   c 0755 0 0 /dev
 
   # new XF86 4.0
-  if arch ne 'ppc'
-    xloader:
-      /usr/X11R6/bin/XFree86
+  xloader:
+    /usr/X11R6/bin/XFree86
 
-    xmodules:
-      /usr/X11R6/lib/modules/codeconv
-      /usr/X11R6/lib/modules/drivers
-    # video4linux stuff
-    r /usr/X11R6/lib/modules/drivers/linux
-      /usr/X11R6/lib/modules/extensions/lib{dbe,extmod}.a
-      /usr/X11R6/lib/modules/fonts/libbitmap.a
-      /usr/X11R6/lib/modules/input
-      /usr/X11R6/lib/modules/linux
-    ifnarch ia64
-        /usr/X11R6/lib/modules/*.uc
-    endif
-        /usr/X11R6/lib/modules/lib*.a
+  xmodules:
+    /usr/X11R6/lib/modules/codeconv
+    /usr/X11R6/lib/modules/drivers
+  # video4linux stuff
+  r /usr/X11R6/lib/modules/drivers/linux
+    /usr/X11R6/lib/modules/extensions/lib{dbe,extmod}.a
+    /usr/X11R6/lib/modules/fonts/libbitmap.a
+    /usr/X11R6/lib/modules/input
+    /usr/X11R6/lib/modules/linux
+  ifarch ne 'ia64'
+      /usr/X11R6/lib/modules/*.uc
   endif
+    /usr/X11R6/lib/modules/lib*.a
 
   xshared:
     /usr/X11R6/lib/lib{X11,Xext}.so*
@@ -497,7 +491,7 @@ libjpeg:
   /usr/lib/libjpeg.so*
 
 eject:
-if suse_release >= 7.1
+if arch eq 'ppc' || suse_release >= 7.1
   /bin/eject
 else
   /usr/bin/eject
@@ -605,11 +599,10 @@ endif
 if arch eq 'ppc'
   pdisk:
     /sbin/pdisk
-  yaboot:
-    /usr/sbin/show_of_path.sh
-    /var/lib/yaboot
+  lilo:
+    /sbin/show_of_path.sh
   gawk:
-    /usr/bin/{g,}awk
+    /bin/{g,}awk
   fbset:
     /etc/fb.modes
     /usr/sbin/fbset
