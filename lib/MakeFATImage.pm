@@ -142,7 +142,10 @@ sub MakeFATImage
     return ( undef, undef )
   }
 
-  $id8 = "SUSE";		# will be overwritten by syslinux anyway
+  $id8 = "SUSE";		# will be overwritten by syslinux
+  if($boot_msg =~ /module disk (\d)/) {
+    $id8 = "MODDISK$1";
+  }
   $drive_id = $tracks ? 0xf8 : 0xf0;	# 0xf0: floppy; 0xf8: hard disk
   $fats = $tracks ? 2 : 1;
   $sec_p_track = 18 unless $sec_p_track;

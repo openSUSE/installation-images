@@ -1,5 +1,6 @@
 d bin dev etc mnt proc tmp
-d var/run var/adm/mount var/lib/YaST var/spool var/lock var/log var/log/YaST2 var/tmp var/lib/dhcpcd
+d var/run var/spool var/lock var/tmp var/log/YaST2 var/adm/mount
+d var/lib/YaST var/lib/dhcpcd var/lib/hardware
 
 d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11 var/lib/xkb
 s /usr/X11R6/lib/X11 var/X11R6/lib
@@ -14,10 +15,6 @@ endif
 t var/run/utmp
 
 c 1777 0 0 tmp
-
-fillup:
-  /bin
-  /var/adm/fillup-templates
 
 aaa_base:
   /etc/nsswitch.conf
@@ -34,6 +31,10 @@ if arch eq 's390' || arch eq 's390x'
 
   # there is no need to log in into this ramdisk, because you either
   # use the HMC or VM, which are both secured by other means.
+
+  fillup:
+    /bin
+    /var/adm/fillup-templates
 
   aaa_base: prein,postin
   e prein

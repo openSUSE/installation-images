@@ -246,6 +246,9 @@ o <action> <arg1> <arg2> ...
 
     R <regexp> <file>
 
+    Note: if the this is a multi line regexp (ends with /s) it is applied to
+    the whole file. Else the regexp is applied to each line.
+
   - search for a file <name> below <dir> and copy it to <dst>
     (<dst> may be omitted)
 

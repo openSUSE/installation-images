@@ -1,19 +1,22 @@
-2/9/2002	v2.51
+2/9/2002:	v2.51
 	- correctet handling of HSI-interface in
-          data/initrd/s390/bin/netsetsup
+	  data/initrd/s390/bin/netsetsup
 	- removed hanging ping (-w-parameter)
 	- memorycheck buildin
+	- take passwd/shadow/group from aaa_base
+	- no apic on x86_64
 
 29/8/2002:      v2.50
-        - removed minor bugs from scrips
-        - fixed suse.ins for new CD-Layout
-        - add ssh_host_rsa_key* to avoid changed hostkey after ssh installation
+	- removed minor bugs from scrips
+	- fixed suse.ins for new CD-Layout
+	- add ssh_host_rsa_key* to avoid changed hostkey after ssh installation
 	- add HISTCONTROL=ignoredups to /etc/profile in inst-sys
 
 29/8/2002:	v2.49
 	- do start_shell also with usessh, there is a console anyway
 	- remove the info file for YaST1, not needed anymore
 	- checkproc & klogd for all
+	- refined theme support
 	- include xauth and libXmuu* for ssh -X mode 
 
 27/8/2002:	v2.48

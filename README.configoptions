@@ -104,6 +104,9 @@ o boot
     it fits on it; the initrd name on the boot image is 'small'; the name in
     syslinux.cfg is _not_ adjusted to <name>
 
+  use_k_inst=1
+  - use kernel image from k_inst for booting
+
 
 o modules
 

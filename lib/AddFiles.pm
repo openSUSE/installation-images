@@ -498,8 +498,8 @@ sub AddFiles
       $xdir = $dir;
       $xdir =~ s#/*$##;
       $basedir = $1 if $xdir =~ s#(.*)/##;
-      $pm = "\"$cmd\" script";
       $is_script = exists $script{$cmd};
+      $pm = $is_script ? "$cmd script" : "\"$cmd\"";
 
       die "internal oops" unless $basedir ne "" && $xdir ne "";
 
@@ -551,11 +551,21 @@ sub AddFiles
       close F1;
       SUSystem "rm -f $tfile";
 
-      for (@f) {
+      if($re =~ /\/s; 1$/) {	# multi line
+        $_ = join '', @f;
         $ignore += 10;
         $i = eval $re;
         $ignore -= 10;
         die "$Script: syntax error in expression" unless defined $i;
+        @f = ( $_ );
+      }
+      else {
+        for (@f) {
+          $ignore += 10;
+          $i = eval $re;
+          $ignore -= 10;
+          die "$Script: syntax error in expression" unless defined $i;
+        }
       }
       die "$Script: $file: $!" unless open F1, ">$tfile";
       print F1 @f;
