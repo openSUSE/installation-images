@@ -1,0 +1,8 @@
+a /lib/modules/<kernel_ver>/kernel/drivers/net/bcm/bcm5700.o /modules
+a /lib/modules/<kernel_ver>/kernel/drivers/net/e100/e100.o /modules
+a /lib/modules/<kernel_ver>/kernel/drivers/net/e1000/e1000.o /modules
+a /lib/modules/<kernel_ver>/kernel/drivers/net/tg3.o /modules
+a /lib/modules/<kernel_ver>/kernel/net/packet/af_packet.o /modules
+a /lib/modules/<kernel_ver>/kernel/fs/ext3/ext3.o /modules
+a /lib/modules/<kernel_ver>/kernel/fs/jbd/jbd.o /modules
+a /lib/modules/<kernel_ver>/kernel/fs/reiserfs/reiserfs.o /modules
