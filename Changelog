@@ -1,3 +1,7 @@
+15/8/2002:	v2.38
+	- mousedev module was lost in i386
+	- apic kernel gone
+
 12/8/2002:	v2.37
 	- Include chpasswd, libpam_misc and /etc/pam.d/shadow so we can 
 	  set a password for root using linuxrc.
