@@ -1,5 +1,7 @@
+11/5/2004:	v5.52
 	- s390: netsetup: added LCS fixes by Mark Ver (bug #40097)
 	- add ibmveth, iseries_veth
+	- reworked module disk #1
 
 10/5/2004:	v5.51
 	- add /sbin/hotplug, drop remove events (#39109, #39894)
