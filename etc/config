@@ -29,4 +29,4 @@ kernel_img=`if [ "$kernel_file" ] ; then echo $kernel_file ; else echo $kernel_i
 kernel_rpm=`if [ "$kernel" ] ; then echo $kernel ; else echo k_deflt ; fi`
 
 # some basic stuff
-syslinux=/usr/sbin/syslinux
+syslinux=`if [ "$syslinux" ] ; then echo $syslinux ; else echo /usr/sbin/syslinux ; fi`

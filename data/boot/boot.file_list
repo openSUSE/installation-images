@@ -25,6 +25,9 @@ if arch eq 'ia32'
   else
     x message /
     x syslinux.cfg /
+    x suselogo /
+    lilo:
+      m /boot/memtest.bin /memtest
   endif
   R s/x\.y/<suse_release>/ /message
 endif		# arch eq 'ia32'

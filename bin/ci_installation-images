@@ -1,0 +1,45 @@
+#! /bin/sh
+
+# check in installation-images to /work/src/done/STABLE
+# call from the installation-images directory
+
+ver=`cat VERSION`
+installation_images=/tmp/installation-images-$ver
+
+if [ "$ver" = "" ] ; then
+  echo "no version info?"
+  exit 1
+fi
+
+echo "going to check in installation-images version $ver..."
+
+make clean
+[ -e $installation_images ] && rm -rf $installation_images
+mkdir $installation_images || exit 1
+tar -cf - * | tar -C $installation_images -xf -
+cd $installation_images
+find . -depth -name CVS -exec rm -r {} \;
+rm -rf bin/ci_* MAINTAINER cache data/boot/linux.loopc
+cd /tmp
+
+tar -Icf $installation_images.tar.bz2 installation-images-$ver
+
+if [ "$1" = test ] ; then
+  echo "installation-images directory tree: $installation_images"
+  exit
+fi
+
+if mkdir /work/src/done/STABLE/installation-images ; then
+  cd /work/src/done/STABLE/installation-images
+  cp $installation_images.tar.bz2 /work/SRC/all/installation-images/installation-images.{changes,spec} .
+  [ -f /work/SRC/all/installation-images/config-dist.sh ] && cp /work/SRC/all/installation-images/config-dist.sh .
+  perl -pi -e 's/^(Version:\s+)\S+/${1}'$ver'/' /work/src/done/STABLE/installation-images/installation-images.spec
+  perl -pi -e 's/^(Source.+?-)\S+?(\.tar\.bz2)/${1}'$ver'${2}/' /work/src/done/STABLE/installation-images/installation-images.spec
+  . /work/src/bin/.profile
+  vc installation-images
+  rm /work/src/done/STABLE/installation-images/*~
+  echo "ok"
+else
+  echo oops
+  exit 1
+fi

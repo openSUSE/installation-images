@@ -1,3 +1,11 @@
+3/4/2001:	v1.50
+	- added graphical boot screen
+	- bootdisk should build
+
+30/3/2001:	v1.49
+	- yast2 reworked again
+	- tuned module list
+
 27/3/2001:	v1.48
 	- new yast2 package names
 

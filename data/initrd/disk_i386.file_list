@@ -8,23 +8,24 @@ endif
 <kernel_rpm>:
 
 ifdef initrd
-# make linuxrc automatically call for modules disk
-t etc/need_modules_disk
+  # make linuxrc automatically call for modules disk
+  t etc/need_modules_disk
 
-t modules/{MORE,NEEDMOD}
+  t modules/{MORE,NEEDMOD}
 
-f / nvram.o /modules
-f / 8390.o /modules
+  if 0
+    f / nvram.o /modules
+    f / 8390.o /modules
 
-f / usbcore.o /modules
-f / usb-uhci.o /modules
-f / usb-ohci.o /modules
-f / input.o /modules
-f / usb/hid.o /modules
-f / keybdev.o /modules
-f / mousedev.o /modules
+    f / usbcore.o /modules
+    f / usb-uhci.o /modules
+    f / usb-ohci.o /modules
+    f / input.o /modules
+    f / usb/hid.o /modules
+    f / keybdev.o /modules
+    f / mousedev.o /modules
+  endif
 endif	# initrd
-
 
 # below are definitions for the modules disk
 

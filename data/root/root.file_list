@@ -116,6 +116,8 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
   endif
 
   if suse_release >= 7.2
+    f / reiserfs.o
+    f / isa-pnp.o
     f / lp.o
     f / parport.o
     f / parport_pc.o
@@ -164,7 +166,7 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
 endif
 
 # add link to initrd modules
-# check mk_yast2 before you're going to change this!!!
+# check mk_root before you're going to change this!!!
 d /lib/modules/default
 s ../../../modules /lib/modules/default/misc
 
@@ -498,7 +500,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib/lib{X11,Xext}.so*
     /usr/X11R6/lib/lib{SM,ICE,Xxf86misc,Xxf86vm}.so*
     if suse_release >= 7.2
-      /usr/X11R6/lib/lib{Xmu,Xi,Xt}.so*
+      /usr/X11R6/lib/lib{Xmu,Xi,Xt,Xft,Xrender}.so*
     endif
   d /usr/X11R6/lib/{X11,modules}
 
@@ -509,7 +511,6 @@ if with_yast2 ne 'no'
 
   xf86glu:
     /usr/lib
-  
 
   xf86:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
@@ -537,6 +538,8 @@ endif
 
 if with_yast2 ne 'no'
   if suse_release >= 7.2
+    yast2-base:
+      /
     yast2-instsys:
       /
     yast2-agent-any:
@@ -546,6 +549,26 @@ if with_yast2 ne 'no'
     yast2-agent-probe:
       /
     yast2-agent-modules:
+      /
+    yast2-core-pkginfo:
+      /
+    yast2-core-wfm:
+      /
+    yast2-core-translator:
+      /
+    yast2-core-scr:
+      /
+    yast2-ui-qt:
+      /
+    yast2-ui-ncurses:
+      /
+    libycp:
+      /
+    liby2:
+      /
+    libscr:
+      /
+    libyui:
       /
   else
     y2base:

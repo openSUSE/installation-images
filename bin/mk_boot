@@ -64,6 +64,8 @@ $initrddir = "$tmpdir/initrd";
 $initrddirx = "$tmpdir/.initrd";
 $initdisk = "${ImagePath}initrd";
 
+$image .= ".$ENV{'boot'}" if defined $ENV{'boot'};
+
 # mbr boot program (ia32 only)
 $mboot_file = "${BasePath}src/mboot/mboot";
 

@@ -5,7 +5,11 @@ include initrd_base.file_list
 if arch eq 'sparc' || arch eq 'sparc64'
   t modules/{NET,SCSI}
 else
-  t modules/{MORE,NET,SCSI,OTHER}
+  if initrd eq 'small'
+    t modules/{MORE,NEEDMOD}
+  else
+    t modules/{MORE,NET,SCSI,OTHER}
+  endif
 endif
 
 <kernel_rpm>:
@@ -14,37 +18,56 @@ if arch eq 'ia32'
 
   if suse_release >= 7.2
 
-    f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
-    f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
-    if initrd eq 'large'
-      f /lib/modules/<kernel_ver>/pcmcia *.o /modules
+    if initrd eq 'small'
+
+      # drop usb support for now...
+      if 0
+        f / usbcore.o /modules
+        f / usb-uhci.o /modules
+        f / usb-ohci.o /modules
+        f / input.o /modules
+        f / hid.o /modules
+        f / keybdev.o /modules
+      endif
+
+    else
+
+      if initrd eq 'large'
+        f /lib/modules/<kernel_ver>/pcmcia *.o /modules
+        r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs,sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
+
+      endif
+
+      f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
+      f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
+
+      f / DAC960.o /modules
+      f / cciss.o /modules
+      f / cpqarray.o /modules
+
+      f / nvram.o /modules
+
+      f / usbcore.o /modules
+      f / usb-uhci.o /modules
+      f / usb-ohci.o /modules
+      f / input.o /modules
+      f / hid.o /modules
+      f / keybdev.o /modules
+      f / mousedev.o /modules
+      f / usb-storage.o /modules
+
+      f / parport.o /modules
+      f / paride.o /modules
+      f / parport_pc.o /modules
+
+      f / i2o_pci.o /modules
+      f / i2o_core.o /modules
+      f / i2o_config.o /modules
+      f / i2o_block.o /modules
+
+      f / isp16.o /modules
+
     endif
-
-    f / DAC960.o /modules
-    f / cciss.o /modules
-    f / cpqarray.o /modules
-
-    f / nvram.o /modules
-
-    f / usbcore.o /modules
-    f / usb-uhci.o /modules
-    f / usb-ohci.o /modules
-    f / input.o /modules
-    f / hid.o /modules
-    f / keybdev.o /modules
-    f / mousedev.o /modules
-    f / usb-storage.o /modules
-
-    f / parport.o /modules
-    f / paride.o /modules
-    f / parport_pc.o /modules
-
-    f / i2o_pci.o /modules
-    f / i2o_core.o /modules
-    f / i2o_config.o /modules
-    f / i2o_block.o /modules
-
-    f / isp16.o /modules
 
   else
 
@@ -103,6 +126,9 @@ if arch eq 'ia32'
   r /modules/{baycom_ser_hdx,dlci,dmascc,hdlcdrv,ipddp,lapbether,mkiss,scc,sdla,sdladrv}.o
   r /modules/{x25_asy,yam,strip,wavelan,bonding,rcpci,pc300,eata_dma}.o
 
+  r /modules/{actisys,cyclomx,esi,girbil,irport,irtty,litelink,lmc,nsc-ircc,old_belkin}.o
+  r /modules/{pppoe,rfc1051,rfc1201,smc-ircc,tekram,toshoboe,w83977af_ir}.o
+
   if initrd ne 'large'
     r /modules/{ppa,imm}.o
 
@@ -112,7 +138,7 @@ if arch eq 'ia32'
     r /modules/{tlan,arlan,arlan-proc,ltpc,de620,de600,depca}.o
 
     # who needs these ACRNet things anyway?
-    r /modules/{arcnet,com20020,com90io,com90xx}.o
+    r /modules/{arcnet,com20020,com90io,com90xx,arc-rawmode,com20020-isa,com20020-pci,}.o
 
     r /modules/{ppp_mppe,ethertap,arc-rimi,yellowfin,shaper,3c503,3c501,3c509,3c507,3c505}.o
     r /modules/{hp-plus,ni65,ni5010}.o
