@@ -2,6 +2,7 @@
 	- s390: added load from CD-rom or server helper files
 	- s390: removed hack to get %version and %release into the linuxrc prompt
 	- s390x: fix lib64 support
+	- add /root in initrd on pre-release
 
 30/7/2002:	v2.29
 	- added multipath module

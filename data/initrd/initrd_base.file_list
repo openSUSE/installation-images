@@ -7,6 +7,9 @@ s /usr/X11R6/lib/X11 var/X11R6/lib
 d modules
 d dev/usb
 d mounts
+if pre_release
+d root
+endif
 
 t var/run/utmp
 
