@@ -213,6 +213,7 @@ a /lib/modules/<kernel_ver>/net/8390.o /modules
 a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
 a /lib/modules/<kernel_ver>/misc/parport.o /modules
 a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
+a /lib/modules/<kernel_ver>/misc/serial.o /modules
 
 ifndef blub
 M /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules

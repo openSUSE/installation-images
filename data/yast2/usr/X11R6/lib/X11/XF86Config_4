@@ -14,6 +14,7 @@ EndSection
 Section "Module"
   Load		"dbe"
   Load		"extmod"
+  # extensions
 EndSection
 
 Section "InputDevice"
@@ -116,18 +117,21 @@ Section "Device"
   Driver	"ChangeMe"
   Identifier	"Device[0]"
   #BusID		"98:76:54"
+  # device_options
 EndSection
 
 Section "Device"
   Driver	"fbdev"
   Identifier	"Device[fbdev]"
   #BusID		"98:76:54"
+  # fbdev_options
 EndSection
 
 Section "Device"
   Driver	"vga"
   Identifier	"Device[vga]"
   #BusID		"98:76:54"
+  # vga_options
 EndSection
 
 Section "ServerLayout"
