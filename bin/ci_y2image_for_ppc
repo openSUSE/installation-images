@@ -20,10 +20,11 @@ mkdir $y2image_tmpdir || exit 1
 tar -cf - * | tar -C $y2image_tmpdir -xf -
 cd $y2image_tmpdir
 find . -depth -name CVS -exec rm -r {} \;
+find . -depth -name .cvsignore -exec rm -r {} \;
 rm -rf bin/ci_* MAINTAINER cache data/boot/linux.loopc
 cd /tmp
 
-tar -Icf $y2image_tmpdir.tar.bz2 y2image-$ver
+tar -jcf $y2image_tmpdir.tar.bz2 y2image-$ver
 
 if [ "$1" = test ] ; then
   echo "y2image directory tree: $y2image_tmpdir"
