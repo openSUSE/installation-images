@@ -176,7 +176,7 @@ printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $bloc
 
 # make it bootable and add syslinux
 if($ia32_like) {
-  $xx = "-s" if $ENV{'boot'} eq 'small';
+  $xx = "-s" if $ENV{boot} eq 'small' && !$ENV{fastboot};
   SUSystem "$syslx $xx $image" and
     die "$Script: syslinux failed";
 }

@@ -1,3 +1,7 @@
+10/1/2003:	v2.93
+	- new config options usbscsi, fastboot; cf. docs
+	- new config option hp1 for building special HP disks
+
 11/11/2002:	v2.92
 	- added xfs_repair to rescue system (#21671)
 	- fixed qla* module info (#21567)

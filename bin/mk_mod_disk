@@ -76,6 +76,10 @@ for (@modimages_l) {
   system "sh -c 'cat ${gen}list.$_ >>$image.txt'";
 }
 
+if($disk == 1 && $ENV{hp1}) {
+  system "sh -c 'cat ${DataPath}initrd/module.list.hp1 >>$image.txt'";
+}
+
 $i3 = $i2*10;
 SUSystem "touch -d $i1:$i3 /mnt/*";
 

@@ -607,6 +607,10 @@ if with_gdb
 
 endif
 
+if usbscsi
+  e echo "UseUSBSCSI:	1" >>linuxrc.config
+endif
+
 e echo "Product:	<product_name>" >>linuxrc.config
 e echo "UpdateDir:	<update_dir>" >>linuxrc.config
 
