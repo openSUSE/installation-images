@@ -266,9 +266,7 @@ function change_passwd() {
   while :; do
     echo " "
     readln "Please enter the temporary installation password: "
-    if [ ${#ANSW} -ge 3 ]; then
-      break;
-    fi
+    [ ${#ANSW} -ge 3 ] && break;
     echo "Please enter at least 3 characters."
   done
   echo "root:$ANSW" | execcmd "/usr/sbin/chpasswd" &&
@@ -290,9 +288,7 @@ show_license () {
        (( LAST = TOTAL + SHOWED ))
        echo -n "(lines $TOTAL to $LAST) press ENTER:"
        read A < /dev/tty
-       if [ "$A" = q ]; then
-	 return 1
-       fi
+       [ "$A" = q ] && return 1
        (( TOTAL = TOTAL + SHOWED ))
        SHOWED=0
      fi
@@ -416,14 +412,14 @@ EOF
 }
 #
 function set_IP_DEV {
-  if [ "$NETSELECT" = "tr" ]    ; then IP_DEV=tr0    ; fi
-  if [ "$NETSELECT" = "eth" ]   ; then IP_DEV=eth0   ; fi
-  if [ "$NETSELECT" = "qeth" ]  ; then IP_DEV=eth0   ; fi
-  if [ "$NETSELECT" = "hsi" ]   ; then IP_DEV=hsi0   ; fi
-  if [ "$NETSELECT" = "ctc" ]   ; then IP_DEV=ctc0   ; fi
-  if [ "$NETSELECT" = "escon" ] ; then IP_DEV=escon0 ; fi
-  if [ "$NETSELECT" = "iucv" ]  ; then IP_DEV=iucv0  ; fi
-  if [ "$NETSELECT" = "c7000" ] ; then IP_DEV=ci0    ; fi
+  [ "$NETSELECT" = "tr" ]    && IP_DEV=tr0
+  [ "$NETSELECT" = "eth" ]   && IP_DEV=eth0
+  [ "$NETSELECT" = "qeth" ]  && IP_DEV=eth0
+  [ "$NETSELECT" = "hsi" ]   && IP_DEV=hsi0
+  [ "$NETSELECT" = "ctc" ]   && IP_DEV=ctc0
+  [ "$NETSELECT" = "escon" ] && IP_DEV=escon0
+  [ "$NETSELECT" = "iucv" ]  && IP_DEV=iucv0
+  [ "$NETSELECT" = "c7000" ] && IP_DEV=ci0
 }
 #
 #
@@ -750,9 +746,7 @@ function check_qeth_channels () {
     do
 	eval devno=\$${channel}
         devno=${devno#0x}
-        if [ $channel != read ]; then
-           echo -n ,
-        fi
+        [ $channel != read ] && echo -n ,
 	if [ "$devno" != "${devno//[^0-9a-fA-F]/}" ]; then
            echo -n "[0x$devno]"
 	   err "$channel channel address $devno contains non-hex characters, please check."
@@ -792,9 +786,7 @@ function check_qeth_channels () {
 	echo -n "0x$devno"
     done
     #echo -n "${read},${write},${data}"
-    if [ "${rest}" ]; then
-	echo ",${rest}"
-    fi
+    [ "${rest}" ] && echo ",${rest}"
     return $err
 }
 #
@@ -1001,36 +993,36 @@ function load_QETH () {
   echo "Device Addresses CHPID(s)"
   sed 's/^\(....\)/            \1/;s/0* *$//g' chandet.qeth|head -20
 
-  if [ $DEVNO != auto -a "$DEVNO" != "${DEVNO//[^0-9a-fA-F]/}" ]; then
+  if [ "$DEVNO" != auto -a "$DEVNO" != "${DEVNO//[^0-9a-fA-F]/}" ]; then
     echo "Device address $DEVNO contains non-hexadecimal characters, ignoring it."
     DEVNO=auto
   fi
-  if [ $DEVNO2 != auto -a "$DEVNO2" != "${DEVNO2//[^0-9a-fA-F]/}" ]; then
+  if [ "$DEVNO2" != auto -a "$DEVNO2" != "${DEVNO2//[^0-9a-fA-F]/}" ]; then
     echo "Device address $DEVNO2 contains non-hexadecimal characters, ignoring it."
     DEVNO2=auto
   fi
-  if [ $DEVNO3 != auto -a "$DEVNO3" != "${DEVNO3//[^0-9a-fA-F]/}" ]; then
+  if [ "$DEVNO3" != auto -a "$DEVNO3" != "${DEVNO3//[^0-9a-fA-F]/}" ]; then
     echo "Device address $DEVNO3 contains non-hexadecimal characters, ignoring it."
     DEVNO3=auto
   fi
-  if [ $DEVNO != auto ]; then
-    [[ $DEVNO == 0x* ]] || DEVNO=0x$DEVNO
+  if [ "$DEVNO" != auto ]; then
+    [[ "$DEVNO" == 0x* ]] || DEVNO=0x$DEVNO
     DEVNO=`printf %04x $DEVNO`
     grep -q "^${DEVNO} " chandet.qeth || {
       echo "Device address ${DEVNO#0x} not found, ignoring it."
       DEVNO=auto
     }
   fi
-  if [ $DEVNO2 != auto ]; then
-    [[ $DEVNO2 == 0x* ]] || DEVNO2=0x$DEVNO2
+  if [ "$DEVNO2" != auto ]; then
+    [[ "$DEVNO2" == 0x* ]] || DEVNO2=0x$DEVNO2
     DEVNO2=`printf %04x $DEVNO2`
     grep -q "^${DEVNO2} " chandet.qeth || {
       echo "Device address ${DEVNO2#0x} not found, ignoring it."
       DEVNO2=auto
     }
   fi
-  if [ $DEVNO3 != auto ]; then
-    [[ $DEVNO3 == 0x* ]] || DEVNO3=0x$DEVNO3
+  if [ "$DEVNO3" != auto ]; then
+    [[ "$DEVNO3" == 0x* ]] || DEVNO3=0x$DEVNO3
     DEVNO3=`printf %04x $DEVNO3`
     grep -q "^${DEVNO3} " chandet.qeth || {
       echo "Device address ${DEVNO3#0x} not found, ignoring it."
@@ -1100,7 +1092,7 @@ function load_QETH () {
 	grep -q -e "^${DEVNO2} ${CHPIDlist}" chandet.hsi || DEVNO2=auto
       fi
       if [ "$DEVNO2" = auto ]; then
-        DEVNO2=`grep "${CHPIDlist}" chandet.hsi | grep -v "^${DEVNO1} "|head -1`
+        DEVNO2=`grep "${CHPIDlist}" chandet.hsi | grep -v "^${DEVNO1} "|head -1|sed -n 's/^\(....\) .*/\1/p'`
       fi
       if [ -z ${DEVNO2} ]; then
 	mv chandet.hsi chandet.hsi.old
@@ -1112,7 +1104,7 @@ function load_QETH () {
       fi
       if [ "$DEVNO3" = auto ]; then
         DEVNO3=`grep "${CHPIDlist}" chandet.hsi |
-		grep -v -e "^${DEVNO1} " -e "^${DEVNO2} "|head -1 `
+		grep -v -e "^${DEVNO1} " -e "^${DEVNO2} "|head -1 |sed -n 's/^\(....\) .*/\1/p'`
       fi
       if [ -z ${DEVNO3} ]; then
 	mv chandet.hsi chandet.hsi.old
@@ -1140,9 +1132,7 @@ function load_QETH () {
        DEVNOS=`echo "$ANSW"|check_qeth_channels` && break
      done
      CHAN=""
-     if [ "$DEVNOS" != auto ]; then
-       CHAN="noauto;qeth0,$DEVNOS"
-     fi
+     [ "$DEVNOS" != auto ] && CHAN="noauto;qeth0,$DEVNOS"
      if [ "$NETSELECT" = qeth -a "${DEVNOS/*,portname:*/}" ]; then
         while true; do
             readln "Please enter the portname(case sensitive) to use($PORTNAME): "
@@ -1151,9 +1141,7 @@ function load_QETH () {
 		echo "every operator may be aware of this config when updating"
 		echo "the MCL, you may loose network as soon as it's updated."
 		yes_no "Are you sure that you want to use an empty portname (Yes/No) ? "
-		if [ "$ANSW" != "yes" ]; then
-		    continue
-		fi
+		[ "$ANSW" != "yes" ] && continue
 		ANSW=
 	    fi
 	    if [ ${#ANSW} -le 8 ]; then
@@ -1173,17 +1161,13 @@ function load_QETH () {
         fi
      fi
      write_chandev "reset_conf"
-     if [ "$CHAN" ]; then
-        write_chandev "$CHAN"
-     fi
+     [ "$CHAN" ] && write_chandev "$CHAN"
      PARM="qeth_options=$DEVNOS"
-     if [ "$PORTNAME" ]; then
-        PARM="$PARM,portname:$PORTNAME"
-     fi
+     [ "$PORTNAME" ] && PARM="$PARM,portname:$PORTNAME"
      if grep -q qeth /proc/modules; then
         write_chandev "reprobe"
      else
-  	execcmd "/sbin/insmod qeth"
+  	execcmd "/sbin/modprobe qeth"
      fi
      if grep qeth /proc/modules; then
        for i in 2 1 2 3 4 5 6 7 8 9; do
