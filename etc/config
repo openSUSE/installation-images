@@ -38,7 +38,7 @@ default	= kernel-default
 ;
 [Splash]
 cdrom	= 640x480,800x600,1024x768,1280x1024,1400x1050,1600x1200
-floppy	= 640x480,800x600,1024x768,1280x1024,1400x1050,1600x1200
+floppy	= 800x600,1024x768
 
 [Theme SuSE]
 yast	= SuSELinux

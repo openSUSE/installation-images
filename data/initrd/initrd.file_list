@@ -172,3 +172,7 @@ else
   r etc/initrd_keep_files
 endif # not arch s390
 
+# add modules.pcimap
+e /sbin/depmod -a -b . -F /System.map <kernel_ver>
+e rm -f lib/modules/<kernel_ver>/modules.[^p]*
+

@@ -22,7 +22,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
   endif
 
   if bootsplash ne 'modules1' && bootsplash ne '0'
-    if boot eq 'small' || boot eq 'medium'
+    if boot eq 'medium'
       e cp /<splash_theme>/floppy/*.spl .
     else
       e cp /<splash_theme>/*.spl .

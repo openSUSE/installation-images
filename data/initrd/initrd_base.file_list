@@ -5,6 +5,7 @@ d var/lib/YaST var/lib/dhcpcd var/lib/hardware
 d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11 var/lib/xkb
 s /usr/X11R6/lib/X11 var/X11R6/lib
 
+d lib/modules/<kernel_ver>
 d lib/modules/<kernel_mods>/initrd
 s lib/modules/<kernel_mods>/initrd modules
 d mounts

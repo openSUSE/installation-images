@@ -896,6 +896,9 @@ gdbm:
 xf86tools:
   /usr/sbin/fonts-config
 
+udpcast:
+  /usr/sbin/udp-receiver
+
 ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
