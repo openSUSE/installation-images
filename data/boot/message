@@ -5,7 +5,6 @@
 
 
 
-
 To start the installation, just press <return>.
 
 
@@ -16,6 +15,7 @@ Available boot options:
  failsafe - installation with some options that are needed on tricky hardware
             (it is in fact equivalent to "linux ide=nodma apm=off acpi=off")
  rescue   - start rescue system
+ harddisk - boot installed system
 
 
 Have a lot of fun...

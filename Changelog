@@ -1,3 +1,7 @@
+4/3/2002:	v1.127
+	- add harddisk boot entry
+	- updated bootdisk README
+
 3/3/2002:	v1.126
 	- allow bootdisks to have the initrd on a module disk
 	- support really small initrd (no pcmcia, nearly no keytables)
