@@ -159,6 +159,13 @@ if arch eq 'alpha'
   r /modules/e2100.o
   r /modules/lne390.o
   r /modules/ne3210.o
+  r /modules/aacraid.o
+  r /modules/bsd_comp.o
+  r /modules/cosa.o
+  r /modules/hdlc.o
+  r /modules/hostess_sv11.o
+  r /modules/sealevel.o
+  r /modules/z85230.o
 
   ifdef small
     r /modules/arlan.o
