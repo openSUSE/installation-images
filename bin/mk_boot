@@ -1,5 +1,9 @@
 #! /usr/bin/perl
 
+#
+# !!! sorry, doc is outdated !!!
+#
+
 # Create a boot disk and put everything on it.
 #
 # Source files and the file list are taken from data/boot; the image is
@@ -60,8 +64,13 @@ $initrddir = "$tmpdir/initrd";
 $initrddirx = "$tmpdir/.initrd";
 $initdisk = "${ImagePath}initrd";
 
-$syslx = "$BasePath$ConfigData{syslinux}";
-die "$Script: where is syslinux?" unless $ConfigData{syslinux} && -x $syslx;
+$arch = $ConfigData{suse_arch};
+$fstype = $arch eq 'i386' ? 'msdos' : 'vfat';
+
+if($arch eq 'i386') {
+  $syslx = "$BasePath$ConfigData{syslinux}";
+  die "$Script: where is syslinux?" unless $ConfigData{syslinux} && -x $syslx;
+}
 
 #$kernel = "$BasePath$ConfigData{kernel}";
 #die "$Script: which kernel do we use?" unless $ConfigData{kernel} && -f $kernel;
@@ -83,74 +92,79 @@ $label = "SUSE${i1}${i2}_BOOT";
 if($ENV{'boot'} eq 'small') {
   ($blocks, $block_size) = MakeFATImage($image, $label, 1)
 }
-elsif($ENV{'boot'} eq 'large') {
+elsif($ENV{'boot'} eq 'large' || ($arch eq 'ia64' && !$ENV{'boot'})) {
+  # about 20MB image; see lib/MakeFATImage.pm for the meaning of the args
   ($blocks, $block_size) = MakeFATImage($image, $label, 2, 63, 16, 40)
 }
 else {
   ($blocks, $block_size) = MakeFATImage($image, $label, 2, 36)
 }
 
-die "$Script: failed to create DOS disk image \"$image\"\n" unless defined $blocks;
+die "$Script: failed to create FAT disk image \"$image\"\n" unless defined $blocks;
 
 printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $blocks, $block_size, $blocks * $block_size;
 
 # make it bootable and add syslinux
-$xx = "-s" if $ENV{'boot'} eq 'small';
-SUSystem "$syslx $xx $image" and
-  die "$Script: syslinux failed";
+if($arch eq 'i386') {
+  $xx = "-s" if $ENV{'boot'} eq 'small';
+  SUSystem "$syslx $xx $image" and
+    die "$Script: syslinux failed";
+}
 
 # umount it first, just in case
 SUSystem "umount /mnt 2>/dev/null";
 
 # add the other files
-SUSystem "mount -oloop -t msdos $image /mnt" and
+SUSystem "mount -oloop -t $fstype $image /mnt" and
   die "$Script: mount failed";
 
 # copy everything *except* the initdisk
 AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
   die "$Script: failed to setup boot image";
 
-system "cp /mnt/message $TmpBase.boot";
-system "perl -pi -e 's/x\\.y/$ENV{suse_release}/g' $TmpBase.boot";
-SUSystem "cp $TmpBase.boot /mnt/message";
-unlink "$TmpBase.boot";
+if($arch eq 'i386') {
+  system "cp /mnt/message $TmpBase.boot";
+  system "perl -pi -e 's/x\\.y/$ENV{suse_release}/g' $TmpBase.boot";
+  SUSystem "cp $TmpBase.boot /mnt/message";
+  unlink "$TmpBase.boot";
 
-SUSystem "umount /mnt" and
-  die "$Script: umount failed";
+  SUSystem "umount /mnt" and
+    die "$Script: umount failed";
 
-Print2File $MToolsCfg, "drive r: file=\"$image\"\n" or die "$Script: oops!";
-@f = `mdir r:`;
-unlink $MToolsCfg;
+  Print2File $MToolsCfg, "drive r: file=\"$image\"\n" or die "$Script: oops!";
+  @f = `mdir r:`;
+  unlink $MToolsCfg;
 
-for (@f) {
-  if(/^\s*([ 0-9]+?)\s+bytes\s+free\s*$/) {
-    $free = $1;
-    $free =~ s/\s+//g;
-    last;
+  for (@f) {
+    if(/^\s*([ 0-9]+?)\s+bytes\s+free\s*$/) {
+      $free = $1;
+      $free =~ s/\s+//g;
+      last;
+    }
   }
-}
 
-die "$Script: oops, no space on boot disk???" unless defined $free;
+  die "$Script: oops, no space on boot disk???" unless defined $free;
 
-print "$Script: prepared boot disk \"$image\"; $free bytes for initrd\n";
+  print "$Script: prepared boot disk \"$image\"; $free bytes for initrd\n";
 
-# Print2File "$tmpdir/initrd.max_size", "$free\n" or die "$Script: oops!";
+  # Print2File "$tmpdir/initrd.max_size", "$free\n" or die "$Script: oops!";
 
-$j = -s $initdisk;
-die "$Script: $initdisk missing" unless $j > 0;
-$k = $j - $free;
-if($k >= 0) {
-  print "$Script: $initdisk $k bytes too big\n";
-  opt_initrd $free;
   $j = -s $initdisk;
-  $k = $j - $free
-}
-die "$Script: $initdisk $k bytes too big! ($j)\n" unless $j < $free;
-$xfree = $free - $j;
+  die "$Script: $initdisk missing" unless $j > 0;
+  $k = $j - $free;
+  if($k >= 0) {
+    print "$Script: $initdisk $k bytes too big\n";
+    opt_initrd $free;
+    $j = -s $initdisk;
+    $k = $j - $free
+  }
+  die "$Script: $initdisk $k bytes too big! ($j)\n" unless $j < $free;
+  $xfree = $free - $j;
 
-# add the initdisk
-SUSystem "mount -oloop -t msdos $image /mnt" and
-  die "$Script: mount failed";
+  # add the initdisk
+  SUSystem "mount -oloop -t $fstype $image /mnt" and
+    die "$Script: mount failed";
+}
 
 # copy the initdisk
 SUSystem "cp $initdisk /mnt/initrd" and
@@ -165,8 +179,8 @@ system "ls -l /mnt";
 SUSystem "umount /mnt" and
   die "$Script: umount failed";
 
-print "$Script: finished boot disk \"$image\"; $xfree bytes free\n";
-
+print "$Script: finished boot disk \"$image\"";
+print defined($xfree) ? "; $xfree bytes free\n" : "\n";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # remove files from initrd until it fits to the disk

@@ -20,6 +20,15 @@ if arch eq 'ix86'
   endif
 endif		# arch eq 'ix86'
 
+if arch eq 'ia64'
+  m /boot/<kernel_img> /
+  eli:
+    m /boot/eli.efi /
+  x eli.cfg /
+  x startup.nsh /
+endif
+
 if arch eq 'alpha'
   m /boot/<kernel_img> /vmlinux.gz
 endif
+
