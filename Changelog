@@ -1,3 +1,5 @@
+	- replace tg3 with bcm5700 on pseries
+
 22/3/2004:	v5.29
 	- more space in rescue system
 	- use freefont
