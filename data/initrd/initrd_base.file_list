@@ -172,7 +172,6 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/route
   nfs-utils:
     /sbin/rpc.lockd
-    /sbin/rpc.statd
 
   netcfg:
     /etc/protocols

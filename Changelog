@@ -6,6 +6,7 @@
 	- /lib/modules/<kernel>/extras -> extra/ibmsis
 	- add sgiioc4 module (#38628)
 	- support SGI XPNET (#35867)
+	- no rpc.statd
 
 8/4/2004:	v5.40
 	- support SuSE-SLES theme
