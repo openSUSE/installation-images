@@ -26,7 +26,7 @@ function descend_fs # FROMDIR TODIR
     for from_file in "$FROMDIR"/* "$FROMDIR"/.*
     do
 	case "$from_file" in
-	    "$FROMDIR"/.|"$FROMDIR"/..|"${FROMDIR}*") break;;
+	    "$FROMDIR"/.|"$FROMDIR"/..|"${FROMDIR}/*") break;;
 	esac
 	to_file="${TODIR}/${from_file#$FROMDIR}"
 	if test -e "$to_file"
