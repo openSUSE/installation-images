@@ -1,3 +1,7 @@
+7/5/2004:	v5.49
+	- s390: netsetup: construct welcome msg from /etc/SuSE-release
+	  (bug #40121)
+
 6/5/2004:	v5.48
 	- autoload loop.ko and unix.ko, if available
 	- add nv_drv.o to inst-sys for ppc (#39767)

@@ -1520,7 +1520,7 @@ fi
 #
 echo "\
 =                                                                   =
-==-    Welcome to SUSE Linux Enterprise Server 9 beta1 for zSeries      -==
+==-    Welcome to `head -n 1 /etc/SuSE-release`      -==
 =                                                                   ="
 [ "$DEBUG" = "yes" ] && echo -e "\n- Running in DEBUG mode. -\n"
 EXIT_SCRIPT=0
