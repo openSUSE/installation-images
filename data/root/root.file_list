@@ -889,12 +889,6 @@ endif
 pwdutils:
   /etc/pam.d/shadow
   /usr/sbin/chpasswd
-
-if arch eq 'ia64'
-  fpswa:
-    /sbin/fpswa_check_version
-endif
-
 c 644 0 0 /etc/shadow
 
 gdbm:

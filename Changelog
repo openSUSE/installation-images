@@ -5,6 +5,7 @@
 	- s390: create_interface fixed
 	- no kdebase3-Home yet
 	- amd64 has a floppy module
+	- ia64: no fpswa_check_version
 
 8/3/2004:	v5.22
 	- added udp-receiver
