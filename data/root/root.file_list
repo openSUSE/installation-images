@@ -854,6 +854,9 @@ ntfsprogs:
 freefont:
   /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
 
+blueprint-cursor-theme:
+  /usr/X11R6/lib/X11/icons/blueprint-cursor-theme
+
 if with_yast2 ne 'no'
   if with_vera_font ne 'no'
     # e mkfontscale usr/X11R6/lib/X11/fonts/truetype

@@ -102,6 +102,7 @@ export Y2MAXLOGNUM=5
 test -d $INSTSYS/root/.yast2 && cp -a $INSTSYS/root/.yast2 /root
 }
 
+export XCURSOR_THEME=blueprint-cursor-theme
 
 # yast1 doesn't like it
 rm -f /etc/fstab
