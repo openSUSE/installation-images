@@ -294,6 +294,7 @@ r /modules/sdla.o
 r /modules/sdladrv.o
 r /modules/x25_asy.o
 r /modules/yam.o
+r /modules/strip.o
 
 a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
@@ -318,7 +319,7 @@ a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
 
-endif	# small
+endif	# !small
 endif
 
 ifarch sparc sparc64

@@ -4,8 +4,8 @@ PLIBS	= AddFiles MakeFATImage MakeMinixImage ReadConfig
 PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root mk_yast2\
           mk_yast2_cd mk_yast2_nfs
 
-.PHONY: all dirs initrd initrd_test initrd2 initrd2_test boot boot2 boot_axp\
-        yast2 demo html clean distdir install install_xx
+.PHONY: all dirs initrd initrd_test boot boot_axp\
+        yast2 demo modules html clean distdir install install_xx
 
 all:
 
@@ -42,6 +42,10 @@ yast2: dirs initrd
 
 demo: dirs
 	bin/mk_demo
+
+modules: dirs
+	bin/mk_modules
+	bin/mk_mod_disk
 
 html:
 	@for i in $(PLIBS); do echo $$i; pod2html --noindex --title=$$i --outfile=doc/$$i.html lib/$$i.pm; done

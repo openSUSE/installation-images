@@ -1,0 +1,108 @@
+#! /usr/bin/perl -w
+
+# Create an initrd and put everything on it.
+#
+# Source files and the file list are taken from data/initrd; the initrd is
+# stored in images/initrd.
+#
+# Usage:        mk_modules
+
+=head1 mk_initrd
+
+C<mk_initrd> creates an initial ram disk C<initrd>.
+
+The files to go onto the ram disk (aka initrd) are taken from
+C<data/initrd/initrd.file_list>.
+
+The initrd uses a Minix file system. The actual fs size and inode numbers
+are coded in the C<mk_initrd> script. You I<can> vary these values but it
+doesn't really pay of much. You will gain or loose a few bytes of the
+compressed initrd size only.
+
+The C<linuxrc> binary is taken from the location given by the C<linuxrc> entry
+in the C<etc/config> file.
+
+The final compressed image is stored as C<images/initrd>.
+
+=cut
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeMinixImage;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
+
+die "usage: $Script\n" if @ARGV;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$srcdir = "${DataPath}initrd";
+$tmpdir = "${BasePath}tmp/modules";
+$image = "${ImagePath}";
+
+# the compressed image size varies only slightly with these; about +-1k with
+# reasonable inode/block combinations
+
+# leave that much space
+$extra_size = 10;		# kbyte
+$extra_inodes = 10;
+
+# just make them large enough
+$start_size = 4000;		# kbyte
+$start_inodes = 4000;
+
+# $idlist = "$BasePath$ConfigData{idlist}";
+# die "$Script: where is our id list?" unless $ConfigData{idlist} && -f $idlist;
+
+$lxrc = "$BasePath$ConfigData{linuxrc}";
+die "$Script: where is linuxrc?" unless $ConfigData{linuxrc} && -f $lxrc;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+# clean up
+if(-d($tmpdir)) {
+  SUSystem "rm -rf $tmpdir" and
+    die "$Script: failed to remove old $tmpdir";
+}
+
+mkdir $tmpdir, 0755;
+
+AddFiles "$tmpdir/net-mod", "${srcdir}/initrd.file_list", $srcdir, "net" or
+  die "$Script: failed to setup modules net image";
+
+AddFiles "$tmpdir/other-mo", "${srcdir}/initrd.file_list", $srcdir, "other" or
+  die "$Script: failed to setup modules other image";
+
+AddFiles "$tmpdir/scsi-mod", "${srcdir}/initrd.file_list", $srcdir, "scsi" or
+  die "$Script: failed to setup modules scsi image";
+
+# strip everything
+SUSystem "strip_dir $tmpdir";
+
+# create the image
+Conv2Image "$image/net-mod", "$tmpdir/net-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+Conv2Image "$image/other-mo", "$tmpdir/other-mo", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+Conv2Image "$image/scsi-mod", "$tmpdir/scsi-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+
+# compress it
+system "gzip -f -9 $image/net-mod" and die "$Script: gzip failed";
+system "gzip -f -9 $image/other-mo" and die "$Script: gzip failed";
+system "gzip -f -9 $image/scsi-mod" and die "$Script: gzip failed";
+
+$i = -s "$image/net-mod.gz";
+print "$Script: compressed initrd to \"$image/net-mod.gz\" ($i bytes)\n";
+
+$i = -s "$image/other-mo.gz";
+print "$Script: compressed initrd to \"$image/other-mo.gz\" ($i bytes)\n";
+
+$i = -s "$image/scsi-mod.gz";
+print "$Script: compressed initrd to \"$image/scsi-mod.gz\" ($i bytes)\n";
+

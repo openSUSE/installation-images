@@ -13,7 +13,7 @@ Then you can do:
     - build an initial ramdisk
 
   initrd=small make initrd
-    - build a 'small' test initrd, suitable for 1.44 MB boot images (for ix86)
+    - build a 'small' test initrd, suitable for 1.44MB boot images (for ix86)
     - *** This is not suitable for release on our CDs! ***
 
   make boot
@@ -32,7 +32,7 @@ Then you can do:
   demo=old make boot
   demo=yes make boot
     - build a (2.88MB) Live/LiveEval boot image (for ix86)
-    - add 'boot=small initrd=small' to get a 1.44 MB *test* image
+    - add 'boot=small initrd=small' to get a 1.44MB *test* image
 
 The images are stored in the y2image/image directory, the contents of the
 images (except for the boot image) in the y2image/tmp directory.
@@ -52,7 +52,56 @@ but note:
     Use 'suse_major_release', 'suse_minor_release' or 'suse_release' instead.
 
 
-2. Format of *.file_list files
+2. How to make boot disks
+=========================
+
+The various boot disks differ only slightly from the y2image stuff
+(different kernel, module lists and syslinux.cfg file) and are derived from
+the y2image directory using the bin/ci_boot* scripts.
+
+o 'boot' (*the* boot image (2.88MB, 1st CD, ix86 only)
+
+  Whithin the y2image directory, do a
+
+    make boot
+
+o 'yast2' boot disk (== boot image for 2nd CD, ix86 only)
+
+  Running 'bin/ci_bootdis2 test' creates the necessary files in a temporary
+  directory. Go there and run:
+
+    boot=small make boot
+
+o 'eide' boot disk (for special eide chipsets, ix86 only)
+
+  Running 'bin/ci_bootdise test' creates the necessary files in a temporary
+  directory. Go there and run:
+
+    boot=small make boot
+
+o 'laptop' boot disk (for laptops, ix86 only)
+
+  Running 'bin/ci_bootdisl test' creates the necessary files in a temporary
+  directory. Go there and run:
+
+    boot=small make boot
+
+o 'bootdisk' boot disk (the fallback *floppy*, ix86 only)
+
+  Running 'bin/ci_bootdisk test' creates the necessary files in a temporary
+  directory. Go there and run:
+
+    initrd=initrd boot=small make boot
+
+o 'modules' disk (ix86 only)
+
+  Running 'bin/ci_bootdisk test' creates the necessary files in a temporary
+  directory. Go there and run:
+
+    make modules
+
+
+3. Format of *.file_list files
 ==============================
 
 o Lines starting with '#' are comments, empty lines are ignored.

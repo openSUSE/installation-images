@@ -3,12 +3,7 @@ ifdef initrd
 include initrd_base.file_list
 endif
 
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#
-# now the modules
-#
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the modules
 
 <kernel_rpm>:
 
@@ -18,19 +13,23 @@ t modules/{MORE,NEEDMOD,NET,SCSI}
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 
 a /lib/modules/<kernel_ver>/scsi/BusLogic.o /modules
-a /lib/modules/<kernel_ver>/scsi/advansys.o /modules
 a /lib/modules/<kernel_ver>/scsi/aha1542.o /modules
 a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
-a /lib/modules/<kernel_ver>/scsi/ips.o /modules
 a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
 
 a /lib/modules/<kernel_ver>/net/3c59x.o /modules
 a /lib/modules/<kernel_ver>/net/8390.o /modules
 a /lib/modules/<kernel_ver>/net/ne.o /modules
-a /lib/modules/<kernel_ver>/net/rtl8139.o /modules
 a /lib/modules/<kernel_ver>/net/tulip.o /modules
-endif
 
+# these mods are optional (most important first)
+M /lib/modules/<kernel_ver>/scsi/advansys.o /modules
+M /lib/modules/<kernel_ver>/scsi/ips.o /modules
+M /lib/modules/<kernel_ver>/net/rtl8139.o /modules
+endif	# initrd
+
+
+# below are definitions for the modules disk
 
 ifdef net
 t {NEEDMOD,NET}
@@ -80,6 +79,7 @@ a /lib/modules/<kernel_ver>/net/pcnet32.o /
 a /lib/modules/<kernel_ver>/net/plip.o /
 a /lib/modules/<kernel_ver>/net/rl100a.o /
 a /lib/modules/<kernel_ver>/net/rrunner.o /
+a /lib/modules/<kernel_ver>/net/rtl8139.o /
 a /lib/modules/<kernel_ver>/net/sis900.o /
 a /lib/modules/<kernel_ver>/net/sk98lin.o /
 a /lib/modules/<kernel_ver>/net/sktr.o /
@@ -91,7 +91,7 @@ a /lib/modules/<kernel_ver>/net/old_tulip.o /
 a /lib/modules/<kernel_ver>/net/via-rhine.o /
 a /lib/modules/<kernel_ver>/net/wd.o /
 a /lib/modules/<kernel_ver>/net/yellowfin.o /
-endif
+endif	# net
 
 
 ifdef scsi
@@ -110,6 +110,7 @@ a /lib/modules/<kernel_ver>/scsi/seagate.o /
 a /lib/modules/<kernel_ver>/scsi/megaraid.o /
 
 a /lib/modules/<kernel_ver>/scsi/53c7,8xx.o /
+a /lib/modules/<kernel_ver>/scsi/advansys.o /
 a /lib/modules/<kernel_ver>/scsi/aha152x.o /
 a /lib/modules/<kernel_ver>/scsi/aha1740.o /
 a /lib/modules/<kernel_ver>/scsi/AM53C974.o /
@@ -123,6 +124,7 @@ a /lib/modules/<kernel_ver>/scsi/g_NCR5380.o /
 a /lib/modules/<kernel_ver>/scsi/imm.o /
 a /lib/modules/<kernel_ver>/scsi/in2000.o /
 a /lib/modules/<kernel_ver>/scsi/initio.o /
+a /lib/modules/<kernel_ver>/scsi/ips.o /
 a /lib/modules/<kernel_ver>/scsi/NCR53c406a.o /
 a /lib/modules/<kernel_ver>/scsi/pas16.o /
 a /lib/modules/<kernel_ver>/scsi/pci2000.o /
@@ -137,7 +139,7 @@ a /lib/modules/<kernel_ver>/scsi/t128.o /
 a /lib/modules/<kernel_ver>/scsi/u14-34f.o /
 a /lib/modules/<kernel_ver>/scsi/ultrastor.o /
 a /lib/modules/<kernel_ver>/scsi/wd7000.o /
-endif
+endif	# scsi
 
 
 ifdef other
@@ -213,7 +215,5 @@ a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /
 
 #pcmcia/other
 a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /
-
-
-endif
+endif	# other
 

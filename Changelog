@@ -1,0 +1,4 @@
+6/6/2000:	v0.72
+	- started this log
+	- integrated the various ia32 boot disks: cf. 'data/initrd/disk_*'
+	- wrote README
