@@ -33,17 +33,20 @@ mkdir "${DataPath}base/gen", 0755;
 
 open W, ">$dst";
 
-print W "gfxboot-devel:\n  /\n";
+print W "if arch eq 'ia32' || arch eq 'x86_64'\n";
+print W "  gfxboot-devel:\n    /\nendif\n";
 for (sort keys %st) {
   print W
     "  d /$_\n" .
     "  d /$_/floppy\n" .
-    "  m /usr/share/gfxboot/$_/bootlogo /$_\n";
+    "if arch eq 'ia32' || arch eq 'x86_64'\n" .
+    "    m /usr/share/gfxboot/$_/bootlogo /$_\n" .
+    "endif\n";
 }
 
 for (sort keys %st) {
   print W
-    "bootsplash-theme-$_:\n  /\n";
+    "\nbootsplash-theme-$_:\n  /\n";
 
   undef %fl_spl;
   @fl_spl{split /\s|,/, $ConfigData{ini}{Splash}{floppy}} = ();

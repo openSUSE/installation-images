@@ -37,7 +37,7 @@ endif
     endif
   endif
 
-  if (memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval'
+  if (arch ne 'ia32' || memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval'
     R s/\n# memory.*memtest\n//s /syslinux.cfg
     R s/.*memtest.*// /message
   else

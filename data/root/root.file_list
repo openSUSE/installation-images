@@ -345,7 +345,10 @@ if with_yast2 ne 'no'
   XFree86-server:
     /usr/X11R6/bin/XFree86
     /usr/X11R6/lib*/modules/codeconv
-    /usr/X11R6/lib*/modules/drivers/{vga,fbdev,vmware}_drv.o
+    /usr/X11R6/lib*/modules/drivers/{vga,fbdev}_drv.o
+  if arch eq 'ia32'
+    /usr/X11R6/lib*/modules/drivers/vmware_drv.o
+  endif
     /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.a
     /usr/X11R6/lib*/modules/fonts/libbitmap.a
     /usr/X11R6/lib*/modules/input
