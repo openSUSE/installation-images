@@ -454,11 +454,6 @@ function activate_config() {
 	    case "$NETSELECT" in
 	    	tr|eth|qeth|hsi|qeth-tr)
                     NTRY=3
-                    if [ "$NETSELECT" = qeth -o "$NETSELECT" = qeth-tr ]; then
-                        echo -n "Waiting 12s for network device $IP_DEV."
-			for i in 1 2 3 4 5 6 7 8 9 a b;do sleep 1;echo -n .;done
-			echo ..done.
-		    fi
 		    if [ "$IP_GATEWAY" ]; then
 			echo "Trying to ping the IP address of the Gateway:"
 			execcmd "ping -w 10 -n -c $NTRY $IP_GATEWAY" 
@@ -493,7 +488,15 @@ function activate_config() {
 			    case "$NETSELECT" in
 				ctc|escon)
 				    echo "Statistics from $IP_DEV:"
-				    cat /proc/net/ctc/$IP_DEV/statistics
+				    STATS_DIR=/sys/class/net/$IP_DEV/statistics
+				    for file in $STATS_DIR/*; do
+					if [ -r $file ]; then
+					    read num < $file;
+					    if [ $num -ne 0 ]; then
+						echo $(basename $file): $num
+					    fi
+					fi
+				    done
 				;;
 			    esac
 			    continue_anyway && break
