@@ -72,6 +72,8 @@ sub AddFiles
     die "$Script: where are the rpms?" unless $ConfigData{suse_base} && -d $rpms;
   }
   else {
+    $rpms = "/.rpm-cache";
+    die "$Script: where are the rpms?" unless -d $rpms;
     print "running in autobuild environment\n"
   }
 
@@ -135,31 +137,36 @@ sub AddFiles
     }
     elsif(/^(\S+):\s*$/) {
       $p = $1;
-      if($AutoBuild) {
-        SUSystem "rm -rf $tdir" and
-          die "$Script: failed to remove $tdir";
-        die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
-#        SUSystem "sh -c 'cd / ; rpm -ql $p | tar -T - -cf - | tar -C $tdir -xpf -'" and
-#          die "$Script: failed to extract $p";
-        print "adding package $p...\n";
-        SUSystem "sh -c 'cd $tdir ; rpm -ql $p | cpio --quiet -o 2>/dev/null | cpio --quiet -dim --no-absolute-filenames'" and
-          die "$Script: failed to extract $r";
+
+#      if($AutoBuild) {
+#        SUSystem "rm -rf $tdir" and
+#          die "$Script: failed to remove $tdir";
+#        die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
+##        SUSystem "sh -c 'cd / ; rpm -ql $p | tar -T - -cf - | tar -C $tdir -xpf -'" and
+##          die "$Script: failed to extract $p";
+#        print "adding package $p...\n";
+#        SUSystem "sh -c 'cd $tdir ; rpm -ql $p | cpio --quiet -o 2>/dev/null | cpio --quiet -dim --no-absolute-filenames'" and
+#          die "$Script: failed to extract $r";
+#      }
+#      else {
+
+      if($p =~ /^\//) {
+        $r = $p;
+        die "$Script: no such package: $r" unless -f $r;
       }
       else {
-        if($p =~ /^\//) {
-          $r = $p;
-          die "$Script: no such package: $r" unless -f $r;
-        }
-        else {
-          $r = `echo -n $rpms/*/$p.rpm`;
-          die "$Script: no such package: $p.rpm" if $r eq "$rpms/*/$p.rpm";
-        }
-        SUSystem "rm -rf $tdir" and
-          die "$Script: failed to remove $tdir";
-        die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
-        SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet -dim --no-absolute-filenames'" and
-          die "$Script: failed to extract $r";
+        $r = `echo -n $rpms/*/$p.rpm`;
+        die "$Script: no such package: $p.rpm" if $r eq "$rpms/*/$p.rpm";
       }
+      print "adding package $p...\n" if $AutoBuild;
+      SUSystem "rm -rf $tdir" and
+        die "$Script: failed to remove $tdir";
+      die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
+      SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet -dim --no-absolute-filenames'" and
+        die "$Script: failed to extract $r";
+
+#      }
+
     }
     elsif(/^\s+(.*)$/) {
       $files = $1;
