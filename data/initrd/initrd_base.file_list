@@ -62,7 +62,7 @@ g /usr/lib/kbd/consolefonts/lat7-16.psfu.gz consolefonts/lat7-16.psfu
 
 d keytables/include
 
-if arch eq 'ix86' || arch eq 'ppc'
+if arch eq 'ix86' || arch eq 'ppc' || arch eq 'ia64'
   g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz keytables/Pl02.map
   g /usr/lib/kbd/keymaps/i386/qwerty/br-abnt2.map.gz keytables/br-abnt2.map
   g /usr/lib/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz keytables/cz-us-qwertz.map

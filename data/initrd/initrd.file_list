@@ -409,3 +409,7 @@ if arch eq 'sparc' || arch eq  'sparc64'
   a /lib/modules/<kernel_ver>/scsi/qlogicpti.o /modules
 endif
 
+ifarch ia64
+  a /lib/modules/<kernel_ver>/kernel/drivers/*/*.o /modules
+  a /lib/modules/<kernel_ver>/kernel/drivers/*/*/*.o /modules
+endif

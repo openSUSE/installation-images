@@ -56,7 +56,7 @@ $extra_size = 600;		# kbyte
 $extra_inodes = 200;
 
 # just make them large enough
-$start_size = 10000;		# kbyte
+$start_size = 30000;		# kbyte
 $start_inodes = 7000;
 
 $lxrc = "$BasePath$ConfigData{linuxrc}";
