@@ -1,3 +1,6 @@
+25/6/2003:	v2.97
+	- ensure loop devices are freed on build errors
+
 13/6/2003:	v2.96
 	- added SuSE-SLOS theme
 
