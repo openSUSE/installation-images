@@ -375,19 +375,6 @@ if with_yast2 ne 'no'
   # Don't do this!
   # s /var/X11R6/bin/X /usr/X11R6/bin/X
 
-  if arch eq 'sparc' || arch eq 'sparc64'
-    xsun:
-      .
-    xsunmono:
-      .
-    xsun24:
-      .
-    xmach64:
-      .
-    xglint:
-      .
-  endif
-
   if arch eq 's390' || arch eq 's390x'
     xextra:
       .
