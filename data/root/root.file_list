@@ -354,6 +354,8 @@ if arch eq 's390' || arch eq 's390x'
   yast2-s390:
     /
 endif
+  yast2-slp:
+    /
   yast2-storage:
     /
   yast2-transfer:
@@ -486,8 +488,10 @@ sysvinit:
   c 755 0 0 /sbin/showconsole
   /sbin/setconsole
 
-syslogd:
+klogd:
   /sbin/klogd
+
+syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 

@@ -3,8 +3,8 @@
 PLIBS	= AddFiles MakeFATImage MakeMinixImage ReadConfig
 PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root  
 
-.PHONY: all dirs initrd initrd_test boot boot_axp rescue\
-        root liveeval modules html clean distdir install install_xx rdemo brescue
+.PHONY: all dirs initrd initrd_test boot boot_axp rescue \
+        root liveeval modules html clean distdir install install_xx rdemo brescue \
 	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd
 
 all: bootdisk moduledisks bootcd2 bootcd rescue root
@@ -42,9 +42,9 @@ initrd_test: initrd
 boot: initrd mboot
 	bin/mk_boot
 
-bootcd2:
-#	linuxrc=linuxrc_tiny use_k_inst=1 nopcmcia=1 nousb=1 fewkeymaps=1 initrd_name=small initrd=small bootlogo=0 boot=small make boot
-	initrd=medium boot=medium make boot
+bootcd2: eltorito
+#	initrd=medium boot=medium make boot
+	cp src/eltorito/boot images/boot.cd2
 
 bootdisk:
 # with_smb=1
@@ -101,6 +101,9 @@ moduledisks:
 mboot:
 	make -C src/mboot
 
+eltorito:
+	make -C src/eltorito
+
 base: dirs
 	@[ -d tmp/base ] || YAST_IS_RUNNING=1 bin/mk_base
 
@@ -111,6 +114,7 @@ html:
 
 clean:
 	-@make -C src/mboot clean
+	-@make -C src/eltorito clean
 	-@umount test/initdisk/proc 2>/dev/null ; true
 	-@umount test/initdisk/mnt 2>/dev/null ; true
 	-@rm -rf images test tmp

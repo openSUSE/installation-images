@@ -434,10 +434,14 @@ endif
 strace:
   /usr/bin/strace
 
+klogd:
+  /etc
+  /sbin/klogd
+  /var/adm/fillup-templates/sysconfig.syslog
+
 syslogd: postin
   /etc
-  /sbin/{klogd,syslogd}
-  /var/adm/fillup-templates/sysconfig.syslog
+  /sbin/syslogd
 e postin
 
 sysvinit: postin
@@ -550,6 +554,7 @@ if arch ne 'sparc'
     f / ext3.ko
     f / hpfs.ko
     f / xfs.ko
+    f / exportfs.ko
     endif
 
 
