@@ -156,7 +156,7 @@ do
 done
 } # ask_screen
 #
-#
+#	Installation via NFS
 #
 nfs_install()
 {
@@ -164,6 +164,22 @@ nfs_install()
 #	Mount filesystems and start yast
 #
 $CONDOM mount -t nfs $INST_IP_ADDR:$INST_IP_DIR /var/adm/mount
+if [ ! -f /var/adm/mount/suse -a -z "$CONDOM" ]
+then
+	echo $MOUNT_ERR2
+	return 0
+fi
+return 1
+}
+#
+#	Installation via SAMBA
+#
+samba_install()
+{
+#
+#	Mount filesystems and start yast
+#
+$CONDOM mount -t smbfs //$INST_IP_ADDR/$INST_IP_DIR /var/adm/mount
 if [ -f /var/adm/mount/images/root -o ! -z "$CONDOM" ]
 then
 	$CONDOM mount -t ext2 /var/adm/mount/suse/images/root /var/adm/mnt -o loop
@@ -299,6 +315,8 @@ then
 			;;
 		esac
 	done
+else
+	[ "$INST_SCREEN" = "X" ] && export DISPLAY=$INST_X_ADDR:0.0
 fi
 #
 write_info_file

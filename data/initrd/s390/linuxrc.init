@@ -5,7 +5,7 @@ hostname suse
 /sbin/klogd -s -o -n -f /var/log/boot.msg
 # Not syslog kernel symbol parsing takes _many_ seconds, so give it some time!
 /sbin/klogd -p -c 7
-mount -t proc virtual-proc-filesystem /proc
+[ ! -f /proc/version ] && mount -t proc virtual-proc-filesystem /proc
 echo Mounted /proc
 echo Creating /var/log/boot.msg
 if [ -f /proc/sys/kernel/userprocess_debug ]; then
