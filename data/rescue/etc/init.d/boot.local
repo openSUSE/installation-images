@@ -30,75 +30,45 @@ while read line; do
         esac
 done < /proc/cpuinfo
 
-# echo "$MACHINE: running $0 $*"
 my_REDIRECT="$(echo $REDIRECT | sed 's#^/dev/##')"
 my_DEVICE="$(echo $my_REDIRECT | sed 's#^tty##')"
 my_SPEED="$(stty speed)"
-# echo REDIRECT $REDIRECT  $my_REDIRECT
-# echo my_DEVICE $my_DEVICE
-# echo my_SPEED $my_SPEED
-
-# compose a line like that for inittab
-# S0:12345:respawn:/sbin/agetty -L 9600 ttyS0 vt102
-
-if [ "$MACHINE" = "iseries" ] ; then
-# echo "changing inittab"
-sed '/^.*mingetty.*$/d' /etc/inittab > /etc/inittab.tmp
-diff /etc/inittab /etc/inittab.tmp &>/dev/null || mv /etc/inittab.tmp /etc/inittab
-
-cat >> /etc/inittab <<-EOF
-
-
-# iSeries virtual console:
-1:2345:respawn:/sbin/mingetty --noclear tty1
-
-# to allow only root to log in on the console, use this:
-# 1:2345:respawn:/sbin/sulogin /dev/console
-
-# to disable authentication on the console, use this:
-# y:2345:respawn:/bin/bash
-
-EOF
-
-# syslog.conf
-if grep -q tty10 /etc/syslog.conf; then
-	# echo "changing syslog.conf"
-	sed '/.*tty10.*/d; /.*xconsole.*/d' /etc/syslog.conf > /etc/syslog.conf.tmp
-	diff /etc/syslog.conf /etc/syslog.conf.tmp &>/dev/null || mv /etc/syslog.conf.tmp /etc/syslog.conf
+if [ 0 = 1 ] ; then
+ echo "$MACHINE: running $0 $*"
+ echo REDIRECT $REDIRECT  $my_REDIRECT
+ echo my_DEVICE $my_DEVICE
+ echo my_SPEED $my_SPEED
+ echo TERM=$TERM
 fi
 
+# compose a line like that for inittab
+# S0:12345:respawn:/sbin/agetty -L 9600 console $TERM
 
+if [ "$MACHINE" = "iseries"  -o "$MACHINE" = "s390" ] ; then
+# echo "changing inittab"
+# legacy iseries has only one tty1
+# s390 has a mingetty on ttyS0 
+# remove both and use /dev/console
+sed '/^.*mingetty.*$/d' /etc/inittab > /etc/inittab.tmp
+diff /etc/inittab /etc/inittab.tmp &>/dev/null || mv /etc/inittab.tmp /etc/inittab
+fi
+if [ "$MACHINE" = "iseries" ] ; then
+my_REDIRECT=ttyS0
 fi
 
 case $my_REDIRECT in
-	ttyS*)
-	if [ "$MACHINE" != "s390" || "$my_REDIRECT" != "ttyS0" ]	# ttyS0 is default console on s390, nothing to do
-	then
-		echo adding this line to inittab
-		echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102"
-		echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102" >> /etc/inittab
-		echo $my_REDIRECT >> /etc/securetty
-	fi
-		;;
-
-	hvc*)
-	echo adding this line to inittab
-	echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt320"
-	echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt320" >> /etc/inittab
-	echo $my_REDIRECT >> /etc/securetty
-		;;
-
-	hvsi*)
-	echo adding this line to inittab
-	echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102"
-	echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102" >> /etc/inittab
-	echo $my_REDIRECT >> /etc/securetty
-		;;
-
+	ttyS*|hvc*|hvsi*)
+	echo "adding this line to inittab for $my_REDIRECT, TERM=$TERM"
+	echo "cons:12345:respawn:/sbin/agetty -L $my_SPEED console $TERM"
+	echo "cons:12345:respawn:/sbin/agetty -L $my_SPEED console $TERM" >> /etc/inittab
+	echo console >> /etc/securetty
+	;;
 	*)
 	echo "no modification in inittab needed for: $my_REDIRECT"
 		;;
 esac
 
+echo
+echo
 telinit q
 
