@@ -87,12 +87,11 @@ case "$arch" in
     *)
 	if [ -x /usr/sbin/sshd ] && \
           grep -vq ' nossh' /proc/cmdline && \
-          grep -q 'Bootmode:.*Net' /etc/install.inf ; then
+          grep -qE 'InstMode:[[:space:]]*(nfs|http|ftp|tftp|smb)' /etc/install.inf ; then
 	    SSH_FAILED=
 	    echo 'sshd found, prepare remote login'
 	    rm -rf /etc/ssh /root /etc/shadow
-	    mkdir -p /root/.ssh
-	    cp -a $INSTSYS/root/.ssh/* /root/.ssh
+	    mkdir -p /root
 	    cp -a $INSTSYS/root/.bash_login /root
 	    cp -a $INSTSYS/root/.vimrc /root
 	    cp -a $INSTSYS/etc/shadow /etc

@@ -1,3 +1,8 @@
+12/2/2002:	v1.119
+	- fixed kbd dirs
+	- added pam modules (make sshd happy)
+	- removed ssh keys from /root/.ssh
+
 11/2/2002:	v1.118
 	- kbd things have been moved to /usr/share
 	- heimdal libs have been moved, too

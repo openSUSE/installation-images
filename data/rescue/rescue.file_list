@@ -34,8 +34,6 @@ r /usr/bin/ChangeSymlinks
 e postin
 # r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
 t /etc/fstab
-# R s/^(FQHOSTNAME=).*/$1\"Rescue\"/ /etc/rc.config
-E echo Rescue.local >etc/HOSTNAME
 
 grep:
   /bin
@@ -183,6 +181,7 @@ netcat:
 netcfg:
   /etc
 r /etc/{diphosts,ftpusers,hosts.*}
+E echo Rescue.local >etc/HOSTNAME
 
 if 0
 # conflicts with nfs-utils

@@ -155,7 +155,7 @@ glibc-locale:
 
 if !(arch eq 's390' || arch eq 's390x')
 kbd:
-  /usr/lib/kbd
+  /usr/share/kbd
   /bin/loadkeys
   /usr/bin/{loadunimap,kbd_mode}
   /bin/{chvt,loadkeys}
@@ -710,6 +710,9 @@ if pre_release
     /lib/security
     /lib/libpam.so.*
 
+  pam-modules:
+    /{etc,lib,sbin}
+
   cracklib:
     /usr/lib/libcrack.so*
 
@@ -719,10 +722,12 @@ if pre_release
 
    r /lib/security/pam_userdb.so
 
-   d /root/.ssh
    x etc/ssh /etc
    c 644 0 0 /etc/ssh/*
+   d /root
+if 0
    x root/.ssh /root
+endif
    x root/.bash_login /root
    x root/.vimrc /root
 endif
