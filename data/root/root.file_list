@@ -356,6 +356,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/lib{X11,Xext}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/lib{Xmu,Xi,Xt,Xft,Xrender,Xpm}.so*
+    /usr/X11R6/lib/X11/locale
 
  XFree86-compat-libs:
    /usr/X11R6/lib*/lib{Xxf86misc,Xxf86vm}.so*
@@ -383,8 +384,11 @@ if with_yast2 ne 'no'
     # 'fixed' font
     /usr/X11R6/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz
 
-  x /usr/X11R6/lib/X11/fonts/misc/fonts.alias /usr/X11R6/lib/X11/fonts/misc
+#  x /usr/X11R6/lib/X11/fonts/misc/fonts.alias /usr/X11R6/lib/X11/fonts/misc
   x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
+
+  /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
+
 
 if arch eq 'x86_64' || arch eq 's390x'
   R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
@@ -395,13 +399,6 @@ endif
 
   libusb:
     /usr/lib*/libusb*.so.*
-
-  xpenguins:
-    /usr/bin
-    /usr/share/xpenguins/themes/Penguins
-
-  xf86:
-    /usr/X11R6/lib/X11/fonts/misc/{cursor.pcf.gz,encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
 
   vnc:
     /usr/X11R6/bin/Xvnc
