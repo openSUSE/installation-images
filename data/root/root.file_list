@@ -594,12 +594,13 @@ syslogd:
 
 if pre_release
   # will not appear in final release
-  openssh:
+  openssh: prein
     /etc/pam.d/sshd
     /etc/ssh
     /usr/sbin/sshd
     /usr/bin/ssh
     /usr/bin/scp
+    e prein
 
   pam:
     /etc/pam.d/other

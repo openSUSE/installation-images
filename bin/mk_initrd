@@ -61,7 +61,7 @@ $extra_inodes = 200;
 
 # just make them large enough
 $start_size = 60000;		# kbyte
-$start_inodes = 10000;
+$start_inodes = 15000;
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
@@ -92,7 +92,7 @@ if($ENV{'keepinitrd'} != 1) {
     die "$Script: failed to setup initrd image";
 
   print "creating devices...\n";
-  SUSystem "sh -c 'cd $tmpdir; ./makedevs.floppy >/dev/null'" and
+  SUSystem "sh -c 'cd $tmpdir; RPM_ARCH=$ENV{'RPM_ARCH'} ./makedevs.floppy >/dev/null'" and
     die "$Script: could not create all devices";
   SUSystem "rm $tmpdir/makedevs.floppy";
 

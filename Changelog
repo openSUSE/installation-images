@@ -1,3 +1,10 @@
+8/7/2002:	v2.12
+	- set RPM_ARCH for makedevs script
+	- run prein script for openssh package
+	- added config for sd_mod.o & scsi_mod.o
+	- use cache=4 as default
+	- more inodes in initrd
+
 8/7/2002:	v2.11
 	- added autoyast2-installation
 	- no kdb/pcmcia in initrd on ppc

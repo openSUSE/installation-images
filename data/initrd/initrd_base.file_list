@@ -270,7 +270,7 @@ if arch eq 's390' || arch eq 's390x'
   openssl:
     /usr/lib/libcrypto.so.*
     /usr/lib/libssl.so.*
-  openssh:
+  openssh: prein
     /etc/ssh
     /etc/ssh/moduli
     /usr/bin/scp
@@ -283,6 +283,7 @@ if arch eq 's390' || arch eq 's390x'
     t /etc/sysconfig/ssh
     /etc/ssh/ssh_config
     /usr/bin/ssh
+    e prein
   syslogd:
     /etc/init.d/syslog
     /sbin/klogd

@@ -500,6 +500,8 @@ for (@f) {
   $ConfigData{'tmp_cache_dir'} = $tmp_cache_dir;
   system "mkdir -p $tmp_cache_dir" unless -d $tmp_cache_dir;
   my $use_cache = 0;
+
+  $ENV{'cache'} = 4 unless exists $ENV{'cache'};
   $use_cache = $ENV{'cache'} if exists $ENV{'cache'};
   $ConfigData{'use_cache'} = $use_cache;
 
