@@ -38,7 +38,6 @@ EndSection
 Section "Module"
   Load		"dbe"
   Load		"extmod"
-  Load		"freetype"
   # extensions
 EndSection
 

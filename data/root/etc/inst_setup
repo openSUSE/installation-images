@@ -165,4 +165,6 @@ do
     test -e $file.initrd && mv $file.initrd $file
 done
 
+rm -f /etc/modules.conf
+
 exit $ec

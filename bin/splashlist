@@ -33,12 +33,16 @@ mkdir "${DataPath}base/gen", 0755;
 
 open W, ">$dst";
 
+print W "gfxboot-devel:\n  /\n";
 for (sort keys %st) {
   print W
-    "bootsplash-theme-$_:\n" .
-    "  /\n" .
     "  d /$_\n" .
-    "  m /usr/share/splash/themes/$_/bootloader/message /$_/bootlogo\n";
+    "  m /usr/share/gfxboot/$_/bootlogo /$_\n";
+}
+
+for (sort keys %st) {
+  print W
+    "bootsplash-theme-$_:\n  /\n";
 
   for $res (split /\s|,/, $ConfigData{ini}{Splash}{sizes}) {
     $res2 = sprintf "%04u%04u", split(/x/, $res);

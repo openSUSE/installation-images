@@ -353,7 +353,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/modules/extensions/libdri.a
   endif
     /usr/X11R6/lib*/modules/fonts/libbitmap.a
-    /usr/X11R6/lib*/modules/fonts/libfreetype.a
+#    /usr/X11R6/lib*/modules/fonts/libfreetype.a
     /usr/X11R6/lib*/modules/input
     /usr/X11R6/lib*/modules/linux
   if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc' && arch ne 'ppc64'
