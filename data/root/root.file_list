@@ -513,9 +513,8 @@ if arch eq 'ppc' || arch eq 'sparc' || arch eq 'sparc64'
   # d /lib/modules/<kernel_ver>/misc
 endif
 
-# add the rest from instsys
 lvm:
-  # /lib/liblvm-*.so*
+  /lib/liblvm-*.so*
   /sbin/lv*  
   /sbin/pv* 
   /sbin/vg*
@@ -592,7 +591,7 @@ syslogd:
 
 if pre_release
   # will not appear in final release
-  openssh: prein,postin
+  openssh: prein
     e prein
     /etc/pam.d/sshd
     /etc/ssh
@@ -600,7 +599,6 @@ if pre_release
     /usr/bin/ssh
     /usr/bin/scp
     /var/empty
-    e postin
 
   pam:
     /etc/pam.d/other

@@ -170,7 +170,7 @@ endif
 
 lvm: postin
   /etc
-  # /lib
+  /lib
   /sbin
   /var/adm/fillup-templates/sysconfig.lvm
 e postin
@@ -186,13 +186,12 @@ mktemp:
 modutils:
   /sbin/{insmod,modprobe,rmmod,lsmod,ksyms,depmod}
 
-ncurses: postin
+ncurses:
   /lib*/libncurses.so.5*
   /usr/share/terminfo/d/dumb
   /usr/share/terminfo/l
   /usr/share/terminfo/v/vt10[02]
   /usr/bin/{clear,tset,reset}
-e postin
 
 net-tools:
   /{,s}bin
