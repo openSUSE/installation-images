@@ -1,0 +1,46 @@
+#! /usr/bin/perl
+
+# Print yast2 packages that depend on @ARGV, recursively!
+
+$dir = '/work/CDs/all/full-i386/suse/*';
+
+sub get_req;
+
+for (@ARGV) {
+  $packs{$_} = 0;
+  $cnt++;
+}
+
+$packs{"yast2-instsys"} = 0, $cnt++ unless $cnt;
+
+while($cnt) {
+  @p = keys %packs;
+  $cnt = 0;
+  for (@p) {
+    if($packs{$_} == 0) {
+      get_req $_;
+      $packs{$_} = 1;
+      $cnt++;
+    }
+  }
+}
+
+for (sort keys %packs) {
+  print "$_\n"
+}
+
+
+sub get_req
+{
+  local $_;
+  my (@p);
+
+  $_ = shift;
+
+  @p = `rpm --requires -qp $dir/$_.rpm`;
+  for (@p) {
+    chomp;
+    s/\s*$//;
+    $packs{$_} += 0 if /^yast2\-/;
+  }
+}
