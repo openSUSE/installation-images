@@ -107,12 +107,8 @@ else
   A gen/module.config.firewire modules/module.config
   A gen/module.config.fs modules/module.config
 
-  # for those that don't put these modules into inst-sys
-  # cf. data/root/root.file_list
-  if arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 's390' || arch eq 's390x'
-    include gen/module.files.extra
-    A gen/module.config.extra modules/module.config
-  endif
+  include gen/module.files.extra
+  A gen/module.config.extra modules/module.config
 
   A gen/module.config.other modules/module.config
 

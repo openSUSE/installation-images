@@ -1,3 +1,6 @@
+3/3/2003:	v2.95
+	- added lvm modules to initrd on CD, too (#23644)
+
 17/2/2003:	v2.94
 	- make it possible to split module config sections into individual
 	  parts; this is necessary because scsi modules no longer fit on one
