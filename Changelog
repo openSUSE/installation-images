@@ -1,3 +1,5 @@
+	- s390: change memory requirements according to test results
+
 16/5/2004:	v5.55
 	- add pcnet32 and acenic for chrp, fix typo in yaboot.conf
 	- copy initrd files fo i/p to sles cd1
