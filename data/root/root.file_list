@@ -691,6 +691,10 @@ if pre_release || suse_release >= 8.1
   pam-modules:
     /{etc,lib*,sbin}
 
+    # don't use cracklib
+    c 755 0 0 /etc/security
+    R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
+
   libxcrypt:
     /lib*/libxcrypt.so.*
 
