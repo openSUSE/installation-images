@@ -14,4 +14,4 @@ else
 	blub
 fi
 
-exec /sbin/syslogd.bin
+/sbin/syslogd.bin

@@ -83,7 +83,11 @@ for (@modimages_i) {
 }
 
 if($disk == 1 && $bootsplash) {
-  SUSystem "cp ${BasePath}tmp/base/$ConfigData{splash_theme}/*.spl /mnt" and die "$Script: could not add boot splash";
+  for $res (split /\s|,/, $ConfigData{ini}{Splash}{floppy}) {
+    $res2 = sprintf "%04u%04u", split(/x/, $res);
+    SUSystem "cp ${BasePath}tmp/base/$ConfigData{splash_theme}/${res2}.spl /mnt"
+      and die "$Script: could not add boot splash";
+  }
 }
 
 for (@modimages_l) {

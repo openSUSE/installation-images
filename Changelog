@@ -1,3 +1,8 @@
+3/3/2003:	v3.17
+	- added ips_old module
+	- more splash sizes
+	- fixed klogd startup
+
 1/3/2003:	v3.16
 	- remove module.conf after yast2 exits
 	- don't include libfreetype.so (not needed)

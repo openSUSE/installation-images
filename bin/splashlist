@@ -44,7 +44,7 @@ for (sort keys %st) {
   print W
     "bootsplash-theme-$_:\n  /\n";
 
-  for $res (split /\s|,/, $ConfigData{ini}{Splash}{sizes}) {
+  for $res (split /\s|,/, $ConfigData{ini}{Splash}{cdrom}) {
     $res2 = sprintf "%04u%04u", split(/x/, $res);
     print W "  E splash -s -f /usr/share/splash/themes/$_/config/bootsplash-${res}.cfg >/$_/${res2}.spl\n"
   }

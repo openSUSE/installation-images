@@ -43,7 +43,7 @@ if test -x /sbin/klogd
 then
     checkproc /sbin/klogd || {
 	echo "starting klogd ..."
-	/sbin/klogd -f /dev/null -c 1
+	/sbin/klogd -c 1
 }
 fi
 
