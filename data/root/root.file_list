@@ -308,8 +308,7 @@ textutils:
   /bin/sort
 
 freetype2:
-/usr/lib/libfreetype.so.6
-/usr/lib/libfreetype.so.6.0.1
+  /usr/lib
 
 c 0755 0 0 /usr/bin
 c 0755 0 0 /usr/lib
@@ -401,7 +400,7 @@ if with_yast2 ne 'no'
     # 'fixed' font
     /usr/X11R6/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz
 
-  x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
+  x /usr/X11R6/lib/X11/fonts/misc/fonts.alias /usr/X11R6/lib/X11/fonts/misc
   x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
 endif
 
@@ -634,6 +633,9 @@ if arch eq 'ppc'
     /usr/sbin/parted
     /usr/lib/libparted.so*
 endif
+
+# make fonts.dir
+E mkfontdir usr/X11R6/lib/X11/fonts/misc
 
 # add link to initrd modules
 # check mk_root before you're going to change this!!!

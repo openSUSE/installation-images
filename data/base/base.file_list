@@ -97,6 +97,12 @@ if arch eq 'ia32'
     /usr/share/syslinux/isolinux*
 endif
 
+xf86:
+  m /usr/X11R6/bin/mkfontdir /usr/bin
+
+xshared:
+  /usr/X11R6/lib/libXfont.so*
+
 <kernel_rpm>:
   /lib/modules
   m /boot/System.map-* /System.map
