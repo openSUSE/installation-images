@@ -1,3 +1,4 @@
+15/6/2004:	v5.68
 	- create a CD1/suseboot/os-chooser file for PowerMac to load
 	  either 32bit or 64bit kernel, yaboot is shit. (#42070)
 
