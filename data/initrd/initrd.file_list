@@ -5,6 +5,7 @@ d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults
 s /usr/X11R6/lib/X11 var/X11R6/lib
 
 d modules
+d dev/usb
 
 t var/run/utmp
 
@@ -105,19 +106,27 @@ ifdef 2.88
 a /lib/modules/<kernel_ver>/block/*.o /modules
 a /lib/modules/<kernel_ver>/net/*.o /modules
 a /lib/modules/<kernel_ver>/scsi/*.o /modules
-a /lib/modules/<kernel_ver>/fs/reiserfs.o /modules
+#a /lib/modules/<kernel_ver>/fs/reiserfs.o /modules
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 a /lib/modules/<kernel_ver>/misc/serial.o /modules
 
 a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
 a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
-a /lib/modules/<kernel_ver>/misc/usb-ohci-hcd.o /modules
+a /lib/modules/<kernel_ver>/misc/usb-ohci.o /modules
 a /lib/modules/<kernel_ver>/misc/input.o /modules
 a /lib/modules/<kernel_ver>/misc/hid.o /modules
-a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
 a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
+a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
 else	# 2.88
+a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
+a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
+a /lib/modules/<kernel_ver>/misc/usb-ohci.o /modules
+a /lib/modules/<kernel_ver>/misc/input.o /modules
+a /lib/modules/<kernel_ver>/misc/hid.o /modules
+a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
+a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
+
 ### a /lib/modules/<kernel_ver>/block/DAC960.o /modules
 ### a /lib/modules/<kernel_ver>/block/cpqarray.o /modules
 
@@ -137,7 +146,7 @@ a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/tmscsim.o /modules
 
 a /lib/modules/<kernel_ver>/net/3c59x.o /modules
-a /lib/modules/<kernel_ver>/net/de4x5.o /modules
+# a /lib/modules/<kernel_ver>/net/de4x5.o /modules
 ### a /lib/modules/<kernel_ver>/net/eepro100.o /modules
 # a /lib/modules/<kernel_ver>/net/epic100.o /modules
 ### a /lib/modules/<kernel_ver>/net/ne2k-pci.o /modules

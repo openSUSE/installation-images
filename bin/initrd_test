@@ -57,7 +57,7 @@ SUSystem "mount -t proc none $dstdir/proc";
 # note: $ReadConfig::SUBinary -c <uid> <chroot_dir>/ <program>
 #
 
-system "xterm", "+sb", "-fn", "vga", "-bg",
+system "xterm", "+sb", "-bg",
      "white", "-e", "$ReadConfig::SUBinary", "-c", "$<", "$dstdir/", "/linuxrc";
 
 # umount /proc

@@ -1,0 +1,9 @@
+# /etc/profile
+umask 022
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+export PATH
+LC_CTYPE=de_DE
+export LC_CTYPE
+PS1="`pwd -P` # "
+ignoreeof=0
+export PS1 ignoreeof

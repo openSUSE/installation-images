@@ -8,6 +8,7 @@ c 1777 0 0 tmp
 aaa_base:
   /bin/fillup
   /etc/modules.conf
+  /sbin/mk_initrd
 
 base:
   /bin/tar
@@ -66,7 +67,7 @@ util:
   /bin/dmesg
 
 k_deflt:
-  /lib/modules/<kernel_ver>/{block,net,scsi,fs}
+#  /lib/modules/<kernel_ver>/{block,net,scsi,fs}
 # add link to initrd modules
 d /lib/modules/default
 s /modules /lib/modules/default/misc
@@ -132,6 +133,7 @@ nkitb:
 umsprogs:
   /sbin/*
 c 0755 0 0 /sbin/umssync
+s /sbin/umssync /bin/umssync
 
 util:
   /sbin/{clock,ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
@@ -282,4 +284,41 @@ X /etc/{passwd,group,shadow,nsswitch.conf,protocols} /etc
 c 0755 0 0 /lib/modules
 c 0755 0 0 /lib/modules/<kernel_ver>
 c 0755 0 0 /lib/modules/<kernel_ver>/misc
+
+# add the rest from instsys
+lvm:
+  /lib/liblvm.so
+  /sbin/lv*  
+  /sbin/pv* 
+  /sbin/vg*
+
+yast:
+r /sbin/yast
+m /sbin/YaST /sbin/yast
+s /sbin/yast /sbin/YaST
+  /usr/lib/YaST
+s /usr/lib/YaST/fdisk /sbin/fdisk
+d /var/adm/YaST
+d /var/adm/backup/rpmdb
+d /var/adm/inst-log
+d /var/adm/mount
+d /var/adm/packages
+d /var/adm/removed_packages
+d /var/adm/removed_scripts
+d /var/adm/scripts
+  /var/adm/setup/setup.*
+  /var/lib/YaST
+x /usr/lib/YaST/.Reh /usr/lib/YaST
+x /usr/lib/YaST/convert_to_elf /usr/lib/YaST
+x /etc/* /etc
+x /etc/rpm /etc
+d /mnt
+d /proc
+d /tmp
+
+reiserfs:
+  /sbin/dumpreiserfs
+  /sbin/mkreiserfs
+  /sbin/resize_reiserfs
+  /sbin/unpackreiserfs
 
