@@ -132,6 +132,9 @@ if [ "$yast" = yast2 ] ; then
     /usr/lib/YaST2/bin/YaST2.start "$@" ; ec=$?
 fi
 
+# stop sshd
+killall sshd 2>/dev/null >/dev/null
+
 umount devpts 2>/dev/null
 
 for file in $FILES_TO_RESTORE
