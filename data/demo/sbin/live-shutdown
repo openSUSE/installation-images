@@ -1,9 +1,16 @@
 #! /bin/sh
 
+debug=
+
 PATH=$PATH:/S.u.S.E./bin:S.u.S.E./usr/bin
 cd /
 
-mount -n /S.u.S.E.
+[ "$debug" ] && echo $LINENO && /bin/bash
+
+if [ ! -d /S.u.S.E./etc ] ; then
+  # mount Live CD
+  mount -n /S.u.S.E.
+fi
 
 if [ -f /etc/install.inf ]; then
   eval `grep ': ' /etc/install.inf | sed -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /'`
@@ -14,6 +21,8 @@ if [ -f /etc/SuSElive ] ; then
 else
   exit 1
 fi
+
+[ "$debug" ] && echo $LINENO && /bin/bash
 
 if [ "$part" -a "$suseimg" ]; then
   i=
@@ -44,12 +53,16 @@ if [ "$part" -a "$suseimg" ]; then
   fi
 
   if [ "$error" ] ; then
-    echo "An error orrured while writing $suseimg."
+    echo "An error occurred while writing $suseimg."
     echo "Sorry, your latest Live CD changes might be lost. :-("
   fi
 
   umount -n /mnt
 fi
 
-umount -n /S.u.S.E.
+[ "$debug" ] && echo $LINENO && /bin/bash
 
+umount -n /S.u.S.E.
+# umount Live CD
+
+[ "$debug" ] && echo $LINENO && /bin/bash

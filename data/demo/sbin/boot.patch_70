@@ -10,16 +10,17 @@
  #
  # initialize database for kerneld.  This should be done earlier, but
  # could cause a lot of trouble with damaged file systems.
-@@ -246,6 +245,8 @@
+@@ -246,6 +245,9 @@
  echo "Mounting local file systems..."
  mount -fv -t proc proc /proc
  rc_status
++# mount Live CD
 +mount -v /S.u.S.E.
 +rc_status
  mount -av -t nonfs,noproc
  rc_status -v1 -r
  
-@@ -365,12 +366,14 @@
+@@ -365,12 +367,14 @@
  	esac
  done < /proc/cpuinfo
  

@@ -2,6 +2,9 @@
 
 if arch eq 'ix86'
   m /boot/<kernel_img> /linux
+  if special eq 'e2compr'
+  X /boot/bzImage.e2compr /linux
+  endif
   if demo eq 'eval'
     x message-eval /message
     x syslinux-eval.cfg /syslinux.cfg

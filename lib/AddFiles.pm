@@ -253,7 +253,7 @@ sub AddFiles
         print "$Script: $1 not copied to $2 (ignored)\n";
     }
     elsif(/^p\s+(\S+)$/) {
-      SUSystem "patch -d $dir -p0 <$ext_dir/$1 >/dev/null" and
+      SUSystem "patch -d $dir -p0 --no-backup-if-mismatch <$ext_dir/$1 >/dev/null" and
         die "$Script: failed to apply patch $1";
     }
     elsif(/^x\s+(\S+)\s+(\S+)$/) {

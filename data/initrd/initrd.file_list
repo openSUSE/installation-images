@@ -281,6 +281,12 @@ if arch eq 'ix86'
     a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
     a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
 
+    if special eq 'e2compr'
+      M /lib/modules/<kernel_ver>/net/sk98lin.o /modules
+      M /lib/modules/<kernel_ver>/net/dgrs.o /modules
+      M /lib/modules/<kernel_ver>/net/acenic.o /modules
+    endif
+
     if special eq 'intel'
       a /lib/modules/<kernel_ver>/misc/i2o_pci.o /modules
       a /lib/modules/<kernel_ver>/misc/i2o_core.o /modules

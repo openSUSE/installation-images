@@ -95,10 +95,10 @@ endif
 
 util:
   /bin/{kill,mount,umount}
-  /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,clock,hwclock}
+  /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,clock,hwclock,losetup}
 
 fileutil:
-  /bin/{rm,rmdir,sync,chmod,chown}
+  /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir}
 
 #shadow:
 #  /bin/login
@@ -136,6 +136,9 @@ textutil:
 
 cron:
   /var
+
+base:
+  /bin/sed
 
 <kernel_rpm>:
   /lib/modules/<kernel_ver>/misc/serial.o

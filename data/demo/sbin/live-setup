@@ -1,8 +1,10 @@
 #! /bin/sh
 
+debug=1
+
 [ -e /etc/.SuSEok ] && exit 0
 
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/S.u.S.E./bin
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/S.u.S.E./bin:/S.u.S.E./usr/bin
 cd /
 
 preserve=`echo /sbin/{init,live-setup} /bin/bash\
@@ -15,7 +17,36 @@ echo -n "Integrating Live CD"
 nodisk=
 [ "$live" = nodisk ] && nodisk=1
 
+[ "$debug" ] && echo $LINENO && /bin/bash
+
+mount -n -t proc proc /proc
 mount /S.u.S.E.
+if [ -f /S.u.S.E./fluppi.img ] ; then
+  suseloop=fluppi.img
+  sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
+  mv /tmp/fstab /etc/fstab
+  mkdir /.SuSE
+  umount /S.u.S.E.
+  mount /.SuSE
+  echo "/.SuSE/$suseloop /S.u.S.E. ext2 defaults,ro,loop=/dev/loop0 0 0" >>/etc/fstab
+  mount /S.u.S.E.
+  fstype=`grep '/\.SuSE' /etc/mtab | head -1 | cut -d \  -f 3`
+  if [ "$fstype" ] ; then
+    sed -e "s/\.SuSE auto/.SuSE $fstype/" \
+        -e "s/\.SuSE iso9660/.SuSE $fstype/" /etc/fstab >/tmp/fstab
+    mv /tmp/fstab /etc/fstab
+  fi
+  sed -e '/^# mount Live CD/ a \' -e 'mount -v /.SuSE' /sbin/init.d/boot >/tmp/boot
+  mv /tmp/boot /sbin/init.d/boot
+  sed -e '/^  # mount Live CD/ a \' -e '  mount -n /.SuSE' \
+      -e '/^# umount Live CD/ i \' -e 'losetup -d /dev/loop0\' -e 'umount -n /.SuSE' \
+      /sbin/live-shutdown >/tmp/live-shutdown
+  mv /tmp/live-shutdown /sbin/live-shutdown
+  chmod +x /sbin/live-shutdown
+fi
+umount /proc
+
+[ "$debug" ] && echo $LINENO && /bin/bash
 
 rm -rf /lib/modules
 
@@ -65,7 +96,7 @@ rm -f /etc/{ppp,isdn,vbox,rc.config.d}/TRANS.TBL
 cp -af /S.u.S.E./var/X11R6/lib/sax /var/X11R6/lib
 rm -f /var/X11R6/lib/xfine ; mkdir /var/X11R6/lib/xfine
 cp -af /S.u.S.E./etc/suse-blinux.conf /etc
-cp -af /S.u.S.E./var/lib/{YaST,codadmin,dhcp,jove,ldap,minicom,pcmcia,svgatext,wvdial,xdm,zope} /var/lib
+cp -af /S.u.S.E./var/lib/{YaST,codadmin,dhcp,jove,ldap,minicom,pcmcia,svgatext,wvdial,xdm,zope} /var/lib 2>/dev/null
 mkdir -p /var/lib/dosemu/drives
 /sbin/mk_links var/lib/dosemu var/lib/dosemu/drives
 rm -f `find /var/lib -name TRANS.TBL`
@@ -282,11 +313,19 @@ if [ "$Braille" -a -x /etc/rc.d/suse-blinux ] ; then
   umount /proc 2>/dev/null
 fi
 
+[ "$debug" ] && echo $LINENO && /bin/bash
+
 if [ "$umount" != no ] ; then
   umount /S.u.S.E.
+  if [ "$suseloop" ] ; then
+    losetup -d /dev/loop0
+    umount /.SuSE
+  fi
 else
   echo "/S.u.S.E not unmounted"
 fi
+
+[ "$debug" ] && echo $LINENO && /bin/bash
 
 echo -e "\033[71G\033[32mdone\033[m"
 
