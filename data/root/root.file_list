@@ -431,6 +431,8 @@ if with_yast2 ne 'no'
     /
   yast2-network-instsys:
     /
+  yast2-packagemanager:
+    /
   yast2-packager:
     /
   yast2-qt:
@@ -451,6 +453,8 @@ if with_yast2 ne 'no'
     /
   autoyast2-installation:
     /
+  liby2util:
+   /
 endif
 
 

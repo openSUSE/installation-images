@@ -1,6 +1,7 @@
 20/8/2002:	v2.42
 	- no samba-classic-client package
 	- started to add yast2 translations
+	- added liby2util & yast2-packagemanager
 
 19/8/2002:	v2.41
 	- extended create_interface for broadcast-interfaces
