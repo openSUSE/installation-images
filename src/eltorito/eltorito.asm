@@ -418,7 +418,7 @@ msg_5b		db ', ro', 0
 msg_6		db 13, 10, 'Insert CD1 or DVD and press a key to continue.', 0
 msg_7		db 'Sorry, could not boot from this CD.', 13, 10, 0
 
-debug		db 1
+debug		db 0
 
 emu.type	db 0			; type
 emu.ro		db 0			; addr is readonly
