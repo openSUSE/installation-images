@@ -1,3 +1,5 @@
+	- add kernel/drivers/base/ to search list
+
 27/2/2004:	v5.16
 	- bk: s390 fixes
 
