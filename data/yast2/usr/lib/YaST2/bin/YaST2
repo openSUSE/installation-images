@@ -1,0 +1,94 @@
+#! /bin/bash
+
+# Home of YaST2
+YASTHOME=/lib/YaST2
+
+xsrv=XF86_SVGA
+
+# YaST2 module to start
+modulename=${1:-installation}
+shift
+moduleargs=$*
+
+PATH=/usr/X11/bin:$PATH
+
+# TEST SERIAL LINE Y2 YYYYYYYYYYYYYYYYYYYY
+#  echo "starte yast2 ueber serielle!" >> /var/log/DEBUGLOG
+#  y2bignfat "$modulename" "serial(115200):/dev/ttyS0"  >> /var/log/DEBUGLOG 2>&1
+#  echo "yast2 seriell fertig!" >> /var/log/DEBUGLOG
+#  exit
+#
+# TEST SERIAL LINE Y2 YYYYYYYYYYYYYYYYYYYY
+
+
+if [ "$Textmode" = 1 ] ; then
+  y2bignfat "$modulename" $moduleargs ncurses -T
+  exit
+fi
+
+# X not configured?
+if ! [ -x "$(type -p X)" ]; then
+  # check for a frame buffer device
+  xserver=
+  if (: < /dev/fb0) 2>/dev/null  ; then
+    if [ -x /usr/X11R6/bin/XF86_FBDev ] ; then
+      xserver=fb
+      ln -snf /usr/X11R6/bin/XF86_FBDev /var/X11R6/bin/X
+    fi
+  else
+    if [ -x /usr/X11R6/bin/$xsrv ] ; then
+      xserver=nonfb
+      ln -snf /usr/X11R6/bin/$xsrv /var/X11R6/bin/X
+    fi
+  fi
+else
+  xserver=set
+fi
+
+server_running=false
+TESTX=$YASTHOME/bin/testX
+export DISPLAY=:0
+
+if [ "$xserver" ] ; then
+  X -deferglyphs 16 2>/dev/tty8 1>&2 vt07 &
+  xserver_pid=$!  
+  # wait for the X server to come up
+  while kill -0 $xserver_pid 2>/dev/null ; do
+    sleep 1
+    if test -e /tmp/.X11-unix/X0 && $TESTX 2>/dev/null ; then
+      server_running=true
+      break
+    fi
+  done
+
+  if ! $server_running ; then
+    if [ $xserver != nonfb -a -x /usr/X11R6/bin/$xsrv ] ; then
+      xserver=nonfb
+      ln -snf /usr/X11R6/bin/$xsrv /var/X11R6/bin/X
+      X -deferglyphs 16 2>/dev/tty8 1>&2 vt07 &
+      xserver_pid=$!  
+      # wait for the X server to come up
+      while kill -0 $xserver_pid 2>/dev/null ; do
+	sleep 1
+	if test -e /tmp/.X11-unix/X0 && $TESTX 2>/dev/null ; then
+	  server_running=true
+	  break
+	fi
+      done
+    fi
+  fi
+fi
+
+if $server_running ; then
+#   y2bignfat "$modulename" $moduleargs qt -T -style=platinum -geometry 640x480 -nowm
+  y2bignfat "$modulename" $moduleargs qt -T -style=platinum -fn "-gnu-unifont-medium-r-normal--16-160-75-75-p-80-iso10646-1" -geometry 640x480 -no-wm
+  y2exitcode=$?
+  kill $xserver_pid
+  # wait for the X server to shut down
+  sleep 1
+else
+  y2bignfat "$modulename" $moduleargs ncurses -T
+  y2exitcode=$?
+fi
+
+exit $y2exitcode

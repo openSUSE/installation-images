@@ -209,7 +209,7 @@ c 0755 0 0 /usr/share
 
 x /etc/ld.so.conf /etc
 
-d /usr/X11R6/{bin,include/X11,lib/fonts,share}
+d /usr/X11R6/{bin,include/X11,share}
 
 s X11R6 /usr/X11
 s /var/X11R6/bin/X /usr/X11R6/bin/X
@@ -234,12 +234,18 @@ xf86:
   /usr/X11R6/lib/X11/nls
   /usr/X11R6/lib/X11/xkb
   /usr/X11R6/lib/X11/xserver
-  /usr/X11R6/lib/X11/fonts/{75dpi,latin2,misc}
+# unicode stuff
+#  /usr/X11R6/lib/X11/fonts/{75dpi,latin2,misc}
+d /usr/X11R6/lib/X11/fonts/{misc,uni}
+x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
+x /usr/X11R6/lib/X11/fonts/misc/*gz /usr/X11R6/lib/X11/fonts/misc
+x /usr/X11R6/lib/X11/fonts/uni/fonts.* /usr/X11R6/lib/X11/fonts/uni
+x /usr/X11R6/lib/X11/fonts/uni/*gz /usr/X11R6/lib/X11/fonts/uni
 
-  /usr/X11R6/bin/xsetroot
+#  /usr/X11R6/bin/xsetroot
 
-xfntscl:
-  /usr/X11R6/lib/X11/fonts/Type1
+#xfntscl:
+#  /usr/X11R6/lib/X11/fonts/Type1
 
 x /usr/X11R6/lib/X11/XF86Config /usr/X11R6/lib/X11
 
@@ -266,6 +272,9 @@ c 0755 0 0 /lib
 c 0755 0 0 /lib/YaST2
 c 0755 0 0 /var/lib
 c 0755 0 0 /var/lib/YaST2
+
+# just this time - remove later!!!
+x /lib/YaST2/bin/YaST2 /lib/YaST2/bin
 
 # remove these:
 r root mnt tmp usr/libexec

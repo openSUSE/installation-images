@@ -35,11 +35,17 @@ initrd2_test: initrd2
 	bin/mk_initrd2_test
 	@echo "now, run bin/initrd2_test"
 
+initrdx: dirs
+	bin/mk_initrdx
+
 boot: initrd
 	bin/mk_boot
 
 boot2: initrd2
 	bin/mk_boot2
+
+bootx: initrd2
+	bin/mk_bootx
 
 boot_axp: initrd
 	bin/mk_boot_axp

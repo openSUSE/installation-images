@@ -1,10 +1,11 @@
 Section "Files"
   RgbPath	"/usr/X11R6/lib/X11/rgb"
 #  FontPath	"/usr/X11R6/lib/X11/fonts/75dpi:unscaled"
+  FontPath	"/usr/X11R6/lib/X11/fonts/uni"
   FontPath	"/usr/X11R6/lib/X11/fonts/misc"
-  FontPath	"/usr/X11R6/lib/X11/fonts/75dpi"
-  FontPath	"/usr/X11R6/lib/X11/fonts/Type1"
-  FontPath	"/usr/X11R6/lib/X11/fonts/latin2/75dpi"
+#  FontPath	"/usr/X11R6/lib/X11/fonts/75dpi"
+#  FontPath	"/usr/X11R6/lib/X11/fonts/Type1"
+#  FontPath	"/usr/X11R6/lib/X11/fonts/latin2/75dpi"
 EndSection
 
 Section "ServerFlags"
