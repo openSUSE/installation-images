@@ -541,7 +541,7 @@ generate_installinf () {
 Sourcemounted: 0
 Netdevice: $IP_DEV
 IP: $IP_ADDR
-HOSTIP: $IP_ADDR
+HostIP: $IP_ADDR
 NetConfig: static"
     [ "$IP_MTU" -ne 0 ] && echo "MTU: $IP_MTU"
     case "$NETSELECT" in

@@ -1,3 +1,6 @@
+	- s390: fix linuxrc automatic setup parameters (bug #36237)
+	- s390: cosmetic fix for halt script
+	- s390: add missing procps binaries
 	- s390: add 64-bit suse.ins.* files that do not mention S/390 (bug #36145)
 	- s390: netsetup: add "NetConfig: static" to install.inf (bug #36252)
 	- s390: (lukem)ftp _is_ needed

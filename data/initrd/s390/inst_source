@@ -315,6 +315,7 @@ write_info_file()
 #	SetupNetIf: 0 prevents linuxrc from configuring the interface
 	echo -en "Language: en_US\nKeytable: us\nSetupNetIF: 0\nTextmode: 0\nManual: 0\n" > $INFOFILENAME
 	grep "^IP:"  $NETSETUPFILE >> $INFOFILENAME
+	grep "^HostIP:" $NETSETUPFILE >>$INFOFILENAME
 	grep "^Gateway:"  $NETSETUPFILE >> $INFOFILENAME
 	grep "^Nameserver:"  $NETSETUPFILE >> $INFOFILENAME
 	grep "^Machinename:"  $NETSETUPFILE | sed -e "s/Machinename/Hostname/">> $INFOFILENAME
