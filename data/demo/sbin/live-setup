@@ -1,6 +1,6 @@
 #! /bin/sh
 
-debug=1
+debug=
 
 [ -e /etc/.SuSEok ] && exit 0
 

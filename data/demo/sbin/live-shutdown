@@ -66,3 +66,5 @@ umount -n /S.u.S.E.
 # umount Live CD
 
 [ "$debug" ] && echo $LINENO && /bin/bash
+
+exit 0
