@@ -17,15 +17,17 @@ mkdir -pv $CD1/ppc/chrp
 mkdir -pv $CD1/etc
 mkdir -pv $CD1/boot
 mkdir -pv $CD1/suseboot
+# to trigger the HFS part, avoid 8.3 filenames and allow OF booting
+mkdir -pv $CD2/suseboot
 mkdir -pv $CD2/boot
 #
 cp -pfv $bdir/initrd-* $CD2/boot/
 cp -pfv /lib/lilo/chrp/yaboot.chrp $CD1/
 cp -pfv /lib/lilo/pmac/yaboot $CD1/suseboot/
-cp -pfv /boot/vmlinux-*-default $CD1/suseboot/vmlinux32
-cp -pfv $bdir/initrd-kernel-default-ppc_pmac_new $CD1/suseboot/initrd32
-cp -pfv /boot/vmlinux-*-pmac64_32bit $CD1/suseboot/vmlinux_pmac64
-cp -pfv $bdir/initrd-kernel-pmac64_32bit $CD1/suseboot/initrd_pmac64
+cp -pfv /boot/vmlinux-*-default $CD1/vmlinux32
+cp -pfv $bdir/initrd-kernel-default-ppc_pmac_new $CD1/initrd32
+cp -pfv /boot/vmlinux-*-pmac64_32bit $CD1/vmlinux64
+cp -pfv $bdir/initrd-kernel-pmac64_32bit $CD1/initrd64
 
 #
 bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
@@ -48,29 +50,32 @@ bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
 /lib/lilo/pmac/oldworld_coff/make_zimage_pmac_oldworld_coff.sh \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc_pmac_coff \
-	--output $CD2/boot/install-pmaccoff-$k_deflt
+	--output $CD1/boot/install-pmaccoff-$k_deflt
 #
 /lib/lilo/pmac/oldworld_coff/make_zimage_pmac_oldworld_coff.sh \
 	--vmlinux /boot/vmlinux-*-default \
-	--output $CD2/boot/vmlinux-pmaccoff-$k_deflt
+	--output $CD1/boot/vmlinux-pmaccoff-$k_deflt
 #
 /lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc_pmac_new \
-	--output $CD2/boot/install-pmacnew-$k_deflt
+	--output $CD1/boot/install-pmac-$k_deflt
 #
 /lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
 	--vmlinux /boot/vmlinux-*-default \
-	--output $CD2/boot/vmlinux-pmacnew-$k_deflt
+	--output $CD1/boot/vmlinux-pmac-$k_deflt
 #
 /lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
 	--vmlinux /boot/vmlinux-*-pmac64_32bit \
 	--initrd $bdir/initrd-kernel-pmac64_32bit \
-	--output $CD2/boot/install-pmac64-$k_pmac64_32bit
+	--output $CD1/boot/install-pmac64-$k_pmac64_32bit
 #
 /lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
 	--vmlinux /boot/vmlinux-*-pmac64_32bit \
-	--output $CD2/boot/vmlinux-pmac64-$k_pmac64_32bit
+	--output $CD1/boot/vmlinux-pmac64-$k_pmac64_32bit
+#
+ln -sv boot/install-pmac-$k_deflt       $CD1/installpmac
+ln -sv boot/vmlinux-pmac64-$k_pmac64_32bit $CD1/installpmac64
 #
 cat > $CD1/ppc/bootinfo.txt <<EOF
 <chrp-boot>
@@ -100,9 +105,9 @@ message=yaboot.txt
 image=install
   label=install
 #  append="ide0=noautotune"
-image=cdrom:1,\\suseboot\\vmlinux32
+image=cdrom:1,\\vmlinux32
   label=install32"
-  initrd=cdrom:1,\\suseboot\\initrd32
+  initrd=cdrom:1,\\initrd32
 
 EOF
 cat $CD1/etc/yaboot.conf
