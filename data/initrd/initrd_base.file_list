@@ -594,7 +594,7 @@ endif
 e echo "MemLoadImage:	200000" >>linuxrc.config
 
 # min. free kB for X11 YaST (below ncurses will be used)
-e echo "MemYaST:	95000" >>linuxrc.config
+e echo "MemYaST:	64000" >>linuxrc.config
 
 # min. free kB for ncurses YaST (below swap will be activated)
 e echo "MemYaSTText:	64000" >>linuxrc.config

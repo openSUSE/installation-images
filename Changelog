@@ -1,4 +1,6 @@
+5/4/2004:	v5.39
 	- increased boot timeout to 20s (#38252)
+	- lowered YaST memory limit, YaST checks itself (#38298)
 
 3/4/2004:	v5.38
 	- adjusted YaST memory limits (#34537)
