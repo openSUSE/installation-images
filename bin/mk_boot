@@ -71,7 +71,7 @@ $initrdondisk = $ENV{'initrd_name'} if $ENV{'initrd_name'};
 # mbr boot program (ia32 only)
 $mboot_file = "${BasePath}src/mboot/mboot";
 
-$arch = $ConfigData{suse_arch};
+$arch = $ConfigData{arch};
 $ia32_like = $arch eq 'i386' || $arch eq 'x86_64';
 
 $fstype = $ia32_like ? 'msdos' : 'vfat';
@@ -101,9 +101,6 @@ if($ia32_like) {
 }
 
 # print STDERR "syslinux = $syslx, isolinux = $isolx\n";
-
-#$kernel = "$BasePath$ConfigData{kernel}";
-#die "$Script: which kernel do we use?" unless $ConfigData{kernel} && -f $kernel;
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...

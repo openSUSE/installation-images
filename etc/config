@@ -1,32 +1,67 @@
-# This file is actually a shell script.
-#
-# BUT:
-#  - Only shell variable assignments are allowed.
-#  - No continuation lines (using '\' at line breaks)!!!
+; versions
+[Version]
+default	= 8.2
+beta	= 8.2,beta
+8.1	= 8.1
+ul1	= 8.1
+sles8	= 8.1
 
-# leave it empty for current 'stable' tree; not relevant for autobuild
-# suserelease=7.0
-#
-# more environment variables are set/modified by ReadConfig.pm:
-#   suse_release, suse_major_release, suse_minor_release, suse_xrelease,
-#   suse_base, kernel_ver, kernel_rpm
-#
 
-suse_arch=`uname -m`
-suse_arch=`if [ $suse_arch = i686 ] ; then echo i386 ; else echo $suse_arch ; fi`
-suse_arch=`if [ $suse_arch = i586 ] ; then echo i386 ; else echo $suse_arch ; fi`
-suse_arch=`if [ $suse_arch = alpha ] ; then echo axp ; else echo $suse_arch ; fi`
-suse_arch=`if [ $suse_arch = sparc64 ] ; then echo sparc ; else echo $suse_arch ; fi`
+; kernel image name
+; use 'kernel_image' to override
+;
+[KernelImage]
+default	= vmlinuz
+alpha	= vmlinux.gz
+ppc	= vmlinux
+mips	= vmlinux
+s390	= k_deflt/image
+s390x	= k_deflt/image
 
-# kernel img name
-kernel_img=vmlinuz
-kernel_img=`if [ $suse_arch = axp ] ; then echo vmlinux.gz ; else echo $kernel_img ; fi`
-kernel_img=`if [ $suse_arch = ppc ] ; then echo vmlinux ; else echo $kernel_img ; fi`
-kernel_img=`if [ $suse_arch = mips ] ; then echo vmlinux ; else echo $kernel_img ; fi`
-kernel_img=`if [ $suse_arch = s390 ] ; then echo k_deflt/image ; else echo $kernel_img ; fi`
-kernel_img=`if [ $suse_arch = s390x ] ; then echo k_deflt/image ; else echo $kernel_img ; fi`
-kernel_img=`if [ "$kernel_file" ] ; then echo $kernel_file ; else echo $kernel_img ; fi`
 
-# kernel rpm name (not needed in autobuild)
-kernel_rpm=`if [ "$kernel" ] ; then echo $kernel ; else echo k_deflt ; fi`
+; kernel rpm name
+; use 'kernel' to override
+;
+[KernelRPM]
+default	= k_deflt
+
+
+[Theme SuSE]
+yast	= SuSELinux
+splash	= SuSE
+product	= SuSE Linux
+update	= /linux/suse/<arch>-<ul>
+
+
+[Theme UnitedLinux]
+yast	= UnitedLinux
+splash	= UnitedLinux
+product	= UnitedLinux
+update	= /linux/UnitedLinux/<arch>-<ul>
+image	= 96
+
+
+[Theme SuSE-SLES]
+yast	= SuSELinux
+splash	= SuSE-SLES
+product	= SuSE Linux
+update	= /linux/suse/<arch>-<ul>
+image	= 96
+
+
+[Theme UL-SLES]
+yast	= SuSELinux
+splash	= SuSE-SLES
+product	= SuSE Linux
+update	= /linux/UnitedLinux/<arch>-<ul>
+image	= 96
+
+
+[Theme OpenXchange]
+yast	= SuSELinux
+splash	= OpenXchange
+product	= SuSE Linux
+update	= /linux/UnitedLinux/<arch>-<ul>
+image	= 96
+
 

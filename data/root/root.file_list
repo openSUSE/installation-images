@@ -140,7 +140,7 @@ glibc:
   /sbin/ldconfig
   /lib*/ld*
   /lib*/lib{c,m}.so.6*
-  /lib*/{libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libnsl.so.1*}
+  /lib*/{libcrypt.so.1*,libdb.so.2*,libdl.so.2*,libnsl.so.1*}
   /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
   /lib*/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt.so.1,libutil.so.1*}
   /usr/sbin/rpcinfo
@@ -152,7 +152,7 @@ r /usr/sbin/{nscd,nscd_nischeck,utmpd}
   /lib*/libpthread.so.0
 
 glibc-locale:
-  /usr/lib*/locale
+#  /usr/lib*/locale
   /usr/lib*/gconv/ISO8859*
   /usr/lib*/gconv/KOI*
   /usr/lib*/gconv/UNICODE*
@@ -659,8 +659,8 @@ syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 
-if pre_release || suse_release >= 8.1
-  # will not appear in final release
+if suse_release >= 8.1
+
   openssh: prein
     /etc/init.d/sshd
     /etc/pam.d/sshd

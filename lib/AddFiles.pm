@@ -617,7 +617,12 @@ sub fixup_re
   $re0 =~ s/(('[^']*')|("[^"]*")|\b(defined|lt|gt|le|ge|eq|ne|cmp|not|and|or|xor)\b|(\(|\)))/' ' x length($1)/ge;
   while($re0 =~ s/^((.*)(\b[a-zA-Z]\w+\b))/$2 . (' ' x length($3))/e) {
 #    print "    >>$3<<\n";
-    $val = "\$ENV{'$3'}";
+    if(exists $ConfigData{$3}) {
+      $val = "\$ConfigData{'$3'}";
+    }
+    else {
+      $val = "\$ENV{'$3'}";
+    }
     $val = $ENV{'___arch'} if $3 eq 'arch';
     substr($re, length($2), length($3)) = $val;
   }

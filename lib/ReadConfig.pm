@@ -318,7 +318,21 @@ sub KernelImg
 }
 
 
+sub version_sort
+{
+  my ($i, $j);
 
+  $i = $ConfigData{ini}{Version}{$a};
+  $j = $ConfigData{ini}{Version}{$b};
+
+  $i =~ s/,([^,]+)//;
+  $j =~ s/,([^,]+)//;
+
+  return $i <=> $j;
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # initialization part
 #
@@ -377,148 +391,186 @@ if($<) {	# only if we are *not* already root
 }
 
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
-# now, read the config file
+# set arch
 #
 
-my ($f, @f);
+my ($arch, $realarch, $susearch);
 
-$f = $CfgPath . "config";
-die "$Script: no config file \"$f\"\n" unless open F, $f;
-@f = grep !/^\s*(#|$)/, (<F>);
-close F;
+$arch = `uname -m`;
+chomp $arch;
+$arch = "i386" if $arch =~ /^i.86$/;
+$realarch = $arch;
+$arch = "sparc" if $arch eq 'sparc64';
 
+$susearch = $arch;
+$susearch = 'axp' if $arch eq 'alpha';
+
+$ConfigData{arch} = $arch;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
-# only shell variable assignments are allowed
+# read config file & .buildenv
 #
-for (@f) {
-  if(/^\s*(\S+)\s*=\s*(.*)$/) {
-    $ENV{$1} = $ConfigData{$1} = `echo -n $2`;
-#    print STDERR "<$1> <$ConfigData{$1}>\n";
-  }
-  else {
+
+{
+  my ($f, @f, $sect, $i, $j);
+
+  $f = $CfgPath . "config";
+  die "$Script: no config file \"$f\"\n" unless open(F, "$f.$arch") || open(F, $f);
+
+  while(<F>) {
     chomp;
-    die "$Script: syntax error in config file \"$f\": \"$_\"\n";
+    s/^\s*([#;].*)?//;
+    next if $_ eq "";
+    if(/^\[(.+)\]/) {
+      $sect = $1;
+      next;
+    }
+    if(/^\s*([^=]*?)\s*=\s*(.*?)\s*$/) {
+      $ConfigData{ini}{$sect}{$1} = $2 if defined $sect;
+      next;
+    }
+  }
+
+  close F;
+
+  $ConfigData{buildroot} = $ENV{buildroot} ? $ENV{buildroot} : "";
+
+  if(open F, "$ConfigData{buildroot}/.buildenv") {
+    while(<F>) {
+      chomp;
+      s/^\s*([#;].*)?//;
+      next if $_ eq "";
+      if(/^\s*([^=]*?)\s*=\s*(.*?)\s*$/) {
+        $i = $1;
+        $j = $2;
+        $j = $1 if $j =~ /^\"(.*)\"$/;
+        $ConfigData{buildenv}{$i} = $j;
+      }
+    }
+    close F;
   }
 }
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# kernel image name
+#
+
+$ConfigData{kernel_img} = $ConfigData{ini}{KernelImage}{default}
+  if $ConfigData{ini}{KernelImage}{default};
+
+$ConfigData{kernel_img} = $ConfigData{ini}{KernelImage}{$arch}
+  if $ConfigData{ini}{KernelImage}{$arch};
+
+$ConfigData{kernel_img} = $ENV{kernel_img} if $ENV{kernel_img};
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# kernel rpm name
+#
+
+$ConfigData{kernel_rpm} = $ConfigData{ini}{KernelRPM}{default}
+  if $ConfigData{ini}{KernelRPM}{default};
+
+$ConfigData{kernel_rpm} = $ConfigData{ini}{KernelRPM}{$arch}
+  if $ConfigData{ini}{KernelRPM}{$arch};
+
+$ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+# print STDERR "kernel_rpm = $ConfigData{kernel_rpm}, kernel_img = $ConfigData{kernel_img}\n";
+
+# print STDERR "BUILD_DISTRIBUTION_NAME = $ConfigData{buildenv}{BUILD_DISTRIBUTION_NAME}\n";
+# print STDERR "BUILD_BASENAME = $ConfigData{buildenv}{BUILD_BASENAME}\n";
+
 
 {
   # set suse_release, suse_base, suse_xrelease
   # kernel_ver
   # (used to be in etc/config)
 
-  my ( $r, $r0, $rx, $in_abuild, $base, $a, $v, $kv, $kn, $rf, $work, $ki, @f, $prod );
-  my ( $theme, $real_arch, $ul_release, $sles_release, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir );
+  my ( $r, $r0, $rx, $in_abuild, $a, $v, $kv, $rf, $ki, @f );
+  my ( $theme, $ul_release, $sles_release, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir );
 
-  $a = $ENV{'suse_arch'};
+  my ( $dist, $i, $j, $rel, $xrel );
 
-  $in_abuild = 0;
+  $in_abuild = $ConfigData{buildenv}{BUILD_BASENAME} ? 1 : 0;
 
-  if(-f "/.buildenv") {
-    open F, "/.buildenv";
-    @f = grep !/^\s*(#|$)/, (<F>);
-    close F;
-    for (@f) {
-      if(/^\s*(\S+)\s*=\s*(.*)$/) {
-        $ENV{$1} = `echo -n $2`;
-      }
-    }
-    $in_abuild = 1 if $ENV{'BUILD_BASENAME'};
-  }
-
-  $prod = "SuSE Linux";
+  # print STDERR "abuild = $in_abuild\n";
 
   if($in_abuild) {
-    if(-f "/etc/SuSE-release") {
-      $r0 = `grep VERSION /etc/SuSE-release`;
+
+    $dist = $ConfigData{buildenv}{BUILD_BASENAME};
+
+    if(!-d("$ConfigData{buildroot}/.rpm-cache/$dist")) {
+      system "ls -la $ConfigData{buildroot}/.rpm-cache";
+      die "No usable /.rpm-cache (looking for \"$dist\")!\n"
     }
-    elsif(-f "/etc/UnitedLinux-release") {
-      $prod = "UnitedLinux";
-      $r0 = `grep VERSION /etc/UnitedLinux-release`;
-    }
-    $r0 =~ s/^.*=\s*//;
-    $r0 =~ s/\s*$//;
-    $r0 = "\L$r0";
+
+    $ConfigData{suse_base} = $AutoBuild = "$ConfigData{buildroot}/.rpm-cache/$dist"
   }
   else {
-    $r0 = $ENV{'suserelease'};
-  }
+    my ($work, $base, $xdist);
 
-  $r0 = "" unless defined $r0;
-  $rf = $r0;
+    $dist = $susearch;
 
-  $rx = "";
-  $rx = "$1-" if $r0 =~ s/-(.+)\s*$//;
-  $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
-  $r0 = "$r0-" if $r0 ne "";
-  $work = defined($ENV{'work'}) && -d($ENV{'work'}) ? $ENV{'work'} : "/work";
-  $work .= "/CDs";
-  $work .= "/all" if -d "$work/all";
-  $base = "$work/full-$rf-$a/suse";
-  $base = "$work/full-$a/suse" unless -d $base;
-  $ConfigData{'suse_base'} = $ENV{'suse_base'} = "$base/*";
+    $work = $ENV{work};
+    $work = "/work" if !$work;
+    $work = "/mounts/work" if ! -d "$work/CDs";
+    $work .= "/CDs";
+    $work .= "/all" if -d "$work/all";
 
-  if(!$in_abuild) {
-    # die "Sorry, no packages in \"$work\"!\n" unless -d "$base";
-    my $suserelpack = RPMFileName "aaa_version";
-    $suserelpack = RPMFileName "unitedlinux-release" unless $suserelpack && -f($suserelpack);
-    die "invalid SuSE release" unless -f $suserelpack;
-    system "mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $suserelpack | cpio -iud --quiet";
+    $xdist = $ENV{dist} ? $ENV{dist} : $ENV{suserelease};
 
-    if(-f "/tmp/r$$/etc/SuSE-release") {
-      $r0 = `grep VERSION /tmp/r$$/etc/SuSE-release`;
+    if($xdist) {
+      $base = "$work/full-$xdist/suse";
+      $dist = $xdist if -d $base;
+      if(! -d $base) {
+        $base = "$work/full-$xdist-$dist/suse";
+        $dist = "$xdist-$dist" if -d $base;
+      }
     }
     else {
-      $prod = "UnitedLinux";
-      $r0 = `grep VERSION /tmp/r$$/etc/UnitedLinux-release`;
+      $base = "$work/full-$dist/suse";
     }
-    $r0 =~ s/^.*=\s*//;
-    $r0 =~ s/\s*$//;
-    $r0 = "\L$r0";
 
-    $rf = $r0;
+    die "Sorry, could not locate packages for \"$dist\".\n" unless -d $base;
 
-    $rx = "$1-" if $r0 =~ s/-(.+)\s*$//;
-    $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
-    $r0 = "$r0-" if $r0 ne "";
+    $ConfigData{suse_base} = "$base/*";
 
-    system "rm -rf /tmp/r$$";
   }
 
-  if($prod eq "UnitedLinux") {
-    if($rf eq "1.0") {
-      $r0 = "8.1";
-      $rx = "";
-    }
-  }
+  $ConfigData{dist} = $dist;
 
-  # print "prod = \"$prod\", base = \"$base\", r0 = \"$r0\", rx = \"$rx\", rf = \"$rf\"\n";
+  # print STDERR "base = $ConfigData{suse_base}\n";
 
-  ($ENV{'suse_release'} = $r0) =~ s/-?$//;
-  ($ENV{'suse_xrelease'} = $rx) =~ s/-?$//;
+  $i = $dist;
 
-  ($v = "$r0$rx") =~ s/-?$//;
+  while(!($rel = $ConfigData{ini}{Version}{$i}) && $i =~ s/-[^\-]+$//) {}
+  $rel = $ConfigData{ini}{Version}{default} if !$rel && $dist !~ /-/;
 
-  if(!exists($ENV{'pre_release'})) {
-    $ENV{'pre_release'} = $rf =~ /^\d+\.\d+(a\b|\.99)$/ ? 1 : 0;
-  }
+  die "Sorry, \"$ConfigData{dist}\" is not supported.\n" unless $rel;
 
-  if($rf =~ /^(\d+)\.(\d+)\.[5-9]/) {
-    $v = "$1." . ($2 + 1);
-    $ENV{'suse_release'} = $v;
-  }
+  $xrel = $1 if $rel =~ s/,([^,]+)//;
 
-  # there is no 7.4
-  if($ENV{'suse_release'} eq "7.4" && $ENV{'pre_release'}) {
-    $ENV{'suse_release'} = $v = "8.0";
-  }
+  # print STDERR "rel = $rel ($xrel)\n";
+
+  $ConfigData{suse_release} = $rel;
+  $ConfigData{suse_xrelease} = $xrel;
 
   my $cache_dir = `pwd`;
   chomp $cache_dir;
   my $tmp_cache_dir = $cache_dir;
-  $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}";
+  $cache_dir .= "/${BasePath}cache/$ConfigData{dist}";
   $ConfigData{'cache_dir'} = $cache_dir;
-  $tmp_cache_dir .= "/${BasePath}tmp/cache/$ENV{'suse_release'}-$ENV{'suse_arch'}";
+  $tmp_cache_dir .= "/${BasePath}tmp/cache/$ConfigData{dist}";
   $ConfigData{'tmp_cache_dir'} = $tmp_cache_dir;
   system "mkdir -p $tmp_cache_dir" unless -d $tmp_cache_dir;
   my $use_cache = 0;
@@ -528,117 +580,86 @@ for (@f) {
   $ConfigData{'use_cache'} = $use_cache;
 
   if($in_abuild) {
-    $ENV{kernel_img} = KernelImg $ENV{kernel_img}, (`ls /boot/*`);
-    undef $kn;
+    $ConfigData{kernel_img} = KernelImg $ConfigData{kernel_img}, (`ls $ConfigData{buildroot}/boot/*`);
 
-    $kn = `rpm -qf /boot/$ENV{kernel_img} | head -1 | cut -d- -f1` if -f "/boot/$ENV{kernel_img}";
+    $i = $ConfigData{buildroot} ? "-r $ConfigData{buildroot}" : "";
+
+    my $kn = `rpm $i -qf /boot/$ConfigData{kernel_img} | head -1 | cut -d- -f1` if -f "$ConfigData{buildroot}/boot/$ConfigData{kernel_img}";
     chomp $kn if $kn;
 
-    if($ENV{kernel}) {
-      $ENV{kernel_rpm} = $ENV{kernel};
-    }
-    elsif($kn) {
-      $ENV{kernel_rpm} = $kn;
-    }
-    die "oops: unable to determine kernel rpm (looking for /boot/$ENV{kernel_img})" unless $ENV{'kernel_rpm'};
+    $ConfigData{kernel_rpm} = $kn if !$ENV{kernel} && $kn;
 
-    $kv = `rpm -ql $ENV{'kernel_rpm'} 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
+    die "oops: unable to determine kernel rpm (looking for /boot/$ConfigData{kernel_img})" unless $ConfigData{kernel_rpm};
+
+    $kv = `rpm $i -ql $ConfigData{kernel_rpm} 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
   }
   else {
-    $kv = RPMFileName $ENV{'kernel_rpm'};
+    $kv = RPMFileName $ConfigData{kernel_rpm};
 
-    $ENV{'kernel_img'} = KernelImg $ENV{'kernel_img'}, (`rpm -qlp $kv 2>/dev/null | grep /boot`);
+    $ConfigData{kernel_img} = KernelImg $ConfigData{kernel_img}, (`rpm -qlp $kv 2>/dev/null | grep /boot`);
 
     $kv = `rpm -qlp $kv 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
   }
   chomp $kv;
 
-  $ENV{'kernel_ver'} = $kv;
+  $ConfigData{kernel_ver} = $kv;
 
-  if($ENV{'suse_release'} !~ /^(\d+)\.(\d+)$/) {
-    die "invalid SuSE release";
-  }
-
-  if($in_abuild) {
-    $r = $ENV{'BUILD_BASENAME'};
-    if(!($r && -d("/.rpm-cache/$r"))) {
-      system "ls -la /.rpm-cache";
-      die "No usable /.rpm-cache (looking for \"$r\")!\n"
-    }
-    $ConfigData{'suse_base'} = $ENV{'suse_base'} = $base = $AutoBuild = "/.rpm-cache/$r"
-  }
-
-  $ENV{product} = $prod unless $ENV{product};
+  # print STDERR "kernel_img = $ConfigData{kernel_img}\n";
+  # print STDERR "kernel_rpm = $ConfigData{kernel_rpm}\n";
+  # print STDERR "kernel_ver = $ConfigData{kernel_ver}\n";
 
   $theme = $ENV{theme} ? $ENV{theme} : "SuSE";
 
-  $real_arch = `uname -m`;
-  chomp $real_arch;
-  $real_arch = "i386" if $real_arch =~ /^i.86$/;
-
-  $ul_release = "ul1";
-  $sles_release= "sles8";
-
-  if($theme eq "SuSE") {
-    $yast_theme = "SuSELinux";
-    $splash_theme = "SuSE";
-    $product_name = "SuSE Linux";
-    $update_dir = "/linux/suse/$real_arch-$ENV{suse_release}";
-    $load_image = "";
-  }
-  elsif($theme eq "UnitedLinux") {
-    $yast_theme = "UnitedLinux";
-    $splash_theme = "UnitedLinux";
-    $product_name = "UnitedLinux";
-    $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
-    $load_image = 96*1024;
-  }
-  elsif($theme eq "SuSE-SLES") {
-    $yast_theme = "SuSELinux";
-    $splash_theme = "SuSE-SLES";
-    $product_name = "SuSE Linux";
-    $update_dir = "/linux/suse/$real_arch-$sles_release";
-    $load_image = 96*1024;
-  }
-  elsif($theme eq "UL-SLES") {
-    $yast_theme = "SuSELinux";
-    $splash_theme = "SuSE-SLES";
-    $product_name = "SuSE Linux";
-    $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
-    $load_image = 96*1024;
-  }
-  elsif($theme eq "OpenXchange") {
-    $yast_theme = "SuSELinux";
-    $splash_theme = "OpenXchange";
-    $product_name = "SuSE Linux";
-    $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
-    $load_image = 96*1024;
-  }
-  else {
-    die "don't know theme \"$theme\""
+  for $i (sort version_sort keys %{$ConfigData{ini}{Version}}) {
+    $j = $ConfigData{ini}{Version}{$i};
+    $j =~ s/,([^,]+)//;
+    if($j <= $ConfigData{suse_release}) {
+      $ul_release = $i if $i =~ /^ul/;
+      $sles_release = $i if $i =~ /^sles/;
+    }
   }
 
-  $ENV{theme} = $theme;
-  $ENV{yast_theme} = $yast_theme;
-  $ENV{splash_theme} = $splash_theme;
-  $ENV{product_name} = $product_name;
-  $ENV{update_dir} = $update_dir;
-  $ENV{load_image} = $load_image;
+  die "Oops, no UL & SLES release numbers found\n" unless $ul_release && $sles_release;
 
-  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base pre_release theme product product_name yast_theme splash_theme update_dir load_image) ) {
-    $ConfigData{$_} = $ENV{$_}
+  # print STDERR "ul = $ul_release, sles = $sles_release\n";
+
+  die "Don't know theme \"$theme\"\n" unless exists $ConfigData{ini}{"Theme $theme"};
+
+  $yast_theme = $ConfigData{ini}{"Theme $theme"}{yast};
+  $splash_theme = $ConfigData{ini}{"Theme $theme"}{splash};
+  $product_name = $ConfigData{ini}{"Theme $theme"}{product};
+  $update_dir = $ConfigData{ini}{"Theme $theme"}{update};
+  $update_dir =~ s/<ul>/$ul_release/g;
+  $update_dir =~ s/<arch>/$realarch/g;
+  $load_image = $ConfigData{ini}{"Theme $theme"}{image};
+  $load_image = $load_image * 1024 if $load_image;
+
+  $ConfigData{theme} = $theme;
+  $ConfigData{yast_theme} = $yast_theme;
+  $ConfigData{splash_theme} = $splash_theme;
+  $ConfigData{product_name} = $product_name;
+  $ConfigData{update_dir} = $update_dir;
+  $ConfigData{load_image} = $load_image;
+
+  # print STDERR "yast_theme = $ConfigData{yast_theme}\n";
+  # print STDERR "splash_theme = $ConfigData{splash_theme}\n";
+  # print STDERR "product_name = $ConfigData{product_name}\n";
+  # print STDERR "update_dir = $ConfigData{update_dir}\n";
+  # print STDERR "load_image = $ConfigData{load_image}\n";
+
+  if(!$ENV{silent}) {
+    my $r;
+
+    $r = $ConfigData{suse_release};
+    $r .= " $ConfigData{suse_xrelease}" if $ConfigData{suse_xrelease};
+
+    print "Building for $product_name $r $ConfigData{arch} ($ul_release/$sles_release), theme = $ConfigData{theme}\n";
+    print "Kernel: $ConfigData{kernel_rpm}, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
+
+    $r = $ConfigData{suse_base};
+    $r =~ s/\/\*$//;
+    print "Source: $r\n- - -\n";
   }
-
-  die "No SuSE release identified.\n" unless $a ne "" && $v ne "";
-
-  $v .= " [$rf]" if $v ne $rf;
-
-  if(!exists $ENV{silent}) {
-    my $p = $ENV{'pre_release'} ? "pre-" : "";
-    print "Building for $product_name $p$v ($ConfigData{theme},$a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
-  }
-
-  # print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}>\n";
 }
 
 1;

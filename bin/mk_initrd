@@ -49,7 +49,7 @@ $moddir = "${BasePath}tmp/initrd/modules";
 $modlist = "${BasePath}tmp/initrd.modlist";
 $tmpdirx = "${BasePath}tmp/.initrd";
 $image = "${ImagePath}initrd";
-$arch = "$ConfigData{suse_arch}";
+$arch = "$ConfigData{arch}";
 $gendir = "${DataPath}boot/gen";
 
 # the compressed image size varies only slightly with these; about +-1k with
