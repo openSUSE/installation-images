@@ -701,7 +701,7 @@ IP: $IP_ADDR"
     esac
     [ "$IP_GATEWAY" ] && echo "Gateway: $IP_GATEWAY"
     [ "$IP_SEARCH" ]  && echo "Domain: $IP_SEARCH"
-    [ "$CHAN" ]       && echo "Chandev: $CHAN"
+    [ "$CHAN" ]       && echo "Hardware: $CHAN"
     if [ "$NETSELECT" = tr -o "$NETSELECT" = eth ]; then
       echo "Alias: $IP_DEV lcs"
 #      echo "Options: lcs $PARM"
@@ -943,7 +943,7 @@ function load_LCS () {
 		[ "$ANSW" ] && export PORTNO=$ANSW
 	fi
         PARM="noauto=1 devno_portno_pairs=$DEVNO,$PORTNO"
-	CHAN="noauto;lcs0,$DEVNO,$WRITE_DEVNO,0,$PORTNO"
+	CHAN="lcs,$DEVNO,$WRITE_DEVNO,$PORTNO"
 	echo "$DEVNO,$WRITE_DEVNO" >/sys/bus/ccwgroup/drivers/lcs
 	#FIXME: I suppose I need to do something with $PORTNO as well...
      fi
@@ -1171,7 +1171,7 @@ function load_QETH () {
        NO_ERROR=no
      done
      CHAN=""
-     [ "$DEVNOS" != auto ] && CHAN="noauto;qeth0,$DEVNOS"
+     [ "$DEVNOS" != auto ] && CHAN="qeth,$DEVNOS"
      if [ "$NETSELECT" = qeth -o "$NETSELECT" = qeth-tr -a "${DEVNOS/*,portname:*/}" ]; then
 	NO_ERROR="yes"
         while true; do
@@ -1197,9 +1197,8 @@ function load_QETH () {
 	    NO_ERROR=no
         done
      fi
-     [ "$CHAN" ] && write_chandev "$CHAN"
      PARM="qeth_options=$DEVNOS"
-     [ "$PORTNAME" ] && PARM="$PARM,portname:$PORTNAME"
+     [ "$PORTNAME" ] && CHAN="$CHAN,$PORTNAME"
      if ! grep -q qeth /proc/modules; then
   	execcmd "/sbin/modprobe qeth_mod"
      fi
@@ -1335,6 +1334,7 @@ function load_CTC () {
 	
 	echo "$DEVNO,$DEVNO2" >/sys/bus/ccwgroup/drivers/ctc/group
 	echo "$PROTOCOL" >/sys/devices/cu3088/$DEVNO/protocol
+	CHAN="ctc,$DEVNO,$DEVNO2,$PROTOCOL"
 	rm -f /hotplug.msg
 	echo 1 >/sys/devices/cu3088/$DEVNO/online
 	
@@ -1399,6 +1399,7 @@ function load_IUCV () {
     if grep netiucv /proc/modules; then
       echo "netiucv module is loaded, activating it."
       echo "$PEER" >/sys/bus/iucv/drivers/NETIUCV/connection
+      CHAN="iucv,$PEER"
       echo "checking interface $IP_DEV."
       execcmd "/sbin/ifconfig $IP_DEV"
       if [ $EXIT_CODE -eq 0 ]; then
