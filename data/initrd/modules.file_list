@@ -1,8 +1,0 @@
-# definitions for the modules disk
-
-d modules
-
-<kernel_rpm>:
-
-include gen/module.files.<items>
-
