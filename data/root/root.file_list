@@ -124,17 +124,7 @@ popt:
 
 glibc:
   /sbin/ldconfig
-#################
-# TODO: all of the lines below might as well be matched by /lib*/ld*
-  /lib*/ld-2.*.so
-if arch eq 'ppc' || arch eq 's390' || arch eq 'mips'
-  /lib*/ld.so.1
-elsif arch eq 's390x'
-  /lib*/ld64*
-else 
-  /lib*/ld-linux*.so.2
-endif
-#################
+  /lib*/ld*
   /lib*/lib{c,m}.so.6*
   /lib*/{libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libnsl.so.1*}
   /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
