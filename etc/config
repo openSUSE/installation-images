@@ -9,7 +9,7 @@ sles9   = 9.1
 
 
 ; kernel image name
-; use 'kernel_image' to override
+; use 'kernel_img' to override
 ;
 ; *** These are actually perl regexps! ***
 ;
@@ -55,8 +55,7 @@ update	= /linux/suse/<arch>-<rel>
 
 [Theme SuSE-SLES]
 yast	= SuSELinux
-# splash	= SuSE-SLES
-splash	= SuSE
+splash	= SuSE-SLES
 product	= SUSE Linux
 update	= /linux/suse/<arch>-<sles>
 image	= 128

@@ -460,7 +460,7 @@ then
 
 	mem_needed=$((mem_needed_source + mem_needed_screen))
 	MEM=`grep MemTotal /proc/meminfo|sed 's,[^0-9]*\([0-9]*\)[^0-9]*,\1,g'`
-        let MEM="$MEM/1024"
+        let MEM="($MEM >> 15) + 1 << 5"	# round up to next 32M
 	if test $MEM -lt $mem_needed
 	then
 		echo "WARNING:"
