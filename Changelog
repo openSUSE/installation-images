@@ -1,5 +1,7 @@
 6/9/2002:	v2.59
 	- Corrected data/root/etc/create_interface
+	- new yast2 theme layout
+
 5/9/2002:	v2.58
 	- module config fixed on x86_64
 	- samba, again (#18963)

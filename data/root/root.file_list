@@ -482,10 +482,6 @@ if with_yast2 ne 'no'
     /
   yast2-trans-zh_CN:
     /
-  yast2-theme-SuSELinux:
-    /
-  yast2-theme-UnitedLinux:
-    /
   yast2-x11:
     /
   yast2-xml:
@@ -496,6 +492,19 @@ if with_yast2 ne 'no'
     /
   liby2util:
    /
+
+  if theme eq 'SuSE'
+    yast2-theme-SuSELinux:
+      /
+      s SuSELinux usr/share/YaST2/theme/current
+  endif
+
+  if theme eq 'UnitedLinux'
+   yast2-theme-UnitedLinux:
+      /
+      s UnitedLinux usr/share/YaST2/theme/current
+  endif
+
 endif
 
 
