@@ -2,11 +2,7 @@ d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var
 c 1777 0 0 tmp
 
 devs:
-if suse_major == 6
-  m /usr/doc/packages/devs/makedevs /
-else
   m /usr/share/doc/packages/devs/makedevs /
-endif
 c 0755 0 0 makedevs
 
 # s /S.u.S.E./{boot,opt,usr} /
@@ -18,14 +14,13 @@ c 0711 0 0 /root
   /etc/ld.so.conf
   /sbin/mk_initrd
 if suse_release >= 7.1
+  /sbin/blogd
   /etc/init.d
 else
   /sbin/init.d
 endif
   /etc/SuSE-release
-if suse_major != 6
-    /etc/rc.status
-endif
+  /etc/rc.status
   /etc/cron.daily/aaa_base
   /etc/ppp
   /etc/issue{,.net}
@@ -34,12 +29,15 @@ endif
 # aaa_base's preinstall
   /sbin/SuSEconfig
 p /sbin/SuSEconfig.patch
-if suse_release == 6.4
-  p /sbin/boot.patch_64
-  p /sbin/halt.patch_64
-elsif suse_release == 7.0
+
+if suse_release == 7.0
   p /sbin/boot.patch_70
   p /sbin/halt.patch_70
+endif
+
+if suse_release == 7.1
+  p /sbin/boot.patch_71
+  p /sbin/halt.patch_71
 endif
 
 aaa_dir:
@@ -68,6 +66,10 @@ ncurses:
 
 if suse_release >= 7.1
   glibc:
+    /lib/libutil.so.1
+    # to make chown work
+    /lib/libnss_compat.so.2
+    /lib/libnsl.so.1
 else
   shlibs:
 endif
@@ -104,10 +106,11 @@ endif
 
 if suse_release >= 7.1
   fileutils:
+    /bin/touch
 else
   fileutil:
 endif
-  /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir}
+  /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir,dd}
 
 #shadow:
 #  /bin/login
@@ -122,7 +125,7 @@ pam:
 #  /lib
 
 sysvinit:
-  /sbin/{checkproc,halt,init,killall5,killproc,mingetty,pidof,poweroff}
+  /sbin/{checkproc,halt,killall5,killproc,mingetty,pidof,poweroff}
   /sbin/{reboot,shutdown,startproc,telinit,sulogin}
   /etc/powerd.conf
 
@@ -163,8 +166,12 @@ cron:
 base:
   /bin/sed
 
+y2base:
+  m /usr/lib/YaST2/bin/startshell /sbin
+
+if 0
 <kernel_rpm>:
-  /lib/modules/<kernel_ver>/misc/serial.o
+#  /lib/modules/<kernel_ver>/misc/serial.o
   /lib/modules/<kernel_ver>/misc/lp.o
   /lib/modules/<kernel_ver>/misc/parport.o
   /lib/modules/<kernel_ver>/misc/parport_pc.o
@@ -172,6 +179,7 @@ base:
   /lib/modules/<kernel_ver>/scsi/imm.o
   /lib/modules/<kernel_ver>/scsi/ppa.o
   /lib/modules/<kernel_ver>/misc/agpgart.o
+endif
 
 if special eq 'cloop' || special eq 'loopc'
   if special eq 'cloop'
@@ -183,6 +191,8 @@ if special eq 'cloop' || special eq 'loopc'
   endif
 
   if suse_release >= 7.1
+   libz:
+     /lib/libz.so.1*
     modutils:
   else
     modules:
@@ -190,46 +200,55 @@ if special eq 'cloop' || special eq 'loopc'
     /sbin/{insmod,rmmod}
 endif
 
-x /etc/{HOSTNAME,fstab,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
-t /etc/{printcap,mtab,sendmail.cf}
-t /var/run/utmp
-t /var/log/{faillog,lastlog,mail,messages,wtmp}
+x /etc/{HOSTNAME,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
+#t /etc/{printcap,mtab,sendmail.cf}
+#t /var/run/utmp
+#t /var/log/{faillog,lastlog,mail,messages,wtmp}
 
-d /var/log/news
-t /var/log/news/news.{crit,err,notice}
-c 0755 9 13 /var/log/news
-c 0640 0 13 /var/log/news/news.{crit,err,notice}
+#d /var/log/news
+#t /var/log/news/news.{crit,err,notice}
+#c 0755 9 13 /var/log/news
+#c 0640 0 13 /var/log/news/news.{crit,err,notice}
 
-d /var/state/dhcp
-d /var/log/httpd
-d /var/state/httpd
-d /var/lock/subsys/httpd
+#d /var/state/dhcp
+#d /var/log/httpd
+#d /var/state/httpd
+#d /var/lock/subsys/httpd
 
-d /var/adm/{live,mount}
-t /var/adm/live/{gpm,i4l,sax,xf86,kbase}
-c 0755 0 0 /var/adm/live
+#d /var/adm/{live,mount}
+#t /var/adm/live/{gpm,i4l,sax,xf86,kbase}
+#c 0755 0 0 /var/adm/live
 
-d /var/lib/apsfilter/bin
-c 0755 0 0 /var/lib/apsfilter{,/bin}
+#d /var/lib/apsfilter/bin
+#c 0755 0 0 /var/lib/apsfilter{,/bin}
 
-x /var/lib/news/{mailname,whoami} /var/lib/news
+#x /var/lib/news/{mailname,whoami} /var/lib/news
 
-d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled,xfine/tmp}
-d /opt/kde/share/config
-d /sbin/conf.d
-d /etc/{pcmcia,httpd,isdn,vbox}
-d /var/lib/xkb
+#d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled,xfine/tmp}
+#d /opt/kde/share/config
+#d /sbin/conf.d
+#d /etc/{pcmcia,httpd,isdn,vbox}
+#d /var/lib/xkb
 
-x /sbin/{live-setup,mk_links} /sbin
+x /sbin/init /sbin
 if demo eq 'eval'
-  x /sbin/{live-shutdown,find_config,fix_fstab} /sbin
-  if suse_major == 6
-    x /etc/XF86Config /etc
-  else
-    d etc/X11
-    x /etc/XF86Config_3 /etc/XF86Config
-    x /etc/XF86Config_4 /etc/X11/XF86Config
-  endif
+  x /sbin/{live-shutdown,find_config,fix_fstab,letool} /sbin
+  d etc/X11
+  x /etc/XF86Config_3 /etc/XF86Config
+  x /etc/XF86Config_4 /etc/X11/XF86Config
 else
   d etc/X11
 endif
+
+x sbin/pcmcia.postin /sbin
+
+r /etc/httpd
+r /lib/modules
+r /var
+
+# write a basic fstab
+e echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
+e echo "proc /proc proc defaults 0 0" >>/etc/fstab
+
+# default language
+# e echo de_DE >/lang

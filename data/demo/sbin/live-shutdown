@@ -43,11 +43,11 @@ if [ "$part" -a "$suseimg" ]; then
       done
       mount -n -oremount,ro /
     fi
-    tar -zclf /mnt/$suseimg / 2>/dev/null || error=1
+    tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
   fi
 
   if [ ! -f /mnt/suselive.txt ] ; then
-    echo -e "$suseimg contains data for your SuSE Linux 7.0 Evaluation CD.\r" >/mnt/suselive.txt
+    echo -e "$suseimg contains data for your SuSE Linux 7.1 Evaluation CD.\r" >/mnt/suselive.txt
     echo -e "suselive.swp (if it exists) is the swap file.\r" >>/mnt/suselive.txt
     echo -e "suselive.usr (if it exists) is an ext2 file system with the user's home dir.\r" >>/mnt/suselive.txt
   fi

@@ -21,8 +21,8 @@ $image = "${ImagePath}demo";
 # $tmpinitrd = "${BasePath}tmp/initrd";
 
 # leave that much space
-$extra_size = 3000;              # kbyte
-$extra_inodes = 3000;
+$extra_size = 5000;              # kbyte
+$extra_inodes = 5000;
 
 # just make them large enough
 $start_size = 10000;             # kbyte
@@ -53,11 +53,11 @@ SUSystem "strip_dir $tmpdir";
 # die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
 if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
-  system "check_libs $tmpdir" and
+  SUSystem "check_libs $tmpdir" and
     warn "$Script: error in shared lib config, please fix\n";
 }
 else {
-  system "check_libs $tmpdir" and
+  SUSystem "check_libs $tmpdir" and
     die "$Script: error in shared lib config, please fix\n";
 }
 

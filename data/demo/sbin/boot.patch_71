@@ -1,0 +1,46 @@
+--- etc/init.d/boot	Fri Jan 19 12:42:16 2001
++++ etc/init.d/boot	Tue Jan 30 09:16:06 2001
+@@ -200,7 +200,7 @@
+     # on an umsdos root fs this mount will fail, so direct error messages 
+     # to /dev/null.
+     # this seems to be ugly, but should not really be a problem.
+-    mount -n -o remount,ro / 2> /dev/null
++    mount -n -o remount,ro / 2> /dev/null || true
+     if test $? = 0; then
+         echo "Checking file systems..."
+         fsck $FSCK_PROGRESSBAR -A -a $FSCK_FORCE
+@@ -276,6 +276,7 @@
+ 	esac
+ done < /proc/cpuinfo
+ 
++if [ "$GMT" != YAST_ASK ] ; then
+ test "$GMT" != "YAST_ASK" && $CLOCKCMD --hctosys $GMT
+ rc_status
+ test -f /etc/adjtime || echo "0.0 0 0.0" > /etc/adjtime
+@@ -283,14 +284,14 @@
+     $CLOCKCMD --adjust $GMT
+     rc_status
+ fi
++fi
+ rc_status -v -r
+ fi
+ 
+ #
+ # clean up
+ #
+-rm -f /etc/mtab* /etc/nologin /nologin /fastboot
+-
++rm -f /etc/nologin /nologin /fastboot
+ #
+ # initialize database for kerneld.  This should be done earlier, but
+ # could cause a lot of trouble with damaged file systems.
+@@ -318,6 +319,9 @@
+ #
+ echo "Mounting local file systems..."
+ mount -fv -t proc proc /proc
++rc_status
++# mount Live CD
++mount -v /S.u.S.E.
+ rc_status
+ mount -fv -t devpts $optpts devpts /dev/pts
+ rc_status

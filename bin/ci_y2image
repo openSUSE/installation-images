@@ -19,7 +19,7 @@ mkdir $y2image
 tar -cf - * | tar -C $y2image -xf -
 cd $y2image
 find . -depth -name CVS -exec rm -r {} \;
-rm -f bin/ci_* MAINTAINER
+rm -rf bin/ci_* MAINTAINER cache
 cd /tmp
 
 if [ "$1" = test ] ; then

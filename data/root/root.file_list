@@ -81,7 +81,7 @@ endif
 
 rpm:
   /bin/rpm
-  /usr/lib/rpm/rpm{popt,rc}
+  /usr/lib/rpm/{rpm{popt,rc},macros}
 
 if suse_release >= 7.1
   sh-utils:

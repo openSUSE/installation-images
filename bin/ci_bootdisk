@@ -26,7 +26,7 @@ mkdir $bootdisk
 tar -cf - * | tar -C $bootdisk -xf -
 cd $bootdisk
 find . -depth -name CVS -exec rm -r {} \;
-rm -f bin/ci_* MAINTAINER
+rm -rf bin/ci_* MAINTAINER cache
 perl -pi -e 's/k_deflt/k_i386/g' etc/config
 perl -pi -e 's/^(default\s+)linux/$1manual/' data/boot/syslinux.cfg{,.fr}
 perl -ni -e 'print unless /^framebuffer/' data/boot/syslinux.cfg{,.fr}
