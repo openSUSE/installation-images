@@ -129,6 +129,13 @@ echo "Starting shell... (use 'exit' to proceed)"
 bash --init-file /root/.bash_login
 }
 
+# anounce VNC via slpd
+if grep -qi "^VNC:.*1" /etc/install.inf ; then
+	echo starting slpd to anounce VNC...
+	test -x /usr/sbin/slpd  &&  /usr/sbin/slpd
+	/usr/bin/slptool register "service:YaST.installation.suse:vnc://"`hostname`":5910"
+fi
+
 ec=
 if [ "$YAST2_SSH" = "true" ] ; then
 cat <<EOF
@@ -147,11 +154,6 @@ test ! -f /tmp/YaST2_ssh_installation_finished && continue
 test -f /tmp/YaST2_keep_sshd_running && continue
 break
 done
-
-if grep -qi "^VNC:.*1" /etc/install.inf ; then
-	test -x /usr/sbin/slpd  &&  /usr/sbin/slpd
-	/usr/bin/slptool register "service:YaST-installation:vnc://"`hostname`":5910"
-fi
 
 ec=$(cat /tmp/YaST2_ssh_installation_finished)
 rm -f /tmp/YaST2_ssh_installation_finished
