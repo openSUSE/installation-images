@@ -2,7 +2,11 @@ if arch eq 'ia32' || arch eq 'x86_64'
 
   x message /
   if boot eq 'small'
-    x syslinux-small.cfg /syslinux.cfg
+    if hp1
+      x syslinux.cfg.hp1 /syslinux.cfg
+    else
+      x syslinux-small.cfg /syslinux.cfg
+    endif
     A gen/initrdsize /syslinux.cfg
   else
     x syslinux.cfg /
@@ -24,10 +28,10 @@ endif
     endif
   endif
 
-  if (bootlogo eq 'no' || boot eq 'small') && bootlogo ne 'yes'
+  if bootlogo eq 'no'
     R s/\ngfxboot.*?\n/\n/s /syslinux.cfg
   else
-    e cp /<theme>.boot bootlogo
+    e cp /<splash_theme>.boot bootlogo
   endif
 
   if (memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval'
@@ -41,7 +45,7 @@ endif
     R s/\n# apic.*apic\n//s /syslinux.cfg
   endif
 
-  R s/product_name/<product>/ /message
+  R s/product_name/<product_name>/ /message
 
   if initrd_name
     R s/\binitrd=initrd\b/initrd=$ENV{'initrd_name'}/ /syslinux.cfg
