@@ -14,10 +14,30 @@ echo -en \\033c
 # create symlinks for all missing files
 conservative_lndir "$INSTSYS" "/"
 
+# start syslog (messages are logged to /dev/tty4)
 [ -x /sbin/syslogd ] && /sbin/syslogd
 
-arch=$(uname -m)
+# create a new modules.dep
+#
+# modules from initrd (in /modules) are preferred over those from CD (below
+# /lib/modules)
+#
+rm -f /etc/modules.conf
+cp "$INSTSYS/etc/modules.conf" /etc
+cat >>/etc/modules.conf <<xxx
+path=/modules
+path=/lib/modules/`uname -r`
+depfile=/etc/modules.dep
+generic_stringfile=/etc/modules.generic_string
+pcimapfile=/etc/modules.pcimap
+isapnpmapfile=/etc/modules.isapnpmap
+usbmapfile=/etc/modules.usbmap
+parportmapfile=/etc/modules.parportmap
+xxx
+depmod -a 2>/dev/null
 
+# start sshd
+arch=$(uname -m)
 case "$arch" in
     s390|s390x) ;;
     *)
@@ -72,6 +92,7 @@ xxx
         ;;
 esac
 
+# now, run yast
 ec=
 if [ "$yast" = yast1 ] ; then
     /sbin/yast "$@" ; ec=$?
