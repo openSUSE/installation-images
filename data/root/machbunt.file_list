@@ -73,6 +73,9 @@ perl:
   /usr/lib/perl*/*/warnings.pm
   /usr/lib/perl*/*/warnings/register.pm
 
+perl-Bootloader:
+  /usr/lib
+
 if with_yast2 ne 'no'
   d /usr/X11R6/{bin,include/X11,share}
 
