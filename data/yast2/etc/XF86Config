@@ -1,0 +1,165 @@
+#--------#
+# »» XFree86  4.0 config file ««
+# Copyright (c) 2000 SuSE. GmbH Fuerth, All rights reserved.
+#
+# Version: 4.0
+#
+# sample generic configuration file
+#
+
+Section "Files"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/misc:unscaled"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/ucs/misc/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/ucs/75dpi/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/ucs/100dpi/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/hellas/misc/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/hellas/75dpi/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/hellas/100dpi/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/misc:unscaled"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/75dpi/:unscaled"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/100dpi/:unscaled"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/Type1/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/URW/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/Speedo/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/misc/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/75dpi/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/100dpi/"
+  FontPath  	"/usr/X11R6/lib/X11/fonts/local/"
+  ModulePath  	"/usr/X11R6/lib/modules"
+  RgbPath  	    "/usr/X11R6/lib/X11/rgb"
+EndSection
+
+Section "ServerFlags"
+  Option  	"AllowMouseOpenFail"
+EndSection
+
+Section "Module"
+  Load  	"dbe"
+  Load  	"type1"
+  Load  	"speedo"
+  Load  	"extmod"
+  Load  	"freetype"
+  Load      "glx"
+  Load      "dri"
+EndSection
+
+Section "InputDevice"
+  Driver  	 "keyboard"
+  Identifier "Keyboard[0]"
+  Option 	 "Protocol"  	"Standard"
+  Option 	 "XkbLayout"  	"us"
+EndSection
+
+
+Section "InputDevice"
+  Driver  	 "mouse"
+  Identifier "Mouse[1]"
+  Option 	 "Device"  	"/dev/mouse"
+  Option 	 "Protocol"	"Auto"
+EndSection
+
+
+Section "Monitor"
+  HorizSync     25-40	
+  Identifier  	"Monitor[0]"
+  ModelName  	"Initial"
+  VendorName  	"Initial"
+  VertRefresh  	47-75
+  UseModes  	"Modes[0]"
+EndSection
+
+
+Section "Modes"
+  Identifier "Modes[0]"
+  Modeline   "640x480" 31.5   640 656 720 840 480 481 484 500 # 6. Try
+  Modeline   "640x480" 31.5   640 680 720 864 480 488 491 521 # 5. Try
+  Modeline   "640x480" 28     640 664 760 800 480 491 493 525 # 4. Try
+  Modeline   "640x480" 28.32  640 664 760 800 480 491 493 525 # 3. Try
+  Modeline   "640x480" 25.18  640 664 760 800 480 491 493 525 # 2. Try
+  Modeline   "640x480" 25.175 640 664 760 800 480 491 493 525 # 1. Try
+EndSection
+
+# Screen Section for module X support
+# -------------------------------------
+Section "Screen"
+  SubSection "Display"
+    Depth	16
+    Modes  	"640x480" 
+  EndSubSection
+  SubSection "Display"
+    Depth	24
+    Modes  	"640x480" 
+  EndSubSection
+  SubSection "Display"
+    Depth	32
+    Modes  	"640x480" 
+  EndSubSection
+  SubSection "Display"
+    Depth	8
+    Modes  	"640x480" 
+  EndSubSection
+  Device  	 "Device[0]"
+  Identifier "Screen[0]"
+  Monitor  	 "Monitor[0]"
+EndSection
+
+# Screen Section for fbdev support
+# ----------------------------------
+Section "Screen"
+  SubSection "Display"
+    Depth   16
+    Modes   "default"            
+  EndSubSection
+  SubSection "Display"
+    Depth   24
+    Modes   "default"  
+  EndSubSection
+  SubSection "Display"
+    Depth   32
+    Modes   "default"  
+  EndSubSection
+  SubSection "Display"
+    Depth   8
+    Modes   "default"  
+  EndSubSection
+  Device     "Device[fbdev]"
+  Identifier "Screen[fbdev]"
+  Monitor    "Monitor[0]"
+EndSection
+
+# Screen Section for vga support
+# ----------------------------------
+Section "Screen"
+  SubSection "Display"
+    Depth   4
+    Modes   "640x480"
+  EndSubSection
+  Device     "Device[vga]"
+  Identifier "Screen[vga]"
+  Monitor    "Monitor[0]"
+EndSection
+
+
+Section "Device"
+  Driver  	 "ChangeMe"
+  Identifier "Device[0]"
+EndSection
+
+Section "Device"
+ Driver      "fbdev"
+ Identifier  "Device[fbdev]"
+EndSection
+
+Section "Device"
+ Driver      "vga"
+ Identifier  "Device[vga]"
+EndSection
+
+Section "ServerLayout"
+  Identifier  	"Layout[all]"
+  InputDevice	"Keyboard[0]" 	"CoreKeyboard"
+  InputDevice	"Mouse[1]" 	    "CorePointer"
+  Option 	    "Xinerama" 	    "off"
+  Screen	    "Screen[0]"
+EndSection
+
