@@ -1,5 +1,6 @@
 2/9/2002:	v2.52
 	- Modify WAIT_FOR_INTERFACES in /etc/sysconfig/network/config
+
 2/9/2002:	v2.51
 	- correctet handling of HSI-interface in
 	  data/initrd/s390/bin/netsetsup
