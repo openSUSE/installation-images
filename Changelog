@@ -2,6 +2,7 @@
 	- added FireWire modules again, as there's enough space left and it
 	  seems to work
 	- create a boot image for CD2, that won't ask for a module disk
+	- added module info for amdtp & cmp
 
 16/3/2002:	v1.129
 	- fixed typo in inst_setup
