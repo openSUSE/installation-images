@@ -480,6 +480,8 @@ if with_yast2 ne 'no'
     /
   yast2-lib-wizard:
     /
+  yast2-lib-sequencer:
+    /
   yast2-ui-ncurses:
     /
   yast2-ui-qt:
