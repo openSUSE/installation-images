@@ -1,3 +1,6 @@
+1/9/2004:	v6.7
+	- libhd is in /lib
+
 30/8/2004:	v6.6
 	- removed the evil parallel universe of s390 installation; rejoice!
 	- fixed the generic stuff to be s390-safe

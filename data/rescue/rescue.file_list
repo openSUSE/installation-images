@@ -22,6 +22,7 @@ sysconfig:
   /sbin
   /var
   /lib*/libgetconfig.so*
+d /var/run/sysconfig/tmp
 
 iproute2:
   /sbin/ip
@@ -465,7 +466,9 @@ gdbm:
   /usr/lib*/libgdbm.so*
 
 hwinfo:
-  /usr/{sbin,lib*}
+  /lib*
+  /sbin
+  /usr/sbin
 
 udev:
   /lib/klibc

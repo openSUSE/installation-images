@@ -81,7 +81,8 @@ joe:
   /etc/joe/joerc
 
 hwinfo:
-  /usr/lib*
+  /lib*
+  /sbin
   /usr/sbin
 
 udev:
