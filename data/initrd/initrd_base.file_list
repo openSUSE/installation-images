@@ -53,26 +53,25 @@ if arch eq 's390' || arch eq 's390x'
   glibc:
     /etc/nscd.conf
     /etc/rpc
-    /lib/ld-2.2.3.so
-    /lib/ld.so.1
-    /lib/libc.so.6
-    /lib/libcrypt.so.1
-    /lib/libdl.so.2
-    #/lib/libm.so.6
+    /lib/ld[-.]*.so
+    /lib/libc.so.*
+    /lib/libcrypt.so.*
+    /lib/libdl.so.*
+    #/lib/libm.so.*
     #/lib/libmemusage.so
-    /lib/libnsl.so.1
-    /lib/libnss_compat.so.2
-    /lib/libnss_dns.so.2
-    /lib/libnss_files.so.2
-    /lib/libnss_hesiod.so.2
-    /lib/libnss_nis.so.2
-    /lib/libnss_nisplus.so.2
+    /lib/libnsl.so.*
+    /lib/libnss_compat.so.*
+    /lib/libnss_dns.so.*
+    /lib/libnss_files.so.*
+    /lib/libnss_hesiod.so.*
+    /lib/libnss_nis.so.*
+    /lib/libnss_nisplus.so.*
     #/lib/libpcprofile.so
-    /lib/libpthread.so.0
-    /lib/libresolv.so.2
-    /lib/librt.so.1
-    #/lib/libthread_db.so.1
-    /lib/libutil.so.1
+    /lib/libpthread.so.*
+    /lib/libresolv.so.*
+    /lib/librt.so.*
+    #/lib/libthread_db.so.*
+    /lib/libutil.so.*
   base:
     /bin/sed
     /bin/tar
@@ -89,24 +88,26 @@ if arch eq 's390' || arch eq 's390x'
     /usr/lib/libcrack.so*
   gdbm:
     /usr/lib/libgdbm.so*
-  smbclnt:
+  samba-client:
     /usr/bin/smbmnt
     /usr/bin/smbmount
     /sbin/mount.smbfs
     # /lib/libnss_wins.so?
+  cups-libs:
+    /usr/lib/libcups.so.*
   installation-kernel-rdripl:
     /lib/modules
   e2fsprogs:
-    /lib/libcom_err.so.2
-    /lib/libcom_err.so.2.0
-    /lib/libe2p.so.2
-    /lib/libe2p.so.2.3
-    /lib/libext2fs.so.2
-    /lib/libext2fs.so.2.4
-    /lib/libss.so.2
-    /lib/libss.so.2.0
-    /lib/libuuid.so.1
-    /lib/libuuid.so.1.2
+    /lib/libcom_err.so.*
+    /lib/libcom_err.so.*
+    /lib/libe2p.so.*
+    /lib/libe2p.so.2.*
+    /lib/libext2fs.so.*
+    /lib/libext2fs.so.*
+    /lib/libss.so.*
+    /lib/libss.so.2.*
+    /lib/libuuid.so.*
+    /lib/libuuid.so.1.*
     /sbin/badblocks
     /sbin/debugfs
     /sbin/dumpe2fs
@@ -202,11 +203,15 @@ if arch eq 's390' || arch eq 's390x'
   ed:
     /bin/ed
   pam:
-    /
+    /etc
+    /lib
+    /sbin
   libz:
     /lib/libz.so*
   shadow:
     /usr/sbin/chpasswd
+    /bin/login
+    /etc/pam.d/login
   iputils:
     /bin/ping
     /bin/ping6
@@ -238,7 +243,7 @@ if arch eq 's390' || arch eq 's390x'
     /usr/bin/wall
     #/usr/sbin
   ncurses:
-    /lib/libncurses.so.5*
+    /lib/libncurses.so.*
   sysvinit:
     m /sbin/halt      /sbin/halt.bin
     m /sbin/reboot    /sbin/reboot.bin
@@ -249,6 +254,9 @@ if arch eq 's390' || arch eq 's390x'
   inetd:
     /usr/sbin/inetd
     /etc/init.d/inetd
+  openssl:
+    /usr/lib/libcrypto.so.*
+    /usr/lib/libssl.so.*
   openssh:
     /etc/pam.d/sshd
     /etc/ssh
@@ -268,7 +276,8 @@ if arch eq 's390' || arch eq 's390x'
   linuxrc:
     m /usr/sbin/linuxrc_tiny /bin/linuxrc
 
-  # (insert (shell-command "find s390 -name CVS -prune -o -type f -path '*bin/*' -printf '\\n  c 0755 0 0 /%P'; echo" (quote (4)) nil) (shell-command "find s390 -name CVS -prune -o -type f -printf '\\n  x %-20p /%P'; echo" (quote (4)) nil))
+  strace:
+    /usr/bin/strace
 
   x s390/bin/netsetup    /bin/netsetup
   x s390/etc/motd        /etc/motd
