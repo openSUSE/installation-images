@@ -119,8 +119,23 @@ a /lib/modules/<kernel_ver>/block/*.o /modules
 a /lib/modules/<kernel_ver>/net/*.o /modules
 a /lib/modules/<kernel_ver>/scsi/*.o /modules
 a /lib/modules/<kernel_ver>/misc/parport.o /modules
+a /lib/modules/<kernel_ver>/misc/paride.o /modules
 a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
+a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
 
+# just to get the cdrom menue in linuxrc
+a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
+
+# scsi
+r /modules/ide-scsi.o
+r /modules/scsi_debug.o
+r /modules/sg.o
+
+# block
+r /modules/nbd.o
+r /modules/xd.o
+
+# net
 r /modules/soundmodem.o
 r /modules/wanpipe.o
 r /modules/{pppox,ppp,ppp_deflate}.o
@@ -160,7 +175,6 @@ else	# !2.88
 
 ### a /lib/modules/<kernel_ver>/scsi/BusLogic.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/a100u2w.o /modules
-#a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/atp870u.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/eata.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/fdomain.o /modules
@@ -168,13 +182,12 @@ else	# !2.88
 ### a /lib/modules/<kernel_ver>/scsi/initio.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/ips.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/megaraid.o /modules
-#a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/qlogicisp.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/dc395x_trm.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/tmscsim.o /modules
 
 a /lib/modules/<kernel_ver>/net/3c59x.o /modules
-#a /lib/modules/<kernel_ver>/net/de4x5.o /modules
+a /lib/modules/<kernel_ver>/net/de4x5.o /modules
 ### a /lib/modules/<kernel_ver>/net/eepro100.o /modules
 ## a /lib/modules/<kernel_ver>/net/epic100.o /modules
 ### a /lib/modules/<kernel_ver>/net/ne2k-pci.o /modules
@@ -182,9 +195,9 @@ a /lib/modules/<kernel_ver>/net/3c59x.o /modules
 ### a /lib/modules/<kernel_ver>/net/tlan.o /modules
 # a /lib/modules/<kernel_ver>/net/lance.o /modules
 # a /lib/modules/<kernel_ver>/net/pcnet32.o /modules
-a /lib/modules/<kernel_ver>/net/tulip.o /modules
+#a /lib/modules/<kernel_ver>/net/tulip.o /modules
 a /lib/modules/<kernel_ver>/net/via-rhine.o /modules
-# a /lib/modules/<kernel_ver>/net/dmfe.o /modules
+a /lib/modules/<kernel_ver>/net/dmfe.o /modules
 
 # a /lib/modules/<kernel_ver>/net/3c515.o /modules
 ## a /lib/modules/<kernel_ver>/net/8390.o /modules
@@ -200,7 +213,15 @@ a /lib/modules/<kernel_ver>/net/via-rhine.o /modules
 # a /lib/modules/<kernel_ver>/scsi/t128.o /modules
 # a /lib/modules/<kernel_ver>/scsi/u14-34f.o /modules
 
+a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
+
+a /lib/modules/<kernel_ver>/misc/parport.o /modules
+a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
+
 ifndef blub
+a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
+a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
+else
 pcmcia:
 a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
@@ -208,9 +229,11 @@ a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
 
 a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/serial_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/serial_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
+
+# a /lib/modules/<kernel_ver>/pcmcia/serial_cb.o /modules
+# a /lib/modules/<kernel_ver>/pcmcia/serial_cs.o /modules
+# a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
 endif
 
 endif	# 2.88

@@ -397,8 +397,8 @@ create_dev         amigamouse1 10      7    c     1   664     root.root
 create_dev         smouse      10      8    c     1   664     root.root
 create_dev         pc110pad    10      9    c     1   664     root.root
 create_dev         adbmouse    10     10    c     1   664     root.root
+create_dev         usbmouse    10     32    c     1   664     root.root
 create_dev_range   usbmouse    10     32    c     4   664     root.root
-create_symlink     usbmouse0   $DEV/usbmouse
 
 create_dev         nvram       10    144    c     1   600     root.root
 
@@ -647,14 +647,6 @@ create_dev_range   hdl         57     64    b    16   660     root.disk
 
 create_compaq      0
 create_compaq      1
-
-# ----------------
-# Major number 180
-# ----------------
-
-create_dev_range   usblp       180     0    c     4   664     root.root
-create_symlink     usblp0      $DEV/usblp
-
 
 #########################################################################
 # Hard links
