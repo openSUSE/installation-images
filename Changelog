@@ -2,6 +2,9 @@
 	- inst_source in sync with docu
 	- DASD-Parameter insertet
 	- added acl,attr,libmng libs to base file list
+	- add ssh-keygen
+	- add ssh and related files, starting with release 8.1
+	- add a few ifarch ppc64 to ifarch ppc checks
 
 15/8/2002:	v2.38
 	- mousedev module was lost in i386

@@ -7,7 +7,7 @@ c 1777 0 0 tmp
 
 # add some /etc files
 x /etc/* /etc
-r /etc/ssh
+r /etc/ssh/CVS
 r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
 r /etc/inst_setup
 
@@ -89,7 +89,7 @@ else
     m /boot/System.map-* /System.map
 endif
 
-if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 's390' || arch eq 's390x')
+if !(arch eq 'ppc' || arch eq 'ppc64' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 's390' || arch eq 's390x')
 
   include ../initrd/gen/module.files.cd1
 
@@ -169,7 +169,7 @@ e2fsprogs:
 file:
   /usr/bin/file
 
-if arch eq 'ia32' || arch eq 'ppc'
+if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ppc64'
   lilo:
     /sbin/activate
 endif
@@ -274,7 +274,7 @@ timezone:
 strace:
   /usr/bin/strace
 
-if !(arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'alpha' || arch eq 's390' || arch eq 's390x')
+if !(arch eq 'x86_64' || arch eq 'ia64' || arch eq 'alpha' || arch eq 's390' || arch eq 's390x')
   ltrace:
     /usr/bin/ltrace
     /etc/ltrace.conf
@@ -336,7 +336,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/modules/fonts/libbitmap.a
     /usr/X11R6/lib*/modules/input
     /usr/X11R6/lib*/modules/linux
-  if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc'
+  if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc' && arch ne 'ppc64'
       /usr/X11R6/lib*/modules/*.uc
   endif
     /usr/X11R6/lib*/modules/lib*.a
@@ -380,7 +380,7 @@ if with_yast2 ne 'no'
   /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
 
 
-if arch eq 'x86_64' || arch eq 's390x'
+if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
   R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
 endif
 
@@ -522,7 +522,7 @@ reiserfs:
 gawk:
   /bin
 
-if arch eq 'ppc'
+if arch eq 'ppc' || arch eq 'ppc64'
   pdisk:
     /sbin/pdisk
 
@@ -575,7 +575,7 @@ if arch eq 'ia32'
 
 endif
 
-if arch eq 'ppc'
+if arch eq 'ppc' || arch eq 'ppc64'
 sysvinit:
     /sbin/checkproc
 syslogd:
@@ -586,7 +586,7 @@ syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 
-if pre_release
+if pre_release || suse_release >= 8.1
   # will not appear in final release
   openssh: prein
     /etc/init.d/sshd
@@ -594,6 +594,7 @@ if pre_release
     /etc/ssh
     /usr/sbin/sshd
     /usr/bin/ssh
+    /usr/bin/ssh-keygen
     /usr/bin/scp
     /var/empty
     e prein
