@@ -50,8 +50,8 @@ use Getopt::Long;
 
 binmode STDOUT, ":utf8";
 
-my $cvs_id = '$Id: extract_codepoints.pl,v 1.6 2004/04/16 19:43:56 odabrunz Exp $';
-my $cvs_date = '$Date: 2004/04/16 19:43:56 $';
+my $cvs_id = '$Id: extract_codepoints.pl,v 1.7 2004/04/20 16:17:09 odabrunz Exp $';
+my $cvs_date = '$Date: 2004/04/20 16:17:09 $';
 $cvs_id =~ /^\$[[:alpha:]]+: [^ ]+ ([^ ]+ [^ ]+ [^ ]+) [^ ]+ [^ ]+ \$$/;
 my $version = $1;
 
@@ -128,6 +128,9 @@ foreach $i (0 .. $#tlpaths) {
     &expand_dir(\$tlpaths[$i]);
 }
 &expand_dir(\$opath);
+
+# remember current directory
+my $startcwd = `pwd`; chomp $startcwd;
 
 # default: find all language subdirectories of the form
 # [a-z][a-z](_[A-Z][A-Z])? (this is currently unused...)
@@ -430,12 +433,17 @@ sub dump_CPAs {
 # Main loop over all top-level directories: find all .po and .cpf files in the
 # existing language subdirectories in each top-level directory and parse them.
 foreach $tlpath (@tlpaths) {
+    # change to start directory $startcwd, to make relative paths work
+    chdir($startcwd) or die "cannot change back to start directory $startcwd: $!\n";
     debugprint("$tlpath\n", "scanning top-level directory", "", 1, undef); 
     chdir($tlpath) or die "cannot change to directory $tlpath: $!\n";
 
     # loop over all files
     find( \&parse_file, @dirs );
+    print "\n" if $debug & 1;
 }
+
+chdir($startcwd) or die "cannot change back to start directory $startcwd: $!\n";
 
 # assign code-points to fonts
 evaluate_global_CPA();
