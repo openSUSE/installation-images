@@ -15,7 +15,7 @@ if extramod
 endif
 
 
-if arch eq 'ia32'
+if arch eq 'ia32' || arch eq 'mips'
 
   x module.help modules/module.config
 

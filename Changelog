@@ -9,6 +9,8 @@
 	- update elilo configuration
 	- updated module info for new kernel
 	- introduced 4th module disk
+	- added latest mips changes
+	- fixed bug in (empty) include file handling
 
 24/3/2002:	v1.131
 	- add sg.o module and sg* devices to initrd, they are needed

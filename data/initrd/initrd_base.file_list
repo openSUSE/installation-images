@@ -361,7 +361,7 @@ if arch ne 'sparc' && arch ne 'sparc64'
   m usr/share/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
 endif
 
-if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64'
+if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
   if !fewkeymaps
     g /usr/share/kbd/keymaps/i386/qwerty/Pl02.map.gz kbd/keymaps/Pl02.map
     g /usr/share/kbd/keymaps/i386/qwerty/br-abnt2.map.gz kbd/keymaps/br-abnt2.map

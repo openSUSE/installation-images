@@ -123,7 +123,7 @@ popt:
 glibc:
   /sbin/ldconfig
   /lib/ld-2.*.so
-if arch eq 'ppc' || arch eq 's390' || arch eq 's390x'
+if arch eq 'ppc' || arch eq 's390' || arch eq 's390x' || arch eq 'mips'
   /lib/ld.so.1
 elsif arch eq 'ia64'
   /lib/ld-linux-ia64.so.2

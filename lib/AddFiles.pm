@@ -137,10 +137,15 @@ sub AddFiles
 
   $if_val = $if_taken = 0;
 
-  while($_ = $inc_it ? <I> : <F>) {
-    if($inc_it && eof(I)) {
-      undef $inc_it;
-      close I;
+  while(1) {
+    $_ = $inc_it ? <I> : <F>;
+    if(!defined($_)) {
+      if($inc_it) {
+        undef $inc_it;
+        close I;
+      } else {
+	last;
+      }
     }
 
     chomp;
