@@ -1,7 +1,8 @@
 04/11/2002:	v2.88
 	- fixed typo in linuxrc					#21465
-        - fixed endlessloop if AUTOINSTALL was set and no
-          medium was selected.
+	- fixed endlessloop if AUTOINSTALL was set and no
+	  medium was selected.
+
 28/10/2002:	v2.87
 	- fixed labeling of product in suse.ins files (#21202)
 

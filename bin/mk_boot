@@ -192,6 +192,10 @@ SUSystem "mount -oloop -t $fstype $image /mnt" and
 AddFiles $tmpbootdir, "${srcdir}/boot.file_list", $srcdir or
   die "$Script: failed to setup boot image";
 
+if ($arch eq 'x86_64'){
+ SUSystem "rm $tmpbootdir/bootlogo";
+}
+
 SUSystem "cp -a $tmpbootdir/* /mnt" and
   die "$Script: failed to setup boot image";
 
