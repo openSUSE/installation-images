@@ -24,7 +24,7 @@ s bash /bin/sh
 ash:
   /bin/ash.static
 
-fileutil:
+fileutils:
   /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
   /usr/bin/du
 if suse_major_release == 6
@@ -46,7 +46,7 @@ libhd:
 mktemp:
   /bin/mktemp
 
-net_tool:
+net-tools:
   /bin/{domain,host}name
 
 nkitb:
@@ -65,13 +65,13 @@ if abuild
 endif
   /usr/lib/rpm/rpm{popt,rc}
 
-sh_utils:
+sh-utils:
   /bin/{date,echo,false,pwd,sleep,stty,true,uname}
 if abuild
   X /bin/uname.bin bin/uname
 endif
 
-util:
+util-linux:
   /bin/kill
   /bin/{u,}mount
   /bin/dmesg
@@ -201,7 +201,7 @@ else
 endif
    /sbin/{mkdosfs,mkfs.msdos}
 
-net_tool:
+net-tools:
   /sbin/{ifconfig,route,plipconfig}
 
 if suse_major_release == 6
@@ -216,7 +216,7 @@ umsprogs:
 c 0755 0 0 /sbin/umssync
 s /sbin/umssync /bin/umssync
 
-util:
+util-linux:
   /sbin/{ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
 if arch eq 'ppc'
     /sbin/clock
@@ -250,10 +250,10 @@ else
     /bin/sed
 endif
 
-diff:
+diffutils:
   /usr/bin/{cmp,diff}
 
-find:
+findutils:
   /usr/bin/{find,xargs}
 
 less:
@@ -276,7 +276,7 @@ m /bin/fuser /usr/bin
 timezone:
   /usr/share/zoneinfo/{iso3166,zone}.tab
 
-sh_utils:
+sh-utils:
   /usr/bin/{dirname,chroot,test,tty}
 if suse_major_release == 6
     /usr/bin/basename
@@ -301,7 +301,7 @@ else
   /bin/cpio
 endif
 
-textutil:
+textutils:
   /bin/cat
   /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc}
 if suse_major_release == 6
@@ -436,8 +436,8 @@ libjpeg:
 eject:
   /usr/bin/eject
 
-qtlib2:
-  /usr/lib/*
+libmng:
+  /usr/lib/libmng.so*
 
 if arch ne 'alpha'
   y2base:
