@@ -596,7 +596,6 @@ syslogd:
 if pre_release
   # will not appear in final release
   openssh: prein
-    e prein
     /etc/init.d/sshd
     /etc/pam.d/sshd
     /etc/ssh
@@ -604,8 +603,17 @@ if pre_release
     /usr/bin/ssh
     /usr/bin/scp
     /var/empty
-    /var/adm/fillup-templates/rc.config.ssh.del
-    e postin
+    e prein
+
+  heimdal-lib:
+    /etc
+    /usr/lib*/libasn1.so.*
+    /usr/lib*/libcom_err.so.*
+    /usr/lib*/libkrb5.so.*
+    /usr/lib*/libroken.so.*
+
+  db:
+    /usr/lib*/libdb-4*.so  
 
   pam:
     /etc/pam.d/other
