@@ -229,12 +229,12 @@ if arch eq 's390' || arch eq 's390x'
     /bin/ed
   pam:
     /etc
-    /lib
+    /lib*
     /sbin
   pam-modules:
     # which ones of these are _really_ needed?
     /etc
-    /lib
+    /lib*
     /sbin
   zlib:
     /lib*/libz.so*
@@ -257,7 +257,7 @@ if arch eq 's390' || arch eq 's390x'
     #DEBUG/usr/sbin/pmap_dump
     #DEBUG/usr/sbin/pmap_set
   readline:
-    /lib
+    /lib*
   tcpd:
     /usr/sbin/tcpd
   textutils:
