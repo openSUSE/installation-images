@@ -1,6 +1,21 @@
 # will be sourced by /sbin/inst_setup
 
 # vim: syntax=sh
+if [ -z "$INSTSYS" ] ; then
+	echo "variable INSTSYS not set"
+	sleep 1
+	exit 1
+fi
+
+#
+
+nosshkey=false
+if [ "$1" = "-n" ] ; then
+nosshkey=true
+shift
+fi
+
+#
 
 echo 'sshd found, prepare remote login'
 test -L /etc/ssh && { rm -f /etc/ssh ; mkdir -p /etc/ssh ; }
@@ -28,6 +43,11 @@ test -z "$domain" || domainname $domain
 fi
 #
 if grep -qwi nosshkey < /proc/cmdline ; then
+nosshkey=true
+fi
+
+#
+if [ "$nosshkey" = "true" ] ; then
 	# for inst-sys testing
 	cp -av $INSTSYS/etc/ssh/*key* /etc/ssh/
 	# if shadow is a symlink then usessh was probably off

@@ -40,12 +40,12 @@ VNC_PASSWORD_ERROR="Passwort is too short. Please enter a new one.\n"
 
 # memory requirements for different installation paths in MB
 # ATM these are just wild guesses
-MEM_X=128
-MEM_VNC=128
-MEM_SSH=64
-MEM_FTP=256
-MEM_NFS=128
-MEM_SAMBA=128
+MEM_X=0
+MEM_VNC=0
+MEM_SSH=0
+MEM_FTP=512
+MEM_NFS=256
+MEM_SAMBA=256
 
 #
 # checks an IP to have numbers only between 0 and 255:
@@ -460,7 +460,7 @@ then
 
 	mem_needed=$((mem_needed_source + mem_needed_screen))
 	MEM=`grep MemTotal /proc/meminfo|sed 's,[^0-9]*\([0-9]*\)[^0-9]*,\1,g'`
-        let MEM="$MEM/1024"
+        let MEM="($MEM >> 15) + 1 << 5"	# round up to next 32M
 	if test $MEM -lt $mem_needed
 	then
 		echo "WARNING:"
