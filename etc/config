@@ -70,7 +70,6 @@ yast	= SuSELinux
 splash	= SuSE-NLD
 product	= Novell Linux Desktop 9
 update	= /linux/suse/<arch>-<sles>
-memory	= 256
 image	= 160
 
 

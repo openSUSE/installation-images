@@ -1,4 +1,6 @@
+29/6/2004:	v5.73
 	- s390: netsetup: fixed autocorrection of qeth channels (bug #42538)
+	- no memory check for NLD (#42310)
 
 24/6/2004:	v5.72
 	- ia64: XF86Config changes (#42237, #41764)
