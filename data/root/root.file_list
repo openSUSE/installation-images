@@ -92,6 +92,12 @@ hwinfo:
   /usr/sbin
 
 udev:
+  /etc
+  /sbin/udev
+  /sbin/udev.*.sh
+  /lib/klibc
+  /sbin/udevstart
+  /usr/bin/udevinfo
   /usr/lib*/libsysfs.so*
 
 mktemp:

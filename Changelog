@@ -1,3 +1,6 @@
+	- add /etc/bash.bashrc to ignore history dups
+	- run udevstart early and reconnect console fd
+	- add udev to rescue
 	- added evms
 	- .bash_login: exit early on system console
 	- typo in ppc/bootinfo.txt (#35176)

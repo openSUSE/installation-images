@@ -1,5 +1,4 @@
 test -f /etc/vendor.inf && . /etc/vendor.inf
-export PATH=/sbin:/bin:/usr/bin:/usr/sbin
 echo Welcome to the inst-sys...
 uname -a
 pwd
@@ -13,7 +12,7 @@ alias ls-l='ls -l'
 alias l='ls -lFa'
 alias o='less'
 
-[ -z "$INSTSYS" ] || exit 0
+[ -z "$SSH_TTY" ] && return
 
 [ -x /bin/initviocons ] && /bin/initviocons
 

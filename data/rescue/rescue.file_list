@@ -444,6 +444,7 @@ hwinfo:
   /usr/{sbin,lib*}
 
 udev:
+  /lib/klibc
   /etc
   /usr/lib*/libsysfs.so*
   /usr/bin
