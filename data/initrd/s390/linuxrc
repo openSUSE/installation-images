@@ -54,10 +54,10 @@ mount -t devpts devpts /dev/pts
 #
 #	Check the memory. If less than 256 Mb issue a warning.
 #
-set -- `cat /proc/meminfo | head -n 2 | tail -n 1`
-if [ ${#2} -lt 10 ]
+MEM=`grep MemTotal /proc/meminfo|sed 's,[^0-9]*\([0-9]*\)[^0-9]*,\1,g'`
+if [ ${#MEM} -lt 7 ]
 then
-	let MEM="$2/1024/1024"
+	let MEM="$MEM/1024"
 	if [ $MEM -lt 240 ]; then
 		echo "A total of 256 MB ram is recommended for installation."
 		echo "currently are only $MEM MB ram installed"
