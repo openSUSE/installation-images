@@ -1,6 +1,7 @@
 9/1/2003:	v3.02
 	- acl & attr package split
 	- depmod.old etc.
+	- dropped glibc locale (#22161)
 
 28/11/2002:	v3.01
 	- better theme handling
