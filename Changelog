@@ -1,4 +1,4 @@
-	- added InputDevice entries to XF86Config
+	- added 'InputDevices' entries to XF86Config
 
 7/8/2002:	v2.35
 	- corrected script create_interface
