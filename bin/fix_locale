@@ -1,5 +1,9 @@
 #! /bin/sh
 
+# Outdated, we have locale-archive now. Do not use!
+
+
+
 # make all locales links to en_US, cs_CZ or ru_RU
 # according to the needed iso...
 

@@ -59,7 +59,7 @@ glibc:
 r /lib*/libdb.so.*
 r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
   /usr/{,s}bin
-r /usr/bin/{db*,glibcbug,localedef,rpcgen}
+r /usr/bin/{db*,glibcbug,rpcgen}
 # does anybody need these in base???
 #r /lib/libanl.so.1
 #r /lib/libmemusage.so
@@ -175,7 +175,13 @@ gdbm:
   /usr/lib*/libgdbm.so.*
   /usr/lib*/libgdbm_compat.so.*
 
+gzip:
+  /bin
+
 glibc-i18ndata:
+  /
+
+glibc-locale:
   /
 
 # create splash
@@ -186,4 +192,8 @@ E /sbin/depmod -a -F /System.map <kernel_ver> || true
 E cp /lib/modules/<kernel_ver>/modules.dep /
 E cp /lib/modules/<kernel_ver>/modules.pcimap /
 r /lib/modules
+
+# create locale
+x create_locale /create_locale
+E /create_locale
 
