@@ -27,8 +27,6 @@ if arch eq 'ia32'
   if demo eq 'eval'
     x message-eval /message
     x syslinux-eval.cfg /syslinux.cfg
-    x suselogo /suselogo
-    x linux.loopc /linux
   endif
 
   if demo eq 'live'
@@ -46,6 +44,9 @@ if arch eq 'ia32'
   else
     gfxboot-devel:
       m /usr/share/gfxboot/suseinstall /suselogo
+      if demo eq 'eval'
+        x suseeval /suselogo
+      endif
   endif
 
   if (memtest eq 'no' || boot eq 'small') && memtest ne 'yes'

@@ -567,6 +567,7 @@ if with_yast2 ne 'no'
   endif
     /usr/X11R6/lib/X11/locale
     /etc/X11/xserver
+  r /etc/X11/xserver/C
   s /etc/X11/xserver /usr/X11R6/lib/X11
   # unicode stuff
   d /usr/X11R6/lib/X11/fonts/{misc,uni}

@@ -142,6 +142,9 @@ preserve=`echo /sbin/live-setup /bin/bash \
   /etc/{.SuSEfiles,mtab} /tmp`
 
 #  /lib/lib{c.so.6,dl.so.2,ncurses.so.5.2,history.so.4.1,readline.so.4.1} /lib/ld-2.2.so
+
+exec 0<> /dev/tty1 1>&0 2>&0
+
 echo -en "\033cIntegrating Live CD"
 
 braille_running=
@@ -159,6 +162,7 @@ x=",$live,"
 [ "$x" != "${x/,new,}" ] && new=1
 [ "$x" != "${x/,clean,}" ] && clean=1 new=1
 [ "$x" != "${x/,stop,}" ] && stop=1
+[ "$x" != "${x/,xxx,}" ] && xxx=1
 
 if [ "$debug" ] ; then
  echo -e "\nnodisk=$nodisk, debug=$debug, shell=$startshell, new=$new, clean=$clean, stop=$stop"
@@ -169,8 +173,13 @@ deb_shell=
 
 deb_stop
 
+mount -n -oremount,rw /
 mount -n -t proc proc /proc
+# [ -f /sbin/portmap ] && /sbin/portmap
 mount /S.u.S.E.
+
+rmdir /.mnt 2>/dev/null
+[ -d /.mnt ] && umount /.mnt 2>/dev/null && rmdir /.mnt 2>/dev/null
 
 # move us out of the way...
 mv $0 /sbin/live-setup
@@ -263,6 +272,7 @@ link_dir etc/httpd
 link_dir etc/X11
 link_dir etc/init.d/rc[S0-6].d
 link_dir etc/ssh
+link_dir etc/susehelp.d
 
 link_dir opt opt/kde2 opt/kde2/share
 
@@ -320,6 +330,8 @@ perl -pi -e 's/^(SUSEWM_UPDATE=).*/$1\"no\"/' /etc/rc.config
 rm -f /sbin/conf.d/SuSEconfig.{perl,groff,alsa}
 
 if [ -f /etc/install.inf ] ; then
+  # german version
+  # echo "Locale: de_DE" >>/etc/install.inf
   perl -pi -e 's/^(Sourcemounted:).*/$1 1/' /etc/install.inf
   eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
   [ ! "$LANG" -a -f /lang ] && export LANG=`cat /lang`
@@ -361,7 +373,7 @@ if [ "$part" ]; then
   [ "$dosdrive" ] && i="$dosdrive, "
 
   echo
-  echo "Using "\""suselive.710"\"" on $part ($i$fstype, $partsize MB) to store data"
+  echo "Using "\""suselive.720"\"" on $part ($i$fstype, $partsize MB) to store data"
 
   mkdir /host || error=20
   mount $part /host || error=21
@@ -369,6 +381,7 @@ if [ "$part" ]; then
     echo "Updating filesystem."
     cp -a /etc/SuSElive /tmp
     chattr +i $preserve
+    rm -rf /usr/X11R6
     tar -zxpf /host/$suseimg 2>/dev/null
     chattr -i $preserve
     [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
@@ -383,8 +396,8 @@ if [ "$part" ]; then
     fi
     rm -f /etc/.SuSErmlist
   else
-    suseimg=suselive.710
-    perl -pi -e 's/^(suseimg=).*/$1suselive.710/' /etc/SuSElive
+    suseimg=suselive.720
+    perl -pi -e 's/^(suseimg=).*/$1suselive.720/' /etc/SuSElive
     if [ "$clean" ] ; then
       rm -f "/host/$suseswap" "/host/$susehome" 2>/dev/null
     fi
@@ -455,6 +468,12 @@ if [ ! "$nodisk" ] ; then
     if [ "$susehome" ] ; then
       mount /home
       rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
+
+      # make truetype dir
+      mkdir /home/truetype
+      cp -a /usr/X11R6/lib/X11/fonts/truetype/* /home/truetype
+      link_dir usr/X11R6/lib/X11 usr/X11R6/lib/X11/fonts
+      ln -snf /home/truetype  /usr/X11R6/lib/X11/fonts/truetype
     fi
     /sbin/syslogd
 
@@ -462,14 +481,22 @@ if [ ! "$nodisk" ] ; then
     [ -x /sbin/pcmcia.postin ] && /sbin/pcmcia.postin >/dev/null 2>&1
     rm -f /sbin/pcmcia.postin
 
+    [ -d /.mnt ] && umount /.mnt 2>/dev/null && rmdir /.mnt 2>/dev/null
+
     deb_stop
 
     /usr/lib/YaST2/bin/YaST2.start
 
     unset LANG
 
-    echo -en \\033c
-    echo -en \\033c >/dev/tty2
+    if [ ! \( "$debug" -o "$xxx" -o "$stop" \) ] ; then
+      echo -en \\033c
+      echo -en \\033c >/dev/tty2
+    fi
+
+    if [ -f /etc/X11/XF86Config ] ; then
+      perl -pi -e 's/((100|75)dpi)\"/$1:unscaled\"/' /etc/X11/XF86Config
+    fi
 
     kill_and_wait cardmgr
     kill_and_wait dhcpd
@@ -483,6 +510,7 @@ if [ ! "$nodisk" ] ; then
     if [ -f /etc/install.inf ] ; then
       eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
     fi
+    [ "$xxx" ] && debug=1
     deb_stop
     # rm -rf /var/lib/YaST2
     rm -f /var/lib/YaST2/runme_at_boot
@@ -492,6 +520,7 @@ if [ ! "$nodisk" ] ; then
       grep -v /proc /etc/fstab >>/tmp/fstab.save
       mv /tmp/fstab.save /etc/fstab
     }
+
     if [ "$susehome" ] ; then
       umount /home
       losetup -d /dev/loop1
@@ -502,6 +531,9 @@ if [ ! "$nodisk" ] ; then
     if [ "$part" ] ; then
       fix_fstab $part </etc/fstab >/etc/fstab_
       mv /etc/fstab_ /etc/fstab
+      sed -e '/^# mount config partition/ a \' -e "mount $part" /etc/init.d/boot >/etc/tmp_boot
+      mv /etc/tmp_boot /etc/init.d/boot
+      chmod 744 /etc/init.d/boot
     fi
     cp /proc/mounts /etc/mtab
     if [ "$susehome" ] ; then
@@ -520,7 +552,7 @@ if [ ! "$nodisk" ] ; then
       tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
 
       if [ ! -f /mnt/suselive.txt ] ; then
-        echo -e "$suseimg contains data for your SuSE Linux 7.1 Evaluation CD.\r" >/mnt/suselive.txt
+        echo -e "$suseimg contains data for your SuSE Linux 7.2 Evaluation CD.\r" >/mnt/suselive.txt
         echo -e "suselive.swp (if it exists) is the swap file.\r" >>/mnt/suselive.txt
         echo -e "suselive.usr (if it exists) is an ext2 file system with the user's home dir.\r" >>/mnt/suselive.txt
       fi
@@ -615,14 +647,20 @@ deb_stop
 
 echo -e "\033[71G\033[32mdone\033[m"
 
+unset LANG LANGUAGE
+
 [ "$debug" ] ||  rm -f /sbin/{find_config,fix_fstab}
 if [ "$nodisk" ] ; then
   rm -f /sbin/live-shutdown /etc/.SuSEfiles
 fi
 
+[ -d /.mnt ] && umount /.mnt 2>/dev/null && rmdir /.mnt 2>/dev/null
+
 [ "$deb_shell" ] && kill -9 "$deb_shell"
+
+[ "$part" ] && umount $part 2>/dev/null
 
 [ "$stop" ] && debug=1
 deb_stop
 
-rm -f /sbin/live-setup; exec /sbin/init
+rm -f /sbin/live-setup ; [ $$ = 1 ] && exec /sbin/init

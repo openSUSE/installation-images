@@ -23,8 +23,7 @@ installed system or the rescue system from CD.
 ----------------------------------------------------------------------------
 bootdisk:  Standard bootdisk
 
-i386:      Fallback bootdisk for i386 and older Cyrix processors;
-           has no frame buffer support
+i386:      Fallback bootdisk for i386 and older Cyrix processors.
 
 rescue:    Rescue disk
 
@@ -32,6 +31,6 @@ Only a few modules fit on the bootdisk. Therefore two modules floppies
 exist. If you do not find the driver for your hardware on the normal disk,
 just insert the appropriate modules disk as soon as linuxrc starts.
 
-modules:   SCSI/RAID/EIDE and PCMCIA modules, old (non-ATAPI) CDROM drivers.
+modules:   SCSI/RAID/EIDE and PCMCIA modules.
 
-modules2:  Network modules.
+modules2:  Network modules and old (non-ATAPI) CDROM drivers.

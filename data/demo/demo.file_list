@@ -1,4 +1,5 @@
 d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var
+d .mnt
 c 1777 0 0 tmp
 
 devs:
@@ -14,7 +15,9 @@ c 0711 0 0 /root
   /etc/ld.so.conf
   /sbin/mk_initrd
 if suse_release >= 7.1
-  /sbin/blogd
+  if suse_release < 7.2
+    /sbin/blogd
+  endif
   /etc/init.d
 else
   /sbin/init.d
@@ -38,6 +41,11 @@ endif
 if suse_release == 7.1
   p /sbin/boot.patch_71
   p /sbin/halt.patch_71
+endif
+
+if suse_release == 7.2
+  p /sbin/boot.patch_72
+  p /sbin/halt.patch_72
 endif
 
 aaa_dir:
@@ -116,19 +124,15 @@ else
 endif
   /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir,dd}
 
-#shadow:
-#  /bin/login
-
-#nkitb:
-## identd scripts; what for???
-#  /sbin/init.d
-
 pam:
   /etc
-#  /sbin/{pam_filter,unix_chkpwd}
-#  /lib
 
 sysvinit:
+  if suse_release >= 7.2
+    /sbin/blogd
+    /bin/usleep
+    /sbin/{setconsole,showconsole}
+  endif
   /sbin/{checkproc,halt,killall5,killproc,mingetty,pidof,poweroff}
   /sbin/{reboot,shutdown,startproc,telinit,sulogin}
   /etc/powerd.conf
@@ -170,20 +174,17 @@ cron:
 base:
   /bin/sed
 
-y2base:
-  m /usr/lib/YaST2/bin/startshell /sbin
-
-if 0
-<kernel_rpm>:
-#  /lib/modules/<kernel_ver>/misc/serial.o
-  /lib/modules/<kernel_ver>/misc/lp.o
-  /lib/modules/<kernel_ver>/misc/parport.o
-  /lib/modules/<kernel_ver>/misc/parport_pc.o
-  /lib/modules/<kernel_ver>/misc/parport_probe.o
-  /lib/modules/<kernel_ver>/scsi/imm.o
-  /lib/modules/<kernel_ver>/scsi/ppa.o
-  /lib/modules/<kernel_ver>/misc/agpgart.o
+if suse_release >= 7.2
+#  portmap:
+#    /sbin/portmap
 endif
+
+if suse_release >= 7.2
+  yast2-base:
+else
+  y2base:
+endif
+  m /usr/lib/YaST2/bin/startshell /sbin
 
 if special eq 'cloop' || special eq 'loopc'
   if special eq 'cloop'
@@ -205,34 +206,6 @@ if special eq 'cloop' || special eq 'loopc'
 endif
 
 x /etc/{HOSTNAME,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
-#t /etc/{printcap,mtab,sendmail.cf}
-#t /var/run/utmp
-#t /var/log/{faillog,lastlog,mail,messages,wtmp}
-
-#d /var/log/news
-#t /var/log/news/news.{crit,err,notice}
-#c 0755 9 13 /var/log/news
-#c 0640 0 13 /var/log/news/news.{crit,err,notice}
-
-#d /var/state/dhcp
-#d /var/log/httpd
-#d /var/state/httpd
-#d /var/lock/subsys/httpd
-
-#d /var/adm/{live,mount}
-#t /var/adm/live/{gpm,i4l,sax,xf86,kbase}
-#c 0755 0 0 /var/adm/live
-
-#d /var/lib/apsfilter/bin
-#c 0755 0 0 /var/lib/apsfilter{,/bin}
-
-#x /var/lib/news/{mailname,whoami} /var/lib/news
-
-#d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled,xfine/tmp}
-#d /opt/kde/share/config
-#d /sbin/conf.d
-#d /etc/{pcmcia,httpd,isdn,vbox}
-#d /var/lib/xkb
 
 x /sbin/init /sbin
 if demo eq 'eval'
@@ -246,6 +219,7 @@ endif
 
 x sbin/pcmcia.postin /sbin
 
+r /etc/init.d/xdm
 r /etc/httpd
 r /lib/modules
 r /var

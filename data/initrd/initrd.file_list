@@ -34,6 +34,8 @@ if arch eq 'ia32'
           f / hid.o /modules
           f / keybdev.o /modules
           f / usb-storage.o /modules
+          f / isa-pnp.o /modules
+          f / 8390.o /modules
         endif
 
     else

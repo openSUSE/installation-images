@@ -20,8 +20,7 @@ Unter Linux gehen Sie bitte so vor:
 ----------------------------------------------------------------------------
 bootdisk:  Standard Bootdiskette
 
-i386:      Bootdiskette für i386 und ältere Cyrix-Prozessoren;
-           unterstützt keinen Framebuffer
+i386:      Bootdiskette für i386 und ältere Cyrix-Prozessoren.
 
 rescue:    Rettungssystem
 
@@ -30,6 +29,6 @@ Moduldisketten. Wenn Sie "Ihren" Treiber nicht auf der normalen
 Bootdiskette finden, legen Sie nach dem Start von linuxrc die entsprechende
 Moduldiskette ein.
 
-modules:   SCSI/RAID/EIDE- und PCMCIA-Module, alte (non-ATAPI) CDROM-Treiber.
+modules:   SCSI/RAID/EIDE- und PCMCIA-Module.
 
-modules2:  Netzwerk-Module.
+modules2:  Netzwerk-Module und alte (nicht-ATAPI) CDROM-Treiber.

@@ -101,13 +101,13 @@ function link_dir {
 
 cd /
 
-if [ "$1" = --link_dir ] ; then
+if [ "$1" = "--link_dir"  -o "$1" = "-l" ] ; then
   shift
-  linkdir "$@"
+  link_dir "$@"
   exit
 fi
 
-if [ "$1" = --add_to_root ] ; then
+if [ "$1" = --add_to_root -o "$1" = "-a" ] ; then
   shift
   add_to_root "$@"
   exit

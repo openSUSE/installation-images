@@ -10,7 +10,7 @@ for (@f) {
   @i = split;
   if($i[0] eq $part) {
     $mp = $i[1];
-#    $_ = "$i[0] $i[1] $i[2] defaults $i[4] $i[5]\n";
+    $_ = "$i[0] $i[1] $i[2] defaults $i[4] $i[5]\n";
     last;
   }
 }

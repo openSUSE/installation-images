@@ -1,4 +1,7 @@
+20/6/2001:	v1.64
 	- remove lessopen/lessclose from rescue system
+	- remove etc/X11/xserver/C from inst-sys
+	- fixed for 7.2 LiveEval
 
 8/5/2001:	v1.63
 	- worked on module lists
