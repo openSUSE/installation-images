@@ -531,7 +531,7 @@ if [ ! "$nodisk" ] ; then
 
   if [ -d /usr/X11R6/lib/X11/fonts/truetype ] ; then
     # make truetype dir
-    mkdir /home/truetype
+    mkdir -p /home/truetype
     cp -a /usr/X11R6/lib/X11/fonts/truetype/* /home/truetype
     link_dir usr/X11R6/lib/X11 usr/X11R6/lib/X11/fonts
     ln -snf /home/truetype  /usr/X11R6/lib/X11/fonts/truetype
