@@ -1,3 +1,5 @@
+	- added pmtools (#36818)
+
 24/3/2004:	v5.32
 	- fvwmrc now fvwmrc.notitle again
 	- suppress syslogd warning
