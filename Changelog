@@ -1,3 +1,8 @@
+19/8/2002:	v2.41
+	- extended create_interface for broadcast-interfaces
+	- enabled create_interface for s390 and ppc
+	- corrected filelists
+
 15/8/2002:	v2.40
 	- use pcmcia in root image only on ia32
 	- start ssh in inst-sys when requested via UseSSH from install.inf
