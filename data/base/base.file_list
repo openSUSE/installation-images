@@ -168,8 +168,9 @@ gdbm:
   /usr/lib*/libgdbm.so.*
 
 # run depmod
-E /sbin/depmod -a -F /System.map <kernel_ver>
+E /sbin/depmod -a -F /System.map <kernel_ver> || true
 E cp /lib/modules/<kernel_ver>/modules.dep /
+E cp /lib/modules/<kernel_ver>/modules.pcimap /
 r /lib/modules
 
 # create splash
