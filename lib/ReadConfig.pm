@@ -462,7 +462,9 @@ for (@f) {
     $base = $AutoBuild = "/.rpm-cache/$r"
   }
 
-  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base suse_major_release suse_minor_release) ) {
+  $ENV{'pre_release'} = $rf =~ /^\d+\.\d+a\b$/ ? 1 : "";
+
+  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base suse_major_release suse_minor_release pre_release) ) {
     $ConfigData{$_} = $ENV{$_}
   }
 
@@ -471,7 +473,8 @@ for (@f) {
   $v .= " [$rf]" if $v ne $rf;
 
   if(!exists $ENV{silent}) {
-    print "Building for SuSE Linux $v ($a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
+    my $p = $ENV{'pre_release'} ? "pre-" : "";
+    print "Building for SuSE Linux $p$v ($a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
   }
 
 #  print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}><$ENV{'suse_major_release'}><$ENV{'suse_minor_release'}>\n";

@@ -45,16 +45,15 @@ if arch eq 'ia32'
         M usbcore usb-uhci usb-ohci input hid keybdev usb-storage
       endif
 
-  elsif initrd eq 'large'
-
-    f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
-    f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
-
-    f /lib/modules/<kernel_ver>/pcmcia-external *.o /modules
-    r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs}.o
-    r /modules/{sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
-
   else
+
+    if initrd eq 'large'
+
+      f /lib/modules/<kernel_ver>/pcmcia-external *.o /modules
+      r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs}.o
+      r /modules/{sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
+
+    endif
 
     f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
     f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules

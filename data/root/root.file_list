@@ -545,29 +545,31 @@ lvm:
   /sbin/pv* 
   /sbin/vg*
 
-yast:
-r /sbin/yast
-m /sbin/YaST /sbin/yast
-s /sbin/yast /sbin/YaST
-  /usr/lib/YaST
-s /usr/lib/YaST/fdisk /sbin/fdisk
-d /var/adm/YaST
-d /var/adm/backup/rpmdb
-d /var/adm/inst-log
-d /var/adm/mount
-d /var/adm/packages
-d /var/adm/removed_packages
-d /var/adm/removed_scripts
-d /var/adm/scripts
-  /var/adm/setup/setup.*
-  /var/lib/YaST
-x /usr/lib/YaST/.Reh /usr/lib/YaST
-x /usr/lib/YaST/convert_to_elf /usr/lib/YaST
-x /etc/* /etc
-x /etc/rpm /etc
-d /mnt
-d /proc
-d /tmp
+if with_yast1 ne 'no'
+  yast:
+  r /sbin/yast
+  m /sbin/YaST /sbin/yast
+  s /sbin/yast /sbin/YaST
+    /usr/lib/YaST
+  s /usr/lib/YaST/fdisk /sbin/fdisk
+  d /var/adm/YaST
+  d /var/adm/backup/rpmdb
+  d /var/adm/inst-log
+  d /var/adm/mount
+  d /var/adm/packages
+  d /var/adm/removed_packages
+  d /var/adm/removed_scripts
+  d /var/adm/scripts
+    /var/adm/setup/setup.*
+    /var/lib/YaST
+  x /usr/lib/YaST/.Reh /usr/lib/YaST
+  x /usr/lib/YaST/convert_to_elf /usr/lib/YaST
+  x /etc/* /etc
+  x /etc/rpm /etc
+  d /mnt
+  d /proc
+  d /tmp
+endif
 
 reiserfs:
   /sbin
@@ -634,8 +636,10 @@ if arch eq 'ppc'
     /usr/lib/libparted.so*
 endif
 
-# make fonts.dir
-E mkfontdir usr/X11R6/lib/X11/fonts/misc
+if with_yast2 ne 'no'
+  # make fonts.dir
+  E mkfontdir usr/X11R6/lib/X11/fonts/misc
+endif
 
 # add link to initrd modules
 # check mk_root before you're going to change this!!!

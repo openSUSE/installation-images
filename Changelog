@@ -1,3 +1,7 @@
+6/8/2001:	v1.75
+	- more inodes in rescue system
+	- new 'pre_release' variable
+
 1/8/2001:	v1.74
 	- use linuxrc_tiny in 'small' initrd
 
