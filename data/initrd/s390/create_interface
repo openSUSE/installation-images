@@ -10,6 +10,8 @@ DEVICEDIR=$ROOT/etc/sysconfig/network/
 ROUTINGFILE=$ROOT/etc/sysconfig/network/routes
 HOSTFILE=$ROOT/etc/HOSTNAME
 RESFILE=$ROOT/etc/resolv.conf
+CONFIGFILE=$ROOT/etc/sysconfig/network/config
+CONFIGFILETMP=$ROOT/etc/sysconfig/network/config.tmp
 # INSTALLINF=netsetup.inf
 # INSTALLINF=install.inf
 # CHANDEVCONF=chandev.conf
@@ -85,6 +87,16 @@ then
 	then
 		echo "domain $DOMAIN" >> $RESFILE
 		echo "nameserver $NAMESERVER" >> $RESFILE
+	fi
+	WAIT_FOR_INTERFACES=`grep WAIT_FOR_INTERFACES: $INSTALLINF | uniq | sed -e 's/WAIT_FOR_INTERFACES: \\(.*\\)/\\1/'`
+	if [ ! -z "$WAIT_FOR_INTERFACES" ]
+	then
+#
+#	WAIT_FOR_INTERFACES is not zero. Put the value into the file
+#	We are the first to modify this file. Default is zero
+#
+		sed -n "s/^WAIT_FOR_INTERFACES=.*/WAIT_FOR_INTERFACES=$WAIT_FOR_INTERFACES/" < $CONFIGFILE > $CONFIGFILETMP
+		[ $? -eq 0 ] && mv $CONFIGFILETMP $CONFIGFILE
 	fi
 fi
 :

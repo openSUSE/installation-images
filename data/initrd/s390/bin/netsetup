@@ -637,6 +637,8 @@ IP: $IP_ADDR"
 	tr|eth|qeth|hsi|c7000)
 	    echo "Netmask: $IP_NETMASK"
 	    echo "Broadcast: $IP_BROADCAST"
+#	for qeth and hsi
+	    [ "$NETSELECT" = "qeth" -a "$NETSELECT" = "hsi" ] && echo "WAIT_FOR_INTERFACES: 15"
 	    ;;
 	ctc|escon|iucv)
 #
@@ -645,6 +647,8 @@ IP: $IP_ADDR"
 #
 	    echo "Netmask: $IP_NETMASK"
 	    echo "Pointopoint: $IP_PEER"
+#	Only for ctc and escon
+	    [ ! "$NETSELECT" = "iucv" ] && echo "WAIT_FOR_INTERFACES: 40"
 	    ;;
 	*)
 	    echo "Something went wrong with $NETSELECT..." >&2
@@ -1593,18 +1597,16 @@ while [ $CONFIG_IS_OK = 0 ]; do
 	    echo "Something went wrong with $NETSELECT..."
   esac
   readln "Please enter the IP address of the DNS server or 'none' for no DNS ($IP_DNS): "
-  if [ $ANSW ]; then export IP_DNS=$ANSW; fi
-  if [ "$IP_DNS" = "none" -o "$IP_DNS" = "NONE" ]; then export IP_DNS=""; fi
+  [ $ANSW ] && export IP_DNS=$ANSW
+  [ "$IP_DNS" = "none" -o "$IP_DNS" = "NONE" ] && export IP_DNS=""
   if [ "$IP_DNS" ]; then
-    if [ -z "$IP_SEARCH" ]; then
-	IP_SEARCH=${IP_HOST#*.}
-    fi
+    [ -z "$IP_SEARCH" ] && IP_SEARCH=${IP_HOST#*.}
     readln "Please enter the DNS search domain, e.g. 'example.com' ($IP_SEARCH): "
     if [ $ANSW ]; then export IP_SEARCH=$ANSW; fi
   else
     IP_SEARCH=none
   fi
-  if [ "$IP_SEARCH" = "none" -o "$IP_SEARCH" = "NONE" ]; then export IP_SEARCH=""; fi
+  [ "$IP_SEARCH" = "none" -o "$IP_SEARCH" = "NONE" ] &&  export IP_SEARCH=""
   while true; do
     if [ "$IP_MTU" = "default" ]; then
       case "$NETSELECT" in
