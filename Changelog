@@ -1,3 +1,6 @@
+24/9/2003:	v2.114
+	- added OpenSchool theme
+
 23/9/2003:	v2.113
 	- do not touch resolv.conf and defaultdomain on update (bug #30672)
 

@@ -176,6 +176,12 @@ bootsplash-theme-SuSE-SLOS:
     m /usr/share/splash/themes/SuSE-SLOS/bootloader/message /SuSE-SLOS.boot
   endif
 
+bootsplash-theme-OpenSchool:
+  /
+  if arch eq 'ia32' || arch eq 'x86_64'
+    m /usr/share/splash/themes/OpenSchool/bootloader/message /OpenSchool.boot
+  endif
+
 <kernel_rpm>:
   /lib/modules
 if arch eq 'alpha'
@@ -231,3 +237,5 @@ E splash -s -f /usr/share/splash/themes/OpenXchange/config/bootsplash-800x600.cf
 E splash -s -f /usr/share/splash/themes/OpenXchange/config/bootsplash-1024x768.cfg >>/OpenXchange.splash
 E splash -s -f /usr/share/splash/themes/SuSE-SLOS/config/bootsplash-800x600.cfg >>/SuSE-SLOS.splash
 E splash -s -f /usr/share/splash/themes/SuSE-SLOS/config/bootsplash-1024x768.cfg >>/SuSE-SLOS.splash
+E splash -s -f /usr/share/splash/themes/OpenSchool/config/bootsplash-800x600.cfg >>/OpenSchool.splash
+E splash -s -f /usr/share/splash/themes/OpenSchool/config/bootsplash-1024x768.cfg >>/OpenSchool.splash
