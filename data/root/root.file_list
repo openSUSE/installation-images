@@ -842,6 +842,10 @@ gdbm:
 xf86tools:
   /usr/sbin/fonts-config
 
+ntfsprogs:
+  /usr/sbin/ntfsresize
+  /usr/lib*/libntfs.so*
+
 if with_yast2 ne 'no'
   if with_vera_font ne 'no'
     e mkfontscale usr/X11R6/lib/X11/fonts/truetype

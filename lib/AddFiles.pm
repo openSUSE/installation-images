@@ -68,7 +68,7 @@ sub AddFiles
   my ($inc_file, $inc_it, $debug, $ifmsg, $ignore);
   my ($old_warn, $ver, $i, $cache_dir, $tmp_cache_dir, $tmp_rpm);
   my (@scripts, $s, @s, %script, $use_cache);
-  my (@packs, $sl);
+  my (@packs, $sl, $rpm_cmd);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
@@ -118,6 +118,10 @@ sub AddFiles
     die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
   }
   $tfile = "${TmpBase}.afile";
+
+  # see if our rpm understands --nosignature
+  $rpm_cmd = "rpm";
+  $rpm_cmd .= " --nosignature" if `$rpm_cmd --help` =~ /--nosignature/s;
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # now we really start...
@@ -266,7 +270,7 @@ sub AddFiles
         }
       }
 
-      $ver = (`rpm --nosignature -qp $r`)[0];
+      $ver = (`$rpm_cmd -qp $r`)[0];
       $ver = "" unless defined $ver;
       $ver =~ s/\s*$//;
       if($ver =~ /^(\S+)-([^-]+-[^-]+)$/) {
@@ -286,7 +290,7 @@ sub AddFiles
 
       undef $sl;
 
-      @s = `rpm --nosignature -qp --qf '%|PREIN?{PREIN\n}:{}|%|POSTIN?{POSTIN\n}:{}|%|PREUN?{PREUN\n}:{}|%|POSTUN?{POSTUN\n}:{}|' $r 2>/dev/null`;
+      @s = `$rpm_cmd -qp --qf '%|PREIN?{PREIN\n}:{}|%|POSTIN?{POSTIN\n}:{}|%|PREUN?{PREUN\n}:{}|%|POSTUN?{POSTUN\n}:{}|' $r 2>/dev/null`;
       for $s (@s) {
         chomp $s;
         $sl .= "," if $sl;
@@ -300,7 +304,7 @@ sub AddFiles
 
       for $s (@scripts) {
         @{$script{$s}} =
-        @s = `rpm --queryformat '%{\U$s\E}' -qp $r 2>/dev/null`;
+        @s = `$rpm_cmd --queryformat '%{\U$s\E}' -qp $r 2>/dev/null`;
         if(@s == 0 || $s[0] =~ /^\(none\)\s*$/) {
           warn "$Script: no \"$s\" script in $r";
         }
