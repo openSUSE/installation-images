@@ -181,6 +181,8 @@ if arch eq 'ppc'
   ncurses:
     /usr/lib/libpanel.so.5*
     /usr/lib/libform.so.5*
+    # for p690 hvc console
+    /usr/share/terminfo/v/vt320
   eject:
     /bin
 endif

@@ -1,3 +1,9 @@
+04/10/2002:	v2.79
+	- add ibmsis to neededforbuild (rescue image)
+	- add vt320 terminfo entry for p690 hvc console
+	- write correct inittab entry for hvc console
+	- be more verbose during inittab modification
+
 27/9/2002:	v2.78
 	- samba-client package has changed
 
