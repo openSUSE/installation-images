@@ -11,9 +11,11 @@ expat:
 freetype2:
     /usr/lib*/libfreetype.so.*
 
-fontconfig:
+XFree86:
   /etc/fonts/*
-  /usr/lib*/libfontconfig.so*
+
+XFree86-libs:
+  /usr/X11R6/lib*/libfontconfig.so*
 
 ### /SLEC
 

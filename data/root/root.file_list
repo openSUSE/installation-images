@@ -357,7 +357,8 @@ if with_yast2 ne 'no'
   XFree86-libs:
     /usr/X11R6/lib*/lib{X11,Xext}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
-    /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xft,Xrender,Xpm}.so*
+    /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xft,Xrender,Xpm,Xrandr}.so*
+    /usr/X11R6/lib*/libfontconfig.so*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
 
@@ -366,10 +367,6 @@ if with_yast2 ne 'no'
 
   expat:
     /usr/lib*/libexpat.so.0*
-
-  fontconfig:
-    /usr/lib*/libfontconfig.so.1*
-    /usr/lib*/libXft.so.2*
 
   mesasoft:
     /
