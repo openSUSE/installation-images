@@ -1,3 +1,6 @@
+06/11/2002:	v2.90
+	- fixed permissions for .netrc. Otherwise ftp
+          is not executing the script.			(s390/s390x) #21296
 06/11/2002:	v2.89
 	- fixed login behaviour (second getty)    (s390/s390x) #20780
 	- fixed error handling of lcs-device      (s390/s390x) #21558
