@@ -1,0 +1,5 @@
+#! /bin/sh
+
+# fix permissions of all directories
+
+find $1 -type d -exec chmod a+rx {} \;

@@ -53,7 +53,7 @@ boot_axp: initrd
 root: dirs
 	bin/mk_root
 
-yast2: dirs
+yast2: dirs initrd2
 	bin/mk_yast2
 
 yast2_cd: boot yast2

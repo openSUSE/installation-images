@@ -90,26 +90,21 @@ a etc/pcmcia/cis etc/pcmcia
 t etc/pcmcia/fixed
 c 0755 0 0 etc/pcmcia/fixed
 l etc/pcmcia/fixed  etc/pcmcia/scsi
+l etc/pcmcia/fixed  etc/pcmcia/ide
 l etc/pcmcia/fixed  etc/pcmcia/network
 
-x etc/pcmcia/config etc/pcmcia
-x etc/pcmcia/config.opts etc/pcmcia
+  /etc/pcmcia/config
+  /etc/pcmcia/config.opts
 x etc/pcmcia/fixed etc/pcmcia
 endif
 
 
-t modules/{MORE,NEEDMOD,NET,SCSI}
+t modules/{MORE,NET,SCSI,OTHER}
 
 ifnarch sparc
 k_deflt:
-ifdef 2.88
-a /lib/modules/<kernel_ver>/block/*.o /modules
-a /lib/modules/<kernel_ver>/net/*.o /modules
-a /lib/modules/<kernel_ver>/scsi/*.o /modules
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
-a /lib/modules/<kernel_ver>/misc/serial.o /modules
-
 a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
 a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
 a /lib/modules/<kernel_ver>/misc/usb-ohci.o /modules
@@ -117,26 +112,55 @@ a /lib/modules/<kernel_ver>/misc/input.o /modules
 a /lib/modules/<kernel_ver>/misc/hid.o /modules
 a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
 a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
+
+ifdef 2.88
+
+a /lib/modules/<kernel_ver>/block/*.o /modules
+a /lib/modules/<kernel_ver>/net/*.o /modules
+a /lib/modules/<kernel_ver>/scsi/*.o /modules
+a /lib/modules/<kernel_ver>/misc/parport.o /modules
+a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
+
 r /modules/soundmodem.o
 r /modules/wanpipe.o
 r /modules/{pppox,ppp,ppp_deflate}.o
 r /modules/slip.o
+r /modules/{irda,irda_deflate}.o
+r /modules/syncppp.o
+r /modules/sktr.o
 
-else	# 2.88
-a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
-a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
-a /lib/modules/<kernel_ver>/misc/usb-ohci.o /modules
-a /lib/modules/<kernel_ver>/misc/input.o /modules
-a /lib/modules/<kernel_ver>/misc/hid.o /modules
-a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
-a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
+r /modules/comx-hw-comx.o
+r /modules/comx-hw-locomx.o
+r /modules/comx-hw-mixcom.o
+r /modules/comx-proto-fr.o
+r /modules/comx-proto-lapb.o
+r /modules/comx-proto-ppp.o
+r /modules/comx.o
+r /modules/6pack.o
+r /modules/baycom_epp.o
+r /modules/baycom_par.o
+r /modules/bpqether.o
+r /modules/baycom_ser_fdx.o
+r /modules/baycom_ser_hdx.o
+r /modules/dlci.o
+r /modules/dmascc.o
+r /modules/hdlcdrv.o
+r /modules/ipddp.o
+r /modules/lapbether.o
+r /modules/mkiss.o
+r /modules/scc.o
+r /modules/sdla.o
+r /modules/sdladrv.o
+r /modules/x25_asy.o
+r /modules/yam.o
 
+else	# !2.88
 ### a /lib/modules/<kernel_ver>/block/DAC960.o /modules
 ### a /lib/modules/<kernel_ver>/block/cpqarray.o /modules
 
 ### a /lib/modules/<kernel_ver>/scsi/BusLogic.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/a100u2w.o /modules
-a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
+#a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/atp870u.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/eata.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/fdomain.o /modules
@@ -144,29 +168,26 @@ a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/initio.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/ips.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/megaraid.o /modules
-a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
+#a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/qlogicisp.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/dc395x_trm.o /modules
 ### a /lib/modules/<kernel_ver>/scsi/tmscsim.o /modules
 
 a /lib/modules/<kernel_ver>/net/3c59x.o /modules
-# a /lib/modules/<kernel_ver>/net/de4x5.o /modules
+#a /lib/modules/<kernel_ver>/net/de4x5.o /modules
 ### a /lib/modules/<kernel_ver>/net/eepro100.o /modules
-# a /lib/modules/<kernel_ver>/net/epic100.o /modules
+## a /lib/modules/<kernel_ver>/net/epic100.o /modules
 ### a /lib/modules/<kernel_ver>/net/ne2k-pci.o /modules
-# a /lib/modules/<kernel_ver>/net/rtl8139.o /modules
+## a /lib/modules/<kernel_ver>/net/rtl8139.o /modules
 ### a /lib/modules/<kernel_ver>/net/tlan.o /modules
 # a /lib/modules/<kernel_ver>/net/lance.o /modules
-a /lib/modules/<kernel_ver>/net/pcnet32.o /modules
+# a /lib/modules/<kernel_ver>/net/pcnet32.o /modules
 a /lib/modules/<kernel_ver>/net/tulip.o /modules
 a /lib/modules/<kernel_ver>/net/via-rhine.o /modules
-a /lib/modules/<kernel_ver>/net/dmfe.o /modules
-
-a /lib/modules/<kernel_ver>/misc/nvram.o /modules
-a /lib/modules/<kernel_ver>/misc/serial.o /modules
+# a /lib/modules/<kernel_ver>/net/dmfe.o /modules
 
 # a /lib/modules/<kernel_ver>/net/3c515.o /modules
-a /lib/modules/<kernel_ver>/net/8390.o /modules
+## a /lib/modules/<kernel_ver>/net/8390.o /modules
 # a /lib/modules/<kernel_ver>/net/at1700.o /modules
 # a /lib/modules/<kernel_ver>/net/ne.o /modules
 # a /lib/modules/<kernel_ver>/net/smc-ultra.o /modules
@@ -178,8 +199,48 @@ a /lib/modules/<kernel_ver>/net/8390.o /modules
 # a /lib/modules/<kernel_ver>/scsi/seagate.o /modules
 # a /lib/modules/<kernel_ver>/scsi/t128.o /modules
 # a /lib/modules/<kernel_ver>/scsi/u14-34f.o /modules
+
+ifndef blub
+pcmcia:
+a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
+
+a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/serial_cb.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/serial_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
+endif
+
 endif	# 2.88
 endif
 
 x etc/host.conf etc
+
+ifdef 2.88
+pcmcia:
+a /lib/modules/<kernel_ver>/pcmcia/i82365.o /
+a /lib/modules/<kernel_ver>/pcmcia/ds.o /
+a /lib/modules/<kernel_ver>/pcmcia/tcic.o /
+a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /
+a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /
+
+a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /
+a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /
+a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /
+a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /
+
+a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /
+a /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /
+endif
 

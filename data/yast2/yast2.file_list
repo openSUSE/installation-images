@@ -33,6 +33,9 @@ joe:
   /usr/bin/joe
   /usr/lib/joerc
 
+libhd:
+  /usr/sbin/hwinfo
+
 mktemp:
   /bin/mktemp
 
@@ -44,6 +47,9 @@ nkitb:
 
 ps:
   /bin/ps
+
+recode:
+  /usr/lib/librecode.so{,,.0,.0.0.0}
 
 rpm:
   /bin/rpm
@@ -67,10 +73,22 @@ util:
   /bin/dmesg
 
 k_deflt:
-#  /lib/modules/<kernel_ver>/{block,net,scsi,fs}
+  /lib/modules/<kernel_ver>/misc/serial.o
+
+  /lib/modules/<kernel_ver>/net/{pppox,ppp,ppp_deflate}.o
+  /lib/modules/<kernel_ver>/net/slip.o
+  /lib/modules/<kernel_ver>/net/{irda,irda_deflate}.o
+  /lib/modules/<kernel_ver>/net/syncppp.o
+  /lib/modules/<kernel_ver>/net/sktr.o
+  /lib/modules/<kernel_ver>/net/wanpipe.o
+  /lib/modules/<kernel_ver>/misc/wanrouter.o
+  /lib/modules/<kernel_ver>/net/dlci.o
+  /lib/modules/<kernel_ver>/net/sdla.o
+  /lib/modules/<kernel_ver>/net/sdladrv.o
+
 # add link to initrd modules
 d /lib/modules/default
-s /modules /lib/modules/default/misc
+s ../../../modules /lib/modules/default/misc
 
 ncurses:
   /lib/libncurses.so.5{,.0}
@@ -86,8 +104,11 @@ shlibs:
   /lib/{libnss_compat.so.2,libnss_db.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
   /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2,librt.so.1,libutil.so.1}
   /usr/sbin/rpcinfo
-  /usr
+  /usr/{bin,lib}
   /etc/rpc
+  /usr/share/locale/{locale.alias,ar_SA,cs,cs_CZ,de,de_DE,el,el_GR,en_GB,en_US,es,es_ES}
+  /usr/share/locale/{fr,fr_FR,hu_HU,it,it_IT,nl,nl_NL,pl,pl_PL,pt_BR,pt_PT,ro_RO}
+  /usr/share/locale/{ru_RU,ru_RU.KOI8-R,sk,sk_SK,tr_TR}
 r /usr/bin/db_*
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
@@ -100,6 +121,7 @@ kbd:
   /usr/lib/kbd
   /usr/share/locale
   /usr/bin/{chvt,loadkeys,setfont,loadunimap,kbd_mode}
+c 0755 0 0 /usr/share/locale/nl
 c 0755 0 0 /usr/share/locale/ru
 
 base:
@@ -220,6 +242,8 @@ xfbdev:
 ifnarch ppc
 xsvga:
   .
+xvga16:
+  .
 endif
 
 c 0755 0 0 /dev
@@ -274,7 +298,7 @@ c 0755 0 0 /var/lib
 c 0755 0 0 /var/lib/YaST2
 
 # just this time - remove later!!!
-x /lib/YaST2/bin/YaST2 /lib/YaST2/bin
+# x /lib/YaST2/bin/YaST2 /lib/YaST2/bin
 
 # remove these:
 r root mnt tmp usr/libexec
