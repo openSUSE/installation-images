@@ -44,6 +44,7 @@ if [ "$?" = 0 -a -x /usr/sbin/sshd ] ; then
 	read i
 	for i in 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
 	echo
+	export Y2DEBUG=1
 fi
 
 
