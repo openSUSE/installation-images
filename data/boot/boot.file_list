@@ -37,7 +37,7 @@ endif
       m /boot/memtest.bin /memtest
   endif
 
-  if arch eq x86_64
+  if arch eq 'x86_64'
     R s/\n# apic.*apic\n//s /syslinux.cfg
   endif
 
