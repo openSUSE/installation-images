@@ -42,6 +42,7 @@ Style *        HilightFore white, HilightBack black
 Style *        ForeColor black, BackColor white
 Style *        BorderColorset 0
 Style *        HilightBorderColorset 0
+Style *        NoTitle
 
 #=============================
 # Title Style

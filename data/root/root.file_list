@@ -499,7 +499,7 @@ if with_yast2 ne 'no'
   fvwm2:
     /usr/X11R6/bin/fvwm{,2}
     /usr/X11R6/share/fvwm/ConfigFvwmDefaults
-    x etc/fvwmrc /usr/X11R6/share/fvwm/fvwmrc
+    x etc/fvwmrc /usr/X11R6/share/fvwm/fvwmrc.notitle
 
   fribidi:
     /usr/lib*/libfribidi.so*
@@ -666,12 +666,9 @@ if with_yast2 ne 'no'
     /usr/lib/qt3/lib*/libqt*.so*
   r /usr/lib/qt3/plugins/imageformats/libqmng*
 
-if theme eq 'Home'
-  kdebase3-Personal:
-else
-  kdebase3-SuSE:
-endif
-    /opt/kde3/share/config/SuSE/default/qtrc
+
+d /opt/kde3/share/config/SuSE/default
+x etc/qtrc-<theme> /opt/kde3/share/config/SuSE/default/qtrc
 
 if theme eq 'Home'
   kdeartwork3:
