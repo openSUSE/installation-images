@@ -21,8 +21,9 @@ nodisk=
 
 mount -n -t proc proc /proc
 mount /S.u.S.E.
-if [ -f /S.u.S.E./fluppi.img ] ; then
-  suseloop=fluppi.img
+
+if [ -f /S.u.S.E./suse/images/susee ] ; then
+  suseloop=suse/images/susee
   sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
   mv /tmp/fstab /etc/fstab
   mkdir /.SuSE
@@ -38,12 +39,50 @@ if [ -f /S.u.S.E./fluppi.img ] ; then
   fi
   sed -e '/^# mount Live CD/ a \' -e 'mount -v /.SuSE' /sbin/init.d/boot >/tmp/boot
   mv /tmp/boot /sbin/init.d/boot
-  sed -e '/^  # mount Live CD/ a \' -e '  mount -n /.SuSE' \
+  sed -e '/^  # mount Live CD/ a \' -e '  [ ! -f /.SuSE/'"$suseloop"' ] && mount -n /.SuSE' \
       -e '/^# umount Live CD/ i \' -e 'losetup -d /dev/loop0\' -e 'umount -n /.SuSE' \
       /sbin/live-shutdown >/tmp/live-shutdown
   mv /tmp/live-shutdown /sbin/live-shutdown
   chmod +x /sbin/live-shutdown
 fi
+
+if [ -f /S.u.S.E./suse/images/susec ] ; then
+  susecloop=suse/images/susec
+  sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
+  mv /tmp/fstab /etc/fstab
+  mkdir /.SuSE
+  umount /S.u.S.E.
+  mount /.SuSE
+  insmod /lib/cloop.o </.SuSE/$susecloop
+  echo "/dev/cloop /S.u.S.E. iso9660 defaults,ro 0 0" >>/etc/fstab
+  mount /S.u.S.E.
+  fstype=`grep '/\.SuSE' /etc/mtab | head -1 | cut -d \  -f 3`
+  if [ "$fstype" ] ; then
+    sed -e "s/\.SuSE auto/.SuSE $fstype/" \
+        -e "s/\.SuSE iso9660/.SuSE $fstype/" /etc/fstab >/tmp/fstab
+    mv /tmp/fstab /etc/fstab
+  fi
+
+  sed -e '/^# mount Live CD/ a \' \
+    -e 'mount -v /.SuSE\' -e "insmod /lib/cloop.o </.SuSE/$susecloop" \
+    /sbin/init.d/boot >/tmp/boot
+  mv /tmp/boot /sbin/init.d/boot
+
+  sed -e '/Unmounting/ a \' \
+    -e 'umount -v /dev/cloop\' \
+    -e 'rmmod cloop' \
+    /sbin/init.d/halt >/tmp/halt
+  mv /tmp/halt /sbin/init.d/halt
+
+  sed -e '/^  # mount Live CD/ a \' \
+      -e '  [ ! -f /.SuSE/'"$susecloop"' ] && mount -n /.SuSE\' \
+      -e "  insmod /lib/cloop.o </.SuSE/$susecloop 2>/dev/null" \
+      -e '/^# umount Live CD/ i \' -e 'rmmod cloop\' -e 'umount -n /.SuSE' \
+      /sbin/live-shutdown >/tmp/live-shutdown
+  mv /tmp/live-shutdown /sbin/live-shutdown
+  chmod +x /sbin/live-shutdown
+fi
+
 umount /proc
 
 [ "$debug" ] && echo $LINENO && /bin/bash
@@ -53,6 +92,7 @@ rm -rf /lib/modules
 ln -snf /S.u.S.E./var/lib/rpm /var/lib
 
 rm -f /var/X11R6/lib ; mkdir /var/X11R6/lib
+
 
 /sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter\
   opt opt/kde opt/kde/share var/X11R6/xfine\
@@ -166,7 +206,7 @@ if [ "$part" ]; then
   [ "$dosdrive" ] && i="$dosdrive, "
 
   echo
-  echo "Using "\""suselive.700"\"" on $part ($i$fstype, $partsize MB) to store data"
+  echo "Using "\""suselive.701"\"" on $part ($i$fstype, $partsize MB) to store data"
 
   mkdir /host || error=20
   mount $part /host || error=21
@@ -188,8 +228,8 @@ if [ "$part" ]; then
     fi
     rm -f /etc/.SuSErmlist
   else
-    suseimg=suselive.700
-    perl -pi -e 's/^(suseimg=).*/$1suselive.700/' /etc/SuSElive
+    suseimg=suselive.701
+    perl -pi -e 's/^(suseimg=).*/$1suselive.701/' /etc/SuSElive
   fi
 
   if [ ! "$error" ] ; then
@@ -286,6 +326,34 @@ if [ ! "$nodisk" ] ; then
     if [ "$susehome" ] ; then
       rm -rf /tmp ; ln -s /home/tmp /
     fi
+
+
+
+    # write initial config file
+    i=
+    [ "$dosdrive" ] && i="$dosdrive, "
+    echo
+    echo "Writing info to $suseimg on $part ($i$fstype, $partsize MB)"
+
+    mount -n $part /mnt || error=21
+
+    tar -zclf /mnt/$suseimg / 2>/dev/null || error=1
+
+    if [ ! -f /mnt/suselive.txt ] ; then
+      echo -e "$suseimg contains data for your SuSE Linux 7.0 Evaluation CD.\r" >/mnt/suselive.txt
+      echo -e "suselive.swp (if it exists) is the swap file.\r" >>/mnt/suselive.txt
+      echo -e "suselive.usr (if it exists) is an ext2 file system with the user's home dir.\r" >>/mnt/suselive.txt
+    fi
+
+    if [ "$error" ] ; then
+      echo "An error occurred while writing $suseimg."
+      echo "Sorry, your Live CD changes might get lost. :-("
+    fi
+
+    umount -n /mnt
+
+
+
     mount $part
     [ "$livetest" ] && /bin/bash
     umount /proc/bus/usb
@@ -319,6 +387,11 @@ if [ "$umount" != no ] ; then
   umount /S.u.S.E.
   if [ "$suseloop" ] ; then
     losetup -d /dev/loop0
+    umount /.SuSE
+  fi
+
+  if [ "$susecloop" ] ; then
+    rmmod cloop
     umount /.SuSE
   fi
 else

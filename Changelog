@@ -1,3 +1,9 @@
+31/10/2000:	v1.07
+	- support for compressing loop device (cloop.o)
+	- moved LiveEval images to suse/images/
+	- renamed ext2 (e2compr) image to "susee"
+	- cloop image is "susec"
+
 9/10/2000:	v1.06
 	- prepared for Live CD with e2compr image file
 

@@ -150,6 +150,14 @@ base:
   /lib/modules/<kernel_ver>/scsi/ppa.o
   /lib/modules/<kernel_ver>/misc/agpgart.o
 
+if special eq 'cloop'
+  X /tmp/cloop.o /lib
+  b 240 0 /dev/cloop
+
+  modules:
+    /sbin/{insmod,rmmod}
+endif
+
 x /etc/{HOSTNAME,fstab,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
 t /etc/{printcap,mtab,sendmail.cf}
 t /var/run/utmp
@@ -169,8 +177,8 @@ d /var/adm/{live,mount}
 t /var/adm/live/{gpm,i4l,sax,xf86,kbase}
 c 0755 0 0 /var/adm/live
 
-d /var/lib/apsfilter
-c 0755 0 0 /var/lib/apsfilter
+d /var/lib/apsfilter/bin
+c 0755 0 0 /var/lib/apsfilter{,/bin}
 
 x /var/lib/news/{mailname,whoami} /var/lib/news
 
