@@ -1,0 +1,42 @@
+#! /usr/bin/perl -w
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
+
+die "usage: $Script\n" if @ARGV;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$srcdir = "${ImagePath}initrd";
+$tmpdir = "${BasePath}tmp/install_xx";
+$image = "${ImagePath}install_xx";
+
+# leave that much space
+$extra_size = 10;              # kbyte
+$extra_inodes = 10;
+
+# just make them large enough
+$start_size = 7000;             # kbyte
+$start_inodes = 10;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+# clean up
+if(-d($tmpdir)) {
+  SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
+}
+
+SUSystem "mkdir -p $tmpdir/etc";
+SUSystem "cp $srcdir $tmpdir/etc/initdisk.gz";
+
+Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
+
