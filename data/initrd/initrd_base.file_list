@@ -120,6 +120,14 @@ if arch eq 's390' || arch eq 's390x'
     /usr/share/samba/codepages/unicode_map.850
     /usr/share/samba/codepages/unicode_map.ISO8859-1
     /usr/share/samba/codepages/unicode_map.ISO8859-15
+
+  openldap2-client:
+    /usr/lib*/liblber.so.*
+    /usr/lib*/libldap.so.*
+
+  cyrus-sasl:
+    /usr/lib*/libsasl.so.*
+
   cups-libs:
     /usr/lib*/libcups.so.*
   installation-kernel-rdripl:
