@@ -1,3 +1,5 @@
+	- s390: added /sbin/dasdview (bug #42986)
+
 7/10/2004:	v6.17
 	- added norwegian translations
 
