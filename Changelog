@@ -1,3 +1,5 @@
+	- XF86Config -> xorg.conf (#66989)
+
 1/4/2005:	v6.43
 	- added cpint.ko to initrd for s390*
 	- inittab can only handle 4 chars as 'id' field, but a console

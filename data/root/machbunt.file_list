@@ -115,7 +115,7 @@ if with_yast2 ne 'no'
 
     /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
 
-    x /usr/X11R6/lib/X11/XF86Config_4 /usr/X11R6/lib/X11
+    x /usr/X11R6/lib/X11/xorg.conf /usr/X11R6/lib/X11
 
 
   if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
