@@ -10,6 +10,9 @@ if arch eq 's390' || arch eq 's390x'
   m /dev/pts /initrddevs/dev
 endif 
 
+d /initrddevs.tiny/dev
+  m /dev/{null,zero,console,tty[1349],ram0} /initrddevs.tiny/dev
+
 m /usr/share/doc/packages/devs/makedevs.floppy /
 c 0755 0 0 makedevs.floppy
 
@@ -24,7 +27,6 @@ r /var/{spool,squid,lib/YaST}
 
 fillup:
   /bin/fillup
-  /var/adm/fillup-templates
 
 grep:
   /bin
@@ -218,3 +220,10 @@ r /lib/modules
 x create_locale /create_locale
 E /create_locale
 
+# create device tree
+E echo "creating devices..."
+E cd /initrddevs; /makedevs.floppy >/dev/null
+
+# compress device tree
+x compdev /compdev
+E find /initrddevs/dev | ./compdev /initrddevs/dev >/devz

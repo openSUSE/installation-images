@@ -1,0 +1,276 @@
+#!/usr/bin/perl
+
+use POSIX;
+use bytes;
+
+$olddumpname = '';
+
+sub dumpent {
+  my $name = shift;
+  my $mode = shift;
+  my $uid = shift;
+  my $gid = shift;
+
+  my $ret = '';
+
+  $name =~ s/^\Q$cut\E//;
+  my $l = length($olddumpname);
+  my $nl = length($name);
+  $l = $nl if $nl < $l;
+  while ($l > 0) {
+    last if substr($name, 0, $l) eq substr($olddumpname, 0, $l);
+    $l--;
+  }
+  $olddumpname = $name;
+  if ($l > 15 || $nl - $l > 7) {
+    $ret .= chr($l | 128);
+    $ret .= chr($nl - $l);
+  } else {
+    $ret .= chr($l | ($nl - $l) << 4);
+  }
+  $ret .= substr($name, $l, $nl - $l);
+  my $mmode = $mode & 07777;
+  die "oops mode $mmode" if ($mmode & 06000) == 06000;
+  if ($mmode == 0600) {
+    $ret .= chr(($mode >> 8 & 0xf0) | 0xc);
+  } elsif ($mmode == 0660) {
+    $ret .= chr(($mode >> 8 & 0xf0) | 0xd);
+  } elsif ($mmode == 0666) {
+    $ret .= chr(($mode >> 8 & 0xf0) | 0xe);
+  } elsif ($mmode == 0640) {
+    $ret .= chr(($mode >> 8 & 0xf0) | 0xf);
+  } else {
+    $ret .= chr($mode >> 8);
+    $ret .= chr($mode & 255);
+  }
+  $ $mmodes{$mmode}++;
+  if ($uid > 15 || $gid > 15 || ($uid == 15 && $gid == 15)) {
+    $ret .= chr(255);
+    $ret .= chr($uid);
+    $ret .= chr($gid);
+  } else {
+    $ret .= chr($uid << 4 | $gid);
+  }
+  return $ret;
+}
+
+sub dumpdir {
+  my $name = shift;
+  my $mode = shift;
+  my $uid = shift;
+  my $gid = shift;
+
+  $devdata .= dumpent($name, $mode, $uid, $gid);
+}
+
+sub dumplink {
+  my $name = shift;
+  my $mode = shift;
+  my $uid = shift;
+  my $gid = shift;
+  my $to = shift;
+
+  $devdata .= dumpent($name, $mode, $uid, $gid);
+  $devdata .= chr(length($to));
+  $devdata .= $to;
+}
+
+sub dumpit {
+  my ($name, $mlastname, $mode, $uid, $gid, $mstartrdev, $mrdevcount, $mstartflag, $mblockoff, $mblockcount) = @_;
+  $mblockoff = 0 if $mblockcount == 1;
+  $mrdevcount--;
+  $mblockcount--;
+
+  $devdata .= dumpent($name, $mode, $uid, $gid);
+  $mlastname =~ s/^\Q$cut\E//;
+  $olddumpname = $mlastname;
+
+  $mstartrdev = 0 if $mstartrdev >= 65536 * 2;
+  #printf "$name, $mlastname, %o, $uid, $gid, $mstartrdev, $mrdevcount, $mstartflag, $mblockoff, $mblockcount\n", $mode;
+  $devdata .= chr($mstartrdev >> 8 & 255);
+  $devdata .= chr($mstartrdev & 255);
+  $devdata .= chr($mrdevcount);
+  if ($mblockcount < 31) {
+    $devdata .= chr($mblockcount | $mstartflag);
+  } else {
+    $devdata .= chr(31 | $mstartflag);
+    $devdata .= chr($mblockcount);
+  }
+  $devdata .= chr($mblockoff) if $mblockcount;
+}
+
+$cut = $ARGV[0];
+
+@devnames = <STDIN>;
+chomp @devnames;
+
+while (@devnames) {
+
+  @nextdevnames = ();
+
+  $moldname = '';
+  $mstartrdev = 0;
+  $mendrdev = 0;
+  $mstartflag = 0;
+  $moldmode = 0;
+  $molduid = 0;
+  $moldgid = 0;
+
+  %devs = ();
+  for $devname (@devnames) {
+    next if $devname eq $cut;
+    @s = lstat($devname);
+    if (!@s) {
+      print STDERR "$devname: $!\n";
+      next;
+    }
+    if (-d _) {
+      dumpdir($devname, $s[2], $s[4], $s[5]);
+      next;
+    }
+    if (-l _) {
+      dumplink($devname, $s[2], $s[4], $s[5], readlink($devname));
+      next;
+    }
+    if (!-c _ && ! -b _ && ! -S _ && ! -p _) {
+      printf STDERR "OOPS $devname\n";
+      next;
+    }
+    if ($s[6] > 65535) {
+      printf STDERR "OOPS rdev $devname\n";
+      next;
+    }
+    $dev = {};
+    $dev->{'name'} = $devname;
+    $dev->{'mode'} = $s[2];
+    $dev->{'uid'} = $s[4];
+    $dev->{'gid'} = $s[5];
+    $dev->{'rdev'} = (-b _) ? 65536 + $s[6] : $s[6];
+    $dev->{'rdev'} = 65536 * 2 if -S _;
+    $dev->{'rdev'} = 65536 * 2 + 1 if -p _;
+    $odev = $devs{$dev->{'rdev'}};
+    if ($odev) {
+      if (($odev->{'name'} . "0" eq $devname || $odev->{'name'} . "p0" eq $devname)  && $odev->{'mode'} eq $dev->{'mode'} && $odev->{'uid'} eq $dev->{'uid'} &&  $odev->{'gid'} eq $dev->{'gid'}) {
+	$odev->{'other'} = $dev;
+      }
+      push @nextdevnames, $devname;
+      next;
+    }
+    $devs{$dev->{'rdev'}} = $dev;
+  }
+
+  $oldname = '';
+  $oldmode = 0;
+  $olduid = 0;
+  $oldgid = 0;
+  $nextname = '';
+  $startrdev = 0;
+  for ($rdev = 0; $rdev < 65536 * 2 + 3; $rdev++) {
+    $dev = $devs{$rdev};
+    # print "$dev->{'name'}\n" if $dev;
+    if (!$dev || $dev->{'mode'} != $oldmode || $dev->{'uid'} != $olduid || $dev->{'gid'} != $oldgid || $dev->{'name'} ne $nextname || $rdev - $startrdev >= 256) {
+	if ($oldname ne '') {
+	  $endrdev = $rdev - 1;
+	  $rdevcount = $rdev - $startrdev;
+	  if ($mnextname =~ /(\d+)$/) {
+	    $mnextname = $` . ($1 + 1);
+	  } elsif ($mnextname =~ /([a-y])$/) {
+	    $mnextname = $` . chr(ord($1) + 1);
+	  }
+	  if ($mblockoff == 0) {
+	    $mblockoff = $startrdev - $mstartrdev;
+	    $mblockoff = 0 if $mblockoff > 255;
+	  }
+	  $mnextstartrdev += $mblockoff;
+	  if ($moldmode != $oldmode || $molduid != $olduid || $moldgid != $oldgid || $mnextname ne $oldname || $mnextstartrdev != $startrdev || $mrdevcount != $rdevcount || $mstartflag != $startflag || $mblockcount == 256 || ($startflag == 0 && $rdevcount != 1)) {
+	    $mblockoff = 0 if $mblockcount == 1;
+	    if ($moldname ne '') {
+	      dumpit($moldname, $mlastname, $moldmode, $molduid, $moldgid, $mstartrdev, $mrdevcount, $mstartflag, $mblockoff, $mblockcount);
+	    }
+	    $mlastname = $lastname;
+	    $moldmode = $oldmode;
+	    $molduid = $olduid;
+	    $moldgid = $oldgid;
+	    $moldname = $oldname;
+	    $mstartrdev = $startrdev;
+	    $mrdevcount = $rdevcount;
+	    $mstartflag = $startflag;
+	    $mblockcount = 1;
+	    $mblockoff = 0;
+	    $mnextstartrdev = $startrdev;
+	    $mnextname = $oldname;
+	  } else {
+	    $mblockcount++;
+	    $mlastname = $lastname;
+	  }
+      }
+      $dev = {} unless $dev;
+      $oldmode = $dev->{'mode'};
+      $olduid = $dev->{'uid'};
+      $oldgid = $dev->{'gid'};
+      $oldname = $dev->{'name'};
+      $lastname = $oldname;
+      $startrdev = $rdev;
+      $startflag = 0;
+      $adev = $devs{$rdev + 1};
+      $name = $dev->{'name'};
+      if ($adev && $adev->{'name'} eq "${name}1") {
+	$nextname = "${name}1";
+	$startflag = 0x80;
+	if ($dev->{'other'} && $dev->{'other'}->{'name'} eq "${name}0") {
+	  $startflag = 0xa0;
+	  $lastname = "${name}0";
+          @nextdevnames = grep {$_ ne $dev->{'other'}->{'name'}} @nextdevnames;
+	}
+	next;
+      }
+      if ($adev && $adev->{'name'} eq "${name}p1") {
+	$nextname = "${name}p1";
+	$startflag = 0xc0;
+	if ($dev->{'other'} && $dev->{'other'}->{'name'} eq "${name}p0") {
+	  $startflag = 0xe0;
+	  $lastname = "${name}p0";
+          @nextdevnames = grep {$_ ne $dev->{'other'}->{'name'}} @nextdevnames;
+	}
+	next;
+      }
+      if (!$adev) {
+	if ($dev->{'other'} && $dev->{'other'}->{'name'} eq "${name}0") {
+	  $startflag = 0xa0;
+	  $lastname = "${name}0";
+          @nextdevnames = grep {$_ ne $dev->{'other'}->{'name'}} @nextdevnames;
+	  next;
+	}
+	if ($dev->{'other'} && $dev->{'other'}->{'name'} eq "${name}p0") {
+	  $startflag = 0xe0;
+	  $lastname = "${name}p0";
+          @nextdevnames = grep {$_ ne $dev->{'other'}->{'name'}} @nextdevnames;
+	  next;
+	}
+      }
+    } else {
+      $lastname = $dev->{'name'};
+    }
+    $name = $dev->{'name'};
+    if ($name =~ /(\d+)$/) {
+      $nextname = $` . ($1 + 1);
+      next
+    }
+    if ($name =~ /([a-y])$/) {
+      $nextname = $` . chr(ord($1) + 1);
+    }
+  }
+  if ($moldname ne '') {
+    dumpit($moldname, $mlastname, $moldmode, $molduid, $moldgid, $mstartrdev, $mrdevcount, $mstartflag, $mblockoff, $mblockcount);
+  }
+
+  @devnames = @nextdevnames;
+}
+#for (sort {$mmodes{$a} <=> $mmodes{$b}} keys %mmodes) {
+#  printf "%o => $mmodes{$_}\n", $_;
+#}
+
+print chr(length($devdata) >> 8);
+print chr(length($devdata) & 255);
+print "$devdata";
+

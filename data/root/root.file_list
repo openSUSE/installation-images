@@ -19,7 +19,6 @@ R s/product_name/<product_name>/ /etc/issue
 
 fillup:
   /bin
-  /var/adm/fillup-templates
 
 insserv:
   /etc
@@ -289,8 +288,9 @@ less:
   /usr/bin/less
 
 modutils:
- /sbin/{depmod,genksyms,insmod,ksyms,lsmod,modinfo,modprobe,rmmod,insmod.static}
+ /sbin/{depmod,genksyms,insmod,ksyms,modinfo,modprobe,rmmod,insmod.static}
  /sbin/{depmod,insmod,lsmod,modprobe,rmmod}.old
+ /bin/lsmod
 
 ps:
   /bin/ps
@@ -728,8 +728,12 @@ heimdal-lib:
   /usr/lib*/libkrb5.so.*
   /usr/lib*/libroken.so.*
 
-krb4-lib:
-  /usr/lib/libkrb.so.*
+openldap2-client:
+  /usr/lib/liblber.so.*
+  /usr/lib/libldap.so.*
+
+cyrus-sasl:
+  /usr/lib*/libsasl2.so.*
 
 db:
   /usr/lib*/libdb-4*.so  

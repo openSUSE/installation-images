@@ -6,7 +6,6 @@ devs:
 
 fillup:
   /bin
-  /var/adm/fillup-templates
 
 filesystem:
   /etc/{ppp,rc.d,uucp}
@@ -166,6 +165,7 @@ zlib:
   /lib*/libz.so*
 
 bzip2:
+  /usr/bin
   /usr/lib*/libbz2.so*	
 
 if arch eq 'ia32' || arch eq 'ppc'
@@ -223,8 +223,10 @@ mktemp:
   /bin/mktemp
 
 modutils:
-  /sbin/{insmod,modprobe,rmmod,lsmod,depmod,ksyms}
+  /sbin/{insmod,modprobe,rmmod,depmod,ksyms}
   /sbin/{insmod,modprobe,rmmod,lsmod,depmod}.old
+  # don't ask...
+  /bin/lsmod
 
 ncurses:
   /lib*/libncurses.so.5*
@@ -363,9 +365,6 @@ heimdal-lib:
   /usr/lib*/libgssapi.so.*
   /usr/lib*/libkrb5.so.*
   /usr/lib*/libroken.so.*
-
-krb4-lib:
-  /usr/lib/libkrb.so.*
 
 strace:
   /usr/bin/strace

@@ -6,7 +6,8 @@ d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11 var/lib/xk
 s /usr/X11R6/lib/X11 var/X11R6/lib
 
 d modules
-d dev/usb
+# ???
+# d dev/usb
 d mounts
 d root
 
@@ -593,7 +594,12 @@ if with_gdb
 
 endif
 
-e cp -a /initrddevs/dev .
+if mkdevs
+  e cp -a /initrddevs.tiny/dev .
+  e cp -a /devz .
+else
+  e cp -a /initrddevs/dev .
+endif
 
 e echo "UseUSBSCSI:	1" >>linuxrc.config
 e echo "Product:	<product_name>" >>linuxrc.config
@@ -612,5 +618,3 @@ if demo
   e echo "LiveConfig:	suselive.820" >>linuxrc.config
 endif
 
-  # r /usr/sbin/groupadd
-  # r /usr/sbin/useradd

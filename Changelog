@@ -1,3 +1,8 @@
+15/7/2003:	v4.04
+	- added bzip2 to rescue system (#27896)
+	- compress /dev tree
+	- catch up with latest kernel & package changes
+
 16/6/2003:	v4.03
 	- minor package fixes
 	- fixed locale building

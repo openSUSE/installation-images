@@ -40,7 +40,7 @@ initrd_test: initrd
 	@echo "now, run bin/initrd_test"
 
 boot: initrd mboot
-	bin/mk_boot
+	mkdevs=1 bin/mk_boot
 
 bootcd2:
 #	linuxrc=linuxrc_tiny use_k_inst=1 nopcmcia=1 nousb=1 fewkeymaps=1 initrd_name=small initrd=small bootlogo=0 boot=small make boot

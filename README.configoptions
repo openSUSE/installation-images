@@ -52,6 +52,9 @@ o initrd
   linuxrc=<absolute_filename>
   - use the specified linuxrc (taken from the running system!)
 
+  mkdevs=1
+  - compress device tree
+
   initrd=small|large
   - build a small (for 1.44MB boot images) or large (no size limit) version
 
