@@ -39,7 +39,7 @@
 #
 
 my $debug=1;
-my @tlpaths= ( "." );
+my @tlpaths= ();
 my $opath=".";
 
 my @dirs = ();
@@ -50,8 +50,8 @@ use Getopt::Long;
 
 binmode STDOUT, ":utf8";
 
-my $cvs_id = '$Id: extract_codepoints.pl,v 1.5 2004/04/16 18:37:02 odabrunz Exp $';
-my $cvs_date = '$Date: 2004/04/16 18:37:02 $';
+my $cvs_id = '$Id: extract_codepoints.pl,v 1.6 2004/04/16 19:43:56 odabrunz Exp $';
+my $cvs_date = '$Date: 2004/04/16 19:43:56 $';
 $cvs_id =~ /^\$[[:alpha:]]+: [^ ]+ ([^ ]+ [^ ]+ [^ ]+) [^ ]+ [^ ]+ \$$/;
 my $version = $1;
 
@@ -101,6 +101,7 @@ unless (GetOptions(
 }
 
 @dirs = split(/,/,join(',',@dirs));
+if ( $#tlpaths < 0 ) { @tlpaths = ( "." ); }
 
 if ($opt_version) {
   print "$progname $version\n";
@@ -131,12 +132,12 @@ foreach $i (0 .. $#tlpaths) {
 # default: find all language subdirectories of the form
 # [a-z][a-z](_[A-Z][A-Z])? (this is currently unused...)
 
-if ( ! $#dirs ) {
+if ( $#dirs < 0 ) {
     my $tlpath; my %tempdirs = (); my $dir = "";
     foreach $tlpath (@tlpaths) {
         opendir(DIR, $tlpath)     or die "cannot open directory '$tlpath': $!\n";
 
-        %tempdirs = map  { $_->[1] => 1 }
+        %tempdirs = map  { $_->[0] => 1 }
                     grep { -d $_->[1] }
                     map  { [ $_, "$tlpath/$_" ] }
                     grep { /^[a-z][a-z](_[A-Z][A-Z])?$/ }
@@ -311,10 +312,11 @@ sub parse_msgstr {
 sub parse_file {
     # find passes the basename of the current file in $_
     my $file = $_;
-    $currentdir = $File::Find::dir ;
-    $currentdir =~ s,/.*$,, ;
-    $currentdir = $tlpath . $currentdir;
     return unless ! -d $file && $file =~ /\.(po|cpf)$/io;
+    my $cwd = `pwd`; chomp $cwd;
+    $currentdir = $cwd . "/" . $file ;
+    $currentdir =~ s,^.*/([^/]+/$File::Find::name)$,$1, ;
+    $currentdir =~ s,^([^/]+/[^/]+)/.*$,$1, ;
     debugprint("$File::Find::dir/$file\n", "parsing file", "", 1, undef);
 
     open(FH, "<:utf8", $file)   or die "unable to open file $file: $!";
@@ -428,6 +430,7 @@ sub dump_CPAs {
 # Main loop over all top-level directories: find all .po and .cpf files in the
 # existing language subdirectories in each top-level directory and parse them.
 foreach $tlpath (@tlpaths) {
+    debugprint("$tlpath\n", "scanning top-level directory", "", 1, undef); 
     chdir($tlpath) or die "cannot change to directory $tlpath: $!\n";
 
     # loop over all files
