@@ -1,7 +1,0 @@
-#!/bin/sh
-echo "Running YaST..."
-/sbin/YaST.dyn "$@"
-stty sane
-echo "Unmounting /mnt..."
-umount /mnt
-echo "YaST finished."
