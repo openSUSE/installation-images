@@ -270,6 +270,8 @@ while (@devnames) {
 #  printf "%o => $mmodes{$_}\n", $_;
 #}
 
+$devdata .= "\x00";
+
 print chr(length($devdata) >> 8);
 print chr(length($devdata) & 255);
 print "$devdata";
