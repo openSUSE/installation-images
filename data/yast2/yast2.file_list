@@ -10,6 +10,7 @@ aaa_base:
   /etc/modules.conf
   /sbin/mk_initrd
   /sbin/get_kernel_version
+  /usr/bin/old
 
 base:
   /bin/tar
@@ -69,9 +70,6 @@ sh_utils:
 ifabuild
 X /bin/uname.bin bin/uname
 endif
-
-textutil:
-  /bin/cat
 
 util:
   /bin/kill
@@ -258,7 +256,7 @@ diff:
   /usr/bin/{cmp,diff}
 
 find:
-  /usr/bin/find
+  /usr/bin/{find,xargs}
 
 less:
   /etc/lesskey
@@ -306,7 +304,7 @@ else
 endif
 
 textutil:
-  /usr/bin/{cut,head,md5sum,tail,uniq,wc}
+  /usr/bin/{cat,cut,head,md5sum,tail,tr,uniq,wc}
 ifenv suse_major_release 6
   /usr/bin/sort
 else

@@ -108,7 +108,7 @@ a /lib/modules/<kernel_ver>/scsi/eata_pio.o /
 a /lib/modules/<kernel_ver>/scsi/fdomain.o /
 a /lib/modules/<kernel_ver>/scsi/g_NCR5380.o /
 a /lib/modules/<kernel_ver>/scsi/gdth.o /
-a /lib/modules/<kernel_ver>/scsi/imm.o /
+# a /lib/modules/<kernel_ver>/scsi/imm.o /
 a /lib/modules/<kernel_ver>/scsi/in2000.o /
 a /lib/modules/<kernel_ver>/scsi/initio.o /
 a /lib/modules/<kernel_ver>/scsi/ips.o /
@@ -116,7 +116,7 @@ a /lib/modules/<kernel_ver>/scsi/megaraid.o /
 a /lib/modules/<kernel_ver>/scsi/pas16.o /
 a /lib/modules/<kernel_ver>/scsi/pci2000.o /
 a /lib/modules/<kernel_ver>/scsi/pci2220i.o /
-a /lib/modules/<kernel_ver>/scsi/ppa.o /
+# a /lib/modules/<kernel_ver>/scsi/ppa.o /
 a /lib/modules/<kernel_ver>/scsi/psi240i.o /
 a /lib/modules/<kernel_ver>/scsi/qlogicfas.o /
 a /lib/modules/<kernel_ver>/scsi/qlogicfc.o /

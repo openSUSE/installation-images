@@ -1,3 +1,8 @@
+17/7/2000:	v0.91
+	- removed imm.o/ppa.o from modules disk
+	- made french the default language on frech disks
+	- added xargs,tr,old to inst-sys
+
 15/7/2000:	v0.90
 	- worked on the module lists
 	- introduced the chk_modules script to check the module lists

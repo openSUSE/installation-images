@@ -17,14 +17,14 @@ x syslinux-ps.cfg /syslinux.cfg
 else
 ifenv lang fr
 x message.fr /message
+x syslinux.cfg.fr /syslinux.cfg
 else
 x message /
-endif
 x syslinux.cfg /
 endif
 endif
 endif
-
+endif
 
 ifarch alpha
 
