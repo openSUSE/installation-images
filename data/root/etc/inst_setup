@@ -11,6 +11,10 @@
 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/lib/YaST2/bin:/usr/X11/bin
 
+# see bug 46535
+echo 1024 > /proc/sys/vm/lower_zone_protection
+[ -e /proc/sys/vm/local-oom-kill ] && echo 1 > /proc/sys/vm/local-oom-kill
+
 if [ -f /.timestamp ] ; then
   read build_time < /.timestamp
   now_time=`TZ= LANG= LC_ALL= date +%Y%m%d`
