@@ -161,11 +161,11 @@ kbd:
   /usr/bin/{loadunimap,kbd_mode}
   /bin/{chvt,loadkeys}
   /usr/bin/{chvt,loadkeys}
-endif
 
 # temporary fix for yast's setfont problems
 m /usr/bin/setfont /usr/bin/setfont.bin
 x /usr/bin/setfont /usr/bin
+endif
 
 if !(arch eq 's390' || arch eq 's390x')
   hdparm:
