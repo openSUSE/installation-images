@@ -303,9 +303,13 @@ if arch ne 'sparc'
     f / raid0.o
     f / raid1.o
     f / raid5.o
-
     f / xor.o
+
     f / reiserfs.o
+    f / jfs.o
+    f / jbd.o
+    f / ext3.o
+    f / hpfs.o
     f / loop_fish2.o
     m /boot/System.map-* /System.map
 

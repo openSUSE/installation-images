@@ -28,5 +28,9 @@ kernel/drivers/usb/uhci.o
 kernel/drivers/usb/usb-ohci.o
 kernel/drivers/usb/usb-uhci.o
 kernel/drivers/usb/usbcore.o
+kernel/fs/ext3
+kernel/fs/hpfs
+kernel/fs/jbd
+kernel/fs/jfs
 kernel/fs/reiserfs
 pcmcia

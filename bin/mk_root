@@ -37,7 +37,7 @@ die "usage: $Script\n" if @ARGV;
 
 $srcdir = "${DataPath}root";
 $tmpdir = "${BasePath}tmp/root";
-$tmpinitrd = "${BasePath}tmp/initrd";
+# $tmpinitrd = "${BasePath}tmp/initrd";
 $image = "${ImagePath}root";
 
 # leave that much space
@@ -60,10 +60,10 @@ if(-d($tmpdir)) {
 
 mkdir $tmpdir || die "$Script: failed to create $tmpdir";
 
-if(-d "$tmpinitrd/modules" ) {
-  SUSystem "mkdir $tmpdir/modules";
-  SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
-}
+#if(-d "$tmpinitrd/modules" ) {
+#  SUSystem "mkdir $tmpdir/modules";
+#  SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
+#}
 
 AddFiles $tmpdir, "${srcdir}/root.file_list", $srcdir or
   die "$Script: failed to setup root image";

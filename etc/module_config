@@ -56,6 +56,9 @@ none	raid1		0	0	100	-
 none	raid5		0	0	100	-
 none	xor		0	0	100	-
 none	reiserfs	0	0	100	-
+none	jfs		0	0	100	-
+none	jbd		0	0	100	-required by ext3
+none	ext3		0	0	100	-
 none	hpfs		0	0	100	-
 none	loop_fish2	0	0	100	-
 
