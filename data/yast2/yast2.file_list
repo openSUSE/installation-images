@@ -164,6 +164,11 @@ lilo:
   /sbin/activate
 endif
 
+ifarch ppc
+activate:
+  /sbin/activate
+endif
+
 mdutils:
   /sbin/*
 
