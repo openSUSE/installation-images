@@ -117,11 +117,6 @@ findutils:
 libacl:
   /lib*
 
-if arch eq 'alpha' || suse_xrelease eq 'beta'
-  libgcc:
-    /lib
-endif
-
 popt:
   /usr/lib*/libpopt.so*
 
@@ -130,6 +125,9 @@ nscd:
 
 tcpd:
   /usr/lib*/libwrap.so*
+
+libgcc:
+  /lib*
 
 glibc:
   /etc/ld.so.conf

@@ -146,16 +146,14 @@ ncurses:
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
 
-if arch eq 'alpha' || suse_xrelease eq 'beta'
-  libgcc:
-    /lib*
-endif
-
 popt:
   /usr/lib*/libpopt.so*
 
 tcpd:
   /usr/lib*/libwrap.so*
+
+libgcc:
+  /lib*
 
 glibc:
   /sbin/ldconfig
@@ -590,9 +588,6 @@ if with_yast2 ne 'no'
   c 0755 0 0 /usr/X11R6/bin
   c 0755 0 0 /etc/X11
 endif
-
-libgcc:
-  /lib*/libgcc_s.so.*
 
 libstdc++:
   /usr/lib*/libstdc++*.so*

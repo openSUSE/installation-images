@@ -1,6 +1,7 @@
 11/2/2004:	v5.07
 	- more libwrap things
 	- added new modules
+	- added libgcc to rescue system
 
 10/2/2004:	v5.06
 	- added libwrap missing on s390*

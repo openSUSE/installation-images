@@ -45,7 +45,7 @@ $initrdondisk = "efi/boot/$initrdondisk" if $arch eq 'ia64';
 # mbr boot program (ia32 only)
 $mboot_file = "${BasePath}src/mboot/mboot";
 
-$ia32_like = $arch eq 'i386' || $arch eq 'x86_64';
+$ia32_like = $arch =~ /^i\d86$/ || $arch eq 'x86_64';
 
 $fstype = $ia32_like ? 'msdos' : 'vfat';
 
