@@ -10,6 +10,8 @@ x /etc/* /etc
 r /etc/ssh/CVS
 r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
 r /etc/inst_setup
+r /etc/inst_setup_ssh
+r /etc/create_interface
 
 fillup:
   /bin
@@ -704,7 +706,9 @@ c 644 0 0 /etc/shadow
 
 x /usr/lib/YaST/.Reh /usr/lib/YaST2
 x etc/inst_setup /sbin/inst_setup
+x etc/create_interface /sbin/create_interface
 c 755 0 0 /sbin/inst_setup
+c 755 0 0 /sbin/create_interface
 
 ## add link to initrd modules
 ## check mk_root before you're going to change this!!!

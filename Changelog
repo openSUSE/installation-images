@@ -1,5 +1,8 @@
 23/8/2002:	v2.45
 	- added Option "ShadowFB" (#18235)
+	- move create_interface from initrd/s390 to root/sbin
+	  needed for network setup with vnc, ssh and remoteX installations
+	- remove /etc/inst_setup_ssh and /etc/create_interface in inst-sys
 
 22/8/2002:	v2.44
 	- /usr/sbin vs. /sbin fun with xfs & dmapi

@@ -413,11 +413,6 @@ devs:
     m /usr/share/doc/packages/devs/makedevs.floppy /
   endif
 
-if arch eq 's390' || arch eq 's390x' || arch eq 'ppc' || arch eq 'ppc64'
-x s390/create_interface /create_interface
-c 0755 0 0 /create_interface
-endif
-
 c 0755 0 0 makedevs.floppy
 
 if arch ne 's390' && arch ne 's390x' && arch ne 'ppc' && arch ne 'ppc64'
