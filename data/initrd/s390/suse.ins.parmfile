@@ -1,2 +1,2 @@
-ramdisk_size=32768 root=/dev/ram0 ro init=/linuxrc
+ramdisk_size=32768 root=/dev/ram1 ro init=/linuxrc
 

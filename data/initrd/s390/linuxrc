@@ -42,6 +42,14 @@ fi
 #	Main
 #
 mount -t devpts devpts /dev/pts
+#
+#	Kmod has a problem. call modprobe here
+#
+/sbin/modprobe cramfs
+/sbin/modprobe ipv6
+#
+#
+#
 [ ! -f /proc/version ] && mount -t proc virtual-proc-filesystem /proc
 #
 #	Check the memory. If less than 256 Mb issue a warning.
