@@ -232,11 +232,9 @@ a /lib/modules/<kernel_ver>/net/3c90x.o /
 a /lib/modules/<kernel_ver>/net/82596.o /
 a /lib/modules/<kernel_ver>/net/ac3200.o /
 a /lib/modules/<kernel_ver>/net/acenic.o /
-a /lib/modules/<kernel_ver>/net/apricot.o /
 a /lib/modules/<kernel_ver>/net/arcnet.o /
 a /lib/modules/<kernel_ver>/net/arlan.o /
 a /lib/modules/<kernel_ver>/net/at1700.o /
-a /lib/modules/<kernel_ver>/net/atp.o /
 a /lib/modules/<kernel_ver>/net/cs89x0.o /
 a /lib/modules/<kernel_ver>/net/de4x5.o /
 a /lib/modules/<kernel_ver>/net/de600.o /
@@ -261,7 +259,6 @@ a /lib/modules/<kernel_ver>/net/ibmtr.o /
 a /lib/modules/<kernel_ver>/net/lance.o /
 a /lib/modules/<kernel_ver>/net/lanstreamer.o /
 a /lib/modules/<kernel_ver>/net/lne390.o /
-a /lib/modules/<kernel_ver>/net/mtok.o /
 a /lib/modules/<kernel_ver>/net/ne2k-pci.o /
 a /lib/modules/<kernel_ver>/net/ne3210.o /
 a /lib/modules/<kernel_ver>/net/ni5010.o /
@@ -276,7 +273,6 @@ a /lib/modules/<kernel_ver>/net/rrunner.o /
 a /lib/modules/<kernel_ver>/net/rtl8139.o /
 a /lib/modules/<kernel_ver>/net/sis900.o /
 a /lib/modules/<kernel_ver>/net/sk98lin.o /
-a /lib/modules/<kernel_ver>/net/skfp.o /
 a /lib/modules/<kernel_ver>/net/sktr.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra32.o /

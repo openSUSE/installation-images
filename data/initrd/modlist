@@ -221,8 +221,8 @@ net/ac3200: 10
   Ansel Communications EISA 3200
 net/acenic: 10
   Alteon AceNIC/3C985/NetGear GA620
-net/apricot: 10
-  Apricot Xen-II on board ethernet
+#net/apricot: 10
+#  Apricot Xen-II on board ethernet
 net/arc-rimi: 0
   ARCnet COM90xx (RIM I) chipset driver
 net/arcnet: 10
@@ -232,8 +232,8 @@ net/arlan: 5
 net/arlan-proc: 0
 net/at1700: 10
   AT1700
-net/atp: 10
-  AT-LAN-TEC/RealTek pocket adaptor
+#net/atp: 10
+#  AT-LAN-TEC/RealTek pocket adaptor
 net/baycom_epp: 0
   baycom epp radio modem driver (AX.25)
 net/baycom_par: 0
@@ -346,8 +346,8 @@ net/ltpc: 0
   Apple/Farallon LocalTalk PC card
 net/mkiss: 0
   MKISS Driver (AX.25)
-net/mtok: 10
-  Madge Token Ring
+#net/mtok: 10
+#  Madge Token Ring
 net/myri_sbus: 10
   MyriCOM Gigabit Ethernet
 net/n2: 0
@@ -402,8 +402,8 @@ net/sis900: 10
   SiS 900 PCI Fast Ethernet
 net/sk98lin: 10
   SysKonnect Gigabit Ethernet 984x
-net/skfp: 10
-  SysKonnect FDDI (SK-55xx/SK-58xx)
+#net/skfp: 10
+#  SysKonnect FDDI (SK-55xx/SK-58xx)
 net/sktr: 10
   SysKonnect Token Ring
 net/slhc: 0
