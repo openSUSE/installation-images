@@ -2,7 +2,7 @@
 	- do start_shell also with usessh, there is a console anyway
 	- remove the info file for YaST1, not needed anymore
 	- checkproc & klogd for all
-	- include xauth for ssh -X mode
+	- include xauth and libXmuu* for ssh -X mode 
 
 27/8/2002:	v2.48
 	- preserve installer name and use it in .bash_profile
