@@ -72,6 +72,7 @@ if boot eq 'isolinux'
   #   2: software is 64bit
   #   3: is dvd
   #   4: software is 32+64bit (Needs bit 1 set, too!)
+  #   5: default install source is slp
   #
   # note: entry is rewritten for DVD in spec file
   if is_dvd

@@ -187,7 +187,7 @@ if with_yast2 ne 'no'
   if with_agfa_font ne 'no'
     agfa-fonts:
       /usr/X11R6/lib/X11/fonts/truetype/alb*.ttf
-  else if with_suse_font ne 'no'
+  elsif with_suse_font ne 'no'
     desktop-data-SuSE:
       /usr/X11R6/lib/X11/fonts/truetype/SUSESans*.ttf
   else
@@ -232,8 +232,9 @@ if with_yast2 ne 'no'
   desktop-data-SuSE:
     /usr/share/desktop-data/qtrc
 
-  thinkeramik-style:
-    /usr/lib/qt3/plugins/styles/thinkeramik*so
+  kdelibs3:
+    /opt/kde3/lib*/kde3/plugins/styles/plastik.so
+    /opt/kde3/lib*/libkdefx.so.*
 
 endif
 
