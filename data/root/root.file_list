@@ -483,6 +483,8 @@ if with_yast2 ne 'no'
     /
   yast2-transfer:
     /
+  yast2-trans-bg:
+    /
   yast2-trans-bs:
     /
   yast2-trans-cs:
@@ -514,6 +516,8 @@ if with_yast2 ne 'no'
   yast2-trans-nl:
     /
   yast2-trans-pt_BR:
+    /
+  yast2-trans-ru:
     /
   yast2-trans-sk:
     /
