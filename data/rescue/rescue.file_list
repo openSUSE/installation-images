@@ -394,6 +394,7 @@ heimdal-lib:
   /usr/lib*/libgssapi.so.*
   /usr/lib*/libkrb5.so.*
   /usr/lib*/libroken.so.*
+  /usr/lib*/libkafs.so.*
 
 strace:
   /usr/bin/strace
