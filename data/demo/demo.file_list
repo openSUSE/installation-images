@@ -19,6 +19,9 @@ c 0711 0 0 /root
   /sbin/mk_initrd
   /sbin/init.d
   /etc/SuSE-release
+ifnenv suse_major_release 6
+  /etc/rc.status
+endif
   /etc/cron.daily/aaa_base
   /etc/ppp
   /etc/issue{,.net}
