@@ -12,10 +12,12 @@ while read line; do
 done < /proc/cpuinfo
 _kernel_version=`/sbin/get_kernel_version /mnt/boot/vmlinux`
 _root_partition=`mount | grep " /mnt " | cut -d\  -f 1`
+_root_disk=$(echo $_root_partition | sed 's/[0-9]//g')
 
 echo MACHINE $MACHINE 
 echo _kernel_version $_kernel_version 
 echo _root_partition $_root_partition
+echo _root_disk $_root_disk
 
 if test $MACHINE = iseries ; then
 rm -fv /mnt/var/adm/setup/setup.modem
@@ -92,7 +94,6 @@ echo B > /proc/iSeries/mf/side
 touch /mnt/etc/mtab
 
 
-fi  # iseries
 
 # activate all PReP partitions, if YaST has not already done it (it doesn't, sometimes)
 for i in `fdisk -l | grep PReP | cut -d\  -f1`; do
@@ -100,6 +101,41 @@ for i in `fdisk -l | grep PReP | cut -d\  -f1`; do
 	j=`echo $i | sed 's/\([0-9]\)/ \1/'`; /sbin/activate $j
 done
 
+fi  # iseries
+
+if test $MACHINE = prep ; then
+cp -fpv /var/adm/mount/suse/images/zImage.prep /mnt/boot
+cp -fpv /var/adm/mount/suse/images/zImage.initrd.prep /mnt/boot
+        echo PReP system detected.
+        PART=`fdisk -l $_root_disk | fgrep "PPC PReP"`
+        if [ -z "$PART" ] ; then
+            echo '*********************************************************'
+            echo '* You must create a PPC PReP Boot partition (type 0x41) *'
+            echo '* for the PReP bootloader to be installed.              *'
+            echo '*********************************************************'
+            exit -1
+        fi
+        if [ `echo "$PART" | wc -l` != 1 ] ; then
+            echo '**************************************************************'
+            echo '* There are more than 1 PPC PReP Boot partitions (type 0x41) *'
+            echo '* on this system.  Aborting install rather than picking one. *'
+            echo '**************************************************************'
+            exit -1
+        fi
+        P=`echo "$PART" | awk '{print $1}'`
+
+        echo Installing /boot onto $P
+        ACTIVATE_PARTITION=$(echo $P | sed 's/[0-9]/ &/')
+        echo "boot = $P
+timeout = 100
+activate
+default = linux
+image = /boot/zImage.prep
+        label = linux
+        root = $_root_partition " > /mnt/etc/lilo.conf
+        dd if=/mnt/boot/zImage.prep of=$P
+        /mnt/sbin/activate $ACTIVATE_PARTITION
+fi # prep
 
 echo running ppc postinstall done ... $0 $*
 date
