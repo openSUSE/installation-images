@@ -317,97 +317,101 @@ c 0755 0 0 /usr/share
 
 x /etc/ld.so.conf /etc
 
-d /usr/X11R6/{bin,include/X11,share}
+if arch ne 'alpha'
+  d /usr/X11R6/{bin,include/X11,share}
 
-s X11R6 /usr/X11
-# Don't do this!
-# s /var/X11R6/bin/X /usr/X11R6/bin/X
+  s X11R6 /usr/X11
+  # Don't do this!
+  # s /var/X11R6/bin/X /usr/X11R6/bin/X
 
-if arch eq 'sparc' || arch eq 'sparc64'
-  xsun:
-    .
-  xsunmono:
-    .
-  xsun24:
-    .
-  xmach64:
-    .
-endif
-
-if !(arch eq 'sparc' || arch eq 'sparc64')
-  xfbdev:
-    .
-endif
-
-# old XF86 3.3
-if arch eq 'ix86' || arch eq 'alpha'
-  xsvga:
-    .
-endif
-
-if arch eq 'ix86'
-  xvga16:
-    .
-endif
-c 0755 0 0 /dev
-
-# new XF86 4.0
-if arch ne 'ppc'
-  xloader:
-    /usr/X11R6/bin/XFree86
-
-  xmodules:
-    /usr/X11R6/lib/modules/codeconv
-    /usr/X11R6/lib/modules/drivers
-  # video4linux stuff
-  r /usr/X11R6/lib/modules/drivers/linux
-    /usr/X11R6/lib/modules/extensions/lib{dbe,extmod}.a
-    /usr/X11R6/lib/modules/fonts/libbitmap.a
-    /usr/X11R6/lib/modules/input
-    /usr/X11R6/lib/modules/linux
-  ifnarch ia64
-      /usr/X11R6/lib/modules/*.uc
+  if arch eq 'sparc' || arch eq 'sparc64'
+    xsun:
+      .
+    xsunmono:
+      .
+    xsun24:
+      .
+    xmach64:
+      .
   endif
-      /usr/X11R6/lib/modules/lib*.a
+
+  if !(arch eq 'sparc' || arch eq 'sparc64')
+    xfbdev:
+      .
+  endif
+
+  # old XF86 3.3
+  if arch eq 'ix86' || arch eq 'alpha'
+    xsvga:
+      .
+  endif
+
+  if arch eq 'ix86'
+    xvga16:
+      .
+  endif
+  c 0755 0 0 /dev
+
+  # new XF86 4.0
+  if arch ne 'ppc'
+    xloader:
+      /usr/X11R6/bin/XFree86
+
+    xmodules:
+      /usr/X11R6/lib/modules/codeconv
+      /usr/X11R6/lib/modules/drivers
+    # video4linux stuff
+    r /usr/X11R6/lib/modules/drivers/linux
+      /usr/X11R6/lib/modules/extensions/lib{dbe,extmod}.a
+      /usr/X11R6/lib/modules/fonts/libbitmap.a
+      /usr/X11R6/lib/modules/input
+      /usr/X11R6/lib/modules/linux
+    ifnarch ia64
+        /usr/X11R6/lib/modules/*.uc
+    endif
+        /usr/X11R6/lib/modules/lib*.a
+  endif
+
+  xshared:
+    /usr/X11R6/lib/lib{X11,Xext}.so*
+  if suse_major_release != 6
+      /usr/X11R6/lib/lib{SM,ICE,Xxf86misc}.so*
+  endif
+  d /usr/X11R6/lib/{X11,modules}
+
+  xf86:
+    /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
+    /usr/X11R6/lib/X11/locale
+    /usr/X11R6/lib/X11/xkb
+  if suse_major_release == 6
+      /usr/X11R6/lib/X11/nls
+      /usr/X11R6/lib/X11/xserver
+  else
+      /etc/X11/xserver
+    s /etc/X11/xserver /usr/X11R6/lib/X11
+  endif
+  # unicode stuff
+  d /usr/X11R6/lib/X11/fonts/{misc,uni}
+    /usr/X11R6/lib/X11/fonts/misc/{6x13,cursor}.pcf.gz
+
+  x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
+  if suse_major_release == 6
+    x /usr/X11R6/lib/X11/XF86Config_3 /usr/X11R6/lib/X11/XF86Config
+  else
+    x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
+  endif
 endif
 
-xshared:
-  /usr/X11R6/lib/lib{X11,Xext}.so*
-if suse_major_release != 6
-    /usr/X11R6/lib/lib{SM,ICE,Xxf86misc}.so*
-endif
-d /usr/X11R6/lib/{X11,modules}
-
-xf86:
-  /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
-  /usr/X11R6/lib/X11/locale
-  /usr/X11R6/lib/X11/xkb
-if suse_major_release == 6
-    /usr/X11R6/lib/X11/nls
-    /usr/X11R6/lib/X11/xserver
-else
-    /etc/X11/xserver
-  s /etc/X11/xserver /usr/X11R6/lib/X11
-endif
-# unicode stuff
-d /usr/X11R6/lib/X11/fonts/{misc,uni}
-  /usr/X11R6/lib/X11/fonts/misc/{6x13,cursor}.pcf.gz
-
-x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
-if suse_major_release == 6
-  x /usr/X11R6/lib/X11/XF86Config_3 /usr/X11R6/lib/X11/XF86Config
-else
-  x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
-endif
-
-yast2:
-if suse_major_release == 6
-    /usr/X11R6/lib/X11/fonts/uni
-else
-    /sbin
-    /usr/lib/YaST2
-  y2t_inst:
-    /usr/lib/YaST2
+if arch ne 'alpha'
+  yast2:
+  if suse_major_release == 6
+      /usr/X11R6/lib/X11/fonts/uni
+  else
+      /sbin
+      /usr/lib/YaST2
+    y2t_inst:
+      /usr/lib/YaST2
+  endif
 endif
 
 libpng:
@@ -433,21 +437,23 @@ eject:
 qtlib2:
   /usr/lib/*
 
-y2base:
-if suse_major_release == 6
-    /bin/y2bignfat
-    /lib/YaST2
-  c 0755 0 0 /lib
-  c 0755 0 0 /lib/YaST2
-    /var/lib/YaST2
-  c 0755 0 0 /var/lib
-  c 0755 0 0 /var/lib/YaST2
-else
-    /usr/lib/YaST2
-    /usr/X11R6/lib/X11/fonts/uni
-  c 0755 0 0 /usr
-  c 0755 0 0 /usr/lib
-  c 0755 0 0 /usr/lib/YaST2
+if arch ne 'alpha'
+  y2base:
+  if suse_major_release == 6
+      /bin/y2bignfat
+      /lib/YaST2
+    c 0755 0 0 /lib
+    c 0755 0 0 /lib/YaST2
+      /var/lib/YaST2
+    c 0755 0 0 /var/lib
+    c 0755 0 0 /var/lib/YaST2
+  else
+      /usr/lib/YaST2
+      /usr/X11R6/lib/X11/fonts/uni
+    c 0755 0 0 /usr
+    c 0755 0 0 /usr/lib
+    c 0755 0 0 /usr/lib/YaST2
+  endif
 endif
 
 # remove these:
@@ -461,12 +467,14 @@ endif
 netcfg:
   /etc/{services,protocols}
 
-# we need ISaX
-isax:
-  /usr/X11R6/bin/{isax,ISaX}
+if arch ne 'alpha'
+  # we need ISaX
+  isax:
+    /usr/X11R6/bin/{isax,ISaX}
 
-saxtools:
-  /usr/X11R6/bin
+  saxtools:
+    /usr/X11R6/bin
+endif
 
 # created in aaa_base's postinstall
 X /etc/{passwd,group,shadow,nsswitch.conf} /etc
