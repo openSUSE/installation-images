@@ -2,8 +2,7 @@ d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var
 c 1777 0 0 tmp
 
 devs:
-# just testing!
-m /usr/doc/packages/devs/makedevs.floppy /makedevs
+m /usr/doc/packages/devs/makedevs /
 c 0755 0 0 makedevs
 
 s /S.u.S.E./{boot,opt,usr} /
@@ -126,4 +125,10 @@ c 0755 0 0 /var/adm/live
 
 d /var/lib/apsfilter
 c 0755 0 0 /var/lib/apsfilter
+
+x /var/lib/news/{mailname,whoami} /var/lib/news
+
+d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled}
+
+x /sbin/{mk_links,live-setup} /sbin
 

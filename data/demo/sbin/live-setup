@@ -1,0 +1,6 @@
+#! /bin/sh
+
+cd /
+
+/sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter
+

@@ -73,8 +73,9 @@ endif
 ifarch ppc
 g /usr/lib/kbd/keymaps/ppc/mac-de-latin1-nodeadkeys.map.gz keytables/mac-de-latin1-nodeadkeys.map
 g /usr/lib/kbd/keymaps/ppc/mac-fr2-ext.map.gz keytables/mac-fr2-ext.map
-g /usr/lib/kbd/keymaps/ppc/mac-us-ext.map.gz keytables/mac-us-ext.map
-g /usr/lib/kbd/keymaps/ppc/mac-us-std.map.gz keytables/mac-us-std.map
+# fix this later!!!
+g /usr/lib/kbd/keymaps/ppc/mac-us-ext.map.gz keytables/mac-us.map
+# g /usr/lib/kbd/keymaps/ppc/mac-us-std.map.gz keytables/mac-us-std.map
 endif
 
 ifarch sparc sparc64
