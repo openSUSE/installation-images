@@ -175,6 +175,8 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/modprobe
     /sbin/ksyms
     /sbin/kallsyms
+  lukemftp:
+    /usr/bin/ftp
   net-tools:
     #/bin/dnsdomainname
     #/bin/domainname
