@@ -169,6 +169,7 @@ db:
 
 gdbm:
   /usr/lib*/libgdbm.so.*
+  /usr/lib*/libgdbm_compat.so.*
 
 # create splash
 include gen/splash
