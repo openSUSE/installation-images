@@ -1,4 +1,4 @@
-d bin dev etc home lib mnt proc sbin tmp var
+d bin dev etc home lib mnt proc sys sbin tmp var
 d media/{cdrom,floppy}
 c 1777 0 0 tmp
 
@@ -197,12 +197,15 @@ if arch eq 'ppc'
   ibmsis:
     /etc/microcode
     /sbin
+  hotplug:
+    /sbin/hotplug
+    /etc/hotplug/firmware.agent
+    /etc/hotplug/hotplug.functions
+    /usr/lib/hotplug/firmware
   ncurses:
     /usr/lib/libpanel.so.*
     /usr/lib/libform.so.*
     /usr/lib/libmenu.so.*
-    # for p690 hvc console
-    /usr/share/terminfo/v/vt320
   eject:
     /bin
 endif
@@ -229,11 +232,12 @@ lvm2: postin
   /var
 e postin
 
-device-mapper:
+device-mapper: postin
   /dev
   /etc
   /lib*
   /sbin
+e postin
 
 raidtools: postin
   /etc
@@ -251,10 +255,11 @@ module-init-tools:
 
 ncurses:
   /lib*/libncurses.so.5*
-  /usr/share/terminfo/d/dumb
-  /usr/share/terminfo/l
-  /usr/share/terminfo/v/vt10[02]
+  /usr/share/terminfo
   /usr/bin/{clear,tset,reset}
+
+terminfo:
+  /usr/share/terminfo/i/ibm3151
 
 net-tools:
   /{,s}bin
@@ -341,6 +346,7 @@ xfsprogs:
 
 xfsdump:
   /usr/sbin
+  /sbin
 
 openslp:
   /etc
@@ -353,8 +359,8 @@ libattr:
 attr:
   /usr/bin
 
-# dmapi:
-#   /lib*
+dmapi:
+  /lib*
 
 rpm:
   /bin
@@ -486,6 +492,12 @@ smartmontools:
   /etc
   /usr/sbin
 
+multipath-tools: postin
+  /etc
+  /sbin
+  /usr/bin
+e postin
+
 if arch ne 'sparc'
   <kernel_rpm>:
     f / st.ko
@@ -500,7 +512,6 @@ if arch ne 'sparc'
     f / hpfs.ko
     f / xfs.ko
     f / xfs_quota.ko
-    f / xfs_dmapi.ko
     endif
 
 
@@ -539,7 +550,9 @@ e perl -pi -e '\''s/^(ENABLE_SYSRQ=).*/$1"yes"/'\'' etc/sysconfig/sysctl
 # now run SuSEconfig
 E echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
 E echo "proc /proc proc defaults 0 0" >>/etc/fstab
-E echo "devpts /dev/pts devpts defaults 0 0" >>/etc/fstab
+E echo "sysfs /sys sysfs noauto 0 0" >>/etc/fstab
+E echo "usbfs /proc/bus/usb usbfs defaults 0 0" >>/etc/fstab
+E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 E /sbin/SuSEconfig --force --norestarts
 
 r /var/adm/fillup-templates
