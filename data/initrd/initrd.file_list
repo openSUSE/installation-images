@@ -71,6 +71,8 @@ if initrd eq 'initrd'
   A gen/module.config.net modules/module.config
 endif
 if initrd eq 'initrd_ppc'
+  include gen/module.files.other
+  A gen/module.config.other modules/module.config
   include gen/module.files.autoload
   include gen/module.files.ppc
   include gen/module.files.usb
@@ -81,6 +83,8 @@ if initrd eq 'initrd_ppc'
   A gen/module.config.firewire modules/module.config
 endif
 if initrd eq 'initrd_ppc32_pmac_coff'
+  include gen/module.files.other
+  A gen/module.config.other modules/module.config
   include gen/module.files.autoload
   include gen/module.files.ppc32_pmac_coff
   include gen/module.files.firewire
@@ -89,6 +93,8 @@ if initrd eq 'initrd_ppc32_pmac_coff'
   A gen/module.config.firewire modules/module.config
 endif
 if initrd eq 'initrd_ppc_pseries64'
+  include gen/module.files.other
+  A gen/module.config.other modules/module.config
   include gen/module.files.autoload
   include gen/module.files.ppc_pseries64
   include gen/module.files.usb
@@ -97,6 +103,8 @@ if initrd eq 'initrd_ppc_pseries64'
   A gen/module.config.usb modules/module.config
 endif
 if initrd eq 'initrd_ppc_iseries64'
+  include gen/module.files.other
+  A gen/module.config.other modules/module.config
   include gen/module.files.autoload
   include gen/module.files.ppc_iseries64
   A gen/module.config.autoload modules/module.config

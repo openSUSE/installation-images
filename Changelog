@@ -1,7 +1,9 @@
+7/6/2004:	v5.66
 	- add terminfo file for ibm3151
 	- use all terminfo files from ncurses in rescue system
 	- remove /sbin/activate on ppc, its gone
 	- save a few bytes by making symlinks to hfsutils binary
+	- add 'other' module section to module.config on ppc (#41195)
 
 4/6/2004:	v5.65
 	- added polish texts (#41598)
