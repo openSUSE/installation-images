@@ -4,7 +4,7 @@
  #    rc_status -v1 -r
  #fi
  
-+if [ -x /sbin/live-shutdown -a -f /etc/SuSElive ] ; then
++if [ -x /sbin/live-shutdown ] ; then
 +  . /etc/SuSElive
 +  if [ "$part" -a "$suseimg" ] ; then
 +    /sbin/live-shutdown
