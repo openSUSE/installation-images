@@ -1,3 +1,6 @@
+14/5/2004:	v5.54
+	- fixed typo in module config
+
 13/5/2004:	v5.53
 	- s390: netsetup: fix up parameters passed via READ/WRITE_DEVNO
 
