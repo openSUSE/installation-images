@@ -1,0 +1,19 @@
+
+
+		Welcome to ZENworks Imaging
+			SUSE Linux!
+
+
+
+0fTo start the installation enter 'Imaging' and press <return>.07
+
+
+Available boot options:
+
+  Imaging   - Auto Imaging (default)
+  manual    - Manual Imaging
+  rescue    - Rescue System
+  memtest   - Memory Test
+
+Have a lot of fun...
+

@@ -167,6 +167,7 @@ e2fsprogs:
 
 file:
   m /usr/share/misc/magic /etc/magic
+  m /usr/lib*/libmagic.so* /lib
   /usr/bin/file
 
 
@@ -305,8 +306,10 @@ initviocons:
   /bin/initviocons
   /usr/bin/termprobes
 
-syslogd:
+klogd:
   /sbin/klogd
+
+syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 
@@ -357,11 +360,12 @@ openssl:
   m /usr/lib*/libcrypto.so.* /lib
   m /usr/lib*/libssl.so.* /lib
 
-heimdal-lib:
-  m /usr/lib*/libasn1.so.* /lib
-  m /usr/lib*/libgssapi.so.* /lib
+krb5:
+  /etc
   m /usr/lib*/libkrb5.so.* /lib
-  m /usr/lib*/libroken.so.* /lib
+  m /usr/lib*/libkrb5support.so.* /lib
+  m /usr/lib*/libgssapi_krb5.so.* /lib
+  m /usr/lib*/libk5crypto.so.* /lib
   
 openldap2-client:
   m /usr/lib*/liblber-*.so.* /lib
@@ -371,7 +375,7 @@ e2fsprogs:
   m /lib*/libcom_err.so.* /lib
 
 db:
-  m /usr/lib*/libdb-4.2.so /lib
+  m /usr/lib*/libdb-4*.so /lib
 
 cyrus-sasl:
   m /usr/lib*/libsasl2.so.* /lib

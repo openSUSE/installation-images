@@ -1,3 +1,6 @@
+17/3/2005:	v6.40
+	- added missing zen files
+
 16/3/2005:	v6.39
 	- removed LC_CTYPE from /etc/profile (#72145)
 	- create_interface fix (#72903)
