@@ -1,3 +1,6 @@
+	- add machbunt.file_list and rooti18n.file_list
+	  to split the inst-sys into smaller parts for
+	  small memory configurations
 	- s390: eliminate invalid check for qeth data channel (bug #42538)
 
 6/7/2004:	v6.0

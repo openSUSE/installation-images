@@ -1,0 +1,335 @@
+
+ash:
+  /bin/ash.static
+
+gdb:
+  /usr/bin/gdb
+
+freetype2:
+  /usr/lib*
+
+if !(arch eq 'x86_64' || arch eq 'ia64' || arch eq 'alpha' || arch eq 's390' || arch eq 's390x')
+  ltrace:
+    /usr/bin/ltrace
+    /etc/ltrace.conf
+endif
+
+perl:
+  /usr/bin/perl
+  /usr/lib/perl*/*/strict.pm
+  if arch eq 's390' || arch eq 's390x'
+  /usr/lib/perl*/*/*/POSIX.pm
+  /usr/lib/perl*/*/*/lib.pm
+  /usr/lib/perl*/*/*/Config.pm
+  /usr/lib/perl*/*/vars.pm
+  /usr/lib/perl*/*/warnings/register.pm
+  /usr/lib/perl*/*/warnings.pm
+  /usr/lib/perl*/*/Carp.pm
+  /usr/lib/perl*/*/Exporter.pm
+  /usr/lib/perl*/*/diagnostics.pm
+  /usr/lib/perl*/*/pod/perldiag.pod
+  /usr/lib/perl*/*/Time/localtime.pm
+  /usr/lib/perl*/*/Time/tm.pm
+  /usr/lib/perl*/*/Class/Struct.pm
+  /usr/lib/perl*/*/Carp/Heavy.pm
+  /usr/lib/perl*/*/Exporter/Heavy.pm
+  /usr/lib/perl*/*/*/Sys/Hostname.pm
+  /usr/lib/perl*/*/*/XSLoader.pm
+  /usr/lib/perl*/*/*/auto/Sys/Hostname/Hostname.so
+  /usr/lib/perl*/*/AutoLoader.pm
+  /usr/lib/perl*/*/IPC/Open3.pm
+  /usr/lib/perl*/*/Symbol.pm
+  /usr/lib/perl*/*/Carp/Heavy.pm
+  /usr/lib/perl*/*/*/POSIX.pm
+  /usr/lib/perl*/*/*/auto/POSIX/autosplit.ix
+  /usr/lib/perl*/*/*/DynaLoader.pm
+  /usr/lib/perl*/*/*/auto/DynaLoader/dl_findfile.al
+  /usr/lib/perl*/*/*/auto/POSIX/POSIX.*
+  /usr/lib/perl*/*/*/auto/POSIX/load_imports.al
+  /usr/lib/perl*/*/*/Fcntl.pm
+  /usr/lib/perl*/*/*/auto/Fcntl/Fcntl.*
+  endif
+
+if with_yast2 ne 'no'
+  d /usr/X11R6/{bin,include/X11,share}
+
+  s X11R6 /usr/X11
+  # Don't do this!
+  # s /var/X11R6/bin/X /usr/X11R6/bin/X
+
+  if arch eq 's390' || arch eq 's390x'
+    xorg-x11-Xnest:
+      .
+    xorg-x11-Xvfb:
+      .
+  endif
+
+  c 0755 0 0 /dev
+
+  if arch ne 's390' && arch ne 's390x'
+  # new XF86 4.0
+  xorg-x11-server:
+    /usr/X11R6/bin/Xorg
+    s Xorg /usr/X11R6/bin/XFree86
+    /usr/X11R6/lib*/modules/drivers/fbdev_drv.o
+  if arch eq 'ppc' || arch eq 'ppc64'
+    /usr/X11R6/lib*/modules/drivers/nv_drv.o
+  endif
+  if arch eq 'ia32' || arch eq 'ia64' || arch eq 'x86_64'
+    /usr/X11R6/lib*/modules/drivers/{vesa,vga}_drv.o
+  endif
+  if arch eq 'ia64'
+    /usr/X11R6/lib*/modules/drivers/*_drv.o
+  endif
+  if arch eq 'ia32'
+    /usr/X11R6/lib*/modules/drivers/vmware_drv.o
+  endif
+    /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.a
+    /usr/X11R6/lib*/modules/fonts/libbitmap.a
+    /usr/X11R6/lib*/modules/input
+    /usr/X11R6/lib*/modules/linux
+  if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc' && arch ne 'ppc64'
+      /usr/X11R6/lib*/modules/*.uc
+  endif
+    /usr/X11R6/lib*/modules/lib*.a
+  endif
+
+  if arch ne 's390' && arch ne 's390x'
+    xorg-x11-server-glx:
+      /usr/X11R6/lib*/modules/extensions/lib{glx,GLcore}.a
+  endif
+
+  xorg-x11-libs:
+    /usr/X11R6/lib*/libX{11,ext,mu,muu,i,t,render,pm,randr,cursor,p,tst,inerama,xf86vm}.so*
+    /usr/X11R6/lib*/lib{SM,ICE}.so*
+    /usr/X11R6/lib*/libXft.so.2*
+    /usr/X11R6/lib*/libxkbfile.so.*
+    /usr/X11R6/lib/X11/locale
+    /usr/X11R6/bin/xauth
+
+  expat:
+    /usr/lib*/libexpat.so*
+
+  fontconfig:
+    /etc/fonts/*.conf
+    /usr/lib*/libfontconfig.so.*
+    /usr/bin/fc-cache
+
+  xorg-x11-Mesa:
+    /usr/lib*/libGL.so.*
+    /usr/lib*/libGLU.so.*
+
+  xorg-x11:
+    /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
+    /etc/X11/xkb
+    s /etc/X11/xkb /usr/X11R6/lib/X11
+    /usr/X11R6/bin/xkbcomp
+    /usr/X11R6/bin/setxkbmap
+    /usr/X11R6/bin/mkfontdir
+    /usr/X11R6/bin/mkfontscale
+    /usr/X11R6/bin/xrefresh
+    /usr/X11R6/bin/xhost
+    /usr/X11R6/bin/xdpyinfo
+    /etc/X11/xserver
+  r /etc/X11/xserver/C
+  s /etc/X11/xserver /usr/X11R6/lib/X11
+  # unicode stuff
+  d /usr/X11R6/lib/X11/fonts/{misc,uni}
+    /usr/X11R6/lib/X11/fonts/misc/cursor.pcf.gz
+    # 'fixed' font
+    /usr/X11R6/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz
+
+    /usr/X11R6/lib/X11/fonts/misc/fonts.scale
+
+  if arch eq 'ia64'
+    x /usr/X11R6/lib/X11/XF86Config_4.ia64 /usr/X11R6/lib/X11/XF86Config_4
+  else
+    x /usr/X11R6/lib/X11/XF86Config_4 /usr/X11R6/lib/X11
+  endif
+
+  /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
+
+
+  if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
+    R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
+  endif
+
+  xorg-x11-fonts-75dpi:
+    m /usr/X11R6/lib/X11/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/X11R6/lib/X11/fonts/misc
+
+  libusb:
+    /usr/lib*/libusb*.so.*
+
+  if arch eq 's390x'
+#    these libs are needed for 32-Bit vnc
+
+    glibc-32bit:
+      /lib/ld*.so
+      /lib/libc.so.6
+      /lib/libdl.so.2
+      /lib/libm.so.6
+  endif
+  xorg-x11-Xvnc:
+    /usr/X11R6/bin/Xvnc
+
+  tightvnc:
+    /usr/X11R6/bin/vncpasswd.arg
+    /usr/share/vnc/classes
+
+  openslp-server:
+    /etc/slp.reg
+    /etc/slp.reg.d
+    /usr/sbin/slpd
+
+  libxslt:
+    /usr/lib*
+    /usr/bin
+
+  fvwm2:
+    /usr/X11R6/bin/fvwm{,2}
+    /usr/X11R6/bin/FvwmCommand
+    /usr/X11R6/lib/X11/fvwm2/FvwmCommandS
+    /usr/X11R6/share/fvwm/ConfigFvwmDefaults
+
+  fribidi:
+    /usr/lib*/libfribidi.so*
+
+  libstroke:
+    /usr/lib*/libstroke.so*
+
+endif
+
+if with_yast2 ne 'no'
+  yast2-qt:
+    /
+    r /usr/X11R6/lib/X11/fonts/uni/newunifont[BI]*.pcf.gz
+    r /usr/X11R6/lib/X11/fonts/uni/unifont.pcf.gz
+
+  yast2-theme-<yast_theme>:
+    /
+    s <yast_theme> usr/share/YaST2/theme/current
+
+  yast2-x11:
+    /
+
+  if with_suse_font ne 'no'
+    desktop-data-SLES:
+      /usr/X11R6/lib/X11/fonts/truetype/SUSESans*.ttf
+  else
+    ghostscript-fonts-std:
+      /usr/X11R6/lib/X11/fonts/URW
+      /usr/share/ghostscript/fonts/fonts.scale
+      /usr/share/ghostscript/fonts/n019003l.pfb
+      /usr/share/ghostscript/fonts/n019063l.pfb
+      /usr/share/ghostscript/fonts/n019004l.pfb
+      /usr/share/ghostscript/fonts/n019024l.pfb
+  endif
+
+endif
+
+if with_yast2 ne 'no'
+  c 0755 0 0 /usr/X11R6
+  c 0755 0 0 /usr/X11R6/bin
+  c 0755 0 0 /etc/X11
+endif
+
+libpng:
+  /usr/lib*/libpng*.so*
+
+libjpeg:
+  /usr/lib*/libjpeg.so*
+
+if with_yast2 ne 'no'
+# would be only needed for libqmng plugin
+#  libmng:
+#    /usr/lib*/libmng.so*
+#  liblcms:
+#    /usr/lib*/liblcms.so*
+
+  qt3:
+    /etc/X11/qtrc
+    /usr/lib/qt3/bin/qtconfig
+    /usr/lib/qt3
+    /usr/lib*/libqt*.so.3
+    /usr/lib/qt3/lib*/libqt*.so*
+  r /usr/lib/qt3/plugins/imageformats/libqmng*
+
+
+d /opt/kde3/share/config/SuSE/default
+x etc/qtrc-<theme> /opt/kde3/share/config/SuSE/default/qtrc
+
+if theme eq 'Home'
+  kdeartwork3:
+    /opt/kde3/lib*/kde3/plugins/styles/plastik.so
+else
+  thinkeramik:
+    /opt/kde3/lib*/kde3/plugins/styles/thinkeramik.so
+endif
+
+  kdelibs3:
+    /opt/kde3/lib*/libkdefx.so*
+endif
+
+
+if with_yast2 ne 'no' && arch ne 's390' && arch ne 's390x'
+  sax2:
+     /usr/X11R6/lib*/sax/api/data/fvwmrc.yast2
+  sax2-tools:
+     /usr/X11R6/bin
+   r /usr/X11R6/bin/xkbset
+  sax2-ident:
+    /
+endif
+
+vim:
+  /bin/vim
+  /bin/vi
+
+fonts-config:
+  /usr/sbin/fonts-config
+
+screen:
+  /etc
+  /usr/bin/screen
+
+utempter:
+  /usr/lib*/libutempter.so.*
+
+freefont:
+  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
+
+Crystalcursors:
+  /usr/X11R6/lib/X11/icons/crystalwhite
+
+multipath-tools:
+  /sbin
+  /usr/bin
+
+if with_yast2 ne 'no'
+  if with_suse_font ne 'no'
+    e mkfontscale usr/X11R6/lib/X11/fonts/truetype
+    e mkfontdir usr/X11R6/lib/X11/fonts/truetype
+    e fc-cache usr/X11R6/lib/X11/fonts/truetype
+  else
+    e mkfontscale usr/share/ghostscript/fonts
+    e mkfontdir usr/share/ghostscript/fonts
+    e fc-cache usr/share/ghostscript/fonts
+  endif
+
+  e mkfontscale usr/X11R6/lib/X11/fonts/misc
+  e mkfontdir usr/X11R6/lib/X11/fonts/misc
+  e fc-cache usr/X11R6/lib/X11/fonts/misc
+
+  e mkfontscale usr/X11R6/lib/X11/fonts/uni
+  e mkfontdir usr/X11R6/lib/X11/fonts/uni
+  e fc-cache usr/X11R6/lib/X11/fonts/uni
+
+  e touch usr/X11R6/lib/X11/fonts/*/*
+  e sleep 2
+  e touch usr/X11R6/lib/X11/fonts/*/font*
+endif
+
+if arch ne 's390' && arch ne 's390x'
+  s /bin/smbmount /sbin/mount.smbfs
+  s /lbin/smbmnt /bin/smbmnt
+endif

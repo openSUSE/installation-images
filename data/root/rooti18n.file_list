@@ -1,0 +1,84 @@
+
+glibc-locale:
+  /usr/lib*/gconv/ISO8859*
+  /usr/lib*/gconv/KOI*
+  /usr/lib*/gconv/UNICODE*
+  /usr/lib*/gconv/gconv-modules*
+
+  # built in base system
+  d usr/lib/locale
+  e cp /tmp/usr/lib/locale/locale-archive usr/lib/locale
+
+timezone:
+  /usr/share/zoneinfo/{iso3166,zone}.tab
+
+timezone:
+  /usr
+  r /usr/share/zoneinfo/posix
+  r /usr/share/zoneinfo/right
+
+if !(arch eq 's390' || arch eq 's390x')
+kbd:
+  /usr/share/kbd
+  /bin/{loadkeys,dumpkeys}
+  /bin/{loadunimap,kbd_mode}
+  /bin/{chvt,loadkeys}
+  /bin/{chvt,loadkeys}
+  /bin/unicode_st{art,op}
+  /bin/testutf8
+  m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
+
+  /bin/setfont
+# temporary fix for yast's setfont problems
+# m /bin/setfont /bin/setfont.bin
+# x /usr/bin/setfont /bin
+endif
+
+  yast2-trans-bg:
+    /
+  yast2-trans-bs:
+    /
+  yast2-trans-cs:
+    /
+  yast2-trans-da:
+    /
+  yast2-trans-de:
+    /
+  yast2-trans-el_GR:
+    /
+  yast2-trans-en_GB:
+    /
+  yast2-trans-en_US:
+    /
+  yast2-trans-es:
+    /
+  yast2-trans-fr:
+    /
+  yast2-trans-hu:
+    /
+  yast2-trans-it:
+    /
+  yast2-trans-ja:
+    /
+  yast2-trans-ko:
+    /
+  yast2-trans-lt:
+    /
+  yast2-trans-nl:
+    /
+  yast2-trans-pl:
+    /
+  yast2-trans-pt_BR:
+    /
+  yast2-trans-ru:
+    /
+  yast2-trans-sk:
+    /
+  yast2-trans-sl_SI:
+    /
+  yast2-trans-sv:
+    /
+  yast2-trans-tr:
+    /
+  yast2-trans-zh_CN:
+    /
