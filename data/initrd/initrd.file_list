@@ -154,12 +154,8 @@ else
   A gen/module.config.firewire modules/module.config
   A gen/module.config.fs modules/module.config
 
-  # for those that don't put these modules into inst-sys
-  # cf. data/root/root.file_list
-  if arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 's390' || arch eq 's390x'
-    include gen/module.files.extra
-    A gen/module.config.extra modules/module.config
-  endif
+  include gen/module.files.extra
+  A gen/module.config.extra modules/module.config
 
   A gen/module.config.other modules/module.config
 
@@ -168,7 +164,6 @@ endif
 else
   x s390/bin/remove-empty-directories bin/remove-empty-directories
   x s390/etc/initrd_keep_files etc/initrd_keep_files
-  x s390/etc/zfcp.conf etc/zfcp.conf
   c 0755 0 0 bin/remove-empty-directories
   # the inst-sys is symlinked to from the initrd.  To avoid
   # symlinks for each file in empty directories of the initrd, these
