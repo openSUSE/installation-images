@@ -1,3 +1,6 @@
+29/8/2001:	v1.87
+	- re-added usb-storage to bootdisk
+
 29/8/2001:	v1.86
 	- added vmstat to inst-sys
 
