@@ -249,6 +249,8 @@ if(!(
   die "$Script: you got it all wrong!\n";
 }
 
+$| = 1;
+
 $_ = $BinPath;
 s:^(.+)/$:$1:;
 $ENV{PATH} = "$_:/sbin:/usr/sbin:$ENV{PATH}";

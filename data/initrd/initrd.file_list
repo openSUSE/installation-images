@@ -319,6 +319,10 @@ r /modules/yam.o
 r /modules/strip.o
 r /modules/wavelan.o
 
+r /modules/bonding.o
+r /modules/rcpci.o
+r /modules/eata_dma.o
+
 a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules

@@ -1,5 +1,7 @@
-26/6/2000:	v0.81
+27/6/2000:	v0.81
 	- new usb devs
+	- use /.rpm-cache in autobuild
+	- fixed initrd mod list
 
 22/6/2000:	v0.80
 	- prepeared XF86Config for options & extensions

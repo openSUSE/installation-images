@@ -353,7 +353,7 @@ ifnarch alpha
 xshared:
   /usr/X11R6/lib/lib{X11,Xext}.so*
 ifnenv suse_major_release 6
-  /usr/X11R6/lib/lib{SM,ICE}.so*
+  /usr/X11R6/lib/lib{SM,ICE,Xxf86misc}.so*
 endif
 d /usr/X11R6/lib/{X11,modules}
 

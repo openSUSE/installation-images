@@ -145,7 +145,7 @@ sub AddFiles
 ##        SUSystem "sh -c 'cd / ; rpm -ql $p | tar -T - -cf - | tar -C $tdir -xpf -'" and
 ##          die "$Script: failed to extract $p";
 #        print "adding package $p...\n";
-#        SUSystem "sh -c 'cd $tdir ; rpm -ql $p | cpio --quiet -o 2>/dev/null | cpio --quiet -dim --no-absolute-filenames'" and
+#        SUSystem "sh -c 'cd $tdir ; rpm -ql $p | cpio --quiet -o 2>/dev/null | cpio --quiet -dimu --no-absolute-filenames'" and
 #          die "$Script: failed to extract $r";
 #      }
 #      else {
@@ -162,7 +162,7 @@ sub AddFiles
       SUSystem "rm -rf $tdir" and
         die "$Script: failed to remove $tdir";
       die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
-      SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet -dim --no-absolute-filenames'" and
+      SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet -dimu --no-absolute-filenames'" and
         die "$Script: failed to extract $r";
 
 #      }
