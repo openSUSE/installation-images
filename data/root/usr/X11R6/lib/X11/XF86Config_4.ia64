@@ -160,11 +160,11 @@ EndSection
 Section "Screen"
   SubSection "Display"
     Depth	16
-    Modes	"default"            
+    Modes	"1024x768"
   EndSubSection
   SubSection "Display"
     Depth	8
-    Modes	"default"  
+    Modes	"1024x768"
   EndSubSection
   Device	"Device[vesa]"
   Identifier	"Screen[vesa]"
