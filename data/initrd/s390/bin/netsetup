@@ -108,8 +108,8 @@ function check_memory () {
 	set -- `cat /proc/meminfo | head -2 | tail -1`
 	let MEM="$2/1024/1024"
 	if [ $MEM -lt 80 ]; then
-	    echo "The kernel has only $MEM MB memory for applications"
-	    echo "80 MB are recommended, especially for updating."
+	    echo "Warning: The kernel has only $MEM MB memory for applications"
+	    echo "80 MB are recommended for installation thru FTP and updating."
 	fi
 }
 
@@ -118,7 +118,7 @@ function check_memory () {
 #
 function execcmd () {
 	CMD="$*"
-	if [ "$LINUXRC_DEBUG" = "yes" ]; then
+	if [ "$LINUXRC_DEBUG" = "yes" || "$VERBOSE" = "yes" ]; then
 		echo "--> "$CMD
 	else
 		eval $CMD
@@ -160,7 +160,7 @@ show_license () {
      echo "$LINE"
      (( SHOWED = SHOWED + 1 ))
      #echo $SHOWED
-     if [ $SHOWED -ge 20 ]; then
+     if [ $SHOWED -ge 32 ]; then
        (( LAST = TOTAL + SHOWED ))
        echo "(lines $TOTAL to $LAST) press ENTER:"
        read A < /dev/tty
@@ -394,39 +394,38 @@ function select_network_device_type() {
 # activate_config establishes the network connection
 # 
 function activate_config() {
-    execcmd "/bin/hostname ${IP_HOST%%.*}"
+    export HOSTNAME=${IP_HOST%%.*}
+    execcmd "/bin/hostname $HOSTNAME"
     dns_config
     ANSW="y"
     while [ "$ANSW" = "y" ] ; do
 	case "$NETSELECT" in
 	    tr|eth|geth|c7000)
-		echo "ifconfig $IP_DEV $IP_ADDR netmask $IP_NETMASK broadcast $IP_BROADCAST mtu $IP_MTU"
-		execcmd "/sbin/ifconfig $IP_DEV $IP_ADDR netmask $IP_NETMASK broadcast $IP_BROADCAST mtu $IP_MTU"
+		VERBOSE=1 execcmd "/sbin/ifconfig $IP_DEV $IP_ADDR netmask $IP_NETMASK broadcast $IP_BROADCAST mtu $IP_MTU"
 		;;
 	    ctc|escon|iucv)
-		echo "ifconfig $IP_DEV $IP_ADDR pointopoint $IP_PEER mtu $IP_MTU"
-		execcmd "/sbin/ifconfig $IP_DEV $IP_ADDR pointopoint $IP_PEER mtu $IP_MTU"
+		VERBOSE=1 execcmd "/sbin/ifconfig $IP_DEV $IP_ADDR pointopoint $IP_PEER mtu $IP_MTU"
 		;;
 	    *)
 		echo "Something went wrong with $NETSELECT..."
 	esac
-	echo "/sbin/ifconfig $IP_DEV :"
-	execcmd "/sbin/ifconfig $IP_DEV"
+	VERBOSE=1 execcmd "/sbin/ifconfig $IP_DEV"
         sleep 1
-	echo "Trying to ping my IP address:"
-	execcmd "ping -n -c 3 -w 1 $IP_ADDR"
+	VERBOSE=1 execcmd "ping -n -c 3 -w 1 $IP_ADDR"
 	if [ $EXIT_CODE -gt 0 ]; then
 	    echo "Warning: Could not ping my IP address!"
 	else
 	    case "$NETSELECT" in
 		tr|eth|geth|c7000)
+                    NTRY=3
                     if [ "$NETSELECT" = geth ]; then
                         echo "Waiting 5 seconds to give the card some time to come up..."
 			sleep 5
+		        NTRY=6
 		    fi
 		    if [ "$IP_GATEWAY" ]; then
 			echo "Trying to ping the IP address of the Gateway:"
-			execcmd "ping -n -c 3 -w 1 $IP_GATEWAY" 
+			execcmd "ping -n -c $NTRY -w 1 $IP_GATEWAY" 
 			if [ $EXIT_CODE -eq 0 ]; then
 			    echo "Gateway seems to respond to our pings, continuing."
 			    break
@@ -491,7 +490,8 @@ generate_installinf () {
 #Server:  10.10.0.10
 #Serverdir: /work/CDs/full-i386
 
-    echo "Language: english
+    echo "\
+Language: english
 Bootmode: Net
 Sourcemounted: 0
 Netdevice: $IP_DEV
@@ -554,9 +554,13 @@ MTU: $IP_MTU"
 #
 function run_services () {
   echo "Network Setup finished, running inetd..."
-  execcmd "/etc/init.d/inetd start &"
-  execcmd "/etc/init.d/portmap start &"
-  execcmd "/etc/init.d/sshd start &"
+  execcmd "/etc/init.d/inetd start"
+  execcmd "/etc/init.d/portmap start"
+  echo
+  echo You should be able to login via telnet now, for ssh wait a few seconds,
+  echo keys are being generated now:
+  echo
+  execcmd "/etc/init.d/sshd start"
   #/usr/sbin/rpc.mountd -d call &
   #/usr/sbin/rpc.nfsd -d auth &
 }
@@ -698,8 +702,7 @@ function load_LCS () {
           execcmd "/sbin/rmmod lcs"
         fi
         echo "Trying to start the LCS module now..."
-        echo "insmod lcs $PARM :"
-        execcmd "/sbin/insmod lcs $PARM"
+        VERBOSE=1 execcmd "/sbin/insmod lcs $PARM"
         if grep lcs /proc/modules; then
           execcmd "/sbin/ifconfig $IP_DEV"
           if [ $EXIT_CODE -eq 0 ]; then
@@ -728,9 +731,6 @@ function load_LCS () {
 # load the geth driver
 #
 function load_GETH () {
-  echo "For information about the driver parameters you should read"
-  echo "the manual for the OSA Express Gigabit Ethernet device driver at"
-  echo "http://oss.software.ibm.com/developerworks/opensource/linux390/docu.html"
   if ! grep qdio /proc/modules; then
     echo "Loading qdio..."
     execcmd "/sbin/insmod qdio"
@@ -739,6 +739,9 @@ function load_GETH () {
 	load_GETH_chandev
 	return
   fi
+  echo "For information about the driver parameters you should read"
+  echo "the manual for the OSA Express Gigabit Ethernet device driver at"
+  echo "http://oss.software.ibm.com/developerworks/opensource/linux390/docu.html"
   ANSW="yes"
   while [ "$ANSW" = "yes" ]; do
      if grep qeth /proc/modules; then
@@ -752,10 +755,9 @@ function load_GETH () {
      readln "the qeth module, e.g. '0xf800,0xf801,0xf802' ($DEVNO): "
      if [ $ANSW ]; then export DEVNO=$ANSW; fi
      PARM="qeth_options=\"$DEVNO\""
-     CHAN="$IP_DEV,$ANSW"
+     CHAN="noauto;q$IP_DEV,$ANSW"
      echo "Loading qeth:"
-     echo "insmod qeth $PARM :"
-     execcmd "/sbin/insmod qeth $PARM"
+     VERBOSE=1 execcmd "/sbin/insmod qeth $PARM"
      if grep qeth /proc/modules; then
        execcmd "/sbin/ifconfig $IP_DEV"
        if [ $EXIT_CODE -eq 0 ]; then
@@ -796,7 +798,7 @@ function load_GETH_chandev () {
      echo "For autodetection enter auto or enter the device addresses for"
      readln "the qeth module, e.g. '0xf800,0xf801,0xf802' ($DEVNO): "
      if [ $ANSW -a "$ANSW" != auto ]; then
-        CHAN="$IP_DEV,$ANSW"
+        CHAN="noauto;q$IP_DEV,$ANSW"
 	echo "$CHAN" > /proc/chandev
      fi
      PARM="qeth_options=$ANSW"
@@ -925,8 +927,7 @@ function load_CTC () {
           PARM="setup='\"ctc=0,0x$DEVNO,0x$DEVNO2,$IP_DEV\"'"
         fi
         echo "Trying to start the ctc module now..."
-        echo "insmod ctc $PARM :"
-        execcmd "/sbin/insmod ctc $PARM"
+        VERBOSE=1 execcmd "/sbin/insmod ctc $PARM"
         if grep ctc /proc/modules; then
           execcmd "/sbin/ifconfig $IP_DEV"
           if [ $EXIT_CODE -eq 0 ]; then
@@ -963,9 +964,8 @@ function load_ESCON () {
 function load_IUCV () {
   ANSW="yes"
   while [ "$ANSW" = "yes" ]; do
-    echo "Please enter the options for the IUCV device driver now."
-    echo "Specify the IUCV peer's name or leave blank to use the"
-    echo "default '$PEER', the VM's or VIF's TCP/IP stack itself."
+    echo "Please enter the name(userid) of the target VM guest here."
+    echo "In VIF this is normally \$TCPIP, in VM normally TCPIP."
     echo ""
     echo "netiucv options:"
     readln "The name of the peer guest, e.g. 'TCPIP' ($PEER): "
@@ -976,8 +976,7 @@ function load_IUCV () {
       execcmd "/sbin/rmmod netiucv"
     fi
     echo "Trying to start the netiucv module now..."
-    echo "insmod netiucv $PARM :"
-    execcmd "/sbin/insmod netiucv $PARM"
+    VERBOSE=1 execcmd "/sbin/insmod netiucv $PARM"
     if grep netiucv /proc/modules; then
       echo "netiucv module is loaded, checking interface $IP_DEV."
       execcmd "/sbin/ifconfig $IP_DEV"
@@ -985,7 +984,7 @@ function load_IUCV () {
         ANSW="yes"
         break
       else
-        echo "Error: $IP_DEV is not available, peer guest ok?"
+        echo "Error: $IP_DEV is not available, likely a problem connecting to the target."
       fi
     else
       echo "Error: The netiucv module is NOT loaded."
@@ -1051,8 +1050,7 @@ function load_C7000 () {
           execcmd "/sbin/rmmod c7000"
 	fi
         echo "Trying to start the c7000 module now..."
-        echo "insmod c7000 $PARM :"
-        execcmd "/sbin/insmod c7000 $PARM"
+        VERBOSE=1 execcmd "/sbin/insmod c7000 $PARM"
         echo
         if grep c7000 /proc/modules; then
           echo "c7000 module is loaded, checking interface $IP_DEV."
@@ -1123,7 +1121,7 @@ fi
 if [ "$LINUXRC_DEBUG" = "no" ]; then
 	if [ -e /linuxrc.init ]; then
 		. /linuxrc.init
-		mv /linuxrc.init.done
+		mv /linuxrc.init /linuxrc.init.done
 		#
 		# We use the initenv from the kernel parmfile only in the first run
 		#
@@ -1142,7 +1140,7 @@ if [ "$LINUXRC_DEBUG" = "no" ]; then
 else
 	if [ -e ./linuxrc.init.debug ]; then
 		. ./linuxrc.init.debug
-		mv ./linuxrc.init.debug.done
+		mv ./linuxrc.init.debug ./linuxrc.init.debug.done
 	fi
 #	export -p
 fi
