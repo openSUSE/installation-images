@@ -71,6 +71,10 @@ $ENV{'initrd'} = 'large' if $ENV{'initrd'} eq '';
 
 $image = "${ImagePath}$ENV{'initrd_name'}" if $ENV{'initrd_name'};
 
+$bootsplash = 0;
+$bootsplash = 1 if $ENV{initrd} eq 'large' || $ENV{initrd} eq 'medium' || $ENV{bootsplash};
+$bootsplash = 0 if $ENV{bootsplash} eq 'no' || $ENV{bootsplash} eq '0';
+
 if($ENV{'keepinitrd'} != 1) {
   # clean up
   if(-d $tmpdir) {
@@ -147,19 +151,29 @@ $i = CompressImage $image;
 print "$Script: compressed initrd to \"$image\" ($i bytes)\n";
 
 # add boot splash
-if(($ENV{'initrd'} eq 'large' || $ENV{'initrd'} eq 'medium' || $ENV{'bootsplash'} eq 'yes') && $ENV{'bootsplash'} ne 'no') {
-  system "tail -c4 $image >${image}.tmp";
-  system "cat ${BasePath}tmp/base/$ConfigData{splash_theme}.splash >>$image";
-  system "cat ${image}.tmp >>$image";
-  unlink "${image}.tmp";
-  $i = -s "$image";
-  print "$Script: $ConfigData{splash_theme} bootsplash added to \"$image\" (new size: $i bytes)\n";
-}
+#if($bootsplash) {
+#  system "tail -c4 $image >${image}.tmp";
+#  system "cat ${BasePath}tmp/base/$ConfigData{splash_theme}.splash >>$image";
+#  system "cat ${image}.tmp >>$image";
+#  unlink "${image}.tmp";
+#  $i = -s "$image";
+#  print "$Script: $ConfigData{splash_theme} bootsplash added to \"$image\" (new size: $i bytes)\n";
+#}
 
 mkdir $gendir, 0755;
+
+# add boot splash size
+$i = 0;
+if($bootsplash) {
+  for (<${BasePath}tmp/base/$ConfigData{splash_theme}/*.spl>) {
+    $j = -s;
+    $i = !$i || $j < $i ? $j : $i;
+  }
+}
+
+$i += -s $image;
 
 die "$Script: $!" unless open F, ">$gendir/initrdsize";
 print F "initrdsize\t", int(($i + 511) / 512), "\n";
 close F;
-
 

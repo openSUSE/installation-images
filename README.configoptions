@@ -68,8 +68,9 @@ o initrd
   fewkeymaps=1
   - just english, french and german maps
 
-  bootsplash=yes
-  - add boot splash to initrd (default for initrd=large)
+  bootsplash=0|modules1
+  - don't add bootsplash or add splash to modules disk 1
+    (default is to add it to boot image)
 
   initrd_name=<name>
   - [default: initrd] name of the final initrd image
@@ -97,7 +98,7 @@ o boot
     boot CD with hd emulation, isolinux for a CD with 'no emulation'; large is mainly
     for ia64 (the image is basically just a dos partition)
   
-  bootlogo=yes|no
+  bootlogo=1|0
   - whether to add the graphical boot logo; if unset, the logo will not be added
     for 'boot=small'
 

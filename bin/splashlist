@@ -37,11 +37,14 @@ for (sort keys %st) {
   print W
     "bootsplash-theme-$_:\n" .
     "  /\n" .
-    "  m /usr/share/splash/themes/$_/bootloader/message /$_.boot\n" .
-    "  E splash -s -f /usr/share/splash/themes/$_/config/bootsplash-800x600.cfg >>/$_.splash\n" .
-    "  E splash -s -f /usr/share/splash/themes/$_/config/bootsplash-1024x768.cfg >>/$_.splash\n" .
-    "  E splash -s -f /usr/share/splash/themes/$_/config/bootsplash-1024x768.cfg >/$_.10240768.spl\n" .
-    "\n";
+    "  d /$_\n" .
+    "  m /usr/share/splash/themes/$_/bootloader/message /$_/bootlogo\n";
+
+  for $res (qw ( 800x600 1024x768 1280x1024 )) {
+    $res2 = sprintf "%04u%04u", split(/x/, $res);
+    print W "  E splash -s -f /usr/share/splash/themes/$_/config/bootsplash-${res}.cfg >/$_/${res2}.spl\n"
+  }
+  print W "\n";
 }
 
 close W;

@@ -35,12 +35,12 @@ boot: initrd mboot
 	bin/mk_boot
 
 bootcd2:
-#	linuxrc=linuxrc_tiny use_k_inst=1 nopcmcia=1 nousb=1 fewkeymaps=1 initrd_name=small initrd=small bootlogo=no boot=small make boot
+#	linuxrc=linuxrc_tiny use_k_inst=1 nopcmcia=1 nousb=1 fewkeymaps=1 initrd_name=small initrd=small bootlogo=0 boot=small make boot
 	initrd=medium boot=medium make boot
 
 bootdisk:
 # with_smb=1
-	noinitrd=small initrd=small bootsplash=yes boot=small make boot
+	noinitrd=small initrd=small bootsplash=modules1 boot=small make boot
 
 bootcd:
 # with_smb=1
@@ -75,7 +75,7 @@ rescue_cd: boot brescue rdemo
 
 modules: dirs base
 	bin/mk_modules
-	bin/mk_mod_disk
+	bootsplash=modules1 bin/mk_mod_disk
 
 mboot:
 	make -C src/mboot

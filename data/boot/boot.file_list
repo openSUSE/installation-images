@@ -24,10 +24,14 @@ endif
     endif
   endif
 
-  if bootlogo eq 'no'
+  if bootlogo eq 'no' || bootlogo eq '0'
     R s/\ngfxboot.*?\n/\n/s /syslinux.cfg
   else
-    e cp /<splash_theme>.boot bootlogo
+    e cp /<splash_theme>/bootlogo .
+  endif
+
+  if bootsplash ne 'modules1' && bootsplash ne '0'
+    e cp /<splash_theme>/*.spl .
   endif
 
   if (memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval'

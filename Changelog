@@ -1,3 +1,8 @@
+17/2/2003:	v3.13
+	- libresmgr moved to /lib
+	- new splash code: (splash files are no longer added to initrd,
+	  *.spl files are used instead) - needs updated syslinux package!
+
 17/2/2003:	v3.12
 	- more font fixes
 	- split scsi modules disk
