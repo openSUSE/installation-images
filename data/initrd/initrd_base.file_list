@@ -451,18 +451,21 @@ if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
     g /usr/share/kbd/keymaps/i386/qwerty/ru1.map.gz kbd/keymaps/ru1.map
     g /usr/share/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz kbd/keymaps/sk-qwerty.map
     g /usr/share/kbd/keymaps/i386/qwerty/uk.map.gz kbd/keymaps/uk.map
+    g /usr/share/kbd/keymaps/i386/azerty/fr-latin1.map.gz kbd/keymaps/fr-latin1.map
+
+    m /usr/share/kbd/keymaps/i386/include/linux-with-modeshift-altgr.inc kbd/keymaps/include
+    m /usr/share/kbd/keymaps/i386/include/linux-keys-extd.inc kbd/keymaps/include
+    m /usr/share/kbd/keymaps/i386/include/azerty-layout.inc kbd/keymaps/include
   endif
 
   g /usr/share/kbd/keymaps/i386/qwerty/us.map.gz kbd/keymaps/us.map
   g /usr/share/kbd/keymaps/i386/qwertz/de-lat1-nd.map.gz kbd/keymaps/de-lat1-nd.map
   g /usr/share/kbd/keymaps/i386/qwertz/de-latin1.map.gz kbd/keymaps/de-latin1.map
-  g /usr/share/kbd/keymaps/i386/azerty/fr-latin1.map.gz kbd/keymaps/fr-latin1.map
 
-  m /usr/share/kbd/keymaps/i386/include/{linux-{keys-{bare,extd},with-modeshift-altgr}}.inc kbd/keymaps/include
+  m /usr/share/kbd/keymaps/i386/include/linux-keys-bare.inc kbd/keymaps/include
   m /usr/share/kbd/keymaps/i386/include/linux-with-alt-and-altgr.inc kbd/keymaps/include
   m /usr/share/kbd/keymaps/i386/include/qwerty-layout.inc kbd/keymaps/include
   m /usr/share/kbd/keymaps/i386/include/qwertz-layout.inc kbd/keymaps/include
-  m /usr/share/kbd/keymaps/i386/include/azerty-layout.inc kbd/keymaps/include
   g /usr/share/kbd/keymaps/i386/include/euro1.map.gz kbd/keymaps/include/euro1.map
   g /usr/share/kbd/keymaps/i386/include/euro2.map.gz kbd/keymaps/include/euro2.map
 endif
@@ -513,6 +516,11 @@ if (arch eq 'alpha' || arch eq 'ia32') && !nopcmcia
     /etc/pcmcia/config
     /etc/pcmcia/config.opts
   x etc/pcmcia/fixed etc/pcmcia
+
+  if suse_release == 8.1
+    p /etc/pcmcia/config.dif
+  endif
+
 endif
 
 if with_smb

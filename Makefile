@@ -35,7 +35,7 @@ boot: initrd mboot
 	bin/mk_boot
 
 bootcd2:
-	nousb=1 fewkeymaps=1 initrd_name=small initrd=small bootlogo=no boot=small make boot
+	linuxrc=linuxrc_tiny use_k_inst=1 nopcmcia=1 nousb=1 fewkeymaps=1 initrd_name=small initrd=small bootlogo=no boot=small make boot
 
 bootdisk:
 # with_smb=1

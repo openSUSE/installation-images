@@ -1,0 +1,49 @@
+--- etc/pcmcia/config
++++ etc/pcmcia/config
+@@ -491,10 +491,13 @@
+   bind "pcnet_cs"
+ 
+ card "Linksys NP10T Ethernet"
+-  version "Network Everywhere", "Ethernet 10BaseT PC Card"
+   manfid 0x0149, 0xc1ab
+   bind "pcnet_cs"
+ 
++card "Linksys NP10T Ethernet"
++  version "Network Everywhere", "Ethernet 10BaseT PC Card"
++  bind "pcnet_cs"
++
+ card "LinkSys Network Everywhere NP100"
+   version "Network Everywhere", "Fast Ethernet 10/100 PC Card"
+   #manfid: 0x0149, 0xc1ab
+@@ -598,10 +601,13 @@
+   bind "pcnet_cs"
+ 
+ card "NE2000 Compatible CF Ethernet"
+-  version "Ethernet", "CF Size PC Card"
+   manfid 0x0149, 0xc1ab
+   bind "pcnet_cs"
+ 
++card "NE2000 Compatible CF Ethernet"
++  version "Ethernet", "CF Size PC Card"
++  bind "pcnet_cs"
++
+ card "NDC Instant-Link Ethernet"
+   version "NDC", "Ethernet"
+   cis "cis/NE2K.dat"
+@@ -1774,11 +1780,15 @@
+   bind "pcnet_cs" to 0, "serial_cs" to 1
+ 
+ card "NSC DP83903-based Ethernet/Modem"
+-  version "Multifunction Card", "LAN and Modem 336", "Multifunction"
+   manfid 0x0175, 0x0000
+   cis "cis/DP83903.dat"
+   bind "pcnet_cs" to 0, "serial_cs" to 1
+ 
++card "NSC DP83903-based Ethernet/Modem"
++  version "Multifunction Card", "LAN and Modem 336", "Multifunction"
++  cis "cis/DP83903.dat"
++  bind "pcnet_cs" to 0, "serial_cs" to 1
++
+ card "Ositech Jack of Diamonds Ethernet/Modem"
+   version "Ositech", "Trumpcard:Jack of Diamonds Modem+Ethernet"
+   bind "smc91c92_cs", "serial_cs"
