@@ -29,6 +29,10 @@ sysconfig:
 iproute2:
   /sbin/ip
 
+insserv:
+  /etc
+  /sbin
+
 aaa_base: prein,postin
 e prein
   /etc
@@ -275,7 +279,7 @@ pam-modules: postin
 E postin
 
 pciutils:
-  /usr/sbin
+  /sbin
 
 portmap: postin
   /etc
@@ -347,8 +351,8 @@ openssl:
   /usr/lib*/libcrypto.so.*
   /usr/lib*/libssl.so.*
 
-cyrus-sasl:
-  /usr/lib*/libsasl.so.*
+cyrus-sasl2:
+  /usr/lib*/libsasl2.so.*
 
 db:
   /usr/lib*/libdb-4*.so  

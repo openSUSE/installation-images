@@ -34,6 +34,10 @@ if arch eq 's390' || arch eq 's390x'
     /bin
     /var/adm/fillup-templates
 
+  insserv:
+    /etc
+    /sbin
+
   aaa_base: prein,postin
   e prein
     # wie geht das jetzt??
@@ -43,10 +47,9 @@ if arch eq 's390' || arch eq 's390x'
     /etc/init.d/random
     /etc/ld.so.conf
     /etc/rc.status
-    /etc/{modules.conf,insserv.conf}
+    /etc/modules.conf{,.local}
     /root
     /sbin/get_kernel_version
-    /sbin/insserv
     /var/adm/fillup-templates
   e postin
   r /var/adm/fillup-templates

@@ -12,6 +12,7 @@ r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
+r /etc/fvwmrc
 R s/product_name/<product_name>/ /etc/motd
 R s/product_name/<product_name>/ /etc/issue
 
@@ -19,13 +20,18 @@ fillup:
   /bin
   /var/adm/fillup-templates
 
+insserv:
+  /etc
+  /sbin
+
 aaa_base: prein,postin
 e prein
   /etc/init.d
-  /etc/{modules.conf,insserv.conf,inputrc,rc.status}
+  /etc/inputrc
+  /etc/rc.status
+  /etc/modules.conf{,.local}
   /sbin/mk_initrd
   /sbin/get_kernel_version
-  /sbin/insserv
   /usr/bin/old
   /root/.gnupg/suse_build_key
   /root/.gnupg/suse_build_key
@@ -226,7 +232,7 @@ net-tools:
 portmap:
   /sbin/portmap
 
-if arch eq 'i386'
+if arch eq 'disabled'
 umsprogs:
   /sbin/*
 c 0755 0 0 /sbin/umssync
@@ -375,6 +381,7 @@ if with_yast2 ne 'no'
 
   XFree86:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
+    /etc/fonts/fonts.conf
     /etc/X11/xkb
     s /etc/X11/xkb /usr/X11R6/lib/X11
     /usr/X11R6/bin/xkbcomp
@@ -423,8 +430,22 @@ if with_yast2 ne 'no'
   libxml2:
     /usr/lib*/libxml2.so*
 
+  libxslt:
+    /usr/lib*
+    /usr/bin
+
   curl:
     /usr/lib*/libcurl.so*
+
+  fvwm2:
+    d /etc/X11/fvwm2
+    x etc/fvwmrc /etc/X11/fvwm2/system.fvwm2rc
+    /usr/X11R6/bin/fvwm{,2}
+    /usr/X11R6/share/fvwm/ConfigFvwmDefaults
+    /usr/X11R6/lib/X11/fvwm2/FvwmTheme
+
+  libstroke:
+    /usr/lib*/libstroke.so*
 
 endif
 
