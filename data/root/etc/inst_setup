@@ -3,6 +3,12 @@ echo
 yast="$1"
 shift
 
+# linuxrc passes the root directory of the freshly mounted instsys in
+# the environment variable INSTSYS.
+#
+# create symlinks for all missing files
+conservative_lndir "$INSTSYS" "/"
+
 case $(uname -m) in
     s390|s390x) ;;
     *)
