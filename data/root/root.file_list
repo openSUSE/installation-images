@@ -215,17 +215,12 @@ endif
 if arch eq 's390' || arch eq 's390x'
   s390-tools: postin
     /sbin/zipl
-    /lib*/libparsecfg.so
-    /lib*/libvtoc.so
-    /boot
+    /lib*
     /etc/zipl.conf.sample
     /sbin/dasdfmt
     /sbin/fdasd
     /sbin/zgetdump
     e postin
-#  s390utils:
-#    /sbin/zilo
-#    /sbin/silo
 endif
 
 raidtools:
