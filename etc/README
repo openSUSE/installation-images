@@ -41,13 +41,13 @@ Linux, use a command like
 
 Of course you would replace 'modules1' with the image name you want.
 
-modules1:  USB and FireWire (IEEE1394) modules.
+modules1:  USB modules.
 
 modules2:  IDE/RAID/SCSI modules.
 
-modules3:  Network modules.
+modules3:  Network modules and old (non-ATAPI) CDROM drivers.
 
-modules4:  PCMCIA and file system modules and old (non-ATAPI) CDROM drivers.
+modules4:  PCMCIA, FireWire (IEEE1394), file system and more SCSI modules.
 
 See modules[1234].txt for a detailed listing.
 

@@ -169,7 +169,28 @@ if arch eq 'ia32' || arch eq 'ppc'
   lilo:
     /boot
     /sbin
-    /usr/sbin
+    if arch eq 'ia32'
+      /usr/sbin
+    endif
+endif
+
+if arch eq 'ppc'
+  pdisk:
+    /sbin/pdisk
+  ibmsis:
+    /etc/microcode
+    /sbin
+  ncurses:
+    /usr/lib/libpanel.so.5*
+    /usr/lib/libform.so.5*
+    /usr/lib/libmenu.so.5*
+    # for p690 hvc console
+    /usr/share/terminfo/v/vt320
+  eject:
+    /bin
+  scsi:
+    /bin
+    /dev
 endif
 
 if arch eq 'ia32'
@@ -248,6 +269,11 @@ pam:
 
 pam-modules: postin
   /{etc,lib*,sbin}
+
+  # don't use cracklib
+  c 755 0 0 /etc/security
+  R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
+
 E postin
 
 pciutils:
@@ -274,6 +300,7 @@ jfsutils:
 xfsprogs:
   /lib*
   /usr/sbin
+  /sbin
 
 xfsdump:
   /usr/sbin
@@ -297,10 +324,16 @@ rsync: postin
   /usr/{,s}bin
 e postin
 
-setserial: postin
-  /etc
-  /bin/setserial
-e postin
+if arch eq 'ppc'
+  setserial:
+    /etc
+    /bin/setserial
+else
+  setserial: postin
+    /etc
+    /bin/setserial
+  e postin
+endif
 
 sh-utils:
   /{etc,bin}
@@ -397,43 +430,44 @@ hex:
 openssh:
   /etc/ssh
   /usr/bin
-  /usr/lib
+  /usr/lib*
 
 if arch ne 'sparc'
   <kernel_rpm>:
     f / st.o
-    f / sg.o
 
-    f / linear.o
-    f / lvm-mod.o
-    if arch eq 'ppc'
-      f / md.o
+    if arch ne 'ppc'
+      f / sg.o
+
+      f / linear.o
+      f / lvm-mod.o
+      f / raid0.o
+      f / raid1.o
+      f / raid5.o
+      f / xor.o
+      f / reiserfs.o
+      if arch ne 'ia64'
+        f / jfs.o
+      endif
+      f / jbd.o
+      f / ext3.o
+      f / hpfs.o
+      f / loop_fish2.o
+      f / xfs.o
+      if arch eq 'ia32' && kernel_ver =~ '^2.4.19\b'
+        f / xfs_support.o
+        f / xfs_dmapi.o
+      endif
     endif
-    f / raid0.o
-    f / raid1.o
-    f / raid5.o
-    f / xor.o
-    f / reiserfs.o
-    if arch ne 'ia64'
-      f / jfs.o
-    endif
-    f / jbd.o
-    f / ext3.o
-    f / hpfs.o
-    f / loop_fish2.o
-    f / xfs.o
-    f / xfs_support.o
-    f / xfs_dmapi.o
-if arch eq 'alpha'
     m /boot/System.map-* /System.map
-else
-    m /boot/System.map-* /System.map
-endif 
 
   # run depmod
   E /sbin/depmod -a -F /System.map <kernel_ver>
   r /System.map /sbin/depmod
 endif
+
+  # serial console / mingetty setup for ppc mostly.
+  x etc/init.d/boot.local /etc/init.d/boot.local
 
 # now run SuSEconfig
 E echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
