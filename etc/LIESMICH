@@ -23,7 +23,7 @@ Zusätzlich zur Bootdiskette benötigen Sie auch Moduldiskette 1!
 Moduldiskette erstellen
 -----------------------
 
-Auf die Bootdiskette passen nur wenige Module. Daher gibt es vier
+Auf die Bootdiskette passen nur wenige Module. Daher gibt es fünf
 Moduldisketten. Wenn Sie "Ihren" Treiber nicht auf der normalen Bootdiskette
 finden, legen Sie nach dem Start von linuxrc die entsprechende Moduldiskette
 ein.
@@ -39,15 +39,17 @@ beschrieben vor. Unter Linux gehen Sie bitte so vor:
 Natürlich müssen Sie statt "modules1" den Namen der Moduldiskette nehmen,
 die Sie erstellen wollen.
 
-modules1:  USB- und FireWire-Module.
+modules1:  USB-Module.
 
 modules2:  IDE/RAID/SCSI-Module.
 
 modules3:  Netzwerkmodule.
 
-modules4:  PCMCIA- und Dateisystem-Module und alte (nicht-ATAPI) CDROM-Treiber.
+modules4:  PCMCIA-, FireWire-, Dateisystem- und weitere SCSI-Module.
 
-In modules[1234].txt finden Sie eine ausführliche Liste.
+modules5:  Alte (nicht-ATAPI) CDROM-Treiber.
+
+In modules[12345].txt finden Sie eine ausführliche Liste.
 
 
 

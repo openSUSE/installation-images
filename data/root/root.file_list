@@ -12,8 +12,8 @@ r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
-R s/product_name/<product>/ /etc/motd
-R s/product_name/<product>/ /etc/issue
+R s/product_name/<product_name>/ /etc/motd
+R s/product_name/<product_name>/ /etc/issue
 
 fillup:
   /bin
@@ -196,14 +196,11 @@ endif
 if arch eq 's390' || arch eq 's390x'
   s390-tools: postin
     /sbin/zipl
-    /lib*/libparsecfg.so
-    /lib*/libvtoc.so
-    /boot
+    /lib*
     /etc/zipl.conf.sample
     /sbin/dasdfmt
     /sbin/fdasd
     /sbin/zgetdump
-    e postin
 #  s390utils:
 #    /sbin/zilo
 #    /sbin/silo
@@ -395,16 +392,25 @@ if with_yast2 ne 'no'
   /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
 
 
-if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
-  R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
-endif
+  if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
+    R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
+  endif
 
   xf86tools:
     /usr/X11R6/lib/X11/XftConfig
 
   libusb:
     /usr/lib*/libusb*.so.*
+  if arch eq 's390x'
+#    these libs are needed for 32-Bit vnc
 
+    glibc-32bit:
+      /lib/ld.so.1
+      /lib/ld-2.2.5.so
+      /lib/libc.so.6
+      /lib/libdl.so.2
+      /lib/libm.so.6
+  endif
   vnc:
     /usr/X11R6/bin/Xvnc
     /usr/X11R6/bin/vncpasswd.arg
@@ -452,9 +458,15 @@ if with_yast2 ne 'no'
     /
   yast2-trans-cs:
     /
+  yast2-trans-da:
+    /
   yast2-trans-de:
     /
   yast2-trans-el_GR:
+    /
+  yast2-trans-en_GB:
+    /
+  yast2-trans-en_US:
     /
   yast2-trans-es:
     /
@@ -465,6 +477,8 @@ if with_yast2 ne 'no'
   yast2-trans-it:
     /
   yast2-trans-ja:
+    /
+  yast2-trans-ko:
     /
   yast2-trans-lt:
     /
@@ -482,6 +496,8 @@ if with_yast2 ne 'no'
     /
   yast2-trans-zh_CN:
     /
+  yast2-trans-zh_TW:
+    /
   yast2-x11:
     /
   yast2-xml:
@@ -493,17 +509,9 @@ if with_yast2 ne 'no'
   liby2util:
    /
 
-  if theme eq 'SuSE'
-    yast2-theme-SuSELinux:
-      /
-      s SuSELinux usr/share/YaST2/theme/current
-  endif
-
-  if theme eq 'UnitedLinux'
-   yast2-theme-UnitedLinux:
-      /
-      s UnitedLinux usr/share/YaST2/theme/current
-  endif
+  yast2-theme-<yast_theme>:
+    /
+    s <yast_theme> usr/share/YaST2/theme/current
 
 endif
 
@@ -680,6 +688,10 @@ if pre_release || suse_release >= 8.1
 
   pam-modules:
     /{etc,lib*,sbin}
+
+    # don't use cracklib
+    c 755 0 0 /etc/security
+    R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
 
   libxcrypt:
     /lib*/libxcrypt.so.*
