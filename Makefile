@@ -30,7 +30,7 @@ dirs:
 	@[ -d tmp ] || mkdir tmp
 
 initrd: dirs base
-	YAST_IS_RUNNING=1 bin/mk_initrd
+	mkdevs=1 YAST_IS_RUNNING=1 bin/mk_initrd
 
 plain_initrd: dirs
 	YAST_IS_RUNNING=1 bin/mk_initrd
@@ -40,7 +40,7 @@ initrd_test: initrd
 	@echo "now, run bin/initrd_test"
 
 boot: initrd mboot
-	mkdevs=1 bin/mk_boot
+	bin/mk_boot
 
 bootcd2:
 #	linuxrc=linuxrc_tiny use_k_inst=1 nopcmcia=1 nousb=1 fewkeymaps=1 initrd_name=small initrd=small bootlogo=0 boot=small make boot
