@@ -1,7 +1,180 @@
-11/9/2002:	v2.65
+29/8/2003:	v2.109
+	- make it build on ppc & s390
+
+27/8/2003:	v2.108
+	- new kernel
+
+22/8/2003:	v2.107
+	- forgot to add to initrd_base.file_list
+
+21/8/2003:	v2.106
+	- added /etc/hosts to s390 initrd as well
+ 
+21/8/2003:	v2.105
+	- added /etc/hosts with localhost entry (#22207,#22938)
+
+11/08/2003:	v2.104
+	- s390: qeth is GPL now, do not show OCO license when loading it
+
+8/8/2003:       v2.103
+	- s390: added fscks for reiserfs and jfs (#27331)
+	- s390: added options to ignore networking errors (#25872)
+	- s390: added HSTR support by ihno (#22820)
+
+7/8/2003:	v2.102
+	- new kernel modules
+
+1/8/2003:	v2.101
+	- use modules have moved
+
+1/8/2003:	v2.100
+	- didn't catch all errors
+	- use <kernel_img>-<kernel_ver> for ia64
+
+30/7/2003:	v2.99
+	- make s390 happier
+
+29/7/2003:	v2.98
+	- fixed for new kernel, rearranged modules to fit on 4 module disks;
+	  note: firewire mods no longer included in initrd on bootdisk & cd2
+
+25/6/2003:	v2.97
+	- ensure loop devices are freed on build errors
+
+13/6/2003:	v2.96
+	- added SuSE-SLOS theme
+
+3/3/2003:	v2.95
+	- added lvm modules to initrd on CD, too (#23644)
+
+17/2/2003:	v2.94
+	- make it possible to split module config sections into individual
+	  parts; this is necessary because scsi modules no longer fit on one
+	  floppy
+	- added lvm modules to initrd (#23644)
+	- new network modules added: amd8111e, bcm4400
+
+10/1/2003:	v2.93
+	- new config options usbscsi, fastboot; cf. docs (#21017)
+	- new config option hp1 for building special HP disks (#20103)
+
+11/11/2002:	v2.92
+	- added xfs_repair to rescue system (#21671)
+	- fixed qla* module info (#21567)
+
+06/11/2002:	v2.91
+	- removed warning if valid default is accepted (s390/s390x) #21557
+
+06/11/2002:	v2.90
+	- fixed permissions for .netrc. Otherwise ftp
+	  is not executing the script.			(s390/s390x) #21296
+
+06/11/2002:	v2.89
+	- fixed login behaviour (second getty)    (s390/s390x) #20780
+	- fixed error handling of lcs-device      (s390/s390x) #21558
+	- fixed error handling of wrong parameter (s390/s390x) #21587
+
+04/11/2002:	v2.88
+	- fixed typo in linuxrc					#21465
+	- fixed endlessloop if AUTOINSTALL was set and no
+	  medium was selected.
+
+28/10/2002:	v2.87
+	- fixed labeling of product in suse.ins files (#21202)
+
+28/10/2002:	v2.86
+	- check entered machine and path for ftp-installation (#20792)
+	- MTU-is only written to parameterfile if != 0 (#21119)
+	- autoinstall does now work (#21200)
+	- portmapper is killed before linuxrc is called (#18461)
+
+28/10/2002:	v2.85
+	- add scsidev to rescue image (#20490) 
+
+18/10/2002:	v2.84
+	- really added OpenXchange theme
+
+15/10/2002:	v2.83
+	- fixing PAM error-messages (only s390/s390x) #18456, #20121, #20893
+	- check valid VNC-password length (only s390/s390x) #20884
+	- fixing segfaulting VNC on s390x (only s390x) #20403
+	- enabling telnet for installation (only s390/s390x) #20708, #20790, 20789
+	- fixing generation of /etc/resolv.conf (s390/s390x/all arch for installation via VNC, SSH) #20697, #19738
+
+14/10/2002:	v2.82
+	- make sure crypto module is present in inst-sys (#20606)
+
+14/10/2002:	v2.81
+	- fixed theme handling (#19442)
+
+9/10/2002:	v2.80
+	- fixed missing traceroutecommand in netsetup   (s390/s390x) #20462
+	- fixed mising MTU-parameter in interfacefile   (s390/s390x) #20644
+	- fixed wrong motd                              (s390/s390x) #20404
+	- fixed mising / in ftp/Samba-path              (s390/s390x) #19967/#20152
+
+7/10/2002:	v2.79
+	- say "SuSE Linux" unless it's UnitedLinux (#20336)
+	- add ibmsis to neededforbuild (rescue image)
+	- add vt320 terminfo entry for p690 hvc console
+	- write correct inittab entry for hvc console
+	- be more verbose during inittab modification
+
+27/9/2002:	v2.78
+	- samba-client package has changed
+
+27/9/2002:	v2.77
+	- corrected Installation error in linuxrc for s390 (Bug #20245)
+	- corrected string in linuxrc.config (Bug #19947)
+
+26/9/2002:	v2.76
+	- bootlogo back on SLES
+
+26/9/2002:	v2.75
+	- yast uses SL theme on SLES
+	- fixed bootlogo handling
+
+25/9/2002:	v2.74
+	- Writing MTU to Devicefile
+	- added missing sambafile to initrd
+	- adding necessary parameters for ssh-install
+25/9/2002:	v2.73
+	- support SuSE-SLES theme
+
+25/9/2002:	v2.72
+	- added sisconfig and respective libraries to ppc rescue
+	- boot.local for serial console (#19498)
+
+25/9/2002:	v2.71
+	- don't use cracklib to check passwords (#20121)
+
+23/9/2002:	v2.70
+	- lower memory limit for loading inst-sys into ramdisk
+
+19/9/2002:	v2.69
+	- added samba installation support for s390
+
+18/9/2002:	v2.68
+	- added yast2 translations
+	- driver updates are looked for in
+	  linux/UnitedLinux/<arch>-ul1 for UL and
+	  linux/UnitedLinux/<arch>-sles8 for SLES8 (#19442)
+	- added activation of network for s390/s390x/i&p-series
+
+16/9/2002:	v2.67
+	- Added missing files for samba-client
+	- changed check for installation media for s390
+
+13/9/2002:	v2.66
+	- Removed writing entries in chandev.log in create_interfaces
+	- Removed bug in netsetup for iucv-Parameters
+
+13/9/2002:	v2.65
 	- changed parmline for installation boot
 	- changed create_interface to write entry in
 	  modules.conf
+	- fixed y2debug issue (too much logs per default)
+
 11/9/2002:	v2.64
 	- run linuxrc in linemode on s390
 	- add uncompressed length after splash
