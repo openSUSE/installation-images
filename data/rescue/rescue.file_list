@@ -193,8 +193,9 @@ if arch eq 'ppc'
     /etc/microcode
     /sbin
   ncurses:
-    /usr/lib/libpanel.so.5*
-    /usr/lib/libform.so.5*
+    /usr/lib/libpanel.so.*
+    /usr/lib/libform.so.*
+    /usr/lib/libmenu.so.*
     # for p690 hvc console
     /usr/share/terminfo/v/vt320
   eject:

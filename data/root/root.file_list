@@ -399,6 +399,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/libxkbfile.so.*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
+    /usr/X11R6/lib*/libXxf86vm.so.*
 
   expat:
     /usr/lib*/libexpat.so*
