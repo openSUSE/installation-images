@@ -496,8 +496,20 @@ if with_yast2 ne 'no'
 
   xshared:
     /usr/X11R6/lib/lib{X11,Xext}.so*
-    /usr/X11R6/lib/lib{SM,ICE,Xxf86misc,libXxf86vm}.so*
+    /usr/X11R6/lib/lib{SM,ICE,Xxf86misc,Xxf86vm}.so*
+    if suse_release >= 7.2
+      /usr/X11R6/lib/lib{Xmu,Xi,Xt}.so*
+    endif
   d /usr/X11R6/lib/{X11,modules}
+
+  mesasoft:
+    /
+    e /usr/X11R6/bin/switch2mesasoft
+    r /usr/X11R6/bin/switch2mesasoft
+
+  xf86glu:
+    /usr/lib
+  
 
   xf86:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
@@ -524,42 +536,64 @@ if with_yast2 ne 'no'
 endif
 
 if with_yast2 ne 'no'
-  yast2:
-      /sbin
+  if suse_release >= 7.2
+    yast2-instsys:
+      /
+    yast2-agent-any:
+      /
+    yast2-agent-fdisk:
+      /
+    yast2-agent-probe:
+      /
+    yast2-agent-modules:
+      /
+  else
+    y2base:
       /usr/lib/YaST2
-      /var/lib/YaST2
-    if suse_release < 7.1
-      y2t_inst:
+      /usr/X11R6/lib/X11/fonts/uni
+
+    yast2:
+        /sbin
         /usr/lib/YaST2
-    else
-      y2t_inst-bootloader:
-        /usr/lib/YaST2
-      y2t_inst-environment:
-        /usr/lib/YaST2
-      y2t_inst-general:
-        /usr/lib/YaST2
-      y2t_inst-language:
-        /usr/lib/YaST2
-      y2t_inst-mouse:
-        /usr/lib/YaST2
-      y2t_inst-packages:
-        /usr/lib/YaST2
-      y2t_inst-partitioning:
-        /usr/lib/YaST2
-      y2t_inst-update:
-        /usr/lib/YaST2
-      y2t_inst-user:
-        /usr/lib/YaST2
-      y2t_inst-x11:
-        /usr/lib/YaST2
-      y2d_inst-keyboard:
-        /usr/lib/YaST2
-      y2d_inst-mouse:
-        /usr/lib/YaST2
-      y2d_inst-timezone:
-        /usr/lib/YaST2
-    endif
+        /var/lib/YaST2
+      if suse_release < 7.1
+        y2t_inst:
+          /usr/lib/YaST2
+      else
+        y2t_inst-bootloader:
+          /usr/lib/YaST2
+        y2t_inst-environment:
+          /usr/lib/YaST2
+        y2t_inst-general:
+          /usr/lib/YaST2
+        y2t_inst-language:
+          /usr/lib/YaST2
+        y2t_inst-mouse:
+          /usr/lib/YaST2
+        y2t_inst-packages:
+          /usr/lib/YaST2
+        y2t_inst-partitioning:
+          /usr/lib/YaST2
+        y2t_inst-update:
+          /usr/lib/YaST2
+        y2t_inst-user:
+          /usr/lib/YaST2
+        y2t_inst-x11:
+          /usr/lib/YaST2
+        y2d_inst-keyboard:
+          /usr/lib/YaST2
+        y2d_inst-mouse:
+          /usr/lib/YaST2
+        y2d_inst-timezone:
+          /usr/lib/YaST2
+      endif
+
+    c 0755 0 0 /usr
+    c 0755 0 0 /usr/lib
+    c 0755 0 0 /usr/lib/YaST2
+  endif
 endif
+
 
 libpng:
   /usr/lib/libpng.so.2*
@@ -601,52 +635,6 @@ if suse_release >= 7.1
 else
   qtlib2:
     /usr/lib/*
-endif
-
-if with_yast2 ne 'no'
-  if suse_release >= 7.2
-    yast2-base:
-      /usr/lib/YaST2
-    libycp:
-      /
-    liby2:
-      /
-    libscr:
-      /
-    libyui:
-      /
-    yast2-core-clients:
-      /
-    yast2-core-scr:
-      /
-    yast2-core-translator:
-      /
-    yast2-core-wfm:
-      /
-    yast2-ui-qt:
-      /
-    yast2-ui-ncurses:
-      /
-    yast2-agent-any:
-      /
-    yast2-agent-fdisk:
-      /
-    yast2-agent-isax:
-      /
-    yast2-agent-modules:
-      /
-    yast2-agent-probe:
-      /
-    yast2-agent-rcconfig:
-      /
-  else
-    y2base:
-        /usr/lib/YaST2
-        /usr/X11R6/lib/X11/fonts/uni
-      c 0755 0 0 /usr
-      c 0755 0 0 /usr/lib
-      c 0755 0 0 /usr/lib/YaST2
-  endif
 endif
 
 # remove these:

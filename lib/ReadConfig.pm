@@ -365,9 +365,11 @@ for (@f) {
   $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
   $r0 = "$r0-" if $r0 ne "";
 #  $base = "/work/CDs/full-$r0$rx$a";
-  $work = -d $ENV{'work'} ? $ENV{'work'} : "/work";
-  $base = "$work/CDs/full-$rf-$a";
-  $base = "$work/CDs/full-$a" unless -d $base;
+  $work = defined($ENV{'work'}) && -d($ENV{'work'}) ? $ENV{'work'} : "/work";
+  $work .= "/CDs";
+  $work .= "/all" if -d "$work/all";
+  $base = "$work/full-$rf-$a";
+  $base = "$work/full-$a" unless -d $base;
 
   if(!$in_abuild) {
     die "Sorry, no packages in \"$work\"!\n" unless -d "$base";
