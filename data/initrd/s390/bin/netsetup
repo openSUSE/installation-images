@@ -94,9 +94,7 @@ function yes_no () {
 #
 function check_memory () {
 	MEM=`grep MemTotal /proc/meminfo|sed 's,[^0-9]*\([0-9]*\)[^0-9]*,\1,g'`
-	# 1GB of memory is enough and bash cannot use nums >2^31 (signed int)
-	[ ${MEM} -gt 9 ] && return
-	let MEM="$MEM/1024/1024"
+	let MEM="($MEM >> 15) + 1 << 5" # round up to next 32M
 	if [ $MEM -lt 80 ]; then
 	    echo "Warning: The kernel has only $MEM MB memory for applications"
 	    echo "80 MB are recommended for installation thru FTP and updating."
@@ -1221,7 +1219,7 @@ function load_CTC () {
 	return 1
   fi
   echo "List of first 10 $NETTYPE Channels that were detected:"
-  echo "CHPIDS  Dev. Channel type"
+  echo "Device   Channel type"
   head -n 10 ctc_detected
   ANSW="yes"
   NO_ERROR=yes

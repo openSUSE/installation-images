@@ -1,3 +1,5 @@
+	- s390: round up detected memory size (bug #39504)
+	- s390: netsetup: cosmetic fixes
 	- s390: added dasdro script to initrd
 
 26/4/2004:	v5.43
