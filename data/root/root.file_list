@@ -75,6 +75,11 @@ coreutils:
   /bin/sort
   /bin/kill
   /usr/bin/readlink
+  # for show_of_path.sh
+  if arch eq 'ppc'
+  /usr/bin/stat
+  endif
+
 
 gzip:
   bin/g{un,}zip

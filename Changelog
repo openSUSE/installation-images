@@ -1,4 +1,5 @@
 	- added yast2-runlevel
+	- add /usr/bin/stat to instsys on ppc
 
 15/2/2004:	v5.09
 	- add gdb for the time being
