@@ -386,7 +386,6 @@ if with_yast2 ne 'no'
 
   XFree86:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
-    /etc/fonts/fonts.conf
     /etc/X11/xkb
     s /etc/X11/xkb /usr/X11R6/lib/X11
     /usr/X11R6/bin/xkbcomp
@@ -415,9 +414,6 @@ if with_yast2 ne 'no'
 
   XFree86-fonts-75dpi:
     m /usr/X11R6/lib/X11/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/X11R6/lib/X11/fonts/misc
-
-  xf86tools:
-    /usr/X11R6/lib/X11/XftConfig
 
   libusb:
     /usr/lib*/libusb*.so.*
@@ -823,8 +819,9 @@ gdbm:
   /usr/lib*/libgdbm_compat.so.*
 
 xf86tools:
-  /usr/sbin/fonts-config
+  /etc/fonts/fonts.conf
   /usr/X11R6/lib/X11/XftConfig
+  /usr/sbin/fonts-config
 
 if with_yast2 ne 'no'
   if with_vera_font ne 'no'

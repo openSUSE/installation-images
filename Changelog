@@ -1,3 +1,9 @@
+4/3/2003:	v3.18
+	- fixed text mode boot message (#24600)
+	- /etc/font.config has moved
+	- added /etc/hosts with localhost entry (#22207)
+	- floppy message file should not mention memtest
+
 3/3/2003:	v3.17
 	- added ips_old module
 	- more splash sizes
