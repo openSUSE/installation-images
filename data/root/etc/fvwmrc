@@ -10,7 +10,7 @@ ModuleSynchronous Timeout 5 FvwmTheme
 EdgeResistance 250 10
 EdgeScroll     100 100
 ClickTime      750
-DeskTopSize    2x2
+DeskTopSize    1x1
 ColormapFocus  FollowsMouse
 OpaqueMoveSize unlimited
 

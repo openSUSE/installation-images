@@ -87,6 +87,7 @@ iputils:
 rpm:
   /bin/rpm
   /usr/lib/rpm/{rpm{popt,rc},macros}
+  /usr/lib*/librpm.so*
 
 sh-utils:
   /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename}
@@ -361,7 +362,7 @@ if with_yast2 ne 'no'
   XFree86-libs:
     /usr/X11R6/lib*/lib{X11,Xext}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
-    /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xft,Xrender,Xpm}.so*
+    /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xft,Xrender,Xpm,Xrandr}.so*
     /usr/X11R6/lib*/libfontconfig.so*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
@@ -438,11 +439,10 @@ if with_yast2 ne 'no'
     /usr/lib*/libcurl.so*
 
   fvwm2:
-    d /etc/X11/fvwm2
-    x etc/fvwmrc /etc/X11/fvwm2/system.fvwm2rc
     /usr/X11R6/bin/fvwm{,2}
     /usr/X11R6/share/fvwm/ConfigFvwmDefaults
     /usr/X11R6/lib/X11/fvwm2/FvwmTheme
+    x etc/fvwmrc /usr/X11R6/share/fvwm/fvwmrc
 
   libstroke:
     /usr/lib*/libstroke.so*
@@ -774,6 +774,9 @@ timezone:
 
 hex:
   /usr/bin/hex
+
+bzip2:
+  /usr/lib*/libbz2.so*
 
 shadow:
   /etc/pam.d/shadow

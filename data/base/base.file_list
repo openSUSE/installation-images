@@ -140,6 +140,10 @@ else
   m /boot/System.map-* /System.map
 endif
 
+insserv:
+  /etc
+  /sbin
+
 aaa_base: prein,postin
 e prein
   /etc
@@ -170,6 +174,9 @@ db:
 gdbm:
   /usr/lib*/libgdbm.so.*
   /usr/lib*/libgdbm_compat.so.*
+
+glibc-i18ndata:
+  /
 
 # create splash
 include gen/splash
