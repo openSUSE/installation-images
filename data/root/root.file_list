@@ -154,6 +154,9 @@ endif
 popt:
   /usr/lib*/libpopt.so*
 
+tcpd:
+  /usr/lib*/libwrap.so*
+
 glibc:
   /sbin/ldconfig
   /lib*/ld*

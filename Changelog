@@ -1,3 +1,7 @@
+11/2/2004:	v5.07
+	- more libwrap things
+	- added new modules
+
 10/2/2004:	v5.06
 	- added libwrap missing on s390*
 	- rescue: files for lilo on ppc moved to /lib/lilo

@@ -128,7 +128,11 @@ popt:
 nscd:
   /etc/nscd.conf
 
+tcpd:
+  /usr/lib*/libwrap.so*
+
 glibc:
+  /etc/ld.so.conf
   /{lib*,sbin}
 r /lib/libdb.so.*
 r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
