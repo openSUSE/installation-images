@@ -1,6 +1,7 @@
 12/8/2003:	v4.14
 	- fixed locale-archive
 	- splash script usage changed
+	- adapted to new gfxboot package
 	- s390: qeth is GPL now, do not show OCO license when loading it
 
 11/8/2003:	v4.13

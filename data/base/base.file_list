@@ -34,6 +34,9 @@ fillup:
 grep:
   /bin
 
+make:
+  /usr/bin
+
 sed:
   /bin
 

@@ -35,13 +35,14 @@ mkdir "${DataPath}base/gen", 0755;
 open W, ">$dst";
 
 print W "if arch eq 'ia32' || arch eq 'x86_64'\n";
-print W "  gfxboot-devel:\n    /\nendif\n";
+print W "  gfxboot:\n    /\n    r /usr/sbin/getx11font\nendif\n";
 for (sort keys %st) {
   print W
     "  d /$_\n" .
     "  d /$_/floppy\n" .
     "if arch eq 'ia32' || arch eq 'x86_64'\n" .
-    "    m /usr/share/gfxboot/$_/bootlogo /$_\n" .
+    "    E make -C /usr/share/gfxboot/themes/$_\n" .
+    "    X /usr/share/gfxboot/themes/$_/bootlogo /$_\n" .
     "endif\n";
 }
 
