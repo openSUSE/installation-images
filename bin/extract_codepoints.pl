@@ -35,7 +35,7 @@
 # FIXME : write more here as program matures; also, write better and more
 # accurately
 #
-# $Id: extract_codepoints.pl,v 1.3 2004/04/07 11:51:15 odabrunz Exp $
+# $Id: extract_codepoints.pl,v 1.4 2004/04/07 12:48:04 odabrunz Exp $
 #
 # 2004 Olaf Dabrunz
 #
@@ -342,7 +342,7 @@ sub dump_CPAs {
                         if ($font ne $unassigned) {
                             printf("%#4.4x %s\n", $i, chr($i));
                         } else {
-                            printf("%#4.4x %s", $i, chr($i)); map { print " " . $_; } keys %{$global_CPA[$i]}; print "\n";
+                            printf("%#4.4x %s", $i, chr($i)); map { printf("  %s: %s", $_,  $global_CPA[$i]{$_}); } keys %{$global_CPA[$i]}; print "\n";
                         }
                     } else {
                         printf("%#4.4x\n", $i);
@@ -351,7 +351,7 @@ sub dump_CPAs {
                 if ($font ne $unassigned) {
                     printf(FH "%#4.4x %s\n", $i, chr($i));
                 } else {
-                    printf(FH "%#4.4x %s", $i, chr($i)); map { print FH " " . $_; } keys %{$global_CPA[$i]}; print FH "\n";
+                    printf(FH "%#4.4x %s", $i, chr($i)); map { printf(FH "  %s: %s", $_,  $global_CPA[$i]{$_}); } keys %{$global_CPA[$i]}; print FH "\n";
                 }
             }
         }
