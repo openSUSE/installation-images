@@ -1,3 +1,5 @@
+	- add ipr to iseries initrd
+	- add more dm-* modules to ppc initrds
 	- added getcfg & create_interface (#35624)
 
 1/4/2004:	v5.35
