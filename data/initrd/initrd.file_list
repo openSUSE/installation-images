@@ -92,6 +92,7 @@ else
   include gen/module.files.scsi
   include gen/module.files.scsi@2
   include gen/module.files.scsi@3
+  include gen/module.files.scsi@4
   include gen/module.files.usb
   # not strictly necessary
   include gen/module.files.other
@@ -101,6 +102,7 @@ else
   A gen/module.config.scsi@2 modules/module.config
   A gen/module.config.scsi modules/module.config
   A gen/module.config.scsi@3 modules/module.config
+  A gen/module.config.scsi@4 modules/module.config
   A gen/module.config.cdrom modules/module.config
   A gen/module.config.net modules/module.config
   A gen/module.config.pcmcia modules/module.config

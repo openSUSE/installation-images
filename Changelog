@@ -1,3 +1,6 @@
+27/10/2003:	v2.118
+	- qla2x00-60650 modules added
+
 24/10/2003:	v2.117
 	- s390: put create_interface in initrd to override GA version in root
 	  image
