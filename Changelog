@@ -1,3 +1,4 @@
+	- set root_i18n & root_gfx env vars to include them to the inst-sys
 	- add machbunt.file_list and rooti18n.file_list
 	  to split the inst-sys into smaller parts for
 	  small memory configurations

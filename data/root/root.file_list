@@ -624,6 +624,15 @@ c 755 0 0 /sbin/inst_setup
 c 755 0 0 /sbin/create_interface
 c 755 0 0 /sbin/adddir
 
+if root_i18n
+  include rooti18n.file_list
+endif
+
+if root_gfx
+  include machbunt.file_list
+endif
+
+
 # run depmod
 E /sbin/depmod -a -F /System.map <kernel_ver>
 
