@@ -1235,7 +1235,7 @@ function load_QETH () {
 	    else
 		readln "Please enter the portname(case sensitive) to use($PORTNAME): "
 	    fi
-	    if [ ${#ANSW} -eq 0 ]; then
+	    if [ ${#ANSW} -eq 0 -a ${#PORTNAME} -eq 0 ]; then
 		echo "Warning: Only old MCLs allow empty portnames. Because not"
 		echo "every operator may be aware of this config when updating"
 		echo "the MCL, you may loose network as soon as it's updated."

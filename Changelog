@@ -1,3 +1,5 @@
+06/11/2002:	v2.91
+	- removed warning if valid default is accepted (s390/s390x) #21557
 06/11/2002:	v2.90
 	- fixed permissions for .netrc. Otherwise ftp
           is not executing the script.			(s390/s390x) #21296
