@@ -297,6 +297,7 @@ jfsutils:
 xfsprogs:
   /lib*
   /usr/sbin
+  /sbin
 
 xfsdump:
   /usr/sbin
