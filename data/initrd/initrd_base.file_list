@@ -30,13 +30,12 @@ if arch eq 's390' || arch eq 's390x'
   # there is no need to log in into this ramdisk, because you either
   # use the HMC or VM, which are both secured by other means.
 
-  X sbin/netsetup sbin/netsetup
-
   aaa_base:
     /etc/init.d/network
     /etc/init.d/route
     # for ssh key generation?
     /etc/init.d/random
+    /etc/ld.so.conf
   aaa_dir:
     /
   # devs: ???
@@ -48,8 +47,8 @@ if arch eq 's390' || arch eq 's390x'
     /lib/libc.so.6
     /lib/libcrypt.so.1
     /lib/libdl.so.2
-    /lib/libm.so.6
-    /lib/libmemusage.so
+    #/lib/libm.so.6
+    #/lib/libmemusage.so
     /lib/libnsl.so.1
     /lib/libnss_compat.so.2
     /lib/libnss_dns.so.2
@@ -57,11 +56,11 @@ if arch eq 's390' || arch eq 's390x'
     /lib/libnss_hesiod.so.2
     /lib/libnss_nis.so.2
     /lib/libnss_nisplus.so.2
-    /lib/libpcprofile.so
+    #/lib/libpcprofile.so
     /lib/libpthread.so.0
     /lib/libresolv.so.2
     /lib/librt.so.1
-    /lib/libthread_db.so.1
+    #/lib/libthread_db.so.1
     /lib/libutil.so.1
   base:
     /bin/sed
@@ -74,6 +73,11 @@ if arch eq 's390' || arch eq 's390x'
   s390-tools:
     /sbin/fdasd
     /sbin/dasdfmt
+    /lib/libvtoc.so*
+  cracklib:
+    /usr/lib/libcrack.so*
+  gdbm:
+    /usr/lib/libgdbm.so*
   smbclnt:
     /usr/bin/smbmnt
     /usr/bin/smbmount
@@ -157,6 +161,10 @@ if arch eq 's390' || arch eq 's390x'
     #/etc/services
     #/var/adm/setup
     #/var/adm/setup/setup.netconfig
+  pam:
+    /
+  libz:
+    /lib/libz.so*
   iputils:
     /bin/ping
     /bin/ping6
@@ -172,11 +180,34 @@ if arch eq 's390' || arch eq 's390x'
     /lib
   tcpd:
     /usr/sbin/tcpd
-  #textutils:???
-  #sh-utils:???
+  textutils:
+    /bin/cat
+    /usr/bin/head
+    /usr/bin/tail
+#  sh-utils:
   util-linux:
     /bin
     /sbin
+  ncurses:
+    /lib/libncurses.so.5*
+
+  # (shell-command "find s390 -name CVS -prune -o -type f -printf '\\n  x %p /%P'; echo" (quote (4)) nil)
+  x s390/bin/netsetup /bin/netsetup
+  x s390/etc/syslog.conf /etc/syslog.conf
+  x s390/etc/rc.config /etc/rc.config
+  x s390/etc/exports /etc/exports
+  x s390/etc/services /etc/services
+  x s390/etc/inetd.conf /etc/inetd.conf
+  x s390/etc/inittab /etc/inittab
+  x s390/etc/profile /etc/profile
+  x s390/sbin/nodns /sbin/nodns
+  x s390/sbin/start_yast /sbin/start_yast
+  x s390/sbin/halt.sh /sbin/halt.sh
+  x s390/sbin/realchroot /sbin/realchroot
+  x s390/linuxrc /linuxrc
+  x s390/linuxrc.finish /linuxrc.finish
+  x s390/linuxrc.init /linuxrc.init
+
 ###################################################################
 else # arch is not s390 or s390x
 

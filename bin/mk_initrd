@@ -23,6 +23,7 @@ The final compressed image is stored as C<images/initrd>.
 
 =cut
 
+#'quote for emacs
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # the usual fuss...
@@ -46,6 +47,7 @@ $moddir = "${BasePath}tmp/initrd/modules";
 $modlist = "${BasePath}tmp/initrd.modlist";
 $tmpdirx = "${BasePath}tmp/.initrd";
 $image = "${ImagePath}initrd";
+$arch = "$ConfigData{suse_arch}";
 
 # the compressed image size varies only slightly with these; about +-1k with
 # reasonable inode/block combinations
@@ -89,6 +91,21 @@ if($ENV{'keepinitrd'} != 1) {
   SUSystem "strip_dir $tmpdir";
 }
 
+# on S/390, the contains shared objects
+if ($arch eq 's390' || $arch eq 's390x') {
+    SUSystem "ldconfig -r $tmpdir";
+    die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
+
+    if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+      system "check_libs $tmpdir" and
+	warn "$Script: error in shared lib config, please fix\n";
+    }
+    else {
+      system "check_libs $tmpdir" and
+	die "$Script: error in shared lib config, please fix\n";
+    }    
+}
+
 @m = `ls $moddir/*.o 2>/dev/null`;
 for (@m) {
   chomp;
@@ -103,7 +120,7 @@ close F;
 
 # create the image
 # alternatively, check if ENV{initrd} eq 'small'
-$fstype = $ConfigData{suse_arch} eq 'i386' ? 'minix' : 'ext2';
+$fstype = $arch eq 'i386' ? 'minix' : 'ext2';
 Conv2Image $image, $tmpdir, $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
 
 # compress it
