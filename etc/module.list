@@ -3,7 +3,6 @@
 # Lines starting with '-' specify modules to drop.
 # The lines below are actually perl regexps, so be careful.
 #
-kernel/drivers/atm/
 kernel/drivers/block/
 kernel/drivers/cdrom/
 kernel/drivers/i2o/
@@ -12,6 +11,7 @@ kernel/drivers/ieee1394/
 kernel/drivers/input/
 kernel/drivers/md/
 kernel/drivers/net/
+-kernel/drivers/net/aironet
 -kernel/drivers/net/appletalk/
 -kernel/drivers/net/arcnet/
 -kernel/drivers/net/hamradio/

@@ -414,9 +414,13 @@ if with_yast2 ne 'no'
     /
   yast2-agent-fdisk:
     /
+  yast2-agent-ftp:
+    /
   yast2-agent-http:
     /
   yast2-agent-modules:
+    /
+  yast2-agent-package:
     /
   yast2-agent-probe:
     /
@@ -424,13 +428,13 @@ if with_yast2 ne 'no'
     /
   yast2-agent-system:
     /
+  yast2-agent-targetpkg:
+    /
   yast2-agent-tftp:
     /
   yast2-agent-xml:
     /
   yast2-core-clients:
-    /
-  yast2-core-pkginfo:
     /
   yast2-core-scr:
     /
@@ -456,16 +460,10 @@ if with_yast2 ne 'no'
     /
   yast2-trans-inst-bootloader:
     /
-  if suse_release < 8.0
-    yast2-trans-inst-environment:
-      /
-  endif
   yast2-trans-inst-general:
     /
-  if suse_release >= 8.0
-    yast2-trans-inst-keyboard:
-      /
-  endif
+  yast2-trans-inst-keyboard:
+    /
   yast2-trans-inst-language:
     /
   yast2-trans-inst-mouse:
@@ -474,10 +472,8 @@ if with_yast2 ne 'no'
     /
   yast2-trans-inst-partitioning:
     /
-  if suse_release >= 8.0
-    yast2-trans-inst-timezone:
-      /
-  endif
+  yast2-trans-inst-timezone:
+    /
   yast2-trans-inst-update:
     /
   yast2-trans-inst-user:

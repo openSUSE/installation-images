@@ -102,6 +102,10 @@ xf86:
 xshared:
   /usr/X11R6/lib/libXfont.so*
 
+gawk:
+  /bin
+  /usr/bin
+
 splashanim:
   /usr/share/splash
 

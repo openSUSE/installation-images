@@ -140,7 +140,7 @@ for (sort { $fname{$a} cmp $fname{$b} } keys %fname) {
 mkdir "${DataPath}initrd/gen", 0755;
 
 for (@sect) {
-  next if /notuseful/;
+#  next if /notuseful/;
 
   $s = $_;
   $s =~ s/\s*//g;
@@ -205,6 +205,8 @@ sub lsplit
   $l =~ s/^"(.*)"$/$1/;
   $l =~ s/\\\"/"/g;
   push @l, $l if $l ne "";
+
+  $l[1] = undef if $l[1] =~ /^-/;
 
   return @l;
 }

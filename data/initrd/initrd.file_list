@@ -30,6 +30,7 @@ if arch eq 'ia32'
     A gen/module.shortconfig.net modules/module.config
     A gen/module.shortconfig.pcmcia modules/module.config
     A gen/module.config.usb modules/module.config
+    A gen/module.shortconfig.firewire modules/module.config
     A gen/module.shortconfig.fs modules/module.config
     A gen/module.config.other modules/module.config
 
@@ -37,6 +38,7 @@ if arch eq 'ia32'
 
     include gen/module.files.autoload
     include gen/module.files.cdrom
+    include gen/module.files.firewire
     include gen/module.files.fs
     include gen/module.files.net
     include gen/module.files.pcmcia
@@ -52,6 +54,7 @@ if arch eq 'ia32'
     A gen/module.config.net modules/module.config
     A gen/module.config.pcmcia modules/module.config
     A gen/module.config.usb modules/module.config
+    A gen/module.config.firewire modules/module.config
     A gen/module.config.fs modules/module.config
     A gen/module.config.other modules/module.config
 

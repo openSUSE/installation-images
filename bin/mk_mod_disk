@@ -29,7 +29,7 @@ $disk = 1;
 $disk = $ENV{modules} + 0 if exists $ENV{modules};
 
 if($disk == 2) {
-  @modimages = qw ( net pcmcia cdrom );
+  @modimages = qw ( net pcmcia cdrom firewire );
 }
 else {
   @modimages = qw ( scsi fs );

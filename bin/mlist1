@@ -1,9 +1,22 @@
 #! /usr/bin/perl
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
+
 sub check_deps;
 
-$md = shift;
-$ex = shift;
+die "usage: $Script\n" if @ARGV;
+
+$md = "${BasePath}tmp/base/modules.dep";
+$ex = "${CfgPath}module.list";
+$deps = "${BasePath}tmp/module_deps";
+$list = "${BasePath}tmp/module_list";
 
 print STDERR "checking module list...\n";
 
@@ -86,15 +99,19 @@ for (@ml) {
 
 while(check_deps) {}
 
-for (sort keys %ml) {
-  print "# $path{$_}: $_\n";
+open W1, ">$deps";
+open W2, ">$list";
+for (sort { "$path{$a} $a" cmp "$path{$b} $b" } keys %ml) {
+  print W2 "$path{$_}: $_\n";
   if($ml{$_}) {
-    print "$_: $ml{$_}\n"
+    print W1 "$_: $ml{$_}\n"
   }
   else {
-    print "$_:\n"
+    print W1 "$_:\n"
   }
 }
+close W2;
+close W1;
 
 sub check_deps
 {

@@ -54,7 +54,7 @@ $fl = "modules";
 $fl = $ENV{'filelist'} if exists $ENV{'filelist'};
 
 if($disk == 2) {
-  @modimages = qw ( net pcmcia cdrom );
+  @modimages = qw ( net pcmcia cdrom firewire );
 }
 else {
   @modimages = qw ( scsi fs );
