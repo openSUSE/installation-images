@@ -29,7 +29,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
     endif
   endif
 
-  if (arch ne 'ia32' || memtest eq 'no' || boot eq 'small' || liveeval) && memtest ne 'yes'
+  if ((arch ne 'ia32' && arch ne 'x86_64') || memtest eq 'no' || liveeval) && memtest ne 'yes'
     R s/\n# memory.*memtest\n//s /syslinux.cfg
     R s/.*memtest.*// /message
   else
@@ -66,6 +66,11 @@ endif
 
 
 if boot eq 'isolinux'
+  # 'notice' bitmask:
+  #   0: wrong side of a two-sided dvd
+  #   1: enable 64bit check
+  #   2: software is 64bit
+  #   3: is dvd
   if arch eq 'x86_64'
     e echo -e "notice\t\t6" >>syslinux.cfg
   else
