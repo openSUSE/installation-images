@@ -457,6 +457,8 @@ if [ ! "$new" ] ; then
     umount /.SuSE
   fi
 
+  cat /proc/mounts >/etc/mtab
+
   umount /proc
 
   deb_stop
@@ -779,6 +781,10 @@ fi
 [ "$deb_shell" ] && kill -9 "$deb_shell"
 
 [ "$partition" ] && umount $partition 2>/dev/null
+
+mount /proc
+cat /proc/mounts >/etc/mtab
+umount /proc
 
 [ "$stop" ] && debug=1
 deb_stop
