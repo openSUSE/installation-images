@@ -73,12 +73,14 @@ if [ -f /S.u.S.E./suse/images/susec ] ; then
     -e 'mount -v /.SuSE\' -e "insmod /lib/cloop.o </.SuSE/$susecloop" \
     /sbin/init.d/boot >/tmp/boot
   mv /tmp/boot /sbin/init.d/boot
+  chmod 744 /sbin/init.d/boot
 
   sed -e '/Unmounting/ a \' \
     -e 'umount -v /dev/cloop\' \
     -e 'rmmod cloop' \
     /sbin/init.d/halt >/tmp/halt
   mv /tmp/halt /sbin/init.d/halt
+  chmod 744 /sbin/init.d/halt
 
   sed -e '/^  # mount Live CD/ a \' \
       -e '  [ ! -f /.SuSE/'"$susecloop"' ] && mount -n /.SuSE\' \
@@ -102,7 +104,7 @@ rm -f /var/X11R6/lib ; mkdir /var/X11R6/lib
 
 /sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter\
   opt opt/kde opt/kde/share var/X11R6/xfine\
-  sbin/init.d sbin/conf.d etc/pcmcia etc/httpd\
+  sbin/init.d sbin/conf.d etc/httpd\
   var/X11R6/lib
 
 rm -f usr           ; mkdir usr           ; /sbin/mk_links usr
@@ -121,6 +123,7 @@ if [ ! "$nodisk" ] ; then
   /sbin/mk_links sbin/init.d/rc?.d
 fi
 
+cp -af /S.u.S.E./etc/pcmcia/* /etc/pcmcia
 cp -af /S.u.S.E./etc/pam.d/* /etc/pam.d
 rm -f /etc/pam.d/TRANS.TBL
 cp -af /S.u.S.E./etc/rc.config /etc
@@ -133,7 +136,7 @@ cp -af /S.u.S.E./sbin/init.d/{boot,halt}.local /sbin/init.d
 cp -af /S.u.S.E./etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
 cp -af /S.u.S.E./etc/httpd/httpd.conf /etc/httpd
 cp -af /S.u.S.E./etc/wvdial.conf /etc
-cp -af /S.u.S.E./etc/rc.dialout /etc
+cp -af /S.u.S.E./etc/rc.dialout /etc 2>/dev/null
 cp -af /S.u.S.E./etc/ppp/* /etc/ppp
 cp -af /S.u.S.E./etc/isdn/* /etc/isdn
 cp -af /S.u.S.E./etc/vbox/* /etc/vbox

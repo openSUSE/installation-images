@@ -1,3 +1,14 @@
+1/12/2000:	v1.14
+	- updated ci_y2image to include disk_* files
+
+1/12/2000:	v1.13
+	- prepared to build rescue CD
+	- build various boot disks directly
+	- fixed file lists
+
+24/11/2000:	v1.12
+	- changed initrd to work with new kbd package
+
 21/11/2000:	v1.11
 	- finished rescue system
 	- renamed ix86 -> ia32

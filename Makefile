@@ -4,7 +4,8 @@ PLIBS	= AddFiles MakeFATImage MakeMinixImage ReadConfig
 PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root mk_root
 
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue\
-        root demo modules html clean distdir install install_xx
+        root demo modules html clean distdir install install_xx rdemo brescue
+	rescue_cd
 
 all:
 
@@ -42,8 +43,17 @@ root: dirs initrd
 demo: dirs
 	bin/mk_demo
 
+rdemo: dirs
+	bin/mk_rdemo
+
 rescue: dirs
 	bin/mk_rescue
+
+brescue: dirs
+	bin/mk_brescue
+
+rescue_cd: boot brescue rdemo
+	bin/mk_rescue_cd
 
 modules: dirs
 	bin/mk_modules

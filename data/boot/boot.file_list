@@ -11,9 +11,9 @@ if arch eq 'ia32'
   elsif demo eq 'live'
     x message-live /message
     x syslinux-live.cfg /syslinux.cfg
-  elsif demo eq 'ps'
-    x message-ps /message
-    x syslinux-ps.cfg /syslinux.cfg
+  elsif demo eq 'rescue'
+    x message-rescue /message
+    x syslinux-rescue.cfg /syslinux.cfg
   elsif lang eq 'fr'
     x message.fr /message
     x syslinux.cfg.fr /syslinux.cfg

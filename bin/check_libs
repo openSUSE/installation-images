@@ -46,7 +46,7 @@ if( -f "etc/ld.so.cache") {
       printf "  %-24s  %s\n", $_, $soname{$_};
       printf "  [needed by: %s]\n", join(', ', @{$needed{$_}}) if $verbose >= 1;
       $first = 0;
-      $error = 1;
+#      $error = 1;
     }
   }
   print "ok\n" if $first;

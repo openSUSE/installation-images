@@ -30,11 +30,22 @@ l linuxrc bin/init
 l linuxrc bin/portmap
 l linuxrc etc/nothing
 
+if linuxrc
+  X <linuxrc> /linuxrc
+else
+  linuxrc:
+  if suse_release < 7.1 && boot eq 'small'
+    m /usr/sbin/linuxrc_mini /linuxrc
+  else
+   m /usr/sbin/linuxrc /linuxrc
+  endif
+endif
+
 x etc/host.conf etc
 x etc/syslog.conf etc
 
 devs:
-if suse_major_release == 6
+if suse_major == 6
   m /usr/doc/packages/devs/makedevs.floppy /
 else
   m /usr/share/doc/packages/devs/makedevs.floppy /
@@ -42,81 +53,158 @@ endif
 c 0755 0 0 makedevs.floppy
 
 kbd:
-d consoletrans
-m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat7u.uni,trivial} consoletrans
-if suse_release >= 7.1
-  m /usr/lib/kbd/consoletrans/latin2u.trans consoletrans
-else
+
+if suse_release < 7.1
+  d consoletrans
+  m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat7u.uni,trivial} consoletrans
   m /usr/lib/kbd/consoletrans/{lat1u.uni,lat2u.uni,latin2u.scrnmap} consoletrans
-endif
 
-d consolefonts
-# Cyr_a8x16 differs
-g /usr/lib/kbd/consolefonts/Cyr_a8x16.psfu.gz consolefonts/Cyr_a8x16
-# never been used anyway
-# g /usr/lib/kbd/consolefonts/gr8x16.gz consolefonts/gr8x16.psf
-g /usr/lib/kbd/consolefonts/lat1-16.psfu.gz consolefonts/lat1u-16.psf
-# lat2 differs
-g /usr/lib/kbd/consolefonts/lat2-16.psfu.gz consolefonts/lat2u-16.psf
-g /usr/lib/kbd/consolefonts/lat7-16.psfu.gz consolefonts/lat7-16.psfu
+  d consolefonts
+  # Cyr_a8x16 differs
+  g /usr/lib/kbd/consolefonts/Cyr_a8x16.psfu.gz consolefonts/Cyr_a8x16
+  # never been used anyway
+  # g /usr/lib/kbd/consolefonts/gr8x16.gz consolefonts/gr8x16.psf
+  g /usr/lib/kbd/consolefonts/lat1-16.psfu.gz consolefonts/lat1u-16.psf
+  # lat2 differs
+  g /usr/lib/kbd/consolefonts/lat2-16.psfu.gz consolefonts/lat2u-16.psf
+  g /usr/lib/kbd/consolefonts/lat7-16.psfu.gz consolefonts/lat7-16.psfu
 
-d keytables/include
+  d keytables/include
 
-if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64'
-  g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz keytables/Pl02.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/br-abnt2.map.gz keytables/br-abnt2.map
-  g /usr/lib/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz keytables/cz-us-qwertz.map
-  g /usr/lib/kbd/keymaps/i386/qwertz/de-lat1-nd.map.gz keytables/de-lat1-nd.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/dk.map.gz keytables/dk.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/es.map.gz keytables/es.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/fi.map.gz keytables/fi.map
-  g /usr/lib/kbd/keymaps/i386/azerty/fr-latin1.map.gz keytables/fr-latin1.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/gr.map.gz keytables/gr.map
-  g /usr/lib/kbd/keymaps/i386/qwertz/hu.map.gz keytables/hu.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/it.map.gz keytables/it.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/nl.map.gz keytables/nl.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/no-latin1.map.gz keytables/no-latin1.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/pt-latin1.map.gz keytables/pt-latin1.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/ru1.map.gz keytables/ru1.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz keytables/sk-qwerty.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/uk.map.gz keytables/uk.map
-  g /usr/lib/kbd/keymaps/i386/qwerty/us.map.gz keytables/us.map
+  if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64'
+    g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz keytables/Pl02.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/br-abnt2.map.gz keytables/br-abnt2.map
+    g /usr/lib/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz keytables/cz-us-qwertz.map
+    g /usr/lib/kbd/keymaps/i386/qwertz/de-lat1-nd.map.gz keytables/de-lat1-nd.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/dk.map.gz keytables/dk.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/es.map.gz keytables/es.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/fi.map.gz keytables/fi.map
+    g /usr/lib/kbd/keymaps/i386/azerty/fr-latin1.map.gz keytables/fr-latin1.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/gr.map.gz keytables/gr.map
+    g /usr/lib/kbd/keymaps/i386/qwertz/hu.map.gz keytables/hu.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/it.map.gz keytables/it.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/nl.map.gz keytables/nl.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/no-latin1.map.gz keytables/no-latin1.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/pt-latin1.map.gz keytables/pt-latin1.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/ru1.map.gz keytables/ru1.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz keytables/sk-qwerty.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/uk.map.gz keytables/uk.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/us.map.gz keytables/us.map
 
-  g /usr/lib/kbd/keymaps/i386/qwertz/de-latin1.map.gz keytables/de-latin1.map
-  m /usr/lib/kbd/keymaps/i386/include/{azerty-layout,linux-keys-bare,linux-keys-extd,linux-with-alt-and-altgr,linux-with-two-alt-keys,qwerty-layout,qwertz-layout}.inc keytables/include
-  g /usr/lib/kbd/keymaps/i386/include/euro.map.gz keytables/include/euro.map
-endif
+    g /usr/lib/kbd/keymaps/i386/qwertz/de-latin1.map.gz keytables/de-latin1.map
+    m /usr/lib/kbd/keymaps/i386/include/{azerty-layout,linux-keys-bare,linux-keys-extd,linux-with-alt-and-altgr,linux-with-two-alt-keys,qwerty-layout,qwertz-layout}.inc keytables/include
+    g /usr/lib/kbd/keymaps/i386/include/euro.map.gz keytables/include/euro.map
+  endif
 
-if arch eq 'ppc'
-  m /usr/lib/kbd/keymaps/mac/include/mac-{azerty-layout,qwerty-layout,linux-keys-bare}.inc keytables/include
-  g /usr/lib/kbd/keymaps/mac/include/mac-euro.map.gz keytables/include/mac-euro.map
-  g /usr/lib/kbd/keymaps/mac/mac-be.map.gz keytables/mac-be.map
-  g /usr/lib/kbd/keymaps/mac/mac-de-latin1-nodeadkeys.map.gz keytables/mac-de-latin1-nodeadkeys.map
-  g /usr/lib/kbd/keymaps/mac/mac-de-latin1.map.gz keytables/mac-de-latin1.map
-  g /usr/lib/kbd/keymaps/mac/mac-de_CH.map.gz keytables/mac-de_CH.map
-  g /usr/lib/kbd/keymaps/mac/mac-dk-latin1.map.gz keytables/mac-dk-latin1.map
-  g /usr/lib/kbd/keymaps/mac/mac-es.map.gz keytables/mac-es.map
-  g /usr/lib/kbd/keymaps/mac/mac-fi-latin1.map.gz keytables/mac-fi-latin1.map
-  g /usr/lib/kbd/keymaps/mac/mac-fr.map.gz keytables/mac-fr.map
-  g /usr/lib/kbd/keymaps/mac/mac-it.map.gz keytables/mac-it.map
-  g /usr/lib/kbd/keymaps/mac/mac-se.map.gz keytables/mac-se.map
-  g /usr/lib/kbd/keymaps/mac/mac-uk.map.gz keytables/mac-uk.map
-  g /usr/lib/kbd/keymaps/mac/mac-us.map.gz keytables/mac-us.map
-endif
+  if arch eq 'ppc'
+    m /usr/lib/kbd/keymaps/mac/include/mac-{azerty-layout,qwerty-layout,linux-keys-bare}.inc keytables/include
+    g /usr/lib/kbd/keymaps/mac/include/mac-euro.map.gz keytables/include/mac-euro.map
+    g /usr/lib/kbd/keymaps/mac/mac-be.map.gz keytables/mac-be.map
+    g /usr/lib/kbd/keymaps/mac/mac-de-latin1-nodeadkeys.map.gz keytables/mac-de-latin1-nodeadkeys.map
+    g /usr/lib/kbd/keymaps/mac/mac-de-latin1.map.gz keytables/mac-de-latin1.map
+    g /usr/lib/kbd/keymaps/mac/mac-de_CH.map.gz keytables/mac-de_CH.map
+    g /usr/lib/kbd/keymaps/mac/mac-dk-latin1.map.gz keytables/mac-dk-latin1.map
+    g /usr/lib/kbd/keymaps/mac/mac-es.map.gz keytables/mac-es.map
+    g /usr/lib/kbd/keymaps/mac/mac-fi-latin1.map.gz keytables/mac-fi-latin1.map
+    g /usr/lib/kbd/keymaps/mac/mac-fr.map.gz keytables/mac-fr.map
+    g /usr/lib/kbd/keymaps/mac/mac-it.map.gz keytables/mac-it.map
+    g /usr/lib/kbd/keymaps/mac/mac-se.map.gz keytables/mac-se.map
+    g /usr/lib/kbd/keymaps/mac/mac-uk.map.gz keytables/mac-uk.map
+    g /usr/lib/kbd/keymaps/mac/mac-us.map.gz keytables/mac-us.map
+  endif
 
-if arch eq 'sparc' || arch eq 'sparc64'
-  g /usr/lib/kbd/keymaps/sun/sunkeymap.map.gz keytables/sunkeymap.map
-  g /usr/lib/kbd/keymaps/sun/sundvorak.map.gz keytables/sundvorak.map
-  g /usr/lib/kbd/keymaps/sun/sun-pl-altgraph.map.gz keytables/sun-pl-altgraph.map
-  g /usr/lib/kbd/keymaps/sun/sun-pl.map.gz keytables/sun-pl.map
-  g /usr/lib/kbd/keymaps/sun/sunt4-es.map.gz keytables/sunt4-es.map
-  g /usr/lib/kbd/keymaps/sun/sunt4-no-latin1.map.gz keytables/sunt4-no-latin1.map
-  g /usr/lib/kbd/keymaps/sun/sunt5-de-latin1.map.gz keytables/sunt5-de-latin1.map
-  g /usr/lib/kbd/keymaps/sun/sunt5-es.map.gz keytables/sunt5-es.map
-  g /usr/lib/kbd/keymaps/sun/sunt5-fi-latin1.map.gz keytables/sunt5-fi-latin1.map
-  g /usr/lib/kbd/keymaps/sun/sunt5-fr-latin1.map.gz keytables/sunt5-fr-latin1.map
-  g /usr/lib/kbd/keymaps/sun/sunt5-ru.map.gz keytables/sunt5-ru.map
-endif
+  if arch eq 'sparc' || arch eq 'sparc64'
+    g /usr/lib/kbd/keymaps/sun/sunkeymap.map.gz keytables/sunkeymap.map
+    g /usr/lib/kbd/keymaps/sun/sundvorak.map.gz keytables/sundvorak.map
+    g /usr/lib/kbd/keymaps/sun/sun-pl-altgraph.map.gz keytables/sun-pl-altgraph.map
+    g /usr/lib/kbd/keymaps/sun/sun-pl.map.gz keytables/sun-pl.map
+    g /usr/lib/kbd/keymaps/sun/sunt4-es.map.gz keytables/sunt4-es.map
+    g /usr/lib/kbd/keymaps/sun/sunt4-no-latin1.map.gz keytables/sunt4-no-latin1.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-de-latin1.map.gz keytables/sunt5-de-latin1.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-es.map.gz keytables/sunt5-es.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-fi-latin1.map.gz keytables/sunt5-fi-latin1.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-fr-latin1.map.gz keytables/sunt5-fr-latin1.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-ru.map.gz keytables/sunt5-ru.map
+  endif
+
+else	# ! suse_release < 7.1
+
+  d kbd/consoletrans
+#  m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat7u.uni,trivial} kbd/consoletrans
+#  m /usr/lib/kbd/consoletrans/latin2u.trans kbd/consoletrans
+  m /usr/lib/kbd/consoletrans/koi2alt kbd/consoletrans
+
+  d kbd/consolefonts
+  g /usr/lib/kbd/consolefonts/Cyr_a8x16.psfu.gz kbd/consolefonts/Cyr_a8x16.psfu
+  g /usr/lib/kbd/consolefonts/lat1-16.psfu.gz kbd/consolefonts/lat1-16.psfu
+  g /usr/lib/kbd/consolefonts/lat2-16.psfu.gz kbd/consolefonts/lat2-16.psfu
+  g /usr/lib/kbd/consolefonts/lat7-16.psfu.gz kbd/consolefonts/lat7-16.psfu
+
+# currently not used; check with linuxrc/settings.c!
+#  d kbd/unimaps
+#  m /usr/lib/kbd/unimaps/lat{1,1u,2,2u}.uni kbd/unimaps
+
+  d kbd/keymaps/include
+  m usr/lib/kbd/keymaps/include/compose.{latin{,1,2,3,4},add,8859_{7,8}} kbd/keymaps/include
+
+  if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64'
+    g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz kbd/keymaps/Pl02.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/br-abnt2.map.gz kbd/keymaps/br-abnt2.map
+    g /usr/lib/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz kbd/keymaps/cz-us-qwertz.map
+    g /usr/lib/kbd/keymaps/i386/qwertz/de-lat1-nd.map.gz kbd/keymaps/de-lat1-nd.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/dk.map.gz kbd/keymaps/dk.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/es.map.gz kbd/keymaps/es.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/fi.map.gz kbd/keymaps/fi.map
+    g /usr/lib/kbd/keymaps/i386/azerty/fr-latin1.map.gz kbd/keymaps/fr-latin1.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/gr.map.gz kbd/keymaps/gr.map
+    g /usr/lib/kbd/keymaps/i386/qwertz/hu.map.gz kbd/keymaps/hu.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/it.map.gz kbd/keymaps/it.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/nl.map.gz kbd/keymaps/nl.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/no-latin1.map.gz kbd/keymaps/no-latin1.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/pt-latin1.map.gz kbd/keymaps/pt-latin1.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/ru1.map.gz kbd/keymaps/ru1.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz kbd/keymaps/sk-qwerty.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/uk.map.gz kbd/keymaps/uk.map
+    g /usr/lib/kbd/keymaps/i386/qwerty/us.map.gz kbd/keymaps/us.map
+
+    m /usr/lib/kbd/keymaps/i386/include/{{azerty,qwert{y,z}}-layout,linux-{keys-{bare,extd},with-{alt-and,modeshift}-altgr}}.inc kbd/keymaps/include
+    m /usr/lib/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
+    g /usr/lib/kbd/keymaps/i386/qwertz/de-latin1.map.gz kbd/keymaps/de-latin1.map
+    g /usr/lib/kbd/keymaps/i386/include/euro.map.gz kbd/keymaps/include/euro.map
+  endif
+
+  if arch eq 'ppc'
+    m /usr/lib/kbd/keymaps/mac/include/mac-{azerty-layout,qwerty-layout,linux-keys-bare}.inc kbd/keymaps/include
+    g /usr/lib/kbd/keymaps/mac/include/mac-euro.map.gz kbd/keymaps/include/mac-euro.map
+    g /usr/lib/kbd/keymaps/mac/mac-be.map.gz kbd/keymaps/mac-be.map
+    g /usr/lib/kbd/keymaps/mac/mac-de-latin1-nodeadkeys.map.gz kbd/keymaps/mac-de-latin1-nodeadkeys.map
+    g /usr/lib/kbd/keymaps/mac/mac-de-latin1.map.gz kbd/keymaps/mac-de-latin1.map
+    g /usr/lib/kbd/keymaps/mac/mac-de_CH.map.gz kbd/keymaps/mac-de_CH.map
+    g /usr/lib/kbd/keymaps/mac/mac-dk-latin1.map.gz kbd/keymaps/mac-dk-latin1.map
+    g /usr/lib/kbd/keymaps/mac/mac-es.map.gz kbd/keymaps/mac-es.map
+    g /usr/lib/kbd/keymaps/mac/mac-fi-latin1.map.gz kbd/keymaps/mac-fi-latin1.map
+    g /usr/lib/kbd/keymaps/mac/mac-fr.map.gz kbd/keymaps/mac-fr.map
+    g /usr/lib/kbd/keymaps/mac/mac-it.map.gz kbd/keymaps/mac-it.map
+    g /usr/lib/kbd/keymaps/mac/mac-se.map.gz kbd/keymaps/mac-se.map
+    g /usr/lib/kbd/keymaps/mac/mac-uk.map.gz kbd/keymaps/mac-uk.map
+    g /usr/lib/kbd/keymaps/mac/mac-us.map.gz kbd/keymaps/mac-us.map
+  endif
+
+  if arch eq 'sparc' || arch eq 'sparc64'
+    g /usr/lib/kbd/keymaps/sun/sunkeymap.map.gz kbd/keymaps/sunkeymap.map
+    g /usr/lib/kbd/keymaps/sun/sundvorak.map.gz kbd/keymaps/sundvorak.map
+    g /usr/lib/kbd/keymaps/sun/sun-pl-altgraph.map.gz kbd/keymaps/sun-pl-altgraph.map
+    g /usr/lib/kbd/keymaps/sun/sun-pl.map.gz kbd/keymaps/sun-pl.map
+    g /usr/lib/kbd/keymaps/sun/sunt4-es.map.gz kbd/keymaps/sunt4-es.map
+    g /usr/lib/kbd/keymaps/sun/sunt4-no-latin1.map.gz kbd/keymaps/sunt4-no-latin1.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-de-latin1.map.gz kbd/keymaps/sunt5-de-latin1.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-es.map.gz kbd/keymaps/sunt5-es.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-fi-latin1.map.gz kbd/keymaps/sunt5-fi-latin1.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-fr-latin1.map.gz kbd/keymaps/sunt5-fr-latin1.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-ru.map.gz kbd/keymaps/sunt5-ru.map
+  endif
+
+endif	# ! suse_release < 7.1
 
 if arch eq 'alpha' || arch eq 'ia32' || arch eq 'ppc'
   pcmcia:

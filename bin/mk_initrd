@@ -19,9 +19,6 @@ are coded in the C<mk_initrd> script. You I<can> vary these values but it
 doesn't really pay of much. You will gain or loose a few bytes of the
 compressed initrd size only.
 
-The C<linuxrc> binary is taken from the location given by the C<linuxrc> entry
-in the C<etc/config> file.
-
 The final compressed image is stored as C<images/initrd>.
 
 =cut
@@ -59,9 +56,6 @@ $extra_inodes = 200;
 $start_size = 30000;		# kbyte
 $start_inodes = 7000;
 
-$lxrc = "$BasePath$ConfigData{linuxrc}";
-die "$Script: where is linuxrc?" unless $ConfigData{linuxrc} && -f $lxrc;
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
@@ -76,15 +70,15 @@ if($ENV{'keep_initrd'} ne 'yes') {
       die "$Script: failed to remove old $tmpdirx";
   }
 
-  AddFiles $tmpdir, "${srcdir}/initrd.file_list", $srcdir, $ENV{'initrd'}, "${BasePath}tmp/initrd.opt_mods" or
+  $fl = "initrd";
+  $fl = $ENV{'filelist'} if exists $ENV{'filelist'};
+
+  AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir, $ENV{'initrd'}, "${BasePath}tmp/initrd.opt_mods" or
     die "$Script: failed to setup initrd image";
 
   SUSystem "sh -c 'cd $tmpdir; ./makedevs.floppy >/dev/null'" and
     die "$Script: could not create all devices";
   SUSystem "rm $tmpdir/makedevs.floppy";
-
-  SUSystem "cp $lxrc $tmpdir/linuxrc" and
-    die "$Script: linuxrc not copied";
 
   # strip everything
   SUSystem "strip_dir $tmpdir";

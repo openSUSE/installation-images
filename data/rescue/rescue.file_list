@@ -47,6 +47,11 @@ bash:
 bdflush:
   /sbin
 
+if suse_release < 7.1
+  binutils:
+    /usr/lib/libbfd-*.so
+endif
+
 cpio:
   /bin
   /usr/bin
@@ -56,10 +61,16 @@ cracklib:
 #  /usr/sbin/{mkdict,packer}
   /usr/lib
 
-db:
-  /usr/lib/libdb-3*
+if suse_release >= 7.1
+  db:
+    /usr/lib/libdb-3*
+endif
 
-diffutils:
+if suse_release >= 7.1
+  diffutils:
+else
+  diff:
+endif
   /usr/bin
 
 dump:
@@ -70,18 +81,34 @@ dump:
 #  /usr/{bin,lib}
 #s elvis /usr/bin/vi
 
-e2fsprogs:
+if suse_release >= 7.1
+  e2fsprogs:
+else
+  ext2fs:
+endif
   /{lib,sbin}
   /usr/{,s}bin
 
-fileutils:
+if suse_release >= 7.1
+  fileutils:
+else
+  fileutil:
+endif
   /bin
   /usr/bin
 
-findutils:
+if suse_release >= 7.1
+  findutils:
+else
+  find:
+endif
   /usr/bin/{find,xargs}
 
-glibc:
+if suse_release >= 7.1
+  glibc:
+else
+  shlibs:
+endif
   /etc/nscd.conf
   /{lib,sbin}
 r /lib/libdb.so.*
@@ -89,6 +116,9 @@ r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
   /usr/{,s}bin
 r /usr/bin/{db*,glibcbug,localedef,rpcgen}
   /usr/lib/pt_chown
+if suse_release < 7.1
+  /lib/libdb.so.3
+endif
 
 gzip:
   /bin
@@ -124,7 +154,11 @@ mdutils:
 mktemp:
   /bin/mktemp
 
-modutils:
+if suse_release >= 7.1
+  modutils:
+else
+  modules:
+endif
   /sbin/{insmod,modprobe,rmmod,lsmod,ksyms}
 
 ncurses:
@@ -137,7 +171,11 @@ ncurses:
 #  /usr/bin
   /usr/bin/{clear,tset,reset}
 
-net-tools:
+if suse_release >= 7.1
+  net-tools:
+else
+  net_tool:
+endif
   /{,s}bin
 
 netcat:
@@ -158,6 +196,9 @@ nkita:
 nkitb:
   /usr/bin
 r /usr/bin/{ruptime,talk}
+if suse_release < 7.1
+  /usr/sbin/traceroute
+endif
 
 pam:
   /{etc,lib,sbin}
@@ -186,10 +227,16 @@ rsync:
   /etc
   /usr/{,s}bin
 
-setserial:
-  /bin/setserial
+if suse_release >= 7.1
+  setserial:
+    /bin/setserial
+endif
 
-sh-utils:
+if suse_release >= 7.1
+  sh-utils:
+else
+  sh_utils:
+endif
   /{etc,bin}
 r /bin/su
   /usr/bin
@@ -215,18 +262,29 @@ c 600 0 0 /dev/initctl
 r /sbin/{powerd,runlevel,setserialbits,start-stop-daemon,sulogin}
   /usr/bin
 
-textutils:
- /bin
- /usr/bin
+if suse_release >= 7.1
+  textutils:
+else
+  textutil:
+endif
+  /bin
+  /usr/bin
 
-traceroute:
-  /usr/sbin/traceroute
+if suse_release >= 7.1
+  traceroute:
+    /usr/sbin/traceroute
+endif
 
-util-linux:
- /bin/{dmesg,kill,mount,umount}
- /etc/filesystems
- /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,hwclock,mkfs,mkfs.bfs,mkswap,swapon,swapoff}
- /usr/{bin,sbin}
+if suse_release >= 7.1
+  util-linux:
+else
+  util:
+    /bin/setserial
+endif
+  /bin/{dmesg,kill,mount,umount}
+  /etc/filesystems
+  /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,hwclock,mkfs,mkfs.bfs,mkswap,swapon,swapoff}
+  /usr/{bin,sbin}
 
 vim:
   /etc

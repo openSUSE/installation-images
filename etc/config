@@ -28,4 +28,3 @@ kernel_rpm=k_deflt
 
 # some basic stuff
 syslinux=/usr/sbin/syslinux
-linuxrc=/usr/sbin/linuxrc

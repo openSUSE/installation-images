@@ -66,7 +66,7 @@ sub AddFiles
   my ($rpms, $tdir, $tfile, $p, $r, $d, $u, $g, $files);
   my ($mod_list, @mod_list, %mod_list);
   my ($inc_file, $inc_it, $debug, $eshift, $ignore);
-  my ($old_warn, $ver);
+  my ($old_warn, $ver, $i);
   my (@scripts, $s, @s, %script);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
@@ -140,6 +140,9 @@ sub AddFiles
     }
 
     s/<(kernel_ver|kernel_rpm|kernel_img|suse_release|suse_major|suse_minor)>/$ConfigData{$1}/g;
+    for $i (qw( linuxrc )) {
+      s/<$i>/$ENV{$i}/g if exists $ENV{$i};
+    }
 
     if(/^endif/) { $if_val >>= $eshift; next }
 
@@ -294,7 +297,7 @@ sub AddFiles
         warn "$Script: failed to move $1 to $2";
     }
     elsif(/^X\s+(\S+)\s+(\S+)$/) {
-      SUSystem "cp -fdR $1 $dir/$2 2>/dev/null" and
+      SUSystem "cp -dR $1 $dir/$2 2>/dev/null" and
         print "$Script: $1 not copied to $2 (ignored)\n";
     }
     elsif(/^g\s+(\S+)\s+(\S+)$/) {

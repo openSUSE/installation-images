@@ -8,9 +8,10 @@ c 1777 0 0 tmp
 aaa_base: prein,postin
 e prein
   /bin/fillup
-  /etc/modules.conf
+  /etc/{modules.conf,insserv.conf}
   /sbin/mk_initrd
   /sbin/get_kernel_version
+  /sbin/insserv
   /usr/bin/old
   /var/adm/fillup-templates
 e postin
@@ -134,7 +135,7 @@ endif
 
 ncurses:
   /lib/libncurses.so.5*
-#  /lib/libpanel.so.5*
+  /usr/lib/libpanel.so.5*
 if suse_release < 7.1
   /lib/libncurses.so.4*
   /usr/lib/lib{form,menu,panel}.so*
@@ -510,6 +511,9 @@ if suse_release >= 7.1
   libmng:
     /usr/lib/libmng.so*
 
+  liblcms:
+    /usr/lib/liblcms.so*
+
   qt:
     /usr/lib/libqt.so.2
     /usr/lib/qt2
@@ -635,9 +639,18 @@ if arch eq 'ia32'
     /sbin/{kill,start}proc
   sbl:
     /usr/lib/suse-blinux
+if suse_release >= 7.1
+    /etc/init.d/suse-blinux
+else
     /etc/rc.d/suse-blinux
+endif
     /etc/suse-blinux.conf
 endif
 
 syslogd:
   /usr/sbin/syslogd
+
+# final clean up
+r /sbin/insserv
+r /sbin/init.d
+

@@ -20,7 +20,6 @@ tar -cf - * | tar -C $y2image -xf -
 cd $y2image
 find . -depth -name CVS -exec rm -r {} \;
 rm -f bin/ci_* MAINTAINER
-rm -f data/initrd/disk_*.file_list
 cd /tmp
 
 if [ "$1" = test ] ; then
@@ -28,13 +27,13 @@ if [ "$1" = test ] ; then
   exit
 fi
 
-tar -zcf $y2image.tar.gz y2image-$ver
+tar -Icf $y2image.tar.bz2 y2image-$ver
 
 if mkdir /work/src/done/STABLE/y2image ; then
   cd /work/src/done/STABLE/y2image
-  cp $y2image.tar.gz /work/SRC/all/y2image/y2image.{changes,spec} .
+  cp $y2image.tar.bz2 /work/SRC/all/y2image/y2image.{changes,spec} .
   perl -pi -e 's/^(Version:\s+)\S+/${1}'$ver'/' /work/src/done/STABLE/y2image/y2image.spec
-  perl -pi -e 's/^(Source.+?-)\S+?(\.tar\.gz)/${1}'$ver'${2}/' /work/src/done/STABLE/y2image/y2image.spec
+  perl -pi -e 's/^(Source.+?-)\S+?(\.tar\.bz2)/${1}'$ver'${2}/' /work/src/done/STABLE/y2image/y2image.spec
   . /work/src/bin/.profile
   vc y2image
   rm /work/src/done/STABLE/y2image/*~

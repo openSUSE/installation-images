@@ -258,6 +258,10 @@ o <action> <arg1> <arg2> ...
 
     d <args>
 
+  - create a namped pipe:
+
+    n <name>
+
   - touch a file
 
     t <args>
