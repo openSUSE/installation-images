@@ -109,7 +109,9 @@ while(<F>) {
     $sect{$sect}{'r'}{$l[0]} = 1 if $r;
   }
   else {
-    print STDERR "warning: no such module: $l[0]\n"
+    # once per module is enough
+    print STDERR "warning: no such module: $l[0]\n" unless $mod_warned{$l[0]};
+    $mod_warned{$l[0]} = 1;
   }
 }
 close F;

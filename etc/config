@@ -9,7 +9,7 @@ sles9   = 9.1
 
 
 ; kernel image name
-; use 'kernel_image' to override
+; use 'kernel_img' to override
 ;
 ; *** These are actually perl regexps! ***
 ;
