@@ -152,6 +152,8 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arc
   f / qlogicisp.o
   f / sym53c8xx.o
   f / tmscsim.o
+  f / mptbase.o
+  f / mptscsih.o
 
   f / agpgart.o
 

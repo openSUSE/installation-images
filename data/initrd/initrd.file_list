@@ -82,6 +82,9 @@ if arch eq 'ia32'
     f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
     f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
 
+    f / mptbase.o /modules
+    f / mptscsih.o /modules
+
     f / reiserfs.o /modules
 
     f / DAC960.o /modules
