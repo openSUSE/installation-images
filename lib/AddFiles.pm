@@ -143,6 +143,7 @@ sub AddFiles
       if($inc_it) {
         undef $inc_it;
         close I;
+        next;
       } else {
 	last;
       }
