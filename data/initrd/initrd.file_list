@@ -79,6 +79,7 @@ endif
 else
   x s390/bin/remove-empty-directories bin/remove-empty-directories
   x s390/etc/initrd_keep_files etc/initrd_keep_files
+  x s390/etc/zfcp.conf etc/zfcp.conf
   c 0755 0 0 bin/remove-empty-directories
   # the inst-sys is symlinked to from the initrd.  To avoid
   # symlinks for each file in empty directories of the initrd, these

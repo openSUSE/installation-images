@@ -1,3 +1,8 @@
+05/8/2002:	v2.31
+	- s390: fix remaining lib64 problems
+	- s390x is not s390 in etc/config any more
+	- s390: add etc/zfcp.conf
+
 05/8/2002:	v2.30
 	- s390: added load from CD-rom or server helper files
 	- s390: removed hack to get %version and %release into the linuxrc prompt
