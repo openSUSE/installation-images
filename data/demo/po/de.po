@@ -1,0 +1,75 @@
+# LANGUAGE translations for livecd.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2002-10-05 12:15+0200\n"
+"Last-Translator: Steffen Winterfeldt <snwint@suse.de>\n"
+"Language-Team: German <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Integrating SuSE Linux 8.1 LiveEval CD"
+msgstr "Integriere SuSE Linux 8.1 LiveEval CD"
+
+#, c-format
+msgid "Using \"suselive.810\" on %s (%s, %s MB) to store data"
+msgstr "Verwende \"suselive.810\" auf %s (%s, %s MB) um Daten zu speichern"
+
+msgid "Updating filesystem"
+msgstr "Aktualisiere das Dateisystem"
+
+#, c-format
+msgid "Creating swap file \"suselive.swp\" (%s MB)"
+msgstr "Erzeuge Auslagerungsdatei \"suselive.swp\" (%s MB)"
+
+#, c-format
+msgid "Creating user data file \"suselive.usr\" (%s MB)"
+msgstr "Erzeuge Nutzerdatendatei \"suselive.usr\" (%s MB)"
+
+msgid "Found no usable partition. Your data will NOT be saved to disk."
+msgstr "Keine verwendbare Partition gefunden.\n"
+"Ihre Daten werden NICHT auf Festplatte gespeichert werden."
+
+msgid "Activating swap space"
+msgstr "Aktiviere Auslagerungsdatei"
+
+msgid "Activating /home"
+msgstr "Aktiviere /home"
+
+#, c-format
+msgid "Writing info to %s on %s (%s, %s MB)"
+msgstr "Schreibe info in %s auf %s (%s, %s MB)"
+
+#, c-format
+msgid "%s contains data for your SuSE Linux 8.1 LiveEval CD."
+msgstr "%s enthält Daten für die SuSE Linux 8.1 LiveEval CD."
+
+msgid "suselive.swp (if it exists) is the swap file."
+msgstr "suselive.swp (wenn vorhanden) ist die Auslagerungsdatei."
+
+msgid ""
+"suselive.usr (if it exists) is an ext2 file system with the user's home dir."
+msgstr "suselive.usr (wenn vorhanden) ist ein ext2 Dateisystem mit dem Heimatverzeichnissen der Nutzer."
+
+#, c-format
+msgid "An error occurred while writing %s."
+msgstr "Beim Schreiben von %s trat ein Fehler auf."
+
+msgid "Sorry, your LiveEval CD changes might be lost. :-("
+msgstr "Ihre LiveEval CD Änderungen werden verloren gehen. :-("
+
+msgid "Waiting for SuSEconfig to finish..."
+msgstr "Warte auf SuSEconfig..."
+
+msgid "/S.u.S.E not unmounted"
+msgstr "/S.u.S.E nicht unmounted"
+
+msgid "Saving LiveEval CD changes"
+msgstr "Speichere LiveEval CD Änderungen"
+
+msgid "SuSE Linux 8.1 LiveEval has not been configured.\nPress enter to reboot."  
+msgstr ""
+

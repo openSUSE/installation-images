@@ -1,0 +1,72 @@
+# LANGUAGE translations for livecd.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: livecd\n"
+"PO-Revision-Date: 2002-09-26 12:00+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <i18n@suse.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ascii\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Integrating SuSE Linux 8.1 LiveEval CD"
+msgstr ""
+
+#, c-format
+msgid "Using \"suselive.810\" on %s (%s, %s MB) to store data"
+msgstr ""
+
+msgid "Updating filesystem."
+msgstr ""
+
+#, c-format
+msgid "Creating swap file \"suselive.swp\" (%s MB)"
+msgstr ""
+
+#, c-format
+msgid "Creating user data file \"suselive.usr\" (%s MB)"
+msgstr ""
+
+msgid "Found no usable partition. Your data will NOT be saved to disk."
+msgstr ""
+
+msgid "Activating swap space"
+msgstr ""
+
+msgid "Activating /home"
+msgstr ""
+
+#, c-format
+msgid "Writing info to %s on %s (%s, %s MB)"
+msgstr ""
+
+#, c-format
+msgid "%s contains data for your SuSE Linux 8.1 LiveEval CD."
+msgstr ""
+
+msgid "suselive.swp (if it exists) is the swap file."
+msgstr ""
+
+msgid "suselive.usr (if it exists) is an ext2 file system with the user's home dir."
+msgstr ""
+
+#, c-format
+msgid "An error occurred while writing %s."
+msgstr ""
+
+msgid "Sorry, your LiveEval CD changes might be lost. :-("
+msgstr ""
+
+msgid "Waiting for SuSEconfig to finish..."
+msgstr ""
+
+msgid "/S.u.S.E not unmounted"
+msgstr ""
+
+msgid "Saving LiveEval CD changes"
+msgstr ""
+
+msgid "SuSE Linux 8.1 LiveEval has not been configured.\nPress enter to reboot."
+msgstr ""
+

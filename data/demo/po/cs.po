@@ -1,0 +1,75 @@
+# LANGUAGE translations for livecd.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2002-10-07 12:56+0200\n"
+"Last-Translator: Petr Kania  <kania@suse.cz>\n"
+"Language-Team:  <Localization team <local@suse.cz>>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: KBabel 0.9.6\n"
+
+msgid "Integrating SuSE Linux 8.1 LiveEval CD"
+msgstr "Integruji SuSE Linux 8.1 LiveEval CD"
+
+#, c-format
+msgid "Using \"suselive.810\" on %s (%s, %s MB) to store data"
+msgstr "Pou¾ívám \"suselive.810\" na %s (%s, %s MB) k ukládání dat"
+
+msgid "Updating filesystem"
+msgstr "Aktualizuji souborový systém"
+
+#, c-format
+msgid "Creating swap file \"suselive.swp\" (%s MB)"
+msgstr "Vytváøím odkládací soubor \"suselive.swp\" (%s MB)"
+
+#, c-format
+msgid "Creating user data file \"suselive.usr\" (%s MB)"
+msgstr "Vytváøím u¾ivatelský soubor \"suselive.usr\" (%s MB)"
+
+msgid "Found no usable partition. Your data will NOT be saved to disk."
+msgstr "®ádný pou¾itelný oddíl nebyl nalezen. Va¹e data NEBUDOU ulo¾ena na disk."
+
+msgid "Activating swap space"
+msgstr "Aktivuji odkládací prostor"
+
+msgid "Activating /home"
+msgstr "Aktivuji /home"
+
+#, c-format
+msgid "Writing info to %s on %s (%s, %s MB)"
+msgstr "Zapisuji informace do %s na %s (%s, %s MB)"
+
+#, c-format
+msgid "%s contains data for your SuSE Linux 8.1 LiveEval CD."
+msgstr "%s obsahuje data va¹eho SuSE Linux 8.1 LiveEval CD."
+
+msgid "suselive.swp (if it exists) is the swap file."
+msgstr "suselive.swp (existuje-li) je odkládací soubor."
+
+msgid "suselive.usr (if it exists) is an ext2 file system with the user's home dir."
+msgstr "suselive.usr (existuje-li) je souborový systém ext2 s domovským adresáøem u¾ivatele."
+
+#, c-format
+msgid "An error occurred while writing %s."
+msgstr "Nastala chyba pøi zapisování %s."
+
+msgid "Sorry, your LiveEval CD changes might be lost. :-("
+msgstr "Lituji, ale va¹e zmìny se asi ztratily. :-("
+
+msgid "Waiting for SuSEconfig to finish..."
+msgstr "Èekám na dokonèení SuSEconfigu ..."
+
+msgid "/S.u.S.E not unmounted"
+msgstr "/S.u.S.E není odpojen"
+
+msgid "Saving LiveEval CD changes"
+msgstr "Ukládám zmìny"
+
+msgid "SuSE Linux 8.1 LiveEval has not been configured.\nPress enter to reboot."  
+msgstr "SuSE Linux 8.1 LiveEval nebyl konfigurován.\nStiskem Enter restartujete systém."
+
