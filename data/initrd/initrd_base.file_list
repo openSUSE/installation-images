@@ -111,7 +111,7 @@ if arch eq 's390' || arch eq 's390x'
   popt:
     /usr/lib*/libpopt.so.0
     /usr/lib*/libpopt.so.0.0.0
-  samba-classic-client:
+  samba-client:
     m /usr/bin/smbmount /bin/smbmount
     m /usr/bin/smbmnt   /bin/smbmnt
     # to make mount(8) -t smbfs work:

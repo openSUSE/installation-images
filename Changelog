@@ -1,3 +1,5 @@
+	- no samba-classic-client package
+
 19/8/2002:	v2.41
 	- extended create_interface for broadcast-interfaces
 	- enabled create_interface for s390 and ppc
