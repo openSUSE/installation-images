@@ -119,7 +119,7 @@ if(-e $image) {
 
 ($i1, $i2) = split /\./, $ConfigData{suse_release};
 
-if($ConfigData{product} eq "UnitedLinux") {
+if($ConfigData{product_name} eq "UnitedLinux") {
   $label = "UNITEDLINUX";
 }
 else {
