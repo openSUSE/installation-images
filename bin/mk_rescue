@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/perl
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # the usual fuss...
@@ -21,8 +21,8 @@ $tmpdir = "${BasePath}tmp/rescue";
 $image = "${ImagePath}rescue";
 
 # leave that much space
-$extra_size = 2000;              # kbyte
-$extra_inodes = 1000;
+$extra_size = 4000;              # kbyte
+$extra_inodes = 2000;
 
 # just make them large enough
 $start_size = 100000;             # kbyte

@@ -927,8 +927,8 @@ screen:
 utempter:
   /usr/lib*/libutempter.so.*
 
-# freefont:
-#  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
+freefont:
+  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
 
 Crystalcursors:
   /usr/X11R6/lib/X11/icons/crystalwhite

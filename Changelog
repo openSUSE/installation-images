@@ -1,3 +1,7 @@
+22/3/2004:	v5.29
+	- more space in rescue system
+	- use freefont
+	- new modules
 	- s390: fix linuxrc automatic setup parameters (bug #36237)
 	- s390: cosmetic fix for halt script
 	- s390: add missing procps binaries
