@@ -32,6 +32,7 @@ kernel/drivers/usb/host/
 kernel/drivers/usb/core/
 kernel/drivers/usb/net/
 kernel/drivers/usb/input/hid.ko
+kernel/drivers/usb/input/usbhid.ko
 kernel/drivers/char/nvram.ko
 # kernel/drivers/char/agp/
 kernel/drivers/message/fusion/

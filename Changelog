@@ -1,3 +1,5 @@
+	- add usbhid (#43764)
+
 10/8/2004:	v6.3
 	- dropped module disks; modules are integrated into boot disks
 
