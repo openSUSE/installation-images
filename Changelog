@@ -1,3 +1,11 @@
+24/3/2002:	v1.131
+	- add sg.o module and sg* devices to initrd, they are needed
+	  for usb (scsi emulation!)
+	- added agetty to rescue system (#15429)
+	- don't include rpmqpack
+	- don't offer apic kernel on bootdisk
+	- use 'rescue=1' to start rescue system
+
 18/3/2002:	v1.130
 	- added FireWire modules again, as there's enough space left and it
 	  seems to work

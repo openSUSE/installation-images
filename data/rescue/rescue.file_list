@@ -257,6 +257,7 @@ rpm:
   /usr/bin
   /{usr,var}/lib/rpm
 r /usr/lib/rpm/rpm{get,put}text
+r /usr/bin/rpmqpack
 
 rsync: postin
   /etc
@@ -329,6 +330,7 @@ util-linux: postin
   /etc
   /bin/{dmesg,kill,mount,umount,guessfstype}
   /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,hwclock,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
+  /sbin/agetty
   /usr/{bin,sbin}
 e postin
 

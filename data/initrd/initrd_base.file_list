@@ -335,6 +335,7 @@ endif
 x etc/host.conf etc
 
 devs:
+  /dev/sg*
   m /usr/share/doc/packages/devs/makedevs.floppy /
 c 0755 0 0 makedevs.floppy
 

@@ -2,7 +2,7 @@ if arch eq 'ia32'
 
   x message /
   if boot eq 'small'
-    x syslinux.cfg /syslinux.cfg
+    x syslinux-small.cfg /syslinux.cfg
     A gen/initrdsize /syslinux.cfg
   else
     x syslinux.cfg /

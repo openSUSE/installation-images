@@ -63,6 +63,7 @@ rpm:
   /usr/bin
   /{usr,var}/lib/rpm
 r /usr/lib/rpm/rpm{get,put}text
+r /usr/bin/rpmqpack
 
 if suse_release >= 7.1
   sh-utils:
