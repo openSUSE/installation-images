@@ -530,7 +530,7 @@ if with_smb
     d bin lib
 
     samba-client:
-      m /usr/lib/samba/smbmnt-classic /bin/smbmount
+      m /usr/lib*/samba/smbmnt-classic /bin/smbmount
 
     glibc:
       /lib*/ld-linux*.so.2
