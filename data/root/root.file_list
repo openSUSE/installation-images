@@ -329,11 +329,6 @@ if with_yast2 ne 'no'
       .
   endif
 
-  if arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ia32' && arch ne 's390' && arch ne 's390x'
-    xfbdev:
-      .
-  endif
-
   # old XF86 3.3
   if arch eq 'alpha'
     xsvga:
