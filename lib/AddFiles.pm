@@ -343,14 +343,15 @@ sub AddFiles
       SUSystem "sh -c \"cp -a $tdir/$1 $dir/$2\"" and
         print "$Script: $1 not copied to $2 (ignored)\n";
     }
-    elsif(/^f\s+(\S+)\s+(\S+)(\s+(\S+))?$/) {
-      my ($l, @l, $src, $name, $dst);
+    elsif(/^([fF])\s+(\S+)\s+(\S+)(\s+(\S+))?$/) {
+      my ($l, @l, $src, $name, $dst, $start_dir);
 
-      $src = $1;
-      $name = $2;
-      $dst = $4;
+      $src = $2;
+      $name = $3;
+      $dst = $5;
+      $start_dir = $1 eq "F" ? "/" : $tdir;
       $src =~ s#^/*##;
-      SUSystem "sh -c \"cd $tdir ; find $src -type f -name '$name'\" >$tfile";
+      SUSystem "sh -c \"cd $start_dir ; find $src -type f -name '$name'\" >$tfile";
 
       open F1, "$tfile";
       @l = (<F1>);
@@ -364,13 +365,13 @@ sub AddFiles
 
       if($dst) {
         for $l (@l) {
-          SUSystem "sh -c \"cp -a $tdir/$l $dir/$dst\"" and
+          SUSystem "sh -c \"cp -a $start_dir/$l $dir/$dst\"" and
             print "$Script: $l not copied to $dst (ignored)\n";
         }
       }
       else {
         for $l (@l) {
-          SUSystem "sh -c '( cd $tdir; tar -cf - $l 2>$tfile ) | tar -C $dir -xpf -'" and
+          SUSystem "sh -c '( cd $start_dir; tar -cf - $l 2>$tfile ) | tar -C $dir -xpf -'" and
             warn "$Script: failed to copy $files";
 
           my (@f, $f);
@@ -382,7 +383,6 @@ sub AddFiles
           }
         }
       }
-
     }
     elsif(/^p\s+(\S+)$/) {
       SUSystem "patch -d $dir -p0 --no-backup-if-mismatch <$ext_dir/$1 >/dev/null" and

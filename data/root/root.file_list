@@ -317,6 +317,11 @@ if arch eq 'ia32' || arch eq 'ppc'
     /sbin/activate
 endif
 
+if arch eq 'ia64'
+  efibootmgr:
+    /usr/sbin/efibootmgr
+endif
+
 if suse_release >= 7.1
   raidtools:
 else
@@ -529,13 +534,13 @@ if with_yast2 ne 'no'
   # video4linux stuff
   r /usr/X11R6/lib/modules/drivers/linux
     /usr/X11R6/lib/modules/extensions/lib{dbe,extmod}.a
-  if arch ne 'ia32'
+  if arch ne 'ia64'
     /usr/X11R6/lib/modules/extensions/libdri.a
   endif
     /usr/X11R6/lib/modules/fonts/libbitmap.a
     /usr/X11R6/lib/modules/input
     /usr/X11R6/lib/modules/linux
-  if arch ne 'ia64'
+  if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64'
       /usr/X11R6/lib/modules/*.uc
   endif
     /usr/X11R6/lib/modules/lib*.a
@@ -649,6 +654,10 @@ if with_yast2 ne 'no'
       /
     yast2-trans-wizard:
       /
+if (arch eq 'sparc64' || arch eq 'sparc')
+    yast2-agent-prom:
+      /
+endif
   else
     y2base:
       /usr/lib/YaST2
@@ -751,10 +760,6 @@ netcfg:
   /etc/{services,protocols}
 
 if with_yast2 ne 'no'
-# we don't need ISaX
-#  isax:
-#    /usr/X11R6/bin/{isax,ISaX}
-
   saxtools:
     /usr/X11R6/bin
 endif
@@ -804,10 +809,8 @@ d /mnt
 d /proc
 d /tmp
 
-if arch eq 'ia32'
-  reiserfs:
-    /sbin
-endif
+reiserfs:
+  /sbin
 
 if suse_release >= 7.2
   gawk:

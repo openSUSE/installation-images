@@ -312,13 +312,18 @@ o <action> <arg1> <arg2> ...
 
     R <regexp> <file>
 
-  - add files from the local system (This should be used only for
-    testing!)
-
-    X <src> <dst>
-
   - search for a file <name> below <dir> and copy it to <dst>
     (<dst> may be omitted)
 
     f <dir> <name> <dst>
+
+  - search for a file <name> (in the local system!) below <dir> and copy it
+    to <dst> (<dst> may be omitted)
+
+    F <dir> <name> <dst>
+
+  - add files from the local system (This should be used only for
+    testing!)
+
+    X <src> <dst>
 

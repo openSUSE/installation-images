@@ -137,6 +137,11 @@ if suse_release >= 7.1
     /usr/bin
 endif
 
+if arch eq 'sparc' || arch eq 'sparc64'
+silo:
+  /sbin/silo
+endif
+
 gzip:
   /bin
   /usr/bin
@@ -166,9 +171,16 @@ c 0755 0 0 /usr/bin/lessclose.sh
 libz:
   /lib/libz.so*
 
-lilo:
-  /boot
-  /sbin
+if arch eq 'ia32' || arch eq 'ppc'
+  lilo:
+    /boot
+    /sbin
+endif
+
+if arch eq 'ia64'
+  efibootmgr:
+    /usr/sbin
+endif
 
 lvm:
   /lib
@@ -343,6 +355,7 @@ parted:
   /usr/{lib,sbin}
 
 if suse_release >= 7.2
+if arch ne 'sparc'
   <kernel_rpm>:
     f / st.o
     f / sg.o
@@ -365,6 +378,7 @@ if suse_release >= 7.2
   # run depmod
   e /sbin/depmod -a -F /System.map <kernel_ver>
   r /System.map /sbin/depmod
+endif
 endif
 
 # now run SuSEconfig

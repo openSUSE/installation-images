@@ -1,3 +1,7 @@
+20/6/2001:	v1.65
+	- integrated latest ia64/sparc patches
+	- added new 'F' command (cf. README)
+
 20/6/2001:	v1.64
 	- remove lessopen/lessclose from rescue system
 	- remove etc/X11/xserver/C from inst-sys
