@@ -1,0 +1,105 @@
+#! /usr/bin/perl -w                                       # -*- perl -*-
+#
+# Copyright (c) 2000-2004 SuSE Linux AG, Nuernberg, Germany.
+# All rights reserved.
+#
+# Wed Apr 14 21:11:53 2004  Mike FABIAN  <mfabian@suse.de>
+#
+########################################################################
+
+########################################################################
+
+use utf8;
+use English;
+use Getopt::Long;
+use strict;
+
+my $cvs_id = '$Id: strip-font,v 1.1 2004/04/15 13:51:11 mfabian Exp $';
+my $cvs_date = '$Date: 2004/04/15 13:51:11 $';
+$cvs_date =~ /^\$[[:alpha:]]+: (.*) \$$/;
+my $version = $1;
+
+sub usage {
+  print "Usage: strip-font [option] code-point-list font ...\n";
+  print "-v, --verbose         Print some progress messages to standard output.\n";
+  print "    --version         Display version and exit.\n";
+  print "-h, --help            Display this help and exit.\n";
+  exit 1;
+}
+
+
+my $OPT_VERBOSE = 1;
+my $OPT_VERSION = 0;
+my $OPT_HELP = 0;
+
+my %opt;
+unless (GetOptions(\%opt,
+		   'verbose|v',     \$OPT_VERBOSE,
+		   'version',       \$OPT_VERSION,
+		   'help|h',        \$OPT_HELP,
+		  )) {
+  &usage ();
+  exit 1;
+}
+
+if ($OPT_VERSION) {
+  print "strip-font $version\n";
+  exit 0;
+}
+
+if ($OPT_HELP) {
+  &usage ();
+  exit 0;
+}
+
+if (!defined $ARGV[0] || !defined $ARGV[1]) {
+  &usage ();
+  exit 1;
+}
+
+my $font=$ARGV[1];
+my $codepoints_file=$ARGV[0];
+
+open (CODEPOINTS, "$codepoints_file") || die "can't open file $codepoints_file: $!";
+binmode CODEPOINTS, ":utf8";
+
+my %codepoints = ();
+
+while (<CODEPOINTS>) {
+  chomp ($ARG);
+  if ($ARG =~ /([^#]*)#?.*/) { # strip comments
+    $ARG = $1;
+  }
+  if ($ARG =~ /\s*(0x[[:xdigit:]]{4}).*/i) {
+    $codepoints{hex ("$1")} = 1;
+  }
+}
+close (CODEPOINTS);
+
+my $script = ""
+  . "# Remove all unneeded glyphs from a font\n"
+  . "\n"
+  . "Print(\"Removing all unneeded glyphs from $font\");\n"
+  . "hex = Array(16)\n"
+  . "hex[0]=\"0\"; hex[1]=\"1\"; hex[2]=\"2\"; hex[3]=\"3\"\n"
+  . "hex[4]=\"4\"; hex[5]=\"5\"; hex[6]=\"6\"; hex[7]=\"7\"\n"
+  . "hex[8]=\"8\"; hex[9]=\"9\"; hex[10]=\"a\"; hex[11]=\"b\"\n"
+  . "hex[12]=\"c\"; hex[13]=\"d\"; hex[14]=\"e\"; hex[15]=\"f\"\n"
+  . "\n"
+  . "Open(\"$font\")\n";
+
+for (my $i = 0; $i <= hex("0xffff"); $i++) {
+  if (! $codepoints{$i}){
+    $script .= sprintf "Select(\"uni%04x\"); Clear();\n", $i;
+  }
+}
+
+$script .= "Generate(\"$font\"); Close();\n";
+
+open (PFAEDIT , "|/usr/bin/pfaedit -script -") || die "can't open/usr/bin/pfaedit  : $!";
+print PFAEDIT $script;
+close (PFAEDIT);
+
+exit (0);
+
+######################################################################
