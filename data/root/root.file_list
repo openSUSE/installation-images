@@ -238,8 +238,8 @@ endif
   /sbin/ldconfig
   /lib/ld-2.*.so
 if arch eq 'ppc'
-    /lib/ld.so.1
-elsif (arch eq 'ia64') && !(arch eq 'ppc')
+  /lib/ld.so.1
+elsif arch eq 'ia64'
   /lib/ld-linux-ia64.so.2
 else
   /lib/ld-linux.so.2
@@ -350,7 +350,7 @@ endif
 portmap:
   /sbin/portmap
 
-if arch ne 'sparc' && arch ne 'sparc64'
+if arch eq 'i386'
 umsprogs:
   /sbin/*
 c 0755 0 0 /sbin/umssync
@@ -480,6 +480,10 @@ else
     /bin/sort
 endif
 
+freetype2:
+/usr/lib/libfreetype.so.6
+/usr/lib/libfreetype.so.6.0.1
+
 c 0755 0 0 /usr/bin
 c 0755 0 0 /usr/lib
 c 0755 0 0 /usr/sbin
@@ -540,7 +544,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib/modules/fonts/libbitmap.a
     /usr/X11R6/lib/modules/input
     /usr/X11R6/lib/modules/linux
-  if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64'
+  if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc'
       /usr/X11R6/lib/modules/*.uc
   endif
     /usr/X11R6/lib/modules/lib*.a
@@ -603,8 +607,6 @@ if with_yast2 ne 'no'
     yast2-core-pkginfo:
       /
     yast2-core-wfm:
-      /
-    yast2-core-translator:
       /
     yast2-core-scr:
       /

@@ -245,26 +245,26 @@ endif		# arch eq 'ia32'
 
 if arch eq 'ppc'
 
-  f /lib/modules/ 8139too.o /modules
-  f /lib/modules/ tulip.o /modules
-  f /lib/modules/ via-rhine.o /modules
-  f /lib/modules/ skfp.o /modules
-  f /lib/modules/ rtl8129.o /modules
-  f /lib/modules/ ne2k-pci.o /modules
-  f /lib/modules/ olympic.o /modules
-  f /lib/modules/ lanstreamer.o /modules
-  f /lib/modules/ de4x5.o /modules
-  f /lib/modules/ gmac.o /modules
-  f /lib/modules/ bmac.o /modules
-  f /lib/modules/ mace.o /modules
-  f /lib/modules/ pcnet32.o /modules
-  f /lib/modules/ 8390.o /modules
+#  f /lib/modules/ 8139too.o /modules
+#  f /lib/modules/ tulip.o /modules
+#  f /lib/modules/ via-rhine.o /modules
+#  f /lib/modules/ skfp.o /modules
+#  f /lib/modules/ rtl8129.o /modules
+#  f /lib/modules/ ne2k-pci.o /modules
+#  f /lib/modules/ olympic.o /modules
+#  f /lib/modules/ lanstreamer.o /modules
+#  f /lib/modules/ de4x5.o /modules
+#  f /lib/modules/ gmac.o /modules
+#  f /lib/modules/ bmac.o /modules
+#  f /lib/modules/ mace.o /modules
+#  f /lib/modules/ pcnet32.o /modules
+#  f /lib/modules/ 8390.o /modules
 
-  f /lib/modules/ isa-pnp.o /modules
+#  f /lib/modules/ isa-pnp.o /modules
 
-  f /lib/modules/ aic7xxx.o /modules
-  f /lib/modules/ st.o /modules
-  f /lib/modules/ sym53c8xx.o /modules
+#  f /lib/modules/ aic7xxx.o /modules
+#  f /lib/modules/ st.o /modules
+#  f /lib/modules/ sym53c8xx.o /modules
 
 endif	# arch eq 'ppc'
 

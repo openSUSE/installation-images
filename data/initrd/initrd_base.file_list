@@ -110,18 +110,18 @@ if suse_release < 7.1
   if arch eq 'ppc'
     m /usr/lib/kbd/keymaps/mac/include/mac-{azerty-layout,qwerty-layout,linux-keys-bare}.inc keytables/include
     g /usr/lib/kbd/keymaps/mac/include/mac-euro.map.gz keytables/include/mac-euro.map
-    g /usr/lib/kbd/keymaps/mac/mac-be.map.gz keytables/mac-be.map
-    g /usr/lib/kbd/keymaps/mac/mac-de-latin1-nodeadkeys.map.gz keytables/mac-de-latin1-nodeadkeys.map
-    g /usr/lib/kbd/keymaps/mac/mac-de-latin1.map.gz keytables/mac-de-latin1.map
-    g /usr/lib/kbd/keymaps/mac/mac-de_CH.map.gz keytables/mac-de_CH.map
-    g /usr/lib/kbd/keymaps/mac/mac-dk-latin1.map.gz keytables/mac-dk-latin1.map
-    g /usr/lib/kbd/keymaps/mac/mac-es.map.gz keytables/mac-es.map
-    g /usr/lib/kbd/keymaps/mac/mac-fi-latin1.map.gz keytables/mac-fi-latin1.map
-    g /usr/lib/kbd/keymaps/mac/mac-fr.map.gz keytables/mac-fr.map
-    g /usr/lib/kbd/keymaps/mac/mac-it.map.gz keytables/mac-it.map
-    g /usr/lib/kbd/keymaps/mac/mac-se.map.gz keytables/mac-se.map
-    g /usr/lib/kbd/keymaps/mac/mac-uk.map.gz keytables/mac-uk.map
-    g /usr/lib/kbd/keymaps/mac/mac-us.map.gz keytables/mac-us.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-be.map.gz keytables/mac-be.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-de-latin1-nodeadkeys.map.gz keytables/mac-de-latin1-nodeadkeys.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-de-latin1.map.gz keytables/mac-de-latin1.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-de_CH.map.gz keytables/mac-de_CH.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-dk-latin1.map.gz keytables/mac-dk-latin1.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-es.map.gz keytables/mac-es.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-fi-latin1.map.gz keytables/mac-fi-latin1.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-fr.map.gz keytables/mac-fr.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-it.map.gz keytables/mac-it.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-se.map.gz keytables/mac-se.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-uk.map.gz keytables/mac-uk.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-us.map.gz keytables/mac-us.map
   endif
 
   if arch eq 'sparc' || arch eq 'sparc64'
@@ -192,18 +192,18 @@ else	# ! suse_release < 7.1
   if arch eq 'ppc'
     m /usr/lib/kbd/keymaps/mac/include/mac-{azerty-layout,qwerty-layout,linux-keys-bare}.inc kbd/keymaps/include
     g /usr/lib/kbd/keymaps/mac/include/mac-euro.map.gz kbd/keymaps/include/mac-euro.map
-    g /usr/lib/kbd/keymaps/mac/mac-be.map.gz kbd/keymaps/mac-be.map
-    g /usr/lib/kbd/keymaps/mac/mac-de-latin1-nodeadkeys.map.gz kbd/keymaps/mac-de-latin1-nodeadkeys.map
-    g /usr/lib/kbd/keymaps/mac/mac-de-latin1.map.gz kbd/keymaps/mac-de-latin1.map
-    g /usr/lib/kbd/keymaps/mac/mac-de_CH.map.gz kbd/keymaps/mac-de_CH.map
-    g /usr/lib/kbd/keymaps/mac/mac-dk-latin1.map.gz kbd/keymaps/mac-dk-latin1.map
-    g /usr/lib/kbd/keymaps/mac/mac-es.map.gz kbd/keymaps/mac-es.map
-    g /usr/lib/kbd/keymaps/mac/mac-fi-latin1.map.gz kbd/keymaps/mac-fi-latin1.map
-    g /usr/lib/kbd/keymaps/mac/mac-fr.map.gz kbd/keymaps/mac-fr.map
-    g /usr/lib/kbd/keymaps/mac/mac-it.map.gz kbd/keymaps/mac-it.map
-    g /usr/lib/kbd/keymaps/mac/mac-se.map.gz kbd/keymaps/mac-se.map
-    g /usr/lib/kbd/keymaps/mac/mac-uk.map.gz kbd/keymaps/mac-uk.map
-    g /usr/lib/kbd/keymaps/mac/mac-us.map.gz kbd/keymaps/mac-us.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-be.map.gz kbd/keymaps/mac-be.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-de-latin1-nodeadkeys.map.gz kbd/keymaps/mac-de-latin1-nodeadkeys.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-de-latin1.map.gz kbd/keymaps/mac-de-latin1.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-de_CH.map.gz kbd/keymaps/mac-de_CH.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-dk-latin1.map.gz kbd/keymaps/mac-dk-latin1.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-es.map.gz kbd/keymaps/mac-es.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-fi-latin1.map.gz kbd/keymaps/mac-fi-latin1.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-fr.map.gz kbd/keymaps/mac-fr.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-it.map.gz kbd/keymaps/mac-it.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-se.map.gz kbd/keymaps/mac-se.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-uk.map.gz kbd/keymaps/mac-uk.map
+    g /usr/lib/kbd/keymaps/mac/all/mac-us.map.gz kbd/keymaps/mac-us.map
   endif
 
   if arch eq 'sparc' || arch eq 'sparc64'
