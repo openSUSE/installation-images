@@ -23,6 +23,8 @@ if arch eq 'ia32'
 
     if initrd eq 'small'
 
+      f / nvram.o /modules
+
         if usb_mods ne 'no'
           f / usbcore.o /modules
           f / usb-uhci.o /modules
