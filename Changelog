@@ -1,3 +1,6 @@
+21/8/2003:	v2.105
+	- added /etc/hosts with localhost entry (#22207,#22938)
+
 11/08/2003:	v2.104
 	- s390: qeth is GPL now, do not show OCO license when loading it
 
