@@ -1,3 +1,5 @@
+	- add /lib/modules/<version>/extras to kernel module search list
+	  needed for ibmsis
 10/3/2004:	v5.25
 	- make slpd start
 	- disable udev
