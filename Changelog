@@ -1,5 +1,7 @@
-28/8/2003:	v4.19
+6/9/2003:	v4.19
 	- remove setfont wrapper script
+	- adapted splash mode resolution list
+	- apply driver updates in inst_setup (used to be in YaST2.start)
 
 25/8/2003:	v4.18
 	- added smartmontools to rescue system (#26414)

@@ -522,6 +522,9 @@ endif
 
 if with_gdb
 
+  strace:
+    /usr/bin/strace
+
   gdb:
     m /usr/bin/gdb /bin/gdb
 
@@ -531,6 +534,7 @@ if with_gdb
     /lib*/libc.so.6*
     /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
     /lib*/libm.so.6*
+    /lib*/libthread_db.so*
 
   readline:
     /lib*/libreadline.so.4*
@@ -544,6 +548,15 @@ if with_gdb
     /bin/sh
 
   if with_gdb == 2
+
+    linuxrc:
+      m /usr/sbin/linuxrc /bin/linuxrc
+
+      e echo -e "#! /bin/sh\n/bin/bash\n" >linuxrc
+
+  endif
+
+  if with_gdb == 3
 
     linuxrc:
       m /usr/sbin/linuxrc /bin/linuxrc

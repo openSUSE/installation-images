@@ -31,6 +31,11 @@ $INSTSYS/usr/bin/conservative_lndir "$INSTSYS" "/"
 echo "integrating the shared objects of the installation system..."
 ldconfig
 
+# apply driver updates
+for i in /update/[0-9]*/install/update.pre ; do
+  [ -x "$i" ] && "$i"
+done
+
 if test -x /sbin/syslogd
 then
     checkproc /sbin/syslogd || {

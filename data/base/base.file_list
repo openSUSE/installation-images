@@ -3,8 +3,9 @@ c 1777 0 0 tmp
 
 devs:
   /dev
+  d /initrddevs
+  m /dev /initrddevs
 
-d /initrddevs/dev
 if arch eq 's390' || arch eq 's390x'
   m /dev/dasd* /initrddevs/dev
   m /dev/pts /initrddevs/dev
