@@ -411,7 +411,7 @@ if with_yast2 ne 'no'
     /usr/lib*/libexpat.so*
 
   fontconfig:
-    /etc/fonts/fonts.conf
+    /etc/fonts/*.conf
     /usr/lib*/libfontconfig.so.*
     /usr/bin/fc-cache
 
