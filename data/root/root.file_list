@@ -529,8 +529,6 @@ if with_yast2 ne 'no'
     /
   yast2-trans-zh_CN:
     /
-  yast2-trans-zh_TW:
-    /
   yast2-x11:
     /
   yast2-xml:
