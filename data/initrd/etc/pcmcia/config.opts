@@ -1,0 +1,32 @@
+#
+# Local PCMCIA Configuration File
+#
+# System resources available for PCMCIA devices
+#
+include port 0x100-0x4ff, port 0x1000-0x17ff
+include memory 0xc0000-0xfffff
+include memory 0xa0000000-0xa0ffffff, memory 0x60000000-0x60ffffff
+#
+# Extra port range for IBM Token Ring
+#
+include port 0xa00-0xaff
+#
+# Resources we should not use, even if they appear to be available
+#
+# First built-in serial port
+exclude irq 4
+# Second built-in serial port
+#exclude irq 3
+# First built-in parallel port
+exclude irq 7
+#
+# Examples of options for loadable modules
+#
+# To fix sluggish network with IBM ethernet adapter...
+#module "pcnet_cs" opts "mem_speed=600"
+#
+# Options for Xircom Netwave driver...
+#module "netwave_cs" opts "domain=0x100 scramble_key=0x0"
+#
+# Options for IBM Token Ring adapters
+#module "ibmtr_cs" opts "mmiobase=0xd0000 srambase=0xd4000"

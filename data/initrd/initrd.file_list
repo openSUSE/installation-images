@@ -1,0 +1,132 @@
+d bin dev etc mnt proc tmp
+d var/run var/adm/mount var/lib/YaST var/spool var/lock var/log var/tmp
+
+d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults
+s /usr/X11R6/lib/X11 var/X11R6/lib
+
+d linux/modules
+s linux/modules modules
+
+t var/run/utmp
+
+c 1777 0 0 tmp
+
+t linuxrc
+c 0755 0 0 linuxrc
+l linuxrc bin/cardmgr
+l linuxrc bin/insmod
+l linuxrc bin/loadkeys
+l linuxrc bin/probe
+l linuxrc bin/rmmod
+l linuxrc bin/sh
+l linuxrc bin/setfont
+l linuxrc bin/init
+l linuxrc bin/portmap
+l linuxrc etc/nothing
+
+kbd:
+d consoletrans
+m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat1u.uni,lat2u.uni,lat7u.uni,latin2u.scrnmap,trivial} consoletrans
+
+d consolefonts
+# Cyr_a8x16 differs
+g /usr/lib/kbd/consolefonts/Cyr_a8x16.psfu.gz consolefonts/Cyr_a8x16
+g /usr/lib/kbd/consolefonts/gr8x16.gz consolefonts/gr8x16.psf
+g /usr/lib/kbd/consolefonts/lat1-16.psfu.gz consolefonts/lat1u-16.psf
+# lat2 differs
+g /usr/lib/kbd/consolefonts/lat2-16.psfu.gz consolefonts/lat2u-16.psf
+g /usr/lib/kbd/consolefonts/lat7-16.psfu.gz consolefonts/lat7-16.psfu
+
+d keytables/include
+
+g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz keytables/Pl02.map
+g /usr/lib/kbd/keymaps/i386/qwerty/br-abnt2.map.gz keytables/br-abnt2.map
+g /usr/lib/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz keytables/cz-us-qwertz.map
+g /usr/lib/kbd/keymaps/i386/qwertz/de-lat1-nd.map.gz keytables/de-lat1-nd.map
+g /usr/lib/kbd/keymaps/i386/qwerty/dk.map.gz keytables/dk.map
+g /usr/lib/kbd/keymaps/i386/qwerty/es.map.gz keytables/es.map
+g /usr/lib/kbd/keymaps/i386/qwerty/fi.map.gz keytables/fi.map
+g /usr/lib/kbd/keymaps/i386/azerty/fr-latin1.map.gz keytables/fr-latin1.map
+
+g /usr/lib/kbd/keymaps/i386/qwerty/gr.map.gz keytables/gr.map
+g /usr/lib/kbd/keymaps/i386/qwertz/hu.map.gz keytables/hu.map
+g /usr/lib/kbd/keymaps/i386/qwerty/it.map.gz keytables/it.map
+g /usr/lib/kbd/keymaps/i386/qwerty/nl.map.gz keytables/nl.map
+g /usr/lib/kbd/keymaps/i386/qwerty/no-latin1.map.gz keytables/no-latin1.map
+# there is no pt2 map
+g /usr/lib/kbd/keymaps/i386/qwerty/pt-latin1.map.gz keytables/pt2.map
+g /usr/lib/kbd/keymaps/i386/qwerty/ru1.map.gz keytables/ru1.map
+g /usr/lib/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz keytables/sk-qwerty.map
+g /usr/lib/kbd/keymaps/i386/qwerty/uk.map.gz keytables/uk.map
+g /usr/lib/kbd/keymaps/i386/qwerty/us.map.gz keytables/us.map
+
+g /usr/lib/kbd/keymaps/i386/qwertz/de-latin1.map.gz keytables/de-latin1.map
+
+m /usr/lib/kbd/keymaps/i386/include/{azerty-layout,linux-keys-bare,linux-keys-extd,linux-with-alt-and-altgr,linux-with-two-alt-keys,qwerty-layout,qwertz-layout}.inc keytables/include
+
+g /usr/lib/kbd/keymaps/i386/include/euro.map.gz keytables/include/euro.map
+
+pcmcia:
+d etc/pcmcia/cis
+a etc/pcmcia/cis etc/pcmcia
+t etc/pcmcia/fixed
+c 0755 0 0 etc/pcmcia/fixed
+l etc/pcmcia/fixed  etc/pcmcia/scsi
+l etc/pcmcia/fixed  etc/pcmcia/network
+
+x etc/pcmcia/config etc/pcmcia
+x etc/pcmcia/config.opts etc/pcmcia
+x etc/pcmcia/fixed etc/pcmcia
+
+# devs:
+#   .
+
+kernmod:
+t /linux/modules/{MORE,NEEDMOD,NET,SCSI}
+a /lib/modules/<kernel_ver>/block/DAC960.o /linux/modules
+a /lib/modules/<kernel_ver>/block/cpqarray.o /linux/modules
+
+a /lib/modules/<kernel_ver>/scsi/BusLogic.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/a100u2w.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/atp870u.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/eata.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/fdomain.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/gdth.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/initio.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/ips.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/megaraid.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/qlogicisp.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/dc395x_trm.o /linux/modules
+a /lib/modules/<kernel_ver>/scsi/tmscsim.o /linux/modules
+
+a /lib/modules/<kernel_ver>/net/3c59x.o /linux/modules
+a /lib/modules/<kernel_ver>/net/de4x5.o /linux/modules
+a /lib/modules/<kernel_ver>/net/eepro100.o /linux/modules
+a /lib/modules/<kernel_ver>/net/epic100.o /linux/modules
+a /lib/modules/<kernel_ver>/net/ne2k-pci.o /linux/modules
+# a /lib/modules/<kernel_ver>/net/rtl8139.o /linux/modules
+a /lib/modules/<kernel_ver>/net/tlan.o /linux/modules
+a /lib/modules/<kernel_ver>/net/lance.o /linux/modules
+a /lib/modules/<kernel_ver>/net/tulip.o /linux/modules
+
+a /lib/modules/<kernel_ver>/misc/nvram.o /linux/modules
+a /lib/modules/<kernel_ver>/misc/serial.o /linux/modules
+
+# a /lib/modules/<kernel_ver>/net/3c515.o /linux/modules
+# a /lib/modules/<kernel_ver>/net/8390.o /linux/modules
+# a /lib/modules/<kernel_ver>/net/at1700.o /linux/modules
+# a /lib/modules/<kernel_ver>/net/ne.o /linux/modules
+# a /lib/modules/<kernel_ver>/net/smc-ultra.o /linux/modules
+# a /lib/modules/<kernel_ver>/scsi/aha1542.o /linux/modules
+# a /lib/modules/<kernel_ver>/scsi/aha152x.o /linux/modules
+# a /lib/modules/<kernel_ver>/scsi/aha1740.o /linux/modules
+# a /lib/modules/<kernel_ver>/scsi/dtc.o /linux/modules
+# a /lib/modules/<kernel_ver>/scsi/psi240i.o /linux/modules
+# a /lib/modules/<kernel_ver>/scsi/seagate.o /linux/modules
+# a /lib/modules/<kernel_ver>/scsi/t128.o /linux/modules
+# a /lib/modules/<kernel_ver>/scsi/u14-34f.o /linux/modules
+
+x etc/host.conf etc
+

@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>mk_initrd</TITLE>
+<LINK REV="made" HREF="mailto:feedback@suse.de">
+</HEAD>
+
+<BODY>
+
+<!-- INDEX BEGIN -->
+<!--
+
+<UL>
+
+	<LI><A HREF="#mk_initrd">mk_initrd</A>
+</UL>
+-->
+<!-- INDEX END -->
+
+<P>
+<H1><A NAME="mk_initrd">mk_initrd</A></H1>
+<P>
+<CODE>mk_initrd</CODE> creates an initial ram disk <CODE>initrd</CODE>.
+
+<P>
+The files to go onto the ram disk (aka initrd) are taken from
+<CODE>data/initrd/initrd.file_list</CODE>.
+
+<P>
+The initrd uses a Minix file system. The actual fs size and inode numbers
+are coded in the <CODE>mk_initrd</CODE> script. You <EM>can</EM> vary these values but it doesn't really pay of much. You will gain or loose
+a few bytes of the compressed initrd size only.
+
+<P>
+The <CODE>linuxrc</CODE> binary is taken from the location given by the <CODE>linuxrc</CODE> entry in the <CODE>etc/config</CODE> file.
+
+<P>
+The final compressed image is stored as <CODE>images/initrd</CODE>.
+
+</BODY>
+
+</HTML>

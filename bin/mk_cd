@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# run m_cd script
+
+. /work/cd/bin/.profile
+
+m_cd $*

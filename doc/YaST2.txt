@@ -1,0 +1,9 @@
+YaST2 starts thses external programms:
+
+ /sbin/insmod
+ /sbin/modprobe
+ /sbin/mkswap
+ /sbin/swapon
+
+
+

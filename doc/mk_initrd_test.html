@@ -1,0 +1,33 @@
+<HTML>
+<HEAD>
+<TITLE>mk_initrd_test</TITLE>
+<LINK REV="made" HREF="mailto:feedback@suse.de">
+</HEAD>
+
+<BODY>
+
+<!-- INDEX BEGIN -->
+<!--
+
+<UL>
+
+	<LI><A HREF="#mk_initrd_test">mk_initrd_test</A>
+</UL>
+-->
+<!-- INDEX END -->
+
+<P>
+<H1><A NAME="mk_initrd_test">mk_initrd_test</A></H1>
+<P>
+<CODE>mk_initrd_test</CODE> creates a test environment for <CODE>linuxrc</CODE>/<CODE>initrd</CODE>.
+
+<P>
+It basically unpacks the initial ram disk found in <CODE>images/initrd</CODE> into
+<CODE>test/initrd</CODE> and mounts <CODE>test/initrd/proc</CODE>. An existing old version will be deleted (and <CODE>test/initrd/proc</CODE> and <CODE>test/initrd/mnt</CODE> are unmounted) before.
+
+<P>
+Then, run <CODE>initrd_test</CODE> for the actual test.
+
+</BODY>
+
+</HTML>

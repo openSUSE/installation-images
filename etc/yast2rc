@@ -1,0 +1,16 @@
+# if you want a network installation, fill in the network related fields
+NET_IP=
+NET_MASK=255.255.255.0
+GATEWAY=
+NAME_SRV=
+NFS_SRV=
+NFS_DIR=
+INST_DIR=suse/inst-sys
+INST_IMG=suse/images/yast2
+INST_PROG=/lib/YaST2/bin/YaST2.start
+COLOR_SCREEN=1
+LANG=en_US
+KEYMAP=
+LOW_MEM=12
+LOW_MEM_IMG=47
+CD_LABEL=SU63

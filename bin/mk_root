@@ -1,0 +1,96 @@
+#! /usr/bin/perl -w
+
+# Create a compressed root image
+#
+# Source files and the file list are taken from data/root; the final image
+# is stored in images/root.
+#
+# Usage:        mk_root
+
+=head1 mk_root
+
+C<mk_root> creates a compressed C<root> image.
+
+The files to go into the root image are taken from
+C<data/root/root.file_list>.
+
+The final compressed image is stored as C<images/root>.
+
+=cut
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeMinixImage;
+use AddFiles;
+
+die "usage: $Script\n" if @ARGV;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$srcdir = "${DataPath}root";
+$tmpdir = "${BasePath}tmp/root";
+$image = "${ImagePath}root";
+
+$blocks = 6000;
+$inodes = 300;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+# clean up
+if(-d($tmpdir)) {
+  SUSystem "rm -rf $tmpdir" and
+    die "$Script: failed to remove old $tmpdir";
+}
+
+AddFiles $tmpdir, "${srcdir}/root.file_list", $srcdir or
+  die "$Script: failed to setup root image";
+
+( $xblocks, $blk_size, $xinodes ) = MakeMinixImage $image, $blocks, $inodes;
+
+die "$Script: failed to create a minix fs on \"$image\"" unless $xinodes;
+
+printf "$Script: image \"%s\", %u blocks a %u bytes (%u inodes)\n", $image, $xblocks, $blk_size, $xinodes;
+
+# umount it first, just in case
+SUSystem "umount /mnt 2>/dev/null";
+
+# add the files
+SUSystem "mount -oloop $image /mnt" and
+  die "$Script: mount failed";
+
+# copy everything
+SUSystem "sh -c 'tar -C $tmpdir -cf - . | tar -C /mnt -xpf -'" and
+  die "$Script: could not add all files to the image";
+
+# check the current disk usage
+for ( `df -Pk /mnt` ) {
+  ($blks, $ublks ) = ($1, $2) if /^\S+\s+(\d+)\s+(\d+)/;
+}
+
+for ( `df -Pki /mnt` ) {
+  ($inds, $uinds ) = ($1, $2) if /^\S+\s+(\d+)\s+(\d+)/;
+}
+
+# unmount it
+SUSystem "umount /mnt" and
+  die "$Script: umount failed";
+
+print "$Script: root: ${ublks}k/${blks}k used ($uinds/$inds inodes)\n";
+
+# compress it
+system "gzip -f -9 $image" and
+  die "$Script: gzip failed";
+
+rename "${image}.gz", $image;
+
+$i = -s "$image";
+
+print "$Script: compressed root image to \"$image\" ($i bytes)\n";
+

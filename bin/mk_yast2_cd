@@ -1,0 +1,141 @@
+#! /usr/bin/perl -w
+
+# Created a test CD with YaST2 on it.
+#
+# Usage:        mk_yast2_cd
+
+=head1 mk_yast2_cd
+
+C<mk_yast2_cd> creates an ISO9660 image. It needs C<images/boot>,
+C<images/root> and C<images/yast2>.
+
+=cut
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+
+die "usage: $Script\n" if @ARGV;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$tmpdir = "${BasePath}tmp/yast2_cd";
+$image = "${ImagePath}yast2_cd";
+
+$image_boot = "${ImagePath}boot";
+$image_yast2 = "${ImagePath}yast2";
+
+$as_img = $ConfigData{"YaST2_on_CD_as_Image"};
+$as_img = 0 if $as_img =~ /^n/i;
+
+$yast2_dir = $ConfigData{"yast2_dir"};
+$yast2_img = $ConfigData{"yast2_img"};
+
+die "$Script: where should the YaST2 go to?" unless $yast2_dir;           
+die "$Script: where should the YaST2 image go to?" unless $yast2_img;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+if(-d("${tmpdir}.new")) {
+  SUSystem "rm -rf ${tmpdir}.new" and
+    die "$Script: failed to remove  ${tmpdir}.new";
+}
+
+if(-d $tmpdir) {
+  SUSystem "rm -rf ${tmpdir}" and
+    die "$Script: failed to remove  ${tmpdir}";
+}
+
+if(!-d("$tmpdir/suse/images")) {
+  SUSystem "mkdir -p $tmpdir/suse/images" and
+    die "$Script: failed to create $tmpdir/suse/images";
+
+  SUSystem "mkdir -p $tmpdir/suse/setup/descr" and
+    die "$Script: failed to create $tmpdir/suse/setup/descr";
+}
+
+SUSystem "cp $image_boot $tmpdir/suse/images" and	# $image_root
+  die "$Script: failed to copy the image files";
+
+# ##### keep the prepare CD script happy (it needs at least one image file
+# besides boot)
+SUSystem "touch $tmpdir/suse/images/nothing" and die "$Script: touch failed";
+
+# make the directory
+SUSystem "mkdir -p $tmpdir/$yast2_dir" and
+  die "$Script: failed to create $tmpdir/$yast2_dir";
+
+SUSystem "sh -c 'gzip -c -4 $image_yast2 >$tmpdir/$yast2_img'" and
+  die "$Script: failed to add the yast2 image";
+
+if($as_img) {
+  SUSystem "cp $image_yast2 $tmpdir/suse/images" and
+    die "$Script: failed to copy the yast2 image";
+}
+else {
+  # umount it first, just in case
+  SUSystem "umount /mnt 2>/dev/null";
+
+  # mount the yast2 image
+  SUSystem "mount -oloop $image_yast2 /mnt" and
+    die "$Script: mount failed";
+
+  # copy everything
+  SUSystem "sh -c 'tar -C /mnt -cf - . | tar -C $tmpdir/$yast2_dir -xpf -'" and
+    die "$Script: failed to extract all files from the yast2 image";
+
+  # unmount it
+  SUSystem "umount /mnt" and
+    die "$Script: umount failed";
+}
+
+die "$Script: $TmpBase: $!" unless open T, ">$TmpBase";
+
+print T "ELF\n";
+print T "MIN_YAST_VERSION 2.0\n";
+print T "DIST_STRING      SuSE\n";
+print T "DIST_IDENT       SuSE-Linux-YaST2Demo-i386-$ConfigData{SuSE_major_release}.$ConfigData{SuSE_minor_release}.0#1\n";
+print T "MIN_DIST_VERSION $ConfigData{SuSE_major_release}.$ConfigData{SuSE_minor_release}\n";
+print T "HAS_LIVE_CD=0\n";
+
+close T;
+
+SUSystem "cp $TmpBase $tmpdir/suse/setup/descr/info" and
+  die "$Script: failed to copy info file";
+
+
+die "$Script: $TmpBase: $!" unless open T, ">$TmpBase";
+
+print T "dedicated to you :)\n";
+
+close T;
+
+@t = localtime time;
+
+$t[5] += 1900;
+$t[3]++;
+
+$t = sprintf "%04d%02d%02d%02d", $t[5], $t[4], $t[3], $t[2];
+
+SUSystem "cp $TmpBase $tmpdir/.S.u.S.E-disk-001.$t" and
+  die "$Script: failed to copy info file";
+
+unlink $TmpBase;
+
+# ##### there must be at least one file besides "suse" in the root dir...
+SUSystem "touch $tmpdir/This_is_to_keep_prepare_cd_dir_for_booting_happy.\n";
+
+# print "$Script: running mkisofs...\n";
+# system "mkisofs -R -o $image $tmpdir" and
+#   die "$Script: mkisofs failed";
+
+print "$Script: running mk_cd...\n";
+SUSystem "mk_cd $tmpdir $image" and
+  die "$Script: mk_cd failed";
+

@@ -1,0 +1,680 @@
+#!/bin/sh
+
+DEV=dev
+LOTS=no
+
+#########################################################################
+# Check for root
+#########################################################################
+
+if [ "`id | grep uid=0`" = "" ]; then
+	echo "In order to create device inodes, you must run this script"
+	echo "as root."
+	exit 1
+fi
+
+if [ ! -d $DEV ]; then
+	echo "Creating directory $DEV"
+	mkdir $DEV
+fi
+
+if [ ! -d $DEV/inet ]; then
+	mkdir $DEV/inet
+fi
+
+if [ ! -d $DEV/rd ]; then
+        mkdir $DEV/rd
+fi
+
+if [ ! -d $DEV/ida ]; then
+        mkdir $DEV/ida
+fi
+
+#########################################################################
+# Create one single device
+#########################################################################
+
+function create_dev () {
+	if [ $# != 7 ]; then
+		echo "Wrong call to create_dev!"
+		exit 1
+	fi
+
+	NAME=$1
+	MAJ=$2
+	MIN=$3
+	TYP=$4
+	COUNT=$5
+	MODE=$6
+	OWNER=$7
+
+	if [ $COUNT != 1 ]; then
+		echo "create_dev called with count=$COUNT"
+		exit 1
+	fi
+	echo "Creating $DEV/$NAME: Major=$MAJ Minor=$MIN Mode=$MODE Owner=$OWNER"
+	rm -f $DEV/$NAME
+	mknod -m $MODE $DEV/$NAME $TYP $MAJ $MIN
+	chown $OWNER $DEV/$NAME
+}
+
+#########################################################################
+# Create a range of devices
+#########################################################################
+
+function create_dev_range () {
+	if [ $# != 7 ]; then
+		echo "Wrong call to create_dev_range!"
+		exit 1
+	fi
+
+	NAME=$1
+	MAJ=$2
+	MIN=$3
+	TYP=$4
+	COUNT=$5
+	MODE=$6
+	OWNER=$7
+
+	COUNTER=0
+	echo "Creating $DEV/$NAME$COUNTER to $DEV/$NAME`expr $COUNT - 1`: Major=$MAJ Mode=$MODE Owner=$OWNER"
+	while [ $COUNTER -lt $COUNT ] ; do
+		rm -f $DEV/$NAME$COUNTER
+		mknod -m $MODE $DEV/$NAME$COUNTER $TYP $MAJ `expr $MIN + $COUNTER`
+		chown $OWNER $DEV/$NAME$COUNTER
+
+		COUNTER=`expr $COUNTER + 1`
+	done
+}
+
+#########################################################################
+# Create the Mylex DAC 960 devices for given controller
+#########################################################################
+
+function create_DAC960 () {
+	if [ $# != 1 ]; then
+		echo "Wrong call to create_DAC960!"
+		exit 1
+	fi
+
+	CONTROLLER=$1
+	for disk in 0 1 2 3 4 5 6 7
+	do
+		mknod -m 660 $DEV/rd/c${CONTROLLER}d${disk} b `expr $CONTROLLER + 48` `expr $disk \* 8`
+		chown root.disk $DEV/rd/c${CONTROLLER}d${disk}
+		for part in 1 2 3 4 5 6 7
+		do
+			mknod -m 660 $DEV/rd/c${CONTROLLER}d${disk}p${part} b `expr $CONTROLLER + 48` `expr $disk \* 8 + $part`
+			chown root.disk $DEV/rd/c${CONTROLLER}d${disk}p${part}
+		done
+	done
+	
+}
+
+#########################################################################
+# Create the Compaq RAID devices for given controller
+#########################################################################
+
+function create_compaq () {
+	if [ $# != 1 ]; then
+		echo "Wrong call to create_compaq!"
+		exit 1
+	fi
+
+	CONTROLLER=$1
+	for disk in 0 1 2 3 4 5 6 7
+	do
+		mknod -m 660 $DEV/ida/c${CONTROLLER}d${disk} b `expr $CONTROLLER + 72` `expr $disk \* 16`
+		chown root.disk $DEV/ida/c${CONTROLLER}d${disk}
+		for part in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+		do
+			mknod -m 660 $DEV/ida/c${CONTROLLER}d${disk}p${part} b `expr $CONTROLLER + 72` `expr $disk \* 16 + $part`
+			chown root.disk $DEV/ida/c${CONTROLLER}d${disk}p${part}
+		done
+	done
+}
+
+#########################################################################
+# Create a sumbolic link
+#########################################################################
+
+create_symlink () {
+	if [ $# != 2 ]; then
+		echo "Wrong call to create_symlink!"
+		exit 1
+	fi
+	echo "Creating symlink from $2 to $1"
+	rm -f $2
+	ln -s $1 $2
+}
+
+#########################################################################
+# Create a hard link
+#########################################################################
+
+create_hardlink () {
+	if [ $# != 2 ]; then
+		echo "Wrong call to create_hardlink!"
+		exit 1
+	fi
+	echo "Creating hardlink from $2 to $1"
+	rm -f $2
+	ln $1 $2
+}
+
+#########################################################################
+# Create the Pseudo-TTY masters
+#########################################################################
+
+function create_ptys () {
+	if [ $# != 7 ]; then
+		echo "Wrong call to create_ptys!"
+		exit 1
+	fi
+
+	NAME=$1
+	MAJ=$2
+	MIN=$3
+	TYP=$4
+	COUNT=$5
+	MODE=$6
+	OWNER=$7
+	echo "Creating ptys: Major=$MAJ Minor=$MIN Mode=$MODE Owner=$OWNER"
+	for i in p q r s t u v w x y z a b c d e
+	    do
+		for j in 0 1 2 3 4 5 6 7 8 9 a b c d e f
+		    do
+			rm -f $DEV/$NAME$i$j
+			mknod -m $MODE $DEV/$NAME$i$j $TYP $MAJ $MIN
+			chown $OWNER $DEV/$NAME$i$j
+
+			MIN=`expr $MIN + 1`
+		    done
+	    done
+}
+
+#########################################################################
+# Create the obsolete Pseudo-TTY masters
+#########################################################################
+
+function create_old_ptys () {
+	if [ $# != 7 ]; then
+		echo "Wrong call to create_old_ptys!"
+		exit 1
+	fi
+
+	NAME=$1
+	MAJ=$2
+	MIN=$3
+	TYP=$4
+	COUNT=$5
+	MODE=$6
+	OWNER=$7
+	echo "Creating old ptys: Major=$MAJ Minor=$MIN Mode=$MODE Owner=$OWNER"
+	for i in p q r s
+	    do
+		for j in 0 1 2 3 4 5 6 7 8 9 a b c d e f
+		    do
+			rm -f $DEV/$NAME$i$j
+			mknod -m $MODE $DEV/$NAME$i$j $TYP $MAJ $MIN
+			chown $OWNER $DEV/$NAME$i$j
+
+			MIN=`expr $MIN + 1`
+		    done
+	    done
+}
+
+#########################################################################
+# Create a range of devices with two name parts
+#########################################################################
+
+function create_range2 () {
+	if [ $# != 8 ]; then
+		echo "Wrong call to create_range2!"
+		exit 1
+	fi
+
+	NAME1=$1
+	NAME2=$2
+	MAJ=$3
+	MIN=$4
+	TYP=$5
+	COUNT=$6
+	MODE=$7
+	OWNER=$8
+
+	COUNTER=0
+	echo "Creating devices ${NAME1}0$NAME2 to $NAME1`expr $COUNT - 1`$NAME2: Major=$MAJ Mode=$MODE Owner=$OWNER"
+	while [ $COUNTER -lt $COUNT ] ; do
+		rm -f $DEV/$NAME1$COUNTER$NAME2
+		mknod -m $MODE $DEV/$NAME1$COUNTER$NAME2 $TYP $MAJ `expr $MIN + $COUNTER`
+		chown $OWNER $DEV/$NAME1$COUNTER$NAME2
+
+		COUNTER=`expr $COUNTER + 1`
+	done
+}
+
+#########################################################################
+# Table of devices
+#########################################################################
+#                  Name     Major  Minor  Typ Count  Mode         Owner
+#########################################################################
+
+# --------------
+# Major number 0
+# --------------
+
+create_dev         nfs          0    255    c     1   644     root.root
+
+# --------------
+# Major number 1
+# --------------
+
+create_dev         mem          1      1    c     1   640     root.kmem
+create_dev         kmem         1      2    c     1   640     root.kmem
+create_dev         null         1      3    c     1   666     root.root
+create_dev         port         1      4    c     1   660     root.kmem
+create_dev         zero         1      5    c     1   644     root.root
+create_dev         full         1      7    c     1   622     root.root
+create_dev         random       1      8    c     1   644     root.root
+create_dev         urandom      1      9    c     1   644     root.root
+
+create_dev_range   ram          1      0    b     8   660     root.disk
+create_dev         initrd       1    250    b     1   660     root.disk
+
+# --------------
+# Major number 2
+# --------------
+
+create_dev_range   fd           2      0    b     2   666     root.disk
+create_range2      fd  h1440    2     40    b     2   666     root.disk
+create_range2      fd  u1440    2     28    b     2   666     root.disk
+
+# --------------
+# Major number 3
+# --------------
+
+create_dev         hda          3      0    b     1   660     root.disk
+if [ $LOTS = "yes" ]; then
+create_dev_range   hda          3      0    b    64   660     root.disk
+else
+create_dev_range   hda          3      0    b    16   660     root.disk
+fi
+
+create_dev         hdb          3     64    b     1   660     root.disk
+if [ $LOTS = "yes" ]; then
+create_dev_range   hdb          3     64    b    64   660     root.disk
+else
+create_dev_range   hdb          3     64    b    16   660     root.disk
+fi
+
+# --------------
+# Major number 4
+# --------------
+
+create_dev_range   tty          4      0    c    12   660     root.tty
+create_dev_range   ttyS         4     64    c     4   660     root.uucp
+
+# --------------
+# Major number 5
+# --------------
+
+create_dev         console      5      1    c     1   666     root.tty
+create_dev         tty          5      0    c     1   666     root.root
+create_dev         ptmx         5      2    c     1   666     root.root
+
+# --------------
+# Major number 6
+# --------------
+
+create_dev_range   lp           6      0    c     3   660     root.lp
+
+# --------------
+# Major number 7
+# --------------
+
+create_dev_range   loop         7      0    b     2   660     root.disk
+
+# --------------
+# Major number 8
+# --------------
+
+create_dev         sda          8      0    b     1   660     root.disk
+create_dev_range   sda          8      0    b    16   660     root.disk
+create_dev         sdb          8     16    b     1   660     root.disk
+create_dev_range   sdb          8     16    b    16   660     root.disk
+create_dev         sdc          8     32    b     1   660     root.disk
+create_dev_range   sdc          8     32    b    16   660     root.disk
+create_dev         sdd          8     48    b     1   660     root.disk
+create_dev_range   sdd          8     48    b    16   660     root.disk
+create_dev         sde          8     64    b     1   660     root.disk
+create_dev_range   sde          8     64    b    16   660     root.disk
+create_dev         sdf          8     80    b     1   660     root.disk
+create_dev_range   sdf          8     80    b    16   660     root.disk
+create_dev         sdg          8     96    b     1   660     root.disk
+create_dev_range   sdg          8     96    b    16   660     root.disk
+create_dev         sdh          8    112    b     1   660     root.disk
+create_dev_range   sdh          8    112    b    16   660     root.disk
+create_dev         sdi          8    128    b     1   660     root.disk
+create_dev_range   sdi          8    128    b    16   660     root.disk
+create_dev         sdj          8    144    b     1   660     root.disk
+create_dev_range   sdj          8    144    b    16   660     root.disk
+create_dev         sdk          8    160    b     1   660     root.disk
+create_dev_range   sdk          8    160    b    16   660     root.disk
+create_dev         sdl          8    176    b     1   660     root.disk
+create_dev_range   sdl          8    176    b    16   660     root.disk
+create_dev         sdm          8    192    b     1   660     root.disk
+create_dev_range   sdm          8    192    b    16   660     root.disk
+create_dev         sdn          8    208    b     1   660     root.disk
+create_dev_range   sdn          8    208    b    16   660     root.disk
+create_dev         sdo          8    224    b     1   660     root.disk
+create_dev_range   sdo          8    224    b    16   660     root.disk
+create_dev         sdp          8    240    b     1   660     root.disk
+create_dev_range   sdp          8    240    b    16   660     root.disk
+
+# --------------
+# Major number 9
+# --------------
+
+create_dev_range   st           9      0    c     1   660     root.disk
+create_dev_range   nst          9    128    c     1   660     root.disk
+
+create_dev_range   md           9      0    b     4   660     root.disk
+
+# ---------------
+# Major number 10
+# ---------------
+create_dev         logibm      10      0    c     1   664     root.root
+create_dev         psaux       10      1    c     1   664     root.root
+create_dev         inportbm    10      2    c     1   664     root.root
+create_dev         atibm       10      3    c     1   664     root.root
+create_dev         jbm         10      4    c     1   664     root.root
+create_dev         amigamouse  10      4    c     1   664     root.root
+create_dev         atarimouse  10      5    c     1   664     root.root
+create_dev         sunmouse    10      6    c     1   664     root.root
+create_dev         amigamouse1 10      7    c     1   664     root.root
+create_dev         smouse      10      8    c     1   664     root.root
+create_dev         pc110pad    10      9    c     1   664     root.root
+create_dev         adbmouse    10     10    c     1   664     root.root
+create_dev         nvram       10    144    c     1   600     root.root
+
+# ---------------
+# Major number 11
+# ---------------
+
+create_dev_range   sr          11      0    b    16   640     root.disk
+create_dev_range   scd         11      0    b    16   640     root.disk
+
+# ---------------
+# Major number 12
+# ---------------
+
+# ---------------
+# Major number 13
+# ---------------
+
+# ---------------
+# Major number 14
+# ---------------
+
+# ---------------
+# Major number 15
+# ---------------
+
+create_dev         sonycd      15      0    b     1   640     root.disk
+
+# ---------------
+# Major number 16
+# ---------------
+
+create_dev         gscd        16      0    b     1   640     root.disk
+
+# ---------------
+# Major number 17
+# ---------------
+
+create_dev         optcd       17      0    b     1   640     root.disk
+
+# ---------------
+# Major number 18
+# ---------------
+
+create_dev         sjcd        18      0    b     1   640     root.disk
+
+# ---------------
+# Major number 19
+# ---------------
+
+# ---------------
+# Major number 20
+# ---------------
+
+create_dev_range   mcdx        20      0    b     2   640     root.disk
+
+# ---------------
+# Major number 21
+# ---------------
+
+# ---------------
+# Major number 22
+# ---------------
+
+create_dev         hdc         22      0    b     1   660     root.disk
+create_dev_range   hdc         22      0    b    16   660     root.disk
+create_dev         hdd         22     64    b     1   660     root.disk
+create_dev_range   hdd         22     64    b    16   660     root.disk
+
+# ---------------
+# Major number 23
+# ---------------
+
+create_dev         mcd         23      0    b     1   640     root.disk
+
+# ---------------
+# Major number 24
+# ---------------
+
+create_dev         cdu535      24      0    b     1   640     root.disk
+
+# ---------------
+# Major number 25
+# ---------------
+
+create_dev         sbpcd0      25      0    b     1   640     root.disk
+create_dev         sbpcd1      25      1    b     1   640     root.disk
+create_dev         sbpcd2      25      2    b     1   640     root.disk
+create_dev         sbpcd3      25      3    b     1   640     root.disk
+
+# ---------------
+# Major number 26
+# ---------------
+
+# ---------------
+# Major number 27
+# ---------------
+
+create_dev_range   rft         27      0    c     2   660     root.disk
+create_dev_range   nrft        27      4    c     2   660     root.disk
+
+# ---------------
+# Major number 28
+# ---------------
+
+# ---------------
+# Major number 29
+# ---------------
+
+create_dev         fb0         29      0    c     1   660     root.video
+create_dev         fb1         29     32    c     1   660     root.video
+create_dev         fb2         29     64    c     1   660     root.video
+create_dev         aztcd       29      0    b     1   640     root.disk
+
+# ---------------
+# Major number 30
+# ---------------
+
+create_dev         cm205cd     30      0    b     1   640     root.disk
+
+# ---------------
+# Major number 31
+# ---------------
+
+# ---------------
+# Major number 32
+# ---------------
+
+create_dev         cm206cd     32      0    b     1   640     root.disk
+
+# ---------------
+# Major number 33
+# ---------------
+
+create_dev         hde         33      0    b     1   660     root.disk
+create_dev_range   hde         33      0    b    16   660     root.disk
+create_dev         hdf         33     64    b     1   660     root.disk
+create_dev_range   hdf         33     64    b    16   660     root.disk
+
+# ---------------
+# Major number 34
+# ---------------
+
+create_dev         hdg         34      0    b     1   660     root.disk
+create_dev_range   hdg         34      0    b    16   660     root.disk
+create_dev         hdh         34     64    b     1   660     root.disk
+create_dev_range   hdh         34     64    b    16   660     root.disk
+
+# ---------------
+# Major number 35
+# ---------------
+
+# ---------------
+# Major number 36
+# ---------------
+
+# ---------------
+# Major number 37
+# ---------------
+
+create_dev         ht0         37      0    c     1   600     root.root
+create_dev         nht0        37    128    c     1   600     root.root
+
+# ---------------
+# Major number 38
+# ---------------
+
+# ---------------
+# Major number 39
+# ---------------
+
+# ---------------
+# Major number 40
+# ---------------
+
+# ---------------
+# Major number 41
+# ---------------
+
+# ---------------
+# Major number 43
+# ---------------
+
+# ---------------
+# Major number 44
+# ---------------
+
+# ---------------
+# Major number 45
+# ---------------
+
+# ---------------
+# Major number 46
+# ---------------
+
+create_dev_range   pcd         46      0    b     4   660     root.disk
+
+# ---------------
+# Major number 47
+# ---------------
+
+# ---------------
+# Major number 48
+# ---------------
+
+create_DAC960      0
+create_DAC960      1
+
+# ---------------
+# Major number 49
+# ---------------
+
+# ---------------
+# Major number 56
+# ---------------
+
+create_dev         hdi         56      0    b     1   660     root.disk
+create_dev_range   hdi         56      0    b    16   660     root.disk
+create_dev         hdj         56     64    b     1   660     root.disk
+create_dev_range   hdj         56     64    b    16   660     root.disk
+
+# ---------------
+# Major number 57
+# ---------------
+
+create_dev         hdk         57      0    b     1   660     root.disk
+create_dev_range   hdk         57      0    b    16   660     root.disk
+create_dev         hdl         57     64    b     1   660     root.disk
+create_dev_range   hdl         57     64    b    16   660     root.disk
+
+# ---------------
+# Major number 62
+# ---------------
+
+# ---------------
+# Major number 63
+# ---------------
+
+# ---------------
+# Major number 72
+# ---------------
+
+create_compaq      0
+create_compaq      1
+
+#########################################################################
+# Hard links
+#########################################################################
+
+create_hardlink  $DEV/sr0      $DEV/scd0
+create_hardlink  $DEV/sr1      $DEV/scd1
+create_hardlink  $DEV/aztcd    $DEV/aztcd0
+create_hardlink  $DEV/gscd     $DEV/gscd0
+create_hardlink  $DEV/optcd    $DEV/optcd0
+create_hardlink  $DEV/mcdx0    $DEV/mcdx
+create_hardlink  $DEV/sbpcd0   $DEV/sbpcd
+create_hardlink  $DEV/cm205cd  $DEV/lmscd
+
+
+#########################################################################
+# Symbolic links
+#########################################################################
+
+create_symlink   /proc/kcore   $DEV/core
+create_symlink   ram0          $DEV/ram
+create_symlink   ram0          $DEV/ramdisk
+create_symlink   /proc/self/fd $DEV/fd
+create_symlink   fd/0          $DEV/stdin
+create_symlink   fd/1          $DEV/stdout
+create_symlink   fd/2          $DEV/stderr
+create_symlink   st0           $DEV/rmt0
+create_symlink   nst0          $DEV/nrmt0
+create_symlink   rft0          $DEV/ftape
+create_symlink   nrft0         $DEV/nftape
+
+
+#########################################################################
+# Ugly cleanup
+#########################################################################
+
+rm -f $DEV/sd?0
+rm -f $DEV/hd?0
+

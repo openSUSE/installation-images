@@ -1,0 +1,59 @@
+Upon starting YaSt2, linuxrc performs the following operations:
+
+ - (*no* chroot is done)
+
+ - mounting a 2nd ram disk with the "root" image (from "suse/images")
+
+ - set up appropriate symlinks for
+     /bin, /boot, /lib, /root, /sbin, /usr
+   to point to the root image (note that these directories are typically
+   mounted read-only)
+   (the original "/bin" from the initrd is renamed to "/.bin")
+
+ - write config data to "/etc/yast2rc"
+
+ - start "/sbin/YaST2.start" (a shell script that finally starts "/sbin/YaST2")
+   ("YaST2.start" is responsible to mount and setup the source medium; "YaST2"
+   only starts the X server and "y2bignfat")
+
+ - when YaST2 returns, the above operations are undone und control is given
+   back to linuxrc
+
+Please note: the CD or NFS volume is *not* mounted by linuxrc. It is done in
+the "YaST2.start" script. linuxrc accesses the CD/the NFS dir only to
+retrieve the "root" image, loads it and then unmounts the CD/NFS volume.
+
+
+Format of "/etc/yast2rc":
+
+  It is a simple script containing only shell variable assignments. No
+  comments.
+
+  It is the same format that is used for the yast2rc file thats put onto the
+  boot disk for user default values.
+
+  Currently these entries are used (see file.c in linuxrc):
+
+  - BOOT_MODE
+      "CD"	from CD
+      "Net"	via NFS
+
+  - BOOT_SRC
+      source of boot medium suitable for a mount command; e.g.
+      "/dev/sr0" for a CD or "10.10.0.10:/xyz" for NFS
+
+  - INST_MOUNT_POINT
+      directory the 2nd ram disk is mounted to (the "root" image in
+      suse/images, *not* YaST2); normally "/inst-img"
+
+  - NFS_SRV, NFS_DIR
+      NFS installation source (cf. BOOT_SRC)
+
+  - NET_IF
+      the network interface *if* installation is over a network; e.g. "eth0"
+
+  - NET_IP
+      the host ip
+
+  - NET_MASK, HOST_NAME, DOMAIN_NAME, GATEWAY, NAME_SRV
+

@@ -1,0 +1,108 @@
+#! /usr/bin/perl -w
+
+# Create an initrd and put everything on it.
+#
+# Source files and the file list are taken from data/initrd; the initrd is
+# stored in images/initrd.
+#
+# Usage:        mk_initrd
+
+=head1 mk_initrd
+
+C<mk_initrd> creates an initial ram disk C<initrd>.
+
+The files to go onto the ram disk (aka initrd) are taken from
+C<data/initrd/initrd.file_list>.
+
+The initrd uses a Minix file system. The actual fs size and inode numbers
+are coded in the C<mk_initrd> script. You I<can> vary these values but it
+doesn't really pay of much. You will gain or loose a few bytes of the
+compressed initrd size only.
+
+The C<linuxrc> binary is taken from the location given by the C<linuxrc> entry
+in the C<etc/config> file.
+
+The final compressed image is stored as C<images/initrd>.
+
+=cut
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeMinixImage;
+use AddFiles;
+use Conv2Image;
+
+die "usage: $Script\n" if @ARGV;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$srcdir = "${DataPath}initrd";
+$tmpdir = "${BasePath}tmp/initrd";
+$image = "${ImagePath}initrd";
+
+# the compressed image size varies only slightly with these; about +-1k with
+# reasonable inode/block combinations
+
+# leave that much space
+$extra_size = 400;		# kbyte
+$extra_inodes = 200;
+
+# just make them large enough
+$start_size = 3000;		# kbyte
+$start_inodes = 3000;
+
+# $idlist = "$BasePath$ConfigData{idlist}";
+# die "$Script: where is our id list?" unless $ConfigData{idlist} && -f $idlist;
+
+$lxrc = "$BasePath$ConfigData{linuxrc}";
+die "$Script: where is linuxrc?" unless $ConfigData{linuxrc} && -f $lxrc;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+# clean up
+if(-d($tmpdir)) {
+  SUSystem "rm -rf $tmpdir" and
+    die "$Script: failed to remove old $tmpdir";
+}
+
+AddFiles $tmpdir, "${srcdir}/initrd.file_list", $srcdir or
+  die "$Script: failed to setup initrd image";
+
+system "cp $srcdir/makedevs.floppy $tmpdir";
+SUSystem "sh -c 'cd $tmpdir; ./makedevs.floppy >/dev/null'" and
+  die "$Script: could not create all devices";
+system "rm $tmpdir/makedevs.floppy";
+
+#SUSystem "cp $idlist $tmpdir" and
+#  die "$Script: could not add the id list";
+
+SUSystem "cp $lxrc $tmpdir/linuxrc" and
+  die "$Script: linuxrc not copied";
+
+# add yast2rc
+SUSystem "cp ${CfgPath}yast2rc $tmpdir" and
+  die "$Script: failed to copy yast2rc";
+
+# strip everything
+SUSystem "strip_dir $tmpdir";
+
+# create the image
+Conv2Image $image, $tmpdir, 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+
+# compress it
+system "gzip -f -9 $image" and
+  die "$Script: gzip failed";
+
+rename "${image}.gz", "$image";
+
+$i = -s "$image";
+
+print "$Script: compressed initrd to \"$image\" ($i bytes)\n";
+

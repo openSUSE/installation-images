@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>Boot Disk Creation</title>
+</head>
+
+<body>
+
+<h1>Boot Disk Creation</h1>
+
+These are some perl scripts to assist in making a boot floppy/cd:<p>
+
+<ul>
+  <a href=mk_initrd.html>mk_initrd</a><br>
+  <a href=mk_boot.html>mk_boot</a><br>
+  <a href=mk_root.html>mk_root</a><br>
+  <a href=mk_yast2.html>mk_yast2</a><br>
+  <a href=mk_yast2_cd.html>mk_yast2_cd</a><br>
+  <a href=mk_yast2_nfs.html>mk_yast2_nfs</a><p>
+  
+  <a href=mk_initrd_test.html>mk_initrd_test</a><br>
+  <a href=initrd_test.html>initrd_test</a><br>
+</ul>
+
+The scripts need some perl functions provided in these libraries:<p>
+
+<ul>
+  <a href=AddFiles.html>AddFiles</a><br>
+  <a href=ReadConfig.html>ReadConfig</a><br>
+  <a href=MakeFATImage.html>MakeFATImage</a><br>
+  <a href=MakeMinixImage.html>MakeMinixImage</a><br>
+</ul>
+
+You do not have to run these scripts manually. There is actually a Makefile
+that does everything for you:<p>
+
+<ul>
+  <code>make</code><br>
+  <ul>- make everything except the initrd test</ul>
+
+  <code>make initrd</code><br>
+  <ul>- make the initrd</ul>
+
+  <code>make boot</code><br>
+  <ul>- make a boot floppy image</ul>
+
+  <code>make root</code><br>
+  <ul>- make a root image suitable for YaST2</ul>
+
+  <code>make yast2</code><br>
+  <ul>- make an image with all the YaST2 stuff on it (including X11)</ul>
+
+  <code>make yast2_cd</code><br>
+  <ul>- make a bootable YaSt2 test cd</ul>
+
+  <code>make yast2_nfs</code><br>
+  <ul>- setup a NFS installable YaST2</ul>
+
+  <code>make initrd_test</code><br>
+  <ul>- make the initrd test environment</ul>
+
+  <p>
+  <code>make html</code><br>
+  <ul>- update the documentation</ul>
+</ul>
+
+To set up a NFS installable YaST2 put your NFS directory you want to use in
+<code>etc/config</code> and then do a "<code>make nfs</code>" and copy
+<code>images/boot</code> to a floppy.
+
+</body>
+</html>

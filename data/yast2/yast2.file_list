@@ -1,0 +1,349 @@
+#
+# the 'root' system
+#
+
+d bin etc lib mnt root sbin tmp usr var
+c 1777 0 0 tmp
+
+
+# bin
+
+aaa_base:
+  /bin/fillup
+
+base:
+  /bin/tar
+
+bash:
+  /bin/bash
+s bash /bin/sh
+
+ash:
+  /bin/ash.static
+
+fileutil:
+  /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
+  /usr/bin/{du,touch}
+
+gzip:
+  bin/g{un,}zip
+
+joe:
+  /usr/bin/joe
+  /usr/lib/joerc
+
+mktemp:
+  /bin/mktemp
+
+net_tool:
+  /bin/{domain,host}name
+
+nkitb:
+  /bin/ping
+
+ps:
+  /bin/ps
+
+rpm:
+  /bin/rpm
+# for autobuild
+X /bin/rpm.bin bin/rpm
+  /usr/lib/rpm/rpm{popt,rc}
+
+sh_utils:
+  /bin/{date,echo,false,pwd,sleep,stty,true,uname}
+#for autobuild
+X /bin/uname.bin bin/uname
+
+textutil:
+  /bin/cat
+
+util:
+  /bin/kill
+  /bin/{u,}mount
+  /bin/dmesg
+
+# lib
+
+# s ../usr/lib/YaST2 /lib/YaST2
+
+# ##### hack: we should avoid the kernel version number
+kernmod:
+m /lib/modules/<kernel_ver>/block/loop.o /lib
+d /lib/modules/default
+s /modules /lib/modules/default/misc
+
+# no libc5 stuff
+# ldso:
+#   /lib/{ld-linux.so.1,ld-linux.so.1.9.9,ld.so,ld.so.1.9.9,libdl.so.1,libdl.so.1.9.9}
+
+ncurses:
+  /lib/libncurses.so.4{,.2}
+  /usr/lib/lib{form,menu,panel}.so{,.4,.4.2}
+  /usr/share/terminfo
+s ../share/terminfo /usr/lib/terminfo
+
+shlibs:
+  /lib/ld-2.*.so
+  /lib/ld-linux.so.2
+#  /lib/{libBrokenLocale.so.1,libNoVersion.so.1,libSegFault.so}
+  /lib/{libc.so.6,libcrypt.so.1,libdb.so.2,libdb.so.3,libdl.so.2,libm.so.6,libnsl.so.1}
+  /lib/{libnss_compat.so.2,libnss_db.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
+  /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2,librt.so.1,libutil.so.1}
+
+# sbin
+
+# d /sbin/init.d/boot.d
+# d /sbin/init.d/rc{0,1,2,3,4,5,6,S}.d
+
+# s . /sbin/init.d/init.d
+
+aaa_base:
+#  /sbin/init.d/{boot,boot.setup,dummy,halt,network,nscd,random,rc,reboot,route,rwhod,single}
+#  /sbin/init.d/rc0.d/S20halt
+#  /sbin/init.d/rc1.d/{K30random,K35boot.setup,K45dummy,S04dummy,S10boot.setup,S13random}
+#  /sbin/init.d/rc2.d/{K19nscd,K20rwhod,K30random,K35boot.setup,K38route,K40network,K45dummy}
+#  /sbin/init.d/rc2.d/{S04dummy,S05network,S07route,S10boot.setup,S13random,S20rwhod,S21nscd}
+#  /sbin/init.d/rc3.d/{K19nscd,K20rwhod,K30random,K35boot.setup,K38route,K40network,K45dummy}
+#  /sbin/init.d/rc3.d/{S04dummy,S05network,S07route,S10boot.setup,S13random,S20rwhod,S21nscd}
+#  /sbin/init.d/rc6.d/S20reboot
+#  /sbin/init.d/rcS.d/{K,S}20single
+
+  /sbin/bootp
+
+kbd:
+#  /sbin/init.d/{kbd,*/*}
+  /usr/lib/kbd
+  /usr/share/locale
+  /usr/bin/{chvt,loadkeys,setfont,loadunimap,kbd_mode}
+c 0755 0 0 /usr/share/locale/ru
+
+#syslogd:
+#  /sbin/init.d/{syslog,*/*}
+
+base:
+  /sbin/hdparm
+
+bdflush:
+  /sbin/update
+
+ext2fs:
+  /sbin/*
+
+file:
+#  /etc/magic
+  /usr/bin/file
+# x /usr/lib/magic /usr/lib
+
+ldso:
+  /sbin/ldconfig
+
+lilo:
+  /sbin/activate
+
+mdutils:
+  /sbin/*
+
+mkdosfs:
+  /sbin/{mkdosfs,mkfs.msdos}
+
+net_tool:
+  /sbin/{ifconfig,route,plipconfig}
+
+nkitb:
+  /sbin/portmap
+
+umsprogs:
+  /sbin/*
+c 0755 0 0 /sbin/umssync
+
+util:
+  /sbin/{clock,ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
+
+# var
+
+d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
+d /var/lock/subsys
+d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
+
+d /var/X11R6/{bin,xkb/compiled,app-defaults}
+
+s ../lock /var/spool/locks
+s /usr/X11R6/lib/X11 /var/X11R6/lib
+
+t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
+t /var/log/news/news.{crit,err,notice}
+
+c 1777 0 0 /var/tmp
+
+# x /var/lib/news/{mailname,whoami} /var/lib/news
+
+
+# /etc is missing as it is not used anyway (so far)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+#
+# 1st, the basic system
+#
+
+d /usr/{bin,lib,libexec,sbin,share}
+
+s ../var/spool /usr/spool
+s ../var/tmp /usr/tmp
+
+base:
+  /usr/bin/{,e,f}grep
+  /usr/bin/sed
+
+diff:
+  /usr/bin/{cmp,diff}
+
+find:
+  /usr/bin/find
+
+less:
+  /etc/lesskey
+  /usr/bin/less
+
+modules:
+ /sbin/{depmod,genksyms,insmod,kerneld,ksyms,lsmod,modinfo,modprobe,rmmod,insmod.static}
+
+nkitb:
+  /usr/bin/{rpcinfo,telnet}
+
+ps:
+m /bin/fuser /usr/bin
+  /usr/bin/{free,killall,pstree,socklist}
+
+timezone:
+  /usr/share/zoneinfo/{iso3166,zone}.tab
+
+sh_utils:
+  /usr/bin/{basename,dirname,chroot,test,tty}
+
+shlibs:
+  /usr
+  /etc/rpc
+r /usr/bin/db_*
+r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
+r /usr/sbin/{nscd,nscd_nischeck,utmpd}
+
+strace:
+  /usr/bin/strace
+
+ltrace:
+  /usr/bin/ltrace
+  /etc/ltrace.conf
+
+cpio:
+  /usr/bin/{cpio,mt}
+
+textutil:
+  /usr/bin/{cut,head,md5sum,sort,tail,uniq,wc}
+
+c 0755 0 0 /usr/bin
+c 0755 0 0 /usr/lib
+c 0755 0 0 /usr/sbin
+c 0755 0 0 /usr/share
+
+x /etc/ld.so.conf /etc
+
+#
+# now X11R6
+#
+
+d /usr/X11R6/{bin,include/X11,lib/fonts,share}
+
+s X11R6 /usr/X11
+s /var/X11R6/bin/X /usr/X11R6/bin/X
+
+xfbdev:
+  .
+
+# apparently it doesn't work
+#xvga16:
+#  .
+
+xsvga:
+  .
+
+xshared:
+  /usr/X11R6/lib/libX{11.so,11.so.6,11.so.6.1,ext.so,ext.so.6,ext.so.6.3}
+d /usr/X11R6/lib/{X11,modules}
+
+xf86:
+  /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
+  /usr/X11R6/lib/X11/locale
+  /usr/X11R6/lib/X11/nls
+  /usr/X11R6/lib/X11/xkb
+  /usr/X11R6/lib/X11/xserver
+  /usr/X11R6/lib/X11/fonts/{75dpi,latin2,misc}
+
+  /usr/X11R6/bin/xsetroot
+
+xfntscl:
+  /usr/X11R6/lib/X11/fonts/Type1
+
+x /usr/X11R6/lib/X11/XF86Config /usr/X11R6/lib/X11
+
+c 0755 0 0 /usr
+c 0755 0 0 /usr/X11R6
+c 0755 0 0 /usr/X11R6/bin
+
+
+#
+# add all modules
+#
+
+# ##### not now
+# kernmod:
+# m /lib/modules /usr/lib
+# c 0755 0 0 /usr/lib/modules
+
+#
+# and finally, YaST2
+#
+
+gppshare:
+  /usr/lib/libstdc++-libc6.1-1.so.2
+  /usr/lib/libstdc++-2-libc6.1-1-2.9.0.so
+
+shlibs:
+m /lib/libpthread.so.0 /usr/lib
+
+libjpeg:
+  /usr/lib/libjpeg.so{,.6,.6.0.1}
+
+qtlib2:
+  /usr/lib/*
+
+/work/users/kettner/y2rpms/y2base.rpm:
+  /bin/y2bignfat
+  /lib/YaST2
+  /usr/sbin/linuxrc
+  /usr/sbin/syslinux
+#  /lib/liby*
+  /var/lib/YaST2
+c 0755 0 0 /lib/YaST2
+c 0755 0 0 /var/lib
+c 0755 0 0 /var/lib/YaST2
+
+# remove these:
+r root mnt tmp usr/libexec
+
+# we need ISaX
+isax:
+  /usr/X11R6/bin/{isax,ISaX}
+
+# hack: xxxxx
+# X /usr/local/yast2/source/general/YaST2 lib/YaST2/bin/YaST2
+# X /usr/local/yast2/source/general/YaST2.start lib/YaST2/bin/YaST2.start
+
+# created in aaa_base's postinstall
+X /etc/{passwd,group,shadow,nsswitch.conf,protocols} /etc
+
+/usr/src/packages/RPMS/i386/smp.rpm:
+  /usr/sbin/smp
+

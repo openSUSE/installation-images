@@ -1,0 +1,71 @@
+#! /usr/bin/perl -w
+
+# Create a YaST2 image that can be used on a bootable CD.
+#
+# Source files and the file list are taken from data/yast2; the final
+# image is stored in images/yast2.
+#
+# Usage:        mk_yast2
+
+=head1 mk_yast2
+
+C<mk_yast2> creates a C<yast2> image (not compressed) that should be mounted
+to C</usr> within the C<root> image and contains everything necessary to run
+YaST2.
+
+This image is intended to go onto a bootable CD.
+
+The files to go into the YaST2 image are taken from
+C<data/yast2/yast2.file_list>.
+
+The final image is stored as C<images/yast2>.
+
+=cut
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
+
+die "usage: $Script\n" if @ARGV;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$srcdir = "${DataPath}yast2";
+$tmpdir = "${BasePath}tmp/yast2";
+$image = "${ImagePath}yast2";
+
+# leave that much space
+$extra_size = 500;              # kbyte
+$extra_inodes = 100;
+
+# just make them large enough
+$start_size = 50000;             # kbyte
+$start_inodes = 5000;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+# clean up
+if(-d($tmpdir)) {
+  SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
+}
+
+AddFiles $tmpdir, "${srcdir}/yast2.file_list", $srcdir or
+  die "$Script: failed to setup yast2 image";
+
+# strip everything
+SUSystem "strip_dir $tmpdir";
+
+SUSystem "ldconfig -r $tmpdir";
+die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
+
+Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
+

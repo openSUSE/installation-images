@@ -1,0 +1,45 @@
+#
+# This file is actually a shell script.
+#
+# BUT: only shell variable assignments are allowed.
+#
+# No continuation lines (using '\' at line breaks)!!!
+
+SuSE_major_release=6
+SuSE_minor_release=3
+
+# location of various other stuff within the CVS tree
+
+# the syslinux binary
+syslinux=/usr/sbin/syslinux
+
+# the linuxrc binary
+linuxrc=/usr/sbin/linuxrc
+
+# the SuSE distribution (we get our rpm's from there (unless we are in autobuild))
+SuSE_base=/work/CDs/full-6.3-i386
+
+# kernel version (needed to locate the module directory)
+kernel_ver=`if [ -x /bin/uname.bin ] ; then uname -r ; else rpm -qlp /work/CDs/full-i386/suse/*/kernmod.rpm 2>/dev/null | head -1 | cut -d / -f 4 ; fi`
+
+# kernel rpm name
+kernel_rpm=`if [ \`uname -m\` = alpha ] ; then echo k_alpha ; else echo k_pentiu ; fi`
+
+# kernel img name
+kernel_img=`if [ \`uname -m\` = alpha ] ; then echo vmlinux.gz ; else echo vmlinuz ; fi`
+
+# the id list
+idlist=/lib/YaST2/id_list
+
+# location of the YaST2 dir on the CD
+yast2_dir=suse/inst-sys
+
+# location of the YaST2 image file on the CD
+yast2_img=suse/images/yast2
+
+# the NFS dir to install YaST2 to
+YaST2_NFS=/usr/local/yast2_test
+
+# whether to put YaST2 as an (loopback) image or as a directory on CD
+YaST2_on_CD_as_Image=no
+

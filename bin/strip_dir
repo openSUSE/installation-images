@@ -1,0 +1,16 @@
+#! /usr/bin/perl
+
+# strip all ELF binaries & shared libs in a directory (recursive)
+
+for $dir (@ARGV) {
+  for $f (`find $dir -type f`) {
+    $_ = `file $f`;
+    if(/\sELF\s.*\s(shared\s+object|executable)/) {
+      system "strip -s -R .note -R .comment $f";
+    }
+    elsif(/\sELF\s.*\srelocatable,/) {
+      system "strip -g -R .note -R .comment $f";
+    }
+  }
+}
+
