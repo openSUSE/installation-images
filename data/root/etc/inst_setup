@@ -30,8 +30,13 @@ $INSTSYS/usr/bin/conservative_lndir "$INSTSYS" "/"
 echo "integrating the shared objects of the installation system..."
 ldconfig
 
-echo "starting syslog (messages are logged to /dev/tty4)..."
-[ -x /sbin/syslogd ] && { checkproc /sbin/syslogd || /sbin/syslogd }
+if test -x /sbin/syslogd
+then
+    checkproc /sbin/syslogd || {
+	echo "starting syslog (messages are logged to /dev/tty4)..."
+	/sbin/syslogd
+    }
+fi
 
 # create a new modules.dep
 #
