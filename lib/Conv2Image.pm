@@ -56,11 +56,11 @@ sub Conv2Image
       die "$Script: could not add all files to the image";
 
     # check the current disk usage
-    for ( `df -Pk /mnt` ) {
+    for ( `df -Pk /mnt 2>/dev/null` ) {
       ($blks, $ublks) = ($1, $2) if /^\S+\s+(\d+)\s+(\d+)/;
     }
 
-    for ( `df -Pki /mnt` ) {
+    for ( `df -Pki /mnt 2>/dev/null` ) {
       ($inds, $uinds) = ($1, $2) if /^\S+\s+(\d+)\s+(\d+)/;
     }
 
