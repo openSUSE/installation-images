@@ -47,7 +47,10 @@ r /etc/init.d/rc?.d/*xdm
 r /usr/bin/ChangeSymlinks
   /lib/YaST/SuSEconfig.functions
   /var/adm/fillup-templates
+x etc/init.d/boot.rootfsck /etc/init.d/boot.rootfsck
 e postin
+e insserv etc/init.d/boot.shm
+e insserv etc/init.d/boot.rootfsck
 # r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
 t /etc/fstab
 

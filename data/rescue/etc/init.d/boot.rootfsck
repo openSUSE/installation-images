@@ -1,0 +1,44 @@
+#! /bin/sh
+#
+# Copyright (c) 2001-2002 SuSE Linux AG, Nuernberg, Germany.
+# All rights reserved.
+#
+# /etc/init.d/boot.rootfsck
+#
+### BEGIN INIT INFO
+# Provides:          boot.rootfsck
+# Required-Start:    boot.shm
+# Required-Stop:
+# Default-Start:     B
+# Default-Stop:
+# Description:       check and mount root filesystem
+### END INIT INFO
+
+. /etc/rc.status
+
+rc_reset
+
+case "$1" in
+  start)
+	mount -n -o remount,rw /
+	rm -f /etc/mtab*
+	mount -f /
+	;;
+    stop)
+	;;
+    restart)
+	rc_failed 3
+	rc_status -v
+	;;
+    status)
+	rc_failed 4
+	rc_status -v
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status|restart}"
+	exit 1
+	;;
+esac
+
+rc_exit
+

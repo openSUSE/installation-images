@@ -277,7 +277,7 @@ gdb:
   /usr/bin/gdb
 
 glibc:
-  /lib/libthread_db*
+  /lib*/libthread_db*
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
@@ -667,8 +667,7 @@ if with_yast2 ne 'no'
   r /usr/lib/qt3/plugins/imageformats/libqmng*
 
 if theme eq 'Home'
-#  kdebase3-Home:
-  kdebase3-SuSE:
+  kdebase3-Personal:
 else
   kdebase3-SuSE:
 endif
@@ -721,6 +720,7 @@ lvm2:
 device-mapper:
   /lib*
   /sbin/devmap_mknod.sh
+  /sbin/dmsetup
 
 reiserfs:
   /sbin

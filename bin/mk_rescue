@@ -34,32 +34,34 @@ $start_inodes = 30000;
 $debug = exists($ENV{'debug'}) ? $ENV{'debug'} : "";
 $use_cramfs = exists($ENV{'use_cramfs'}) ? $ENV{'use_cramfs'} : "";
 
-# clean up
-if(-d($tmpdir)) {
-  SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
-}
+if($ENV{'keeprescue'} != 1) {
+  # clean up
+  if(-d($tmpdir)) {
+    SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
+  }
 
-AddFiles $tmpdir, "${srcdir}/rescue.file_list", $srcdir or
-  die "$Script: failed to setup rescue image";
+  AddFiles $tmpdir, "${srcdir}/rescue.file_list", $srcdir or
+    die "$Script: failed to setup rescue image";
 
-# SUSystem "sh -c 'cd $tmpdir; ./makedevs >/dev/null'" and
-#   die "$Script: could not create all devices";
-# SUSystem "rm $tmpdir/makedevs";
+  # SUSystem "sh -c 'cd $tmpdir; ./makedevs >/dev/null'" and
+  #   die "$Script: could not create all devices";
+  # SUSystem "rm $tmpdir/makedevs";
 
-# strip everything
-SUSystem "fix_perms $tmpdir";
-SUSystem "strip_dir $tmpdir";
+  # strip everything
+  SUSystem "fix_perms $tmpdir";
+  SUSystem "strip_dir $tmpdir";
 
-SUSystem "ldconfig -r $tmpdir";
-die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
+  SUSystem "ldconfig -r $tmpdir";
+  die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
-if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
-  system "check_libs $tmpdir" and
-    warn "$Script: error in shared lib config, please fix\n";
-}
-else {
-  system "check_libs $tmpdir" and
-    die "$Script: error in shared lib config, please fix\n";
+  if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+    system "check_libs $tmpdir" and
+      warn "$Script: error in shared lib config, please fix\n";
+  }
+  else {
+    system "check_libs $tmpdir" and
+      die "$Script: error in shared lib config, please fix\n";
+  }
 }
 
 if($use_cramfs) {

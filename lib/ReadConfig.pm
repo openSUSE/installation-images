@@ -499,7 +499,7 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   # (used to be in etc/config)
 
   my ( $r, $r0, $rx, $in_abuild, $a, $v, $kv, $rf, $ki, @f );
-  my ( $theme, $ul_release, $sles_release, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir );
+  my ( $theme, $sles_release, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir );
 
   my ( $dist, $i, $j, $rel, $xrel );
 
@@ -654,14 +654,13 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
     $j = $ConfigData{ini}{Version}{$i};
     $j =~ s/,([^,]+)//;
     if($j <= $ConfigData{suse_release}) {
-      $ul_release = $i if $i =~ /^ul/;
       $sles_release = $i if $i =~ /^sles/;
     }
   }
 
-  die "Oops, no UL & SLES release numbers found\n" unless $ul_release && $sles_release;
+  die "Oops, no SLES release number found\n" unless $sles_release;
 
-  # print STDERR "ul = $ul_release, sles = $sles_release\n";
+  # print STDERR "sles = $sles_release\n";
 
   die "Don't know theme \"$theme\"\n" unless exists $ConfigData{ini}{"Theme $theme"};
 
@@ -677,7 +676,6 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   my $full_product_name = $product_name;
   $full_product_name .= (" " . $ConfigData{ini}{"Theme $theme"}{version}) if $ConfigData{ini}{"Theme $theme"}{version};
   $update_dir = $ConfigData{ini}{"Theme $theme"}{update};
-  $update_dir =~ s/<ul>/$ul_release/g;
   $update_dir =~ s/<sles>/$sles_release/g;
   $update_dir =~ s/<rel>/$rel/g;
   $update_dir =~ s/<arch>/$realarch/g;
@@ -707,7 +705,7 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
     $r = $ConfigData{suse_release};
     $r .= " $ConfigData{suse_xrelease}" if $ConfigData{suse_xrelease};
 
-    print "--- Building for $product_name $r $ConfigData{arch} ($ul_release/$sles_release), theme $ConfigData{theme}\n";
+    print "--- Building for $product_name $r $ConfigData{arch} ($sles_release), theme $ConfigData{theme}\n";
     print "--- Kernel: $ConfigData{kernel_rpm}, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
 
     $r = $ConfigData{suse_base};
