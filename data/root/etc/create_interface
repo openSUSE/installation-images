@@ -12,6 +12,8 @@ HOSTFILE=$ROOT/etc/HOSTNAME
 RESFILE=$ROOT/etc/resolv.conf
 CONFIGFILE=$ROOT/etc/sysconfig/network/config
 CONFIGFILETMP=$ROOT/etc/sysconfig/network/config.tmp
+MODCONFFILE=$ROOT/etc/modules.conf
+MODCONFFILETMP=$ROOT/etc/modules.conf.tmp
 # INSTALLINF=netsetup.inf
 # INSTALLINF=install.inf
 # CHANDEVCONF=chandev.conf
@@ -26,6 +28,26 @@ then
 	if [ ! -z "$CHANDEV" ]
 	then
 		echo $CHANDEV >> $CHANDEVCONF
+	fi
+#
+#	Create modules.conf Entry
+#
+	MODCONF=`grep Alias: $INSTALLINF | uniq | sed -e 's/Alias: \\(.*\\)/\\1/'`
+	if [ ! -z "$MODCONF" ]
+	then
+		set -- $MODCONF
+		if [ $# -eq 2 ]
+		then
+			egrep "alias[[:space:]]*$1[[:space:]]*" $MODCONFFILE 2>&1 > /dev/null
+			if [ $? -eq 0 ]
+			then
+#				Entry found
+				egrep -v "alias[[:space:]]*$1[[:space:]]*" $MODCONFFILE > $MODCONFFILETMP
+				[ $? -eq 0 ] && mv $MODCONFFILETMP $MODCONFFILE
+				
+			fi
+			echo "alias $MODCONF" >> $MODCONFFILE
+		fi
 	fi
 #
 #	Create interfacefile
@@ -68,7 +90,7 @@ then
 	GW=`grep Gateway: $INSTALLINF | uniq | sed -e 's/Gateway: \\(.*\\)/\\1/'`
 	if [ ! -z "$GW" ]
 	then
-		echo "default $GW 0.0.0.0 -" >> $ROUTINGFILE
+		echo "default $GW 0.0.0.0 $NETDEV" >> $ROUTINGFILE
 	fi
 #
 #	Create /etc/HOSTNAME

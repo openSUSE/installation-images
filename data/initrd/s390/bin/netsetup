@@ -657,26 +657,26 @@ IP: $IP_ADDR"
     [ "$IP_SEARCH" ]  && echo "Domain: $IP_SEARCH"
     [ "$CHAN" ]       && echo "Chandev: $CHAN"
     if [ "$NETSELECT" = tr -o "$NETSELECT" = eth ]; then
-      echo "Alias $IP_DEV lcs"
+      echo "Alias: $IP_DEV lcs"
 #      echo "Options lcs $PARM"
       echo "ConnectWait: 3"
     fi
     if [ "$NETSELECT" = "qeth" -o "$NETSELECT" = hsi ]; then
-      echo "Alias $IP_DEV qeth"
+      echo "Alias: $IP_DEV qeth"
 #      echo "Options qeth $PARM"
       echo "ConnectWait: 15"
     fi
     if [ "$NETSELECT" = "ctc" -o "$NETSELECT" = "escon" ]; then
-      echo "Alias $IP_DEV ctc"
+#      echo "Alias: $IP_DEV ctc"
 #      echo "Options ctc $PARM"
       echo "ConnectWait: 30"
     fi
     if [ "$NETSELECT" = "c7000" ]; then
-      echo "Alias $IP_DEV c7000"
+      echo "Alias: $IP_DEV c7000"
       echo "Options c7000 $PARM"
     fi
     if [ "$NETSELECT" = "iucv" ]; then
-      echo "Alias $IP_DEV netiucv"
+#      echo "Alias: $IP_DEV netiucv"
       echo "$PARM" | sed "s/iucv=\(.*\)/Options netiucv iucv='\`echo \1\`'/g"
     fi
     [ "$IP_HOST" ]        && echo "Machinename: $IP_HOST"

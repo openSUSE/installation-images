@@ -1,3 +1,7 @@
+11/9/2002:	v2.65
+	- changed parmline for installation boot
+	- changed create_interface to write entry in
+	  modules.conf
 11/9/2002:	v2.64
 	- run linuxrc in linemode on s390
 	- add uncompressed length after splash
