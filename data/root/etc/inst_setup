@@ -130,7 +130,7 @@ case "$arch" in
 EOF
 	        read
 	    fi
-	    export Y2DEBUG=1
+	    # export Y2DEBUG=1
         fi
         ;;
 esac

@@ -248,6 +248,28 @@ shadow:
   /usr/bin
   /usr/sbin/pwunconv
 
+openldap2-client:
+  /usr/lib/liblber.so.*
+  /usr/lib/libldap.so.*
+
+openssl:
+  /usr/lib/libcrypto.so.*
+  /usr/lib/libssl.so.*
+
+cyrus-sasl:
+  /usr/lib/libsasl.so.*
+
+db:
+  /usr/lib/libdb-4*.so  
+
+heimdal-lib:
+  /etc
+  /usr/lib/heimdal/lib/libasn1.so.*
+  /usr/lib/heimdal/lib/libcom_err.so.*
+  /usr/lib/heimdal/lib/libgssapi.so.*
+  /usr/lib/heimdal/lib/libkrb5.so.*
+  /usr/lib/heimdal/lib/libroken.so.*
+
 strace:
   /usr/bin/strace
 
@@ -274,7 +296,7 @@ traceroute:
   /usr/sbin/traceroute
 
 util-linux:
-  /bin/{dmesg,kill,mount,umount}
+  /bin/{dmesg,kill,mount,umount,guessfstype}
   /etc/filesystems
   /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,hwclock,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
   /usr/{bin,sbin}

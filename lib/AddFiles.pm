@@ -258,6 +258,7 @@ sub AddFiles
         }
       }
       $ver = (`rpm -qp $r`)[0];
+      $ver = "" unless defined $ver;
       $ver =~ s/\s*$//;
       if($ver =~ /^(\S+)-([^-]+-[^-]+)$/) {
         $ver = $1 eq $p ? " [$2]" : "";

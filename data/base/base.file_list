@@ -139,6 +139,15 @@ e postin
 r /var/adm/fillup-templates
 t /etc/fstab
 
+perl:
+  /usr/{bin,lib}
+
+db:
+  /usr/lib/libdb-4*.so
+
+gdbm:
+  /usr/lib/libgdbm.so.*
+
 # run depmod
 e /sbin/depmod -a -F /System.map <kernel_ver>
 e cp /lib/modules/<kernel_ver>/modules.dep /

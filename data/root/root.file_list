@@ -76,7 +76,7 @@ sh-utils:
   /usr/bin/{expr,tee,dirname,chroot,test,tty}
 
 util-linux:
-  /bin/kill
+  /bin/{kill,guessfstype}
   /bin/{u,}mount
   /bin/dmesg
   /sbin/losetup
@@ -140,15 +140,18 @@ endif
   /lib/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
   /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt.so.1,libutil.so.1*}
   /usr/sbin/rpcinfo
-  /usr/{bin,lib}
+  /usr/bin
   /etc/rpc
 r /usr/bin/db_*
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
+m /lib/libpthread.so.0 /usr/lib
+
+glibc-locale:
+  /usr/lib/locale
   /usr/lib/gconv/ISO8859*
   /usr/lib/gconv/KOI*
   /usr/lib/gconv/UNICODE*
-m /lib/libpthread.so.0 /usr/lib
 
 if !(arch eq 's390' || arch eq 's390x')
 kbd:
@@ -425,8 +428,6 @@ if with_yast2 ne 'no'
     /
   yast2-agent-probe:
     /
-  yast2-agent-rcconfig:
-    /
   yast2-agent-system:
     /
   yast2-agent-targetpkg:
@@ -435,9 +436,13 @@ if with_yast2 ne 'no'
     /
   yast2-agent-xml:
     /
-  yast2-config-inst-keyboard:
+  yast2-config-keyboard:
     /
-  yast2-config-inst-timezone:
+  yast2-config-language:
+    /
+  yast2-config-mouse:
+    /
+  yast2-config-timezone:
     /
   yast2-core-clients:
     /
