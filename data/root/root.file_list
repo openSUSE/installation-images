@@ -499,7 +499,8 @@ if with_yast2 ne 'no'
   fvwm2:
     /usr/X11R6/bin/fvwm{,2}
     /usr/X11R6/share/fvwm/ConfigFvwmDefaults
-    x etc/fvwmrc /usr/X11R6/share/fvwm/fvwmrc.notitle
+#    x etc/fvwmrc /usr/X11R6/share/fvwm/fvwmrc.notitle
+    x etc/fvwmrc /usr/X11R6/share/fvwm/fvwmrc
 
   fribidi:
     /usr/lib*/libfribidi.so*
