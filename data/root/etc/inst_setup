@@ -1,7 +1,12 @@
 #! /bin/sh
-echo
+
 yast="$1"
 shift
+
+exec 2>&1
+stty sane
+
+echo -en \\033c
 
 # linuxrc passes the root directory of the freshly mounted instsys in
 # the environment variable INSTSYS.
@@ -9,7 +14,11 @@ shift
 # create symlinks for all missing files
 conservative_lndir "$INSTSYS" "/"
 
-case $(uname -m) in
+[ -x /sbin/syslogd ] && /sbin/syslogd
+
+arch=$(uname -m)
+
+case "$arch" in
     s390|s390x) ;;
     *)
 	#grep eth /proc/net/dev >/dev/null  2>&1 ; if [ "$?" = 0 -a -x /usr/sbin/sshd ] ; then echo blah ; fi
@@ -20,15 +29,15 @@ case $(uname -m) in
 	    SSH_FAILED=
 	    echo running $0 $*
 	    echo /usr/sbin/sshd found, prepare remote login
-	    rm -fv /etc/ssh
-	    rm -fv /root
-	    rm -fv /etc/shadow
+	    rm -f /etc/ssh
+	    rm -f /root
+	    rm -f /etc/shadow
 	    mkdir -p /root/.ssh
-	    cp -av /var/adm/mount/suse/inst-sys/root/.ssh/* /root/.ssh
-	    cp -a /var/adm/mount/suse/inst-sys/root/.bash_login /root
-	    cp -a /var/adm/mount/suse/inst-sys/root/.vimrc /root
-	    cp -a /var/adm/mount/suse/inst-sys/root/shadow /etc
-	    cp -a /var/adm/mount/suse/inst-sys/etc/ssh /etc
+	    cp -a $INSTSYS/root/.ssh/* /root/.ssh
+	    cp -a $INSTSYS/root/.bash_login /root
+	    cp -a $INSTSYS/root/.vimrc /root
+	    cp -a $INSTSYS/root/shadow /etc
+	    cp -a $INSTSYS/etc/ssh /etc
 	    chmod -R og-rxw  /etc/ssh /root /etc/shadow
 	    chown -R 0.0  /etc/ssh /root /etc/shadow
 	    echo "nameserver 10.10.0.1" > /etc/resolv.conf
@@ -44,31 +53,35 @@ case $(uname -m) in
 	    echo /sbin/ifconfig `grep eth /proc/net/dev | cut -f 1 -d : `
 	    for i in  `grep eth /proc/net/dev | cut -f 1 -d : ` ; do
 		    /sbin/ifconfig $i | grep UP > /dev/null 2>&1 && /sbin/ifconfig $i | head -n 2
-	     done
-	    echo
-	    for i in 5 4 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
-	    echo
-	    echo -n " mach bunt... "
-	    echo press return
-	    read i
-	    for i in 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
-	    echo
+	    done
+	    if [ "$arch" = ppc ] ; then
+		echo
+		for i in 5 4 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
+		echo
+		echo -n " mach bunt... "
+		echo press return
+		read i
+		for i in 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
+		echo
+	    else
+		echo
+		sleep 2
+	    fi
 	    export Y2DEBUG=1
         fi
         ;;
 esac
 
 
-exec 2>&1
-stty sane
-echo -en \\033c
-
+ec=
 if [ "$yast" = yast1 ] ; then
-    /sbin/yast "$@"
+    /sbin/yast "$@" ; ec=$?
 fi
 
 if [ "$yast" = yast2 ] ; then
-    /usr/lib/YaST2/bin/YaST2.start "$@"
+    /usr/lib/YaST2/bin/YaST2.start "$@" ; ec=$?
 fi
 
 umount devpts 2>/dev/null
+
+exit $ec
