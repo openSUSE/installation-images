@@ -175,7 +175,7 @@ deb_stop
 
 mount -n -oremount,rw /
 mount -n -t proc proc /proc
-# [ -f /sbin/portmap ] && /sbin/portmap
+[ -x /sbin/portmap ] && /sbin/portmap
 mount /S.u.S.E.
 
 rmdir /initrd 2>/dev/null
@@ -316,6 +316,9 @@ add_to_root var/X11R6/lib/{sax,xfine}
 
 add_to_root var/lib/{dhcp,majordomo,news,nfs,pcmcia,support,wvdial}
 
+# kdm needs it
+ln -snf ../../../etc/X11/xdm /var/X11R6/lib/xdm
+
 touch /var/run/utmp
 
 deb_stop
@@ -372,7 +375,7 @@ if [ "$part" ]; then
   [ "$dosdrive" ] && i="$dosdrive, "
 
   echo
-  echo "Pou¾ívám "\""suselive.720"\"" na $part ($i$fstype, $partsize MB) k ukládání dat."
+  echo "Pou¾ívám "\""suselive.730"\"" na $part ($i$fstype, $partsize MB) k ukládání dat."
 
   mkdir /host || error=20
   mount $part /host || error=21
@@ -395,8 +398,8 @@ if [ "$part" ]; then
     fi
     rm -f /etc/.SuSErmlist
   else
-    suseimg=suselive.720
-    perl -pi -e 's/^(suseimg=).*/$1suselive.720/' /etc/SuSElive
+    suseimg=suselive.730
+    perl -pi -e 's/^(suseimg=).*/$1suselive.730/' /etc/SuSElive
     if [ "$clean" ] ; then
       rm -f "/host/$suseswap" "/host/$susehome" 2>/dev/null
     fi
@@ -456,8 +459,7 @@ deb_stop
 if [ ! "$nodisk" ] ; then
   if [ ! "$updated" ] ; then
     mount /proc
-    ######### fix: what about non-usb computers??? #######
-    mount -t usbdevfs usb /proc/bus/usb
+    [ -d /proc/bus/usb ] && mount -t usbdevfs usb /proc/bus/usb
     rmdir /mnt ; ln -s / /mnt
     cp /etc/fstab /tmp/fstab.save
     if [ "$suseswap" ] ; then
@@ -506,7 +508,11 @@ if [ ! "$nodisk" ] ; then
     kill_and_wait pppd
     kill_and_wait usbmgr
 
+    [ -d /proc/asound ] && /etc/init.d/alsasound stop
+
     killall syslogd
+
+    umount /var/adm/mount 2>/dev/null
 
     if [ -f /etc/install.inf ] ; then
       eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
@@ -521,6 +527,14 @@ if [ ! "$nodisk" ] ; then
       grep -v /proc /etc/fstab >>/tmp/fstab.save
       mv /tmp/fstab.save /etc/fstab
     }
+
+    # set default runlevel, yast2 doesn't do this properly
+    rl=3
+    [ -x /var/X11R6/bin/X ] && rl=5
+    perl -pi -e 's/^(id:)(\d+)(:initdefault:)/${1}'$rl'$3/' /etc/inittab
+
+    # create all mountpoints mentioned in fstab (work around yast2 bug)
+    mkdir -p `perl -nle '$_ = (split)[1]; print if m#^/.#' /etc/fstab`
 
     if [ "$susehome" ] ; then
       umount /home
@@ -553,7 +567,7 @@ if [ ! "$nodisk" ] ; then
       tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
 
       if [ ! -f /mnt/suselive.txt ] ; then
-        echo -e "$suseimg obsahuje data va¹eho SuSE Linux 7.2 Evaluation CD.\r" >/mnt/suselive.txt
+        echo -e "$suseimg obsahuje data va¹eho SuSE Linux 7.3 Evaluation CD.\r" >/mnt/suselive.txt
         echo -e "suselive.swp (existuje-li) je odkládací soubor.\r" >>/mnt/suselive.txt
         echo -e "suselive.usr (existuje-li) je souborový systém ext2 s domovským adresáøem u¾ivatele.\r" >>/mnt/suselive.txt
       fi
@@ -628,7 +642,7 @@ if [ "$umount" != no ] ; then
       lsof
       umount -n /proc
     fi
-    sleep 1
+    sleep 3
     umount /S.u.S.E.
   }
   if [ "$suseloop" ] ; then

@@ -21,7 +21,7 @@ $image = "${ImagePath}demo";
 # $tmpinitrd = "${BasePath}tmp/initrd";
 
 # leave that much space
-$extra_size = 5000;              # kbyte
+$extra_size = 5700;              # kbyte
 $extra_inodes = 5000;
 
 # just make them large enough

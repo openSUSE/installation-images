@@ -47,7 +47,7 @@ if [ "$part" -a "$suseimg" ]; then
   fi
 
   if [ ! -f /mnt/suselive.txt ] ; then
-    echo -e "$suseimg obsahuje data va¹eho SuSE Linux 7.2 Evaluation CD.\r" >/mnt/suselive.txt
+    echo -e "$suseimg obsahuje data va¹eho SuSE Linux 7.3 Evaluation CD.\r" >/mnt/suselive.txt
     echo -e "suselive.swp (existuje-li) je odkládací soubor.\r" >>/mnt/suselive.txt
     echo -e "suselive.usr (existuje-li) je souborový systém ext2 s domovským adresáøem u¾ivatele.\r" >>/mnt/suselive.txt
   fi

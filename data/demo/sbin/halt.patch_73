@@ -1,0 +1,18 @@
+--- etc/init.d/halt	Thu Sep 27 12:30:19 2001
++++ etc/init.d/halt	Thu Sep 27 12:35:03 2001
+@@ -196,6 +196,15 @@
+     rc_status -v1 -r
+ fi
+ 
++if [ -x /sbin/live-shutdown -a -f /etc/SuSElive ] ; then
++  . /etc/SuSElive
++  if [ "$part" -a "$suseimg" ] ; then
++    echo -n "Saving Live CD changes"
++    /sbin/live-shutdown
++    rc_status -v -r
++  fi
++fi
++
+ # on umsdos fs this would lead to an error message, so direct errors to
+ # /dev/null
+ mount -no remount,ro / 2> /dev/null

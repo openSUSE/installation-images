@@ -1,4 +1,4 @@
-d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var initrd
+d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var initrd media
 c 1777 0 0 tmp
 
 devs:
@@ -23,11 +23,18 @@ c 0711 0 0 /root
   /etc/{profile.dos,shells,zshrc}
 # aaa_base's preinstall
   /sbin/SuSEconfig
-p /sbin/SuSEconfig.patch
+if suse_release == 7.2
+  p /sbin/SuSEconfig.patch
+endif
 
 if suse_release == 7.2
   p /sbin/boot.patch_72
   p /sbin/halt.patch_72
+endif
+
+if suse_release == 7.3
+  p /sbin/boot.patch_73
+  p /sbin/halt.patch_73
 endif
 
 aaa_dir:
@@ -76,7 +83,7 @@ sh-utils:
 
 util-linux:
   /bin/{kill,mount,umount}
-  /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,clock,hwclock,losetup}
+  /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,clock,hwclock,losetup,pivot_root}
 
 fileutils:
   /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir,dd,touch}
@@ -95,7 +102,6 @@ sysvinit:
 e2fsprogs:
   /sbin/{e2fsck,e2label,fsck,fsck.ext2}
   /lib
-r /lib/libe2p.so*
 r /lib/libss.so*
 
 netcfg:
@@ -114,8 +120,8 @@ cron:
 base:
   /bin/sed
 
-#  portmap:
-#    /sbin/portmap
+portmap:
+  /sbin/portmap
 
 yast2-base:
   m /usr/lib/YaST2/bin/startshell /sbin

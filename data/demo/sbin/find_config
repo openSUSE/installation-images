@@ -5,7 +5,7 @@ sub calc_sizes;
 @good_ids{( 1, 4, 6, 0xb, 0xc, 0xe, 0x11, 0x14, 0x16, 0x1b, 0x1c, 0x1e, 0x83 )} = ();
 @dos_ids{( 1, 4, 6, 0xb, 0xc, 0xe )} = ();
 $minsize = 100;		# *NOT* below ca. 30
-$img = "suselive.720";
+$img = "suselive.730";
 $swap = "suselive.swp";
 $home = "suselive.usr";
 
