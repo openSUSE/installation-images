@@ -53,7 +53,8 @@ if($disk == 2) {
     die "$Script: could not add other2mo.gz";
 }
 else {
-  SUSystem "cp $srcdir/net-mod.gz $srcdir/other-mod.gz $srcdir/scsi-mod.gz /mnt" and
+#  SUSystem "cp $srcdir/net-mod.gz $srcdir/other-mod.gz $srcdir/scsi-mod.gz /mnt" and
+  SUSystem "cp $srcdir/other-mod.gz $srcdir/scsi-mod.gz /mnt" and
     die "$Script: could not add module images";
 }
 

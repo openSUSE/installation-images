@@ -1,5 +1,7 @@
+30/7/2001:	v1.72
 	- schwab: add filesystem kernel modules to initrd on ia64
 	- schwab: increase initial initrd size
+	- _no_ network modules on moddisk #1
 
 25/7/2001:	v1.71
 	- create correct fonts.dir

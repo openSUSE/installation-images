@@ -8,8 +8,6 @@ t {MORE,NEEDMOD,NET}
 f / 3c59x.o /
 f / dmfe.o /
 f / e100.o /
-f / eepro.o /
-f / eepro100.o /
 f / tulip.o /
 endif	# net
 
