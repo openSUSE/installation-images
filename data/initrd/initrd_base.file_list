@@ -156,6 +156,29 @@ if arch eq 's390' || arch eq 's390x'
     #/sbin/iptunnel
     #/sbin/mii-tool
     /sbin/route
+  nfs-utils:
+    #/etc/init.d/nfsserver
+    /sbin/rpc.lockd
+    /sbin/rpc.statd
+    #/usr/sbin/exportfs
+    #/usr/sbin/nfsstat
+    #/usr/sbin/nhfsgraph
+    #/usr/sbin/nhfsnums
+    #/usr/sbin/nhfsrun
+    #/usr/sbin/nhfsstone
+    #/usr/sbin/rcnfsserver
+    #/usr/sbin/rpc.mountd
+    #/usr/sbin/rpc.nfsd
+    #/usr/sbin/showmount
+    #/usr/share/doc/packages/nfs-utils
+    #/var/adm/fillup-templates/rc.config.knfsd
+    #/var/lib/nfs/etab
+    #/var/lib/nfs/rmtab
+    #/var/lib/nfs/sm
+    #/var/lib/nfs/sm.bak
+    #/var/lib/nfs/state
+    #/var/lib/nfs/xtab
+
   netcfg:
     #/etc/diphosts
     #/etc/exports
@@ -172,7 +195,7 @@ if arch eq 's390' || arch eq 's390x'
     #/etc/services
     #/var/adm/setup
     #/var/adm/setup/setup.netconfig
-  nkitserv:
+  telnet-server:
     /usr/sbin/in.telnetd
   grep:
     /bin/grep
@@ -270,7 +293,7 @@ if arch eq 's390' || arch eq 's390x'
   c 0755 0 0 /sbin/start_yast
   c 0755 0 0 /sbin/realchroot
 
-  # 
+  #
   c 0755 0 0 /etc/profile
 
   r /sbin/insserv
