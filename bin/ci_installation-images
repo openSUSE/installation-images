@@ -34,7 +34,7 @@ if mkdir /work/src/done/STABLE/installation-images ; then
   cp $installation_images.tar.bz2 /work/SRC/all/installation-images/installation-images.{changes,spec} .
   [ -f /work/SRC/all/installation-images/config-dist.sh ] && cp /work/SRC/all/installation-images/config-dist.sh .
   perl -pi -e 's/^(Version:\s+)\S+/${1}'$ver'/' /work/src/done/STABLE/installation-images/installation-images.spec
-  perl -pi -e 's/^(Source.+?-)\S+?(\.tar\.bz2)/${1}'$ver'${2}/' /work/src/done/STABLE/installation-images/installation-images.spec
+  perl -pi -e 's/^(Source.+-)\S+?(\.tar\.bz2)/${1}'$ver'${2}/' /work/src/done/STABLE/installation-images/installation-images.spec
   . /work/src/bin/.profile
   vc installation-images
   rm /work/src/done/STABLE/installation-images/*~
