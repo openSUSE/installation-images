@@ -126,6 +126,13 @@ a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
 # just to get the cdrom menue in linuxrc
 a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
 
+# to fill up the disk...
+a /lib/modules/<kernel_ver>/cdrom/gscd.o /modules
+a /lib/modules/<kernel_ver>/cdrom/mcdx.o /modules
+a /lib/modules/<kernel_ver>/cdrom/mcd.o /modules
+a /lib/modules/<kernel_ver>/cdrom/cm206.o /modules
+a /lib/modules/<kernel_ver>/cdrom/sonycd535.o /modules
+
 # scsi
 r /modules/ide-scsi.o
 r /modules/scsi_debug.o
@@ -200,7 +207,7 @@ a /lib/modules/<kernel_ver>/net/via-rhine.o /modules
 a /lib/modules/<kernel_ver>/net/dmfe.o /modules
 
 # a /lib/modules/<kernel_ver>/net/3c515.o /modules
-## a /lib/modules/<kernel_ver>/net/8390.o /modules
+a /lib/modules/<kernel_ver>/net/8390.o /modules
 # a /lib/modules/<kernel_ver>/net/at1700.o /modules
 # a /lib/modules/<kernel_ver>/net/ne.o /modules
 # a /lib/modules/<kernel_ver>/net/smc-ultra.o /modules

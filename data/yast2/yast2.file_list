@@ -49,7 +49,7 @@ ps:
   /bin/ps
 
 recode:
-  /usr/lib/librecode.so{,,.0,.0.0.0}
+  /usr/lib/librecode.so{,.0,.0.0.0}
 
 rpm:
   /bin/rpm
@@ -74,6 +74,7 @@ util:
 
 k_deflt:
   /lib/modules/<kernel_ver>/misc/serial.o
+  /lib/modules/<kernel_ver>/misc/lp.o
 
   /lib/modules/<kernel_ver>/net/{pppox,ppp,ppp_deflate}.o
   /lib/modules/<kernel_ver>/net/slip.o
