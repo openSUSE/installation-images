@@ -244,7 +244,6 @@ lvm2: postin
 e postin
 
 device-mapper: postin
-  /dev
   /etc
   /lib*
   /sbin
@@ -490,6 +489,16 @@ hex:
 
 mdadm:
   /sbin
+
+opensc:
+  /usr/lib*/libopensc.so*
+  /usr/lib*/libscconf.so*
+
+pcsc-lite:
+  /usr/lib*/libpcsclite.so*
+
+openct:
+  /usr/lib*/libopenct.so*
 
 openssh:
   /etc/ssh

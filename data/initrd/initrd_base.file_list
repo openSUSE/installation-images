@@ -218,6 +218,9 @@ endif
 
 if with_gdb
 
+  kbd:
+   /bin/kbd_mode
+
   iputils:
     /bin/ping
 

@@ -478,6 +478,16 @@ syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 
+opensc:
+  /usr/lib*/libopensc.so*
+  /usr/lib*/libscconf.so*
+
+pcsc-lite:
+  /usr/lib*/libpcsclite.so*
+
+openct:
+  /usr/lib*/libopenct.so*
+
 openssh: prein
   /etc/init.d/sshd
   /etc/pam.d/sshd

@@ -1,15 +1,15 @@
-SUSE LINUX 9.2-Bootdisketten erstellen
+SUSE LINUX 9.1-Bootdisketten erstellen
 --------------------------------------
 
-Die Bootdateien sind auf fünf Disketten aufgeteilt.
+Aufgrund der zunehmenden Kernel-Größe gibt es nun drei Bootdisketten.
 
 Sie können die Bootdisketten erstellen, wenn Sie Zugang
 zu einem laufenden Linux- oder DOS-System haben.
 
 Benutzen Sie unter DOS das Programm CD1:/dosutils/rawrite/rawrite.exe, um
-bootdsk1-bootdsk5 auf eine formatierte (d.h. fehlerfreie) 1.44MB-Diskette zu
-schreiben. Für Windows gibt es entspechend
-CD1:/dosutils/rawwritewin/rawwritewin.exe.
+bootdsk1, bootdsk2 und bootdsk3 auf eine formatierte
+(d.h. fehlerfreie) 1.44MB-Diskette zu schreiben. Für Windows gibt es
+entspechend CD1:/dosutils/rawwritewin/rawwritewin.exe.
 
 Unter Linux gehen Sie bitte so vor:
 
@@ -20,10 +20,52 @@ Unter Linux gehen Sie bitte so vor:
 
   dd if=bootdsk1 of=/dev/fd0u1440
 
-wiederholen Sie dies mit bootdsk2-bootdsk5.
+# Legen Sie die zweite Bootdiskette ein und führen Sie folgenden
+# Befehl aus
 
-Sie haben nun fünf Bootdisketten. Starten Sie Ihren Rechner mit der
+  dd if=bootdsk2 of=/dev/fd0u1440
+
+# Legen Sie die dritte Bootdiskette ein und führen Sie folgenden
+# Befehl aus
+
+  dd if=bootdsk3 of=/dev/fd0u1440
+
+
+Sie haben nun drei Bootdisketten. Starten Sie Ihren Rechner mit der
 ersten Bootdiskette.
+
+
+
+Moduldiskette erstellen
+-----------------------
+
+Auf die Bootdiskette passen nur wenige Module. Daher gibt es fünf 
+Moduldisketten. Wenn Sie "Ihren" Treiber nicht auf der normalen Diskette
+finden, legen Sie nach dem Start von linuxrc die entsprechende Moduldiskette
+ein.
+
+Wählen Sie entspechend der Liste weiter unten das geeignete Image in
+diesem Verzeichnis aus.
+
+Unter Windows/DOS verwenden Sie rawrite wie in "Bootdisketten erstellen"
+beschrieben. Unter Linux gehen Sie bitte so vor:
+
+  cd /where_CD1_is_mounted/boot
+  dd if=modules1 of=/dev/fd0u1440
+
+Ersetzen Sie "modules1" durch den Namen des gewünschten Image.
+
+modules1:  USB- und FireWire (IEEE1394)-Module.
+
+modules2:  IDE/RAID/SCSI-Module.
+
+modules3:  Netzwerkmodule.
+
+modules4:  PCMCIA- und Dateisystem-Module.
+
+modules5:  Weitere IDE/RAID/SCSI-Module.
+
+In modules[12345].txt finden Sie eine ausführliche Liste.
 
 
 

@@ -6,7 +6,8 @@
 kernel/drivers/base/
 kernel/drivers/block/
 -kernel/drivers/block/cryptoloop
-kernel/drivers/cdrom/
+-kernel/drivers/block/paride
+kernel/drivers/cdrom/cdrom.ko
 kernel/drivers/i2o/
 kernel/drivers/ide/
 kernel/drivers/ieee1394/
@@ -24,6 +25,7 @@ kernel/drivers/net/
 -kernel/drivers/net/ppp/
 -kernel/drivers/net/wan/
 -kernel/drivers/net/wireless/
+-kernel/drivers/net/ppp_async.ko
 kernel/drivers/parport/
 kernel/drivers/pnp/
 kernel/drivers/scsi/
@@ -55,6 +57,7 @@ kernel/drivers/firmware/edd.ko
 # see data/initrd/initrd_base.list
 /pcmcia/
 -kernel/drivers/char/pcmcia/synclink_cs.ko
+-/sound/pcmcia/
 
 kernel/net/packet/
 # for pcilynx
@@ -67,5 +70,5 @@ extra/megaide.ko
 
 kernel/arch/s390/
 kernel/drivers/s390/
-kernel/net/ipv6/
+kernel/net/ipv6/ipv6.ko
 kernel/lib/zlib_inflate/
