@@ -8,9 +8,7 @@ s /usr/X11R6/lib/X11 var/X11R6/lib
 d modules
 d dev/usb
 d mounts
-if pre_release
 d root
-endif
 
 t var/run/utmp
 
@@ -112,11 +110,16 @@ if arch eq 's390' || arch eq 's390x'
     /usr/lib*/libpopt.so.0
     /usr/lib*/libpopt.so.0.0.0
   samba-client:
-    m /usr/lib*/samba/smbmount-classic /bin/smbmount
-    m /usr/lib*/samba/smbmnt-classic /bin/smbmnt
+    m /usr/lib*/samba/classic/smbmount /bin/smbmount
+    m /usr/lib*/samba/classic/smbmnt /bin/smbmnt
     # to make mount(8) -t smbfs work:
     l /bin/smbmount  /sbin/mount.smbfs
     # /lib*/libnss_wins.so?
+    /etc/samba/smb.conf
+    /usr/share/samba/codepages/codepage.850
+    /usr/share/samba/codepages/unicode_map.850
+    /usr/share/samba/codepages/unicode_map.ISO8859-1
+    /usr/share/samba/codepages/unicode_map.ISO8859-15
   cups-libs:
     /usr/lib*/libcups.so.*
   installation-kernel-rdripl:
@@ -181,6 +184,7 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/ifconfig
     #/sbin/ipmaddr
     #/sbin/iptunnel
+    /usr/sbin/traceroute
     #/sbin/mii-tool
     /sbin/route
   nfs-utils:
@@ -237,6 +241,11 @@ if arch eq 's390' || arch eq 's390x'
     /etc
     /lib*
     /sbin
+
+    # don't use cracklib
+    c 755 0 0 /etc/security
+    R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
+
   zlib:
     /lib*/libz.so*
   shadow:
@@ -528,7 +537,7 @@ if with_smb
   d etc/samba
   e echo "; just to make smbmount happy" >etc/samba/smb.conf
 
-  if arch eq 'ia32' || arch eq 'x86_64'
+  if arch eq 'ia32'
 
     smbmount-diet:
       m /usr/bin/smbmount /bin/smbmount
@@ -538,7 +547,7 @@ if with_smb
     d bin lib
 
     samba-client:
-      m /usr/lib*/samba/smbmnt-classic /bin/smbmount
+      m /usr/lib*/samba/classic/smbmount /bin/smbmount
 
     glibc:
       /lib*/ld-linux*.so.2
@@ -595,8 +604,11 @@ if with_gdb
 
 endif
 
-if product
-  e echo "Product:	<product>" >>linuxrc.config
+e echo "Product:	<product_name>" >>linuxrc.config
+e echo "UpdateDir:	<update_dir>" >>linuxrc.config
+
+if load_image
+  e echo "MemLoadImage:	<load_image>" >>linuxrc.config
 endif
 
 if lang
