@@ -12,7 +12,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/lib/YaST2/bin:/usr/X11/bin
 
 if [ -x /sbin/udev -a -x /sbin/udevstart ] ; then
-echo -n " creating device nodes .."
+echo -n "creating device nodes .."
 /sbin/udevstart
 echo ". done"
 fi
@@ -32,6 +32,11 @@ export YAST2_SSH=false
 unset SSH_FAILED
 stty sane
 
+if [ -s /etc/install.inf ]; then
+  hostname=`sed -n -e 's,^Hostname: ,,p' /etc/install.inf`
+else
+  hostname=`hostname`
+fi
 #
 # kernel 2.6 uses linuxkeycodes for all keyboards
 # 2.4 kernels may still use ADB keycodes, but all the maps have the new encoding 
@@ -133,14 +138,14 @@ bash --init-file /root/.bash_login
 if grep -qi "^VNC:.*1" /etc/install.inf ; then
 	echo starting slpd to anounce VNC...
 	test -x /usr/sbin/slpd  &&  /usr/sbin/slpd
-	/usr/bin/slptool register "service:YaST.installation.suse:vnc://"`hostname`":5910"
+	/usr/bin/slptool register "service:YaST.installation.suse:vnc://${hostname}:5901"
 fi
 
 ec=
 if [ "$YAST2_SSH" = "true" ] ; then
 cat <<EOF
 
-      ***  login using 'ssh -X root@`hostname`'  ***
+      ***  login using 'ssh -X root@${hostname}'  ***
       ***  run '$yast' to start the installation  ***
 
 EOF
