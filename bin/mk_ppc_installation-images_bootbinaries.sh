@@ -11,7 +11,7 @@ fi
 CD1=$targetdir/CD1
 CD2=$targetdir/CD2
 k_deflt=`rpm -qf --qf %{VERSION} /boot/vmlinux-*-default`
-k_pmac64_32bit=`rpm -qf --qf %{VERSION} /boot/vmlinux-*-pmac64_32bit`
+k_pmac64=`rpm -qf --qf %{VERSION} /boot/vmlinux-*-pmac64`
 #
 mkdir -pv $CD1/ppc/chrp
 mkdir -pv $CD1/etc
@@ -25,7 +25,7 @@ cp -pfv $bdir/initrd-* $CD2/boot/
 cp -pfv /lib/lilo/chrp/yaboot.chrp $CD1/
 cp -pfv /lib/lilo/pmac/yaboot $CD1/suseboot/
 cp -pfv /boot/vmlinux-*-default $CD1/vmlinux32
-cp -pfv $bdir/initrd-kernel-default-ppc_pmac_new $CD1/initrd32
+cp -pfv $bdir/initrd-kernel-default-ppc $CD1/initrd32
 cp -pfv /boot/vmlinux-*-pmac64_32bit $CD1/vmlinux64
 cp -pfv $bdir/initrd-kernel-pmac64_32bit $CD1/initrd64
 cp -pfv $bdir/initrd-kernel-iseries64 $CD1/boot
@@ -46,12 +46,12 @@ bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
 #
 /lib/lilo/prep/make_zimage_prep.sh \
 	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/initrd-kernel-default-ppc_prep \
+	--initrd $bdir/initrd-kernel-default-ppc \
 	--output $CD1/boot/zImage.prep.initrd
 #
 /lib/lilo/pmac/oldworld_coff/make_zimage_pmac_oldworld_coff.sh \
 	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/initrd-kernel-default-ppc_pmac_coff \
+	--initrd $bdir/initrd-kernel-default-ppc32_pmac_coff \
 	--output $CD1/boot/install-pmaccoff-$k_deflt
 #
 /lib/lilo/pmac/oldworld_coff/make_zimage_pmac_oldworld_coff.sh \
@@ -60,7 +60,7 @@ bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
 #
 /lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
 	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/initrd-kernel-default-ppc_pmac_new \
+	--initrd $bdir/initrd-kernel-default-ppc \
 	--output $CD1/boot/install-pmac-$k_deflt
 #
 /lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
@@ -68,16 +68,16 @@ bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
 	--output $CD1/boot/vmlinux-pmac-$k_deflt
 #
 /lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
-	--vmlinux /boot/vmlinux-*-pmac64_32bit \
-	--initrd $bdir/initrd-kernel-pmac64_32bit \
-	--output $CD1/boot/install-pmac64-$k_pmac64_32bit
+	--vmlinux /boot/vmlinux-*-pmac64 \
+	--initrd $bdir/initrd-kernel-pmac64 \
+	--output $CD1/boot/install-pmac64-$k_pmac64
 #
 /lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
-	--vmlinux /boot/vmlinux-*-pmac64_32bit \
-	--output $CD1/boot/vmlinux-pmac64-$k_pmac64_32bit
+	--vmlinux /boot/vmlinux-*-pmac64 \
+	--output $CD1/boot/vmlinux-pmac64-$k_pmac64
 #
 ln -sv boot/install-pmac-$k_deflt       $CD1/installpmac
-ln -sv boot/install-pmac64-$k_pmac64_32bit $CD1/installpmac64
+ln -sv boot/install-pmac64-$k_pmac64	$CD1/installpmac64
 #
 cat > $CD1/ppc/bootinfo.txt <<EOF
 <chrp-boot>
