@@ -190,5 +190,7 @@ d etc/X11
 x /etc/XF86Config_3 /etc/XF86Config
 x /etc/XF86Config_4 /etc/X11/XF86Config
 endif
+else
+d etc/X11
 endif
-
+endif

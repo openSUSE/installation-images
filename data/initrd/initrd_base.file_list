@@ -43,12 +43,22 @@ c 0755 0 0 makedevs.floppy
 
 kbd:
 d consoletrans
+# ######### fix!!!!!
+ifenv suse_release 7.1
+m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat7u.uni,latin2u.trans,trivial} consoletrans
+else
+ifarch ppc
+m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat7u.uni,latin2u.trans,trivial} consoletrans
+else
 m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat1u.uni,lat2u.uni,lat7u.uni,latin2u.scrnmap,trivial} consoletrans
+endif
+endif
 
 d consolefonts
 # Cyr_a8x16 differs
 g /usr/lib/kbd/consolefonts/Cyr_a8x16.psfu.gz consolefonts/Cyr_a8x16
-g /usr/lib/kbd/consolefonts/gr8x16.gz consolefonts/gr8x16.psf
+# never been used anyway
+# g /usr/lib/kbd/consolefonts/gr8x16.gz consolefonts/gr8x16.psf
 g /usr/lib/kbd/consolefonts/lat1-16.psfu.gz consolefonts/lat1u-16.psf
 # lat2 differs
 g /usr/lib/kbd/consolefonts/lat2-16.psfu.gz consolefonts/lat2u-16.psf

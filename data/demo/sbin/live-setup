@@ -56,6 +56,7 @@ cp -af /S.u.S.E./sbin/init.d/{boot,halt}.local /sbin/init.d
 cp -af /S.u.S.E./etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
 cp -af /S.u.S.E./etc/httpd/httpd.conf /etc/httpd
 cp -af /S.u.S.E./etc/wvdial.conf /etc
+cp -af /S.u.S.E./etc/rc.dialout /etc
 cp -af /S.u.S.E./etc/ppp/* /etc/ppp
 cp -af /S.u.S.E./etc/isdn/* /etc/isdn
 cp -af /S.u.S.E./etc/vbox/* /etc/vbox
@@ -212,6 +213,8 @@ fi
 if [ ! "$nodisk" ] ; then
   if [ ! "$updated" ] ; then
     mount /proc
+    ######### fix: what about non-usb computers??? #######
+    mount -t usbdevfs usb /proc/bus/usb
     rmdir /mnt ; ln -s / /mnt
     cp /etc/fstab /tmp/fstab.save
     if [ "$suseswap" ] ; then
@@ -254,6 +257,7 @@ if [ ! "$nodisk" ] ; then
     fi
     mount $part
     [ "$livetest" ] && /bin/bash
+    umount /proc/bus/usb
     umount /proc
   else
     if [ "$suseswap" ] ; then
