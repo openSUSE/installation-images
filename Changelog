@@ -1,3 +1,6 @@
+29/4/2004:	v5.46
+	- enable memtest for x86_64
+
 28/4/2004:	v5.45
 	- desktop-data-SuSE -> *-SLES
 
