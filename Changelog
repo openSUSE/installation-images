@@ -1,3 +1,5 @@
+	- bring rescue system in shape for s390*
+
 4/3/2005:	v6.36
 	- added Zen stuff from 9.2
 	- build additional root image for asian fonts
@@ -8,7 +10,7 @@
 	- indic fonts moved
 	- load ahci before ata_piix
 
-21/5/2005:	v6.34
+21/2/2005:	v6.34
 	- hwinfo needs libiw
 
 21/2/2005:	v6.33

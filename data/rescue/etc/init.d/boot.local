@@ -26,6 +26,7 @@ while read line; do
                 *CHRP*)       MACHINE="chrp";;
                 *PReP*)       MACHINE="prep" ;;
                 *iSeries*)    MACHINE="iseries";;
+                *IBM*390*)    MACHINE="s390";; # works for zSeries, too
         esac
 done < /proc/cpuinfo
 
@@ -71,11 +72,14 @@ fi
 
 case $my_REDIRECT in
 	ttyS*)
-	echo adding this line to inittab
-	echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102"
-	echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102" >> /etc/inittab
-	echo $my_REDIRECT >> /etc/securetty
+	if [ "$MACHINE" != "s390" || "$my_REDIRECT" != "ttyS0" ]	# ttyS0 is default console on s390, nothing to do
+	then
+		echo adding this line to inittab
+		echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102"
+		echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102" >> /etc/inittab
+		echo $my_REDIRECT >> /etc/securetty
 		;;
+	fi
 
 	hvc*)
 	echo adding this line to inittab

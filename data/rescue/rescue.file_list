@@ -560,6 +560,32 @@ if arch ne 'sparc'
     f / exportfs.ko
     endif
 
+    if arch eq 's390' || arch eq 's390x'
+    f / cpint.ko
+    f / dasd_cmb.ko
+    f / dasd_eckd_mod.ko
+    f / dasd_fba_mod.ko
+    f / dasd_mod.ko
+    f / dcssblk.ko
+    f / xpram.ko
+    f / sclp_cpi.ko
+    f / tape.ko
+    f / tape_34xx.ko
+    f / tape_class.ko
+    f / ccwgroup.ko
+    f / qdio.ko
+    f / z90crypt.ko
+    f / ctc.ko
+    f / ctcmpc.ko
+    f / cu3088.ko
+    f / fsm.ko
+    f / iucv.ko
+    f / lcs.ko
+    f / netiucv.ko
+    f / qeth.ko
+    f / smsgiucv.ko
+    f / zfcp.ko
+    endif
 
     f / linear.ko
     f / multipath.ko
