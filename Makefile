@@ -56,4 +56,4 @@ clean:
 	-@umount test/initdisk/proc 2>/dev/null ; true
 	-@umount test/initdisk/mnt 2>/dev/null ; true
 	-@rm -rf images test tmp
-	-@rm -f *~ */*~ */*/*~
+	-@rm -f `find -name '*~'`

@@ -1,11 +1,9 @@
+# generic XFree86 3.x configuration file
+
 Section "Files"
   RgbPath	"/usr/X11R6/lib/X11/rgb"
-#  FontPath	"/usr/X11R6/lib/X11/fonts/75dpi:unscaled"
   FontPath	"/usr/X11R6/lib/X11/fonts/uni"
   FontPath	"/usr/X11R6/lib/X11/fonts/misc"
-#  FontPath	"/usr/X11R6/lib/X11/fonts/75dpi"
-#  FontPath	"/usr/X11R6/lib/X11/fonts/Type1"
-#  FontPath	"/usr/X11R6/lib/X11/fonts/latin2/75dpi"
 EndSection
 
 Section "ServerFlags"
@@ -14,11 +12,6 @@ EndSection
 
 Section "Module"
 EndSection
-
-# This section is no longer supported
-# See a template below
-# Section "XInput"
-# EndSection
 
 Section "Keyboard"
   Protocol	"Standard"
@@ -29,10 +22,8 @@ Section "Keyboard"
 EndSection
 
 Section "Pointer"
-  Protocol		"PS/2"
-  Device		"/dev/mouse"
-#  SampleRate		60
-#  BaudRate		1200
+  Protocol	"PS/2"
+  Device	"/dev/mouse"
 EndSection
 
 Section "Monitor"	
@@ -41,12 +32,12 @@ Section "Monitor"
   ModelName	"Model"
   HorizSync	31-64
   VertRefresh	50-85
-  Modeline  "640x480" 31.5   640 656 720 840 480 481 484 500 # 6. Versuch
-  Modeline  "640x480" 31.5   640 680 720 864 480 488 491 521 # 5. Versuch
-  Modeline  "640x480" 28     640 664 760 800 480 491 493 525 # 4. Versuch
-  Modeline  "640x480" 28.32  640 664 760 800 480 491 493 525 # 3. Versuch
-  Modeline  "640x480" 25.18  640 664 760 800 480 491 493 525 # 2. Versuch
-  Modeline  "640x480" 25.175 640 664 760 800 480 491 493 525 # 1. Versuch
+  Modeline	"640x480" 31.5   640 656 720 840 480 481 484 500 # 6. Versuch
+  Modeline	"640x480" 31.5   640 680 720 864 480 488 491 521 # 5. Versuch
+  Modeline	"640x480" 28     640 664 760 800 480 491 493 525 # 4. Versuch
+  Modeline	"640x480" 28.32  640 664 760 800 480 491 493 525 # 3. Versuch
+  Modeline	"640x480" 25.18  640 664 760 800 480 491 493 525 # 2. Versuch
+  Modeline	"640x480" 25.175 640 664 760 800 480 491 493 525 # 1. Versuch
 EndSection
 
 Section "Device"
@@ -56,12 +47,11 @@ Section "Device"
 EndSection
 
 Section "Device"
-    Identifier  "Generic VGA"
-    VendorName  "Unknown"
-    BoardName   "Unknown"
-    Chipset     "generic"
+  Identifier	"Generic VGA"
+  VendorName	"Unknown"
+  BoardName	"Unknown"
+  Chipset	"generic"
 EndSection
-
 
 Section "Screen"  
   Driver	"VGA16"
@@ -74,7 +64,6 @@ Section "Screen"
   EndSubSection
 EndSection
 
-
 Section "Screen"  
   Driver	"SVGA"
   Device	"Primary-Card"
@@ -86,7 +75,6 @@ Section "Screen"
   EndSubSection
 EndSection
 
-
 Section "Screen"  
   Driver	"Accel"
   Device	"Primary-Card"
@@ -97,7 +85,6 @@ Section "Screen"
     Modes	"640x480" 
   EndSubSection
 EndSection
-
 
 Section "Screen"  
   Driver	"FBDev"

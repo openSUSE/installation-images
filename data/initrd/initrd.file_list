@@ -207,10 +207,7 @@ ifarch ix86
 
 ifdef small	# (test) initrd for 1.44MB floppies
 a /lib/modules/<kernel_ver>/net/3c59x.o /modules
-a /lib/modules/<kernel_ver>/net/pcnet32.o /modules
 a /lib/modules/<kernel_ver>/net/tulip.o /modules
-a /lib/modules/<kernel_ver>/net/via-rhine.o /modules
-a /lib/modules/<kernel_ver>/net/dmfe.o /modules
 
 a /lib/modules/<kernel_ver>/net/8390.o /modules
 a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
@@ -219,7 +216,10 @@ a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
 
 ifndef blub
 M /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
+M /lib/modules/<kernel_ver>/net/dmfe.o /modules
+M /lib/modules/<kernel_ver>/net/via-rhine.o /modules
 M /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
+M /lib/modules/<kernel_ver>/net/pcnet32.o /modules
 else
 M /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
 M /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
@@ -269,6 +269,15 @@ r /modules/slip.o
 r /modules/{irda,irda_deflate}.o
 r /modules/syncppp.o
 r /modules/sktr.o
+r /modules/wanxl.o
+r /modules/{n2,c101}.o
+r /modules/hdlc.o
+r /modules/cosa.o
+r /modules/sealevel.o
+r /modules/{hostess_sv11,z85230}.o
+r /modules/ircomm.o
+r /modules/irlan.o
+r /modules/bsd_comp.o
 
 r /modules/comx-hw-comx.o
 r /modules/comx-hw-locomx.o

@@ -81,6 +81,9 @@ util:
 ifnarch ppc
   /lib/modules/<kernel_ver>/misc/serial.o
   /lib/modules/<kernel_ver>/misc/lp.o
+ifnenv suse_major_release 6
+  /lib/modules/<kernel_ver>/misc/agpgart.o
+endif
 endif
 
 ifdef blub
