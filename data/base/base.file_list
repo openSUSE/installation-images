@@ -1,0 +1,140 @@
+d bin etc lib mnt proc sbin tmp var
+c 1777 0 0 tmp
+
+devs:
+  /dev
+
+aaa_dir:
+  /etc/{ppp,rc.d,uucp}
+  /etc/rc.config.d
+  /root
+  /etc/init.d
+  /usr/lib/db*
+  /usr/tmp
+  /var
+r /var/{spool,squid,lib/YaST}
+
+if suse_release >= 7.2
+  grep:
+    /bin
+  base:
+    /bin
+else
+  base:
+    /{,s}bin
+endif
+  /usr/{,s}bin
+
+bash:
+  /bin
+if suse_release >= 7.2
+  readline:
+endif
+  /lib
+
+if suse_release >= 7.1
+  fileutils:
+else
+  fileutil:
+endif
+  /bin
+  /usr/bin
+
+if suse_release >= 7.1
+  findutils:
+else
+  find:
+endif
+  /usr/bin/{find,xargs}
+
+if suse_release >= 7.1
+  diffutils:
+else
+  diff:
+endif
+  /usr/bin
+
+if suse_release >= 7.1
+  glibc:
+else
+  shlibs:
+endif
+  /etc/nscd.conf
+  /{lib,sbin}
+r /lib/libdb.so.*
+r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
+  /usr/{,s}bin
+r /usr/bin/{db*,glibcbug,localedef,rpcgen}
+  /usr/lib/pt_chown
+if suse_release < 7.1
+  /lib/libdb.so.3
+endif
+
+mktemp:
+  /bin/mktemp
+
+if suse_release >= 7.1
+  modutils:
+else
+  modules:
+endif
+  /sbin/depmod
+
+ps:
+  /{,s}bin
+  /usr/bin
+
+rpm:
+  /bin
+  /usr/bin
+  /{usr,var}/lib/rpm
+r /usr/lib/rpm/rpm{get,put}text
+
+if suse_release >= 7.1
+  sh-utils:
+else
+  sh_utils:
+endif
+  /{etc,bin}
+r /bin/su
+  /usr/bin
+
+if suse_release >= 7.1
+  textutils:
+else
+  textutil:
+endif
+  /bin
+  /usr/bin
+
+ncurses:
+  /lib/libncurses.so.5*
+  /usr/share/terminfo/d/dumb
+  /usr/share/terminfo/l
+  /usr/share/terminfo/v/vt10[02]
+
+libz:
+  /lib/libz.so*
+
+aaa_base: prein,postin
+e prein
+  /etc
+r /etc/{csh*,default*,mailcap,mime.types,permissions*}
+r /etc/{rc.d.README,runlevel.fallback,zshrc,cron.daily}
+  /bin
+  /sbin
+r /etc/init.d/rc?.d/*kerneld
+r /etc/init.d/rc?.d/*cron
+r /etc/init.d/rc?.d/*pcnfsd
+r /etc/init.d/rc?.d/*routed
+r /etc/init.d/rc?.d/*nfs
+r /etc/init.d/rc?.d/*xdm
+  /usr/bin
+r /usr/bin/ChangeSymlinks
+  /lib/YaST/SuSEconfig.functions
+  /var/adm/fillup-templates
+  /root/.gnupg/suse_build_key
+e postin
+r /var/adm/fillup-templates
+t /etc/fstab
+
