@@ -1,3 +1,9 @@
+24/3/2004:	v5.32
+	- fvwmrc now fvwmrc.notitle again
+	- suppress syslogd warning
+	- another libwrap fix
+	- adrian: move VNC SLP anouncement
+
 23/3/2004:	v5.31
 	- temporarily renamed fvwmrc.notitle to fvwmrc
 

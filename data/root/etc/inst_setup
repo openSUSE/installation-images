@@ -70,7 +70,7 @@ if test -x /sbin/syslogd
 then
     checkproc /sbin/syslogd || {
 	echo "starting syslog (messages are logged to /dev/tty4)..."
-	/sbin/syslogd
+	sh -c '/sbin/syslogd >&1'
     }
 fi
 
