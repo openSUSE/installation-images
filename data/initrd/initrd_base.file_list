@@ -208,6 +208,11 @@ if arch eq 's390' || arch eq 's390x'
     /etc
     /lib
     /sbin
+  pam-modules:
+    # which ones of these are _really_ needed?
+    /etc
+    /lib
+    /sbin
   libz:
     /lib/libz.so*
   shadow:
@@ -272,6 +277,8 @@ if arch eq 's390' || arch eq 's390x'
     /usr/sbin/sshd
     /usr/bin/ssh-keygen
     /etc/init.d/sshd
+    # ??? do we need more ssh preconfiguration?
+    t /etc/sysconfig/ssh
   syslogd:
     /etc/init.d/syslog
     /sbin/klogd
@@ -313,6 +320,11 @@ if arch eq 's390' || arch eq 's390x'
   r /bin/fillup
 
   t /var/log/{faillog,lastlog,messages}
+
+  modules:
+    /sbin/depmod
+  e /sbin/depmod -a -F /System.map <kernel_ver>
+  r /sbin/depmod
 
 ###################################################################
 else # arch is not s390 or s390x
