@@ -11,6 +11,20 @@
 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/lib/YaST2/bin:/usr/X11/bin
 
+if [ -f /.timestamp ] ; then
+  read build_time < /.timestamp
+  now_time=`TZ= LANG= LC_ALL= date +%Y%m%d`
+  if [ "$now_time" -lt "$build_time" ] ; then
+       echo
+       echo "your system time is not correct:"
+       TZ= date
+       echo "setting system time to:"
+       TZ= LANG= LC_ALL= date ${build_time#????*}1234${build_time%*????}.56
+       echo
+       sleep 3
+  fi
+fi
+
 if [ -x /sbin/udev -a -x /sbin/udevstart ] ; then
 echo -n "creating device nodes .."
 /sbin/udevstart
