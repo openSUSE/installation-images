@@ -140,8 +140,8 @@ ec=
 if [ "$YAST2_SSH" = "true" ] ; then
 cat <<EOF
 
-           *** login via ssh: root@`hostname` ***
-      *** run '$yast' to start the installation ***
+      ***  login using 'ssh -X root@`hostname`'  ***
+      ***  run '$yast' to start the installation  ***
 
 EOF
 while true ; do

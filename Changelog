@@ -1,4 +1,5 @@
 	- added pmtools (#36818)
+	- changed sshd message (#36928)
 
 24/3/2004:	v5.32
 	- fvwmrc now fvwmrc.notitle again
