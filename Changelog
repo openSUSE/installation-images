@@ -7,6 +7,8 @@
 	- olh: add freetype2.rpm
 	- olh: umsprogs i386 only
 	- olh: /usr/X11R6/lib/modules/*.uc maybe i386 only
+	- started to drop support for SL < 7.2
+	- dropped /usr/lib/gconv/
 
 12/7/2001:	v1.66
 	- new 'E' command

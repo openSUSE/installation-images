@@ -1,28 +1,8 @@
 #! /usr/bin/perl -w
 
-# Create an initrd and put everything on it.
-#
-# Source files and the file list are taken from data/initrd; the initrd is
-# stored in images/initrd.
+# Create module disk images.
 #
 # Usage:        mk_modules
-
-=head1 mk_initrd
-
-C<mk_initrd> creates an initial ram disk C<initrd>.
-
-The files to go onto the ram disk (aka initrd) are taken from
-C<data/initrd/initrd.file_list>.
-
-The initrd uses a Minix file system. The actual fs size and inode numbers
-are coded in the C<mk_initrd> script. You I<can> vary these values but it
-doesn't really pay of much. You will gain or loose a few bytes of the
-compressed initrd size only.
-
-The final compressed image is stored as C<images/initrd>.
-
-=cut
-
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # the usual fuss...
@@ -36,6 +16,7 @@ use Conv2Image;
 
 die "usage: $Script\n" if @ARGV;
 
+sub list_modules;
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # some config data
@@ -55,8 +36,8 @@ $extra_inodes = 10;
 $start_size = 4000;		# kbyte
 $start_inodes = 4000;
 
-# $idlist = "$BasePath$ConfigData{idlist}";
-# die "$Script: where is our id list?" unless $ConfigData{idlist} && -f $idlist;
+$disk = 1;
+$disk = $ENV{modules} + 0 if exists $ENV{modules};
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
@@ -72,29 +53,34 @@ mkdir $tmpdir, 0755;
 $fl = "modules";
 $fl = $ENV{'filelist'} if exists $ENV{'filelist'};
 
-if($ENV{modules} eq "2") {
+if($disk == 2) {
   AddFiles "$tmpdir/net2mod", "${srcdir}/$fl.file_list", $srcdir, "net2" or
     die "$Script: failed to setup modules net image";
+  list_modules "net2mod";
 
   AddFiles "$tmpdir/other2mo", "${srcdir}/$fl.file_list", $srcdir, "other2" or
     die "$Script: failed to setup modules other image";
+  list_modules "other2mo";
 }
 else {
   AddFiles "$tmpdir/net-mod", "${srcdir}/$fl.file_list", $srcdir, "net" or
     die "$Script: failed to setup modules net image";
+  list_modules "net-mod";
 
   AddFiles "$tmpdir/other-mod", "${srcdir}/$fl.file_list", $srcdir, "other" or
     die "$Script: failed to setup modules other image";
+  list_modules "other-mod";
 
   AddFiles "$tmpdir/scsi-mod", "${srcdir}/$fl.file_list", $srcdir, "scsi" or
     die "$Script: failed to setup modules scsi image";
+  list_modules "scsi-mod";
 }
 
 # strip everything
 SUSystem "strip_dir $tmpdir";
 
 # create the image & compress it
-if($ENV{modules} eq "2") {
+if($disk == 2) {
   Conv2Image "$image/net2mod", "$tmpdir/net2mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
   Conv2Image "$image/other2mo", "$tmpdir/other2mo", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
 
@@ -124,5 +110,26 @@ else {
 
   $i = -s "$image/scsi-mod.gz";
   print "$Script: compressed initrd to \"$image/scsi-mod.gz\" ($i bytes)\n";
+}
+
+
+sub list_modules
+{
+  local $_;
+  my ($dir, @m1, @m);
+
+  $dir = shift;
+
+  @m = `ls $tmpdir/$dir/*.o 2>/dev/null`;
+  for (@m) {
+    chomp;
+    s#.*/##;
+    s/\.o$//;
+    push @m1, "$_\n"
+  }
+
+  open F, ">$tmpdir/$dir.modlist";
+  print F @m1;
+  close F;
 }
 

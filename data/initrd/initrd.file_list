@@ -17,112 +17,71 @@ endif
 
 <kernel_rpm>:
 
+# we support 3 different initrd sizes: 'small', '', 'large'
+# 'small'     : bootdisk
+# '' (default): 2.88MB image
+# 'large'     : no size limit
+
+
 if arch eq 'ia32'
 
-  if suse_release >= 7.2
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  if initrd eq 'small'
 
-    if initrd eq 'small'
+    f / nvram.o /modules
 
-      f / nvram.o /modules
-
-        if usb_mods ne 'no'
-          f / usbcore.o /modules
-          f / usb-uhci.o /modules
-          f / usb-ohci.o /modules
-          f / input.o /modules
-          f / hid.o /modules
-          f / keybdev.o /modules
-          f / usb-storage.o /modules
-          f / isa-pnp.o /modules
-          f / 8390.o /modules
-        endif
-
-    else
-
-      if initrd eq 'large'
-        f /lib/modules/<kernel_ver>/pcmcia *.o /modules
-        r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs}.o
-        r /modules/{sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
-
+      if usb_mods ne 'no'
+        f / usbcore.o /modules
+        f / usb-uhci.o /modules
+        f / usb-ohci.o /modules
+        f / input.o /modules
+        f / hid.o /modules
+        f / keybdev.o /modules
+        f / usb-storage.o /modules
+        # f / isa-pnp.o /modules
+        # f / 8390.o /modules
       endif
 
-      f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
-      f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
+  elsif initrd eq 'large'
 
-      f / reiserfs.o /modules
+    f /lib/modules/<kernel_ver>/pcmcia *.o /modules
+    r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs}.o
+    r /modules/{sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
 
-      f / DAC960.o /modules
-      f / cciss.o /modules
-      f / cpqarray.o /modules
-
-      f / nvram.o /modules
-
-      f / usbcore.o /modules
-      f / usb-uhci.o /modules
-      f / usb-ohci.o /modules
-      f / input.o /modules
-      f / hid.o /modules
-      f / keybdev.o /modules
-      f / mousedev.o /modules
-      f / usb-storage.o /modules
-
-      f / isa-pnp.o /modules
-      f / parport.o /modules
-      f / paride.o /modules
-      f / parport_pc.o /modules
-
-      f / i2o_pci.o /modules
-      f / i2o_core.o /modules
-      f / i2o_config.o /modules
-      f / i2o_block.o /modules
-
-      f / isp16.o /modules
-
-    endif
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   else
 
-    a /lib/modules/<kernel_ver>/misc/nvram.o /modules
-    a /lib/modules/<kernel_ver>/net/8390.o /modules
+    f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
+    f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
 
-    a /lib/modules/<kernel_ver>/usb/usbcore.o /modules
-    a /lib/modules/<kernel_ver>/usb/usb-uhci.o /modules
-    a /lib/modules/<kernel_ver>/usb/usb-ohci.o /modules
-    a /lib/modules/<kernel_ver>/usb/input.o /modules
-    a /lib/modules/<kernel_ver>/usb/hid.o /modules
-    a /lib/modules/<kernel_ver>/usb/keybdev.o /modules
-    a /lib/modules/<kernel_ver>/usb/mousedev.o /modules
+    f / reiserfs.o /modules
 
-    a /lib/modules/<kernel_ver>/block/*.o /modules
-    a /lib/modules/<kernel_ver>/net/*.o /modules
-    a /lib/modules/<kernel_ver>/scsi/*.o /modules
-    a /lib/modules/<kernel_ver>/misc/parport.o /modules
-    a /lib/modules/<kernel_ver>/misc/paride.o /modules
-    a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
-    a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
+    f / DAC960.o /modules
+    f / cciss.o /modules
+    f / cpqarray.o /modules
 
-    a /lib/modules/<kernel_ver>/misc/i2o_pci.o /modules
-    a /lib/modules/<kernel_ver>/misc/i2o_core.o /modules
-    a /lib/modules/<kernel_ver>/misc/i2o_config.o /modules
-    a /lib/modules/<kernel_ver>/misc/i2o_block.o /modules
+    f / nvram.o /modules
 
-    # just to get the cdrom menue in linuxrc
-    a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
+    f / usbcore.o /modules
+    f / usb-uhci.o /modules
+    f / usb-ohci.o /modules
+    f / input.o /modules
+    f / hid.o /modules
+    f / keybdev.o /modules
+    f / mousedev.o /modules
+    f / usb-storage.o /modules
 
-    a /lib/modules/<kernel_ver>/scsi/pas16.o /modules
+    f / isa-pnp.o /modules
+    f / parport.o /modules
+    f / paride.o /modules
+    f / parport_pc.o /modules
 
-    # to fill up the disk...
-    a /lib/modules/<kernel_ver>/cdrom/gscd.o /modules
-    a /lib/modules/<kernel_ver>/cdrom/mcdx.o /modules
-    a /lib/modules/<kernel_ver>/cdrom/mcd.o /modules
-    a /lib/modules/<kernel_ver>/cdrom/cm206.o /modules
+    f / i2o_pci.o /modules
+    f / i2o_core.o /modules
+    f / i2o_config.o /modules
+    f / i2o_block.o /modules
 
-    M pas16 gscd mcdx mcd cm206
+    f / isp16.o /modules
 
   endif
-
 
   # scsi
   r /modules/{ide-scsi,scsi_debug,sg}.o
@@ -140,9 +99,10 @@ if arch eq 'ia32'
   r /modules/{x25_asy,yam,strip,wavelan,bonding,rcpci,pc300,eata_dma}.o
 
   r /modules/{actisys,cyclomx,esi,girbil,irport,irtty,litelink,lmc,nsc-ircc,old_belkin}.o
-  r /modules/{pppoe,rfc1051,rfc1201,smc-ircc,tekram,toshoboe,w83977af_ir}.o
+  r /modules/{pppoe,rfc1051,rfc1201,smc-ircc,tekram,toshoboe,w83977af_ir,ali-ircc}.o
 
-  if initrd ne 'large'
+  if initrd eq '' 
+
     r /modules/{ppa,imm}.o
 
     # really huge (gigabit) networks mods: make room for other stuff
@@ -155,87 +115,53 @@ if arch eq 'ia32'
 
     r /modules/{ppp_mppe,ethertap,arc-rimi,yellowfin,shaper,3c503,3c501,3c509,3c507,3c505}.o
     r /modules/{hp-plus,ni65,ni5010}.o
-  endif
 
-  if suse_release >= 7.2
+    r /modules/{aironet4500_proc,aironet4500_core,aironet4500_card,osst}.o
 
-    if initrd eq '' 
-      r /modules/{aironet4500_proc,aironet4500_core,aironet4500_card,osst}.o
+    # make it really small!
+    r /modules/{BusLogic,advansys,qlogicfc,qla2x00}.o
 
-      # make it really small!
-      r /modules/{BusLogic,advansys,qlogicfc,qla2x00}.o
+    # pcmcia
 
-      # pcmcia
+    f / i82365.o      /modules
+    f / ds.o          /modules
+    f / tcic.o        /modules
+    f / pcmcia_core.o /modules
+    f / cb_enabler.o  /modules
 
-      f / i82365.o      /modules
-      f / ds.o          /modules
-      f / tcic.o        /modules
-      f / pcmcia_core.o /modules
-      f / cb_enabler.o  /modules
+    f / ide_cs.o      /modules
+    f / aha152x_cs.o  /modules
+    f / tulip_cb.o    /modules
+    f / xirc2ps_cs.o  /modules
+    f / pcnet_cs.o    /modules
+    f / apa1480_cb.o  /modules
+    f / 3c574_cs.o    /modules
+    f / 3c575_cb.o    /modules
+    f / 3c589_cs.o    /modules
 
-      f / ide_cs.o      /modules
-      f / aha152x_cs.o  /modules
-      f / tulip_cb.o    /modules
-      f / xirc2ps_cs.o  /modules
-      f / pcnet_cs.o    /modules
-      f / apa1480_cb.o  /modules
-      f / 3c574_cs.o    /modules
-      f / 3c575_cb.o    /modules
-      f / 3c589_cs.o    /modules
+    f / epic_cb.o     /modules
+    f / fdomain_cs.o  /modules
+    f / fmvj18x_cs.o  /modules
+    f / ftl_cs.o      /modules
+    f / qlogic_cs.o   /modules
+    f / smc91c92_cs.o /modules
 
-      f / epic_cb.o     /modules
-      f / fdomain_cs.o  /modules
-      f / fmvj18x_cs.o  /modules
-      f / ftl_cs.o      /modules
-      f / qlogic_cs.o   /modules
-      f / smc91c92_cs.o /modules
+    # duplicate, no longer exsists
+    r /modules/3c90x.o
 
+    r /modules/st.o
+    r /modules/aic7xxx_old.o
+    r /modules/irda-usb.o
+    r /modules/{lance,cycx_drv,eata_pio,eata}.o
+    r /modules/{lanstreamer,sunhme,sb1000,airo}.o
+    r /modules/{vpi0,ppscsi,epsa2,epst,onscsi,sparcsi,t348,t358}.o
+    r /modules/{ppp_generic,ppp_synctty,ppp_async}.o
 
-      # duplicate, no longer exsists
-      r /modules/3c90x.o
+    r /modules/{cs89x0,sundance,iph5526}.o
 
-      r /modules/st.o
-      r /modules/aic7xxx_old.o
-      r /modules/irda-usb.o
-      r /modules/{lance,cycx_drv,eata_pio,eata}.o
-      r /modules/{lanstreamer,sunhme}.o
-      r /modules/{vpi0,ppscsi,epsa2,epst,onscsi,sparcsi,t348,t358}.o
-      r /modules/{ppp_generic,ppp_synctty,ppp_async}.o
-
-      r /modules/{cs89x0,sundance,iph5526}.o
-
-      M sb1000 3c515 ni52 at1700 lne390 tms380tr smctr ewrk3 eth16i
-      M de4x5
-      M eepro100 olympic airo
-
-    endif
-
-  else
-
-    a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
-
-    a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /modules
-
-    a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
-
-    M advansys old_tulip ibmtr sb1000 lanstreamer sbni 3c515 ni52 at1700 lne390
+    M 3c515 ni52 at1700 lne390 tms380tr smctr ewrk3 eth16i
+    M starfire hamachi ibmtr de4x5 rrunner hp100
+    M eepro100 olympic
 
   endif
 

@@ -35,18 +35,10 @@ endif
 ash:
   /bin/ash.static
 
-if suse_release >= 7.1
-  fileutils:
-else
-  fileutil:
-endif
+fileutils:
   /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
   /usr/bin/du
-if suse_major == 6
-    /usr/bin/touch
-else
-    /bin/touch
-endif
+  /bin/touch
 
 gzip:
   bin/g{un,}zip
@@ -55,22 +47,14 @@ joe:
   /usr/bin/joe
   /usr/lib/joerc
 
-if suse_release >= 7.1
-  hwinfo:
+hwinfo:
   /usr/lib
-else
-  libhd:
-endif
   /usr/sbin
 
 mktemp:
   /bin/mktemp
 
-if suse_release >= 7.1
-  net-tools:
-else
-  net_tool:
-endif
+net-tools:
   /bin/{domain,host}name
 
 if suse_release >= 7.2
@@ -84,28 +68,15 @@ endif
 ps:
   /bin/ps
 
-if suse_release < 7.1
-recode:
-  /usr/lib/librecode.so*
-endif
-
 rpm:
   /bin/rpm
   /usr/lib/rpm/{rpm{popt,rc},macros}
 
-if suse_release >= 7.1
-  sh-utils:
-else
-  sh_utils:
-endif
+sh-utils:
   /bin/{date,echo,false,pwd,sleep,stty,true,uname}
   /usr/bin/{expr,tee}
 
-if suse_release >= 7.1
-  util-linux:
-else
-  util:
-endif
+util-linux:
   /bin/kill
   /bin/{u,}mount
   /bin/dmesg
@@ -113,104 +84,68 @@ endif
 
 <kernel_rpm>:
 if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
-  if suse_release < 7.1
-    /lib/modules/<kernel_ver>/misc/serial.o
-  endif
 
-  if suse_release >= 7.2
-    f / usbcore.o
-    f / usb-uhci.o
-    f / usb-ohci.o
-    f / input.o
-    f / hid.o
-    f / keybdev.o
-    f / mousedev.o
-    f / usb-storage.o
+  f / usbcore.o
+  f / usb-uhci.o
+  f / usb-ohci.o
+  f / input.o
+  f / hid.o
+  f / keybdev.o
+  f / mousedev.o
+  f / usb-storage.o
 
-    f / linear.o
-    f / lvm-mod.o
-    f / md.o
-    f / raid0.o
-    f / raid1.o
-    f / raid5.o
-    f / xor.o
+  f / linear.o
+  f / lvm-mod.o
+  f / md.o
+  f / raid0.o
+  f / raid1.o
+  f / raid5.o
+  f / xor.o
 
-    f / reiserfs.o
-    f / hpfs.o
-    f / loop_fish2.o
+  f / reiserfs.o
+  f / hpfs.o
+  f / loop_fish2.o
 
-    f / isa-pnp.o
-    f / lp.o
-    f / parport.o
-    f / parport_pc.o
-    f / imm.o
-    f / ppa.o
-    f / ide-scsi.o
+  f / isa-pnp.o
+  f / lp.o
+  f / parport.o
+  f / parport_pc.o
+  f / imm.o
+  f / ppa.o
+  f / ide-scsi.o
 
-    f / 3w-xxxx.o
-    f / 53c7,8xx.o
-    f / AM53C974.o
-    f / BusLogic.o
-    f / DAC960.o
-    f / a100u2w.o
-    f / advansys.o
-    f / aic7xxx.o
-    f / atp870u.o
-    f / cciss.o
-    f / cpqarray.o
-    f / dc395x_trm.o
-    f / dmx3191d.o
-    f / dpt_i2o.o
-    f / eata.o
-    f / fdomain.o
-    f / gdth.o
-    f / initio.o
-    f / ips.o
-    f / megaraid.o
-    f / ncr53c8xx.o
-    f / pci2000.o
-    f / pci2220i.o
-    f / qla1280.o
-    f / qla2x00.o
-    f / qlogicfc.o
-    f / qlogicisp.o
-    f / sym53c8xx.o
-    f / tmscsim.o
-  else
-    /lib/modules/<kernel_ver>/misc/lp.o
-    /lib/modules/<kernel_ver>/misc/parport.o
-    /lib/modules/<kernel_ver>/misc/parport_pc.o
-    /lib/modules/<kernel_ver>/misc/parport_probe.o
-    /lib/modules/<kernel_ver>/scsi/imm.o
-    /lib/modules/<kernel_ver>/scsi/ppa.o
+  f / 3w-xxxx.o
+  f / 53c7,8xx.o
+  f / AM53C974.o
+  f / BusLogic.o
+  f / DAC960.o
+  f / a100u2w.o
+  f / advansys.o
+  f / aic7xxx.o
+  f / atp870u.o
+  f / cciss.o
+  f / cpqarray.o
+  f / dc395x_trm.o
+  f / dmx3191d.o
+  f / dpt_i2o.o
+  f / eata.o
+  f / fdomain.o
+  f / gdth.o
+  f / initio.o
+  f / ips.o
+  f / megaraid.o
+  f / ncr53c8xx.o
+  f / pci2000.o
+  f / pci2220i.o
+  f / qla1280.o
+  f / qla2x00.o
+  f / qlogicfc.o
+  f / qlogicisp.o
+  f / sym53c8xx.o
+  f / tmscsim.o
 
-    /lib/modules/<kernel_ver>/scsi/3w-xxxx.o
-    /lib/modules/<kernel_ver>/scsi/BusLogic.o
-    /lib/modules/<kernel_ver>/scsi/a100u2w.o
-    /lib/modules/<kernel_ver>/scsi/advansys.o
-    /lib/modules/<kernel_ver>/scsi/aha152x.o
-    /lib/modules/<kernel_ver>/scsi/aic7xxx.o
-    /lib/modules/<kernel_ver>/scsi/atp870u.o
-    /lib/modules/<kernel_ver>/scsi/dc395x_trm.o
-    /lib/modules/<kernel_ver>/scsi/dpt_i2o.o
-    /lib/modules/<kernel_ver>/scsi/eata.o
-    /lib/modules/<kernel_ver>/scsi/fdomain.o
-    /lib/modules/<kernel_ver>/scsi/gdth.o
-    /lib/modules/<kernel_ver>/scsi/initio.o
-    /lib/modules/<kernel_ver>/scsi/ips.o
-    /lib/modules/<kernel_ver>/scsi/megaraid.o
-    /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o
-    /lib/modules/<kernel_ver>/scsi/qla2x00.o
-    /lib/modules/<kernel_ver>/scsi/qlogicisp.o
-    /lib/modules/<kernel_ver>/scsi/sym53c8xx.o
-    /lib/modules/<kernel_ver>/scsi/tmscsim.o
-  endif
+  f / agpgart.o
 
-  if suse_release >= 7.2
-    f / agpgart.o
-  elsif (suse_release >= 7.0 && arch ne 'alpha') && !(suse_release >= 7.2)
-    /lib/modules/<kernel_ver>/misc/agpgart.o
-  endif
 endif
 
 if !(arch eq 'sparc' || arch eq 'sparc64' || arch eq 'ia64')
@@ -223,18 +158,10 @@ endif
 ncurses:
   /lib/libncurses.so.5*
   /usr/lib/libpanel.so.5*
-if suse_release < 7.1
-  /lib/libncurses.so.4*
-  /usr/lib/lib{form,menu,panel}.so*
-endif
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
 
-if suse_release >= 7.1
-  glibc:
-else
-  shlibs:
-endif
+glibc:
   /sbin/ldconfig
   /lib/ld-2.*.so
 if arch eq 'ppc'
@@ -246,24 +173,15 @@ else
 endif
   /lib/lib{c,m}.so.6*
   /lib/{libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libnsl.so.1*}
-if suse_release < 7.1
-  /lib/libnss_db.so.2
-endif
   /lib/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
   /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt.so.1,libutil.so.1*}
   /usr/sbin/rpcinfo
   /usr/{bin,lib}
   /etc/rpc
-if suse_release >= 7.1
-#  r /usr/lib/locale
-else
-  /usr/share/locale/{locale.alias,ar_SA,cs,cs_CZ,de,de_DE,el,el_GR,en_GB,en_US,es,es_ES}
-  /usr/share/locale/{fr,fr_FR,hu_HU,it,it_IT,nl,nl_NL,pl,pl_PL,pt_BR,pt_PT,ro_RO}
-  /usr/share/locale/{ru_RU,ru_RU.KOI8-R,sk,sk_SK,tr_TR}
-endif
 r /usr/bin/db_*
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
+r /usr/lib/gconv
 m /lib/libpthread.so.0 /usr/lib
 
 aaa_base:
@@ -271,14 +189,9 @@ aaa_base:
 
 kbd:
   /usr/lib/kbd
-if suse_release < 7.1
-  /usr/share/locale
-endif
   /bin/loadkeys
   /usr/bin/{loadunimap,kbd_mode}
-if suse_release >= 7.1
   /bin/{chvt,loadkeys}
-else
   /usr/bin/{chvt,loadkeys}
 endif
 
@@ -286,26 +199,13 @@ endif
 m /usr/bin/setfont /usr/bin/setfont.bin
 x /usr/bin/setfont /usr/bin
 
-if suse_release < 7.1
-  c 0755 0 0 /usr/share/locale/nl
-  c 0755 0 0 /usr/share/locale/ru
-endif
-
-if suse_release >= 7.2
-  hdparm:
-else
-  base:
-endif
+hdparm:
   /sbin/hdparm
 
 bdflush:
   /sbin/update
 
-if suse_release >= 7.1
-  e2fsprogs:
-else
-  ext2fs:
-endif
+e2fsprogs:
   /sbin
   /lib
 
@@ -322,29 +222,13 @@ if arch eq 'ia64'
     /usr/sbin/efibootmgr
 endif
 
-if suse_release >= 7.1
-  raidtools:
-else
-  mdutils:
-endif
+raidtools:
   /sbin/*
 
-if suse_major == 6
-  mkdosfs:
-else
-  if suse_release >= 7.1
-    dosfstools:
-  else
-    dosfstls:
-  endif
-endif
-   /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
+dosfstools:
+  /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
 
-if suse_release >= 7.1
-  net-tools:
-else
-  net_tool:
-endif
+net-tools:
   /sbin/{ifconfig,route,plipconfig}
 
 portmap:
@@ -357,11 +241,7 @@ c 0755 0 0 /sbin/umssync
 s /sbin/umssync /bin/umssync
 endif
 
-if suse_release >= 7.1
-  util-linux:
-else
-  util:
-endif
+util-linux:
   /sbin/{ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
 if arch eq 'ppc'
     /etc/filesystems
@@ -397,58 +277,29 @@ else
 endif
   /bin/sed
 
-if suse_release >= 7.1
-  diffutils:
-else
-  diff:
-endif
+diffutils:
   /usr/bin/{cmp,diff}
 
-if suse_release >= 7.1
-  findutils:
-else
-  find:
-endif
+findutils:
   /usr/bin/{find,xargs}
 
 less:
   /etc/lesskey
   /usr/bin/less
 
-if suse_release >= 7.1
-  modutils:
-else
-  modules:
-endif
+modutils:
  /sbin/{depmod,genksyms,insmod,ksyms,lsmod,modinfo,modprobe,rmmod,insmod.static}
-if arch ne 'ia64' && suse_release < 7.1
-   /sbin/kerneld
-endif
-
-if suse_release >= 7.2
-else
-  nkitb:
-    /usr/bin/telnet
-endif
 
 ps:
-m /bin/fuser /usr/bin
+  m /bin/fuser /usr/bin
   /usr/bin/{free,killall,pstree,socklist}
 
 timezone:
   /usr/share/zoneinfo/{iso3166,zone}.tab
 
-if suse_release >= 7.1
-  sh-utils:
-else
-  sh_utils:
-endif
+sh-utils:
   /usr/bin/{dirname,chroot,test,tty}
-if suse_major == 6
-    /usr/bin/basename
-else
-    /bin/basename
-endif
+  /bin/basename
 
 strace:
   /usr/bin/strace
@@ -461,24 +312,12 @@ endif
 
 cpio:
   /usr/bin/mt
-if suse_major == 6
-    /usr/bin/cpio
-else
   /bin/cpio
-endif
 
-if suse_release >= 7.1
-  textutils:
-else
-  textutil:
-endif
+textutils:
   /bin/cat
   /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc,od}
-if suse_major == 6
-    /usr/bin/sort
-else
-    /bin/sort
-endif
+  /bin/sort
 
 freetype2:
 /usr/lib/libfreetype.so.6
@@ -511,21 +350,17 @@ if with_yast2 ne 'no'
       .
   endif
 
-  if !(arch eq 'sparc' || arch eq 'sparc64') && !(suse_release >= 7.1 && arch eq 'ia32')
+  if arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ia32'
     xfbdev:
       .
   endif
 
   # old XF86 3.3
-  if (arch eq 'ia32' || arch eq 'alpha') && !(suse_release >= 7.1 && arch eq 'ia32')
+  if arch eq 'alpha'
     xsvga:
       .
   endif
 
-  if arch eq 'ia32' && suse_release < 7.1
-    xvga16:
-      .
-  endif
   c 0755 0 0 /dev
 
   # new XF86 4.0
@@ -567,13 +402,9 @@ if with_yast2 ne 'no'
 
   xf86:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
-  if suse_release >= 7.1
-      /etc/X11/xkb
+    /etc/X11/xkb
     s /etc/X11/xkb /usr/X11R6/lib/X11
-      /usr/X11R6/bin/xkbcomp
-  else
-    /usr/X11R6/lib/X11/xkb
-  endif
+    /usr/X11R6/bin/xkbcomp
     /usr/X11R6/lib/X11/locale
     /etc/X11/xserver
   r /etc/X11/xserver/C
@@ -583,128 +414,80 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib/X11/fonts/misc/{6x13,cursor}.pcf.gz
 
   x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
-  if suse_major == 6
-    x /usr/X11R6/lib/X11/XF86Config_3 /usr/X11R6/lib/X11/XF86Config
-  else
-    x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
-  endif
+  x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
 endif
 
 if with_yast2 ne 'no'
-  if suse_release >= 7.2
-    yast2-base:
-      /
-    yast2-instsys:
-      /
-    yast2-agent-any:
-      /
-    yast2-agent-fdisk:
-      /
-    yast2-agent-probe:
-      /
-    yast2-agent-modules:
-      /
-    yast2-core-pkginfo:
-      /
-    yast2-core-wfm:
-      /
-    yast2-core-scr:
-      /
-    yast2-core-clients:
-      /
-    yast2-lib-wizard:
-      /
-    yast2-agent-rcconfig:
-      /
-    yast2-ui-qt:
-      /
-    yast2-ui-ncurses:
-      /
-    libycp:
-      /
-    liby2:
-      /
-    libscr:
-      /
-    libyui:
-      /
-    yast2-db-keyboard:
-      /
-    yast2-db-mouse:
-      /
-    yast2-db-timezone:
-      /
-    yast2-db-groups:
-      /
-    yast2-trans-inst-bootloader:
-      /
-    yast2-trans-inst-environment:
-      /
-    yast2-trans-inst-general:
-      /
-    yast2-trans-inst-language:
-      /
-    yast2-trans-inst-mouse:
-      /
-    yast2-trans-inst-packages:
-      /
-    yast2-trans-inst-partitioning:
-      /
-    yast2-trans-inst-update:
-      /
-    yast2-trans-inst-user:
-      /
-    yast2-trans-wizard:
-      /
-if (arch eq 'sparc64' || arch eq 'sparc')
+  yast2-base:
+    /
+  yast2-instsys:
+    /
+  yast2-agent-any:
+    /
+  yast2-agent-fdisk:
+    /
+  yast2-agent-probe:
+    /
+  yast2-agent-modules:
+    /
+  yast2-core-pkginfo:
+    /
+  yast2-core-wfm:
+    /
+  yast2-core-scr:
+    /
+  yast2-core-clients:
+    /
+  yast2-lib-wizard:
+    /
+  yast2-agent-rcconfig:
+    /
+  yast2-ui-qt:
+    /
+  yast2-ui-ncurses:
+    /
+  libycp:
+    /
+  liby2:
+    /
+  libscr:
+    /
+  libyui:
+    /
+  yast2-db-keyboard:
+    /
+  yast2-db-mouse:
+    /
+  yast2-db-timezone:
+    /
+  yast2-db-groups:
+    /
+  yast2-trans-inst-bootloader:
+    /
+  yast2-trans-inst-environment:
+    /
+  yast2-trans-inst-general:
+    /
+  yast2-trans-inst-language:
+    /
+  yast2-trans-inst-mouse:
+    /
+  yast2-trans-inst-packages:
+    /
+  yast2-trans-inst-partitioning:
+    /
+  yast2-trans-inst-update:
+    /
+  yast2-trans-inst-user:
+    /
+  yast2-trans-wizard:
+    /
+
+  if arch eq 'sparc64' || arch eq 'sparc'
     yast2-agent-prom:
       /
-endif
-  else
-    y2base:
-      /usr/lib/YaST2
-      /usr/X11R6/lib/X11/fonts/uni
-
-    yast2:
-        /sbin
-        /usr/lib/YaST2
-        /var/lib/YaST2
-      if suse_release < 7.1
-        y2t_inst:
-          /usr/lib/YaST2
-      else
-        y2t_inst-bootloader:
-          /usr/lib/YaST2
-        y2t_inst-environment:
-          /usr/lib/YaST2
-        y2t_inst-general:
-          /usr/lib/YaST2
-        y2t_inst-language:
-          /usr/lib/YaST2
-        y2t_inst-mouse:
-          /usr/lib/YaST2
-        y2t_inst-packages:
-          /usr/lib/YaST2
-        y2t_inst-partitioning:
-          /usr/lib/YaST2
-        y2t_inst-update:
-          /usr/lib/YaST2
-        y2t_inst-user:
-          /usr/lib/YaST2
-        y2t_inst-x11:
-          /usr/lib/YaST2
-        y2d_inst-keyboard:
-          /usr/lib/YaST2
-        y2d_inst-mouse:
-          /usr/lib/YaST2
-        y2d_inst-timezone:
-          /usr/lib/YaST2
-      endif
-
-    c 0755 0 0 /usr
-    c 0755 0 0 /usr/lib
-    c 0755 0 0 /usr/lib/YaST2
   endif
+
 endif
 
 
@@ -728,28 +511,19 @@ libjpeg:
   /usr/lib/libjpeg.so*
 
 eject:
-if arch eq 'ppc' || suse_release >= 7.1
   /bin/eject
-else
-  /usr/bin/eject
-endif
 
-if suse_release >= 7.1
-  libmng:
-    /usr/lib/libmng.so*
+libmng:
+  /usr/lib/libmng.so*
 
-  liblcms:
-    /usr/lib/liblcms.so*
+liblcms:
+  /usr/lib/liblcms.so*
 
-  if with_yast2 ne 'no'
-    qt:
-      /usr/lib/libqt.so.2
-      /usr/lib/qt2
-      /usr/lib/qt-2.*/lib/libqt.so*
-  endif
-else
-  qtlib2:
-    /usr/lib/*
+if with_yast2 ne 'no'
+  qt:
+    /usr/lib/libqt.so.2
+    /usr/lib/qt2
+    /usr/lib/qt-2.*/lib/libqt.so*
 endif
 
 # remove these:
@@ -869,21 +643,13 @@ if arch eq 'ia32'
     /sbin/{kill,start}proc
   sbl:
     /usr/lib/suse-blinux
-if suse_release >= 7.1
     /etc/init.d/suse-blinux
-else
-    /etc/rc.d/suse-blinux
-endif
     /etc/suse-blinux.conf
 endif
 
 syslogd:
-if suse_release >= 7.1
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
-else
-  /usr/sbin/syslogd
-endif
 
 if arch eq 'ppc'
   parted:
