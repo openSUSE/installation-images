@@ -96,9 +96,14 @@ if arch eq 'ia64'
   else
     gnu-efi:
   endif
-    m /boot/elilo.efi /
+    d /efi/boot
+    if suse_release > 8.0
+      m /boot/efi/SuSE/elilo.efi /efi/boot/bootia64.efi
+    else
+      m /boot/elilo.efi /efi/boot/bootia64.efi
+    endif
   x elilo.conf /
-  x startup.nsh /
+  x textmenu /
 endif
 
 if arch eq 'alpha'
