@@ -355,12 +355,14 @@ if arch eq 's390' || arch eq 's390x'
   x s390/linuxrc.config  /linuxrc.config
   x s390/sbin/halt       /sbin/halt
   x s390/sbin/nodns      /sbin/nodns
+  x s390/sbin/hotplug    /sbin/hotplug
   x s390/sbin/realchroot /sbin/realchroot
 
   c 0755 0 0 /linuxrc
   c 0755 0 0 /inst_source
   c 0755 0 0 /bin/netsetup
   c 0755 0 0 /sbin/halt
+  c 0755 0 0 /sbin/hotplug
   c 0755 0 0 /sbin/nodns
   c 0755 0 0 /sbin/realchroot
 

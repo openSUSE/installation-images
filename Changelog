@@ -1,6 +1,8 @@
 2/9/2002	v2.51
 	- correctet handling of HSI-interface in
           data/initrd/s390/bin/netsetsup
+	- removed hanging ping (-w-parameter)
+	- memorycheck buildin
 
 29/8/2002:      v2.50
         - removed minor bugs from scrips

@@ -94,7 +94,7 @@ do
 	if echo $ip | check_ip
 	then
 		INST_IP_ADDR=$ip
-		$CONDOM ping -n -c 3 $INST_IP_ADDR
+		$CONDOM ping -w 10 -n -c 3 $INST_IP_ADDR
 		[ $? -eq 0 ] && break
 		echo -en $IP_ERROR1
 	fi
@@ -113,7 +113,7 @@ do
 	if echo $ip | check_ip
 	then
 		INST_X_ADDR=$ip
-		$CONDOM ping -n -c 3 $INST_X_ADDR
+		$CONDOM ping -w 10 -n -c 3 $INST_X_ADDR
 		[ $? -eq 0 ] && break
 		echo -en $IP_ERROR1
 	fi
@@ -166,7 +166,7 @@ nfs_install()
 $CONDOM mount -t nfs $INST_IP_ADDR:$INST_IP_DIR /var/adm/mount
 if [ ! -d /var/adm/mount/boot -a -z "$CONDOM" ]
 then
-	echo $MOUNT_ERR2
+	echo $MOUNT_ERR
 	return 0
 fi
 umount /var/adm/mount
@@ -259,7 +259,7 @@ then
 #
 		case $INST_INFO in
 			nfs)
-				nfs_install
+				nfs_install || break
 			;;
 			SAMBA)
 			;;
@@ -268,12 +268,6 @@ then
 			*)
 			;;
 		esac
-#
-#		Check for some critical files
-#		if they are there leave the loop
-#
-		[ -d /var/adm/mount/boot -o ! -z "$CONDOM" ] && break
-		echo $MOUNT_ERR
 	done
 fi
 #

@@ -31,21 +31,30 @@ echo done doing movetotmpfs
 #
 #
 #
-DIRS="/mounts /dev/pts /var/empty /var/adm/mnt /var/adm/mount /var/log/YaST2"
-for i in $DIRS
-do
-	[ ! -d $i ] && mkdir $i
-done
-[ -d /var/log/YaST2 ] && {
-for i in  "y2log y2log-1 y2log-2 y2log-3 y2log-4 y2start.log"
-do
-	touch /var/log/YaST2/$i
-done
-}
+if [ -d /var/log/YaST2 ]
+then
+	for i in  "y2log y2log-1 y2log-2 y2log-3 y2log-4 y2start.log"
+	do
+		touch /var/log/YaST2/$i
+	done
+fi
 #
 #	Main
 #
 mount -t devpts devpts /dev/pts
+[ ! -f /proc/version ] && mount -t proc virtual-proc-filesystem /proc
+#
+#	Check the memory. If less than 256 Mb issue a warning.
+#
+set -- `cat /proc/meminfo | head -2 | tail -1`
+if [ ${#2} -lt 10 ]
+then
+	let MEM="$2/1024/1024"
+	if [ $MEM -lt 256 ]; then
+		echo "A total of 256 MB ram is recommended for installation."
+		echo "currently are only $MEM MB ram installed"
+	fi
+fi
 #
 #	Konfiguring the network
 #
