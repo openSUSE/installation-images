@@ -1,3 +1,6 @@
+27/2/2004:	v5.16
+	- bk: s390 fixes
+
 25/2/2003:	v5.15
 	- add gen/module.files.autoload for ppc initrds
 

@@ -38,25 +38,24 @@ if arch eq 's390' || arch eq 's390x'
     /sbin
 
   aaa_base: prein,postin
-  e prein
+#  e prein
     # wie geht das jetzt??
     #/etc/init.d/network
     #/etc/init.d/route
     # for ssh key generation?
     /etc/init.d/random
-    /etc/ld.so.conf
     /etc/rc.status
-    /root
+#    /root
     /sbin/get_kernel_version
-    /var/adm/fillup-templates
-  e postin
-  r /var/adm/fillup-templates
-  r /root/.exrc
-  r /root/.xinitrc
+#    /var/adm/fillup-templates
+#  e postin
+#  r /var/adm/fillup-templates
+#  r /root/.exrc
+#  r /root/.xinitrc
   filesystem:
     /
   glibc:
-    /etc/nscd.conf
+    /etc/ld.so.conf
     /etc/rpc
     /lib*/ld*.so*
     /lib*/ld[-.]*.so
@@ -64,16 +63,13 @@ if arch eq 's390' || arch eq 's390x'
     /lib*/libcrypt.so.*
     /lib*/libdl.so.*
     /lib*/libnsl.so.*
-    /lib*/libnss_compat.so.*
     /lib*/libnss_dns.so.*
     /lib*/libnss_files.so.*
-    /lib*/libnss_hesiod.so.*
-    /lib*/libnss_nis.so.*
-    /lib*/libnss_nisplus.so.*
     /lib*/libpthread.so.*
     /lib*/libresolv.so.*
     /lib*/librt.so.*
     /lib*/libutil.so.*
+
   sed:
     /bin/sed
   tar:
@@ -90,30 +86,18 @@ if arch eq 's390' || arch eq 's390x'
     /lib*/libxcrypt.so*
   cracklib:
     /usr/lib*/libcrack.so*
-  gdbm:
-    /usr/lib*/libgdbm.so*
   libattr:
     /lib*/libattr.so.*
   libacl:
     /lib*/libacl.so.*
-  popt:
-    /usr/lib*/libpopt.so*
   samba-client:
-    m /usr/lib*/samba/classic/smbmount /bin/smbmount
-    m /usr/lib*/samba/classic/smbmnt /bin/smbmnt
-    # to make mount(8) -t smbfs work:
+    m /usr/bin/smbmount /bin/smbmount
+    m /usr/bin/smbmnt   /bin/smbmnt
+    # to make mount -t smbfs work:
     l /bin/smbmount  /sbin/mount.smbfs
-    # /lib*/libnss_wins.so?
     /etc/samba/smb.conf
-    /usr/share/samba/codepages/codepage.850
-    /usr/share/samba/codepages/unicode_map.850
-    /usr/share/samba/codepages/unicode_map.ISO8859-1
-    /usr/share/samba/codepages/unicode_map.ISO8859-15
-  cups-libs:
-    /usr/lib*/libcups.so.*
-  kernel-s390:
-    /lib*/modules
   <kernel_rpm>:
+    /lib*/modules
     m /boot/System.map-* /System.map
   e2fsprogs:
     /lib*/libblkid.so*
@@ -182,8 +166,9 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/modprobe{,.old}
     /sbin/ksyms
     /sbin/kallsyms
-  lukemftp:
-    /usr/bin/ftp
+# lukemftp is not in neededforbuild, it's just nice to have, not needed:
+#  lukemftp:
+#    /usr/bin/ftp
   net-tools:
     /bin/hostname
     /sbin/ifconfig
@@ -210,11 +195,13 @@ if arch eq 's390' || arch eq 's390x'
     /etc
     /lib*
     /sbin
-
     # don't use cracklib
     c 755 0 0 /etc/security
     R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
-
+  libselinux:
+    /lib*/libselinux.so.*
+  resmgr:
+    /lib*/libresmgr.so.*
   zlib:
     /lib*/libz.so*
   pwdutils:
@@ -229,8 +216,9 @@ if arch eq 's390' || arch eq 's390x'
   iputils:
     /bin/ping
     /bin/ping6
-    /usr/sbin/tracepath
-    /usr/sbin/tracepath6
+# We've traceroute, we don't need tracepath(also not part of iputils anymore)
+#    /usr/sbin/tracepath
+#    /usr/sbin/tracepath6
   portmap:
     /etc/init.d/portmap
     /sbin/portmap
@@ -500,7 +488,7 @@ if with_smb
     d bin lib
 
     samba-client:
-      m /usr/lib*/samba/classic/smbmount /bin/smbmount
+      m /usr/bin/smbmount /bin/smbmount
 
     glibc:
       /lib*/ld-linux*.so.2
