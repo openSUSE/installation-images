@@ -1,8 +1,10 @@
-6/8/2002:	v2.31
+6/8/2002:	v2.32
+	- added locale libs (#17161)
+
+5/8/2002:	v2.31
 	- s390: fix remaining lib64 problems
 	- s390x is not s390 in etc/config any more
 	- s390: add etc/zfcp.conf
-	- added locale libs (#17161)
 
 05/8/2002:	v2.30
 	- s390: added load from CD-rom or server helper files
