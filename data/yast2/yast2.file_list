@@ -304,7 +304,8 @@ else
 endif
 
 textutil:
-  /usr/bin/{cat,cut,head,md5sum,tail,tr,uniq,wc}
+  /bin/cat
+  /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc}
 ifenv suse_major_release 6
   /usr/bin/sort
 else
