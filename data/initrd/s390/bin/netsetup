@@ -441,7 +441,7 @@ function activate_config() {
                         if [ "$NETSELECT" != iucv ]; then
 			    for i in 6 3 4 5 4 4 3 2
 			    do
-				if dmesg | grep -q "$IP_DEV: connected with remote side"; then
+				if dmesg | tail | grep -q "$IP_DEV: connected with remote side"; then
 					break
 				fi
 				echo "Waiting $i seconds for connection with remote side."
@@ -479,76 +479,59 @@ function activate_config() {
 	    echo "Installation. To disable DNS enter: \"nodns\"."
 	fi
     fi
-    generate_installinf >$INSTALLINF
+    generate_yast_info >$YAST_INFO
+    generate_linuxrc_info >$LINUXRC_INFO
 }
 
-generate_installinf () {
 
-# the following lines are not needed in install.inf
-#Display: Color
-#Keytable: de-lat1-nd
-#Bootmode: CD
-#Cdrom: /dev/hda
+generate_linuxrc_info () {
+
+#Bootmode: Net
 #Server:  10.10.0.10
 #Serverdir: /work/CDs/full-i386
 
     echo "\
 Language: english
+Display: Color
+Keytable: de-lat1-nd
 Bootmode: Net
 Sourcemounted: 0
 Netdevice: $IP_DEV
 IP: $IP_ADDR
-MTU: $IP_MTU"
+"
+    if [ "$IP_DNS" ]; then      echo "Nameserver: $IP_DNS";       fi
+    if [ "$NFS_SERVER" ]; then  echo "Server: $NFS_SERVER";       fi
+    if [ "$NFS_SERVER_DIR" ]; then echo "Serverdir: $NFS_SERVER_DIR"; fi
     case "$NETSELECT" in
-	tr|eth|geth|c7000)
-	    echo "Netmask: $IP_NETMASK"
-	    echo "Broadcast: $IP_BROADCAST"
-	    ;;
-	ctc|escon|iucv)
-	    echo "Pointopoint: $IP_PEER"
-	    ;;
-	*)
-	    echo "Something went wrong with $NETSELECT..." >&2
+	tr|eth|geth|c7000)      echo "Netmask: $IP_NETMASK"
+			        echo "Broadcast: $IP_BROADCAST"   ;;
+	ctc|escon|iucv)	        echo "Pointopoint: $IP_PEER"      ;;
+	*)         	        echo "Something went wrong with $NETSELECT..." >&2
     esac
-    if [ "$IP_GATEWAY" ]; then
-	echo "Gateway: $IP_GATEWAY"
-    fi
-    if [ "$CHAN" ]; then
-      echo "options installation_chandev: $CHAN"
-    fi
-    if [ "$NETSELECT" = tr -o "$NETSELECT" = eth ]; then
-      echo "alias $IP_DEV lcs"
-      echo "options lcs $PARM"
-    fi
-    if [ "$NETSELECT" = "geth" ]; then
-      echo "alias $IP_DEV qeth"
-      echo "options qeth $PARM"
-    fi
-    if [ "$NETSELECT" = "ctc" -o "$NETSELECT" = "escon" ]; then
-      echo "alias $IP_DEV ctc"
-      echo "options ctc $PARM"
-    fi
-    if [ "$NETSELECT" = "c7000" ]; then
-      echo "alias $IP_DEV c7000"
-      echo "options c7000 $PARM"
-    fi
-    if [ "$NETSELECT" = "iucv" ]; then
-      echo "alias $IP_DEV netiucv"
-      echo "$IUCV_OPTIONS" |
-	sed "s/iucv=\(.*\)/options netiucv iucv='\`echo \1\`'/g"
-    fi
-    if [ "$IP_HOST" ]; then
-      echo "Machinename: $IP_HOST"
-    fi
-    if [ "$IP_DNS" ]; then
-      echo "Nameserver: $IP_DNS"
-    fi
-    if [ "$NFS_SERVER" ]; then
-      echo "Server: $NFS_SERVER"
-    fi
-    if [ "$NFS_SERVER_DIR" ]; then
-      echo "Serverdir: $NFS_SERVER_DIR"
-    fi
+    if [ "$IP_GATEWAY" ]; then	echo "Gateway: $IP_GATEWAY";      fi
+}
+
+generate_yast_info () {
+
+    echo "\
+Bootmode: Net
+Sourcemounted: 0
+MTU: $IP_MTU"
+    if [ "$CHAN" ]; then	    echo "Chandev: $CHAN";      fi
+    case "$NETSELECT" in   tr|eth)  echo "alias $IP_DEV lcs"
+				    echo "options lcs $PARM"    ;;
+			   geth)    echo "alias $IP_DEV qeth"
+				    echo "options qeth $PARM"   ;;
+			   ctc|escon)
+				    echo "alias $IP_DEV ctc"
+				    echo "options ctc $PARM"    ;;
+			   c7000)   echo "alias $IP_DEV c7000"
+				    echo "options c7000 $PARM"  ;;
+			   iucv)    echo "alias $IP_DEV netiucv"
+				    echo "$PARM" |
+					sed "s/iucv=\(.*\)/options netiucv iucv='\`echo \1\`'/g";;
+    esac
+    if [ "$IP_HOST" ]; then         echo "Machinename: $IP_HOST"; fi
 }
 
 #
@@ -969,7 +952,6 @@ function load_IUCV () {
     echo "Please enter the name(userid) of the target VM guest here."
     echo "In VIF this is normally \$TCPIP, in VM normally TCPIP."
     echo ""
-    echo "netiucv options:"
     readln "The name of the peer guest, e.g. 'TCPIP' ($PEER): "
     if [ "$ANSW" ]; then export PEER=$ANSW; fi
     if [ "$PEER" ]; then PARM="iucv='$PEER'"; fi
@@ -1115,9 +1097,13 @@ fi
 #set -vx
 : ${LINUXRC_DEBUG=no}
 
-if [ "$LINUXRC_DEBUG" = "no" ]
-then INSTALLINF="/etc/install.inf"
-else INSTALLINF="./install.inf"
+if [ "$LINUXRC_DEBUG" = "yes" ]
+then
+    YAST_INFO="/etc/netsetup.inf"
+    LINUXRC_INFO="/info"
+else
+    YAST_INFO="./netsetup.inf"
+    LINUXRC_INFO="./info"
 fi
 
 if [ "$LINUXRC_DEBUG" = "no" ]; then
