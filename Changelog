@@ -1,3 +1,4 @@
+	- add usb and firewire to old pmac initrds, remove xfs and jfs from coff initrd
 	- s390: do not delete modules.dep and friends
 	- add /etc/sysconfig, /etc/sysconfig/hardware to initrd
 	- s390: add missing libnss*, basename, modprobe to initrd

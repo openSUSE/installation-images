@@ -79,14 +79,20 @@ endif
 if initrd eq 'initrd_ppc_pmac_miboot'
   include gen/module.files.autoload
   include gen/module.files.ppc_pmac_miboot
+  include gen/module.files.usb
+  include gen/module.files.firewire
   A gen/module.config.autoload modules/module.config
   A gen/module.config.ppc_pmac_miboot modules/module.config
+  A gen/module.config.usb modules/module.config
+  A gen/module.config.firewire modules/module.config
 endif
 if initrd eq 'initrd_ppc_pmac_coff'
   include gen/module.files.autoload
   include gen/module.files.ppc_pmac_coff
+  include gen/module.files.firewire
   A gen/module.config.autoload modules/module.config
   A gen/module.config.ppc_pmac_coff modules/module.config
+  A gen/module.config.firewire modules/module.config
 endif
 if initrd eq 'initrd_ppc_chrp'
   include gen/module.files.autoload
