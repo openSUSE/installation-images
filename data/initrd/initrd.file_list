@@ -23,6 +23,7 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
   include gen/module.files.autoload
   if !nousb
     include gen/module.files.usb
+    include gen/module.files.firewire
   endif
 
   # note: order _does_ matter
@@ -33,10 +34,11 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
   A gen/module.shortconfig.pcmcia modules/module.config
   if nousb
     A gen/module.shortconfig.usb modules/module.config
+    A gen/module.shortconfig.firewire modules/module.config
   else
     A gen/module.config.usb modules/module.config
+    A gen/module.config.firewire modules/module.config
   endif
-  A gen/module.shortconfig.firewire modules/module.config
   A gen/module.shortconfig.fs modules/module.config
   A gen/module.config.other modules/module.config
 
