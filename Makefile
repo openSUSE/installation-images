@@ -64,6 +64,8 @@ install_xx: initrd
 	bin/mk_install_xx
 
 root: dirs base
+	# just for now
+	root_i18n=1 root_gfx=1 \
 	YAST_IS_RUNNING=1 bin/mk_root
 
 liveeval: dirs base

@@ -374,12 +374,8 @@ endif
   m /usr/share/kbd/consoletrans/trivial kbd/consoletrans
 
   d kbd/consolefonts
-  g /usr/share/kbd/consolefonts/lat1-16.psfu.gz kbd/consolefonts/lat1-16.psfu
+  g /usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz kbd/consolefonts/LatArCyrHeb-16.psfu
 if arch ne 'sparc' && arch ne 'sparc64'
-  g /usr/share/kbd/consolefonts/lat2-16.psfu.gz kbd/consolefonts/lat2-16.psfu
-  g /usr/share/kbd/consolefonts/iso07u-16.psfu.gz kbd/consolefonts/lat7-16.psfu
-  g /usr/share/kbd/consolefonts/Cyr_a8x16.psfu.gz kbd/consolefonts/Cyr_a8x16.psfu
-
   d kbd/keymaps/include
   m usr/share/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
 endif
@@ -536,8 +532,8 @@ if with_gdb
     /lib*/libthread_db.so*
 
   readline:
-    /lib*/libreadline.so.4*
-    /lib*/libhistory.so.4*
+    /lib*/libreadline.so*
+    /lib*/libhistory.so*
 
   ncurses:
     /lib*/libncurses.so.5*

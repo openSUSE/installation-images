@@ -523,7 +523,6 @@ if arch ne 'sparc'
     f / ext3.ko
     f / hpfs.ko
     f / xfs.ko
-    f / xfs_quota.ko
     endif
 
 
@@ -535,10 +534,8 @@ if arch ne 'sparc'
     f / raid6.ko
     f / xor.ko
     f / dm-crypt.ko
-    f / dm-flakey.ko
     f / dm-mirror.ko
     f / dm-mod.ko
-    f / dm-multipath.ko
     f / dm-snapshot.ko
     f / dm-zero.ko
 

@@ -29,7 +29,7 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
   A gen/module.shortconfig.scsi@2 modules/module.config
-  A gen/module.shortconfig.cdrom modules/module.config
+#  A gen/module.shortconfig.cdrom modules/module.config
   A gen/module.shortconfig.net modules/module.config
   A gen/module.shortconfig.pcmcia modules/module.config
   if nousb
@@ -56,7 +56,7 @@ elsif (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'medium'
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
   A gen/module.shortconfig.scsi@2 modules/module.config
-  A gen/module.shortconfig.cdrom modules/module.config
+#  A gen/module.shortconfig.cdrom modules/module.config
   A gen/module.shortconfig.net modules/module.config
   A gen/module.shortconfig.pcmcia modules/module.config
   A gen/module.config.usb modules/module.config
@@ -116,7 +116,7 @@ else
   # all other archs with no restrictions to initrd size
 
   include gen/module.files.autoload
-  include gen/module.files.cdrom
+#  include gen/module.files.cdrom
   include gen/module.files.firewire
   include gen/module.files.fs
   include gen/module.files.net
@@ -134,7 +134,7 @@ else
   A gen/module.config.autoload modules/module.config
   A gen/module.config.scsi modules/module.config
   A gen/module.config.scsi@2 modules/module.config
-  A gen/module.config.cdrom modules/module.config
+#  A gen/module.config.cdrom modules/module.config
   A gen/module.config.net modules/module.config
   A gen/module.config.pcmcia modules/module.config
   A gen/module.config.usb modules/module.config

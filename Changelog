@@ -1,8 +1,12 @@
+6/8/2004:	v6.1
 	- set root_i18n & root_gfx env vars to include them to the inst-sys
 	- add machbunt.file_list and rooti18n.file_list
 	  to split the inst-sys into smaller parts for
 	  small memory configurations
 	- s390: eliminate invalid check for qeth data channel (bug #42538)
+	- new modules
+	- dropped legacy cdrom modules
+	- moved to utf8 for linuxrc
 
 6/7/2004:	v6.0
 	- fvwmrc.notitle now fvwmrc.yast2, taken from sax2.rpm (#36488)

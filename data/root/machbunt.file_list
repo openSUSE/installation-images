@@ -100,7 +100,7 @@ if with_yast2 ne 'no'
   endif
 
   xorg-x11-libs:
-    /usr/X11R6/lib*/libX{11,ext,mu,muu,i,t,render,pm,randr,cursor,p,tst,inerama,xf86vm}.so*
+    /usr/X11R6/lib*/libX{11,ext,mu,muu,i,t,render,pm,randr,cursor,p,tst,inerama,xf86vm,xf86dga,xf86misc}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/libXft.so.2*
     /usr/X11R6/lib*/libxkbfile.so.*

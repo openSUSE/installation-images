@@ -53,8 +53,8 @@ bash:
 s bash /bin/sh
 
 readline:
-  /lib*/libreadline.so.4*
-  /lib*/libhistory.so.4*
+  /lib*/libreadline.so.*
+  /lib*/libhistory.so.*
 
 coreutils:
   /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
@@ -85,8 +85,7 @@ hwinfo:
   /usr/sbin
 
 udev:
-  /etc/udev/udev.conf
-  /etc/udev/udev.rules
+  /etc/udev
   /sbin/udev
   /sbin/raiddetect
 #  /sbin/udev.*.sh
