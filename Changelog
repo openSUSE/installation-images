@@ -1,3 +1,6 @@
+19/1/2001:	v1.37
+	- extended *file_list syntax
+
 18/1/2001:	v1.36
 	- syslogd logs to /dev/null if tty4 is not a console
 

@@ -335,6 +335,26 @@ sub AddFiles
       SUSystem "sh -c \"cp -a $tdir/$1 $dir/$2\"" and
         print "$Script: $1 not copied to $2 (ignored)\n";
     }
+    elsif(/^f\s+(\S+)\s+(\S+)\s+(\S+)$/) {
+      my ($l, @l, $src, $name, $dst);
+
+      $src = $1;
+      $name = $2;
+      $dst = $3;
+      $src =~ s#^/*##;
+      SUSystem "sh -c \"cd $tdir ; find $src -type f -name '$name'\" >$tfile";
+
+      open F1, "$tfile";
+      @l = (<F1>);
+      close F1;
+      SUSystem "rm -f $tfile";
+      chomp @l;
+
+      for $l (@l) {
+        SUSystem "sh -c \"cp -a $tdir/$l $dir/$dst\"" and
+          print "$Script: $l not copied to $dst (ignored)\n";
+      }
+    }
     elsif(/^p\s+(\S+)$/) {
       SUSystem "patch -d $dir -p0 --no-backup-if-mismatch <$ext_dir/$1 >/dev/null" and
         warn "$Script: failed to apply patch $1";
