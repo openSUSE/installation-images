@@ -630,6 +630,24 @@ syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 
+if pre_release
+  # will not appear in final release
+  openssh:
+    /etc/pam.d/sshd
+    /etc/ssh
+  #  /etc/ssh/primes
+  #  /etc/ssh/ssh_config
+  #  /etc/ssh/sshd_config
+    /usr/bin/scp
+    /usr/bin/ssh
+    /usr/sbin/sshd
+
+  pam:
+    /etc/pam.d/other
+    /lib/security
+    /lib/libpam.so.*
+endif
+
 if arch eq 'ppc'
   parted:
     /usr/sbin/parted
