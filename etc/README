@@ -1,14 +1,14 @@
-Creating SUSE LINUX 9.1 Boot Disks
+Creating SUSE LINUX 9.2 Boot Disks
 ==================================
 
-Due to increasing kernel size, there are now three boot disks.
+The boot files are split across five floppy disks.
 
 You can create the boot disks if you have access to a running Linux
 box or a running DOS box.
 
-Under DOS, write bootdsk1, bootdsk2 and bootdsk3 to formatted (i.e.,
-error-free) 1.44MB-floppies using CD1:/dosutils/rawrite/rawrite.exe. For
-Windows systems, there is CD1:/dosutils/rawwritewin/rawwritewin.exe.
+Under DOS, write bootdsk1-bootdsk5 to formatted (i.e., error-free)
+1.44MB-floppies using CD1:/dosutils/rawrite/rawrite.exe. For Windows
+systems, there is CD1:/dosutils/rawwritewin/rawwritewin.exe.
 
 With Linux, use commands like:
 
@@ -18,46 +18,9 @@ With Linux, use commands like:
 
   dd if=bootdsk1 of=/dev/fd0u1440
 
-  # insert second boot floppy, then run:
+and repeat that with bootdsk2-bootdsk5.
 
-  dd if=bootdsk2 of=/dev/fd0u1440
-
-  # insert third boot floppy, then run:
-
-  dd if=bootdsk3 of=/dev/fd0u1440
-
-Now you have three boot disks. Start your computer using the first disk.
-
-
-Creating Modules Disks
-======================
-
-Only a few modules fit on the boot disk. Therefore, five modules floppies
-exist. If you do not find the driver for your hardware on the normal disk,
-just insert the appropriate modules disk as soon as linuxrc asks for it.
-
-Choose one of the modules disk images in this directory according to the
-list below.
-
-Under Windows or DOS, use rawrite as descibed in 'Creating Boot Disks'. Under
-Linux, use a command like
-
-  cd /where_CD1_is_mounted/boot
-  dd if=modules1 of=/dev/fd0u1440
-
-Replace 'modules1' with the name of the desired image.
-
-modules1:  USB and FireWire (IEEE1394) modules
-
-modules2:  IDE/RAID/SCSI modules
-
-modules3:  Network modules
-
-modules4:  PCMCIA and file system modules
-
-modules5:  More IDE/RAID/SCSI modules
-
-See modules[12345].txt for a detailed listing.
+Now you have five boot disks. Start your computer using the first disk.
 
 
 

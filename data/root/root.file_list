@@ -655,4 +655,5 @@ e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 e cp -a /usr/lib/cracklib_dict.* usr/lib
 
 # x usr/bin/conservative_lndir usr/bin
+s fvwmrc.yast2 /usr/X11R6/share/fvwm/fvwmrc.notitle
 
