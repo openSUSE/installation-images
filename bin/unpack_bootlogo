@@ -33,7 +33,7 @@ sub unpack_bootlogo
   print P "$_\n" for grep $_, @files;
   close P;
 
-  system "mv $tmp/$_ $dir" for @ext;
+  system "chmod -t $tmp/$_ ; mv $tmp/$_ $dir" for @ext;
 
   system "rm -rf $tmp";
 

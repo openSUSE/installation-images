@@ -34,6 +34,9 @@ kbd:
 # x /usr/bin/setfont /bin
 endif
 
+  yast2-trans-stats:
+    /
+
   yast2-trans-bg:
     /
   yast2-trans-bn:

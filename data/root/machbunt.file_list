@@ -83,7 +83,7 @@ if with_yast2 ne 'no'
   fontconfig:
     /etc/fonts/*.conf
     /usr/lib*/libfontconfig.so.*
-    /usr/bin/fc-cache
+    /usr/bin/fc-{cache,list,match}
 
   xorg-x11-Mesa:
     /usr/lib*/libGL.so.*
@@ -272,8 +272,8 @@ utempter:
 freefont:
   /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
 
-fonts-bangla:
-  /usr/X11R6/lib/X11/fonts/truetype/MuktiNarrow.ttf
+indic-fonts:
+  /usr/X11R6/lib/X11/fonts/truetype/indic/Bengali_MuktiNarrow.ttf
 
 fonts-arabic:
   /usr/X11R6/lib/X11/fonts/truetype/KacstBook.ttf
