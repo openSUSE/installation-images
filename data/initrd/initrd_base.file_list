@@ -361,17 +361,21 @@ if arch ne 's390' && arch ne 's390x'
 kbd:
 
   d kbd/consoletrans
+if arch ne 'sparc' && arch ne 'sparc64'
   m /usr/lib/kbd/consoletrans/koi2alt kbd/consoletrans
+endif
   m /usr/lib/kbd/consoletrans/trivial kbd/consoletrans
 
   d kbd/consolefonts
-  g /usr/lib/kbd/consolefonts/Cyr_a8x16.psfu.gz kbd/consolefonts/Cyr_a8x16.psfu
   g /usr/lib/kbd/consolefonts/lat1-16.psfu.gz kbd/consolefonts/lat1-16.psfu
+if arch ne 'sparc' && arch ne 'sparc64'
   g /usr/lib/kbd/consolefonts/lat2-16.psfu.gz kbd/consolefonts/lat2-16.psfu
   g /usr/lib/kbd/consolefonts/lat7-16.psfu.gz kbd/consolefonts/lat7-16.psfu
+  g /usr/lib/kbd/consolefonts/Cyr_a8x16.psfu.gz kbd/consolefonts/Cyr_a8x16.psfu
 
   d kbd/keymaps/include
   m usr/lib/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
+endif
 
 if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64'
   g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz kbd/keymaps/Pl02.map
@@ -421,10 +425,8 @@ if arch eq 'ppc'
 endif
 
 if arch eq 'sparc' || arch eq 'sparc64'
+  d kbd/keymaps
   g /usr/lib/kbd/keymaps/sun/sunkeymap.map.gz kbd/keymaps/sunkeymap.map
-  g /usr/lib/kbd/keymaps/sun/sundvorak.map.gz kbd/keymaps/sundvorak.map
-  g /usr/lib/kbd/keymaps/sun/sun-pl-altgraph.map.gz kbd/keymaps/sun-pl-altgraph.map
-  g /usr/lib/kbd/keymaps/sun/sun-pl.map.gz kbd/keymaps/sun-pl.map
   g /usr/lib/kbd/keymaps/sun/sunt4-es.map.gz kbd/keymaps/sunt4-es.map
   g /usr/lib/kbd/keymaps/sun/sunt4-fi-latin1.map.gz kbd/keymaps/sunt4-fi-latin1.map
   g /usr/lib/kbd/keymaps/sun/sunt4-no-latin1.map.gz kbd/keymaps/sunt4-no-latin1.map

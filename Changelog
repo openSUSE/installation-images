@@ -1,3 +1,8 @@
+19/10/2001:	v1.103
+	- add 15bit to the fbdev section, needed on old pmacs (#11788)
+	- remove unused files from initrd for 32bit SPARC
+	- no YaST1 for SPARC
+
 25/9/2001:	v1.102
 	- move smbmunt/smbmnt to /bin, so linuxrc can find it
 

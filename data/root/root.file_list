@@ -594,12 +594,15 @@ lvm:
   /sbin/pv* 
   /sbin/vg*
 
-if with_yast1 ne 'no'
   yast:
+if with_yast1 ne 'no'
   r /sbin/yast
   m /sbin/YaST /sbin/yast
   s /sbin/yast /sbin/YaST
     /usr/lib/YaST
+else
+    /usr/lib/YaST/fdisk
+endif
   s /usr/lib/YaST/fdisk /sbin/fdisk
   d /var/adm/YaST
   d /var/adm/backup/rpmdb
@@ -616,7 +619,6 @@ if with_yast1 ne 'no'
   d /mnt
   d /proc
   d /tmp
-endif
 
 reiserfs:
   /sbin
