@@ -1,0 +1,17 @@
+#! /bin/sh
+
+yast="$1"
+shift
+
+exec 2>&1
+stty sane
+echo -en \\033c
+
+if [ "$yast" = yast1 ] ; then
+  /sbin/yast "$@"
+fi
+
+if [ "$yast" = yast2 ] ; then
+  /usr/lib/YaST2/bin/YaST2.start "$@"
+fi
+
