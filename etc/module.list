@@ -54,3 +54,5 @@ kernel/net/packet/
 # for pcilynx
 kernel/drivers/i2c/i2c-core.o
 kernel/drivers/i2c/i2c-algo-bit.o
+kernel/lib/zlib_deflate/zlib_deflate.o
+kernel/lib/qsort.o

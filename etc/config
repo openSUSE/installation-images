@@ -33,35 +33,35 @@ product	= SuSE Linux
 update	= /linux/suse/<arch>-<rel>
 
 
-[Theme UnitedLinux]
-yast	= UnitedLinux
-splash	= UnitedLinux
-product	= UnitedLinux
-update	= /linux/UnitedLinux/<arch>-<ul>
-image	= 96
+; [Theme UnitedLinux]
+; yast	= UnitedLinux
+; splash	= UnitedLinux
+; product	= UnitedLinux
+; update	= /linux/UnitedLinux/<arch>-<ul>
+; image	= 96
 
 
-[Theme SuSE-SLES]
-yast	= SuSELinux
-splash	= SuSE-SLES
-product	= SuSE Linux
-update	= /linux/suse/<arch>-<sles>
-image	= 96
+; [Theme SuSE-SLES]
+; yast	= SuSELinux
+; splash	= SuSE-SLES
+; product	= SuSE Linux
+; update	= /linux/suse/<arch>-<sles>
+; image	= 96
 
 
-[Theme UL-SLES]
-yast	= SuSELinux
-splash	= SuSE-SLES
-product	= SuSE Linux
-update	= /linux/UnitedLinux/<arch>-<ul>
-image	= 96
+; [Theme UL-SLES]
+; yast	= SuSELinux
+; splash	= SuSE-SLES
+; product	= SuSE Linux
+; update	= /linux/UnitedLinux/<arch>-<ul>
+; image	= 96
 
 
-[Theme OpenXchange]
-yast	= SuSELinux
-splash	= OpenXchange
-product	= SuSE Linux
-update	= /linux/UnitedLinux/<arch>-<ul>
-image	= 96
+; [Theme OpenXchange]
+; yast	= SuSELinux
+; splash	= OpenXchange
+; product	= SuSE Linux
+; update	= /linux/UnitedLinux/<arch>-<ul>
+; image	= 96
 
 

@@ -1,3 +1,4 @@
+
 #
 # the 'root' system
 #
@@ -347,7 +348,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/modules/drivers
   # video4linux stuff
   r /usr/X11R6/lib*/modules/drivers/linux
-    /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.a
+    /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod,freetype}.a
   if arch ne 'ia64' && arch ne 'x86_64'
     /usr/X11R6/lib*/modules/extensions/libdri.a
   endif
@@ -387,6 +388,8 @@ if with_yast2 ne 'no'
     /etc/X11/xkb
     s /etc/X11/xkb /usr/X11R6/lib/X11
     /usr/X11R6/bin/xkbcomp
+    /usr/X11R6/bin/mkfontdir
+    /usr/X11R6/bin/fc-cache
     /usr/X11R6/lib/X11/locale
     /etc/X11/xserver
   r /etc/X11/xserver/C
@@ -396,8 +399,10 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib/X11/fonts/misc/cursor.pcf.gz
     # 'fixed' font
     /usr/X11R6/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz
+    m /usr/X11R6/lib/X11/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/X11R6/lib/X11/fonts/misc
 
-#  x /usr/X11R6/lib/X11/fonts/misc/fonts.alias /usr/X11R6/lib/X11/fonts/misc
+    /usr/X11R6/lib/X11/fonts/misc/fonts.scale
+
   x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
 
   /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
@@ -543,6 +548,13 @@ if with_yast2 ne 'no'
   gpart:
     /usr/bin
 
+  ghostscript-fonts-std:
+    /usr/X11R6/lib/X11/fonts/URW
+    /usr/share/ghostscript/fonts/fonts.scale
+    /usr/share/ghostscript/fonts/n019003l.pfb
+    /usr/share/ghostscript/fonts/n019004l.pfb
+    /usr/share/ghostscript/fonts/n019024l.pfb
+
 endif
 
 
@@ -580,10 +592,19 @@ liblcms:
 if with_yast2 ne 'no'
   qt3:
     /etc/X11/qtrc
-    /usr/lib*/qt3
+    /usr/lib/qt3/bin/qtconfig
+    /usr/lib/qt3
     /usr/lib*/libqt*.so.3
-    /usr/lib*/qt3/lib*/libqt*.so*
-    E echo -e "[General]\nenableXft=false\nuseXft=false\nstyle=Platinum" >/etc/X11/qtrc
+    /usr/lib/qt3/lib*/libqt*.so*
+#    E echo -e "[General]\nenableXft=false\nuseXft=false\nstyle=Platinum" >/etc/X11/qtrc
+
+  kdebase3-SuSE:
+    /opt/kde3/share/config/SuSE/default/qtrc
+
+  kdelibs3:
+    /opt/kde3/lib*/kde3/plugins/styles/keramik.so
+    /opt/kde3/lib*/libkdefx.so*
+
 endif
 
 # remove these:
@@ -782,11 +803,6 @@ shadow:
   /etc/pam.d/shadow
   /usr/sbin/chpasswd
 
-if with_yast2 ne 'no'
-  # make fonts.dir
-  e mkfontdir usr/X11R6/lib/X11/fonts/misc
-endif
-
 if arch eq 'ia64'
   fpswa:
     /sbin/fpswa_check_version
@@ -794,16 +810,30 @@ endif
 
 c 644 0 0 /etc/shadow
 
+perl:
+  /
+
+gdbm:
+  /usr/lib*/libgdbm.so.*
+  /usr/lib*/libgdbm_compat.so.*
+
+xf86tools:
+  /usr/sbin/fonts-config
+  /usr/X11R6/lib/X11/XftConfig
+
+if with_yast2 ne 'no'
+  e mkfontdir usr/X11R6/lib/X11/fonts/misc
+  e mkfontdir usr/share/ghostscript/fonts
+endif
+
+r /usr/X11R6/bin/mkfontdir
+r /usr/X11R6/bin/fc-cache
+
 x /usr/lib/YaST/.Reh /usr/lib/YaST2
 x etc/inst_setup /sbin/inst_setup
 x etc/create_interface /sbin/create_interface
 c 755 0 0 /sbin/inst_setup
 c 755 0 0 /sbin/create_interface
-
-## add link to initrd modules
-## check mk_root before you're going to change this!!!
-#d /lib/modules/<kernel_ver>/initrd
-#e /bin/ln -s /modules/*.o /lib/modules/<kernel_ver>/initrd
 
 # run depmod
 E /sbin/depmod -a -F /System.map <kernel_ver>
@@ -823,3 +853,4 @@ x usr/bin/conservative_lndir usr/bin
 if arch eq 'ppc'
 x usr/bin/ppc_post_install.sh usr/bin
 endif
+
