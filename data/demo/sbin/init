@@ -646,13 +646,17 @@ fi
 
 cp /proc/mounts /etc/mtab
 
-if [ "$Braille" -a -x /etc/rc.d/suse-blinux ] ; then
+if [ "$Braille" -a -x /etc/init.d/suse-blinux ] ; then
   if [ "$braille_running" ] ; then
     /etc/rc.d/suse-blinux stop
     braille_running=
   fi
 else
   chkconfig suse-blinux off
+fi
+
+if [ -x /etc/init.d/canna ] ; then
+  grep -q -i 'RC_LANG="ja_jp' /etc/sysconfig/language || chkconfig canna off
 fi
 
 deb_stop
