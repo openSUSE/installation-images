@@ -141,12 +141,18 @@ export XCURSOR_THEME=crystalwhite
 rm -f /etc/fstab
 
 # start shell, useful on iSeries or via serial console
-grep -qwi start_shell /proc/cmdline && {
+rm -f /.start_shell
+grep -qwi start_shell /proc/cmdline && echo 42 > /.start_shell
+function start_shell() {
 echo 
 echo "ATTENTION"
 echo "Starting shell... (use 'exit' to proceed)"
 bash --init-file /root/.bash_login
 }
+
+if [ -f /.start_shell ] ; then
+	start_shell
+fi
 
 # anounce VNC via slpd
 if grep -qi "^VNC:.*1" /etc/install.inf ; then
@@ -187,12 +193,9 @@ echo "starting $yast..."
 fi
 
 # start shell, useful on iSeries or via serial console
-grep -qwi start_shell /proc/cmdline && {
-echo
-echo "ATTENTION"
-echo "Starting shell... (use 'exit' to proceed)"
-bash --init-file /root/.bash_login
-}
+if [ -f /.start_shell ] ; then
+	start_shell
+fi
 
 test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
 # still needed?
@@ -214,5 +217,6 @@ do
 done
 
 rm -f /etc/modules.conf
+rm -f /.start_shell
 
 exit $ec

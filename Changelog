@@ -3,6 +3,8 @@
 	- add vga_drv.o to inst-sys only for i386, x86_64 and ia64 (#39767)
 	- use real install file for pmac64
 	- set system time to inst-sys built time, for gpg key. part of (#28688)
+	- start a shell if /.start_shell exists, instead of just grepping
+	  in /proc/cmdline. gives yast a chance to touch this file after a crash (#33087)
 
 30/4/2004:	v5.47
 	- put boot files for ppc on CD1
