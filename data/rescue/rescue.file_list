@@ -135,6 +135,9 @@ c 0755 0 0 /usr/bin/lessclose.sh
 libz:
   /lib/libz.so*
 
+bzip:
+  /usr/lib/libbz2.so*	
+
 if arch eq 'ia32' || arch eq 'ppc'
   lilo:
     /boot
@@ -315,7 +318,11 @@ if arch ne 'sparc'
     f / ext3.o
     f / hpfs.o
     f / loop_fish2.o
-    m /boot/System.map-* /System.map
+if arch eq 'alpha'
+    m /boot/System.map-*.default /System.map
+else
+    m /boot/System.map-*. /System.map
+endif 
 
   # run depmod
   e /sbin/depmod -a -F /System.map <kernel_ver>

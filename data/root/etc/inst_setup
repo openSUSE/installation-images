@@ -72,6 +72,8 @@ pcimapfile=/etc/modules.pcimap
 isapnpmapfile=/etc/modules.isapnpmap
 usbmapfile=/etc/modules.usbmap
 parportmapfile=/etc/modules.parportmap
+ieee1394mapfile=/etc/modules.ieee1394map
+pnpbiosmapfile=/etc/modules.pnpbiosmap
 EOF
 
 echo "integrating kernel modules of the installation system..."
@@ -137,6 +139,9 @@ esac
 # yast1 doesn't like it
 rm -f /etc/fstab
 
+# start shell, useful on iSeries or via serial console
+grep -qi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell..." ; bash ; }
+
 # now, run yast
 echo "starting yast..."
 ec=
@@ -147,6 +152,9 @@ fi
 if [ "$yast" = yast2 ] ; then
     /usr/lib/YaST2/bin/YaST2.start "$@" ; ec=$?
 fi
+
+# start shell, useful on iSeries or via serial console
+grep -qi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell..." ; bash ; }
 
 # stop sshd
 killall sshd 2>/dev/null >/dev/null

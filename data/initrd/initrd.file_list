@@ -246,14 +246,15 @@ endif	# arch eq 'ppc'
 
 if arch eq 'alpha'
 
-  a /lib/modules/<kernel_ver>/block/*.o /modules
-  a /lib/modules/<kernel_ver>/net/*.o /modules
-  a /lib/modules/<kernel_ver>/scsi/*.o /modules
+  f /lib/modules/<kernel_ver>/kernel/drivers/block *.o /modules
+  f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
+  f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
 
   # scsi
   r /modules/ide-scsi.o
   r /modules/scsi_debug.o
   r /modules/sg.o
+  r /modules/dpt_i2o.o
   r /modules/53c7,8xx.o
   r /modules/g_NCR5380.o
   r /modules/tmscsim.o

@@ -84,7 +84,11 @@ util-linux:
   /sbin/blockdev
 
 <kernel_rpm>:
-  m /boot/System.map-* /System.map
+if arch eq 'alpha'
+    m /boot/System.map-*.default /System.map
+else
+    m /boot/System.map-*. /System.map
+endif
 
 if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arch eq 's390x')
 
@@ -135,12 +139,17 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arc
   f / cpqarray.o
   f / dc395x_trm.o
   f / dmx3191d.o
+if arch eq 'alpha'
+  r /dpt_i2o.o
+  r / ips.o
+else
   f / dpt_i2o.o
+  f / ips.o
+endif
   f / eata.o
   f / fdomain.o
   f / gdth.o
   f / initio.o
-  f / ips.o
   f / megaraid.o
   f / ncr53c8xx.o
   f / pci2000.o
@@ -424,16 +433,19 @@ if with_yast2 ne 'no'
 
   xshared:
     /usr/X11R6/lib/lib{X11,Xext}.so*
-    /usr/X11R6/lib/lib{SM,ICE,Xxf86misc,Xxf86vm}.so*
+    /usr/X11R6/lib/lib{SM,ICE}.so*
     /usr/X11R6/lib/lib{Xmu,Xi,Xt,Xft,Xrender}.so*
   d /usr/X11R6/lib/{X11,modules}
+
+ XFree86-compat-libs:
+   /usr/X11R6/lib/lib{Xxf86misc,Xxf86vm}.so*
 
   mesasoft:
     /
     e /usr/X11R6/bin/switch2mesasoft || true
     r /usr/X11R6/bin/switch2mesasoft
 
-  xf86glu:
+  mesaglu:
     /usr/lib
 
   xf86:

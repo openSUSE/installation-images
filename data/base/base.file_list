@@ -107,7 +107,11 @@ splashanim:
 
 <kernel_rpm>:
   /lib/modules
+if arch eq 'alpha'
+  m /boot/System.map-*.default /System.map
+else
   m /boot/System.map-* /System.map
+endif
 
 aaa_base: prein,postin
 e prein

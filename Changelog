@@ -1,3 +1,15 @@
+26/11/2001:	v1.106
+	- added packages bzip, XFree86-compat-libs to neededforbuild
+	- modified initrd.file-list, rescue.file-list, root.file-list
+	  to adapt the changed location of some libs.
+	- make it build on Alpha again, removed some kernel modules that 
+	  still do not build on Alpha  
+	- xf86glu is mesaglu again 
+	- add "start_shell" cmdline option to inst_setup
+
+12/11/2001:	v1.105
+	- add ieee1394mapfile & pnpbiosmapfile entries to modules.conf
+
 8/11/2001:	v1.104
 	- add checkproc and klogd on ppc
 	  hides kernel messages on the iSeries telnet console
