@@ -540,14 +540,14 @@ if with_gdb
     /lib*/ld-2.*.so
     /lib*/libc.so.6*
     /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
-    /lib/libm.so.6*
+    /lib*/libm.so.6*
 
   readline:
-    /lib/libreadline.so.4*
-    /lib/libhistory.so.4*
+    /lib*/libreadline.so.4*
+    /lib*/libhistory.so.4*
 
   ncurses:
-    /lib/libncurses.so.5*
+    /lib*/libncurses.so.5*
 
   bash:
     /bin/bash

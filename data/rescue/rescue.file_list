@@ -17,6 +17,11 @@ endif
   /var
 r /var/{spool,squid,lib/YaST}
 
+sysconfig:
+  /etc
+  /sbin
+  /var
+
 aaa_base: prein,postin
 e prein
   /etc
@@ -89,6 +94,9 @@ fileutils:
   /bin
   /usr/bin
 
+dosfstools:
+  /sbin
+
 findutils:
   /usr/bin/{find,xargs}
 
@@ -152,6 +160,7 @@ if arch eq 'ia32' || arch eq 'ppc'
   lilo:
     /boot
     /sbin
+    /usr/sbin
 endif
 
 if arch eq 'ia64'

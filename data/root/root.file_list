@@ -430,6 +430,8 @@ if with_yast2 ne 'no'
     /
   yast2-storage:
     /
+  yast2-transfer:
+    /
   yast2-theme-SuSELinux:
     /
   yast2-x11:
@@ -482,7 +484,7 @@ if with_yast2 ne 'no'
 #  qt3-non-mt:
     /usr/lib*/libqt*.so.3
     /usr/lib*/qt-*/lib*/libqt*.so*
-    E echo -e "[General]\nenableXft=false\nuseXft=false" >/etc/X11/qtrc
+    E echo -e "[General]\nenableXft=false\nuseXft=false\nstyle=Platinum" >/etc/X11/qtrc
 endif
 
 # remove these:

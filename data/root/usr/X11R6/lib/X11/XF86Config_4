@@ -143,6 +143,7 @@ Section "Device"
   Identifier	"Device[vga]"
   #BusID		"98:76:54"
   # vga_options
+  Option	"KGAUniversal"
 EndSection
 
 Section "ServerLayout"

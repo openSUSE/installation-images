@@ -22,10 +22,10 @@ dirs:
 	@[ -d tmp ] || mkdir tmp
 
 initrd: dirs base
-	bin/mk_initrd
+	YAST_IS_RUNNING=1 bin/mk_initrd
 
 plain_initrd: dirs
-	bin/mk_initrd
+	YAST_IS_RUNNING=1 bin/mk_initrd
 
 initrd_test: initrd
 	bin/mk_initrd_test
@@ -55,7 +55,7 @@ install_xx: initrd
 	bin/mk_install_xx
 
 root: dirs base
-	bin/mk_root
+	YAST_IS_RUNNING=1 bin/mk_root
 
 demo: dirs base
 	bin/mk_demo
@@ -64,7 +64,7 @@ rdemo: dirs base
 	bin/mk_rdemo
 
 rescue: dirs base
-	bin/mk_rescue
+	YAST_IS_RUNNING=1 bin/mk_rescue
 
 brescue: dirs base
 	bin/mk_brescue
@@ -80,7 +80,7 @@ mboot:
 	make -C src/mboot
 
 base: dirs
-	@[ -d tmp/base ] || bin/mk_base
+	@[ -d tmp/base ] || YAST_IS_RUNNING=1 bin/mk_base
 
 html:
 	@for i in $(PLIBS); do echo $$i; pod2html --noindex --title=$$i --outfile=doc/$$i.html lib/$$i.pm; done
