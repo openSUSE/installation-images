@@ -688,16 +688,25 @@ function check_qeth_channels () {
         eval ${channel}=${devid}
 	if [ "$NETSELECT" = qeth -o "$NETSELECT" = qeth-tr ]; then
 	  if [ $channel = read ] && [ $((0x$read & 1)) -eq 1 ]; then
-		err "read channel address is odd, must be even!(incremented)"
+		err "read channel address is odd, must be even (incremented)"
 		read="$((0x$read + 1))"
 		devid=`printf %04x ${read}`
+		read="$devid"
 		err=1
 	  fi
 	  if [ $channel = write ] && [ $((0x$read + 1)) -ne $((0x$write)) ]; then
-		err "write channel address must be the read channel address plus 1(corrected)"
+		err "write channel address must be the read channel address plus 1 (corrected)"
 		write="$((0x$read + 1))"
 		devid=`printf %04x ${write}`
+		write="$devid"
 		err=1
+	  fi
+	  if [ $channel = data ] && [ $((0x$read + 2)) -ne $((0x$data)) ]; then
+	  	err "data channel address must be the read channel address plus 2 (corrected)"
+	  	data="$((0x$read + 2))"
+	  	devid=`printf %04x ${data}`
+	  	data="$devid"
+	  	err=1
 	  fi
 	fi
         last_channel=${channel}
