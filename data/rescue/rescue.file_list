@@ -201,10 +201,6 @@ if arch eq 'ppc'
     /usr/lib/libpanel.so.*
     /usr/lib/libform.so.*
     /usr/lib/libmenu.so.*
-    # for p690 hvc console
-    /usr/share/terminfo/v/vt320
-    # for ibm3151 terminals
-    /usr/share/terminfo/i/ibm3151
   eject:
     /bin
 endif
@@ -254,10 +250,11 @@ module-init-tools:
 
 ncurses:
   /lib*/libncurses.so.5*
-  /usr/share/terminfo/d/dumb
-  /usr/share/terminfo/l
-  /usr/share/terminfo/v/vt10[02]
+  /usr/share/terminfo
   /usr/bin/{clear,tset,reset}
+
+terminfo:
+  /usr/share/terminfo/i/ibm3151
 
 net-tools:
   /{,s}bin

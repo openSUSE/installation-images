@@ -193,6 +193,9 @@ ncurses:
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
 
+terminfo:
+  /usr/share/terminfo/i/ibm3151
+
 popt:
   /usr/lib*/libpopt.so*
 
@@ -257,7 +260,7 @@ file:
   m /usr/share/misc/magic /etc/magic
   /usr/bin/file
 
-if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ppc64'
+if arch eq 'ia32'
   lilo:
     /sbin/activate
 endif
@@ -784,19 +787,19 @@ if arch eq 'ppc' || arch eq 'ppc64'
 
   hfsutils:
     /usr/bin/hattrib
-    /usr/bin/hcd
-    /usr/bin/hcopy
-    /usr/bin/hdel
-    /usr/bin/hdir
-    /usr/bin/hformat
-    /usr/bin/hls
-    /usr/bin/hmkdir
-    /usr/bin/hmount
-    /usr/bin/hpwd
-    /usr/bin/hrename
-    /usr/bin/hrmdir
-    /usr/bin/humount
-    /usr/bin/hvol
+   s hattrib /usr/bin/hcd
+   s hattrib /usr/bin/hcopy
+   s hattrib /usr/bin/hdel
+   s hattrib /usr/bin/hdir
+   s hattrib /usr/bin/hformat
+   s hattrib /usr/bin/hls
+   s hattrib /usr/bin/hmkdir
+   s hattrib /usr/bin/hmount
+   s hattrib /usr/bin/hpwd
+   s hattrib /usr/bin/hrename
+   s hattrib /usr/bin/hrmdir
+   s hattrib /usr/bin/humount
+   s hattrib /usr/bin/hvol
 endif
 
 initviocons:
