@@ -1,3 +1,6 @@
+18/1/2001:	v1.36
+	- syslogd logs to /dev/null if tty4 is not a console
+
 17/1/2001:	v1.35
 	- added scsi mods to root images
 	- make sure 8390.o is on all boot disks

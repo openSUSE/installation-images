@@ -723,7 +723,8 @@ endif
 
 syslogd:
 if suse_release >= 7.1
-  /sbin/syslogd
+  m /sbin/syslogd /sbin/syslogd.bin
+  x etc/syslogd /sbin/syslogd
 else
   /usr/sbin/syslogd
 endif
