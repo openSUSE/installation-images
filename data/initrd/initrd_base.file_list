@@ -72,6 +72,7 @@ if arch eq 's390' || arch eq 's390x'
     /bin/sed
   tar:
     /bin/tar
+  #base:
     # /usr/sbin/freeramdisk ?
     # /usr/sbin/ksymoops ?
   bash:
@@ -334,13 +335,19 @@ else # arch is not s390 or s390x
 
   x etc/syslog.conf etc
 
+
 endif
 
 x etc/host.conf etc
 
 devs:
   /dev/sg*
-  m /usr/share/doc/packages/devs/makedevs.floppy /
+  if arch eq 's390' || arch eq 's390x'
+    m /usr/share/doc/packages/devs/makedevs.floppy /
+  else
+    m /usr/share/doc/packages/devs/makedevs /makedevs.floppy
+  endif
+
 c 0755 0 0 makedevs.floppy
 
 if arch ne 's390' && arch ne 's390x'
