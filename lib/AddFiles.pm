@@ -358,6 +358,10 @@ sub AddFiles
       SUSystem "rm -f $tfile";
       chomp @l;
 
+      if(@l == 0) {
+        warn "$Script: file not found: \"$name\"";
+      }
+
       if($dst) {
         for $l (@l) {
           SUSystem "sh -c \"cp -a $tdir/$l $dir/$dst\"" and

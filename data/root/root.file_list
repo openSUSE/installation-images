@@ -614,6 +614,8 @@ if with_yast2 ne 'no'
       /
     yast2-trans-inst-user:
       /
+    yast2-trans-wizard:
+      /
   else
     y2base:
       /usr/lib/YaST2

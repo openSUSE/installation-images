@@ -1,3 +1,9 @@
+25/4/2001:	v1.60
+	- create utf8-links in fix_locale
+	- stop on missing modules
+	- added missing euro keytables to initrd
+	- more yast2 packages
+
 24/4/2001:	v1.59
 	- more mods & utils in rescue system
 	- re-added some tools formerly in nkitb

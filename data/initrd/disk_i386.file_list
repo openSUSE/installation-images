@@ -42,7 +42,6 @@ f / eepro100.o /
 #f / eexpress.o /
 #f / ne2k-pci.o /
 #f / pcnet32.o /
-#f / rl100a.o /
 #f / rtl8139.o /
 #f / smc-ultra.o /
 #f / smc-ultra32.o /
@@ -70,7 +69,6 @@ f / aha1542.o /
 f / aha1740.o /
 f / aic7xxx.o /
 f / atp870u.o /
-f / cpqfc.o /
 f / dc395x_trm.o /
 f / dpt_i2o.o /
 f / dtc.o /
@@ -112,7 +110,6 @@ f / i2o_scsi.o /
 
 f / parport.o /
 f / parport_pc.o /
-f / parport_probe.o /
 endif	# scsi
 
 
@@ -147,9 +144,7 @@ f / on26.o /
 f / paride.o /
 f / parport.o /
 f / parport_pc.o /
-f / parport_probe.o /
 f / pcd.o /
-f / serial.o /
 
 # needed by pcmcia
 f / 8390.o /
@@ -166,7 +161,6 @@ f / dummy_cs.o /
 f / 3c574_cs.o /
 f / 3c575_cb.o /
 f / 3c589_cs.o /
-f / cs89x0_cs.o /
 f / epic_cb.o /
 f / fmvj18x_cs.o /
 f / nmclan_cs.o /
@@ -179,11 +173,9 @@ f / xirc2ps_cs.o /
 f / ibmtr_cs.o /
 
 # pcmcia/scsi
-f / SYM53C500.o /
 f / aha152x_cs.o /
 f / apa1480_cb.o /
 f / fdomain_cs.o /
-f / nin_cs.o /
 f / qlogic_cs.o /
 f / sym53c500_cs.o /
 
@@ -235,7 +227,6 @@ f / epic100.o /
 f / es3210.o /
 f / eth16i.o /
 f / ewrk3.o /
-f / fmv18x.o /
 f / hamachi.o /
 f / hp-plus.o /
 f / hp.o /
@@ -250,21 +241,16 @@ f / ne.o /
 f / ni5010.o /
 f / ni52.o /
 f / ni65.o /
-f / old_tulip.o /
 f / olympic.o /
-f / pci-scan.o /
 f / pcnet32.o /
 f / plip.o /
 f / parport.o /
 f / parport_pc.o /
-f / parport_probe.o /
-f / rl100a.o /
 f / rrunner.o /
 f / rtl8139.o /
 f / sis900.o /
 f / sk98lin.o /
 f / skfp.o /
-f / sktr.o /
 f / smc-ultra.o /
 f / smc-ultra32.o /
 f / smc9194.o /
@@ -297,7 +283,6 @@ f / dummy_cs.o /
 f / 3c574_cs.o /
 f / 3c575_cb.o /
 f / 3c589_cs.o /
-f / cs89x0_cs.o /
 f / eepro100_cb.o /
 f / epic_cb.o /
 f / fmvj18x_cs.o /
@@ -311,11 +296,9 @@ f / xirc2ps_cs.o /
 f / ibmtr_cs.o /
 
 # pcmcia/scsi
-f / SYM53C500.o /
 f / aha152x_cs.o /
 f / apa1480_cb.o /
 f / fdomain_cs.o /
-f / nin_cs.o /
 f / qlogic_cs.o /
 f / sym53c500_cs.o /
 

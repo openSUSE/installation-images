@@ -177,6 +177,8 @@ else	# ! suse_release < 7.1
     m /usr/lib/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
     g /usr/lib/kbd/keymaps/i386/qwertz/de-latin1.map.gz kbd/keymaps/de-latin1.map
     g /usr/lib/kbd/keymaps/i386/include/euro.map.gz kbd/keymaps/include/euro.map
+    g /usr/lib/kbd/keymaps/i386/include/euro1.map.gz kbd/keymaps/include/euro1.map
+    g /usr/lib/kbd/keymaps/i386/include/euro2.map.gz kbd/keymaps/include/euro2.map
   endif
 
   if arch eq 'ppc'

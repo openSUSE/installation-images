@@ -8,18 +8,32 @@ cd $1/usr/lib/locale || {
   exit 1
 }
 
+utf8=
 for i in * ; do
+
+  case $i in
+    *.utf8) continue ;;
+  esac
+
+  utf8="$utf8 $i.utf8"
+
+done
+
+for i in * $utf8 ; do
   [ -L $i ] && continue
-  [ -d $i ] || continue
+  [ -d $i -o \( ! -e $i \) ] || continue
   # leave them alone...
   case $i in
     en_US|cs_CZ|ru_RU.koi8r) continue ;;
   esac
   # just check we don't accidentally erase the whole disk...
   [ -d $i/LC_MESSAGES ] && rm -rf $i
-  # create the right link
+
+  # create the right links
+
   case $i in
-    hr_HR|hu_HU|ro_RO|sk_SK|sl_SI|pl_PL) ln -s cs_CZ $i ;;
-    *)                                   ln -s en_US $i ;;
+    cs_CZ*|hr_HR*|hu_HU*|ro_RO*|sk_SK*|sl_SI*|pl_PL*) ln -s cs_CZ $i ;;
+    *)                                                ln -s en_US $i ;;
   esac
+
 done
