@@ -345,7 +345,11 @@ e echo "Product:	<product_name>" >>linuxrc.config
 e echo "UpdateDir:	<update_dir>" >>linuxrc.config
 
 if load_image
-  e echo "MemLoadImage:	<load_image>" >>linuxrc.config
+  if arch eq 'x86_64'
+    e echo "MemLoadImage:	307200" >>linuxrc.config
+  else
+    e echo "MemLoadImage:	<load_image>" >>linuxrc.config
+  endif
 endif
 
 if min_memory

@@ -1,3 +1,7 @@
+5/10/2004:	v6.16
+	- don't set lower_zone_protection (#46535)
+	- mount root image from CD if mem less about 350MB (#46535)
+
 5/10/2004:	v6.15
 	- set lower_zone_protection & local-oom-kill (#46535)
 
