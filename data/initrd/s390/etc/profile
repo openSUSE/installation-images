@@ -1,4 +1,0 @@
-PS1='SuSE Instsys $HOSTNAME:$PWD # '
-function netsetup () {
-	. /bin/netsetup
-}

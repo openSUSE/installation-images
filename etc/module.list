@@ -64,3 +64,8 @@ kernel/drivers/i2c/algos/i2c-algo-bit.ko
 kernel/arch/ia64/sn/kernel
 extra/ibmsis.ko
 extra/megaide.ko
+
+kernel/arch/s390/
+kernel/drivers/s390/
+kernel/net/ipv6/
+kernel/lib/zlib_inflate/

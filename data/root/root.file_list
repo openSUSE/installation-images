@@ -205,7 +205,6 @@ endif
 if arch eq 's390' || arch eq 's390x'
   s390-tools: postin
     /sbin/zipl
-    /lib*
     /etc
     /sbin/dasdfmt
     /sbin/fdasd

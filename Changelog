@@ -1,3 +1,6 @@
+	- removed the evil parallel universe of s390 installation; rejoice!
+	- fixed the generic stuff to be s390-safe
+	
 23/8/2004:	v6.5
 	- changed keyboard section in XF86Config (#43899)
 	- added basic nls modules (#44080)

@@ -21,327 +21,6 @@ c 1777 0 0 tmp
 glibc:
   /etc/nsswitch.conf
 
-if arch eq 's390' || arch eq 's390x'
-
-#  include initrd_s390.file_list
-###################################################################
-  # ???
-
-  # In the ramdisk we need everything to set up the network.  We
-  # additionaly want everything to initialize a local dasd, to fetch
-  # the yast image via ftp and to install from that dasd.
-
-  # there is no need to log in into this ramdisk, because you either
-  # use the HMC or VM, which are both secured by other means.
-
-  fillup:
-    /bin
-
-  insserv:
-    /etc
-    /sbin
-
-  aaa_base: prein,postin
-#  e prein
-    # wie geht das jetzt??
-    #/etc/init.d/network
-    #/etc/init.d/route
-    # for ssh key generation?
-    /etc/init.d/random
-    /etc/rc.status
-#    /root
-    /sbin/get_kernel_version
-#    /var/adm/fillup-templates
-#  e postin
-#  r /var/adm/fillup-templates
-#  r /root/.exrc
-#  r /root/.xinitrc
-  filesystem:
-    /
-  glibc:
-    /etc/ld.so.conf
-    /etc/rpc
-    /lib*/ld*
-    /lib*/lib{c,m}.so.6*
-    /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
-    /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
-    /lib*/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt*.so.1,libutil.so.1*}
-    /lib*/libpthread.so.*
-
-  sed:
-    /bin/sed
-  tar:
-    /bin/tar
-  bash:
-    /bin/bash
-    /bin/sh
-  s390-tools:
-    # are these really needed before the installation system is mounted?
-    /sbin/fdasd
-    /sbin/dasdfmt
-    /sbin/dasd_configure
-    /sbin/dasd_reload
-    /sbin/dasdro
-    /sbin/zfcp_host_configure
-    /sbin/zfcp_disk_configure
-  libxcrypt:
-    /lib*/libxcrypt.so*
-  cracklib:
-    /usr/lib*/libcrack.so*
-  libattr:
-    /lib*/libattr.so.*
-  libacl:
-    /lib*/libacl.so.*
-  samba-client:
-    m /usr/bin/smbmount /bin/smbmount
-    m /usr/bin/smbmnt   /bin/smbmnt
-    # to make mount -t smbfs work:
-    l /bin/smbmount  /sbin/mount.smbfs
-    /etc/samba/smb.conf
-  <kernel_rpm>:
-    /lib*/modules
-    m /boot/System.map-* /System.map
-  e2fsprogs:
-    /lib*/libblkid.so*
-    /lib*/libcom_err.so.*
-    /lib*/libcom_err.so.*
-    /lib*/libe2p.so.*
-    /lib*/libe2p.so.2.*
-    /lib*/libext2fs.so.*
-    /lib*/libext2fs.so.*
-    /lib*/libss.so.*
-    /lib*/libss.so.2.*
-    /lib*/libuuid.so.*
-    /lib*/libuuid.so.1.*
-    /sbin/badblocks
-    /sbin/debugfs
-    /sbin/dumpe2fs
-    /sbin/e2fsck
-    /sbin/e2label
-    /sbin/fsck
-    /sbin/fsck.ext2
-    /sbin/fsck.ext3
-    /sbin/mke2fs
-    /sbin/mkfs.ext2
-    /sbin/resize2fs
-    /sbin/tune2fs
-    /usr/bin/chattr
-    /usr/bin/lsattr
-    /usr/bin/uuidgen
-  reiserfs:
-    /sbin/reiserfsck
-    /sbin/fsck.reiserfs
-  jfsutils:
-    /sbin/fsck.jfs
-  coreutils:
-    /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename}
-    /bin/chgrp
-    /bin/chmod
-    /bin/chown
-    /bin/cp
-    /bin/dd
-    /bin/df
-    /bin/ln
-    /bin/ls
-    /bin/mkdir
-    /bin/mknod
-    /bin/mv
-    /bin/rm
-    /bin/rmdir
-    /bin/sync
-    /bin/touch
-    /bin/cat
-    /bin/sort
-    /usr/bin/wc
-    /usr/bin/cut
-    /usr/bin/head
-    /usr/bin/tail
-    /usr/bin/expr
-    /usr/bin/chroot
-  module-init-tools:
-    /sbin/{depmod,genksyms,insmod,ksyms,modinfo,modprobe,rmmod}
-    /bin/lsmod
-  procps:
-    /bin/ps
-    /usr/bin/{free,top,vmstat}
-  lukemftp:
-    /usr/bin/ftp
-  net-tools:
-    /bin/hostname
-    /sbin/ifconfig
-    /usr/sbin/traceroute
-    /sbin/route
-  nfs-utils:
-    /sbin/rpc.lockd
-
-  netcfg:
-    /etc/protocols
-  telnet-server:
-    /usr/sbin/in.telnetd
-  grep:
-    /bin/grep
-  ed:
-    /bin/ed
-  pam:
-    /etc
-    /lib*
-    /sbin
-  pam-modules:
-    # which ones of these are _really_ needed?
-    /etc
-    /lib*
-    /sbin
-    # don't use cracklib
-    c 755 0 0 /etc/security
-    R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
-  libselinux:
-    /lib*/libselinux.so.*
-  resmgr:
-    /lib*/libresmgr.so.*
-  zlib:
-    /lib*/libz.so*
-  pwdutils:
-    /usr/sbin/chpasswd
-    /bin/login
-    /etc/login.defs
-    /etc/pam.d/login
-    /etc/pam.d/passwd
-    /etc/pam.d/shadow
-    /usr/sbin/groupadd
-    /usr/sbin/useradd
-  iputils:
-    /bin/ping
-    /bin/ping6
-# We've traceroute, we don't need tracepath(also not part of iputils anymore)
-#    /usr/sbin/tracepath
-#    /usr/sbin/tracepath6
-  portmap:
-    /etc/init.d/portmap
-    /sbin/portmap
-    #/sbin/rcportmap
-    #DEBUG/usr/sbin/pmap_dump
-    #DEBUG/usr/sbin/pmap_set
-  readline:
-    /lib*
-  tcpd:
-    /lib*/libwrap.so.*
-    /usr/sbin/tcpd
-  util-linux:
-    /bin
-    /sbin
-    /usr/bin/wall
-    /sbin/pivot_root
-    /usr/sbin/freeramdisk
-  ncurses:
-    /lib*/libncurses.so.*
-  sysvinit:
-    m /sbin/halt      /sbin/halt.bin
-    m /sbin/reboot    /sbin/reboot.bin
-    m /sbin/shutdown  /sbin/shutdown.bin
-    /sbin/startproc
-    /sbin/checkproc
-    /sbin/killproc
-  inetd:
-    /usr/sbin/inetd
-    /etc/init.d/inetd
-  openssl:
-    /usr/lib*/libcrypto.so.*
-    /usr/lib*/libssl.so.*
-  openssh: prein
-    /etc/ssh
-    /etc/ssh/moduli
-    /usr/bin/scp
-    /usr/bin/ssh-keygen
-    /etc/init.d/sshd
-    /etc/pam.d/sshd
-    /etc/ssh/sshd_config
-    # ??? do we need more ssh preconfiguration?
-    t /etc/sysconfig/ssh
-    /etc/ssh/ssh_config
-    /usr/bin/ssh
-    /usr/sbin/sshd
-    /usr/lib*/ssh
-    /var/adm/fillup-templates/sysconfig.ssh
-    /var/lib*/sshd
-  E prein
-
-  heimdal-lib:
-    /etc
-    /usr/lib*/libasn1.so.*
-    /usr/lib*/libgssapi.so.*
-    /usr/lib*/libkrb5.so.*
-    /usr/lib*/libkafs.so.*
-    /usr/lib*/libroken.so.*
-
-  openldap2-client:
-    /usr/lib*/liblber.so.*
-    /usr/lib*/libldap.so.*
-
-  cyrus-sasl:
-    /usr/lib*/libsasl2.so.*
-
-  db:
-    /usr/lib*/libdb-4*.so  
-
-  syslogd:
-    /etc/init.d/syslog
-    /sbin/klogd
-    /sbin/syslogd
-    # /var/adm/fillup-templates/rc.config.syslogd
-  linuxrc:
-    m /usr/sbin/linuxrc /bin/linuxrc
-
-  strace:
-    /usr/bin/strace
-
-  x s390/bin/netsetup    /bin/netsetup
-  x s390/check           /check
-  x s390/etc/passwd      /etc/passwd
-  x s390/etc/shadow      /etc/shadow
-  x s390/etc/group       /etc/group
-  x s390/etc/motd        /etc/motd
-  x s390/etc/syslog.conf /etc/syslog.conf
-  x s390/etc/rc.config   /etc/rc.config
-  x s390/etc/exports     /etc/exports
-  x s390/etc/services    /etc/services
-  x s390/etc/inetd.conf  /etc/inetd.conf
-  x s390/etc/inittab     /etc/inittab
-  x s390/etc/profile     /etc/profile
-  x s390/inst_source     /inst_source
-  x s390/linuxrc         /linuxrc
-  x s390/linuxrc.finish  /linuxrc.finish
-  x s390/linuxrc.init    /linuxrc.init
-  x s390/linuxrc.config  /linuxrc.config
-  x s390/sbin/halt       /sbin/halt
-  x s390/sbin/nodns      /sbin/nodns
-  x s390/sbin/hotplug    /sbin/hotplug
-  x s390/sbin/realchroot /sbin/realchroot
-
-  c 0755 0 0 /linuxrc
-  c 0755 0 0 /inst_source
-  c 0755 0 0 /bin/netsetup
-  c 0755 0 0 /sbin/halt
-  c 0755 0 0 /sbin/hotplug
-  c 0755 0 0 /sbin/nodns
-  c 0755 0 0 /sbin/realchroot
-
-  #
-  c 0755 0 0 /etc/profile
-
-  r /sbin/insserv
-  r /bin/fillup
-
-  t /var/log/{faillog,lastlog,messages}
-
-  module-init-tools:
-    /sbin/depmod{,.old}
-#   E /sbin/depmod -a -F /System.map
-  E /sbin/depmod -a -F /System.map <kernel_ver>
-  r /sbin/depmod
-
-###################################################################
-else # arch is not s390 or s390x
-
   linuxrc:
     if linuxrc
       if linuxrc =~ m#^[^/]#
@@ -358,8 +37,6 @@ else # arch is not s390 or s390x
   module-init-tools:
     d /sbin
     m /sbin/insmod.static /sbin/insmod
-
-endif
 
 x etc/host.conf etc
 
@@ -475,7 +152,7 @@ if (arch eq 'alpha' || arch eq 'ia32' || arch eq 'x86_64') && !nopcmcia
 
 endif
 
-if with_smb
+if arch eq 's390' || arch eq 's390x' || with_smb
 
   d etc/samba
   e echo "; just to make smbmount happy" >etc/samba/smb.conf
@@ -493,10 +170,18 @@ if with_smb
       m /usr/bin/smbmount /bin/smbmount
 
     glibc:
-      /lib*/ld-linux*.so.2
+      if arch eq 'ppc' || arch eq 's390' || arch eq 's390x'
+        /lib*/ld*.so.1
+      elsif arch eq 'ia64'
+        /lib*/ld-linux-ia64.so.2
+      else
+        /lib*/ld-linux.so.2
+      endif
       /lib*/ld-2.*.so
       /lib*/libc.so.6*
       /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
+      /lib*/libresolv.so.*
+      /lib*/libpthread.so.*
 
     pam:
       /lib*/libpam.so.*
@@ -507,6 +192,25 @@ if with_smb
     openssl:
       m /usr/lib*/libcrypto.so.* /lib
       m /usr/lib*/libssl.so.* /lib
+
+    heimdal-lib:
+      m /usr/lib*/libasn1.so.* /lib
+      m /usr/lib*/libgssapi.so.* /lib
+      m /usr/lib*/libkrb5.so.* /lib
+      m /usr/lib*/libroken.so.* /lib
+      
+    openldap2-client:
+      m /usr/lib*/liblber-*.so.* /lib
+      m /usr/lib*/libldap-*.so.* /lib
+    
+    e2fsprogs:
+      m /lib*/libcom_err.so.* /lib
+
+    db:
+      m /usr/lib*/libdb-4.2.so /lib
+    
+    cyrus-sasl:
+      m /usr/lib*/libsasl2.so.* /lib
 
   endif
 
@@ -606,7 +310,7 @@ if liveeval
   e echo "LiveConfig:	suselive.900" >>linuxrc.config
 endif
 
-if arch eq 'ppc'
+if arch eq 'ppc' || arch eq 's390' || arch eq 's390x'
   e echo "Linemode:	1" >>linuxrc.config
 endif
 

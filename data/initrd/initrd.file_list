@@ -1,7 +1,6 @@
 # common part for all initrds
 include initrd_base.file_list
 
-if !(arch eq 's390' || arch eq 's390x')
 <kernel_rpm>:
 
 if extramod
@@ -146,22 +145,13 @@ else
 
   A gen/module.config.other modules/module.config
 
+if arch eq 's390' || arch eq 's390x'
+  include gen/module.files.s390
+  A gen/module.config.s390 modules/module.config
 endif
 
-else
-  x s390/bin/remove-empty-directories bin/remove-empty-directories
-  x s390/etc/initrd_keep_files etc/initrd_keep_files
-  c 0755 0 0 bin/remove-empty-directories
-  # the inst-sys is symlinked to from the initrd.  To avoid
-  # symlinks for each file in empty directories of the initrd, these
-  # empty directories are removed now.
-  e bin/remove-empty-directories etc/initrd_keep_files
-  r bin/remove-empty-directories
-  r etc/initrd_keep_files
-endif # not arch s390
+endif
 
 # add modules.pcimap
 e /sbin/depmod -a -b . -F /System.map <kernel_ver>
-if !(arch eq 's390' || arch eq 's390x')
-  e rm -f lib/modules/<kernel_ver>/modules.[^p]*
-endif
+e rm -f lib/modules/<kernel_ver>/modules.[^p]*
