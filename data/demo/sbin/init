@@ -196,6 +196,7 @@ function add_livecd {
   add_to_root etc/usbmgr
   add_to_root etc/{host.conf,nntpserver,HOSTNAME}
   add_to_root etc/{lpdfilter,printcap,lpd.conf,lpd.perms}
+  add_to_root etc/xinetd*
 
   add_to_root opt/kde3/share/config
   add_to_root etc/opt/kde3/share/config/kdm
@@ -360,7 +361,7 @@ if [ $0 = /sbin/init ] ; then
 
   umount /proc
 
-  gettext -n "Integrating SuSE Linux 8.2 LiveEval CD"
+  gettext -n "Integrating SuSE Linux 9.0 LiveEval CD"
 
   deb_stop
 
@@ -710,7 +711,7 @@ if [ ! "$nodisk" ] ; then
     tar -zclf /mnt/$liveconfig . 2>/dev/null || error=1
 
     if [ ! -f /mnt/suselive.txt ] ; then
-      printf "`gettext '%s contains data for your SuSE Linux 8.2 LiveEval CD.'`" "$suseimg" >/mnt/suselive.txt
+      printf "`gettext '%s contains data for your SuSE Linux 9.0 LiveEval CD.'`" "$suseimg" >/mnt/suselive.txt
       echo -e "\n\r" >>/mnt/suselive.txt
       gettext -s "suselive.swp (if it exists) is the swap file." >>/mnt/suselive.txt
       echo -e "\r" >>/mnt/suselive.txt
@@ -730,7 +731,7 @@ if [ ! "$nodisk" ] ; then
 
   if [ "$Aborted" ] ; then
 
-    gettext -e -s "SuSE Linux 8.2 LiveEval has not been configured.\nPress enter to reboot."
+    gettext -e -s "SuSE Linux 9.0 LiveEval has not been configured.\nPress enter to reboot."
 
     read
 

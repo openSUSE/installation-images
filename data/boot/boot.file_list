@@ -10,7 +10,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
   <kernel_rpm>:
     a /boot/<kernel_img> /linux
 
-  if demo eq 'eval'
+  if liveeval
     x message-eval /message
     x syslinux-eval.cfg /syslinux.cfg
     if boot eq 'small'
@@ -32,7 +32,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
     endif
   endif
 
-  if (arch ne 'ia32' || memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval'
+  if (arch ne 'ia32' || memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && liveeval
     R s/\n# memory.*memtest\n//s /syslinux.cfg
     R s/.*memtest.*// /message
   else

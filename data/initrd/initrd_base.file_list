@@ -589,8 +589,8 @@ if lang
   e echo "Language:	<lang>" >>linuxrc.config
 endif
 
-if demo
+if liveeval
   e echo "UseIDESCSI:	1" >>linuxrc.config
-  e echo "LiveConfig:	suselive.820" >>linuxrc.config
+  e echo "LiveConfig:	suselive.900" >>linuxrc.config
 endif
 

@@ -11,7 +11,6 @@ aaa_base:
 c 0711 0 0 /root
   /etc/modules.conf{,.local}
   /etc/ld.so.conf
-  /sbin/mk_initrd
   /etc/init.d
   /etc/rc.status
   /etc/{hushlogins,inittab}
@@ -25,10 +24,18 @@ if suse_release == 8.2
   p /sbin/halt.patch_82
 endif
 
+if suse_release == 9.0
+  p /sbin/boot.patch_90
+  p /sbin/halt.patch_90
+endif
+
 suse-release:
   /etc/SuSE-release
   /etc/issue{,.net}
   /etc/motd
+
+mkinitrd:
+  /sbin/mk{,_}initrd
 
 filesystem:
   /etc/init.d
@@ -93,9 +100,10 @@ e2fsprogs:
   /sbin/{e2fsck,e2label,fsck,fsck.ext2}
   /lib*
 r /lib*/libss.so*
+r /lib*/evms
 
 netcfg:
-  /etc/{hosts,inetd.conf,networks}
+  /etc/{hosts,networks}
 
 net-tools:
   /bin/{hostname,domainname}
@@ -125,8 +133,8 @@ b 240 1 /dev/loopc1
 b 240 2 /dev/loopc2
 b 240 3 /dev/loopc3
 
-zlib:
-  /lib*/libz.so.1*
+#zlib:
+#  /lib*/libz.so.1*
 
 modutils:
   /sbin/{insmod,rmmod,insmod.old,rmmod.old}

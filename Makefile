@@ -4,7 +4,7 @@ PLIBS	= AddFiles MakeFATImage MakeMinixImage ReadConfig
 PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root  
 
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue\
-        root demo modules html clean distdir install install_xx rdemo brescue
+        root liveeval modules html clean distdir install install_xx rdemo brescue
 	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd
 
 all: bootdisk moduledisks bootcd2 bootcd rescue root
@@ -66,8 +66,8 @@ install_xx: initrd
 root: dirs base
 	YAST_IS_RUNNING=1 bin/mk_root
 
-demo: dirs base
-	bin/mk_demo
+liveeval: dirs base
+	bin/mk_liveeval
 
 rdemo: dirs base
 	bin/mk_rdemo

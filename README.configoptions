@@ -90,11 +90,11 @@ o initrd
   with_gdb=1|2
   - create an initrd with gdb; if with_gdb=2 start linuxrc from gdb
 
-  demo=eval
+  liveeval=1
   - create an initrd for LiveEval
 
   lang=cs_CZ
-  - [only with demo=eval] special czech version
+  - [only with liveeval=1] special czech version
 
   extramod=<module>
   - add <module> to initrd; only _one_ module allowed (useful for testing only)
@@ -129,6 +129,8 @@ o boot
   fastboot=1
   - don't use syslinux' '-s' option for floppies
 
+  liveeval=1
+  - liveeval bootloader config
 
 o modules
 
@@ -137,7 +139,7 @@ o modules
     build the initrd explicitly before!
 
 
-o demo
+o liveeval
 
   lang=cs_CZ
   - special czech version

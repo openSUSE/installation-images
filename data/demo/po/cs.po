@@ -13,12 +13,12 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: KBabel 0.9.6\n"
 
-msgid "Integrating SuSE Linux 8.2 LiveEval CD"
-msgstr "Integruji SuSE Linux 8.2 LiveEval CD"
+msgid "Integrating SuSE Linux 9.0 LiveEval CD"
+msgstr "Integruji SuSE Linux 9.0 LiveEval CD"
 
 #, c-format
-msgid "Using \"suselive.820\" on %s (%s, %s MB) to store data"
-msgstr "Pou¾ívám \"suselive.820\" na %s (%s, %s MB) k ukládání dat"
+msgid "Using \"suselive.900\" on %s (%s, %s MB) to store data"
+msgstr "Pou¾ívám \"suselive.900\" na %s (%s, %s MB) k ukládání dat"
 
 msgid "Updating filesystem"
 msgstr "Aktualizuji souborový systém"
@@ -45,8 +45,8 @@ msgid "Writing info to %s on %s (%s, %s MB)"
 msgstr "Zapisuji informace do %s na %s (%s, %s MB)"
 
 #, c-format
-msgid "%s contains data for your SuSE Linux 8.2 LiveEval CD."
-msgstr "%s obsahuje data va¹eho SuSE Linux 8.2 LiveEval CD."
+msgid "%s contains data for your SuSE Linux 9.0 LiveEval CD."
+msgstr "%s obsahuje data va¹eho SuSE Linux 9.0 LiveEval CD."
 
 msgid "suselive.swp (if it exists) is the swap file."
 msgstr "suselive.swp (existuje-li) je odkládací soubor."
@@ -70,6 +70,6 @@ msgstr "/S.u.S.E není odpojen"
 msgid "Saving LiveEval CD changes"
 msgstr "Ukládám zmìny"
 
-msgid "SuSE Linux 8.2 LiveEval has not been configured.\nPress enter to reboot."  
-msgstr "SuSE Linux 8.2 LiveEval nebyl konfigurován.\nStiskem Enter restartujete systém."
+msgid "SuSE Linux 9.0 LiveEval has not been configured.\nPress enter to reboot."  
+msgstr "SuSE Linux 9.0 LiveEval nebyl konfigurován.\nStiskem Enter restartujete systém."
 

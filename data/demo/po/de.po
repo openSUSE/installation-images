@@ -11,12 +11,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Integrating SuSE Linux 8.2 LiveEval CD"
-msgstr "Integriere SuSE Linux 8.2 LiveEval CD"
+msgid "Integrating SuSE Linux 9.0 LiveEval CD"
+msgstr "Integriere SuSE Linux 9.0 LiveEval CD"
 
 #, c-format
-msgid "Using \"suselive.820\" on %s (%s, %s MB) to store data"
-msgstr "Verwende \"suselive.820\" auf %s (%s, %s MB) um Daten zu speichern"
+msgid "Using \"suselive.900\" on %s (%s, %s MB) to store data"
+msgstr "Verwende \"suselive.900\" auf %s (%s, %s MB) um Daten zu speichern"
 
 msgid "Updating filesystem"
 msgstr "Aktualisiere das Dateisystem"
@@ -44,8 +44,8 @@ msgid "Writing info to %s on %s (%s, %s MB)"
 msgstr "Schreibe info in %s auf %s (%s, %s MB)"
 
 #, c-format
-msgid "%s contains data for your SuSE Linux 8.2 LiveEval CD."
-msgstr "%s enthält Daten für die SuSE Linux 8.2 LiveEval CD."
+msgid "%s contains data for your SuSE Linux 9.0 LiveEval CD."
+msgstr "%s enthält Daten für die SuSE Linux 9.0 LiveEval CD."
 
 msgid "suselive.swp (if it exists) is the swap file."
 msgstr "suselive.swp (wenn vorhanden) ist die Auslagerungsdatei."
@@ -70,6 +70,6 @@ msgstr "/S.u.S.E nicht unmounted"
 msgid "Saving LiveEval CD changes"
 msgstr "Speichere LiveEval CD Änderungen"
 
-msgid "SuSE Linux 8.2 LiveEval has not been configured.\nPress enter to reboot."  
+msgid "SuSE Linux 9.0 LiveEval has not been configured.\nPress enter to reboot."  
 msgstr ""
 
