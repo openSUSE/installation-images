@@ -322,6 +322,7 @@ for (@f) {
     $r0 = $ENV{'suserelease'};
   }
 
+  $rx = "";
   $rx = "$1-" if $r0 =~ s/-(.+)\s*$//;
   $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
   $r0 = "$r0-" if $r0 ne "";

@@ -421,9 +421,11 @@ libz:
   /usr/lib/libz.so.1*
 
 c 0755 0 0 /usr
-c 0755 0 0 /usr/X11R6
-c 0755 0 0 /usr/X11R6/bin
-c 0755 0 0 /etc/X11
+if arch ne 'alpha'
+  c 0755 0 0 /usr/X11R6
+  c 0755 0 0 /usr/X11R6/bin
+  c 0755 0 0 /etc/X11
+endif
 
 gppshare:
   /usr/lib/libstdc++-*.so*
