@@ -1,4 +1,5 @@
-d bin cdrom dev etc floppy home lib mnt proc sbin tmp var
+d bin dev etc home lib mnt proc sbin tmp var
+d media/{cdrom,floppy}
 c 1777 0 0 tmp
 
 devs:

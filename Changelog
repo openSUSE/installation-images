@@ -1,4 +1,6 @@
-14/9/2003:	v4.25
+15/9/2003:	v4.25
+	- moved floppy & cdrom dir to /media (#30728)
+	- splash=silent needed in syslinux.cfg (as a result of #28780)
 	- give x86_64 people some keymaps (#30458)
 	- added testutf8
 	- create_interface should set DHCLIENT_SET_HOSTNAME to yes (#30528)
