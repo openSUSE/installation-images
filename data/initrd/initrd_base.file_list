@@ -7,6 +7,8 @@ s /usr/X11R6/lib/X11 var/X11R6/lib
 d modules
 d dev/usb
 
+d mounts/{floppy,ramdisk2}
+
 if demo eq 'eval'
   if lang eq 'cs_CZ'
     E echo "Language: czech" >info
@@ -320,6 +322,7 @@ else # arch is not s390 or s390x
 
   t linuxrc
   c 0755 0 0 linuxrc
+if 0
   l linuxrc bin/cardmgr
   l linuxrc bin/cat
   l linuxrc bin/echo
@@ -335,6 +338,7 @@ else # arch is not s390 or s390x
   l linuxrc bin/setfont
   l linuxrc bin/sh
   l linuxrc bin/umount
+endif
   l linuxrc etc/nothing
 
   if linuxrc

@@ -6,8 +6,8 @@ BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
 use ReadConfig;
 use MakeFATImage;
 
-$i1 = $ConfigData{suse_major_release};
-$i2 = $ConfigData{suse_minor_release};
+($i1, $i2) = split /\./, $ConfigData{suse_release};      
+
 $label = "SUSE${i1}${i2}_BOOT";
 
 $image = shift;

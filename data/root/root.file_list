@@ -530,6 +530,8 @@ if with_yast2 ne 'no'
     /
   yast2-trans-wizard:
     /
+  libpkg:
+    /
   libycp:
     /
   liby2:
@@ -548,7 +550,7 @@ endif
 
 
 libpng:
-  /usr/lib/libpng.so.2*
+  /usr/lib/libpng.so*
 
 libz:
   /lib/libz.so.1*
@@ -613,31 +615,35 @@ lvm:
   /sbin/pv* 
   /sbin/vg*
 
-  yast:
-if with_yast1 ne 'no'
-  r /sbin/yast
-  m /sbin/YaST /sbin/yast
-  s /sbin/yast /sbin/YaST
-    /usr/lib/YaST
+if suse_release >= 8.0
+    x /usr/lib/YaST/.Reh /usr/lib/YaST2
 else
-    /usr/lib/YaST/fdisk
+    yast:
+  if with_yast1 ne 'no'
+    r /sbin/yast
+    m /sbin/YaST /sbin/yast
+    s /sbin/yast /sbin/YaST
+      /usr/lib/YaST
+  else
+      /usr/lib/YaST/fdisk
+  endif
+    s /usr/lib/YaST/fdisk /sbin/fdisk
+    d /var/adm/YaST
+    d /var/adm/backup/rpmdb
+    d /var/adm/inst-log
+    d /var/adm/mount
+    d /var/adm/packages
+    d /var/adm/removed_packages
+    d /var/adm/removed_scripts
+    d /var/adm/scripts
+      /var/adm/setup/setup.*
+      /var/lib/YaST
+    x /usr/lib/YaST/.Reh /usr/lib/YaST
+    x /usr/lib/YaST/convert_to_elf /usr/lib/YaST
+    d /mnt
+    d /proc
+    d /tmp
 endif
-  s /usr/lib/YaST/fdisk /sbin/fdisk
-  d /var/adm/YaST
-  d /var/adm/backup/rpmdb
-  d /var/adm/inst-log
-  d /var/adm/mount
-  d /var/adm/packages
-  d /var/adm/removed_packages
-  d /var/adm/removed_scripts
-  d /var/adm/scripts
-    /var/adm/setup/setup.*
-    /var/lib/YaST
-  x /usr/lib/YaST/.Reh /usr/lib/YaST
-  x /usr/lib/YaST/convert_to_elf /usr/lib/YaST
-  d /mnt
-  d /proc
-  d /tmp
 
 reiserfs:
   /sbin

@@ -2,18 +2,12 @@
 
 <kernel_rpm>:
 
-if items eq 'net'
-t {MORE,NEEDMOD,NET}
-
-f / 3c59x.o /
-f / dmfe.o /
-f / e100.o /
-f / tulip.o /
-endif	# net
-
 
 if items eq 'scsi'
-t {MORE,NEEDMOD,SCSI}
+
+f / parport.o /
+f / parport_pc.o /
+f / isa-pnp.o /
 
 f / DAC960.o /
 f / cciss.o /
@@ -76,76 +70,21 @@ f / i2o_config.o /
 f / i2o_block.o /
 f / i2o_scsi.o /
 
-f / parport.o /
-f / parport_pc.o /
-
-f / isa-pnp.o /
 
 f / hptraid.o /
 f / pdcraid.o /
 f / ataraid.o /
+
 endif	# scsi
 
 
-if items eq 'other'
-t {MORE,NEEDMOD,OTHER}
+# network mods
+if items eq 'net'
 
-f / cm206.o /
-
-f / reiserfs.o /
-
-f / paride.o /
+f / isa-pnp.o /
+f / 8390.o /
 f / parport.o /
 f / parport_pc.o /
-f / pcd.o /
-
-# needed by pcmcia
-f / 8390.o /
-
-# pcmcia/core
-f / pcmcia_core.o /
-f / cb_enabler.o /
-f / ds.o /
-f / i82365.o /
-f / tcic.o /
-f / dummy_cs.o /
-
-# pcmcia/eth
-f / 3c574_cs.o /
-f / 3c575_cb.o /
-f / 3c589_cs.o /
-f / epic_cb.o /
-f / fmvj18x_cs.o /
-f / nmclan_cs.o /
-f / pcnet_cs.o /
-f / smc91c92_cs.o /
-f / tulip_cb.o /
-f / xirc2ps_cs.o /
-
-# pcmcia/tr
-f / ibmtr_cs.o /
-
-# pcmcia/scsi
-f / aha152x_cs.o /
-f / apa1480_cb.o /
-f / fdomain_cs.o /
-f / qlogic_cs.o /
-f / sym53c500_cs.o /
-
-# pcmcia/ide
-f / ide_cs.o /
-
-# pcmcia/other
-f / ftl_cs.o /
-
-# pcmcia/???
-f / pcilynx_cb.o /
-endif	# other
-
-
-# network mods for 2nd modules disk
-if items eq 'net2'
-t {MORE,NEEDMOD,NET}
 
 f / 3c501.o /
 f / 3c503.o /
@@ -202,8 +141,6 @@ f / ns83820.o /
 f / olympic.o /
 f / pcnet32.o /
 f / plip.o /
-f / parport.o /
-f / parport_pc.o /
 f / rtl8139.o /
 f / sb1000.o /
 f / sis900.o /
@@ -223,44 +160,12 @@ f / via-rhine.o /
 f / wd.o /
 f / yellowfin.o /
 
-f / isa-pnp.o /
 endif	# net
 
 
-# pcmcia mods for 2nd modules disk
-if items eq 'other2'
-t {MORE,NEEDMOD,OTHER}
+# pcmcia mods
+if items eq 'pcmcia'
 
-f / reiserfs.o /
-
-
-f / aztcd.o /
-f / cdu31a.o /
-f / cm206.o /
-f / gscd.o /
-f / isp16.o /
-f / mcd.o /
-f / mcdx.o /
-f / optcd.o /
-f / sbpcd.o /
-f / sjcd.o /
-f / sonycd535.o /
-f / aten.o /
-f / bpck.o /
-f / comm.o /
-f / dstr.o /
-f / epat.o /
-f / epia.o /
-f / fit2.o /
-f / fit3.o /
-f / friq.o /
-f / frpw.o /
-f / kbic.o /
-f / ktti.o /
-f / on20.o /
-f / on26.o /
-
-# needed by pcmcia
 f / 8390.o /
 
 # pcmcia/core
@@ -302,6 +207,54 @@ f / ftl_cs.o /
 
 # pcmcia/???
 f / pcilynx_cb.o /
-endif	# other
 
+endif	# pcmcia
+
+
+# cdrom mods
+if items eq 'cdrom'
+
+f / pcd.o /
+f / paride.o /
+f / parport.o /
+f / parport_pc.o /
+
+f / aztcd.o /
+f / cdu31a.o /
+f / cm206.o /
+f / gscd.o /
+f / isp16.o /
+f / mcd.o /
+f / mcdx.o /
+f / optcd.o /
+f / sbpcd.o /
+f / sjcd.o /
+f / sonycd535.o /
+f / aten.o /
+f / bpck.o /
+f / comm.o /
+f / dstr.o /
+f / epat.o /
+f / epia.o /
+f / fit2.o /
+f / fit3.o /
+f / friq.o /
+f / frpw.o /
+f / kbic.o /
+f / ktti.o /
+f / on20.o /
+f / on26.o /
+
+endif	# cdrom
+
+
+# filesystem mods
+if items eq 'fs'
+
+f / ext3.o /
+f / jbd.o /
+f / jfs.o /
+f / reiserfs.o /
+
+endif	# fs
 

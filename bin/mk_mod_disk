@@ -19,7 +19,7 @@ die "usage: $Script\n" if @ARGV;
 # some config data
 
 $srcdir = "${ImagePath}";
-$image = "${ImagePath}modules";
+$image = "${ImagePath}modules$ENV{modules}";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
@@ -27,8 +27,14 @@ $image = "${ImagePath}modules";
 $disk = 1;
 $disk = $ENV{modules} + 0 if exists $ENV{modules};
 
-$i1 = $ConfigData{suse_major_release};
-$i2 = $ConfigData{suse_minor_release};
+if($disk == 2) {
+  @modimages = qw ( cdrom net pcmcia );
+}
+else {
+  @modimages = qw ( fs scsi );
+}
+
+($i1, $i2) = split /\./, $ConfigData{suse_release};      
 
 $label = "SUSE${i1}${i2}_MODS";
 
@@ -46,16 +52,8 @@ SUSystem "umount /mnt 2>/dev/null";
 SUSystem "mount -oloop -t vfat $image /mnt" and
   die "$Script: mount failed";
 
-if($disk == 2) {
-  SUSystem "cp  $srcdir/net2mod.gz /mnt/net-mod.gz" and
-    die "$Script: could not add net2mod.gz";
-  SUSystem "cp  $srcdir/other2mo.gz /mnt/other-mod.gz" and
-    die "$Script: could not add other2mo.gz";
-}
-else {
-#  SUSystem "cp $srcdir/net-mod.gz $srcdir/other-mod.gz $srcdir/scsi-mod.gz /mnt" and
-  SUSystem "cp $srcdir/other-mod.gz $srcdir/scsi-mod.gz /mnt" and
-    die "$Script: could not add module images";
+for (@modimages) {
+  SUSystem "cp  $srcdir/${_}-mod.gz /mnt" and die "$Script: could not add ${_}-mod.gz";
 }
 
 $i3 = $i2*10;

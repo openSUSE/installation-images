@@ -31,6 +31,6 @@ Only a few modules fit on the bootdisk. Therefore two modules floppies
 exist. If you do not find the driver for your hardware on the normal disk,
 just insert the appropriate modules disk as soon as linuxrc starts.
 
-modules:   SCSI/RAID/EIDE and PCMCIA modules.
+modules1:  SCSI/RAID/EIDE modules.
 
-modules2:  Network modules and old (non-ATAPI) CDROM drivers.
+modules2:  Network modules, PCMCIA modules and old (non-ATAPI) CDROM drivers.

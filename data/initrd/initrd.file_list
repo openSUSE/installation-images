@@ -1,21 +1,7 @@
 # common part for all initrds
 include initrd_base.file_list
 
-# modules differ
-if arch eq 'sparc' || arch eq 'sparc64'
-  t modules/{NET,SCSI}
-else
-  if initrd eq 'small'
-    if !extramod
-      # make linuxrc automatically ask for modules disk
-      t etc/need_modules_disk
-    endif
-
-    t modules/{MORE,NEEDMOD}
-  else
-    t modules/{MORE,NET,SCSI,OTHER}
-  endif
-endif
+x module.config /modules
 
 if !(arch eq 's390' || arch eq 's390x')
 <kernel_rpm>:
@@ -54,7 +40,6 @@ if arch eq 'ia32'
   if initrd eq 'small'
 
     f / nvram.o /modules
-    f / 8390.o /modules
 
       if usb_mods ne 'no'
         f / usbcore.o /modules
@@ -63,10 +48,7 @@ if arch eq 'ia32'
         f / input.o /modules
         f / hid.o /modules
         f / keybdev.o /modules
-#        if !pre_release
-          # remove just temporarily
-          f / usb-storage.o /modules
-#        endif
+        f / usb-storage.o /modules
       endif
 
       if extramod

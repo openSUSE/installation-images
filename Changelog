@@ -1,3 +1,6 @@
+18/12/2001:	v1.107
+	- updated boot & module disks
+
 26/11/2001:	v1.106
 	- added packages bzip, XFree86-compat-libs to neededforbuild
 	- modified initrd.file-list, rescue.file-list, root.file-list

@@ -48,13 +48,13 @@ fi
 
 arch=$(uname -m)
 
-case "$arch" in
-  i?86)
-    # remove modules to free memory
-    rm -f /modules/*
-    touch /modules/{MORE,NEEDMOD} etc/need_modules_disk
-  ;;
-esac
+#case "$arch" in
+#  i?86)
+#    # remove modules to free memory
+#    rm -f /modules/*
+#    touch /modules/{MORE,NEEDMOD} etc/need_modules_disk
+#  ;;
+#esac
 
 # create a new modules.dep
 #
