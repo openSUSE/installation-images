@@ -1,5 +1,7 @@
 8/1/2002:	v1.111
 	- new module handling
+	- qt3-non-mt
+	- yast2-trans-inst-environment has been splitted
 
 4/1/2002:	v1.110
 	- added more yast2 packages

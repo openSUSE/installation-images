@@ -94,7 +94,7 @@ endif
 
 if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arch eq 's390x')
 
-  include gen/module.config.cd1
+  include ../initrd/gen/module.files.cd1
 
 else
 
@@ -456,10 +456,16 @@ if with_yast2 ne 'no'
     /
   yast2-trans-inst-bootloader:
     /
-  yast2-trans-inst-environment:
-    /
+  if suse_release < 8.0
+    yast2-trans-inst-environment:
+      /
+  endif
   yast2-trans-inst-general:
     /
+  if suse_release >= 8.0
+    yast2-trans-inst-keyboard:
+      /
+  endif
   yast2-trans-inst-language:
     /
   yast2-trans-inst-mouse:
@@ -468,6 +474,10 @@ if with_yast2 ne 'no'
     /
   yast2-trans-inst-partitioning:
     /
+  if suse_release >= 8.0
+    yast2-trans-inst-timezone:
+      /
+  endif
   yast2-trans-inst-update:
     /
   yast2-trans-inst-user:
@@ -524,9 +534,10 @@ liblcms:
 if with_yast2 ne 'no'
   if suse_release >= 8.0
     qt3:
-      /usr/lib/libqt.so.3
       /usr/lib/qt3
-      /usr/lib/qt-3.*/lib/libqt.so*
+    qt3-non-mt:
+      /usr/lib/libqt*.so.3
+      /usr/lib/qt-3.*/lib/libqt*.so*
       d /usr/lib/qt3/etc/settings
       e echo -e '[General]\nenableXft=false\nuseXft=false' >/usr/lib/qt3/etc/settings/qtrc
   else

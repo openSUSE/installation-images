@@ -88,7 +88,7 @@ else {
     die "$Script: error in shared lib config, please fix\n";
 }
 
-if($ENV{'with_yast2' ne 'no'}) {
+if(!exists($ENV{'with_yast2'}) || $ENV{'with_yast2'} ne 'no') {
   if($debug =~ /\bignore\b/) {
     system "yast2-deps" and
       warn "$Script: error in yast2 package list, please fix\n";
