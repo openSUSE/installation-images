@@ -61,7 +61,7 @@ html:
 	@rm pod2html-dircache pod2html-itemcache
 
 clean:
-	-@umount test/initdisk/proc
-	-@umount test/initdisk/mnt
+	-@umount test/initdisk/proc 2>/dev/null ; true
+	-@umount test/initdisk/mnt 2>/dev/null ; true
 	-@rm -rf images test tmp
 	-@rm -f *~ */*~

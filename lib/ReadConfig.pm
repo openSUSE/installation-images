@@ -289,7 +289,8 @@ close F;
 #
 for (@f) {
   if(/^\s*(\S+)\s*=\s*(.*)$/) {
-    $ConfigData{$1} = `echo -n $2`
+    $ENV{$1} = $ConfigData{$1} = `echo -n $2`;
+#    print STDERR "<$1> <$ConfigData{$1}>\n";
   }
   else {
     chomp;

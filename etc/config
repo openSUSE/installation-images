@@ -1,40 +1,37 @@
-#
 # This file is actually a shell script.
 #
-# BUT: only shell variable assignments are allowed.
-#
-# No continuation lines (using '\' at line breaks)!!!
+# BUT:
+#  - Only shell variable assignments are allowed.
+#  - No continuation lines (using '\' at line breaks)!!!
 
 SuSE_major_release=6
 SuSE_minor_release=4
 
-# location of various other stuff within the CVS tree
-
-# the syslinux binary
 syslinux=/usr/sbin/syslinux
-
-# the linuxrc binary
 linuxrc=/usr/sbin/linuxrc
 
-# the SuSE distribution (we get our rpm's from there (unless we are in autobuild))
-SuSE_base=/work/CDs/full-i386
+suse_arch=`uname -m`
+suse_arch=`if [ $suse_arch = i686 ] ; then echo i386 ; else echo $suse_arch ; fi`
+suse_arch=`if [ $suse_arch = alpha ] ; then echo axp ; else echo $suse_arch ; fi`
+suse_arch=`if [ $suse_arch = sparc64 ] ; then echo sparc ; else echo $suse_arch ; fi`
 
-# kernel version (needed to locate the module directory)
-kernel_ver=`if [ -x /bin/uname.bin ] ; then uname -r ; else rpm -qlp /work/CDs/full-i386/suse/images/k_deflt.rpm 2>/dev/null | grep modules | head -1 | cut -d / -f 4 ; fi`
+# the SuSE distribution (we get our rpm's from there - unless we are in autobuild)
+SuSE_base=/work/CDs/full-$suse_arch
 
 # kernel rpm name
-kernel_rpm=`if [ \`uname -m\` = alpha ] ; then echo k_deflt ; else echo k_deflt ; fi`
+kernel_rpm=k_deflt
 
 # kernel img name
-kernel_img=`if [ \`uname -m\` = alpha ] ; then echo vmlinux.gz ; else echo vmlinuz ; fi`
+kernel_img=vmlinuz
+kernel_img=`if [ $suse_arch = axp ] ; then echo vmlinux.gz ; else echo $kernel_img ; fi`
 
-# the id list
-idlist=/lib/YaST2/id_list
+# kernel version (needed to locate the module directory)
+kernel_ver=`if [ -x /bin/uname.bin ] ; then uname -r ; else rpm -qlp $SuSE_base/suse/images/$kernel_rpm.rpm 2>/dev/null | grep modules | head -1 | cut -d / -f 4 ; fi`
 
-# location of the YaST2 dir on the CD
+# location of the installation system on CD
 yast2_dir=suse/inst-sys
 
-# location of the YaST2 image file on the CD
+# location of the inst-sys image file on CD
 yast2_img=suse/images/yast2
 
 # the NFS dir to install YaST2 to
