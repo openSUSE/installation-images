@@ -172,6 +172,24 @@ if arch eq 'ia32' || arch eq 'ppc'
     /usr/sbin
 endif
 
+if arch eq 'ppc'
+  pdisk:
+    /sbin/pdisk
+  ibmsis:
+    /etc/microcode
+    /sbin
+  ncurses:
+    /usr/lib/libpanel.so.5*
+    /usr/lib/libform.so.5*
+    # for p690 hvc console
+    /usr/share/terminfo/v/vt320
+  eject:
+    /bin
+  scsi:
+    /bin
+    /dev
+endif
+
 if arch eq 'ia32'
   grub:
     /usr/{bin,sbin,lib}
@@ -248,6 +266,11 @@ pam:
 
 pam-modules: postin
   /{etc,lib*,sbin}
+
+  # don't use cracklib
+  c 755 0 0 /etc/security
+  R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
+
 E postin
 
 pciutils:
@@ -434,6 +457,9 @@ endif
   E /sbin/depmod -a -F /System.map <kernel_ver>
   r /System.map /sbin/depmod
 endif
+
+  # serial console / mingetty setup for ppc mostly.
+  x etc/init.d/boot.local /etc/init.d/boot.local
 
 # now run SuSEconfig
 E echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
