@@ -13,22 +13,37 @@ die "$dir: $!\n" unless chdir $dir;
 
 $error = 0;
 
+print "finding ELF objects...\n";
+
 for $f (`find . -type f`) {
   chomp $f;
-  next if $f =~ /modules/;		# skip modules
-  $f0 = $f;
-  $f0 =~ s/^\.\///;
-  $f =~ s/'/'\\''/g;
-  $_ = `file '$f'`;
-  $s = undef;
-  print "$f0\n" if $verbose >= 2;
-  if(/\sELF\s.*\s(shared\s+object|executable)/) {
-    @u = `objdump -p '$f'`;
-    for (@u) {
-      push @{$needed{$1}}, $f0 if /^\s+NEEDED\s+(\S+)\s*$/;
-      $soname{$1} = $f0 if /^\s+SONAME\s+(\S+)\s*$/;
-    }
+  next if $f =~ /modules/;              # skip modules
+  push @type_f,$f;
+}
+
+@type_f = map(quotemeta,@type_f);
+
+for (`file @type_f`)
+{
+  if(/(.*):\s+ELF\s.*\s(shared\s+object|executable)/) {
+      push @ELF,$1;
   }
+}
+
+print "extracting shared object dependencies...\n";
+
+@ELF = map(quotemeta,@ELF);
+
+for (`objdump -p @ELF`)
+{
+  if (m-(.*):\s+file format-) {
+    $f = $1;
+    $f0 = $f;
+    $f0 =~ s/^\.\///;
+    print "$f0\n" if $verbose >= 2;
+  }
+  push @{$needed{$1}}, $f0 if /^\s+NEEDED\s+(\S+)\s*$/;
+  $soname{$1} = $f0 if /^\s+SONAME\s+(\S+)\s*$/;
 }
 
 print "checking ld.so.cache...\n";
