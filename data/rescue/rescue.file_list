@@ -446,8 +446,8 @@ if arch ne 'sparc'
     f / hpfs.o
     f / loop_fish2.o
     f / xfs.o
-    f / xfs_support.o
-    f / xfs_dmapi.o
+    #f / xfs_support.o
+    #f / xfs_dmapi.o
 if arch eq 'alpha'
     m /boot/System.map-* /System.map
 else
