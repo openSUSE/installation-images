@@ -175,7 +175,8 @@ bzip2:
 if arch eq 'ia32' || arch eq 'ppc'
   lilo:
     if arch eq 'ppc'
-      /boot
+      /lib/lilo
+      /bin
     endif
     /sbin
     if arch eq 'ia32'

@@ -1,3 +1,4 @@
+	- rescue: files for lilo on ppc moved to /lib/lilo
 	- remove /sbin/clock on ppc
 
 9/2/2004:	v5.05
