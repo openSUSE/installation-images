@@ -115,6 +115,10 @@ if arch eq 's390' || arch eq 's390x'
     # to make mount(8) -t smbfs work:
     l /bin/smbmount  /sbin/mount.smbfs
     # /lib*/libnss_wins.so?
+    /etc/samba/smb.conf
+    /usr/share/samba/codepages/codepage.850
+    /usr/share/samba/codepages/unicode_map.850
+    /usr/share/samba/codepages/unicode_map.ISO8859-1
   cups-libs:
     /usr/lib*/libcups.so.*
   installation-kernel-rdripl:
@@ -595,6 +599,11 @@ endif
 
 if product
   e echo "Product:	<product>" >>linuxrc.config
+endif
+
+if product eq 'UnitedLinux'
+  e echo "ProductDir:	<product>" >>linuxrc.config
+  e echo "MemLoadImage:	98304" >>linuxrc.config
 endif
 
 if lang
