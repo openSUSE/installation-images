@@ -68,6 +68,7 @@ sub AddFiles
   my ($inc_file, $inc_it, $debug, $ifmsg, $ignore);
   my ($old_warn, $ver, $i, $cache_dir);
   my (@scripts, $s, @s, %script, $use_cache);
+  my (@packs);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
@@ -278,6 +279,8 @@ sub AddFiles
       }
 
       print "adding package $p$ver\n" if $debug =~ /\bpkg\b/;
+
+      push @packs, "$p\n";
 
       for $s (@scripts) {
         @{$script{$s}} =
@@ -544,8 +547,14 @@ sub AddFiles
   SUSystem "rm -rf $tdir";
   SUSystem "rm -f $tfile";
 
-  if($ENV{'drop_modules'}) {
-    push @mod_list, (split /,/, $ENV{'drop_modules'})
+  open F, ">${dir}.rpms";
+  print F @packs;
+  close F;
+
+  if($ENV{'nomods'}) {
+    for (split /,/, $ENV{'nomods'}) {
+      push @mod_list, "modules/$_.o\n"
+    }
   }
 
   if(@mod_list && $mod_list) {

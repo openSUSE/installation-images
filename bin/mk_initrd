@@ -42,6 +42,8 @@ die "usage: $Script\n" if @ARGV;
 
 $srcdir = "${DataPath}initrd";
 $tmpdir = "${BasePath}tmp/initrd";
+$moddir = "${BasePath}tmp/initrd/modules";
+$modlist = "${BasePath}tmp/initrd.modlist";
 $tmpdirx = "${BasePath}tmp/.initrd";
 $image = "${ImagePath}initrd";
 
@@ -71,6 +73,7 @@ if($ENV{'keepinitrd'} != 1) {
   }
 
   SUSystem "rm -f ${BasePath}tmp/initrd.opt_mods";
+  SUSystem "rm -f $modlist";
 
   $fl = "initrd";
   $fl = $ENV{'filelist'} if exists $ENV{'filelist'};
@@ -85,6 +88,18 @@ if($ENV{'keepinitrd'} != 1) {
   # strip everything
   SUSystem "strip_dir $tmpdir";
 }
+
+@m = `ls $moddir/*.o 2>/dev/null`;
+for (@m) {
+  chomp;
+  s#.*/##;
+  s/\.o$//;
+  push @m1, "$_\n"
+}
+
+open F, ">$modlist";
+print F @m1;
+close F;
 
 # create the image
 # alternatively, check if ENV{initrd} eq 'small'

@@ -41,6 +41,9 @@ if( -f "etc/ld.so.cache") {
 
   $first = 1;
   for (keys %soname) {
+    if($soname{$_} =~ m#^usr/lib/YaST2/plugin#) {
+      next
+    }
     if(!exists $ldconfig{$_}) {
       print "libs not in ld.so.cache:\n" if $first;
       printf "  %-24s  %s\n", $_, $soname{$_};
@@ -71,8 +74,13 @@ print "checking for unused libs...\n";
 $first = 1;
 for (sort keys %soname) {
   if(!exists $needed{$_}) {
-    printf "  %-24s  %s\n", $_, $soname{$_};
-    $first = 0;
+    if(
+      $soname{$_} !~ m#^usr/lib/YaST2/plugin# &&
+      $soname{$_} !~ m#^lib/libnss_#
+    ) {
+      printf "  %-24s  %s\n", $_, $soname{$_};
+      $first = 0;
+    }
   }
 }
 print "ok\n" if $first;
