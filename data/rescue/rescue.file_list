@@ -288,6 +288,9 @@ hwinfo:
 parted:
   /usr/{lib,sbin}
 
+gawk:
+  /bin
+
 if arch ne 'sparc'
   <kernel_rpm>:
     f / st.o
