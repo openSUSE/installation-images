@@ -21,10 +21,10 @@ arch=$(uname -m)
 case "$arch" in
     s390|s390x) ;;
     *)
-	grep -q 'Bootmode:.*Net' /etc/install.inf
-
 	# start sshd 
-	if [ "$?" = 0 -a -x /usr/sbin/sshd ] ; then
+	if [ -x /usr/sbin/sshd ] && \
+          grep -vq ' nossh' /proc/cmdline && \
+          grep -q 'Bootmode:.*Net' /etc/install.inf ; then
 	    SSH_FAILED=
 	    echo 'sshd found, prepare remote login'
 	    rm -rf /etc/ssh /root /etc/shadow
@@ -41,7 +41,8 @@ case "$arch" in
 	    # echo "search suse.de" >> /etc/resolv.conf
 	    mkdir -p /dev/pts
 	    mkdir -p /dev/shm
-	    mount -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
+	    grep -q devpts /proc/mounts || \
+                mount -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
 	    /usr/sbin/sshd || {
 	        export SSH_FAILED=true
 	        echo 'sshd did NOT start!'
@@ -58,6 +59,9 @@ case "$arch" in
 
   This is only done during beta tests.
   It is NOT a feature of the final release.
+
+  If you don't want sshd to be started, use
+  the 'nosshd' option at the boot promt.
 
   Press return to contiunue...
 xxx
