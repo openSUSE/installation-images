@@ -1,39 +1,45 @@
-Create a boot disk
-------------------
+Create SUSE LINUX 9.1 boot disks
+================================
 
-All kernels are modularized. This means that almost all drivers are loaded
-as kernel modules.
+Due to increasing kernel size there are now three boot disks!
 
-You can create a new boot/install floppy if you have access to either a
-running Linux box or a running DOS box.
+You can create the boot disks if you have access to either a running Linux
+box or a running DOS box.
 
-Under DOS, write it to a formatted (i.e. error-free) 1.44MB-floppy using
-CD1:/dosutils/rawrite/rawrite.exe. For Windows systems there is
-CD1:/dosutils/rawwritewin/rawwritewin.exe.
+Under DOS, write bootdsk1, bootdsk2 and bootdsk3 to formatted (i.e.
+error-free) 1.44MB-floppies using CD1:/dosutils/rawrite/rawrite.exe. For
+Windows systems there is CD1:/dosutils/rawwritewin/rawwritewin.exe.
 
-Under Linux, use a command like
+With Linux, use commands like:
 
   cd /where_CD1_is_mounted/boot
-  dd if=bootdisk of=/dev/fd0u1440
 
-Now you have a new boot/install floppy which you can use to boot either the
-installed system or the rescue system from CD.
+  # insert first boot floppy, then run:
 
-In addition to a boot disk you will also need modules disk 1!
+  dd if=bootdsk1 of=/dev/fd0u1440
+
+  # insert second boot floppy, then run:
+
+  dd if=bootdsk2 of=/dev/fd0u1440
+
+  # insert third boot floppy, then run:
+
+  dd if=bootdsk3 of=/dev/fd0u1440
+
+Now you have three boot disks. Start your computer using the first disk.
 
 
+Create modules disks
+====================
 
-Create a modules disk
----------------------
-
-Only a few modules fit on the bootdisk. Therefore four modules floppies
+Only a few modules fit on the boot disk. Therefore five modules floppies
 exist. If you do not find the driver for your hardware on the normal disk,
-just insert the appropriate modules disk as soon as linuxrc starts.
+just insert the appropriate modules disk as soon as linuxrc asks for it.
 
 Choose one of the modules disk images in this directory according to the
 list below.
 
-Under Windows/DOS, use rawrite as descibed in 'Create a boot disk'. Under
+Under Windows/DOS, use rawrite as descibed in 'Create boot disks'. Under
 Linux, use a command like
 
   cd /where_CD1_is_mounted/boot
@@ -56,12 +62,12 @@ See modules[12345].txt for a detailed listing.
 
 
 Create a rescue floppy
-----------------------
+======================
 
 There is already a rescue system on CD. But in case you cannot access the CD
 or you just want a smaller rescue system, you can create a rescue floppy.
 
-Under Windows/DOS, use rawrite as descibed in 'Create a boot disk'. Under
+Under Windows/DOS, use rawrite as descibed in 'Create boot disks'. Under
 Linux, use a command like
 
   cd /where_CD1_is_mounted/boot
@@ -70,7 +76,7 @@ Linux, use a command like
 
 
 What are the other files in this directory?
--------------------------------------------
+===========================================
 
 rescue:    (Large) rescue system.
 

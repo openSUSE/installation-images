@@ -3,19 +3,16 @@ if arch eq 'ia32' || arch eq 'x86_64'
   x message /
   x syslinux.cfg /
 
-  if boot eq 'small'
-    A gen/initrdsize /syslinux.cfg
-  endif
-
   <kernel_rpm>:
     a /boot/<kernel_img> /linux
 
   if liveeval
     x message-eval /message
     x syslinux-eval.cfg /syslinux.cfg
-    if boot eq 'small'
-      A gen/initrdsize /syslinux.cfg
-    endif
+  endif
+
+  if boot ne 'small'
+    R s/\ndisksize.*?\n/\n/s /syslinux.cfg
   endif
 
   if bootlogo eq 'no' || bootlogo eq '0'

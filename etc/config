@@ -38,12 +38,13 @@ default	= kernel-default-26
 ;
 [Splash]
 cdrom	= 640x480,800x600,1024x768,1280x1024,1400x1050,1600x1200
-floppy	= 640x480,800x600,1024x768
+floppy	= 640x480,800x600,1024x768,1280x1024,1400x1050,1600x1200
 
 [Theme SuSE]
 yast	= SuSELinux
 splash	= SuSE
-product	= SuSE Linux
+product	= SUSE LINUX
+version = 9.1
 update	= /linux/suse/<arch>-<rel>
 
 

@@ -15,7 +15,7 @@ t var/run/utmp
 
 c 1777 0 0 tmp
 
-aaa_base:
+glibc:
   /etc/nsswitch.conf
 
 if arch eq 's390' || arch eq 's390x'

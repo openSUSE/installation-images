@@ -76,19 +76,16 @@ if arch eq 'alpha' || suse_xrelease eq 'beta'
     /lib
 endif
 
-glibc:
+nscd:
   /etc/nscd.conf
+
+glibc:
+  /etc/ld.so.conf
   /{lib*,sbin}
 r /lib*/libdb.so.*
 r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
   /usr/{,s}bin
 r /usr/bin/{db*,glibcbug,rpcgen}
-# does anybody need these in base???
-#r /lib/libanl.so.1
-#r /lib/libmemusage.so
-#r /lib/libpcprofile.so
-#r /lib/libthread_db.so.1
-#  /usr/lib*/pt_chown
 
 mktemp:
   /bin/mktemp

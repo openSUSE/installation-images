@@ -83,7 +83,7 @@ rescue_cd: boot brescue rdemo
 
 modules: dirs base
 	bin/mk_modules
-	bootsplash=modules1 bin/mk_mod_disk
+	bin/mk_mod_disk
 
 moduledisks:
 	modules=1 make modules

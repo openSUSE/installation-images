@@ -674,6 +674,8 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   $yast_theme = $ConfigData{ini}{"Theme $theme"}{yast};
   $splash_theme = $ConfigData{ini}{"Theme $theme"}{splash};
   $product_name = $ConfigData{ini}{"Theme $theme"}{product};
+  my $full_product_name = $product_name;
+  $full_product_name .= (" " . $ConfigData{ini}{"Theme $theme"}{version}) if $ConfigData{ini}{"Theme $theme"}{version};
   $update_dir = $ConfigData{ini}{"Theme $theme"}{update};
   $update_dir =~ s/<ul>/$ul_release/g;
   $update_dir =~ s/<sles>/$sles_release/g;
@@ -686,6 +688,7 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   $ConfigData{yast_theme} = $yast_theme;
   $ConfigData{splash_theme} = $splash_theme;
   $ConfigData{product_name} = $product_name;
+  $ConfigData{full_product_name} = $full_product_name;
   $ConfigData{update_dir} = $update_dir;
   $ConfigData{load_image} = $load_image;
 
