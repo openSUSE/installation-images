@@ -44,6 +44,7 @@ splash	= SuSE
 product	= SUSE Linux
 version = 9.1
 update	= /linux/suse/<arch>-<rel>
+image	= 160
 
 
 [Theme Home]
@@ -52,6 +53,7 @@ splash	= SuSE-Home
 product	= SUSE Linux
 version = 9.1
 update	= /linux/suse/<arch>-<rel>
+image	= 160
 
 
 [Theme SuSE-SLES]
@@ -60,5 +62,5 @@ splash	= SuSE-SLES
 product	= SUSE LINUX Enterprise Server 9
 update	= /linux/suse/<arch>-<sles>
 memory	= 256
-image	= 128
+image	= 160
 

@@ -1,5 +1,6 @@
 28/5/2004:	v5.62
-	- minor module config fix
+	- minor module config & driver update fixes
+	- write yast mem limit only once to linuxrc.config; lowered it a bit
 
 27/5/2004:	v5.61
 	- added multipath-tools (#40640)

@@ -89,7 +89,7 @@ done
 if [ -d /update/y2update ] ; then
   rm -rf /update/y2update.bak
 else
-  mv /update/y2update.bak /update/y2update
+  [ -d /update/y2update.bak ] && mv /update/y2update.bak /update/y2update
 fi
 
 # driver update: add files to inst-sys
