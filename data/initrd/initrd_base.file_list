@@ -202,12 +202,14 @@ else	# ! suse_release < 7.1
     g /usr/lib/kbd/keymaps/sun/sun-pl-altgraph.map.gz kbd/keymaps/sun-pl-altgraph.map
     g /usr/lib/kbd/keymaps/sun/sun-pl.map.gz kbd/keymaps/sun-pl.map
     g /usr/lib/kbd/keymaps/sun/sunt4-es.map.gz kbd/keymaps/sunt4-es.map
+    g /usr/lib/kbd/keymaps/sun/sunt4-fi-latin1.map.gz kbd/keymaps/sunt4-fi-latin1.map
     g /usr/lib/kbd/keymaps/sun/sunt4-no-latin1.map.gz kbd/keymaps/sunt4-no-latin1.map
     g /usr/lib/kbd/keymaps/sun/sunt5-de-latin1.map.gz kbd/keymaps/sunt5-de-latin1.map
     g /usr/lib/kbd/keymaps/sun/sunt5-es.map.gz kbd/keymaps/sunt5-es.map
     g /usr/lib/kbd/keymaps/sun/sunt5-fi-latin1.map.gz kbd/keymaps/sunt5-fi-latin1.map
     g /usr/lib/kbd/keymaps/sun/sunt5-fr-latin1.map.gz kbd/keymaps/sunt5-fr-latin1.map
     g /usr/lib/kbd/keymaps/sun/sunt5-ru.map.gz kbd/keymaps/sunt5-ru.map
+    g /usr/lib/kbd/keymaps/sun/sunt5-uk.map.gz kbd/keymaps/sunt5-uk.map
   endif
 
 endif	# ! suse_release < 7.1

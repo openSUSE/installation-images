@@ -26,9 +26,11 @@ shlibs:
 
 bash:
   /bin/bash
+s bash /bin/sh
+
+readline:
   /lib/libreadline.so.4*
   /lib/libhistory.so.4*
-s bash /bin/sh
 
 base:
   /bin/{grep,sed}

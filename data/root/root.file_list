@@ -23,9 +23,11 @@ base:
 
 bash:
   /bin/bash
+s bash /bin/sh
+
+readline:
   /lib/libreadline.so.4*
   /lib/libhistory.so.4*
-s bash /bin/sh
 
 ash:
   /bin/ash.static
@@ -469,7 +471,7 @@ if 1		# arch ne 'alpha'
     /usr/X11R6/lib/modules/drivers
   # video4linux stuff
   r /usr/X11R6/lib/modules/drivers/linux
-    /usr/X11R6/lib/modules/extensions/lib{dbe,extmod}.a
+    /usr/X11R6/lib/modules/extensions/lib{dbe,extmod,dri}.a
     /usr/X11R6/lib/modules/fonts/libbitmap.a
     /usr/X11R6/lib/modules/input
     /usr/X11R6/lib/modules/linux
@@ -648,7 +650,7 @@ endif
 
 # add the rest from instsys
 lvm:
-  /lib/liblvm.so*
+  /lib/liblvm-*.so*
   /sbin/lv*  
   /sbin/pv* 
   /sbin/vg*
@@ -747,7 +749,7 @@ endif
 
 if arch eq 'ppc'
   parted:
-    /usr/sbin
+    /usr/sbin/parted
     /usr/lib/libparted.so*
 endif
 

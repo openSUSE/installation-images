@@ -1,6 +1,10 @@
 27/2/2001:	v1.42
 	- we can now prepare hard disk boot images
 	- enabled yast2 for alpha
+	- ro: libreadline is in readline package now
+	- kukuk: add missing keymaps for SPARC
+	- kukuk: adjust patch for liblvm
+	- kukuk: add libdri.a back, some xf86 4.0 modules need it
 
 9/2/2001:	v1.41
 	- fixed ppc filelist (lvm, parted)
