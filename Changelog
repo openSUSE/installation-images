@@ -1,3 +1,5 @@
+	- s390: better gateway default (bug #38895)
+
 20/4/2004:	v5.43
 	- added e100-intel
 	- minor s390* fixes

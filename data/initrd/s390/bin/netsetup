@@ -1451,6 +1451,14 @@ function calc_broadcast_enh()
         IFS=". " read ip1 ip2 ip3 ip4  nm1 nm2 nm3 nm4 rest
         echo $(( ($ip1 & $nm1 | ~$nm1) & 255)).$(( ($ip2 & $nm2 | ~$nm2) & 255)).$(( ($ip3 & $nm3 | ~$nm3) & 255)).$((($ip4 & $nm4 | ~$nm4) & 255))
 }
+
+# suggest a gateway address
+function calc_gateway()
+{
+	IFS=". " read ip1 ip2 ip3 ip4  nm1 nm2 nm3 nm4 rest
+	echo $(($ip1 & $nm1)).$(($ip2 & $nm2)).$(($ip3 & $nm3)).$((($ip4 & $nm4) + 1))
+}
+
 #
 #
 # MAIN
@@ -1549,6 +1557,7 @@ while [ $CONFIG_IS_OK = 0 ]; do
 		    IP_BROADCAST=$(echo $IP_ADDR $IP_NETMASK | calc_broadcast_enh)
 		    readln "Please enter the broadcast address if different from ($IP_BROADCAST): "
 		    [ "$ANSW" ] && export IP_BROADCAST=$ANSW
+		    IP_GATEWAY=$(echo $IP_ADDR $IP_NETMASK | calc_gateway)
 		    readln "Please enter the gateway's IP address, e.g. '192.168.0.254' ($IP_GATEWAY): "
 		    [ "$ANSW" ] && export IP_GATEWAY=$ANSW
 	    fi
