@@ -1,4 +1,8 @@
+19/4/2004:	v5.42
+	- rescue system: mount /sys (#38933), mount usbfs,
+	  start device-mapper (#38990)
 	- add ibmvscsis vscsi server for pseries
+	- add /etc/shadow to the file list for S/390
 
 16/4/2004:	v5.41
 	- Fixed netsetup to not sleep for qeth deviced (#38816).
