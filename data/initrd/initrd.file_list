@@ -71,11 +71,10 @@ g /usr/lib/kbd/keymaps/i386/include/euro.map.gz keytables/include/euro.map
 endif
 
 ifarch ppc
-g /usr/lib/kbd/keymaps/ppc/mac-de-latin1-nodeadkeys.map.gz keytables/mac-de-latin1-nodeadkeys.map
-g /usr/lib/kbd/keymaps/ppc/mac-fr2-ext.map.gz keytables/mac-fr2-ext.map
-# fix this later!!!
-g /usr/lib/kbd/keymaps/ppc/mac-us-ext.map.gz keytables/mac-us.map
-# g /usr/lib/kbd/keymaps/ppc/mac-us-std.map.gz keytables/mac-us-std.map
+g /usr/lib/kbd/keymaps/mac/mac-de-latin1-nodeadkeys.map.gz keytables/mac-de-latin1-nodeadkeys.map
+g /usr/lib/kbd/keymaps/mac/mac-fr2-ext.map.gz keytables/mac-fr2-ext.map
+g /usr/lib/kbd/keymaps/mac/mac-us.map.gz keytables/mac-us.map
+# g /usr/lib/kbd/keymaps/mac/mac-us-std.map.gz keytables/mac-us-std.map
 endif
 
 ifarch sparc sparc64
