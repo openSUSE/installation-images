@@ -1,3 +1,6 @@
+22/8/2003:	v2.107
+	- forgot to add to initrd_base.file_list
+
 21/8/2003:	v2.106
 	- added /etc/hosts to s390 initrd as well
  
