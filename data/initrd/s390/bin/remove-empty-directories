@@ -1,5 +1,4 @@
 #!/bin/bash
-
 usage="$0 [IGNORE_FILE [ROOT]... ]
 
 after this call, there are no more ampty subdirectories below root,
@@ -11,31 +10,31 @@ test $# -gt 0 && { IGNORE_FILE="$1"; shift; }
 # set CONDOM=echo be on the safe side
 : ${CONDOM:=}
 
+TEMPDIR=$(mktemp -d /tmp/$(basename $0).XXXXXX) || exit 1
+trap "rm -rf '$TEMPDIR'" EXIT
+
+
 test IGNORE_FILE = "-" && IGNORE_FILE=""
+${IGNORE_FILE+eval 'cat $IGNORE_FILE | xargs --replace=@ mkdir -p $TEMPDIR/@'}
+
 {
-    ${IGNORE_FILE+sed 's-.*-255 X &/DUMMY-' "$IGNORE_FILE"}
-    find "$*"    -type d -printf "%d D %p %h %f\n" 
-    find "$*" \! -type d -printf "%d X %p %h %f\n" 
+    find ${*+"$*"}    -type d -printf "%d D %p\n" 
+    find ${*+"$*"} \! -type d -printf "%d X %h\n" 
 } |
-sort -k 1nr -k2 |
-# 
-awk '
-BEGIN {
-    depth=1
-    type=2
-    fullname=3
-    dirname=4
-    filename=5
-}
-$type == "D" {
-    if ($fullname in NOT_EMPTY) {
-	NOT_EMPTY[$dirname];
-    } else {
-	printf "%s\n", $fullname;
-    }
-}
-$type == "X" {
-    NOT_EMPTY[$dirname];
-}
-' |
-xargs --verbose --no-run-if-empty $CONDOM rmdir
+sort -k 1nr -k2,3 -u |
+while read depth type directory
+do
+    echo $depth $type $directory >&2
+    case $type in
+	D)
+	    if test \! -d "$TEMPDIR/$directory"
+	    then
+		echo "$directory"
+	    fi
+	    ;;
+	X)
+	    mkdir -p "$TEMPDIR/$directory"
+	    ;;
+    esac
+done |
+xargs --no-run-if-empty $CONDOM rmdir --verbose
