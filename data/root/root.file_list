@@ -471,11 +471,13 @@ if arch ne 'alpha'
   endif
 endif
 
-libpng:
-  /usr/lib/libpng.so.2*
+if suse_release < 7.1
+  libpng:
+    /usr/lib/libpng.so.2*
 
-libz:
-  /usr/lib/libz.so.1*
+  libz:
+    /usr/lib/libz.so.1*
+endif
 
 c 0755 0 0 /usr
 if arch ne 'alpha'
@@ -487,8 +489,10 @@ endif
 gppshare:
   /usr/lib/libstdc++-*.so*
 
-libjpeg:
-  /usr/lib/libjpeg.so*
+if suse_release < 7.1
+  libjpeg:
+    /usr/lib/libjpeg.so*
+endif
 
 eject:
 if arch eq 'ppc' || suse_release >= 7.1
@@ -498,8 +502,8 @@ else
 endif
 
 if suse_release >= 7.1
-  libmng:
-    /usr/lib/libmng.so*
+#  libmng:
+#    /usr/lib/libmng.so*
 else
   qtlib2:
     /usr/lib/*

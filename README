@@ -19,8 +19,8 @@ Then you can do:
   make boot
     - build an boot image (for ix86)
 
-  make yast2
-    - build a root image ('yast2' for historical reasons)
+  make root
+    - build a root image
 
   demo=live make demo
   demo=eval make demo
