@@ -1,3 +1,6 @@
+23/7/2003:	v4.06
+	- added libncursesw
+
 18/7/2003:	v4.05
 	- use kernel pcmcia
 	- call it 9.0

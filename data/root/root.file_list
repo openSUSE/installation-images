@@ -132,8 +132,9 @@ endif
 
 ncurses:
   /lib*/libncurses.so.5*
+  /usr/lib*/libncursesw.so.5*
+  /usr/lib*/libpanelw.so.5*
   /usr/bin/reset
-  /usr/lib*/libpanel.so.5*
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
 
@@ -289,8 +290,8 @@ less:
 
 modutils:
  /sbin/{depmod,genksyms,insmod,ksyms,modinfo,modprobe,rmmod,insmod.static}
- /sbin/{depmod,insmod,lsmod,modprobe,rmmod}.old
- /bin/lsmod
+ /sbin/{depmod,insmod,modprobe,rmmod}.old
+ /bin/lsmod{,.old}
 
 ps:
   /bin/ps

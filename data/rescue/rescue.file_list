@@ -224,9 +224,9 @@ mktemp:
 
 modutils:
   /sbin/{insmod,modprobe,rmmod,depmod,ksyms}
-  /sbin/{insmod,modprobe,rmmod,lsmod,depmod}.old
+  /sbin/{insmod,modprobe,rmmod,depmod}.old
   # don't ask...
-  /bin/lsmod
+  /bin/lsmod{,.old}
 
 ncurses:
   /lib*/libncurses.so.5*
