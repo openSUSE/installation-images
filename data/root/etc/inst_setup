@@ -11,11 +11,27 @@ echo -en \\033c
 # linuxrc passes the root directory of the freshly mounted instsys in
 # the environment variable INSTSYS.
 #
-# create symlinks for all missing files
-conservative_lndir "$INSTSYS" "/"
 
-# start syslog (messages are logged to /dev/tty4)
-[ -x /sbin/syslogd ] && /sbin/syslogd
+# this script will symlink from the initrd to all files and
+# directories missing.
+
+# a few files should be restored when installaion has completed if we
+# return to linuxrc.
+FILES_TO_RESTORE="/etc/ld.so.cache"
+for file in $FILES_TO_RESTORE
+do
+    test -e $file && mv $file $file.initrd
+done
+
+
+echo "integrating the installation system into the ramdisk..."
+$INSTSYS/usr/bin/conservative_lndir "$INSTSYS" "/"
+
+echo "integrating the shared objects of the installation system..."
+ldconfig
+
+echo "starting syslog (messages are logged to /dev/tty4)..."
+[ -x /sbin/syslogd ] && { checkproc /sbin/syslogd || /sbin/syslogd }
 
 # create a new modules.dep
 #
@@ -24,7 +40,7 @@ conservative_lndir "$INSTSYS" "/"
 #
 rm -f /etc/modules.conf
 cp "$INSTSYS/etc/modules.conf" /etc
-cat >>/etc/modules.conf <<xxx
+cat >>/etc/modules.conf <<EOF
 path=/modules
 path=/lib/modules/`uname -r`
 depfile=/etc/modules.dep
@@ -33,15 +49,17 @@ pcimapfile=/etc/modules.pcimap
 isapnpmapfile=/etc/modules.isapnpmap
 usbmapfile=/etc/modules.usbmap
 parportmapfile=/etc/modules.parportmap
-xxx
+EOF
+
+echo "integrating kernel modules of the instalaltion system..."
 depmod -a 2>/dev/null
 
-# start sshd
+# eventually start sshd
 arch=$(uname -m)
 case "$arch" in
     s390|s390x) ;;
     *)
-	# start sshd 
+	echo "starting sshd..."
 	if [ -x /usr/sbin/sshd ] && \
           grep -vq ' nossh' /proc/cmdline && \
           grep -q 'Bootmode:.*Net' /etc/install.inf ; then
@@ -73,7 +91,7 @@ case "$arch" in
 	        for i in  `grep eth /proc/net/dev | cut -f 1 -d : ` ; do
 		    /sbin/ifconfig $i | grep UP > /dev/null 2>&1 && /sbin/ifconfig $i | head -n 2
 	        done
-                cat <<xxx
+                cat <<EOF
 
       ***  sshd has been started  ***
 
@@ -84,7 +102,7 @@ case "$arch" in
   the 'nosshd' option at the boot prompt.
 
   Press return to contiunue...
-xxx
+EOF
 	        read
 	    fi
 	    export Y2DEBUG=1
@@ -97,6 +115,7 @@ esac
 rm -f /etc/fstab
 
 # now, run yast
+echo "starting yast..."
 ec=
 if [ "$yast" = yast1 ] ; then
     /sbin/yast "$@" ; ec=$?
@@ -107,5 +126,11 @@ if [ "$yast" = yast2 ] ; then
 fi
 
 umount devpts 2>/dev/null
+
+for file in $FILES_TO_RESTORE
+do
+    test -e $file.initrd && mv $file.initrd $file
+done
+
 
 exit $ec
