@@ -4,6 +4,19 @@ c 1777 0 0 tmp
 devs:
   /dev
 
+### SLD/SLEC
+expat:
+  /usr/lib*/libexpat.so.*
+
+freetype2:
+    /usr/lib*/libfreetype.so.*
+
+fontconfig:
+  /etc/fonts/*
+  /usr/lib*/libfontconfig.so*
+
+### /SLEC
+
 if suse_release >= 8.1
 filesystem:
 else
@@ -148,19 +161,21 @@ libjpeg:
 
 bootsplash-theme-SuSE:
   /
-  m /usr/share/splash/themes/SuSE/bootloader/message /SuSE.boot
 
 bootsplash-theme-UnitedLinux:
   /
-  m /usr/share/splash/themes/UnitedLinux/bootloader/message /UnitedLinux.boot
 
 bootsplash-theme-SuSE-SLES:
   /
-  m /usr/share/splash/themes/SuSE-SLES/bootloader/message /SuSE-SLES.boot
 
 bootsplash-theme-OpenXchange:
   /
-  m /usr/share/splash/themes/OpenXchange/bootloader/message /OpenXchange.boot
+
+gfxboot-devel:
+  m /usr/share/gfxboot/SuSE/bootlogo /SuSE.boot
+  m /usr/share/gfxboot/SuSE/bootlogo /UnitedLinux.boot
+  m /usr/share/gfxboot/SuSE/bootlogo /SuSE-SLES.boot
+  m /usr/share/gfxboot/SuSE/bootlogo /OpenXchange.boot
 
 <kernel_rpm>:
   /lib/modules
