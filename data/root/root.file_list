@@ -451,7 +451,7 @@ endif
 
 
 libpng:
-  /usr/lib*/libpng.so*
+  /usr/lib*/libpng*.so*
 
 libz:
   /lib*/libz.so.1*
