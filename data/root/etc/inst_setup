@@ -1,5 +1,16 @@
 #! /bin/sh
 #
+
+#                              ***  NOTE  ***
+#
+# linuxrc now takes care of integrating the instsys. No need to fiddle with
+# symlinks and such here.
+#
+# linuxrc-based tools are in /lbin.
+#
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/lib/YaST2/bin:/usr/X11/bin
+
 yast="$1"
 shift
 echo $yast > /tmp/linuxrc_installer_name
@@ -20,9 +31,6 @@ test -f /proc/sys/dev/mac_hid/keyboard_sends_linux_keycodes && echo 1 > /proc/sy
 # linuxrc passes the root directory of the freshly mounted instsys in
 # the environment variable INSTSYS.
 #
-# this script will symlink from the initrd to all files and
-# directories missing.
-#
 # a few files should be restored when installation has completed if we
 # return to linuxrc.
 FILES_TO_RESTORE="/etc/ld.so.cache"
@@ -32,8 +40,8 @@ do
 done
 #
 
-echo "integrating the installation system into the ramdisk..."
-$INSTSYS/usr/bin/conservative_lndir "$INSTSYS" "/"
+# effectively makes the kernel module dir tree writable
+/lbin/lndir $INSTSYS/lib/modules /lib/modules
 
 echo "integrating the shared objects of the installation system..."
 ldconfig

@@ -5,9 +5,8 @@ d var/lib/YaST var/lib/dhcpcd var/lib/hardware
 d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11 var/lib/xkb
 s /usr/X11R6/lib/X11 var/X11R6/lib
 
-d modules
-# ???
-# d dev/usb
+d lib/modules/<kernel_mods>/initrd
+s lib/modules/<kernel_mods>/initrd modules
 d mounts
 d root
 
@@ -177,7 +176,7 @@ if arch eq 's390' || arch eq 's390x'
     /bin/stty
     /usr/bin/expr
     /usr/bin/chroot
-  modutils:
+  module-init-tools:
     /sbin/insmod{,.old}
     /sbin/rmmod{,.old}
     /bin/lsmod{,.old}
@@ -219,7 +218,7 @@ if arch eq 's390' || arch eq 's390x'
 
   zlib:
     /lib*/libz.so*
-  shadow:
+  pwdutils:
     /usr/sbin/chpasswd
     /bin/login
     /etc/login.defs
@@ -346,7 +345,7 @@ if arch eq 's390' || arch eq 's390x'
 
   t /var/log/{faillog,lastlog,messages}
 
-  modutils:
+  module-init-tools:
     /sbin/depmod{,.old}
 #   E /sbin/depmod -a -F /System.map
   E /sbin/depmod -a -F /System.map <kernel_ver>
@@ -367,6 +366,10 @@ else # arch is not s390 or s390x
     endif
 
   x etc/syslog.conf etc
+
+  module-init-tools:
+    d /sbin
+    m /sbin/insmod.static /sbin/insmod
 
 endif
 

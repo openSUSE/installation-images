@@ -290,10 +290,9 @@ less:
   /etc/lesskey
   /usr/bin/less
 
-modutils:
- /sbin/{depmod,genksyms,insmod,ksyms,modinfo,modprobe,rmmod,insmod.static}
- /sbin/{depmod,insmod,modprobe,rmmod}.old
- /bin/lsmod{,.old}
+module-init-tools:
+ /sbin/{depmod,genksyms,insmod,ksyms,modinfo,modprobe,rmmod}
+ /bin/lsmod
 
 ps:
   /bin/ps
@@ -390,6 +389,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/bin/xkbcomp
     /usr/X11R6/bin/setxkbmap
     /usr/X11R6/bin/mkfontdir
+    /usr/X11R6/bin/mkfontscale
     /usr/X11R6/bin/xrefresh
     /etc/X11/xserver
   r /etc/X11/xserver/C
@@ -821,7 +821,7 @@ if arch ne 's390' && arch ne 's390x'
   s /.bin/smbmnt /bin/smbmnt
 endif
 
-shadow:
+pwdutils:
   /etc/pam.d/shadow
   /usr/sbin/chpasswd
 
@@ -842,6 +842,9 @@ xf86tools:
 ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
+
+libselinux:
+  /lib*/libselinux.so*
 
 # freefont:
 #  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
@@ -903,7 +906,7 @@ r /sbin/insserv
 # some scripts write to /dev/null...
 r /dev
 
-x usr/bin/conservative_lndir usr/bin
+# x usr/bin/conservative_lndir usr/bin
 if arch eq 'ppc'
 x usr/bin/ppc_post_install.sh usr/bin
 endif

@@ -90,9 +90,8 @@ r /usr/bin/{db*,glibcbug,rpcgen}
 mktemp:
   /bin/mktemp
 
-modutils:
+module-init-tools:
   /sbin/depmod
-  /sbin/depmod.old
 
 ps:
   /{,s}bin
@@ -128,8 +127,10 @@ freetype2:
     /usr/lib*/libfreetype.so.*
 
 XFree86:
-  m /usr/X11R6/bin/mkfontscale /usr/bin
-  m /usr/X11R6/bin/mkfontdir /usr/bin
+  /usr/X11R6/bin/mkfontscale
+  /usr/X11R6/bin/mkfontdir
+  s /usr/X11R6/bin/mkfontscale /usr/bin
+  s /usr/X11R6/bin/mkfontdir /usr/bin
 
 XFree86-libs:
   /usr/X11R6/lib*/libXfont.so.*
@@ -205,6 +206,9 @@ gzip:
 
 bzip2:
   /usr/lib*/libbz2.so.*
+
+cpio:
+  /bin
 
 glibc-i18ndata:
   /

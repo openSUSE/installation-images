@@ -32,6 +32,7 @@ $image = "${ImagePath}boot";
 $initrddir = "$tmpdir/initrd";
 $initdisk = "${ImagePath}initrd";
 $initrdondisk = "initrd";
+$arch = $ConfigData{arch};
 
 $image .= ".$ENV{'boot'}" if defined $ENV{'boot'};
 
@@ -44,7 +45,6 @@ $initrdondisk = "efi/boot/$initrdondisk" if $arch eq 'ia64';
 # mbr boot program (ia32 only)
 $mboot_file = "${BasePath}src/mboot/mboot";
 
-$arch = $ConfigData{arch};
 $ia32_like = $arch eq 'i386' || $arch eq 'x86_64';
 
 $fstype = $ia32_like ? 'msdos' : 'vfat';
@@ -186,15 +186,17 @@ SUSystem "umount /mnt 2>/dev/null";
 SUSystem "mount -oloop -t $fstype $image /mnt" and
   die "$Script: mount failed";
 
-SUSystem "cp -r $tmpbootdir/{${\dir_sort $tmpbootdir}} /mnt" and
+SUSystem "cp -r $tmpbootdir/${\dir_sort $tmpbootdir} /mnt" and do {
+  SUSystem "umount /mnt";
   die "$Script: failed to setup boot image";
+};
 
 if(-f '/mnt/readme.txt') {
   SUSystem "touch -r /mnt/readme.txt /mnt/*";
 }
 
 print "contents of $image:\n";
-system "ls -lU /mnt";
+system "ls -lRU /mnt";
 
 SUSystem "umount /mnt" and
   die "$Script: umount failed";
@@ -250,7 +252,10 @@ sub dir_size
   my ($dir, $block_size) = @_;
 
   for $i (<$dir/*>) {
-    $size += ((-s $i) + $block_size - 1) / $block_size if -f($i) && !-l($i);
+    next if -l $i;
+    next if $i =~ m|/\.\.?$|;
+    $size += dir_size($i, $block_size) if -d $i;
+    $size += ((-s $i) + $block_size - 1) / $block_size if -f $i;
   }
 
   return $size;
@@ -284,6 +289,8 @@ sub dir_sort
   @dir = grep { !/^\./ } readdir D;
   closedir D;
 
-  return join(',', sort(_dir_sort @dir));
+  my $files = join(',', sort(_dir_sort @dir));
+  $files = "{".$files."}" if ($files =~ /,/);
+  return $files;
 }
 

@@ -698,6 +698,9 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   # print STDERR "update_dir = $ConfigData{update_dir}\n";
   # print STDERR "load_image = $ConfigData{load_image}\n";
 
+  $ConfigData{kernel_mods} = $ConfigData{kernel_ver};
+  $ConfigData{kernel_mods} =~ s/-\d+-/-override-/;
+
   if(!$ENV{silent}) {
     my $r;
 

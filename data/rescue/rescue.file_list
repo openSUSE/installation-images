@@ -21,6 +21,7 @@ sysconfig:
   /etc
   /sbin
   /var
+  /lib*/libgetconfig.so*
 
 iproute2:
   /sbin/ip
@@ -124,8 +125,10 @@ endif
 popt:
   /usr/lib*/libpopt.so*
 
-glibc:
+nscd:
   /etc/nscd.conf
+
+glibc:
   /{lib*,sbin}
 r /lib/libdb.so.*
 r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
@@ -223,7 +226,7 @@ e postin
 mktemp:
   /bin/mktemp
 
-modutils:
+module-init-tools:
   /sbin/{insmod,modprobe,rmmod,depmod,ksyms}
   /sbin/{insmod,modprobe,rmmod,depmod}.old
   # don't ask...
@@ -313,6 +316,11 @@ xfsprogs:
 xfsdump:
   /usr/sbin
 
+openslp:
+  /etc
+  /usr/bin
+  /usr/lib*
+
 libattr:
   /lib*
 
@@ -340,7 +348,7 @@ setserial: postin
   /bin/setserial
 e postin
 
-shadow:
+pwdutils:
   /{etc,bin}
   /usr/bin
   /usr/sbin/pwunconv
@@ -400,6 +408,9 @@ e postin
 
 mingetty:
   /sbin
+
+libselinux:
+  /lib*/libselinux.so*
 
 vim:
   /etc

@@ -135,7 +135,7 @@ b 240 3 /dev/loopc3
 #zlib:
 #  /lib*/libz.so.1*
 
-modutils:
+module-init-tools:
   /sbin/{insmod,rmmod,insmod.old,rmmod.old}
 
 <kernel_rpm>:

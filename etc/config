@@ -29,7 +29,7 @@ s390x	= image
 ; use 'kernel' to override
 ;
 [KernelRPM]
-default	= kernel-default-26
+default	= kernel-default
 
 
 ; splash config
