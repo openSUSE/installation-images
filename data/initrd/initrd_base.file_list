@@ -62,11 +62,9 @@ if arch eq 's390' || arch eq 's390x'
     /etc/rpc
     /lib*/ld*.so*
     /lib*/ld[-.]*.so
-    /lib*/libc.so.*
+    /lib*/lib{c,m}.so.*
     /lib*/libcrypt.so.*
     /lib*/libdl.so.*
-    #/lib*/libm.so.*
-    #/lib*/libmemusage.so
     /lib*/libnsl.so.*
     /lib*/libnss_compat.so.*
     /lib*/libnss_dns.so.*
@@ -74,19 +72,14 @@ if arch eq 's390' || arch eq 's390x'
     /lib*/libnss_hesiod.so.*
     /lib*/libnss_nis.so.*
     /lib*/libnss_nisplus.so.*
-    #/lib*/libpcprofile.so
     /lib*/libpthread.so.*
     /lib*/libresolv.so.*
     /lib*/librt.so.*
-    #/lib*/libthread_db.so.*
     /lib*/libutil.so.*
   sed:
     /bin/sed
   tar:
     /bin/tar
-  #base:
-    # /usr/sbin/freeramdisk ?
-    # /usr/sbin/ksymoops ?
   bash:
     /bin/bash
     /bin/sh
@@ -126,6 +119,7 @@ if arch eq 's390' || arch eq 's390x'
   <kernel_rpm>:
     m /boot/System.map-* /System.map
   e2fsprogs:
+    /lib*/libblkid.so*
     /lib*/libcom_err.so.*
     /lib*/libcom_err.so.*
     /lib*/libe2p.so.*
@@ -173,66 +167,32 @@ if arch eq 's390' || arch eq 's390x'
     /usr/bin/cut
     /usr/bin/head
     /usr/bin/tail
+    /bin/uname
+    /bin/sleep
+    /bin/date
+    /bin/stty
+    /usr/bin/expr
+    /usr/bin/chroot
   modutils:
-    /sbin/insmod
-    /sbin/rmmod
-    /bin/lsmod
-    /sbin/modprobe
+    /sbin/insmod{,.old}
+    /sbin/rmmod{,.old}
+    /bin/lsmod{,.old}
+    /sbin/modprobe{,.old}
     /sbin/ksyms
     /sbin/kallsyms
   lukemftp:
     /usr/bin/ftp
   net-tools:
-    #/bin/dnsdomainname
-    #/bin/domainname
     /bin/hostname
-    #/bin/netstat
-    #/sbin/arp
     /sbin/ifconfig
-    #/sbin/ipmaddr
-    #/sbin/iptunnel
     /usr/sbin/traceroute
-    #/sbin/mii-tool
     /sbin/route
   nfs-utils:
-    #/etc/init.d/nfsserver
     /sbin/rpc.lockd
     /sbin/rpc.statd
-    #/usr/sbin/exportfs
-    #/usr/sbin/nfsstat
-    #/usr/sbin/nhfsgraph
-    #/usr/sbin/nhfsnums
-    #/usr/sbin/nhfsrun
-    #/usr/sbin/nhfsstone
-    #/usr/sbin/rcnfsserver
-    #/usr/sbin/rpc.mountd
-    #/usr/sbin/rpc.nfsd
-    #/usr/sbin/showmount
-    #/usr/share/doc/packages/nfs-utils
-    #/var/adm/fillup-templates/rc.config.knfsd
-    #/var/lib/nfs/etab
-    #/var/lib/nfs/rmtab
-    #/var/lib/nfs/sm
-    #/var/lib/nfs/sm.bak
-    #/var/lib/nfs/state
-    #/var/lib/nfs/xtab
 
   netcfg:
-    #/etc/diphosts
-    #/etc/exports
-    #/etc/ftpusers
-    #/etc/host.conf
-    #/etc/hosts
-    #/etc/hosts.allow
-    #/etc/hosts.deny
-    #/etc/hosts.equiv
-    #/etc/hosts.lpd
-    #/etc/inetd.conf
-    #/etc/networks
     /etc/protocols
-    #/etc/services
-    #/var/adm/setup
-    #/var/adm/setup/setup.netconfig
   telnet-server:
     /usr/sbin/in.telnetd
   grep:
@@ -279,20 +239,12 @@ if arch eq 's390' || arch eq 's390x'
     /lib*
   tcpd:
     /usr/sbin/tcpd
-  sh-utils:
-    /bin/uname
-    /bin/sleep
-    /bin/date
-    /bin/stty
-    /usr/bin/expr
-    /usr/bin/chroot
   util-linux:
     /bin
     /sbin
     /usr/bin/wall
     /sbin/pivot_root
     /usr/sbin/freeramdisk
-    #/usr/sbin
   ncurses:
     /lib*/libncurses.so.*
   sysvinit:
@@ -329,10 +281,16 @@ if arch eq 's390' || arch eq 's390x'
   heimdal-lib:
     /etc
     /usr/lib*/libasn1.so.*
-    /usr/lib*/libcom_err.so.*
     /usr/lib*/libgssapi.so.*
     /usr/lib*/libkrb5.so.*
     /usr/lib*/libroken.so.*
+
+  openldap2-client:
+    /usr/lib*/liblber.so.*
+    /usr/lib*/libldap.so.*
+
+  cyrus-sasl:
+    /usr/lib*/libsasl2.so.*
 
   db:
     /usr/lib*/libdb-4*.so  
@@ -385,7 +343,7 @@ if arch eq 's390' || arch eq 's390x'
   t /var/log/{faillog,lastlog,messages}
 
   modutils:
-    /sbin/depmod
+    /sbin/depmod{,.old}
 #   E /sbin/depmod -a -F /System.map
   E /sbin/depmod -a -F /System.map <kernel_ver>
   r /sbin/depmod
