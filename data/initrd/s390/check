@@ -16,6 +16,8 @@
 # INST_IP_DIR=/s390
 # INST_SCREEN=X
 # INST_X_ADDR=50.50.50.50
+# INST_PASSWORD
+# VNC_PASSWORD
 #
 #	Check the parameter for kompleetness
 #
@@ -85,13 +87,13 @@ esac
 #
 case $IP_INTERFACE in
 	ctc|escon)
-#		check DEVNO, DEVNO2
-	echo $DEVNO $DEVNO2 | check_number
+#		check READ_DEVNO, WRITE_DEVNO
+	echo $READ_DEVNO $WRITE_DEVNO | check_number
 	[ $? -eq 1 ] && CONFIG_IS_OK=0
 	;;
 	qeth)
-#		check DEVNO, PORTNAME
-	echo $DEVNO | check_number
+#		check READ_DEVNO, DATA_DEVNO, PORTNAME
+	echo $READ_DEVNO $DATA_DEVNO | check_number
 	[ $? -eq 1 ] && CONFIG_IS_OK=0
 	[ `expr "$PORTNAME" : "[A-Z1-0]" ` ] && CONFIG_IS_OK=0
 	;;
@@ -101,8 +103,8 @@ case $IP_INTERFACE in
 	[ $? -eq 1 ] && CONFIG_IS_OK=0
 	;;
 	hsi)
-#		check DEVNO, DEVNO2, DEVNO3
-	echo $DEVNO $DEVNO2 $DEVNO3 | check_number
+#		check READ_DEVNO, WRITE_DEVNO, DEVNO3
+	echo $READ_DEVNO $WRITE_DEVNO $DEVNO3 | check_number
 	[ $? -eq 1 ] && CONFIG_IS_OK=0
 	;;
 	iucv)

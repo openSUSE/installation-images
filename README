@@ -161,7 +161,7 @@ o <action> <arg1> <arg2> ...
 
     m <old_name> <new_name>
 
-  - as for 'm', but continue on errors
+  - same as 'm', but follows symlinks
 
     a <old_name> <new_name>
 
