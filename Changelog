@@ -1,3 +1,4 @@
+30/8/2004:	v6.6
 	- removed the evil parallel universe of s390 installation; rejoice!
 	- fixed the generic stuff to be s390-safe
 	- module disks are back
