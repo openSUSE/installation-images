@@ -3,7 +3,7 @@
 # check in y2image to /work/src/done/STABLE
 # call from the y2image directory
 
-ver=0.23
+ver=0.24
 y2image=/tmp/y2image-$ver
 
 if [ "$ver" = "" ] ; then
