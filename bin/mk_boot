@@ -304,7 +304,13 @@ if($noinitrd) {
   }
 }
 else {
-  SUSystem "cp $initdisk /mnt/$initrdondisk" and
+  if ($arch eq 'ia64') {
+    $subdir = 'efi/boot/';
+  }
+  else {
+    $subdir = '';
+  }
+  SUSystem "cp $initdisk /mnt/$subdir$initrdondisk" and
     die "$Script: could not add $initdisk to the image";
 }
 
@@ -312,7 +318,7 @@ $i3 = $i2*10;
 SUSystem "touch -d $i1:$i3 /mnt/*";
 
 print "contents of $image:\n";
-system "ls -l /mnt";
+system "ls -lR /mnt";
 
 SUSystem "umount /mnt" and
   die "$Script: umount failed";
