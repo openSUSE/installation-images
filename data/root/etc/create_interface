@@ -82,7 +82,7 @@ then
 		myifcfg=ifcfg-$NETDEV
 	else
 	# use LLA address
-		myifcfg=ifcfg-${HWD_DEVTYPE}-id-${HWD_ID}
+		myifcfg=ifcfg-${HWD_INTERFACETYPE_0}-id-${HWD_ID}
 	fi
 	: ifcfg $myifcfg
 	DEVICEFILE=${DEVICEDIR}$myifcfg
