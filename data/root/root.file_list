@@ -467,6 +467,14 @@ if with_yast2 ne 'no'
 
   x /usr/X11R6/lib/X11/fonts/misc/fonts.alias /usr/X11R6/lib/X11/fonts/misc
   x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
+
+  if suse_release >= 8.0
+    xf86tools:
+      /usr/X11R6/lib/X11/XftConfig
+
+    libusb:
+      /usr/lib/libusb*.so.*
+  endif
 endif
 
 if with_yast2 ne 'no'

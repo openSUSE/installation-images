@@ -143,6 +143,9 @@ libz:
 modutils:
   /sbin/{insmod,rmmod}
 
+<kernel_rpm>:
+  f / nls_iso8859-1.o /lib
+
 x /etc/{HOSTNAME,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
 
 x /sbin/init /sbin

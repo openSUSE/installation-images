@@ -176,6 +176,8 @@ deb_stop
 mount -n -oremount,rw /
 mount -n -t proc proc /proc
 [ -x /sbin/portmap ] && /sbin/portmap
+[ -f /lib/nls_iso8859-1.o ] && insmod /lib/nls_iso8859-1.o
+
 mount /S.u.S.E.
 
 rmdir /initrd 2>/dev/null
