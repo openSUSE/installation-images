@@ -730,7 +730,7 @@ if pre_release
    r /lib/security/pam_userdb.so
 
    x etc/inst_setup_ssh /sbin/
-   c 755 /sbin/inst_setup_ssh
+   c 755 0 0 /sbin/inst_setup_ssh
    x etc/ssh /etc
    c 644 0 0 /etc/ssh/*
    d /root
@@ -750,6 +750,10 @@ endif
 jfsutils:
   /sbin/{fsck.jfs,mkfs.jfs}
 
+xfsprogs:
+  /sbin/fsck.xfs
+  /sbin/mkfs.xfs
+
 wget:
   /etc
   /usr/bin
@@ -762,6 +766,9 @@ timezone:
   /usr
   r /usr/share/zoneinfo/posix
   r /usr/share/zoneinfo/right
+
+hex:
+  /usr/bin/hex
 
 if with_yast2 ne 'no'
   # make fonts.dir

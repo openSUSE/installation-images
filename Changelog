@@ -1,3 +1,6 @@
+26/2/2002:	v1.24
+	- some minor fixes (mainly xfs)
+
 25/2/2002:	v1.23
 	- fixed rescue system (#13854)
 	- added ehci driver

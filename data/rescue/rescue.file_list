@@ -235,6 +235,22 @@ reiserfs:
 jfsutils:
   /sbin
 
+xfsprogs:
+  /lib
+  /sbin
+  /usr/sbin
+
+xfsdump:
+  /sbin
+  /usr/sbin
+
+attr:
+  /lib
+  /usr/bin
+
+dmapi:
+  /lib
+
 rpm:
   /bin
   /usr/bin
@@ -336,6 +352,9 @@ gawk:
 ddrescue:
   /bin
 
+hex:
+  /usr/bin/hex
+
 if arch ne 'sparc'
   <kernel_rpm>:
     f / st.o
@@ -357,6 +376,9 @@ if arch ne 'sparc'
     f / ext3.o
     f / hpfs.o
     f / loop_fish2.o
+    f / xfs.o
+    f / xfs_support.o
+    f / xfs_dmapi.o
 if arch eq 'alpha'
 # ???
 #    m /boot/System.map-*.default /System.map
