@@ -3,7 +3,7 @@
 # check in y2image to /work/src/done/STABLE
 # call from the y2image directory
 
-ver=0.70
+ver=0.71
 y2image=/tmp/y2image-$ver
 
 if [ "$ver" = "" ] ; then
@@ -19,8 +19,14 @@ mkdir $y2image
 tar -cf - * | tar -C $y2image -xf -
 cd $y2image
 find . -depth -name CVS -exec rm -r {} \;
-rm -f bin/ci_y2image MAINTAINER
+rm -f bin/ci_* MAINTAINER
+rm -f data/initrd/disk_*.file_list
 cd /tmp
+
+if [ "$1" = test ] ; then
+  echo "y2image directory tree: $y2image"
+  exit
+fi
 
 tar -zcf $y2image.tar.gz y2image-$ver
 

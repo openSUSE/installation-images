@@ -63,6 +63,7 @@ sub AddFiles
   my ($dir, $file_list, $ext_dir, $arch, $if_val, $tag);
   my ($rpms, $tdir, $tfile, $p, $r, $d, $u, $g, $files);
   my ($mod_list, @mod_list, %mod_list);
+  my ($inc_file, $inc_it);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
@@ -94,11 +95,20 @@ sub AddFiles
 
   $if_val = 0;
 
-  while(<F>) {
+  while($_ = $inc_it ? <I> : <F>) {
+    if($inc_it && eof(I)) {
+      undef $inc_it;
+      close I;
+    }
+
     chomp;
     next if /^(\s*|\s*#.*)$/;
 
 #    printf ".<%x>%s\n", $if_val, $_;
+
+    s/<kernel_ver>/$ConfigData{kernel_ver}/g;
+    s/<kernel_rpm>/$ConfigData{kernel_rpm}/g;
+    s/<kernel_img>/$ConfigData{kernel_img}/g;
 
     if(/^endif/) { $if_val >>= 1; next }
 
@@ -115,13 +125,15 @@ sub AddFiles
 
     next if $if_val;
 
-    s/<kernel_ver>/$ConfigData{kernel_ver}/g;
-    s/<kernel_rpm>/$ConfigData{kernel_rpm}/g;
-    s/<kernel_img>/$ConfigData{kernel_img}/g;
-
 #    printf "*<%x>%s\n", $if_val, $_;
 
-    if(/^(\S+):\s*$/) {
+    if(/^include\s+(\S+)$/) {
+      die "$Script: recursive include not supported" if $inc_it;
+      $inc_file = $1;
+      die "$Script: no such file list: $inc_file" unless open I, "$ext_dir/$inc_file";
+      $inc_it = 1;
+    }
+    elsif(/^(\S+):\s*$/) {
       $p = $1;
       if($AutoBuild) {
         SUSystem "rm -rf $tdir" and

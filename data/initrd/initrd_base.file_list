@@ -1,0 +1,118 @@
+d bin dev etc mnt proc tmp
+d var/run var/adm/mount var/lib/YaST var/spool var/lock var/log var/tmp
+
+d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11
+s /usr/X11R6/lib/X11 var/X11R6/lib
+
+d modules
+d dev/usb
+
+# agpgarti810 device
+ifarch ix86
+xsvga:
+  /dev/agpgarti810
+endif
+
+t var/run/utmp
+
+c 1777 0 0 tmp
+
+t linuxrc
+c 0755 0 0 linuxrc
+l linuxrc bin/cardmgr
+l linuxrc bin/insmod
+l linuxrc bin/loadkeys
+l linuxrc bin/probe
+l linuxrc bin/rmmod
+l linuxrc bin/sh
+l linuxrc bin/setfont
+l linuxrc bin/init
+l linuxrc bin/portmap
+l linuxrc etc/nothing
+
+x etc/host.conf etc
+
+devs:
+ifenv suse_major_release 6
+m /usr/doc/packages/devs/makedevs.floppy /
+else
+m /usr/share/doc/packages/devs/makedevs.floppy /
+endif
+c 0755 0 0 makedevs.floppy
+
+kbd:
+d consoletrans
+m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat1u.uni,lat2u.uni,lat7u.uni,latin2u.scrnmap,trivial} consoletrans
+
+d consolefonts
+# Cyr_a8x16 differs
+g /usr/lib/kbd/consolefonts/Cyr_a8x16.psfu.gz consolefonts/Cyr_a8x16
+g /usr/lib/kbd/consolefonts/gr8x16.gz consolefonts/gr8x16.psf
+g /usr/lib/kbd/consolefonts/lat1-16.psfu.gz consolefonts/lat1u-16.psf
+# lat2 differs
+g /usr/lib/kbd/consolefonts/lat2-16.psfu.gz consolefonts/lat2u-16.psf
+g /usr/lib/kbd/consolefonts/lat7-16.psfu.gz consolefonts/lat7-16.psfu
+
+d keytables/include
+
+ifarch ix86 ppc
+g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz keytables/Pl02.map
+g /usr/lib/kbd/keymaps/i386/qwerty/br-abnt2.map.gz keytables/br-abnt2.map
+g /usr/lib/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz keytables/cz-us-qwertz.map
+g /usr/lib/kbd/keymaps/i386/qwertz/de-lat1-nd.map.gz keytables/de-lat1-nd.map
+g /usr/lib/kbd/keymaps/i386/qwerty/dk.map.gz keytables/dk.map
+g /usr/lib/kbd/keymaps/i386/qwerty/es.map.gz keytables/es.map
+g /usr/lib/kbd/keymaps/i386/qwerty/fi.map.gz keytables/fi.map
+g /usr/lib/kbd/keymaps/i386/azerty/fr-latin1.map.gz keytables/fr-latin1.map
+g /usr/lib/kbd/keymaps/i386/qwerty/gr.map.gz keytables/gr.map
+g /usr/lib/kbd/keymaps/i386/qwertz/hu.map.gz keytables/hu.map
+g /usr/lib/kbd/keymaps/i386/qwerty/it.map.gz keytables/it.map
+g /usr/lib/kbd/keymaps/i386/qwerty/nl.map.gz keytables/nl.map
+g /usr/lib/kbd/keymaps/i386/qwerty/no-latin1.map.gz keytables/no-latin1.map
+g /usr/lib/kbd/keymaps/i386/qwerty/pt-latin1.map.gz keytables/pt-latin1.map
+g /usr/lib/kbd/keymaps/i386/qwerty/ru1.map.gz keytables/ru1.map
+g /usr/lib/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz keytables/sk-qwerty.map
+g /usr/lib/kbd/keymaps/i386/qwerty/uk.map.gz keytables/uk.map
+g /usr/lib/kbd/keymaps/i386/qwerty/us.map.gz keytables/us.map
+
+g /usr/lib/kbd/keymaps/i386/qwertz/de-latin1.map.gz keytables/de-latin1.map
+m /usr/lib/kbd/keymaps/i386/include/{azerty-layout,linux-keys-bare,linux-keys-extd,linux-with-alt-and-altgr,linux-with-two-alt-keys,qwerty-layout,qwertz-layout}.inc keytables/include
+g /usr/lib/kbd/keymaps/i386/include/euro.map.gz keytables/include/euro.map
+endif
+
+ifarch ppc
+g /usr/lib/kbd/keymaps/mac/mac-de-latin1-nodeadkeys.map.gz keytables/mac-de-latin1-nodeadkeys.map
+g /usr/lib/kbd/keymaps/mac/mac-fr2-ext.map.gz keytables/mac-fr2-ext.map
+g /usr/lib/kbd/keymaps/mac/mac-us.map.gz keytables/mac-us.map
+# g /usr/lib/kbd/keymaps/mac/mac-us-std.map.gz keytables/mac-us-std.map
+endif
+
+ifarch sparc sparc64
+g /usr/lib/kbd/keymaps/sun/sunkeymap.map.gz keytables/sunkeymap.map
+g /usr/lib/kbd/keymaps/sun/sundvorak.map.gz keytables/sundvorak.map
+g /usr/lib/kbd/keymaps/sun/sun-pl-altgraph.map.gz keytables/sun-pl-altgraph.map
+g /usr/lib/kbd/keymaps/sun/sun-pl.map.gz keytables/sun-pl.map
+g /usr/lib/kbd/keymaps/sun/sunt4-es.map.gz keytables/sunt4-es.map
+g /usr/lib/kbd/keymaps/sun/sunt4-no-latin1.map.gz keytables/sunt4-no-latin1.map
+g /usr/lib/kbd/keymaps/sun/sunt5-de-latin1.map.gz keytables/sunt5-de-latin1.map
+g /usr/lib/kbd/keymaps/sun/sunt5-es.map.gz keytables/sunt5-es.map
+g /usr/lib/kbd/keymaps/sun/sunt5-fi-latin1.map.gz keytables/sunt5-fi-latin1.map
+g /usr/lib/kbd/keymaps/sun/sunt5-fr-latin1.map.gz keytables/sunt5-fr-latin1.map
+g /usr/lib/kbd/keymaps/sun/sunt5-ru.map.gz keytables/sunt5-ru.map
+endif
+
+ifarch alpha ix86 ppc
+pcmcia:
+d etc/pcmcia/cis
+a etc/pcmcia/cis etc/pcmcia
+t etc/pcmcia/fixed
+c 0755 0 0 etc/pcmcia/fixed
+l etc/pcmcia/fixed  etc/pcmcia/scsi
+l etc/pcmcia/fixed  etc/pcmcia/ide
+l etc/pcmcia/fixed  etc/pcmcia/network
+
+  /etc/pcmcia/config
+  /etc/pcmcia/config.opts
+x etc/pcmcia/fixed etc/pcmcia
+endif
+

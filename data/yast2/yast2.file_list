@@ -172,8 +172,12 @@ endif
 mdutils:
   /sbin/*
 
+ifenv suse_major_release 6
 mkdosfs:
-  /sbin/{mkdosfs,mkfs.msdos}
+else
+dosfstls:
+endif
+   /sbin/{mkdosfs,mkfs.msdos}
 
 net_tool:
   /sbin/{ifconfig,route,plipconfig}
@@ -343,8 +347,20 @@ x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
 x /usr/X11R6/lib/X11/XF86Config /usr/X11R6/lib/X11/XF86Config_3
 x /etc/XF86Config /usr/X11R6/lib/X11/XF86Config_4
 
+ifenv suse_major_release 6
+
 yast2:
   /usr/X11R6/lib/X11/fonts/uni
+else
+
+yast2:
+  /sbin
+  /usr/lib/YaST2
+
+y2t_inst:
+  /usr/lib/YaST2
+
+endif
 
 libpng:
   /usr/lib/libpng.so.2*
@@ -376,16 +392,18 @@ qtlib2:
   /usr/lib/*
 
 y2base:
-ifenv suse_major_release 6
   /bin/y2bignfat
-else
-  /bin/y2bignqt
-  /bin/y2bigncurses
-endif
+ifenv suse_major_release 6
   /lib/YaST2
-  /var/lib/YaST2
 c 0755 0 0 /lib
 c 0755 0 0 /lib/YaST2
+else
+  /usr/lib/YaST2
+c 0755 0 0 /usr
+c 0755 0 0 /usr/lib
+c 0755 0 0 /usr/lib/YaST2
+endif
+  /var/lib/YaST2
 c 0755 0 0 /var/lib
 c 0755 0 0 /var/lib/YaST2
 
@@ -471,4 +489,7 @@ fbset:
 endif
 
 x /usr/bin/setclock /usr/bin
+
+k_deflt:
+m /boot/System.map-<kernel_ver> /System.map
 

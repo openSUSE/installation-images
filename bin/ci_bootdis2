@@ -1,0 +1,53 @@
+#! /bin/sh
+
+# check in bootdis2 to /work/src/done/STABLE
+# call from the y2image directory
+
+# filelist:		disk_yast2.file_list
+# kernel:		k_deflt
+# linuxrc:		linuxrc_mini
+# syslinux config:	syslinux.cfg
+
+ver=`cat VERSION`
+bootdis2=/tmp/bootdis2-$ver
+
+if [ "$ver" = "" ] ; then
+  echo "no version info?"
+  exit 1
+fi
+
+echo "going to check in bootdis2 version $ver..."
+
+make clean
+rm -rf $bootdis2
+mkdir $bootdis2
+tar -cf - * | tar -C $bootdis2 -xf -
+cd $bootdis2
+find . -depth -name CVS -exec rm -r {} \;
+rm -f bin/ci_* MAINTAINER
+rm -rf data/{demo,yast2}
+mv data/initrd/disk_yast2.file_list data/initrd/initrd.file_list
+rm -f data/initrd/disk_*.file_list
+perl -pi -e 's:/usr/sbin/linuxrc:/usr/sbin/linuxrc_mini:g' etc/config 
+cd /tmp
+
+if [ "$1" = test ] ; then
+  echo "bootdis2 directory tree: $bootdis2"
+  exit
+fi
+
+tar -zcf $bootdis2.tar.gz bootdis2-$ver
+
+if mkdir /work/src/done/STABLE/bootdis2 ; then
+  cd /work/src/done/STABLE/bootdis2
+  cp $bootdis2.tar.gz /work/SRC/arch/i386/bootdis2/bootdis2.{changes,spec} .
+  perl -pi -e 's/^(Version:\s+)\S+/${1}'$ver'/' /work/src/done/STABLE/bootdis2/bootdis2.spec
+  perl -pi -e 's/^(Source.+?-)\S+?(\.tar\.gz)/${1}'$ver'${2}/' /work/src/done/STABLE/bootdis2/bootdis2.spec
+  . /work/src/bin/.profile
+  vc bootdis2
+  rm /work/src/done/STABLE/bootdis2/*~
+  echo "ok"
+else
+  echo oops
+  exit 1
+fi

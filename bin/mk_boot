@@ -80,7 +80,7 @@ $i2 = $ConfigData{suse_minor_release};
 $label = "SUSE${i1}${i2}_BOOT";
 
 # create an empty image
-if($ENV{'initrd'} eq 'small') {
+if($ENV{'boot'} eq 'small') {
   ($blocks, $block_size) = MakeFATImage($image, $label, 1)
 }
 else {
@@ -92,7 +92,7 @@ die "$Script: failed to create DOS disk image \"$image\"\n" unless defined $bloc
 printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $blocks, $block_size, $blocks * $block_size;
 
 # make it bootable and add syslinux
-$xx = "-s" if $ENV{'initrd'} eq 'small';
+$xx = "-s" if $ENV{'boot'} eq 'small';
 SUSystem "$syslx $xx $image" and
   die "$Script: syslinux failed";
 

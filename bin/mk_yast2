@@ -71,9 +71,10 @@ die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
 SUSystem "mkdir $tmpdir/modules";
 SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
-SUSystem "depmod -a -F /boot/System.map-$ConfigData{kernel_ver} -b $tmpdir $ConfigData{kernel_ver}";
+SUSystem "depmod -a -F $tmpdir/System.map -b $tmpdir $ConfigData{kernel_ver}";
 die "$Script: failed to run depmod" unless -f "$tmpdir/lib/modules/$ConfigData{kernel_ver}/modules.dep";
 SUSystem "rm -r $tmpdir/modules";
+SUSystem "rm $tmpdir/System.map";
 SUSystem "ln -snf /modules $tmpdir/lib/modules/default/misc";
 
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;

@@ -310,7 +310,7 @@ $AutoBuild = 1 if -f("/bin/rpm.bin") && -f("/bin/uname.bin");
 
   die "No SuSE release identified.\n" unless $a ne "" && $v ne "";
 
-  print "Building for SuSE Linux $v ($a) [$s].\n";
+  print "Building for SuSE Linux $v ($a,$ENV{'kernel_rpm'},$ENV{'kernel_ver'}) [$s].\n";
 }
 
 1;

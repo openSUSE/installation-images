@@ -25,16 +25,18 @@ c 0711 0 0 /root
   /etc/{hushlogins,inittab,motd,logfiles,netgroup}
   /etc/{profile.dos,shells,zshrc}
 # aaa_base's preinstall
-#X /sbin/init.d/{boot,halt}.local /sbin/init.d
-#X /etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
 ifnabuild
 # fake so we don't use local files
-#x /etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
 endif
   /sbin/SuSEconfig
 p /sbin/SuSEconfig.patch
-p /sbin/boot.patch
-p /sbin/halt.patch
+ifenv suse_major_release 6
+p /sbin/boot.patch_64
+p /sbin/halt.patch_64
+else
+p /sbin/boot.patch_70
+p /sbin/halt.patch_70
+endif
 
 aaa_dir:
   /sbin/init.d
@@ -46,7 +48,7 @@ kbd:
 
 xsvga:
   /dev/agpgarti810
-#  /lib/modules/2.2.14/misc/agpgarti810.o
+#  /lib/modules/<kernel_ver>/misc/agpgarti810.o
 
 #<kernel_rpm>:
 #ifnarch ppc
@@ -66,7 +68,7 @@ xsvga:
 #c 0755 0 0 /lib/modules/<kernel_ver>/misc
 
 ncurses:
-  /lib/libncurses.so.5{,.0}
+  /lib/libncurses.so.5*
 
 shlibs:
   /lib/ld-2.*.so
@@ -81,8 +83,8 @@ endif
 
 bash:
   /bin/bash
-  /lib/libreadline.so.4.0
-  /lib/libhistory.so.4.0
+  /lib/libreadline.so.4*
+  /lib/libhistory.so.4*
 s bash /bin/sh
 
 sh_utils:

@@ -1,0 +1,226 @@
+1. Overview
+===========
+
+To build a new image, you have to:
+
+ - be root
+ - put the y2image dir on a *local* file system (non-NFS)
+ - on ix86 systems: linuxrc & syslinux installed
+
+Then you can do:
+
+  make initrd
+    - build an initial ramdisk
+
+  initrd=small make initrd
+    - build a 'small' test initrd, suitable for 1.44 MB boot images (for ix86)
+    - *** This is not suitable for release on our CDs! ***
+
+  make boot
+    - build an boot image (for ix86)
+
+  make yast2
+    - build a root image ('yast2' for historical reasons)
+
+  demo=old make demo
+  demo=yes make demo
+    - build a root image for a Live/LiveEval CD
+
+  make boot
+    - build a (2.88MB) boot image (for ix86)
+
+  demo=old make boot
+  demo=yes make boot
+    - build a (2.88MB) Live/LiveEval boot image (for ix86)
+    - add 'boot=small initrd=small' to get a 1.44 MB *test* image
+
+The images are stored in the y2image/image directory, the contents of the
+images (except for the boot image) in the y2image/tmp directory.
+
+There is some special magic built into the scripts that make sure that the
+initrd fits on the boot disk by removing/adding some of the modules. See the
+description of the *.file_list format for details.
+
+You can select the SuSE release to build for, e.g:
+
+  suserelease=6.4 make initrd
+
+but note:
+  - This is ignored in an autobuild environment (for obvious reasons).
+  - You cannot sensibly test for 'suserelease' in the various *.file_list files
+    using the 'ifenv' construct.
+    Use 'suse_major_release', 'suse_minor_release' or 'suse_release' instead.
+
+
+2. Format of *.file_list files
+==============================
+
+o Lines starting with '#' are comments, empty lines are ignored.
+
+    example:
+
+    # some comment
+
+o You can include other files:
+
+    include <file>
+
+    <file> is relative to the y2image/data/*/ tree.
+
+o There are several 'if' constructs:
+
+  ifarch/ifnarch, ifdef/ifndef, ifabuild/ifnabuild, ifenv/ifnenv
+
+  - ifarch/ifnarch <arch>
+
+    <arch> is matched against the output of 'uname -m', except for
+    32-bit Intel machines where 'ix86' should be used.
+
+    example:
+
+      ifarch ppc
+      # ...
+      endif
+
+  - ifdef/ifndef <value>
+
+    <value> is compared with a value specified by the script that
+    calls the AddFiles() function. This is currently used only
+    in connection with the 'initrd=small' environment setting
+
+    example:
+
+      ifdef small
+      # for 1.44MB disk
+      else
+      # for large disk
+      endif
+
+  - Both if[n]arch and if[n]def can have more than one argument which is
+    treated as an 'or' relation:
+
+    example:
+
+      ifarch ppc axp ix86
+      # arch is ppc || axp || ix86
+      endif
+
+  - ifabuild/ifnabuild
+
+    Checks whether we run in autobuild or not.
+
+    example:
+
+      ifnabuild
+      # not in autobuild
+      endif
+
+  - ifenv/ifnenv <env_var> <value>
+
+    Checks of the environment variable <env_var> has the value <value>.
+    Note that <vallue> must be specified; so it is not possible to test
+    for a set/unset env variable.
+
+    example:
+
+      ifenv suse_release 6.4
+      # special for SuSE 6.4
+      endif
+
+  if's can be nested to a level of at least 31. You won't get an error message if
+  there are unmatched else's or endif's. In fact something like
+
+    ifarch ix86
+    # ix86 only
+    else
+    # !ix86
+    else
+    # ix86 only
+    endif
+
+  is allowed (but of questionable value).
+
+o <package_name>:
+
+  Unpack the selected package into a temporary directory.
+
+  example:
+  
+    k_delft:
+
+o <action> <arg1> <arg2> ...
+
+  Do the specified action. <action> is one of these:
+
+  - add the file/directory tree to the image:
+
+      <args>
+    ^ there's a space!
+
+  - add a file/directory with a different name
+
+    m <old_name> <new_name>
+
+  - as for 'm', but continue on errors
+
+    a <old_name> <new_name>
+
+  - add optional files (e.g. some modules in initrd)
+
+    M <old_name> <new_name>
+
+  - add and gunzip files
+
+    g <src> <dst>
+
+  - remove a file/directory tree
+
+    r <args>
+
+  - create directories:
+
+    d <args>
+
+  - touch a file
+
+    t <args>
+
+  - strip
+
+    S <args>
+
+  - hard link (<args> as for the ln command)
+
+    l <args>
+
+  - symlink
+
+    s <args>
+
+  - apply a patch from the y2image/data/*/ tree
+    (The patch *must not* contain absolute path names!)
+
+    p <patch>
+
+  - chown/chmod files
+
+    c <perm> <owner> <group> <args>
+
+  - make block device
+
+    b <major> <minor> <name>
+
+  - make char device
+
+    c <major> <minor> <name>
+
+  - add some extra files (That is, add files not from packages but from
+    the y2image/data/*/ directory.)
+
+    x <src> <dst>
+
+  - add files from the local system (This should be used only for
+    testing!)
+
+    X <src> <dst>
+

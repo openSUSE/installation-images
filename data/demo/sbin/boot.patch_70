@@ -1,0 +1,44 @@
+--- sbin/init.d/boot	Mon Jun  5 12:31:01 2000
++++ sbin/init.d/boot	Mon Jun  5 12:35:53 2000
+@@ -216,8 +216,7 @@
+ #
+ # clean up
+ #
+-rm -f /etc/mtab* /etc/nologin /nologin /fastboot
+-
++rm -f /etc/nologin /nologin /fastboot
+ #
+ # initialize database for kerneld.  This should be done earlier, but
+ # could cause a lot of trouble with damaged file systems.
+@@ -246,6 +245,8 @@
+ echo "Mounting local file systems..."
+ mount -fv -t proc proc /proc
+ rc_status
++mount -v /S.u.S.E.
++rc_status
+ mount -av -t nonfs,noproc
+ rc_status -v1 -r
+ 
+@@ -365,13 +366,15 @@
+ 	esac
+ done < /proc/cpuinfo
+ 
+-test "$GMT" != "YAST_ASK" && $CLOCKCMD --hctosys $GMT
+-rc_status
+-test -f /etc/adjtime || echo "0.0 0 0.0" > /etc/adjtime
+-test "$GMT" != "YAST_ASK"  -a "$START_XNTPD" != "yes" && {
+-    $CLOCKCMD --adjust $GMT
+-    rc_status
+-}
++if [ "$GMT" != YAST_ASK ] ; then
++  test "$GMT" != "YAST_ASK" && $CLOCKCMD --hctosys $GMT
++  rc_status
++  test -f /etc/adjtime || echo "0.0 0 0.0" > /etc/adjtime
++  test "$GMT" != "YAST_ASK"  -a "$START_XNTPD" != "yes" && {
++      $CLOCKCMD --adjust $GMT
++      rc_status
++  }
++fi
+ rc_status -v -r
+ 
+ #

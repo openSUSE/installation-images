@@ -1,0 +1,58 @@
+#! /bin/sh
+
+# check in bootdisk to /work/src/done/STABLE
+# call from the y2image directory
+
+# filelist:		disk_i386.file_list
+# kernel:		k_i386
+# linuxrc:		linuxrc_mini
+# syslinux config:	syslinux.cfg
+#   - NO frame buffe entry in syslinux.cfg
+#   - 'manual' is default boot entry
+
+ver=`cat VERSION`
+bootdisk=/tmp/bootdisk-$ver
+
+if [ "$ver" = "" ] ; then
+  echo "no version info?"
+  exit 1
+fi
+
+echo "going to check in bootdisk version $ver..."
+
+make clean
+rm -rf $bootdisk
+mkdir $bootdisk
+tar -cf - * | tar -C $bootdisk -xf -
+cd $bootdisk
+find . -depth -name CVS -exec rm -r {} \;
+rm -f bin/ci_* MAINTAINER
+rm -rf data/{demo,yast2}
+mv data/initrd/disk_i386.file_list data/initrd/initrd.file_list
+rm -f data/initrd/disk_*.file_list
+perl -pi -e 's:/usr/sbin/linuxrc:/usr/sbin/linuxrc_mini:g' etc/config 
+perl -pi -e 's/k_deflt/k_i386/g' etc/config
+perl -pi -e 's/^(default\s+)linux/$1manual/' data/boot/syslinux.cfg
+perl -ni -e 'print unless /^framebuffer/' data/boot/syslinux.cfg
+cd /tmp
+
+if [ "$1" = test ] ; then
+  echo "bootdisk directory tree: $bootdisk"
+  exit
+fi
+
+tar -zcf $bootdisk.tar.gz bootdisk-$ver
+
+if mkdir /work/src/done/STABLE/bootdisk ; then
+  cd /work/src/done/STABLE/bootdisk
+  cp $bootdisk.tar.gz /work/SRC/arch/i386/bootdisk/bootdisk.{changes,spec} .
+  perl -pi -e 's/^(Version:\s+)\S+/${1}'$ver'/' /work/src/done/STABLE/bootdisk/bootdisk.spec
+  perl -pi -e 's/^(Source.+?-)\S+?(\.tar\.gz)/${1}'$ver'${2}/' /work/src/done/STABLE/bootdisk/bootdisk.spec
+  . /work/src/bin/.profile
+  vc bootdisk
+  rm /work/src/done/STABLE/bootdisk/*~
+  echo "ok"
+else
+  echo oops
+  exit 1
+fi
