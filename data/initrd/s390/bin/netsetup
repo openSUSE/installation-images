@@ -1313,10 +1313,10 @@ function load_CTC () {
         LAST_DEVNO="$DEVNO"
 	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
 	then
-		echo "Device address for read channel ($DEVNO): $READ_DEVNO"
-		ANSW=$READ_DEVNO
+		echo "Device address for read channel ($DEVNO): 0.0.$READ_DEVNO"
+		ANSW=0.0.$READ_DEVNO
 	else
-		[ -n "$READ_DEVNO" ] && DEVNO=$READ_DEVNO
+		[ -n "$READ_DEVNO" ] && DEVNO=0.0.$READ_DEVNO
 		readln "Device address for read channel ($DEVNO): "
 	fi
 	[ "$ANSW" ] && export DEVNO=$ANSW
@@ -1329,10 +1329,10 @@ function load_CTC () {
 	[ -z "$DEVNO2" -o "$DEVNO2" = auto ] && DEVNO2=`cut -d' ' -f 1 ctc_detected | head -n 2|tail -n 1`
 	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
 	then
-		echo "Device address for write channel ($DEVNO2): $WRITE_DEVNO"
-		ANSW=$WRITE_DEVNO
+		echo "Device address for write channel ($DEVNO2): 0.0.$WRITE_DEVNO"
+		ANSW=0.0.$WRITE_DEVNO
 	else
-		[ -n "$WRITE_EVNO" ] && DEVNO2=$WRITE_DEVNO
+		[ -n "$WRITE_EVNO" ] && DEVNO2=0.0.$WRITE_DEVNO
 		readln "Device address for write channel ($DEVNO2): "
 	fi
 	[ "$ANSW" ] && export DEVNO2=$ANSW

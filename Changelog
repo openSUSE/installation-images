@@ -1,3 +1,5 @@
+	- s390: netsetup: fix up parameters passed via READ/WRITE_DEVNO
+
 11/5/2004:	v5.52
 	- s390: netsetup: added LCS fixes by Mark Ver (bug #40097)
 	- add ibmveth, iseries_veth
