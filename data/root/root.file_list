@@ -305,7 +305,7 @@ endif
   /sbin/{ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
 if arch eq 'ppc'
     /etc/filesystems
-    /sbin/clock
+    /sbin/{clock,nvsetenv}
 endif
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
@@ -648,7 +648,7 @@ endif
 
 # add the rest from instsys
 lvm:
-  /lib/liblvm.so
+  /lib/liblvm.so*
   /sbin/lv*  
   /sbin/pv* 
   /sbin/vg*
@@ -743,6 +743,12 @@ if suse_release >= 7.1
   x etc/syslogd /sbin/syslogd
 else
   /usr/sbin/syslogd
+endif
+
+if arch eq 'ppc'
+  parted:
+    /usr/sbin
+    /usr/lib/libparted.so*
 endif
 
 # final clean up

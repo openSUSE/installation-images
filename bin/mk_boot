@@ -64,6 +64,9 @@ $initrddir = "$tmpdir/initrd";
 $initrddirx = "$tmpdir/.initrd";
 $initdisk = "${ImagePath}initrd";
 
+# mbr boot program (ia32 only)
+$mboot_file = "${BasePath}src/mboot/mboot";
+
 $arch = $ConfigData{suse_arch};
 $fstype = $arch eq 'i386' ? 'msdos' : 'vfat';
 
@@ -91,6 +94,10 @@ $label = "SUSE${i1}${i2}_BOOT";
 # create an empty image
 if($ENV{'boot'} eq 'small') {
   ($blocks, $block_size) = MakeFATImage($image, $label, 1)
+}
+elsif($ENV{'boot'} eq 'hd') {
+  # about 20MB image; see lib/MakeFATImage.pm for the meaning of the args
+  ($blocks, $block_size) = MakeFATImage($image, $label, 2, 63, 4, 160, "$image.mbr", $mboot_file)
 }
 elsif($ENV{'boot'} eq 'large' || ($arch eq 'ia64' && !$ENV{'boot'})) {
   # about 20MB image; see lib/MakeFATImage.pm for the meaning of the args
@@ -123,11 +130,6 @@ AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
   die "$Script: failed to setup boot image";
 
 if($arch eq 'i386') {
-#  system "cp /mnt/message $TmpBase.boot";
-#  system "perl -pi -e 's/x\\.y/$ENV{suse_release}/g' $TmpBase.boot";
-#  SUSystem "cp $TmpBase.boot /mnt/message";
-#  unlink "$TmpBase.boot";
-
   SUSystem "umount /mnt" and
     die "$Script: umount failed";
 
@@ -158,6 +160,62 @@ if($arch eq 'i386') {
     $j = -s $initdisk;
     $k = $j - $free
   }
+  else {
+    if($ENV{'boot'} eq 'hd') {
+      my ($t);
+
+      # make it fit
+
+      $t = int(($blocks * $block_size + $k + 100000) / (63 * 4 * 512) + 1);
+
+      ($blocks, $block_size) = MakeFATImage($image, $label, 2, 63, 4, $t, "$image.mbr", $mboot_file);
+
+      die "$Script: failed to create FAT disk image \"$image\"\n" unless defined $blocks;
+
+      printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $blocks, $block_size, $blocks * $block_size;
+
+      # make it bootable and add syslinux
+      if($arch eq 'i386') {
+        $xx = "-s" if $ENV{'boot'} eq 'small';
+        SUSystem "$syslx $xx $image" and
+          die "$Script: syslinux failed";
+      }
+
+      # umount it first, just in case
+      SUSystem "umount /mnt 2>/dev/null";
+
+      # add the other files
+      SUSystem "mount -oloop -t $fstype $image /mnt" and
+        die "$Script: mount failed";
+
+      # copy everything *except* the initdisk
+      AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
+        die "$Script: failed to setup boot image";
+
+      SUSystem "umount /mnt" and
+        die "$Script: umount failed";
+
+      Print2File $MToolsCfg, "drive r: file=\"$image\"\n" or die "$Script: oops!";
+      @f = `mdir r:`;
+      unlink $MToolsCfg;
+
+      for (@f) {
+        if(/^\s*([ 0-9]+?)\s+bytes\s+free\s*$/) {
+          $free = $1;
+          $free =~ s/\s+//g;
+          last;
+        }
+      }
+
+      die "$Script: oops, no space on boot disk???" unless defined $free;
+
+      print "$Script: prepared boot disk \"$image\"; $free bytes for initrd\n";
+
+      $j = -s $initdisk;
+      die "$Script: $initdisk missing" unless $j > 0;
+
+    }
+  }
   die "$Script: $initdisk $k bytes too big! ($j)\n" unless $j < $free;
   $xfree = $free - $j;
 
@@ -179,7 +237,19 @@ system "ls -l /mnt";
 SUSystem "umount /mnt" and
   die "$Script: umount failed";
 
-print "$Script: finished boot disk \"$image\"";
+if($ENV{'boot'} eq 'hd') {
+  my $lo;
+
+  $lo = -s "$image.mbr";
+  system "cat $image >>$image.mbr";
+  system "mv $image.mbr $image";
+
+   print "$Script: finished boot disk \"$image\" (offset $lo)";
+}
+else {
+  print "$Script: finished boot disk \"$image\"";
+}
+
 print defined($xfree) ? "; $xfree bytes free\n" : "\n";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

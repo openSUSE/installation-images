@@ -179,6 +179,8 @@ if arch eq 'ia32'
   a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
   a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
 
+  M /lib/modules/<kernel_ver>/scsi/advansys.o /modules
+
   M /lib/modules/<kernel_ver>/net/old_tulip.o /modules
   M /lib/modules/<kernel_ver>/net/ibmtr.o /modules
 

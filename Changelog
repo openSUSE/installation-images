@@ -1,3 +1,12 @@
+26/2/2001:	v1.42
+	- we can now prepare hard disk boot images
+
+9/2/2001:	v1.41
+	- fixed ppc filelist (lvm, parted)
+
+6/2/2001:	v1.40
+	- added parted (ppc only)
+
 2/2/2001:	v1.39
 	- schwab: eli.cfg: add loaddisk when installing with yast1
 	- olh: add hfsutils, build only the root image on ppc

@@ -8,6 +8,8 @@ if arch eq 'ia32'
   if demo eq 'eval'
     x message-eval /message
     x syslinux-eval.cfg /syslinux.cfg
+    x suselogo /suselogo
+    x linux.loopc /linux
   elsif demo eq 'live'
     x message-live /message
     x syslinux-live.cfg /syslinux.cfg

@@ -126,10 +126,11 @@ sub MakeFATImage
     $file_name, $id8, $id11, $heads, $tracks, $fats, $root_ents,
     $drive_id, $fatbits, $secs_p_cluster, $sec_size, $hidden_secs,
     $drive_number, $serial_id, $sectors, $fatsecs, $usable_secs,
-    $clusters, $rootsecs, $sec_p_track, $bs, $fs, $rs, $zs, $i, $j, @i
+    $clusters, $rootsecs, $sec_p_track, $bs, $fs, $rs, $zs, $i, $j, @i,
+    $mbr_track, $mbr, $pt, $mboot, $mboot_file
   );
 
-  ( $file_name, $id11, $secs_p_cluster, $sec_p_track, $heads, $tracks ) = @_;
+  ( $file_name, $id11, $secs_p_cluster, $sec_p_track, $heads, $tracks, $mbr, $mboot_file ) = @_;
 
   # if $heads and $tracks are specified, assume a disk image, otherwise
   # we'll make a floppy image
@@ -149,11 +150,13 @@ sub MakeFATImage
   $sec_size = 0x200;
   $serial_id = 0x31415926;
 
-  $hidden_secs = 0;
+  $hidden_secs = $mbr ? $sec_p_track : 0;
 
   $drive_number = $drive_id == 0xf8 ? 0x80 : 0x00;
 
   $sectors = $sec_p_track * $heads * $tracks;
+
+  $sectors -= $sec_p_track if $mbr;
 
   $clusters = $sectors / $secs_p_cluster;	# first approx
 
@@ -201,7 +204,7 @@ sub MakeFATImage
   # ##### needs to be generalized!!!
   $fs = $fatbits == 12 ?
     pack( "C3Z509", $drive_id, 0xff, 0xff, "" ) :
-    pack( "C3Z508", $drive_id, 0xff, 0xff, 0xff, "" );
+    pack( "C4Z508", $drive_id, 0xff, 0xff, 0xff, "" );
 
   # the first root directory sector (add volume label)
 
@@ -245,6 +248,45 @@ sub MakeFATImage
 
   # we're done!
   close F;
+
+  # write out track 0 needed for a real hd image (with a valid mbr in it)
+  if($mbr) {
+    undef $mboot;
+    if($mboot_file) {
+      die "no boot program" unless open F, $mboot_file;
+      read F, $mboot, 446;
+      close F;
+    }
+
+    $pt = 1;
+    $pt = $sectors >> 16 ? 6 : 4 if $fatbits == 16;
+
+    $mbr_track = pack (
+      "Z446CCvCCCCVVZ48v",
+      $mboot,			# boot code, if any
+      0x80,			# bootflag
+      1,			# head 1st
+      1,			# cyl/sector 1st
+      $pt,			# partition type
+      $heads - 1,		# head last
+      ((($tracks - 1) >> 8) << 6) + $sec_p_track,	# cyl/sector last, byte 0
+      ($tracks - 1) & 0xff,	# cyl/sector last, byte 1
+      $hidden_secs,		# partition offset
+      $sectors,			# partition size
+      "", 0xaa55
+    );
+
+    # ok, write out the image
+    open F, ">$mbr" or return ( undef, undef );
+
+    print F $mbr_track;
+
+    for($i = 0; $i < $hidden_secs - 1; $i++) { print F $zs }
+
+    close F;
+
+  }
+
 
   return ( $clusters, $sec_size * $secs_p_cluster )
 }
