@@ -163,11 +163,7 @@ elsif arch eq 'ia64'
 else
   /lib/ld-linux.so.2
 endif
-if arch eq 'ia64'
-    /lib/lib{c,m}.so.0*
-else
-    /lib/lib{c,m}.so.6*
-endif
+  /lib/lib{c,m}.so.6*
   /lib/{libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libnsl.so.1*}
 if suse_release < 7.1
   /lib/libnss_db.so.2
