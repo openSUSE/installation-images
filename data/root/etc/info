@@ -1,0 +1,3 @@
+POST_SCRIPT	$I:/suse/inst-sys/usr/bin/ppc_post_install.sh
+
+RCCONFIG_0	DHCLIENT_SET_HOSTNAME yes
