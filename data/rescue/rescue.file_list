@@ -1,4 +1,4 @@
-d bin dev etc home lib mnt proc sbin tmp var
+d bin dev etc home lib mnt proc sys sbin tmp var
 d media/{cdrom,floppy}
 c 1777 0 0 tmp
 
@@ -229,11 +229,12 @@ lvm2: postin
   /var
 e postin
 
-device-mapper:
+device-mapper: postin
   /dev
   /etc
   /lib*
   /sbin
+e postin
 
 raidtools: postin
   /etc
@@ -341,6 +342,7 @@ xfsprogs:
 
 xfsdump:
   /usr/sbin
+  /sbin
 
 openslp:
   /etc
@@ -353,8 +355,8 @@ libattr:
 attr:
   /usr/bin
 
-# dmapi:
-#   /lib*
+dmapi:
+  /lib*
 
 rpm:
   /bin
@@ -500,7 +502,6 @@ if arch ne 'sparc'
     f / hpfs.ko
     f / xfs.ko
     f / xfs_quota.ko
-    f / xfs_dmapi.ko
     endif
 
 
@@ -539,7 +540,9 @@ e perl -pi -e '\''s/^(ENABLE_SYSRQ=).*/$1"yes"/'\'' etc/sysconfig/sysctl
 # now run SuSEconfig
 E echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
 E echo "proc /proc proc defaults 0 0" >>/etc/fstab
-E echo "devpts /dev/pts devpts defaults 0 0" >>/etc/fstab
+E echo "sysfs /sys sysfs noauto 0 0" >>/etc/fstab
+E echo "usbfs /proc/bus/usb usbfs defaults 0 0" >>/etc/fstab
+E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 E /sbin/SuSEconfig --force --norestarts
 
 r /var/adm/fillup-templates
