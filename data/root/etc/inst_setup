@@ -78,26 +78,10 @@ case "$arch" in
   ;;
 esac
 
-# create a new modules.dep
+# Update module config.
 #
-# modules from initrd (in /modules) are preferred over those from CD (below
-# /lib/modules)
+# Note: modules from initrd are below *-override-* and will take precedence.
 #
-rm -f /etc/modules.conf
-cp "$INSTSYS/etc/modules.conf" /etc
-cat >>/etc/modules.conf <<EOF
-path=/modules
-path=/lib/modules/`uname -r`
-depfile=/etc/modules.dep
-generic_stringfile=/etc/modules.generic_string
-pcimapfile=/etc/modules.pcimap
-isapnpmapfile=/etc/modules.isapnpmap
-usbmapfile=/etc/modules.usbmap
-parportmapfile=/etc/modules.parportmap
-ieee1394mapfile=/etc/modules.ieee1394map
-pnpbiosmapfile=/etc/modules.pnpbiosmap
-EOF
-
 echo "integrating kernel modules of the installation system..."
 depmod -a 2>/dev/null
 

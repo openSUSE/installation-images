@@ -79,6 +79,9 @@ endif
 nscd:
   /etc/nscd.conf
 
+libselinux:
+  /lib*/libselinux.so*
+
 glibc:
   /etc/ld.so.conf
   /{lib*,sbin}

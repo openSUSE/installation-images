@@ -29,7 +29,6 @@ e prein
   /etc/init.d
   /etc/inputrc
   /etc/rc.status
-  /etc/modules.conf{,.local}
   /usr/bin/old
   /root/.gnupg/suse_build_key
   /root/.gnupg/suse_build_key
