@@ -4,13 +4,15 @@
 # Authors: Joachim Schroeder <Joachim.Schroeder@suse.de>
 #          Bernd Kaindl <Bernd.Kaindl@suse.de>
 #
+#	Save it for autoconfig
+AUTO_PEER="$PEER"
 # network setup script and linuxrc for s390-suse-linux
 #
 # Default environment variables:
 #
 # first, the network device parameters
 : ${DEVNO:=auto} ${DEVNO2:=auto} ${DEVNO3:=auto} ${PORTNO:=0} ${PEER:=TCPIP}
-: ${PORTNAME:=suselin7}
+: ${PORTNAME:=suselin7} ${PROTOCOL:=noproto}
 #
 # c7000 parameters:
 : ${LHOST:=UTS} ${UHOST:=C7011} ${LAPPL:=TCPIP} ${UAPPL:=TCPIP} ${DBG:=0}
@@ -94,7 +96,7 @@ function yes_no () {
 #
 function check_memory () {
 	set -- `cat /proc/meminfo | head -2 | tail -1`
-	# 1GB of memory is enough and bash cannot use nums >2^31 (singed int)
+	# 1GB of memory is enough and bash cannot use nums >2^31 (signed int)
 	[ ${#2} -gt 9 ] && return
 	let MEM="$2/1024/1024"
 	if [ $MEM -lt 80 ]; then
@@ -109,14 +111,21 @@ function write_chandev {
 }
 #
 function ask_select_protocol() {
+    NO_ERROR=yes
     while :; do
       echo "Select protocol number for $NETTYPE:"
       echo "0) Compatibility mode, also for non-Linux peers other"
       echo "   than OS/390 and z/OS (this is the default mode)"
       echo "1) Extended mode"
       echo "3) Compatibility mode with OS/390 and z/OS"
-      [ "$PROTOCOL" ] || PROTOCOL=0
-      readln "Enter your choice ($PROTOCOL): "
+      if [ "$AUTOINSTALL" = "yes"  -a "$NO_ERROR" = "yes" ]
+      then
+		echo "Enter your choice ($PROTOCOL): $PROTOCOL"
+		ANSW=$PROTOCOL
+      else
+		PROTOCOL=0
+		readln "Enter your choice ($PROTOCOL): "
+      fi
       [ "$ANSW" ] && PROTOCOL="$ANSW"
       case "$PROTOCOL" in
 	0|1|3)
@@ -125,6 +134,7 @@ function ask_select_protocol() {
 	   PROTOCOL=""
            echo "This is not a valid menu option, redisplaying menu:";;
       esac
+      NO_ERROR=no
     done
 }
 #
@@ -263,11 +273,19 @@ function change_passwd() {
   echo "You'll be asked for it only when you telnet into this installation"
   echo "system to limit the access to it and it will be cleared as soon"
   echo "as you shut down or reset the installation system"
+  NO_ERROR=yes
   while :; do
     echo " "
-    readln "Please enter the temporary installation password: "
+    if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+    then
+	    echo "Please enter the temporary installation password: $INST_PASSWORD"
+	    ANSW=$INST_PASSWORD
+    else
+	    readln "Please enter the temporary installation password: "
+    fi
     [ ${#ANSW} -ge 3 ] && break;
     echo "Please enter at least 3 characters."
+    NO_ERROR=no
   done
   echo "root:$ANSW" | execcmd "/usr/sbin/chpasswd" &&
     echo "Temporary installation password set."
@@ -432,6 +450,7 @@ function select_network_device_type() {
       [ "$ANSW" = no ] && return
     fi
     check_memory
+    NO_ERROR="yes"
     while :; do
       CHAN=""
       echo
@@ -449,7 +468,21 @@ function select_network_device_type() {
 #      fi
       echo "8) Hipersockets"
       echo "9) Show subchannels and detected devices"
-      readln "Enter your choice (0-9): "
+      if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+      then
+		case "$IP_INTERFACE" in
+			tr) ANSW=1;;
+			eth) ANSW=2;;
+			qeth) ANSW=3;;
+			ctc) ANSW=4;;
+			escon) ANSW=5;;
+			iucv) ANSW=6;;
+#			c7000) ANSW=7;;
+			hsi) ANSW=8;;
+		esac
+      else
+		readln "Enter your choice (0-9): "
+      fi
       echo
       case "$ANSW" in
 	0)
@@ -512,6 +545,7 @@ function select_network_device_type() {
         *)
           echo "This is not a valid menu option, redisplaying menu:";;
       esac
+      NO_ERROR=no
     done
 }
 #
@@ -658,29 +692,30 @@ IP: $IP_ADDR"
     [ "$CHAN" ]       && echo "Chandev: $CHAN"
     if [ "$NETSELECT" = tr -o "$NETSELECT" = eth ]; then
       echo "Alias: $IP_DEV lcs"
-#      echo "Options lcs $PARM"
+#      echo "Options: lcs $PARM"
       echo "ConnectWait: 3"
     fi
     if [ "$NETSELECT" = "qeth" -o "$NETSELECT" = hsi ]; then
       echo "Alias: $IP_DEV qeth"
-#      echo "Options qeth $PARM"
+#      echo "Options: qeth $PARM"
       echo "ConnectWait: 15"
     fi
     if [ "$NETSELECT" = "ctc" -o "$NETSELECT" = "escon" ]; then
 #      echo "Alias: $IP_DEV ctc"
-#      echo "Options ctc $PARM"
+#      echo "Options: ctc $PARM"
       echo "ConnectWait: 30"
     fi
     if [ "$NETSELECT" = "c7000" ]; then
       echo "Alias: $IP_DEV c7000"
-      echo "Options c7000 $PARM"
+      echo "Options: c7000 $PARM"
     fi
     if [ "$NETSELECT" = "iucv" ]; then
 #      echo "Alias: $IP_DEV netiucv"
-      echo "$PARM" | sed "s/iucv=\(.*\)/Options netiucv iucv='\`echo \1\`'/g"
+      echo "$PARM" | sed "s/iucv=\(.*\)/Options: netiucv iucv=\1/g"
     fi
     [ "$IP_HOST" ]        && echo "Machinename: $IP_HOST"
     [ "$IP_DNS" ]         && echo "Nameserver: $IP_DNS"
+    [ "$IP_MTU" != 0 ]    && echo "IP_MTU: $IP_MTU"
 }
 #
 #
@@ -688,6 +723,9 @@ IP: $IP_ADDR"
 #
 function run_services () {
   echo "Network Setup finished, running inetd..."
+  echo pts/0 >> /etc/securetty
+  echo pts/1 >> /etc/securetty
+  echo pts/2 >> /etc/securetty
   execcmd "/usr/sbin/inetd &"
   execcmd "/sbin/portmap &"
   echo
@@ -828,12 +866,20 @@ function load_LCS_chandev () {
   echo "by an other LPAR or Virtual Machine. For manual config, you have to enter"
   echo "the read channel device address (must be an even address). The write channel"
   echo "device number will be one greater. For autoprobing enter \"auto\"."
+  AUTO_DEVNO="$DEVNO"
   [ -z "$DEVNO" -o "$DEVNO" = auto ] &&
 	DEVNO=`sed -n 's/^\(0x...[02468ace]\).*/\1/p' lcs_detected | head -1`
   ANSW="yes"
+  NO_ERROR="yes"
   while [ "$ANSW" = "yes" ]; do
      while true; do
-	readln "Enter the read channel device number, e.g. 'FC20' (${DEVNO#0x}): "
+	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+	then
+		echo "Enter the read channel device number, e.g. 'FC20' (${DEVNO#0x}): $AUTO_DEVNO"
+		ANSW="$AUTO_DEVNO"
+	else
+		readln "Enter the read channel device number, e.g. 'FC20' (${DEVNO#0x}): "
+	fi
 	if [ -z "$ANSW" -o "$ANSW" = "auto" -o "$ANSW" = "AUTO" -o "$ANSW" = 0 ]; then
             DEVNO=auto
 	    break
@@ -841,11 +887,13 @@ function load_LCS_chandev () {
         ANSW="${ANSW#0x}"
 	if [ "$ANSW" != "${ANSW//[^0-9a-fA-F]/}" ]; then
             echo "Invalid character detected, allowed hex numbers only consist of 0-9,a-f."
+            NO_ERROR=no
 	    continue
 	fi
 	ANSW=0x$ANSW
 	if [ $(($ANSW & 1)) -eq 1 ]; then
 	    echo "Warning: You entered an odd read channel address, should be even!"
+            NO_ERROR=no
 	    continue
         fi
 	if [ $(( $ANSW )) -ge 0 -a $(( $ANSW )) -le 65534 ]; then
@@ -854,6 +902,7 @@ function load_LCS_chandev () {
 	fi
 	echo
 	echo "The read channel device number should be a hex number in the range of 0-FFFE."
+        NO_ERROR=no
      done
      if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
 	PARM=""
@@ -862,8 +911,11 @@ function load_LCS_chandev () {
         WRITE_DEVNO=`printf "0x%04x\n" $(($DEVNO + 1))`
         echo
         echo "Please enter the relative port number on device address ${DEVNO#0x}"
-        readln "Relative port, e.g. '0' ($PORTNO): "
-        if [ $ANSW ]; then export PORTNO=$ANSW; fi
+	if [ ! "$AUTOINSTALL" = "yes" -o "$NO_ERROR" = "no" ]
+	then
+		readln "Relative port, e.g. '0' ($PORTNO): "
+		[ $ANSW ] && export PORTNO=$ANSW
+	fi
         PARM="noauto=1 devno_portno_pairs=$DEVNO,$PORTNO"
 	CHAN="noauto;lcs0,$DEVNO,$WRITE_DEVNO,0,$PORTNO"
 	write_chandev "$CHAN"
@@ -885,6 +937,7 @@ function load_LCS_chandev () {
        echo -e "\nlcs module not loaded,  check device addresses/cards and cables.\n"
      fi
      yes_no "Do you want to retry the setup of the lcs module (Yes/No) ? "
+     NO_ERROR=no
   done
   if [ "$ANSW" = "yes" ]; then
      echo "$IP_DEV is available, continuing with network setup."
@@ -904,20 +957,34 @@ function load_LCS () {
   fi
   display_license || return 0
   ANSW="yes"
+  NO_ERROR="yes"
   while [ "$ANSW" = "yes" ]; do
         echo "Please enter the device address of the network device"
         echo "Ask your system administrator for the correct settings."
         echo "If there is only _ONE_ OSA network device attached to your machine,"
         echo "you may type \"auto\" for automatic detection; use this option carefully."
-        readln "Network device address, e.g. 'FC20' ($DEVNO): "
-        if [ $ANSW ]; then export DEVNO=$ANSW; fi
+	AUTO_DEVNO="$DEVNO"
+	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+	then
+		echo "Network device address, e.g. 'FC20' ($DEVNO): $AUTO_DEVNO"
+		ANSW=$AUTO_DEVNO
+	else
+		readln "Network device address, e.g. 'FC20' ($DEVNO): "
+	fi
+	[ $ANSW ] && export DEVNO=$ANSW
         if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
           PARM=""
         else
           echo
           echo "Please enter the relative port number on device address $DEVNO"
-          readln "Relative port, e.g. '0' ($PORTNO): "
-          if [ $ANSW ]; then export PORTNO=$ANSW; fi
+	  if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+	  then
+		echo "Relative port, e.g. '0' ($PORTNO): $PORTNO"
+		ANSW=$PORTNO
+	  else
+		  readln "Relative port, e.g. '0' ($PORTNO): "
+	  fi
+          [ $ANSW ] && export PORTNO=$ANSW
           PARM="noauto=1 devno_portno_pairs=0x$DEVNO,$PORTNO"
           WRITE_DEVNO=`printf "%0x\n" $(($DEVNO + 1))`
 	  CHAN="noauto;lcs0,0x$DEVNO,0x$WRITE_DEVNO,0,$PORTNO"
@@ -946,6 +1013,7 @@ function load_LCS () {
           echo -e "\nlcs module not loaded, check device addresses/cards.\n"
         fi
         yes_no "Do you want to retry the setup of the lcs module (Yes/No) ? "
+	NO_ERROR=no
   done
   if [ "$ANSW" = "yes" ]; then
      echo "$IP_DEV is available, continuing with network setup."
@@ -1128,18 +1196,37 @@ function load_QETH () {
   DEVNOS=0x${DEVNO/auto/f801},0x${DEVNO2/auto/f802},0x${DEVNO3/auto/f803}
   DEVNOs="$DEVNOS"
   ANSW="yes"
+  NO_ERROR="yes"
   while [ "$ANSW" = "yes" ]; do
      while true; do
-       echo "Enter the device addresses for the qeth module, e.g. '$DEVNOs'"
-       readln "($DEVNOS): "
-       [ -z "$ANSW" ] && ANSW="$DEVNOS"
+	echo "Enter the device addresses for the qeth module, e.g. '$DEVNOs'"
+	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+	then
+		WRITE_DEVNO=`printf %04x $(( 0x$READ_DEVNO + 1 ))`
+		ANSW="0x$READ_DEVNO,0x$WRITE_DEVNO,0x$DATA_DEVNO"
+	else
+		if [ -n "$READ_DEVNO" -a -n "$DATA_DEVNO" ]
+		then
+			WRITE_DEVNO=`printf %04x $(( 0x$READ_DEVNO + 1 ))`
+			DEVNOS="0x$READ_DEVNO,0x$WRITE_DEVNO,0x$DATA_DEVNO"
+		fi
+		readln "($DEVNOS): "
+		[ -z "$ANSW" ] && ANSW="$DEVNOS"
+	fi
        DEVNOS=`echo "$ANSW"|check_qeth_channels` && break
+       NO_ERROR=no
      done
      CHAN=""
      [ "$DEVNOS" != auto ] && CHAN="noauto;qeth0,$DEVNOS"
      if [ "$NETSELECT" = qeth -a "${DEVNOS/*,portname:*/}" ]; then
+	NO_ERROR="yes"
         while true; do
-            readln "Please enter the portname(case sensitive) to use($PORTNAME): "
+	    if [ "$AUTOINSTALL" = "yes" ]
+	    then
+		ANSW="$PORTNAME"
+	    else
+		readln "Please enter the portname(case sensitive) to use($PORTNAME): "
+	    fi
 	    if [ ${#ANSW} -eq 0 ]; then
 		echo "Warning: Only old MCLs allow empty portnames. Because not"
 		echo "every operator may be aware of this config when updating"
@@ -1153,6 +1240,7 @@ function load_QETH () {
 		break
 	    fi
             echo "The portname may not consist of more than 8 characters."
+	    NO_ERROR=no
         done
         if [ "$PORTNAME" ]; then
           if [ "$DEVNOS" = auto ]; then
@@ -1199,6 +1287,7 @@ function load_QETH () {
        echo -e "\nqeth module not loaded, module problem.\n"
      fi
      yes_no "Do you want to retry the qeth-setup (Yes/No) ? "
+     NO_ERROR=no
   done
   if [ "$ANSW" = "yes" ]; then
      echo "$IP_DEV is available, continuing with network setup."
@@ -1234,20 +1323,35 @@ function load_CTC_chandev () {
   echo "Dev. Channel type  CHPIDS"
   head -10 ctc_detected
   ANSW="yes"
+  NO_ERROR=yes
   while [ "$ANSW" = "yes" ]; do
 	[ -z "$DEVNO" -o "$DEVNO" = auto ] &&
            DEVNO=`cut -d' ' -f 1 ctc_detected | head -1`
         LAST_DEVNO="$DEVNO"
-        readln "Device address for read channel ($DEVNO): "
-	if [ $ANSW ]; then export DEVNO=$ANSW; fi
+	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+	then
+		echo "Device address for read channel ($DEVNO): $READ_DEVNO"
+		ANSW=$READ_DEVNO
+	else
+		[ -n "$READ_DEVNO" ] && DEVNO=$READ_DEVNO
+		readln "Device address for read channel ($DEVNO): "
+	fi
+	[ $ANSW ] && export DEVNO=$ANSW
         DEVNO="000$DEVNO"
 	DEVNO=${DEVNO:${#DEVNO}-4:4}
 	grep "^$DEVNO " ctc_detected >ctc_DEVNO
 	[ -s ctc_DEVNO ] || echo "Warning: $DEVNO is not a detected $NETTYPE channel"
 	[ "$LAST_DEVNO" = "$DEVNO" ] || DEVNO2=`echo | sed -n "1,/$DEVNO /d;s/^\(....\).*/\1/p;q" - ctc_detected`
 	[ -z "$DEVNO2" -o "$DEVNO2" = auto ] && DEVNO2=`cut -d' ' -f 1 ctc_detected | head -2|tail -1`
-	readln "Device address for write channel ($DEVNO2): "
-	if [ $ANSW ]; then export DEVNO2=$ANSW; fi
+	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+	then
+		echo "Device address for write channel ($DEVNO2): $WRITE_DEVNO"
+		ANSW=$WRITE_DEVNO
+	else
+		[ -n "$WRITE_EVNO" ] && DEVNO2=$WRITE_DEVNO
+		readln "Device address for write channel ($DEVNO2): "
+	fi
+	[ $ANSW ] && export DEVNO2=$ANSW
         DEVNO2="000$DEVNO2"
 	DEVNO2=${DEVNO2:${#DEVNO2}-4:4}
 	grep "^$DEVNO2 " ctc_detected >ctc_DEVNO2
@@ -1294,6 +1398,7 @@ function load_CTC_chandev () {
           echo -e "\nctc module not loaded, module problem.\n"
         fi
         yes_no "Do you want to retry to configure $IP_DEV (Yes/No) ? "
+	NO_ERROR=no
   done
   if [ "$ANSW" = "yes" ]; then
      echo "$IP_DEV is available, continuing with network setup."
@@ -1312,6 +1417,7 @@ function load_CTC () {
 	return
   fi
   ANSW="yes"
+  NO_ERROR=yes
   while [ "$ANSW" = "yes" ]; do
         if grep ctc /proc/modules; then
           echo "Unloading the ctc driver..."
@@ -1322,13 +1428,27 @@ function load_CTC () {
         echo "or enter 'auto' to autosense all available channel devices,"
 	echo "but be careful if you share channel devices!"
 	echo "ctc options:"
-        readln "Device address for read channel, e.g. '40A' ($DEVNO): "
-	if [ $ANSW ]; then export DEVNO=$ANSW; fi
+	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+	then
+		echo "Device address for read channel, e.g. '40A' ($DEVNO): $READ_DEVNO"
+		ANSW=$READ_DEVNO
+	else
+		[ -n "$READ_DEVNO" ] && DEVNO=$READ_DEVNO
+		readln "Device address for read channel, e.g. '40A' ($DEVNO): "
+	fi
+	[ $ANSW ] && export DEVNO=$ANSW
         if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
           PARM=""
         else
-	  readln "Device address for write channel, e.g. '40B' ($DEVNO2): "
-	  if [ $ANSW ]; then export DEVNO2=$ANSW; fi
+	  if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+	  then
+		echo "Device address for write channel, e.g. '40B' ($DEVNO2): $WRITE_DEVNO"
+		ANSW=$WRITE_DEVNO
+	  else
+		[ -n "$WRITE_DEVNO" ] && DEVNO2=$WRITE_DEVNO
+		readln "Device address for write channel, e.g. '40B' ($DEVNO2): "
+	  fi
+	  [ $ANSW ] &&  export DEVNO2=$ANSW
 	  echo "The network device name used will be: $IP_DEV"
           PARM="setup='\"ctc=0,0x$DEVNO,0x$DEVNO2,$IP_DEV\"'"
         fi
@@ -1347,6 +1467,7 @@ function load_CTC () {
           echo -e "\nctc module not loaded, check device addresses.\n"
         fi
         yes_no "Do you want to retry the load of ctc (Yes/No) ? "
+	NO_ERROR=no
   done
   if [ "$ANSW" = "yes" ]; then
      echo "$IP_DEV is available, continuing with network setup."
@@ -1360,13 +1481,21 @@ function load_CTC () {
 #
 function load_IUCV () {
   ANSW="yes"
+  NO_ERROR="yes"
   while [ "$ANSW" = "yes" ]; do
     echo "Please enter the name(userid) of the target VM guest here."
     echo "In VIF this is normally \$TCPIP, in VM normally TCPIP."
     echo ""
-    readln "The name of the peer guest, e.g. 'TCPIP' ($PEER): "
-    if [ "$ANSW" ]; then export PEER=$ANSW; fi
-    if [ "$PEER" ]; then PARM="iucv='$PEER'"; fi
+    if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
+    then
+	echo "The name of the peer guest, e.g. 'TCPIP' ($PEER): $AUTO_PEER"
+	ANSW=$AUTO_PEER
+    else
+	[ -n "$AUTO_PEER" ] && PEER=$AUTO_PEER
+	readln "The name of the peer guest, e.g. 'TCPIP' ($PEER): "
+    fi
+    [ "$ANSW" ] && export PEER=$ANSW
+    [ "$PEER" ] && PARM="iucv='$PEER'"
     if grep netiucv /proc/modules; then
       echo "Unloading netiucv module..."
       execcmd "/sbin/rmmod netiucv"
@@ -1387,6 +1516,7 @@ function load_IUCV () {
       echo "Error: The netiucv module is NOT loaded."
     fi
     yes_no "Do you want to retry the setup of IUCV (Yes/No) ? "
+    NO_ERROR=no
   done
   if [ "$ANSW" = "yes" ]; then
      echo "$IP_DEV seems to exist, continuing with network setup."
@@ -1409,7 +1539,7 @@ function load_C7000 () {
 	echo ""
 	echo "c7000 options:"
         readln "Base unit address of the channel attached router, e.g. '336C' ($DEVNO): "
-	if [ $ANSW ]; then export DEVNO=$ANSW; fi
+	[ $ANSW ] && export DEVNO=$ANSW
         if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
           PARM=""
         else
@@ -1418,28 +1548,28 @@ function load_C7000 () {
 #
 	echo   "Local host name        - claw directive 'host-name' (first string)"
 	readln "default: 'UTS' ($LHOST): "
-	if [ $ANSW ]; then export LHOST=$ANSW; fi
-	if [ $LHOST ]; then PARM="$PARM lhost0=\"$LHOST\""; fi
+	[ $ANSW ] && export LHOST=$ANSW
+	[ $LHOST ] && PARM="$PARM lhost0=\"$LHOST\""
 #
 	echo   "Unit name              - claw directive 'device-name' (second string)"
 	readln "default: 'C7011' ($UHOST): "
-	if [ $ANSW ]; then export UHOST=$ANSW; fi
-	if [ $UHOST ]; then PARM="$PARM uhost0=\"$UHOST\""; fi
+	[ $ANSW ] && export UHOST=$ANSW
+	[ $UHOST ] && PARM="$PARM uhost0=\"$UHOST\""
 #
 	echo   "Local application name - claw directive 'host-app' (third string)"
 	readln "default: 'TCPIP' ($LAPPL): "
-	if [ $ANSW ]; then export LAPPL=$ANSW; fi
-	if [ $LAPPL ]; then PARM="$PARM lappl0=\"$LAPPL\""; fi
+	[ $ANSW ] && export LAPPL=$ANSW
+	[ $LAPPL ] && PARM="$PARM lappl0=\"$LAPPL\""
 #
 	echo   "Unit application name  - claw directive 'device-app' (fourth string)"
 	readln "default: 'TCPIP' ($UAPPL): "
-	if [ $ANSW ]; then export UAPPL=$ANSW; fi
-	if [ $UAPPL ]; then PARM="$PARM uappl0=\"$UAPPL\""; fi
+	[ $ANSW ] && export UAPPL=$ANSW
+	[ $UAPPL ] && PARM="$PARM uappl0=\"$UAPPL\""
 #
 	echo   "Message level - higher numbers will result in additional diagnostic messages"
 	readln "default: '0' ($DBG): "
-	if [ $ANSW ]; then export DBG=$ANSW; fi
-	if [ $DBG ]; then PARM="$PARM dbg=$DBG"; fi
+	[ $ANSW ] && export DBG=$ANSW
+	[ $DBG ] && PARM="$PARM dbg=$DBG"
 #
         echo "The network device name used will be: $IP_DEV"
 	if grep c7000 /proc/modules; then
@@ -1572,37 +1702,71 @@ while [ $CONFIG_IS_OK = 0 ]; do
   select_network_device_type
   [ $CONFIG_IS_OK = 1 -o $EXIT_SCRIPT = 1 ] && break
   echo
-  readln "Please enter your full host name, e.g. 'linux.example.com' ($IP_HOST): "
-  if [ $ANSW ]; then export IP_HOST=$ANSW; fi
-  readln "Please enter your IP address, e.g. '192.168.0.1' ($IP_ADDR): "
-  if [ $ANSW ]; then export IP_ADDR=$ANSW; fi
+  if [ "$AUTOINSTALL" = "yes" ]
+  then
+	  echo "Please enter your full host name, e.g. 'linux.example.com' ($IP_HOST): $IP_HOST"
+	  echo "Please enter your IP address, e.g. '192.168.0.1' ($IP_ADDR): $IP_ADDR"
+	  export IP_ADDR IP_HOST
+  else
+	  readln "Please enter your full host name, e.g. 'linux.example.com' ($IP_HOST): "
+	  [ $ANSW ] && export IP_HOST=$ANSW
+	  readln "Please enter your IP address, e.g. '192.168.0.1' ($IP_ADDR): "
+	  [ $ANSW ] && export IP_ADDR=$ANSW
+  fi
   case "$NETSELECT" in
     tr|eth|qeth|hsi|c7000)
-	    readln "Please enter the net mask, e.g. '255.255.255.0' ($IP_NETMASK): "
-	    if [ $ANSW ]; then export IP_NETMASK=$ANSW; fi
-	    IP_BROADCAST=$(echo $IP_ADDR $IP_NETMASK | calc_broadcast_enh)
-	    readln "Please enter the broadcast address if different from ($IP_BROADCAST): "
-	    if [ $ANSW ]; then IP_BROADCAST=$ANSW; fi
-	    readln "Please enter the gateway's IP address, e.g. '192.168.0.254' ($IP_GATEWAY): "
-	    if [ $ANSW ]; then export IP_GATEWAY=$ANSW; fi
+	    if [ "$AUTOINSTALL" = "yes" ]
+	    then
+		    echo "Please enter the net mask, e.g. '255.255.255.0' ($IP_NETMASK): $IP_NETMASK"
+		    IP_BROADCAST=$(echo $IP_ADDR $IP_NETMASK | calc_broadcast_enh)
+		    echo "Please enter the broadcast address if different from ($IP_BROADCAST): $IP_BROADCAST"
+		    echo "Please enter the gateway's IP address, e.g. '192.168.0.254' ($IP_GATEWAY): $IP_GATEWAY"
+		    export IP_NETMASK IP_BROADCAST IP_GATEWAY
+	    else
+		    readln "Please enter the net mask, e.g. '255.255.255.0' ($IP_NETMASK): "
+		    [ $ANSW ] && export IP_NETMASK=$ANSW
+		    IP_BROADCAST=$(echo $IP_ADDR $IP_NETMASK | calc_broadcast_enh)
+		    readln "Please enter the broadcast address if different from ($IP_BROADCAST): "
+		    [ $ANSW ] && export IP_BROADCAST=$ANSW
+		    readln "Please enter the gateway's IP address, e.g. '192.168.0.254' ($IP_GATEWAY): "
+		    [ $ANSW ] && export IP_GATEWAY=$ANSW
+	    fi
 	    ;;
 #    peer-to-peer networks
     ctc|escon|iucv)
-	    readln "Please enter the IP address of your peer, e.g. '192.168.0.254' ($IP_PEER): "
-	    if [ $ANSW ]; then export IP_PEER=$ANSW; fi
+	    if [ "$AUTOINSTALL" = "yes" ]
+	    then
+		    echo "Please enter the IP address of your peer, e.g. '192.168.0.254' ($IP_PEER): $IP_PEER"
+		    export IP_PEER
+	    else
+		    readln "Please enter the IP address of your peer, e.g. '192.168.0.254' ($IP_PEER): "
+		    [ $ANSW ] && export IP_PEER=$ANSW
+	    fi
 	    export IP_GATEWAY=$IP_PEER
 	    export IP_NETMASK=255.255.255.255
 	    ;;
     *)
 	    echo "Something went wrong with $NETSELECT..."
   esac
-  readln "Please enter the IP address of the DNS server or 'none' for no DNS ($IP_DNS): "
-  [ $ANSW ] && export IP_DNS=$ANSW
+  if [ "$AUTOINSTALL" = "yes" ]
+  then
+	  echo "Please enter the IP address of the DNS server or 'none' for no DNS ($IP_DNS): $IP_DNS"
+	  export IP_DNS
+  else
+	  readln "Please enter the IP address of the DNS server or 'none' for no DNS ($IP_DNS): "
+	  [ $ANSW ] && export IP_DNS=$ANSW
+  fi
   [ "$IP_DNS" = "none" -o "$IP_DNS" = "NONE" ] && export IP_DNS=""
   if [ "$IP_DNS" ]; then
     [ -z "$IP_SEARCH" ] && IP_SEARCH=${IP_HOST#*.}
-    readln "Please enter the DNS search domain, e.g. 'example.com' ($IP_SEARCH): "
-    if [ $ANSW ]; then export IP_SEARCH=$ANSW; fi
+    if [ "$AUTOINSTALL" = "yes" ]
+    then
+	    echo "Please enter the DNS search domain, e.g. 'example.com' ($IP_SEARCH): $IP_SEARCH"
+	    export IP_SEARCH
+    else
+	    readln "Please enter the DNS search domain, e.g. 'example.com' ($IP_SEARCH): "
+	    [ $ANSW ] && export IP_SEARCH=$ANSW
+    fi
   else
     IP_SEARCH=none
   fi
@@ -1627,28 +1791,29 @@ while [ $CONFIG_IS_OK = 0 ]; do
 	    echo "Something went wrong with $NETSELECT..."
       esac
     fi
-    echo "Please enter the MTU (Maximum Transfer Unit),"
-    readln "leave blank for default: ($IP_MTU): "
+    if [ "$AUTOINSTALL" = "yes" ]
+    then
+	    echo "Please enter the MTU (Maximum Transfer Unit),"
+	    echo "leave blank for default: ($IP_MTU): $IP_MTU"
+	    ANSW=$IP_MTU
+    else
+	    echo "Please enter the MTU (Maximum Transfer Unit),"
+	    readln "leave blank for default: ($IP_MTU): "
+    fi
     echo
     [ $ANSW ] && export IP_MTU=$ANSW
     [ $(( ${IP_MTU//[A-z]*/} + 0 )) -eq 0 ] && IP_MTU=0
     case "$NETSELECT" in
       ctc|escon|iucv)
-        if [ $IP_MTU -ge 576 -a $IP_MTU -le 32768 -o $IP_MTU = 0 ]; then
-	  break
-	fi
+        [ $IP_MTU -ge 576 -a $IP_MTU -le 32768 -o $IP_MTU = 0 ] && break
 	echo "For the CTC/IUCV driver, the MTU must be in the range 576-32768."
         ;;
       tr|eth)
-    	if [ $IP_MTU -ge  68 -a $IP_MTU -le 1500 -o $IP_MTU = 0 ]; then
-	  break
-	fi
+    	[ $IP_MTU -ge  68 -a $IP_MTU -le 1500 -o $IP_MTU = 0 ] && break
 	echo "For the LCS driver, the MTU must be in the range 68-1500."
         ;;
       c7000|qeth)
-    	if [ $IP_MTU -ge 576 -a $IP_MTU -le 1500 -o $IP_MTU = 0 ]; then
-	  break
-	fi
+    	[ $IP_MTU -ge 576 -a $IP_MTU -le 1500 -o $IP_MTU = 0 ] && break
 	echo "The installation MTU range for qeth/c7000 is 576-1500, set other values later."
 	;;
       hsi)
@@ -1663,12 +1828,8 @@ while [ $CONFIG_IS_OK = 0 ]; do
   case "$NETSELECT" in
     tr|eth|qeth|hsi|c7000)
 	    echo "Net mask         : $IP_NETMASK"
-	    if test $IP_BROADCAST ; then
-		echo "Broadcast address: $IP_BROADCAST"
-	    fi
-	    if test $IP_GATEWAY ; then
-		echo "Gateway address  : $IP_GATEWAY"
-	    fi
+	    [ "$IP_BROADCAST" ] && echo "Broadcast address: $IP_BROADCAST"
+	    [ "$IP_GATEWAY" ] && echo "Gateway address  : $IP_GATEWAY"
 	    ;;
     ctc|escon|iucv)
 	    echo "Peer IP address  : $IP_PEER"
@@ -1676,12 +1837,8 @@ while [ $CONFIG_IS_OK = 0 ]; do
     *)
 	    echo "Something went wrong with $NETSELECT..."
   esac
-  if test $IP_DNS ; then
-    echo "DNS IP address   : $IP_DNS"
-  fi
-  if test $IP_SEARCH ; then
-    echo "DNS search domain: $IP_SEARCH"
-  fi
+  [ "$IP_DNS" ] && echo "DNS IP address   : $IP_DNS"
+  [ "$IP_SEARCH" ] && echo "DNS search domain: $IP_SEARCH"
   if test $IP_MTU ; then
     if [ $IP_MTU != 0 ]; then
       echo "MTU size         : $IP_MTU"
@@ -1689,7 +1846,13 @@ while [ $CONFIG_IS_OK = 0 ]; do
       echo "MTU size         : default interface MTU"
     fi
   fi
-  yes_no "Is this correct (Yes/No) ? "
+  if [ "$AUTOINSTALL" = "yes" ]
+  then
+	  echo "Is this correct (Yes/No) ? yes"
+	  ANSW="yes"
+  else
+	  yes_no "Is this correct (Yes/No) ? "
+  fi
   if [ "$ANSW" = "yes" ]; then
     change_passwd
     activate_config

@@ -7,6 +7,7 @@
 : ${INST_IP_DIR:=empty}
 : ${INST_SCREEN:=nothing}
 : ${INST_X_ADDR:=251.251.251.251}
+: ${VNC_PASSWORD:=1234}
 ANSW=empty
 #
 #
@@ -25,12 +26,17 @@ DIR_TXT1="Please enter the directory of the installation media: "
 ASK_VALID="Is the following correct?\\\n\\\n    Installation Source:  \$INST_INFO\\\n    IP-Address:           \$INST_IP_ADDR\\\n    Directory:            \$INST_IP_DIR\\\n\\\nYes/No: "
 SCREEN_TXT1="Which terminal do want to use?\n\n    1) X-Window\n    2) VNC (VNC-Client or Java enabled Browser)\n    3) ssh\n    Choice: "
 MOUNT_ERR="CD not mounted. Please check parameters."
-MOUNT_ERR2="Root-disk not mounted. Please check parameters."
 ENTER_YES_NO="Please enter yes or no."
-FTPUSERTXT="Please enter the username for the FTP-access: "
-FTPPASSWORDTXT="Please enter the password for the FTP-Access: "
+FTPUSERTXT="Please enter the username for the FTP-access (for anonymous just press enter): "
+FTPPASSWORDTXT="Please enter the password for the FTP-Access (for anonymous just press enter): "
+FTP_ERR="FTP-Server or directory not acessable. Please check parameters."
+SMBUSERTXT="Please enter the username for the SMB-access (for guest just press enter): "
+SMBPASSWORDTXT="Please enter the password for the SMB-Access (for guest just press enter): "
+WORKDOMAINTXT="Please enter the Domain (for no domain just press enter): "
 FTP_ASK_VALID="Is the following correct?\\\n\\\n    FTP User:  \$FTPUSER\\\n    FTP Password:           \$FTPPASSWORD\\\n\\\nYes/No: "
-VNC_PASSWORD="Please enter the Password for VNC-Access: "
+SMB_ASK_VALID="Is the following correct?\\\n\\\n    SMB User:  \$FTPUSER\\\n    SMB Password:           \$FTPPASSWORD\\\n    Domain:   \$WORKDOMAIN\\\n\\\nYes/No: "
+VNC_PASSWORD_TXT="Please enter the Password for VNC-Access (6 to 8 characters): "
+VNC_PASSWORD_ERROR="Passwort is too short. Please enter a new one.\n"
 #
 # checks an IP to have numbers only between 0 and 255:
 #
@@ -60,14 +66,16 @@ ask_source()
 while :
 do
    echo -en $SOURCE_TXT1
-   read source
+   source=$INST_INFO
+   [ "$INST_INFO" = "nothing" ] && read source
    case $source in
-	1) INST_INFO=nfs ; break ;;
-	2) INST_INFO=SAMBA ; break ;;
-	3) INST_INFO=ftp ; break ;;
+	1|nfs) INST_INFO=nfs ; break ;;
+	2|SAMBA) INST_INFO=SAMBA ; break ;;
+	3|ftp) INST_INFO=ftp ; break ;;
 	0) INST_INFO=ABORT ; break ;;
 	*) ;;
    esac
+   INST_INFO="nothing"
 done
 #
 } # ask_source
@@ -95,7 +103,8 @@ ask_ip()
 while :
 do
 	echo -en $IP_TXT1
-	read ip
+	ip=$INST_IP_ADDR
+	[ "$INST_IP_ADDR" = "250.250.250.250" ] && read ip
 	[ "$ip" = "" ] && continue
 	if echo $ip | check_ip
 	then
@@ -114,7 +123,8 @@ ask_ip_server()
 while :
 do
 	echo -en $IP_SERVER_TXT1
-	read ip
+	ip=$INST_X_ADDR
+	[ "$INST_X_ADDR" = "251.251.251.251" ] && read ip
 	[ "$ip" = "" ] && continue
 	if echo $ip | check_ip
 	then
@@ -133,8 +143,13 @@ ask_dir()
 while :
 do
 	echo -en $DIR_TXT1
-	read INST_IP_DIR
-	[ -n "$INST_IP_DIR" ] && break
+	[ "$INST_IP_DIR" = "empty" ] && read INST_IP_DIR
+	[ -z "$INST_IP_DIR" ] && continue
+	if `echo $INST_IP_DIR | grep -v "^/" > /dev/null`
+	then
+		INST_IP_DIR=/$INST_IP_DIR
+	fi
+	break;
 done
 } # ask_dir
 #
@@ -145,20 +160,26 @@ ask_screen()
 while :
 do
 	echo -en $SCREEN_TXT1
-	read INST_SCREEN
+	[ "$INST_SCREEN" = "nothing" ] && read INST_SCREEN
 	case $INST_SCREEN in
-		1) INST_SCREEN=X
+		1|X) INST_SCREEN=X
 		   break
 		;;
-		2) INST_SCREEN=VNC
-		   echo -en $VNC_PASSWORD
-		   read VNCPW
+		2|VNC) INST_SCREEN=VNC
+		   while :
+		   do
+			   echo -en $VNC_PASSWORD_TXT
+			   [ "$VNC_PASSWORD" = "1234" ] && read VNC_PASSWORD
+			   [ ${#VNC_PASSWORD} -gt 5 ] && break
+			   echo -en $VNC_PASSWORD_ERROR
+			   VNC_PASSWORD="1234"
+		   done
 		   break
 		;;
-		3) INST_SCREEN=SSH
+		3|SSH) INST_SCREEN=SSH
 		   break
 		;;
-		*)
+		*) INST_SCREEN=nothing
 		;;
 	esac
 done
@@ -172,9 +193,10 @@ nfs_install()
 #	Mount filesystems and start yast
 #
 $CONDOM mount -t nfs $INST_IP_ADDR:$INST_IP_DIR /var/adm/mount -o ro
-if [ ! -d /var/adm/mount/boot -a -z "$CONDOM" ]
+if [ ! \( -d /var/adm/mount/boot -o -d /var/adm/mount/CD1/boot \) -a -z "$CONDOM" ]
 then
 	echo $MOUNT_ERR
+	NO_ERROR=no
 	return 0
 fi
 umount /var/adm/mount
@@ -186,15 +208,36 @@ return 1
 samba_install()
 {
 #
+#     Ask for domain/username/PW
+#
+while :
+do
+	echo -en $SMBUSERTXT
+	FTPUSER=$SAMBAUSER
+	[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || read FTPUSER
+#	[ -z "$FTPUSER" ] && continue
+	echo -en $SMBPASSWORDTXT
+	FTPPASSWORD=$SAMBAPASSWORD
+	[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || read FTPPASSWORD
+#	[ -z "$FTPPASSWORD" ] && continue
+	echo -en $WORKDOMAINTXT
+	[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || read WORKDOMAIN
+#	[ -z "$WORKDOMAIN" ] && continue
+	eval echo -en $SMB_ASK_VALID
+	ANSW=yes
+	[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || yes_no
+	[ "$ANSW" = "yes" ] && break
+done
+#
 #	Mount filesystems and start yast
 #
-$CONDOM mount -t smbfs //$INST_IP_ADDR/$INST_IP_DIR /var/adm/mount -o ro
-if [ ! -d /var/adm/mount/boot -a -z "$CONDOM" ]
-then
-	echo $MOUNT_ERR
-	return 0
-fi
-umount /var/adm/mount
+# $CONDOM mount -t smbfs //$INST_IP_ADDR/$INST_IP_DIR /var/adm/mount -o ro
+# if [ ! \( -d /var/adm/mount/boot -o -d /var/adm/mount/CD1/boot \) -a -z "$CONDOM" ]
+# then
+	# echo $MOUNT_ERR
+	# return 0
+# fi
+# umount /var/adm/mount
 return 1
 }
 #
@@ -205,14 +248,42 @@ ftp_install()
 while :
 do
 	echo -en $FTPUSERTXT
-	read FTPUSER
-	[ -z "$FTPUSER" ] && continue
+	[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || read FTPUSER
+#	[ -z "$FTPUSER" ] && continue
 	echo -en $FTPPASSWORDTXT
-	read FTPPASSWORD
-	[ -z "$FTPPASSWORD" ] && continue
+	[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || read FTPPASSWORD
+#	[ -z "$FTPPASSWORD" ] && continue
 	eval echo -en $FTP_ASK_VALID
-	yes_no
-	[ "$ANSW" = "yes" ] && break
+	ANSW=yes
+	[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || yes_no
+	[ ! "$ANSW" = "yes" ] && continue
+	IP_FTP_USER=$FTPUSER
+	IP_FTP_PASSWORD=$FTPPASSWORD
+	[ -z "$IP_FTP_USER" ] && IP_FTP_USER=anonymous
+	[ -z "$IP_FTP_PASSWORD" ] && IP_FTP_PASSWORD=bla_fasel
+#
+	NETRC=/tmp/.netrc
+	HOME=/tmp
+#
+	echo "machine $INST_IP_ADDR" > $NETRC
+	echo "login $IP_FTP_USER" >> $NETRC
+	echo "password $IP_FTP_PASSWORD" >> $NETRC
+#
+	ftp  <<EOF 2>&1 > /dev/null
+open $INST_IP_ADDR
+cd $INST_IP_DIR
+get content /tmp/content
+quit
+EOF
+	if [ -f /tmp/content ]
+	then
+		rm /tmp/content
+		break
+	else
+		echo $FTP_ERR
+		NO_ERROR=no
+		return 0
+	fi
 done
 return 1
 }
@@ -232,8 +303,10 @@ write_info_file()
 	echo "Serverdir: $INST_IP_DIR" >> $INFOFILENAME
 	echo "Instmode: $INST_INFO" >> $INFOFILENAME
 	[ "$INST_INFO" = "ftp" ] && echo "Install: ftp://$INST_IP_ADDR$INST_IP_DIR" >> $INFOFILENAME
+	[ "$INST_INFO" = "SAMBA" ] && echo "Install: smb://$INST_IP_ADDR$INST_IP_DIR" >> $INFOFILENAME
 	[ ! -z "$FTPUSER" ] && echo "Username: $FTPUSER" >> $INFOFILENAME
 	[ ! -z "$FTPPASSWORD" ] && echo "Password: $FTPPASSWORD" >> $INFOFILENAME
+	[ ! -z "$WORKDOMAIN" ] && echo "WorkDomain: $WORKDOMAIN" >> $INFOFILENAME
 	case $INST_SCREEN in
 		X)
 			echo "Display_IP: $INST_X_ADDR" >> $INFOFILENAME
@@ -241,9 +314,15 @@ write_info_file()
 		;;
 		VNC)
 			echo "VNC: 1" >> $INFOFILENAME
-			echo "VNCPassword: $VNCPW" >> $INFOFILENAME
+			echo "VNCPassword: $VNC_PASSWORD" >> $INFOFILENAME
 		;;
 		SSH)
+			echo "UseSSH: 1" >> $NETSETUPFILE
+#
+#			Setting console to this value
+#			means, that yast is asking for the terminaltype
+#
+			echo "Console: ttyS0,9600" >> $NETSETUPFILE
 		;;
 		*)
 		;;
@@ -261,10 +340,13 @@ else
 	NETSETUPFILE="/etc/netsetup.inf"
 fi
 #
+#	if INST_INFO is not set, turn off AUTOINSTALL
+#
+[ "$INST_INFO" = "nothing" ] && AUTOINSTALL=no
 #
 #
-if [ "$INST_INFO" = "nothing" -o "$INST_IP_ADDR" = "250.250.250.250" -o "$INST_IP_DIR" = "empty" ]
-then
+#
+NO_ERROR=yes
 	while :
 	do
 		ask_source
@@ -281,7 +363,8 @@ then
 #		echo $INST_IP_DIR
 
 		eval echo -en $ASK_VALID
-		yes_no
+		ANSW=yes
+		[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || yes_no
 		[ "$ANSW" = "no" ] && continue
 #
 #		Parameters are valid
@@ -300,13 +383,13 @@ then
 			*)
 			;;
 		esac
+		NO_ERROR=no
 	done
-fi
 #
-#	Filesytem and files are ready
+#	Filesystem and files are ready
 #	Ask the user for VNC or X-Windows
 #
-if [ "$INST_SCREEN" = "nothing" -a "$INST_INFO" != "ABORT" ]
+if [ "$INST_INFO" != "ABORT" ]
 then
 	while :
 	do
@@ -340,25 +423,32 @@ then
 			;;
 		esac
 	done
-else
-	[ "$INST_SCREEN" = "X" ] && export DISPLAY=$INST_X_ADDR:0.0
-fi
 #
 #
-#
-if [ "$INST_INFO" != "ABORT" ]
-then
 #
 	write_info_file
 #
-	if [ "$INST_SCREEN" != "SSH" ] 
-	then
-		/bin/linuxrc
-	fi
+#	kill portmap (#18461)
 #
-	if [ ! -z "$CONDOM" ]
+for i in /proc/[0-9]*
+do
+	grep -s portmap $i/cmdline > /dev/null
+	if [ $? = 0 ]
 	then
-		set
+		OLDIFS=$IFS
+		IFS="/$OLDIFS"
+		set -- $i
+		IFS=$OLDIFS
+		kill $3
 	fi
+done
+#
+#	Start linuxrc
+#
+$CONDOM /bin/linuxrc
+#
+	[ ! -z "$CONDOM" ] && set
+#
+#	Endif !ABORT
 fi
 :
