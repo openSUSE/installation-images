@@ -53,7 +53,7 @@ modules2:  IDE/RAID/SCSI modules
 
 modules3:  Network modules
 
-modules4:  PCMCIA and file system modules and old (non-ATAPI) CDROM drivers
+modules4:  PCMCIA and file system modules
 
 modules5:  More IDE/RAID/SCSI modules
 

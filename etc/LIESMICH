@@ -1,31 +1,31 @@
 SUSE LINUX 9.1-Bootdisketten erstellen
 --------------------------------------
 
-Aufgrund der zunehmenden Kernel-Größe gibt es nun drei Bootdisketten.
+Aufgrund der zunehmenden Kernel-GrÃ¶ÃŸe gibt es nun drei Bootdisketten.
 
-Sie können die Bootdisketten erstellen, wenn Sie Zugang
+Sie kÃ¶nnen die Bootdisketten erstellen, wenn Sie Zugang
 zu einem laufenden Linux- oder DOS-System haben.
 
 Benutzen Sie unter DOS das Programm CD1:/dosutils/rawrite/rawrite.exe, um
 bootdsk1, bootdsk2 und bootdsk3 auf eine formatierte
-(d.h. fehlerfreie) 1.44MB-Diskette zu schreiben. Für Windows gibt es
+(d.h. fehlerfreie) 1.44MB-Diskette zu schreiben. FÃ¼r Windows gibt es
 entspechend CD1:/dosutils/rawwritewin/rawwritewin.exe.
 
 Unter Linux gehen Sie bitte so vor:
 
   cd /where_CD1_is_mounted/boot
 
-# Legen Sie die erste Bootdiskette ein und führen Sie folgenden
+# Legen Sie die erste Bootdiskette ein und fÃ¼hren Sie folgenden
 # Befehl aus:
 
   dd if=bootdsk1 of=/dev/fd0u1440
 
-# Legen Sie die zweite Bootdiskette ein und führen Sie folgenden
+# Legen Sie die zweite Bootdiskette ein und fÃ¼hren Sie folgenden
 # Befehl aus
 
   dd if=bootdsk2 of=/dev/fd0u1440
 
-# Legen Sie die dritte Bootdiskette ein und führen Sie folgenden
+# Legen Sie die dritte Bootdiskette ein und fÃ¼hren Sie folgenden
 # Befehl aus
 
   dd if=bootdsk3 of=/dev/fd0u1440
@@ -39,12 +39,12 @@ ersten Bootdiskette.
 Moduldiskette erstellen
 -----------------------
 
-Auf die Bootdiskette passen nur wenige Module. Daher gibt es fünf 
+Auf die Bootdiskette passen nur wenige Module. Daher gibt es fÃ¼nf 
 Moduldisketten. Wenn Sie "Ihren" Treiber nicht auf der normalen Diskette
 finden, legen Sie nach dem Start von linuxrc die entsprechende Moduldiskette
 ein.
 
-Wählen Sie entspechend der Liste weiter unten das geeignete Image in
+WÃ¤hlen Sie entspechend der Liste weiter unten das geeignete Image in
 diesem Verzeichnis aus.
 
 Unter Windows/DOS verwenden Sie rawrite wie in "Bootdisketten erstellen"
@@ -53,7 +53,7 @@ beschrieben. Unter Linux gehen Sie bitte so vor:
   cd /where_CD1_is_mounted/boot
   dd if=modules1 of=/dev/fd0u1440
 
-Ersetzen Sie "modules1" durch den Namen des gewünschten Image.
+Ersetzen Sie "modules1" durch den Namen des gewÃ¼nschten Image.
 
 modules1:  USB- und FireWire (IEEE1394)-Module.
 
@@ -61,20 +61,20 @@ modules2:  IDE/RAID/SCSI-Module.
 
 modules3:  Netzwerkmodule.
 
-modules4:  PCMCIA- und Dateisystem-Module und alte (nicht-ATAPI) CDROM-Treiber.
+modules4:  PCMCIA- und Dateisystem-Module.
 
 modules5:  Weitere IDE/RAID/SCSI-Module.
 
-In modules[12345].txt finden Sie eine ausführliche Liste.
+In modules[12345].txt finden Sie eine ausfÃ¼hrliche Liste.
 
 
 
 Rettungsdiskette erstellen
 --------------------------
 
-Es befindet sich bereits ein Rettungssystem auf dieser CD. Für den
+Es befindet sich bereits ein Rettungssystem auf dieser CD. FÃ¼r den
 Fall, dass Ihr Rechner nicht auf das CD-Laufwerk zugreifen kann oder das
-Rettungssystem zu groß ist, können Sie eine Rettungsdiskette erstellen.
+Rettungssystem zu groÃŸ ist, kÃ¶nnen Sie eine Rettungsdiskette erstellen.
 
 Unter Windows/DOS verwenden Sie rawrite wie in "Bootdisketten erstellen"
 beschrieben vor. Unter Linux gehen Sie bitte so vor:
@@ -87,9 +87,9 @@ beschrieben vor. Unter Linux gehen Sie bitte so vor:
 Was bedeuten die anderen Dateien in diesem Verzeichnis?
 -------------------------------------------------------
 
-rescue:    (Großes) Rettungssystem.
+rescue:    (GroÃŸes) Rettungssystem.
 
 root:      Installationssystem.
 
-loader:    Vom Bootmanager benötigte Dateien.
+loader:    Vom Bootmanager benÃ¶tigte Dateien.
 
