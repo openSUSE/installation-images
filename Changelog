@@ -1,3 +1,5 @@
+1/4/2005:	v6.43
+	- added cpint.ko to initrd for s390*
 	- inittab can only handle 4 chars as 'id' field, but a console
 	  device name can be longer than that. Use /dev/console and 'cons'
 	  instead. Also handle TERM= passed on cmdline properly (#73814)
