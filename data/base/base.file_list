@@ -228,6 +228,10 @@ glibc-i18ndata:
 glibc-locale:
   /
 
+cracklib:
+  /usr/sbin
+  /usr/lib*
+
 # create splash
 include gen/splash
 
@@ -240,6 +244,11 @@ r /lib/modules
 # create locale
 x create_locale /create_locale
 E /create_locale
+
+# make empty dict
+E touch /tmp/xxx
+E create-cracklib-dict /tmp/xxx
+E rm -f /tmp/xxx
 
 # create & compress device tree
 x compdev /compdev

@@ -50,8 +50,8 @@ use Getopt::Long;
 
 binmode STDOUT, ":utf8";
 
-my $cvs_id = '$Id: extract_codepoints.pl,v 1.7 2004/04/20 16:17:09 odabrunz Exp $';
-my $cvs_date = '$Date: 2004/04/20 16:17:09 $';
+my $cvs_id = '$Id: extract_codepoints.pl,v 1.8 2004/07/06 09:32:28 snwint Exp $';
+my $cvs_date = '$Date: 2004/07/06 09:32:28 $';
 $cvs_id =~ /^\$[[:alpha:]]+: [^ ]+ ([^ ]+ [^ ]+ [^ ]+) [^ ]+ [^ ]+ \$$/;
 my $version = $1;
 

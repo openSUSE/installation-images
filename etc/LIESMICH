@@ -18,17 +18,17 @@ Unter Linux gehen Sie bitte so vor:
 # Legen Sie die erste Bootdiskette ein und führen Sie folgenden
 # Befehl aus:
 
-  dd if=bootdisk1 of=/dev/fd0u1440
+  dd if=bootdsk1 of=/dev/fd0u1440
 
 # Legen Sie die zweite Bootdiskette ein und führen Sie folgenden
 # Befehl aus
 
-  dd if=bootdisk2 of=/dev/fd0u1440
+  dd if=bootdsk2 of=/dev/fd0u1440
 
 # Legen Sie die dritte Bootdiskette ein und führen Sie folgenden
 # Befehl aus
 
-  dd if=bootdisk3 of=/dev/fd0u1440
+  dd if=bootdsk3 of=/dev/fd0u1440
 
 
 Sie haben nun drei Bootdisketten. Starten Sie Ihren Rechner mit der

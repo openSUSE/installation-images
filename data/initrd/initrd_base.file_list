@@ -80,9 +80,10 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/fdasd
     /sbin/dasdfmt
     /sbin/dasd_configure
+    /sbin/dasd_reload
+    /sbin/dasdro
     /sbin/zfcp_host_configure
     /sbin/zfcp_disk_configure
-    /lib*/libvtoc.so*
   libxcrypt:
     /lib*/libxcrypt.so*
   cracklib:
@@ -172,7 +173,6 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/route
   nfs-utils:
     /sbin/rpc.lockd
-    /sbin/rpc.statd
 
   netcfg:
     /etc/protocols
@@ -297,6 +297,7 @@ if arch eq 's390' || arch eq 's390x'
   x s390/bin/netsetup    /bin/netsetup
   x s390/check           /check
   x s390/etc/passwd      /etc/passwd
+  x s390/etc/shadow      /etc/shadow
   x s390/etc/group       /etc/group
   x s390/etc/motd        /etc/motd
   x s390/etc/syslog.conf /etc/syslog.conf
@@ -513,8 +514,14 @@ endif
 
 if with_gdb
 
+  iputils:
+    /bin/ping
+
+  net-tools:
+    m /sbin/{ifconfig,route} /bin
+
   strace:
-    /usr/bin/strace
+    m /usr/bin/strace /bin
 
   gdb:
     m /usr/bin/gdb /bin/gdb
@@ -523,7 +530,8 @@ if with_gdb
     /lib*/ld-linux*.so.2
     /lib*/ld-2.*.so
     /lib*/libc.so.6*
-    /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
+    /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*,libresolv.so.2*}
+    /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
     /lib*/libm.so.6*
     /lib*/libthread_db.so*
 
@@ -533,6 +541,14 @@ if with_gdb
 
   ncurses:
     /lib*/libncurses.so.5*
+
+  procps:
+    /bin/ps
+
+  psmisc:
+    /bin/fuser
+    m /usr/bin/killall /bin
+    m /usr/bin/pstree /bin
 
   bash:
     /bin/bash
@@ -577,6 +593,10 @@ if load_image
   e echo "MemLoadImage:	<load_image>" >>linuxrc.config
 endif
 
+if min_memory
+  e echo "MinMemory:	<min_memory>" >>linuxrc.config
+endif
+
 if lang
   e echo "Language:	<lang>" >>linuxrc.config
 endif
@@ -589,9 +609,6 @@ endif
 if arch eq 'ppc'
   e echo "Linemode:	1" >>linuxrc.config
 endif
-
-# min. free kB for loading image into ramdisk (below it will be mounted, if possible)
-e echo "MemLoadImage:	200000" >>linuxrc.config
 
 # min. free kB for X11 YaST (below ncurses will be used)
 e echo "MemYaST:	64000" >>linuxrc.config
