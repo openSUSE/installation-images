@@ -40,7 +40,7 @@ close F;
 
 ($i1, $i2) = split /\./, $ConfigData{suse_release};      
 
-if($ConfigData{product} eq "UnitedLinux") {
+if($ConfigData{product_name} eq "UnitedLinux") {
   $label = "UNITEDLINUX";
 }
 else {
@@ -51,7 +51,7 @@ else {
 ($blocks, $block_size) = MakeFATImage(
   $image, $label, 1,
   undef, undef, undef, undef, undef,
-  "\r\nI'm $ConfigData{product} module disk $disk. I cannot boot. :-(\r\n"
+  "\r\nI'm $ConfigData{product_name} module disk $disk. I cannot boot. :-(\r\n"
 );
 
 die "$Script: failed to create DOS disk image \"$image\"\n" unless defined $blocks;
