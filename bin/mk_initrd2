@@ -86,9 +86,9 @@ system "rm $tmpdir/makedevs.floppy";
 SUSystem "cp $lxrc $tmpdir/linuxrc" and
   die "$Script: linuxrc not copied";
 
-# add yast2rc
-SUSystem "cp ${CfgPath}yast2rc $tmpdir" and
-  die "$Script: failed to copy yast2rc";
+# add info   
+SUSystem "cp ${CfgPath}info $tmpdir" and
+  print STDERR "$Script: no info file";
 
 # strip everything
 SUSystem "strip_dir $tmpdir";
