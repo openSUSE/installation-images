@@ -35,23 +35,25 @@
 # FIXME : write more here as program matures; also, write better and more
 # accurately
 #
-# $Id: extract_codepoints.pl,v 1.4 2004/04/07 12:48:04 odabrunz Exp $
-#
 # 2004 Olaf Dabrunz
 #
 
 my $debug=1;
-my $path=".";
+my @tlpaths= ( "." );
+my $opath=".";
 
 my @dirs = ();
 
 use strict;
 use File::Find;
-use vars qw($opt_d $opt_l $opt_t);
-use Getopt::Std;
+use Getopt::Long;
 
 binmode STDOUT, ":utf8";
 
+my $cvs_id = '$Id: extract_codepoints.pl,v 1.5 2004/04/16 18:37:02 odabrunz Exp $';
+my $cvs_date = '$Date: 2004/04/16 18:37:02 $';
+$cvs_id =~ /^\$[[:alpha:]]+: [^ ]+ ([^ ]+ [^ ]+ [^ ]+) [^ ]+ [^ ]+ \$$/;
+my $version = $1;
 
 $0 =~ m/([^\/]*)$/;
 my $progname = $1;
@@ -59,51 +61,93 @@ my $progname = $1;
 # Usage message
 sub usage {
     print <<EOF;
-$progname version 0.9
-Extracts the Unicode UTF-8 character codes used in "gettext" message files.
+$progname version $version
+Extracts the Unicode UTF-8 character codes used in "gettext" message files
+(extension .po) and plain text files (extension .cpf).
 
-$progname [-d <selector>] [-l <lang_dir>]
+$progname [-h|--help] [-v|--version] [-d|--debug <selector>]
+          [-l|--langdir <lang-dir, ...>] [-t|--toplevel <top-level-dir>]
+          [-o|--output <output-dir>]
 
 Options:
+    -h                      print this help message
+    -v                      print program version
     -d <selector>           set debugging selector (defaults to $debug)
-    -l <lang_dir>           only process this language subdirectory (defaults
+    -l <lang-dir, ...>      only process these language subdirectories (defaults
                             to all configured languages (see \@dirs in the source))
     -t <top-level-dir>      set top-level directory of the translation tree
-                            (defaults to '$path')
+                            (defaults to '$tlpaths[0]')
+                            this may be given more than once to parse several
+                            translation trees or to additionally parse a
+                            collection of plain text files
+    -o <output-dir>         set directory for output (defaults to '$opath')
 EOF
 }
 
-# parse command line options
-if (! getopts('d:l:t:')) { usage; exit 1; }
-if (defined $opt_d) { $debug = $opt_d; }
-if (defined $opt_l) { @dirs = ( $opt_l ); }
-if (defined $opt_t) { $path = ( $opt_t ); }
+my $opt_help = 0;
+my $opt_version = 0;
 
-# expand "~"-constructs in pathname
-$path =~ s{ ^ ~ ( [^/]* ) }
-          { $1
+# parse command line options
+unless (GetOptions(
+           'help|h'        =>  \$opt_help,
+           'version|v'     =>  \$opt_version,
+           'debug|d=i'     =>  \$debug,
+           'langdir|l=s'   =>  \@dirs,
+           'toplevel|t=s'  =>  \@tlpaths,
+           'output|o=s'    =>  \$opath
+          )) {
+  &usage ();
+  exit 1;
+}
+
+@dirs = split(/,/,join(',',@dirs));
+
+if ($opt_version) {
+  print "$progname $version\n";
+  exit 0;
+}
+
+if ($opt_help) {
+  &usage ();
+  exit 0;
+}
+
+# expand "~"-constructs in pathname (called with a reference to a pathname)
+sub expand_dir {
+    my ($path) = @_;
+    $$path =~ s{ ^ ~ ( [^/]* ) }
+            { $1
                 ? (getpwnam($1))[7]
                 : ( $ENV{HOME} || $ENV{LOGDIR} || (getpwuid($>))[7] )
-          }ex;
+            }ex;
+}
 
-chdir($path) or die "cannot change to directory $path: $!\n";
+my $i = 0;
+foreach $i (0 .. $#tlpaths) {
+    &expand_dir(\$tlpaths[$i]);
+}
+&expand_dir(\$opath);
 
-# find all language subdirectories of the form [a-z][a-z](_[A-Z][A-Z]|)
-# (this is currently unused...)
+# default: find all language subdirectories of the form
+# [a-z][a-z](_[A-Z][A-Z])? (this is currently unused...)
 
-if (! defined $opt_l) {
-    opendir(DIR, ".")     or die "cannot open directory '.': $!\n";
+if ( ! $#dirs ) {
+    my $tlpath; my %tempdirs = (); my $dir = "";
+    foreach $tlpath (@tlpaths) {
+        opendir(DIR, $tlpath)     or die "cannot open directory '$tlpath': $!\n";
 
-    @dirs = map  { $_->[1] }        
-            grep { -d $_->[1] }
-            map  { [ $_, "$path/$_" ] }        
-            grep { /^[a-z][a-z](_[A-Z][A-Z]|)$/ }
-            readdir(DIR);
+        %tempdirs = map  { $_->[1] => 1 }
+                    grep { -d $_->[1] }
+                    map  { [ $_, "$tlpath/$_" ] }
+                    grep { /^[a-z][a-z](_[A-Z][A-Z])?$/ }
+                    readdir(DIR);
 
-    closedir(DIR);
+        closedir(DIR);
+    }
+    @dirs = ( keys(%tempdirs) );
 
     # BUT, at the moment only the following translations are ready and will be
-    # included (FIXME : this list is not checked!)
+    # included (FIXME : this list has not been checked!)
     @dirs = ( 'ja', 'cy', 'es', 'fi', 'it', 'nl', 'ro', 'sl_SI', 'zh', 'bg', 'cs',
         'en_GB', 'fr', 'hu', 'no', 'pt', 'ru', 'sv', 'tr', 'zh_CN', 'bs', 'de',
         'en_US', 'gl', 'id', 'ko', 'nb', 'pl', 'pt_BR', 'sk', 'ta', 'tv', 'zh_TW');
@@ -155,7 +199,6 @@ foreach $x (@dirs) {
 
 # create hash for fontname -> @fontspecs entry number lookup
 my %fname_to_fontspecs = ();
-my $i = 0;
 foreach $x (@fontspecs) {
     my ($font, $subdirs, $coderanges) = @$x;
     $fname_to_fontspecs{$font} = $i;
@@ -166,6 +209,7 @@ my @global_CPA = ();
 my $unassigned = 'unassigned';
 my %CPAs = ();
 my $currentdir = "";
+my $tlpath = "";
 
 # ---------------------------------------------------------------------------
 #
@@ -229,10 +273,10 @@ sub savecp {
 # quoted strings (including strings in comments) it only produces false
 # positives (and thereby maybe slightly expand the array of used code-points).
 
-sub parse_string {
+sub parse_msgstr {
     ($_) = @_;
     chomp;
-    debugprint("$_\n", "    parse_string:", "", 2, undef);
+    debugprint("$_\n", "    parse_msgstr", "", 2, undef);
     s/^\s*msgstr(\[[^]]*\]|)\s*//io;
 
     my $instr=0; # are we between quotes?
@@ -261,31 +305,41 @@ sub parse_string {
     }
 }
 
-# parse a *.po file and extract the used UTF-8 codepoints in the gettext
-# message strings
+# Parse a *.po or *.cpf file and extract the used UTF-8 codepoints in the
+# gettext message strings or plain text line, respectively.
 
 sub parse_file {
     # find passes the basename of the current file in $_
     my $file = $_;
     $currentdir = $File::Find::dir ;
     $currentdir =~ s,/.*$,, ;
-    return unless ! -d $file && $file =~ /\.po$/io;
+    $currentdir = $tlpath . $currentdir;
+    return unless ! -d $file && $file =~ /\.(po|cpf)$/io;
     debugprint("$File::Find::dir/$file\n", "parsing file", "", 1, undef);
 
     open(FH, "<:utf8", $file)   or die "unable to open file $file: $!";
 
-    my $hl="(msgstr|msgid|^#*)";
-    while( <FH> ) {
-        debugprint("$_", "parse_file:", "\e[36m", 2, $hl);
-        next unless $_ =~ /^\s*msgstr/io;
-        parse_string($_);
-
+    # parse either a message file or a plain text file ("code point file")
+    if ( $file =~ /\.po$/io ) {
+        my $hl="(msgstr|msgid|^#*)";
         while( <FH> ) {
             debugprint("$_", "parse_file:", "\e[36m", 2, $hl);
-            last unless $_ =~ /^\s*"/i || $_ =~ /^\s*msgstr/io;
-            parse_string($_);
+            next unless $_ =~ /^\s*msgstr/io;
+            parse_msgstr($_);
+    
+            while( <FH> ) {
+                debugprint("$_", "parse_file:", "\e[36m", 2, $hl);
+                last unless $_ =~ /^\s*"/i || $_ =~ /^\s*msgstr/io;
+                parse_msgstr($_);
+            }
+        }
+    } else {
+        while( <FH> ) {
+            debugprint("$_", "parse_file:", "\e[36m", 2, undef);
+            savecp($_);
         }
     }
+
     close(FH);
 }
 
@@ -302,6 +356,7 @@ sub evaluate_global_CPA {
         $assigned = 0; $exists = 0;
         foreach $dir (keys %{$global_CPA[$i]}) {
             $exists = 1;
+            $dir =~ s,^.*/,, ;
             foreach $font (@{$dirs_to_fonts{$dir}}) {
                 my ($font, $subdirs, $coderanges) = @{$fontspecs[$fname_to_fontspecs{$font}]};
                 foreach $range (@$coderanges) {
@@ -330,7 +385,7 @@ sub dump_CPAs {
         my ($font, $subdirs, $coderanges) = @$fspec;
         printf("\n\n\e[31;01mFont: %s\e[m\n\n", $font) if $debug & 32;
 
-        $fname = $font . ".ucp";
+        $fname = $opath . "/" . $font . ".ucp";
         open(FH, ">:utf8", $fname)   or die "unable to open file $fname: $!";
 
         $fontcount = 0;
@@ -370,13 +425,18 @@ sub dump_CPAs {
 # Main program
 #
 
-# Main loop over all files
-find( \&parse_file, @dirs );
+# Main loop over all top-level directories: find all .po and .cpf files in the
+# existing language subdirectories in each top-level directory and parse them.
+foreach $tlpath (@tlpaths) {
+    chdir($tlpath) or die "cannot change to directory $tlpath: $!\n";
+
+    # loop over all files
+    find( \&parse_file, @dirs );
+}
 
 # assign code-points to fonts
 evaluate_global_CPA();
 
 # dump output to files
 dump_CPAs();
-
 
