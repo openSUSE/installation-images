@@ -355,6 +355,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/modules/drivers/vmware_drv.o
   endif
     /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.a
+    /usr/X11R6/lib*/modules/extensions/lib{glx,GLcore}.a
     /usr/X11R6/lib*/modules/fonts/libbitmap.a
     /usr/X11R6/lib*/modules/input
     /usr/X11R6/lib*/modules/linux
@@ -405,7 +406,7 @@ if with_yast2 ne 'no'
 
     /usr/X11R6/lib/X11/fonts/misc/fonts.scale
 
-  x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
+  x /usr/X11R6/lib/X11/XF86Config_4 /usr/X11R6/lib/X11
 
   /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
 

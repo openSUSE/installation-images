@@ -38,6 +38,7 @@ EndSection
 Section "Module"
   Load		"dbe"
   Load		"extmod"
+  Load		"glx"
   # extensions
 EndSection
 
