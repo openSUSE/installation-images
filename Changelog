@@ -1,3 +1,6 @@
+9/5/2003:	v2.101
+	- SLEC needs it's own driver update dir
+
 5/5/2003:	v2.100
 	- add new modules to config to make it build
 	- updated boot screen menu to have 8.2 entries

@@ -618,7 +618,7 @@ for (@f) {
     $yast_theme = "SuSELinux";
     $splash_theme = "SuSE-SLEC";
     $product_name = "SuSE Linux";
-    $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
+    $update_dir = "/linux/suse/$real_arch-slec1";
     $load_image = 96*1024;
   }
   else {
