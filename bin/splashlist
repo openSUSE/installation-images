@@ -1,0 +1,47 @@
+#! /usr/bin/perl
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+
+die "usage: $Script\n" if @ARGV;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$dst = "${DataPath}base/gen/splash";
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+
+if($ENV{themes}) {
+  @themes{split ' ', $ENV{themes}} = ();
+}
+
+for (keys %{$ConfigData{ini}}) {
+  next unless /^Theme (.+)$/;
+  next unless $ConfigData{ini}{$_}{splash};
+
+  $st{$ConfigData{ini}{$_}{splash}} = 1 if !%themes || exists $themes{$1};
+}
+
+mkdir "${DataPath}base/gen", 0755;
+
+open W, ">$dst";
+
+for (sort keys %st) {
+  print W
+    "bootsplash-theme-$_:\n" .
+    "  /\n" .
+    "  m /usr/share/splash/themes/$_/bootloader/message /$_.boot\n" .
+    "  E splash -s -f /usr/share/splash/themes/$_/config/bootsplash-800x600.cfg >>/$_.splash\n" .
+    "  E splash -s -f /usr/share/splash/themes/$_/config/bootsplash-1024x768.cfg >>/$_.splash\n" .
+    "\n";
+}
+
+close W;
+
