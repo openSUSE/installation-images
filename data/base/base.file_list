@@ -4,6 +4,15 @@ c 1777 0 0 tmp
 devs:
   /dev
 
+d /initrddevs/dev
+if arch eq 's390' || arch eq 's390x'
+  m /dev/dasd* /initrddevs/dev
+  m /dev/pts /initrddevs/dev
+endif 
+
+m /usr/share/doc/packages/devs/makedevs.floppy /
+c 0755 0 0 makedevs.floppy
+
 filesystem:
   /etc/{ppp,rc.d,uucp}
   /etc/sysconfig

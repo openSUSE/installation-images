@@ -179,7 +179,7 @@ kbd:
   /usr/bin/{loadunimap,kbd_mode}
   /bin/{chvt,loadkeys}
   /usr/bin/{chvt,loadkeys}
-  /var/adm/fillup-templates/sysconfig.keyboard
+  m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
 
 # temporary fix for yast's setfont problems
 m /usr/bin/setfont /usr/bin/setfont.bin

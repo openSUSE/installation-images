@@ -9,15 +9,15 @@
 
 Available boot options:
 
- harddisk - boot installed system (this is the default)
- linux    - start installation
- manual   - manual installation
- failsafe - installation with some options that are needed on tricky hardware
-            (it is in fact equivalent to "linux ide=nodma apm=off acpi=off")
- apic     - start installation, use kernel with APIC support
- rescue   - start rescue system
- memtest  - run memory test
+  harddisk  - Boot from Harddisk (this is default)
+  linux     - Installation
+  noacpi    - Installation - ACPI Disabled
+  failsafe  - Installation - Safe Settings
+  manual    - Manual Installation
+  rescue    - Rescue System
+  memtest   - Memory Test
 
+'noacpi' or 'failsafe' may be necessary on some tricky hardware.
 
 Have a lot of fun...
 

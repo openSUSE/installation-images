@@ -1,3 +1,8 @@
+6/3/2003:	v3.20
+	- don't put cd related modules into initrd (#24709)
+	- changed boot loader menu texts
+	- speed up things by building /dev dir only once
+
 4/3/2003:	v3.19
 	- fixed lib64 issue in rescue system
 	- put bootlogo on x86_64 disks

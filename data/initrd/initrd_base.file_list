@@ -411,19 +411,6 @@ endif
 
 x etc/host.conf etc
 
-devs:
-  if arch eq 'ppc' || arch eq 'ppc64'
-    m /usr/share/doc/packages/devs/makedevs.floppy /
-  else
-    if arch eq 's390' || arch eq 's390x'
-    	/dev/dasd*
-	/dev/pts
-    endif 
-    m /usr/share/doc/packages/devs/makedevs.floppy /
-  endif
-
-c 0755 0 0 makedevs.floppy
-
 if arch ne 's390' && arch ne 's390x' && arch ne 'ppc' && arch ne 'ppc64'
 
 kbd:
@@ -605,6 +592,8 @@ if with_gdb
   endif
 
 endif
+
+e cp -a /initrddevs/dev .
 
 e echo "UseUSBSCSI:	1" >>linuxrc.config
 e echo "Product:	<product_name>" >>linuxrc.config

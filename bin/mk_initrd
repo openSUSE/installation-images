@@ -95,11 +95,6 @@ if($ENV{'keepinitrd'} != 1) {
   AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir, $ENV{'initrd'}, "${BasePath}tmp/initrd.opt_mods" or
     die "$Script: failed to setup initrd image";
 
-  print "creating devices...\n";
-  SUSystem "sh -c 'cd $tmpdir; RPM_ARCH=$ENV{'RPM_ARCH'} ./makedevs.floppy >/dev/null'" and
-    die "$Script: could not create all devices";
-  SUSystem "rm $tmpdir/makedevs.floppy";
-
   print "stripping object files...\n";
   SUSystem "strip_dir $tmpdir";
 }

@@ -7,7 +7,15 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root
         root demo modules html clean distdir install install_xx rdemo brescue
 	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd
 
-all:
+all: bootdisk moduledisks bootcd2 bootcd rescue root
+	@rm -rf images/cd[12]
+	@mkdir -p images/cd1/boot/loader images/cd2/boot
+	@cp images/boot.small images/cd1/boot/bootdisk
+	@cp images/modules? images/modules?.txt images/cd1/boot
+	@cp -r images/boot.isolinux/* images/cd1/boot/loader
+	@cp images/root.cramfs images/cd1/boot/root
+	@cp images/rescue images/cd1/boot
+	@cp images/boot.medium images/cd2/boot/image
 
 install:
 
