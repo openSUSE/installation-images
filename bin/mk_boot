@@ -151,7 +151,7 @@ elsif($ENV{'boot'} eq 'isolinux') {
   SUSystem "mv $image/syslinux.cfg $image/isolinux.cfg" and
     die "$Script: syslinux.cfg missing";
 
-  SUSystem "sh -c 'pisolinux /suse/images/boot <$isolx >$image/isolinux.bin'" and
+  SUSystem "sh -c 'pisolinux /boot/loader <$isolx >$image/isolinux.bin'" and
     die "$Script: isolinux.bin missing";
 
   # copy the initdisk

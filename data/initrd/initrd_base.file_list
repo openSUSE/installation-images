@@ -380,24 +380,18 @@ if arch eq 's390' || arch eq 's390x'
 ###################################################################
 else # arch is not s390 or s390x
 
-  if linuxrc
-    if linuxrc =~ m#^[^/]#
-      linuxrc:
+  linuxrc:
+    if linuxrc
+      if linuxrc =~ m#^[^/]#
         m /usr/sbin/<linuxrc> /linuxrc
-    else
-      X <linuxrc> /linuxrc
-    endif
-  else
-    linuxrc:
-      if initrd eq 'small'
-	m /usr/sbin/linuxrc_tiny /linuxrc
       else
-	m /usr/sbin/linuxrc /linuxrc
+        X <linuxrc> /linuxrc
       endif
-  endif
+    else
+      m /usr/sbin/linuxrc /linuxrc
+    endif
 
   x etc/syslog.conf etc
-
 
 endif
 
@@ -588,6 +582,10 @@ if with_gdb
 
   endif
 
+endif
+
+if product
+  e echo "Product:	<product>" >>linuxrc.config
 endif
 
 if lang
