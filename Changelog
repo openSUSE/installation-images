@@ -1,6 +1,11 @@
+5/9/2002:	v2.58
+	- module config fixed on x86_64
+	- samba, again
+
 5/9/2002:	v2.57
 	- modprobe in linuxrc to fix kmod problem
 	- changed parmfile for kernel (s390)
+
 5/9/2002:	v2.56
 	- openssh fix & 64bit samba workaround
 
