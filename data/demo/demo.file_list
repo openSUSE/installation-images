@@ -13,9 +13,6 @@ c 0711 0 0 /root
   /etc/modules.conf
   /etc/ld.so.conf
   /sbin/mk_initrd
-if suse_release < 7.2
-  /sbin/blogd
-endif
   /etc/init.d
   /etc/SuSE-release
   /etc/rc.status
@@ -27,11 +24,6 @@ endif
 # aaa_base's preinstall
   /sbin/SuSEconfig
 p /sbin/SuSEconfig.patch
-
-if suse_release == 7.1
-  p /sbin/boot.patch_71
-  p /sbin/halt.patch_71
-endif
 
 if suse_release == 7.2
   p /sbin/boot.patch_72
@@ -49,6 +41,11 @@ kbd:
 ncurses:
   /lib/libncurses.so.5*
 
+if suse_release >= 7.3 && (arch eq 'axp' || suse_xrelease eq 'beta')
+  libgcc:
+    /lib
+endif
+
 glibc:
   /lib/libutil.so.1
   # to make chown work
@@ -57,6 +54,8 @@ glibc:
   /lib/ld-2.*.so
 if arch eq 'ppc'
   /lib/ld.so.1
+elsif arch eq 'ia64'
+  /lib/ld-linux-ia64.so.2
 else
   /lib/ld-linux.so.2
 endif
@@ -68,9 +67,7 @@ bash:
   /bin/bash
 s bash /bin/sh
 
-if suse_release >= 7.2
-  readline:
-endif
+readline:
   /lib/libreadline.so.4*
   /lib/libhistory.so.4*
 
@@ -88,11 +85,9 @@ pam:
   /etc
 
 sysvinit:
-  if suse_release >= 7.2
-    /sbin/blogd
-    /bin/usleep
-    /sbin/{setconsole,showconsole}
-  endif
+  /sbin/blogd
+  /bin/usleep
+  /sbin/{setconsole,showconsole}
   /sbin/{checkproc,halt,killall5,killproc,mingetty,pidof,poweroff}
   /sbin/{reboot,shutdown,startproc,telinit,sulogin}
   /etc/powerd.conf
@@ -122,16 +117,10 @@ cron:
 base:
   /bin/sed
 
-if suse_release >= 7.2
 #  portmap:
 #    /sbin/portmap
-endif
 
-if suse_release >= 7.2
-  yast2-base:
-else
-  y2base:
-endif
+yast2-base:
   m /usr/lib/YaST2/bin/startshell /sbin
 
 if special eq 'cloop'

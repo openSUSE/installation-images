@@ -13,6 +13,7 @@ e prein
   /sbin/mk_initrd
   /sbin/get_kernel_version
   /sbin/insserv
+  /sbin/bootp
   /usr/bin/old
   /root
   /var/adm/fillup-templates
@@ -21,14 +22,13 @@ r /var/adm/fillup-templates
 
 base:
   /bin/tar
+  /bin/sed
 
 bash:
   /bin/bash
 s bash /bin/sh
 
-if suse_release >= 7.2
-  readline:
-endif
+readline:
   /lib/libreadline.so.4*
   /lib/libhistory.so.4*
 
@@ -54,27 +54,16 @@ hwinfo:
 mktemp:
   /bin/mktemp
 
-net-tools:
-  /bin/{domain,host}name
-
-if suse_release >= 7.2
-  iputils:
-    /bin/ping
-else
-  nkitb:
-    /bin/ping
-endif
-
-ps:
-  /bin/ps
+iputils:
+  /bin/ping
 
 rpm:
   /bin/rpm
   /usr/lib/rpm/{rpm{popt,rc},macros}
 
 sh-utils:
-  /bin/{date,echo,false,pwd,sleep,stty,true,uname}
-  /usr/bin/{expr,tee}
+  /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename}
+  /usr/bin/{expr,tee,dirname,chroot,test,tty}
 
 util-linux:
   /bin/kill
@@ -83,6 +72,8 @@ util-linux:
   /sbin/losetup
 
 <kernel_rpm>:
+  m /boot/System.map-* /System.map
+
 if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
 
   f / usbcore.o
@@ -161,6 +152,11 @@ ncurses:
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
 
+if suse_release >= 7.3 && (arch eq 'axp' || suse_xrelease eq 'beta')
+  libgcc:
+    /lib
+endif
+
 glibc:
   /sbin/ldconfig
   /lib/ld-2.*.so
@@ -183,9 +179,6 @@ r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcge
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
 r /usr/lib/gconv
 m /lib/libpthread.so.0 /usr/lib
-
-aaa_base:
-  /sbin/bootp
 
 kbd:
   /usr/lib/kbd
@@ -229,6 +222,7 @@ dosfstools:
   /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
 
 net-tools:
+  /bin/{domain,host}name
   /sbin/{ifconfig,route,plipconfig}
 
 portmap:
@@ -267,15 +261,8 @@ d /usr/{bin,lib,libexec,sbin,share}
 s ../var/spool /usr/spool
 s ../var/tmp /usr/tmp
 
-if suse_release >= 7.2
-  grep:
-    /bin/{,e,f}grep
-  base:
-else
-  base:
-    /bin/{,e,f}grep
-endif
-  /bin/sed
+grep:
+  /bin/{,e,f}grep
 
 diffutils:
   /usr/bin/{cmp,diff}
@@ -291,15 +278,12 @@ modutils:
  /sbin/{depmod,genksyms,insmod,ksyms,lsmod,modinfo,modprobe,rmmod,insmod.static}
 
 ps:
+  /bin/ps
   m /bin/fuser /usr/bin
   /usr/bin/{free,killall,pstree,socklist}
 
 timezone:
   /usr/share/zoneinfo/{iso3166,zone}.tab
-
-sh-utils:
-  /usr/bin/{dirname,chroot,test,tty}
-  /bin/basename
 
 strace:
   /usr/bin/strace
@@ -387,9 +371,7 @@ if with_yast2 ne 'no'
   xshared:
     /usr/X11R6/lib/lib{X11,Xext}.so*
     /usr/X11R6/lib/lib{SM,ICE,Xxf86misc,Xxf86vm}.so*
-    if suse_release >= 7.2
-      /usr/X11R6/lib/lib{Xmu,Xi,Xt,Xft,Xrender}.so*
-    endif
+    /usr/X11R6/lib/lib{Xmu,Xi,Xt,Xft,Xrender}.so*
   d /usr/X11R6/lib/{X11,modules}
 
   mesasoft:
@@ -411,7 +393,9 @@ if with_yast2 ne 'no'
   s /etc/X11/xserver /usr/X11R6/lib/X11
   # unicode stuff
   d /usr/X11R6/lib/X11/fonts/{misc,uni}
-    /usr/X11R6/lib/X11/fonts/misc/{6x13,cursor}.pcf.gz
+    /usr/X11R6/lib/X11/fonts/misc/cursor.pcf.gz
+    # 'fixed' font
+    /usr/X11R6/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz
 
   x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
   x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
@@ -426,33 +410,23 @@ if with_yast2 ne 'no'
     /
   yast2-agent-fdisk:
     /
-  yast2-agent-probe:
-    /
   yast2-agent-modules:
     /
-  yast2-core-pkginfo:
-    /
-  yast2-core-wfm:
-    /
-  yast2-core-scr:
-    /
-  yast2-core-clients:
-    /
-  yast2-lib-wizard:
+  yast2-agent-probe:
     /
   yast2-agent-rcconfig:
     /
-  yast2-ui-qt:
+  yast2-agent-system:
     /
-  yast2-ui-ncurses:
+  yast2-core-clients:
     /
-  libycp:
+  yast2-core-pkginfo:
     /
-  liby2:
+  yast2-core-scr:
     /
-  libscr:
+  yast2-core-wfm:
     /
-  libyui:
+  yast2-db-groups:
     /
   yast2-db-keyboard:
     /
@@ -460,7 +434,11 @@ if with_yast2 ne 'no'
     /
   yast2-db-timezone:
     /
-  yast2-db-groups:
+  yast2-lib-wizard:
+    /
+  yast2-ui-ncurses:
+    /
+  yast2-ui-qt:
     /
   yast2-trans-inst-bootloader:
     /
@@ -481,6 +459,14 @@ if with_yast2 ne 'no'
   yast2-trans-inst-user:
     /
   yast2-trans-wizard:
+    /
+  libycp:
+    /
+  liby2:
+    /
+  libscr:
+    /
+  libyui:
     /
 
   if arch eq 'sparc64' || arch eq 'sparc'
@@ -505,7 +491,7 @@ if with_yast2 ne 'no'
 endif
 
 gppshare:
-  /usr/lib/libstdc++-*.so*
+  /usr/lib/libstdc++*.so*
 
 libjpeg:
   /usr/lib/libjpeg.so*
@@ -549,13 +535,6 @@ if arch eq 'ppc' || arch eq 'sparc' || arch eq 'sparc64'
   d /lib/modules/<kernel_ver>/misc
 endif
 
-if suse_release < 7.2
-  if arch ne 'ia64'
-    c 0755 0 0 /lib/modules/<kernel_ver>
-    c 0755 0 0 /lib/modules/<kernel_ver>/misc
-  endif
-endif
-
 # add the rest from instsys
 lvm:
   /lib/liblvm-*.so*
@@ -590,25 +569,20 @@ d /tmp
 reiserfs:
   /sbin
 
-if suse_release >= 7.2
-  gawk:
-    /bin
-endif
+gawk:
+  /bin
 
 if arch eq 'ppc'
   pdisk:
     /sbin/pdisk
+
   lilo:
     /bin/show_of_path.sh
-
-  if suse_release < 7.2
-    gawk:
-      /bin/{g,}awk
-  endif
 
   fbset:
     /etc/fb.modes
     /usr/sbin/fbset
+
   hfsutils:
     /usr/bin/hattrib
     /usr/bin/hcd
@@ -624,13 +598,9 @@ if arch eq 'ppc'
     /usr/bin/hrmdir
     /usr/bin/humount
     /usr/bin/hvol
-
 endif
 
 x /usr/bin/setclock /usr/bin
-
-<kernel_rpm>:
-m /boot/System.map-* /System.map
 
 if arch eq 'ia32'
   xfiregl1:
@@ -638,13 +608,17 @@ if arch eq 'ia32'
 endif
 
 if arch eq 'ia32'
-# needed for blinux start script
+  # needed for blinux start script
   sysvinit:
     /sbin/{kill,start}proc
+
   sbl:
     /usr/lib/suse-blinux
     /etc/init.d/suse-blinux
     /etc/suse-blinux.conf
+    r /usr/lib/suse-blinux/profile/default
+    s y2bignfat /usr/lib/suse-blinux/profile/default
+
 endif
 
 syslogd:
@@ -657,21 +631,10 @@ if arch eq 'ppc'
     /usr/lib/libparted.so*
 endif
 
-# remember the sbl package entry above!
-if suse_release >= 7.2 && arch eq 'ia32'
- r /usr/lib/suse-blinux/profile/default
- s y2bignfat /usr/lib/suse-blinux/profile/default
-endif
-
 # add link to initrd modules
 # check mk_root before you're going to change this!!!
-if suse_release >= 7.2
-  d /lib/modules/<kernel_ver>/initrd
-  e /bin/ln -s /modules/*.o /lib/modules/<kernel_ver>/initrd
-else
-  d /lib/modules/default
-  s /modules /lib/modules/default/misc
-endif
+d /lib/modules/<kernel_ver>/initrd
+e /bin/ln -s /modules/*.o /lib/modules/<kernel_ver>/initrd
 
 # run depmod
 e /sbin/depmod -a -F /System.map <kernel_ver>

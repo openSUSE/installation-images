@@ -37,11 +37,7 @@ if linuxrc
   X <linuxrc> /linuxrc
 else
   linuxrc:
-  if suse_release < 7.1 && boot eq 'small'
-    m /usr/sbin/linuxrc_mini /linuxrc
-  else
-   m /usr/sbin/linuxrc /linuxrc
-  endif
+    m /usr/sbin/linuxrc /linuxrc
 endif
 
 x etc/host.conf etc

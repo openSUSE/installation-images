@@ -85,5 +85,14 @@ else {
     die "$Script: error in shared lib config, please fix\n";
 }
 
+if($debug =~ /\bignore\b/) {
+  system "yast2-deps" and
+    warn "$Script: error in yast2 package list, please fix\n";
+}
+else {
+  system "yast2-deps" and
+    die "$Script: error in yast2 package list, please fix\n";
+}
+
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
 

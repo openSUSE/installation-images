@@ -97,6 +97,8 @@ sub AddFiles
     if($ignore) { warn $a } else { die $a }
   };
 
+  $debug .= ',pkg';
+
   if(!$AutoBuild) {
     $rpms = "$ConfigData{suse_base}/suse";
     die "$Script: where are the rpms?" unless $ConfigData{suse_base} && -d $rpms;
@@ -106,7 +108,6 @@ sub AddFiles
     $rpms = $AutoBuild;
     die "$Script: where are the rpms?" unless -d $rpms;
     print "running in autobuild environment\n";
-    $debug .= ',pkg';
   }
 
   if(! -d $dir) {

@@ -470,7 +470,9 @@ for (@f) {
 
   $v .= " [$rf]" if $v ne $rf;
 
-  print "Building for SuSE Linux $v ($a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
+  if(!exists $ENV{silent}) {
+    print "Building for SuSE Linux $v ($a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
+  }
 
 #  print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}><$ENV{'suse_major_release'}><$ENV{'suse_minor_release'}>\n";
 }

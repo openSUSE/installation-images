@@ -1,3 +1,9 @@
+17/7/2001:	v1.68
+	- support gcc 3.0
+	- made it work with xf86 4.1
+	- *.file_list cleanup
+	- check yast2 package list consistency
+
 16/7/2001:	v1.67
 	- fixed elsif
 	- removed unnecessary keytable includes

@@ -1,17 +1,33 @@
 #! /usr/bin/perl
 
-# Print yast2 packages that depend on @ARGV, recursively!
+# Check yast2 packages dependencies.
 
-$dir = '/work/CDs/all/full-i386/suse/*';
+BEGIN { $ENV{silent} = 1 }
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeMinixImage;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
 
 sub get_req;
 
-for (@ARGV) {
-  $packs{$_} = 0;
-  $cnt++;
-}
+$inst_rpms = "${BasePath}tmp/root.rpms";
+
+# die "usage: $Script\n" if @ARGV;
+for (@ARGV) { $packs{$_} = 0; $cnt++; }
 
 $packs{"yast2-instsys"} = 0, $cnt++ unless $cnt;
+
+if(!$AutoBuild) {
+  $rpms = "$ConfigData{suse_base}/suse";
+  die "$Script: where are the rpms?" unless $ConfigData{suse_base} && -d $rpms;
+  $rpms = "$rpms/*";
+}
+else {
+  $rpms = $AutoBuild;
+  die "$Script: where are the rpms?" unless -d $rpms;
+}
 
 while($cnt) {
   @p = keys %packs;
@@ -25,10 +41,35 @@ while($cnt) {
   }
 }
 
-for (sort keys %packs) {
-  print "$_\n"
+open F, $inst_rpms;
+while(<F>) {
+  chomp;
+  $inst_rpms{$_} = 1 if /^yast2/;
+}
+close F;
+
+for (sort keys %inst_rpms) {
+  push @toomany, "  $_\n" unless exists $packs{$_};
 }
 
+for (sort keys %packs) {
+  push @missing, "  $_\n" unless exists $inst_rpms{$_};
+}
+
+$error = 0;
+
+if(@toomany) {
+  print "unnecessary yast2 packages:\n";
+  print @toomany;
+}
+
+if(@missing) {
+  print "missing yast2 packages:\n";
+  print @missing;
+  $error = 1;
+}
+
+exit $error;
 
 sub get_req
 {
@@ -37,7 +78,7 @@ sub get_req
 
   $_ = shift;
 
-  @p = `rpm --requires -qp $dir/$_.rpm`;
+  @p = `rpm --requires -qp $rpms/$_.rpm`;
   for (@p) {
     chomp;
     s/\s*$//;

@@ -41,6 +41,10 @@ if arch eq 'ia32'
         # f / 8390.o /modules
       endif
 
+      if suse_xrelease eq 'beta'
+        M usbcore usb-uhci usb-ohci input hid keybdev usb-storage
+      endif
+
   elsif initrd eq 'large'
 
     f /lib/modules/<kernel_ver>/pcmcia *.o /modules

@@ -38,89 +38,55 @@ r /var/adm/fillup-templates
 t /etc/fstab
 R s/^(FQHOSTNAME=).*/$1\"Rescue\"/ /etc/rc.config
 
-if suse_release >= 7.2
-  grep:
-    /bin
-  base:
-    /bin
-else
-  base:
-    /{,s}bin
-endif
+grep:
+  /bin
+
+base:
+  /bin
   /usr/{,s}bin
 
 bash:
   /bin
-if suse_release >= 7.2
-  readline:
-endif
+
+readline:
   /lib
 
 bdflush:
   /sbin
-
-if suse_release < 7.1
-  binutils:
-    /usr/lib/libbfd-*.so
-endif
 
 cpio:
   /bin
   /usr/bin
 
 cracklib:
-# ???
-#  /usr/sbin/{mkdict,packer}
   /usr/lib
 
-if suse_release >= 7.1
-  db:
-    /usr/lib/libdb-3*
-endif
+db:
+  /usr/lib/libdb-3*
 
-if suse_release >= 7.1
-  diffutils:
-else
-  diff:
-endif
+diffutils:
   /usr/bin
 
 dump:
   /sbin/{dump,restore}
 
-# we use vim instead (no termcap)
-#elvis:
-#  /usr/{bin,lib}
-#s elvis /usr/bin/vi
-
-if suse_release >= 7.1
-  e2fsprogs:
-else
-  ext2fs:
-endif
+e2fsprogs:
   /{lib,sbin}
   /usr/{,s}bin
 
-if suse_release >= 7.1
-  fileutils:
-else
-  fileutil:
-endif
+fileutils:
   /bin
   /usr/bin
 
-if suse_release >= 7.1
-  findutils:
-else
-  find:
-endif
+findutils:
   /usr/bin/{find,xargs}
 
-if suse_release >= 7.1
-  glibc:
-else
-  shlibs:
+if suse_release >= 7.3 && (arch eq 'axp' || suse_xrelease eq 'beta')
+  libgcc:
+    /lib
 endif
+
+glibc:
   /etc/nscd.conf
   /{lib,sbin}
 r /lib/libdb.so.*
@@ -128,28 +94,18 @@ r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
   /usr/{,s}bin
 r /usr/bin/{db*,glibcbug,localedef,rpcgen}
   /usr/lib/pt_chown
-if suse_release < 7.1
-  /lib/libdb.so.3
-endif
 
-if suse_release >= 7.1
-  gpart:
-    /usr/bin
-endif
+gpart:
+  /usr/bin
 
 if arch eq 'sparc' || arch eq 'sparc64'
-silo:
-  /sbin/silo
+  silo:
+    /sbin/silo
 endif
 
 gzip:
   /bin
   /usr/bin
-
-# ???
-#inetd:
-#  /sbin
-#  /usr/sbin
 
 joe:
   /usr/bin/{joe,jmacs}
@@ -192,28 +148,17 @@ raidtools:
 mktemp:
   /bin/mktemp
 
-if suse_release >= 7.1
-  modutils:
-else
-  modules:
-endif
-  /sbin/{insmod,modprobe,rmmod,lsmod,ksyms}
+modutils:
+  /sbin/{insmod,modprobe,rmmod,lsmod,ksyms,depmod}
 
 ncurses:
   /lib/libncurses.so.5*
   /usr/share/terminfo/d/dumb
   /usr/share/terminfo/l
   /usr/share/terminfo/v/vt10[02]
-
-# ???
-#  /usr/bin
   /usr/bin/{clear,tset,reset}
 
-if suse_release >= 7.1
-  net-tools:
-else
-  net_tool:
-endif
+net-tools:
   /{,s}bin
 
 netcat:
@@ -232,23 +177,17 @@ e postin
 icmpinfo:
   /usr/sbin/icmpinfo
 
-if suse_release >= 7.2
-  iputils:
-    /bin/ping
-  telnet:
-    /usr/bin/telnet
-  finger:
-    /usr/bin/finger
-  rsh:
-    /usr/bin
-else
-  nkitb:
-    /usr/bin
-  r /usr/bin/{ruptime,talk}
-  if suse_release < 7.1
-    /usr/sbin/traceroute
-  endif
-endif
+iputils:
+  /bin/ping
+
+telnet:
+  /usr/bin/telnet
+
+finger:
+  /usr/bin/finger
+
+rsh:
+  /usr/bin
 
 pam:
   /{etc,lib,sbin}
@@ -279,16 +218,10 @@ rsync:
   /etc
   /usr/{,s}bin
 
-if suse_release >= 7.1
-  setserial:
-    /bin/setserial
-endif
+setserial:
+  /bin/setserial
 
-if suse_release >= 7.1
-  sh-utils:
-else
-  sh_utils:
-endif
+sh-utils:
   /{etc,bin}
 r /bin/su
   /usr/bin
@@ -316,25 +249,14 @@ c 600 0 0 /dev/initctl
   /bin/usleep
 e postin
 
-if suse_release >= 7.1
-  textutils:
-else
-  textutil:
-endif
+textutils:
   /bin
   /usr/bin
 
-if suse_release >= 7.1
-  traceroute:
-    /usr/sbin/traceroute
-endif
+traceroute:
+  /usr/sbin/traceroute
 
-if suse_release >= 7.1
-  util-linux:
-else
-  util:
-    /bin/setserial
-endif
+util-linux:
   /bin/{dmesg,kill,mount,umount}
   /etc/filesystems
   /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,hwclock,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
@@ -354,7 +276,6 @@ hwinfo:
 parted:
   /usr/{lib,sbin}
 
-if suse_release >= 7.2
 if arch ne 'sparc'
   <kernel_rpm>:
     f / st.o
@@ -372,13 +293,9 @@ if arch ne 'sparc'
     f / loop_fish2.o
     m /boot/System.map-* /System.map
 
-  modutils:
-    /sbin/depmod
-
   # run depmod
   e /sbin/depmod -a -F /System.map <kernel_ver>
   r /System.map /sbin/depmod
-endif
 endif
 
 # now run SuSEconfig

@@ -14,51 +14,33 @@ aaa_dir:
   /var
 r /var/{spool,squid,lib/YaST}
 
-if suse_release >= 7.2
-  grep:
-    /bin
-  base:
-    /bin
-else
-  base:
-    /{,s}bin
-endif
+grep:
+  /bin
+base:
+  /bin
   /usr/{,s}bin
 
 bash:
   /bin
-if suse_release >= 7.2
-  readline:
-endif
+readline:
   /lib
 
-if suse_release >= 7.1
-  fileutils:
-else
-  fileutil:
-endif
+fileutils:
   /bin
   /usr/bin
 
-if suse_release >= 7.1
-  findutils:
-else
-  find:
-endif
+findutils:
   /usr/bin/{find,xargs}
 
-if suse_release >= 7.1
-  diffutils:
-else
-  diff:
-endif
+diffutils:
   /usr/bin
 
-if suse_release >= 7.1
-  glibc:
-else
-  shlibs:
+if suse_release >= 7.3 && (arch eq 'axp' || suse_xrelease eq 'beta')
+  libgcc:
+    /lib
 endif
+
+glibc:
   /etc/nscd.conf
   /{lib,sbin}
 r /lib/libdb.so.*
@@ -66,18 +48,11 @@ r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
   /usr/{,s}bin
 r /usr/bin/{db*,glibcbug,localedef,rpcgen}
   /usr/lib/pt_chown
-if suse_release < 7.1
-  /lib/libdb.so.3
-endif
 
 mktemp:
   /bin/mktemp
 
-if suse_release >= 7.1
-  modutils:
-else
-  modules:
-endif
+modutils:
   /sbin/depmod
 
 ps:
