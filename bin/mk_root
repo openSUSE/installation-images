@@ -51,6 +51,8 @@ $start_inodes = 5000;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
+$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+
 # clean up
 if(-d($tmpdir)) {
   SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
@@ -65,6 +67,15 @@ SUSystem "strip_dir $tmpdir";
 
 SUSystem "ldconfig -r $tmpdir";
 die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
+
+if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+  system "check_libs $tmpdir" and
+    warn "$Script: error in shared lib config, please fix\n";
+}
+else {
+  system "check_libs $tmpdir" and
+    die "$Script: error in shared lib config, please fix\n";
+}
 
 # if(-d "$tmpinitrd/modules$ConfigData{kernel_ver}") {
 if(-d "$tmpdir/lib/modules/$ConfigData{kernel_ver}") {

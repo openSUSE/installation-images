@@ -1,3 +1,12 @@
+21/11/2000:	v1.11
+	- finished rescue system
+	- renamed ix86 -> ia32
+	- made root & demo images build again
+
+17/11/2000:	v1.10
+	- added check for shared lib dependencies
+	- added rescue image
+
 15/11/2000:	v1.09
 	- started to switch to new package names
 	- improved error handling on missing files

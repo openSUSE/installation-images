@@ -35,9 +35,6 @@ base:
 
 sh_utils:
   /bin/{date,echo,false,sleep,stty,true,uname}
-if abuild
-  X /bin/uname.bin bin/uname
-endif
 
 util:
   /bin/{kill,mount,umount}

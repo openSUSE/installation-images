@@ -10,7 +10,7 @@ endif
 
 <kernel_rpm>:
 
-if arch eq 'ix86'
+if arch eq 'ia32'
   a /lib/modules/<kernel_ver>/misc/nvram.o /modules
   if suse_major_release == 6
     a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
@@ -222,10 +222,10 @@ if arch eq 'alpha'
   endif		# small
 endif		# arch eq 'alpha'
 
-if arch eq 'ix86'
+if arch eq 'ia32'
 
   ifdef small	# (test) initrd for 1.44MB floppies
-    a /lib/modules/<kernel_ver>/net/3c59x.o /modules
+    M /lib/modules/<kernel_ver>/net/3c59x.o /modules
     a /lib/modules/<kernel_ver>/net/tulip.o /modules
 
     # a /lib/modules/<kernel_ver>/net/8390.o /modules
@@ -233,6 +233,16 @@ if arch eq 'ix86'
     # a /lib/modules/<kernel_ver>/misc/parport.o /modules
     # a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
     # a /lib/modules/<kernel_ver>/misc/serial.o /modules
+
+    if special eq 'nousb'
+      r /modules/usbcore.o
+      r /modules/usb-uhci.o
+      r /modules/usb-ohci.o
+      r /modules/input.o
+      r /modules/hid.o
+      r /modules/keybdev.o
+      r /modules/mousedev.o
+    endif
 
     if special eq 'scsi'
       M /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
@@ -270,7 +280,7 @@ if arch eq 'ix86'
       M /lib/modules/<kernel_ver>/usb/usb-ohci.o /modules
     endif
 
-  else	# normal initrd (for 2.88MB floppies on i386)
+  else	# normal initrd (for 2.88MB floppies on ia32)
     a /lib/modules/<kernel_ver>/block/*.o /modules
     a /lib/modules/<kernel_ver>/net/*.o /modules
     a /lib/modules/<kernel_ver>/scsi/*.o /modules
@@ -404,7 +414,7 @@ if arch eq 'ix86'
 
 
   endif	# !small
-endif		# arch eq 'ix86'
+endif		# arch eq 'ia32'
 
 if arch eq 'sparc' || arch eq  'sparc64'
   a /lib/modules/<kernel_ver>/fc4/*.o /modules

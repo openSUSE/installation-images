@@ -8,7 +8,7 @@ d modules
 d dev/usb
 
 # agpgarti810 device
-if arch eq 'ix86' && suse_release < 7.1
+if arch eq 'ia32'
   xsvga:
     /dev/agpgarti810
 endif
@@ -62,7 +62,7 @@ g /usr/lib/kbd/consolefonts/lat7-16.psfu.gz consolefonts/lat7-16.psfu
 
 d keytables/include
 
-if arch eq 'ix86' || arch eq 'ppc' || arch eq 'ia64'
+if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64'
   g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz keytables/Pl02.map
   g /usr/lib/kbd/keymaps/i386/qwerty/br-abnt2.map.gz keytables/br-abnt2.map
   g /usr/lib/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz keytables/cz-us-qwertz.map
@@ -118,7 +118,7 @@ if arch eq 'sparc' || arch eq 'sparc64'
   g /usr/lib/kbd/keymaps/sun/sunt5-ru.map.gz keytables/sunt5-ru.map
 endif
 
-if arch eq 'alpha' || arch eq 'ix86' || arch eq 'ppc'
+if arch eq 'alpha' || arch eq 'ia32' || arch eq 'ppc'
   pcmcia:
   d etc/pcmcia/cis
   a etc/pcmcia/cis etc/pcmcia

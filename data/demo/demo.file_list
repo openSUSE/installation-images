@@ -2,7 +2,7 @@ d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var
 c 1777 0 0 tmp
 
 devs:
-if suse_major_release == 6
+if suse_major == 6
   m /usr/doc/packages/devs/makedevs /
 else
   m /usr/share/doc/packages/devs/makedevs /
@@ -19,7 +19,7 @@ c 0711 0 0 /root
   /sbin/mk_initrd
   /sbin/init.d
   /etc/SuSE-release
-if suse_major_release != 6
+if suse_major != 6
     /etc/rc.status
 endif
   /etc/cron.daily/aaa_base
@@ -30,10 +30,10 @@ endif
 # aaa_base's preinstall
   /sbin/SuSEconfig
 p /sbin/SuSEconfig.patch
-if suse_major_release == 6
+if suse_release == 6.4
   p /sbin/boot.patch_64
   p /sbin/halt.patch_64
-else
+elsif suse_release == 7.0
   p /sbin/boot.patch_70
   p /sbin/halt.patch_70
 endif
@@ -46,28 +46,9 @@ aaa_dir:
 kbd:
   /sbin/init.d
 
-if suse_release < 7.1
 xsvga:
   /dev/agpgarti810
 #  /lib/modules/<kernel_ver>/misc/agpgarti810.o
-endif
-
-#<kernel_rpm>:
-#ifnarch ppc
-#  /lib/modules/<kernel_ver>/misc/serial.o
-#  /lib/modules/<kernel_ver>/misc/lp.o
-#endif
-
-# add link to initrd modules
-# check mk_demo before you're going to change this!!!
-#d /lib/modules/default
-#s ../../../modules /lib/modules/default/misc
-
-#ifarch ppc sparc sparc64
-#d /lib/modules/<kernel_ver>/misc
-#endif
-#c 0755 0 0 /lib/modules/<kernel_ver>
-#c 0755 0 0 /lib/modules/<kernel_ver>/misc
 
 ncurses:
   /lib/libncurses.so.5*
@@ -83,8 +64,8 @@ if arch eq 'ppc'
 else
     /lib/ld-linux.so.2
 endif
-  /lib/{libcrypt.so.1,libdb.so.2,libdb.so.3}
-  /lib/{libc.so.6,libdl.so.2,libm.so.6,librt.so.1,libutil.so.1}
+  /lib/libcrypt.so.1
+  /lib/{libc.so.6,libdl.so.2}
   /etc/nscd.conf
 
 bash:
@@ -99,9 +80,6 @@ else
   sh_utils:
 endif
   /bin/{date,echo,false,sleep,stty,true,uname}
-if abuild
-  X /bin/uname.bin bin/uname
-endif
 
 if suse_release >= 7.1   
   util-linux:
@@ -142,6 +120,8 @@ else
 endif
   /sbin/{e2fsck,e2label,fsck,fsck.ext2}
   /lib
+r /lib/libe2p.so*
+r /lib/libss.so*
 
 bdflush:
   /sbin/update
@@ -189,7 +169,11 @@ if special eq 'cloop' || special eq 'loopc'
     b 240 0 /dev/loopc0
   endif
 
-  modules:
+  if suse_release >= 7.1
+    modutils:
+  else
+    modules:
+  endif
     /sbin/{insmod,rmmod}
 endif
 
@@ -226,7 +210,7 @@ d /var/lib/xkb
 x /sbin/{live-setup,mk_links} /sbin
 if demo eq 'eval'
   x /sbin/{live-shutdown,find_config,fix_fstab} /sbin
-  if suse_major_release == 6
+  if suse_major == 6
     x /etc/XF86Config /etc
   else
     d etc/X11

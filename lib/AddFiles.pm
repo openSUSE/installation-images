@@ -57,6 +57,8 @@ use integer;
 
 use ReadConfig;
 
+sub fixup_re;
+
 sub AddFiles
 {
   local $_;
@@ -65,6 +67,7 @@ sub AddFiles
   my ($mod_list, @mod_list, %mod_list);
   my ($inc_file, $inc_it, $debug, $eshift, $ignore);
   my ($old_warn, $ver);
+  my (@scripts, $s, @s, %script);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
@@ -93,7 +96,8 @@ sub AddFiles
   else {
     $rpms = $AutoBuild;
     die "$Script: where are the rpms?" unless -d $rpms;
-    print "running in autobuild environment\n"
+    print "running in autobuild environment\n";
+    $debug .= ',pkg';
   }
 
   if(! -d $dir) {
@@ -110,7 +114,9 @@ sub AddFiles
   die "$Script: no such file list: $file_list" unless open F, $file_list;
 
   $arch = `uname -m`; chomp $arch;
-  $arch = "ix86" if $arch =~ /^i\d86$/;
+  $arch = "ia32" if $arch =~ /^i\d86$/;
+
+  $ENV{'___arch'} = $arch;
 
   $tag = "" unless defined $tag;
 
@@ -133,9 +139,7 @@ sub AddFiles
       printf ".<%x>%s\n", $if_val, $_;
     }
 
-    s/<kernel_ver>/$ConfigData{kernel_ver}/g;
-    s/<kernel_rpm>/$ConfigData{kernel_rpm}/g;
-    s/<kernel_img>/$ConfigData{kernel_img}/g;
+    s/<(kernel_ver|kernel_rpm|kernel_img|suse_release|suse_major|suse_minor)>/$ConfigData{$1}/g;
 
     if(/^endif/) { $if_val >>= $eshift; next }
 
@@ -153,23 +157,12 @@ sub AddFiles
     if(/^(els)?if\s+(.+)/) {
       no integer;
 
-      my ( $re, $i, $re0, $val );
-      my ( $eif );
+      my ( $re, $i, $eif );
 
       $eif = $1 ? 1 : 0;
       $eshift = 1 if !$eif;
-      $re = $2;
-      $re0 = $re;
-      $re0 =~ s/(('[^']*')|("[^"]*")|\b(defined|lt|gt|le|ge|eq|ne|cmp|not|and|or|xor)\b|(\(|\)))/' ' x length($1)/ge;
-      while($re0 =~ s/^((.*)(\b[a-zA-Z]\w+\b))/$2 . (' ' x length($3))/e) {
-#        print "    >>$3<<\n";
-        $val = "\$ENV{'$3'}";
-        $val = '$arch' if $3 eq 'arch';
-        $val = '$AutoBuild' if $3 eq 'abuild';
-        substr($re, length($2), length($3)) = $val;
-      }
+      $re = fixup_re $2;
       if($debug =~ /\bif\b/) {
-#        printf "      <%s>\n", $re0;
         printf "    eval \"%s\"\n", $re;
       }
       $ignore += 10;
@@ -194,20 +187,14 @@ sub AddFiles
       die "$Script: no such file list: $inc_file" unless open I, "$ext_dir/$inc_file";
       $inc_it = 1;
     }
-    elsif(/^(\S+):\s*$/) {
-      $p = $1;
+    elsif(/^(\S+):\s*(\S+)?\s*$/) {
+      undef %script;
+      undef @scripts;
 
-#      if($AutoBuild) {
-#        SUSystem "rm -rf $tdir" and
-#          die "$Script: failed to remove $tdir";
-#        die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
-##        SUSystem "sh -c 'cd / ; rpm -ql $p | tar -T - -cf - | tar -C $tdir -xpf -'" and
-##          warn "$Script: failed to extract $p";
-#        print "adding package $p...\n";
-#        SUSystem "sh -c 'cd $tdir ; rpm -ql $p | cpio --quiet -o 2>/dev/null | cpio --quiet -dimu --no-absolute-filenames'" and
-#          warn "$Script: failed to extract $r";
-#      }
-#      else {
+      $p = $1;
+      if(defined $2) {
+        @scripts = split /,/, $2;
+      }
 
       if($p =~ /^\//) {
         $r = $p;
@@ -225,14 +212,27 @@ sub AddFiles
       else {
         $ver = "";
       }
-      print "adding package $p$ver\n" if $AutoBuild || $debug =~ /\bpkg\b/;
+
+      print "adding package $p$ver\n" if $debug =~ /\bpkg\b/;
+
+      for $s (@scripts) {
+        @{$script{$s}} =
+        @s = `rpm --queryformat '%{\U$s\E}' -qp $r 2>/dev/null`;
+        if(@s == 0 || $s[0] =~ /^\(none\)\s*$/) {
+          warn "$Script: no \"$s\" script in $r";
+        }
+        else {
+          print "  got \"$s\" script\n" if $debug =~ /\bscripts\b/;
+          @{$script{$s}} = @s;
+        }
+      }
+
       SUSystem "rm -rf $tdir" and
         die "$Script: failed to remove $tdir";
       die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
+
       SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet -dimu --no-absolute-filenames'" and
         warn "$Script: failed to extract $r";
-
-#      }
 
     }
     elsif(!/^[a-zA-Z]\s+/ && /^(.*)$/) {
@@ -317,6 +317,10 @@ sub AddFiles
       SUSystem "mknod $dir/$3 c $1 $2" and
         warn "$Script: failto to make char dev $3 ($1, $2)";
     }
+    elsif(/^n\s+(.+)$/) {
+      SUSystem "mknod $dir/$1 p" and
+        warn "$Script: failto to make named pipe $1";
+    }
     elsif(/^M\s+(\S+)\s+(\S+)$/) {
       SUSystem "sh -c \"cp -av $tdir/$1 $dir/$2\" >$tfile" and
         print "$Script: $1 not copied to $2 (ignored)\n";
@@ -330,10 +334,60 @@ sub AddFiles
         }
       }
     }
+    elsif(/^e\s+(.+)$/) {
+      my ($cmd);
+
+      $cmd = $1;
+
+      if(exists($script{$cmd})) {
+        SUSystem "sh -c 'mkdir $dir/install && chmod 777 $dir/install'" and
+          die "$Script: failed to create $dir/install";
+        die "$Script: unable to create script \"$cmd\"" unless open W, ">$dir/install/inst.sh";
+        print W @{$script{$cmd}};
+        close W;
+
+        print "running \"$cmd\" script\n" if $debug =~ /\bpkg\b/;
+        SUSystem "sh -c 'cd $dir; sh install/inst.sh'"
+          and warn "$Script: execution of \"$cmd\" script failed";
+        SUSystem "rm -rf $dir/install";
+      }
+      else {
+        # run in chroot env
+        print "running \"$cmd\"\n" if $debug =~ /\bpkg\b/;
+        SUSystem "chroot $dir /bin/sh -c '$cmd'" and warn "\"$cmd\" failed";
+      }
+    }
+    elsif(/^R\s+(.+?)\s+(\S+)$/) {
+      my ($file, $re, @f, $i);
+
+      $file = $2;
+      $re = $1 . '; 1';		# fixup_re($1) ?
+
+      die "$Script: $file: no such file" unless -f "$dir/$file";
+      system "touch $tfile" and die "unable to access $file";
+      SUSystem "cp $dir/$file $tfile" and die "unable to access $file";
+
+      die "$Script: $file: $!" unless open F1, "$tfile";
+      @f = (<F1>);
+      close F1;
+      SUSystem "rm -f $tfile";
+
+      for (@f) {
+        $ignore += 10;
+        $i = eval $re;
+        $ignore -= 10;
+        die "$Script: syntax error in expression" unless defined $i;
+      }
+      die "$Script: $file: $!" unless open F1, ">$tfile";
+      print F1 @f;
+      close F1;
+
+      SUSystem "cp $tfile $dir/$file" and die "unable to access $file";
+      SUSystem "rm -f $tfile";
+    }
     else {
       die "$Script: unknown entry: \"$_\"\n";
     }
-
   }
 
   close F;
@@ -351,5 +405,24 @@ sub AddFiles
 
   return 1;
 }
+
+
+sub fixup_re
+{
+  local ($_);
+  my ($re, $re0, $val);
+
+  $re0 = $re = shift;
+  $re0 =~ s/(('[^']*')|("[^"]*")|\b(defined|lt|gt|le|ge|eq|ne|cmp|not|and|or|xor)\b|(\(|\)))/' ' x length($1)/ge;
+  while($re0 =~ s/^((.*)(\b[a-zA-Z]\w+\b))/$2 . (' ' x length($3))/e) {
+#    print "    >>$3<<\n";
+    $val = "\$ENV{'$3'}";
+    $val = $ENV{'___arch'} if $3 eq 'arch';
+    substr($re, length($2), length($3)) = $val;
+  }
+
+  return $re;
+}
+
 
 1;

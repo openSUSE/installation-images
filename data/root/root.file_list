@@ -5,12 +5,16 @@
 d bin dev etc lib mnt root sbin tmp usr var
 c 1777 0 0 tmp
 
-aaa_base:
+aaa_base: prein,postin
+e prein
   /bin/fillup
   /etc/modules.conf
   /sbin/mk_initrd
   /sbin/get_kernel_version
   /usr/bin/old
+  /var/adm/fillup-templates
+e postin
+r /var/adm/fillup-templates
 
 base:
   /bin/tar
@@ -31,7 +35,6 @@ else
 endif
   /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
   /usr/bin/du
-  /usr/bin/expr
 if suse_major == 6
     /usr/bin/touch
 else
@@ -64,14 +67,13 @@ nkitb:
 ps:
   /bin/ps
 
+if suse_release < 7.1
 recode:
   /usr/lib/librecode.so*
+endif
 
 rpm:
   /bin/rpm
-if abuild
-  X /bin/rpm.bin bin/rpm
-endif
   /usr/lib/rpm/rpm{popt,rc}
 
 if suse_release >= 7.1
@@ -80,9 +82,7 @@ else
   sh_utils:
 endif
   /bin/{date,echo,false,pwd,sleep,stty,true,uname}
-if abuild
-  X /bin/uname.bin bin/uname
-endif
+  /usr/bin/expr
 
 if suse_release >= 7.1
   util-linux:
@@ -134,7 +134,11 @@ endif
 
 ncurses:
   /lib/libncurses.so.5*
+#  /lib/libpanel.so.5*
+if suse_release < 7.1
+  /lib/libncurses.so.4*
   /usr/lib/lib{form,menu,panel}.so*
+endif
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
 
@@ -152,7 +156,11 @@ elsif arch eq 'ia64'
 else
   /lib/ld-linux.so.2
 endif
-  /lib/lib{c,m}.so.6*
+if arch eq 'ia64'
+    /lib/lib{c,m}.so.0*
+else
+    /lib/lib{c,m}.so.6*
+endif
   /lib/{libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libnsl.so.1*}
 if suse_release < 7.1
   /lib/libnss_db.so.2
@@ -211,7 +219,7 @@ endif
 file:
   /usr/bin/file
 
-if arch eq 'ix86' || arch eq 'ppc'
+if arch eq 'ia32' || arch eq 'ppc'
   lilo:
     /sbin/activate
 endif
@@ -304,7 +312,11 @@ less:
   /etc/lesskey
   /usr/bin/less
 
-modules:
+if suse_release >= 7.1
+  modutils:
+else
+  modules:
+endif
  /sbin/{depmod,genksyms,insmod,ksyms,lsmod,modinfo,modprobe,rmmod,insmod.static}
 if arch ne 'ia64' && suse_release < 7.1
    /sbin/kerneld
@@ -393,12 +405,12 @@ if arch ne 'alpha'
   endif
 
   # old XF86 3.3
-  if arch eq 'ix86' || arch eq 'alpha'
+  if arch eq 'ia32' || arch eq 'alpha'
     xsvga:
       .
   endif
 
-  if arch eq 'ix86'
+  if arch eq 'ia32'
     xvga16:
       .
   endif
@@ -468,13 +480,11 @@ if arch ne 'alpha'
   endif
 endif
 
-if suse_release < 7.1
-  libpng:
-    /usr/lib/libpng.so.2*
+libpng:
+  /usr/lib/libpng.so.2*
 
-  libz:
-    /usr/lib/libz.so.1*
-endif
+libz:
+  /usr/lib/libz.so.1*
 
 c 0755 0 0 /usr
 if arch ne 'alpha'
@@ -486,10 +496,8 @@ endif
 gppshare:
   /usr/lib/libstdc++-*.so*
 
-if suse_release < 7.1
-  libjpeg:
-    /usr/lib/libjpeg.so*
-endif
+libjpeg:
+  /usr/lib/libjpeg.so*
 
 eject:
 if arch eq 'ppc' || suse_release >= 7.1
@@ -499,8 +507,13 @@ else
 endif
 
 if suse_release >= 7.1
-#  libmng:
-#    /usr/lib/libmng.so*
+  libmng:
+    /usr/lib/libmng.so*
+
+  qt:
+    /usr/lib/libqt.so.2
+    /usr/lib/qt2
+    /usr/lib/qt-2.*/lib/libqt.so*
 else
   qtlib2:
     /usr/lib/*
@@ -528,7 +541,7 @@ endif
 # remove these:
 r root mnt tmp usr/libexec
 
-if arch eq 'ix86'
+if arch eq 'ia32'
   syslinux:
     /usr/sbin/syslinux
 endif
@@ -537,16 +550,13 @@ netcfg:
   /etc/{services,protocols}
 
 if arch ne 'alpha'
-  # we need ISaX
-  isax:
-    /usr/X11R6/bin/{isax,ISaX}
+# we don't need ISaX
+#  isax:
+#    /usr/X11R6/bin/{isax,ISaX}
 
   saxtools:
     /usr/X11R6/bin
 endif
-
-# created in aaa_base's postinstall
-X /etc/{passwd,group,shadow,nsswitch.conf} /etc
 
 # the agp module from xsvga may cause 700 permissions; fix it here
 c 0755 0 0 /lib/modules
@@ -589,7 +599,7 @@ d /mnt
 d /proc
 d /tmp
 
-if arch eq 'ix86'
+if arch eq 'ia32'
   reiserfs:
     /sbin/dumpreiserfs
     /sbin/mkreiserfs
@@ -614,12 +624,12 @@ x /usr/bin/setclock /usr/bin
 k_deflt:
 m /boot/System.map-<kernel_ver> /System.map
 
-if arch eq 'ix86'
+if arch eq 'ia32'
   xfiregl1:
     /usr/X11R6/lib/modules/drivers/firegl1_drv.o
 endif
 
-if arch eq 'ix86'
+if arch eq 'ia32'
 # needed for blinux start script
   sysvinit:
     /sbin/{kill,start}proc

@@ -1,6 +1,6 @@
 <kernel_rpm>:
 
-if arch eq 'ix86'
+if arch eq 'ia32'
   m /boot/<kernel_img> /linux
   if special eq 'e2compr'
   X /boot/bzImage.e2compr /linux
@@ -24,7 +24,8 @@ if arch eq 'ix86'
     x message /
     x syslinux.cfg /
   endif
-endif		# arch eq 'ix86'
+  R s/x\.y/<suse_release>/ /message
+endif		# arch eq 'ia32'
 
 if arch eq 'ia64'
   m /boot/<kernel_img> /

@@ -1,0 +1,81 @@
+#! /usr/bin/perl
+
+# check dynamic lib dependecies
+
+while($ARGV[0] eq '-v') {
+  shift;
+  $verbose++;
+}
+
+$dir = shift;
+die "usage: check_libs dir\n" unless -d $dir;
+die "$dir: $!\n" unless chdir $dir;
+
+$error = 0;
+
+for $f (`find . -type f`) {
+  chomp $f;
+  next if $f =~ /modules/;		# skip modules
+  $f0 = $f;
+  $f0 =~ s/^\.\///;
+  $f =~ s/'/'\\''/g;
+  $_ = `file '$f'`;
+  $s = undef;
+  print "$f0\n" if $verbose >= 2;
+  if(/\sELF\s.*\s(shared\s+object|executable)/) {
+    @u = `objdump -p '$f'`;
+    for (@u) {
+      push @{$needed{$1}}, $f0 if /^\s+NEEDED\s+(\S+)\s*$/;
+      $soname{$1} = $f0 if /^\s+SONAME\s+(\S+)\s*$/;
+    }
+  }
+}
+
+print "checking ld.so.cache...\n";
+if( -f "etc/ld.so.cache") {
+  @l = `ldconfig -C etc/ld.so.cache -p`;
+  shift @l;
+  for (@l) {
+    $ldconfig{$1} = $2 if /^\s+(\S+)\s*.*=>\s*(\S+)/;
+  }
+
+  $first = 1;
+  for (keys %soname) {
+    if(!exists $ldconfig{$_}) {
+      print "libs not in ld.so.cache:\n" if $first;
+      printf "  %-24s  %s\n", $_, $soname{$_};
+      printf "  [needed by: %s]\n", join(', ', @{$needed{$_}}) if $verbose >= 1;
+      $first = 0;
+      $error = 1;
+    }
+  }
+  print "ok\n" if $first;
+}
+else {
+  print "no ld.so.cache found\n";
+#  $error = 1;
+}
+
+print "checking for missing libs...\n";
+$first = 1;
+for (sort keys %needed) {
+  if(!exists($soname{$_}) && !exists($ldconfig{$_})) {
+    printf "  %-24s  %s\n", $_, join(', ', @{$needed{$_}});
+    $first = 0;
+    $error = 1;
+  }
+}
+print "ok\n" if $first;
+
+print "checking for unused libs...\n";
+$first = 1;
+for (sort keys %soname) {
+  if(!exists $needed{$_}) {
+    printf "  %-24s  %s\n", $_, $soname{$_};
+    $first = 0;
+  }
+}
+print "ok\n" if $first;
+
+exit $error;
+

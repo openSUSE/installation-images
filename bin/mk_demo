@@ -31,6 +31,8 @@ $start_inodes = 5000;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
+$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+
 # clean up
 if(-d($tmpdir)) {
   SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
@@ -50,12 +52,14 @@ SUSystem "strip_dir $tmpdir";
 # SUSystem "ldconfig -r $tmpdir";
 # die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
-#SUSystem "mkdir $tmpdir/modules";
-#SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
-#SUSystem "depmod -a -F /boot/System.map-$ConfigData{kernel_ver} -b $tmpdir $ConfigData{kernel_ver}";
-#die "$Script: failed to run depmod" unless -f "$tmpdir/lib/modules/$ConfigData{kernel_ver}/modules.dep";
-#SUSystem "rm -r $tmpdir/modules";
-#SUSystem "ln -snf /modules $tmpdir/lib/modules/default/misc";
+if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+  system "check_libs $tmpdir" and
+    warn "$Script: error in shared lib config, please fix\n";
+}
+else {
+  system "check_libs $tmpdir" and
+    die "$Script: error in shared lib config, please fix\n";
+}
 
 SUSystem "bin/file_list $tmpdir";
 die "failed to make file list" unless -s "$tmpdir/etc/.SuSEfiles";

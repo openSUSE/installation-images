@@ -123,10 +123,10 @@ AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
   die "$Script: failed to setup boot image";
 
 if($arch eq 'i386') {
-  system "cp /mnt/message $TmpBase.boot";
-  system "perl -pi -e 's/x\\.y/$ENV{suse_release}/g' $TmpBase.boot";
-  SUSystem "cp $TmpBase.boot /mnt/message";
-  unlink "$TmpBase.boot";
+#  system "cp /mnt/message $TmpBase.boot";
+#  system "perl -pi -e 's/x\\.y/$ENV{suse_release}/g' $TmpBase.boot";
+#  SUSystem "cp $TmpBase.boot /mnt/message";
+#  unlink "$TmpBase.boot";
 
   SUSystem "umount /mnt" and
     die "$Script: umount failed";

@@ -5,7 +5,7 @@ To build a new image, you have to:
 
  - be root
  - put the y2image dir on a *local* file system (non-NFS)
- - on ix86 systems: linuxrc & syslinux installed
+ - on ia32 systems: linuxrc & syslinux installed
 
 Then you can do:
 
@@ -13,11 +13,11 @@ Then you can do:
     - build an initial ramdisk
 
   initrd=small make initrd
-    - build a 'small' test initrd, suitable for 1.44MB boot images (for ix86)
+    - build a 'small' test initrd, suitable for 1.44MB boot images (for ia32)
     - *** This is not suitable for release on our CDs! ***
 
   make boot
-    - build an boot image (for ix86)
+    - build an boot image (for ia32)
 
   make root
     - build a root image
@@ -27,11 +27,11 @@ Then you can do:
     - build a root image for a Live/LiveEval CD
 
   make boot
-    - build a (2.88MB) boot image (for ix86)
+    - build a (2.88MB) boot image (for ia32)
 
   demo=live make boot
   demo=eval make boot
-    - build a (2.88MB) Live/LiveEval boot image (for ix86)
+    - build a (2.88MB) Live/LiveEval boot image (for ia32)
     - add 'boot=small initrd=small' to get a 1.44MB *test* image
 
 The images are stored in the y2image/image directory, the contents of the
@@ -59,41 +59,41 @@ The various boot disks differ only slightly from the y2image stuff
 (different kernel, module lists and syslinux.cfg file) and are derived from
 the y2image directory using the bin/ci_boot* scripts.
 
-o 'boot' (*the* boot image (2.88MB, 1st CD, ix86 only)
+o 'boot' (*the* boot image (2.88MB, 1st CD, ia32 only)
 
   Whithin the y2image directory, do a
 
     make boot
 
-o 'yast2' boot disk (== boot image for 2nd CD, ix86 only)
+o 'yast2' boot disk (== boot image for 2nd CD, ia32 only)
 
   Running 'bin/ci_bootdis2 test' creates the necessary files in a temporary
   directory. Go there and run:
 
     boot=small make boot
 
-o 'eide' boot disk (for special eide chipsets, ix86 only)
+o 'eide' boot disk (for special eide chipsets, ia32 only)
 
   Running 'bin/ci_bootdise test' creates the necessary files in a temporary
   directory. Go there and run:
 
     boot=small make boot
 
-o 'laptop' boot disk (for laptops, ix86 only)
+o 'laptop' boot disk (for laptops, ia32 only)
 
   Running 'bin/ci_bootdisl test' creates the necessary files in a temporary
   directory. Go there and run:
 
     boot=small make boot
 
-o 'bootdisk' boot disk (the fallback *floppy*, ix86 only)
+o 'bootdisk' boot disk (the fallback *floppy*, ia32 only)
 
   Running 'bin/ci_bootdisk test' creates the necessary files in a temporary
   directory. Go there and run:
 
     initrd=initrd boot=small make boot
 
-o 'modules' disk (ix86 only)
+o 'modules' disk (ia32 only)
 
   Running 'bin/ci_bootdisk test' creates the necessary files in a temporary
   directory. Go there and run:
@@ -148,7 +148,7 @@ o There are several 'if' constructs:
   - ifarch/ifnarch <arch>
 
     <arch> is matched against the output of 'uname -m', except for
-    32-bit Intel machines where 'ix86' should be used.
+    32-bit Intel machines where 'ia32' should be used.
 
     example:
 
@@ -175,8 +175,8 @@ o There are several 'if' constructs:
 
     example:
 
-      ifarch ppc axp ix86
-      # arch is ppc || axp || ix86
+      ifarch ppc axp ia32
+      # arch is ppc || axp || ia32
       endif
 
   - ifabuild/ifnabuild
@@ -204,23 +204,26 @@ o There are several 'if' constructs:
   if's can be nested to a level of at least 31. You won't get an error message if
   there are unmatched else's or endif's. In fact something like
 
-    ifarch ix86
-    # ix86 only
+    ifarch ia32
+    # ia32 only
     else
-    # !ix86
+    # !ia32
     else
-    # ix86 only
+    # ia32 only
     endif
 
   is allowed (but of questionable value).
 
-o <package_name>:
+o <package_name>: [script1,script2]
 
-  Unpack the selected package into a temporary directory.
+  Unpack the selected package into a temporary directory. You can optionally
+  give the name of rpm-scripts to extract, too. These can be run later
+  with the 'e' command (see below).
 
-  example:
+  examples:
   
     k_delft:
+    aaa_base: prein,postin
 
 o <action> <arg1> <arg2> ...
 
@@ -292,6 +295,18 @@ o <action> <arg1> <arg2> ...
     the y2image/data/*/ directory.)
 
     x <src> <dst>
+
+  - execute a program/rpm-script
+    <program> is run within a chroot env, but _not_ the <script> - so be
+    careful! <script> must be one of the scripts given after the package name
+
+    e <program> <arg1> <arg2> ...
+    e <script>
+
+  - apply a perl regexp in a sed-like fashion to a file, <regexp> may contain
+    white space but not <file>
+
+    R <regexp> <file>
 
   - add files from the local system (This should be used only for
     testing!)
