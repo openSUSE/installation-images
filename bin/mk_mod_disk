@@ -62,7 +62,7 @@ printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $bloc
 SUSystem "umount /mnt 2>/dev/null";
 
 # add the other files
-SUSystem "mount -oloop -t vfat $image /mnt" and
+SUSystem "mount -oloop,umask=022 -t vfat $image /mnt" and
   die "$Script: mount failed";
 
 SUSystem "cp ${DataPath}initrd/module.help /mnt/module.config";
@@ -80,7 +80,7 @@ $i3 = $i2*10;
 SUSystem "touch -d $i1:$i3 /mnt/*";
 
 print "contents of $image:\n";
-SUSystem "ls -lU /mnt";
+system "ls -lU /mnt";
 
 SUSystem "umount /mnt" and
   die "$Script: umount failed";

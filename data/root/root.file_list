@@ -445,7 +445,6 @@ if with_yast2 ne 'no'
   fvwm2:
     /usr/X11R6/bin/fvwm{,2}
     /usr/X11R6/share/fvwm/ConfigFvwmDefaults
-    /usr/X11R6/lib/X11/fvwm2/FvwmTheme
     x etc/fvwmrc /usr/X11R6/share/fvwm/fvwmrc
 
   libstroke:
