@@ -654,7 +654,7 @@ IP: $IP_ADDR"
 	    echo "Something went wrong with $NETSELECT..." >&2
     esac
     [ "$IP_GATEWAY" ] && echo "Gateway: $IP_GATEWAY"
-    [ "$IP_SEARCH" ] && echo "Domain: $IP_SEARCH"
+    [ "$IP_SEARCH" ]  && echo "Domain: $IP_SEARCH"
     [ "$CHAN" ] && echo "Chandev: $CHAN"
     if [ "$NETSELECT" = tr -o "$NETSELECT" = eth ]; then
       echo "Alias $IP_DEV lcs"

@@ -51,10 +51,11 @@ done
 mount -t devpts devpts /dev/pts
 
 . /bin/netsetup
-
-# cat /etc/netsetup.inf
-# echo Next step 
-# read muell
+#
+#	Check for DASD-Parameter and if present
+#	write it into netsetup.inf
+#
+[ ! -z "$DASD_Parameter" ] && echo "DASD_Parameter: $DASD_Parameter" >> /etc/netsetup.inf
 #
 #	Ask for Installation source & start yast
 #
