@@ -909,8 +909,8 @@ screen:
 # freefont:
 #  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
 
-blueprint-cursor-theme:
-  /usr/X11R6/lib/X11/icons/blueprint-cursor-theme
+Crystalcursors:
+  /usr/X11R6/lib/X11/icons/crystalwhite
 
 if with_yast2 ne 'no'
   if with_suse_font ne 'no'
