@@ -143,14 +143,12 @@ echo "starting $yast..."
 fi
 
 # start shell, useful on iSeries or via serial console
-if [ "$YAST2_SSH" = "false" ] ; then
 grep -qwi start_shell /proc/cmdline && {
 echo
 echo "ATTENTION"
 echo "Starting shell... (use 'exit' to proceed)"
 bash --init-file /root/.bash_login
 }
-fi
 
 test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
 # still needed?
