@@ -111,7 +111,7 @@ t modules/{MORE,NET,SCSI,OTHER}
 
 <kernel_rpm>:
 
-ifarch ix86 alpha
+ifarch ix86
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
 a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
@@ -196,6 +196,9 @@ a /lib/modules/<kernel_ver>/scsi/*.o /modules
 r /modules/ide-scsi.o
 r /modules/scsi_debug.o
 r /modules/sg.o
+r /modules/53c7,8xx.o
+r /modules/g_NCR5380.o
+r /modules/tmscsim.o
 
 # block
 r /modules/raid5.o
@@ -237,30 +240,60 @@ r /modules/yam.o
 r /modules/acenic.o
 r /modules/sk98lin.o
 
-
-ifdef blubber
-a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
-
-a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /modules
-
-a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
+ifndef 2.88
+r /modules/arlan.o
+r /modules/arlan-proc.o
+r /modules/dgrs.o
+r /modules/st.o
+r /modules/sb1000.o
+r /modules/dc395x_trm.o
+r /modules/old_tulip.o
+r /modules/xd.o
+r /modules/pci2220i.o
+r /modules/ppa.o
+r /modules/imm.o
+r /modules/bonding.o
+r /modules/ethertap.o
+r /modules/es3210.o
+r /modules/hostess_sv11.o
+r /modules/sealevel.o
+r /modules/slhc.o
+r /modules/nbd.o
+r /modules/pci2000.o
+r /modules/hp-plus.o
+r /modules/hp.o
+r /modules/ac3200.o
+r /modules/shaper.o
+r /modules/bsd_comp.o
+r /modules/eql.o
+r /modules/fmv18x.o
+r /modules/psi240i.o
+r /modules/sym53c416.o
+r /modules/arc-rimi.o
+r /modules/arcnet.o
+r /modules/ni5010.o
+r /modules/NCR53c406a.o
+r /modules/com90io.o
+r /modules/com20020.o
+r /modules/ni65.o
+r /modules/ni52.o
+r /modules/eth16i.o
+r /modules/t128.o
+r /modules/cops.o
+r /modules/eata_pio.o
+r /modules/com90xx.o
+r /modules/dtc.o
+r /modules/depca.o
+r /modules/lanstreamer.o
+r /modules/eepro100-old.o
+r /modules/ltpc.o
+r /modules/pas16.o
+r /modules/cosa.o
+r /modules/u14-34f.o
+r /modules/atp870u.o
+r /modules/initio.o
+r /modules/z85230.o
+r /modules/wavelan.o
 endif
 endif
 
