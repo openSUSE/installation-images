@@ -1,3 +1,11 @@
+20/8/2001:	v1.81
+	- improved inst_setup script
+	- new motd/issue files
+	- dropped 'ifdef' support
+
+14/8/2001:	v1.80
+	- froh: initrd works on s390: netsetup, ssh login, linuxrc working
+
 13/8/2001:	v1.79
 	- added 'failsafe' boot menu entry
 	- added yast2-lib-sequencer
