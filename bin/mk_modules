@@ -69,7 +69,7 @@ if(-d($tmpdir)) {
 
 mkdir $tmpdir, 0755;
 
-$fl = "initrd";
+$fl = "modules";
 $fl = $ENV{'filelist'} if exists $ENV{'filelist'};
 
 if($ENV{modules} eq "2") {

@@ -145,11 +145,37 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
     f / parport_pc.o
     f / imm.o
     f / ppa.o
+    f / ide-scsi.o
+
     f / 3w-xxxx.o
+    f / 53c7,8xx.o
+    f / AM53C974.o
     f / BusLogic.o
+    f / DAC960.o
     f / a100u2w.o
     f / advansys.o
-    # etc...
+    f / aic7xxx.o
+    f / atp870u.o
+    f / cciss.o
+    f / cpqarray.o
+    f / dc395x_trm.o
+    f / dmx3191d.o
+    f / dpt_i2o.o
+    f / eata.o
+    f / fdomain.o
+    f / gdth.o
+    f / initio.o
+    f / ips.o
+    f / megaraid.o
+    f / ncr53c8xx.o
+    f / pci2000.o
+    f / pci2220i.o
+    f / qla1280.o
+    f / qla2x00.o
+    f / qlogicfc.o
+    f / qlogicisp.o
+    f / sym53c8xx.o
+    f / tmscsim.o
   else
     /lib/modules/<kernel_ver>/misc/lp.o
     /lib/modules/<kernel_ver>/misc/parport.o
@@ -597,6 +623,8 @@ if with_yast2 ne 'no'
       /
     yast2-db-timezone:
       /
+    yast2-db-groups:
+      /
     yast2-trans-inst-bootloader:
       /
     yast2-trans-inst-environment:
@@ -849,6 +877,11 @@ if arch eq 'ppc'
   parted:
     /usr/sbin/parted
     /usr/lib/libparted.so*
+endif
+
+if suse_release >= 7.2
+ r /usr/lib/suse-blinux/profile/default
+ s y2bignfat /usr/lib/suse-blinux/profile/default
 endif
 
 # add link to initrd modules

@@ -7,6 +7,10 @@ if arch eq 'ia32'
   X /boot/bzImage.e2compr /linux
   endif
 
+  if special eq 'bzImage'
+  x bzImage /linux
+  endif
+
   x message /
   x syslinux.cfg /
 

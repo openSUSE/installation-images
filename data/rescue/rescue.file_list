@@ -332,6 +332,9 @@ gdbm:
 hwinfo:
   /usr/{sbin,lib}
 
+parted:
+  /usr/{lib,sbin}
+
 if suse_release >= 7.2
   <kernel_rpm>:
     f / st.o

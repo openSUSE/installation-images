@@ -1,3 +1,6 @@
+8/5/2001:	v1.63
+	- worked on module lists
+
 30/4/2001:	v1.62
 	- kendy: have fix_locale link all utf8 locales to en_US.utf8
 	- support creation of isolinux boot CDs

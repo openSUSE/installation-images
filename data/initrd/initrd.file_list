@@ -20,6 +20,7 @@ endif
 if arch eq 'ia32'
 
   if suse_release >= 7.2
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     if initrd eq 'small'
 
@@ -39,12 +40,15 @@ if arch eq 'ia32'
 
       if initrd eq 'large'
         f /lib/modules/<kernel_ver>/pcmcia *.o /modules
-        r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs,sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
+        r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs}.o
+        r /modules/{sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
 
       endif
 
       f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
       f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
+
+      f / reiserfs.o /modules
 
       f / DAC960.o /modules
       f / cciss.o /modules
@@ -61,6 +65,7 @@ if arch eq 'ia32'
       f / mousedev.o /modules
       f / usb-storage.o /modules
 
+      f / isa-pnp.o /modules
       f / parport.o /modules
       f / paride.o /modules
       f / parport_pc.o /modules
@@ -74,6 +79,7 @@ if arch eq 'ia32'
 
     endif
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   else
 
     a /lib/modules/<kernel_ver>/misc/nvram.o /modules
@@ -151,11 +157,53 @@ if arch eq 'ia32'
 
   if suse_release >= 7.2
 
-    if initrd ne 'large'
+    if initrd eq '' 
       r /modules/{aironet4500_proc,aironet4500_core,aironet4500_card,osst}.o
 
       # make it really small!
       r /modules/{BusLogic,advansys,qlogicfc,qla2x00}.o
+
+      # pcmcia
+
+      f / i82365.o      /modules
+      f / ds.o          /modules
+      f / tcic.o        /modules
+      f / pcmcia_core.o /modules
+      f / cb_enabler.o  /modules
+
+      f / ide_cs.o      /modules
+      f / aha152x_cs.o  /modules
+      f / tulip_cb.o    /modules
+      f / xirc2ps_cs.o  /modules
+      f / pcnet_cs.o    /modules
+      f / apa1480_cb.o  /modules
+      f / 3c574_cs.o    /modules
+      f / 3c575_cb.o    /modules
+      f / 3c589_cs.o    /modules
+
+      f / epic_cb.o     /modules
+      f / fdomain_cs.o  /modules
+      f / fmvj18x_cs.o  /modules
+      f / ftl_cs.o      /modules
+      f / qlogic_cs.o   /modules
+      f / smc91c92_cs.o /modules
+
+
+      # duplicate, no longer exsists
+      r /modules/3c90x.o
+
+      r /modules/st.o
+      r /modules/aic7xxx_old.o
+      r /modules/irda-usb.o
+      r /modules/{lance,cycx_drv,eata_pio,eata}.o
+      r /modules/{lanstreamer,sunhme}.o
+      r /modules/{vpi0,ppscsi,epsa2,epst,onscsi,sparcsi,t348,t358}.o
+      r /modules/{ppp_generic,ppp_synctty,ppp_async}.o
+
+      r /modules/{cs89x0,sundance,iph5526}.o
+
+      M sb1000 3c515 ni52 at1700 lne390 tms380tr smctr ewrk3 eth16i
+
     endif
 
   else
