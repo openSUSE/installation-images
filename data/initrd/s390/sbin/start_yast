@@ -1,6 +1,9 @@
 #!/bin/sh
-echo "Running YaST..."
-/sbin/YaST.dyn "$@"
+#
+# determine the installation source to feed background linuxrc and
+# then start yast
+#
+inst_source "$@"
 stty sane
 echo "Unmounting /mnt..."
 umount /mnt
