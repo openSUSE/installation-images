@@ -118,6 +118,8 @@ grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Startin
 case "$arch" in
     s390|s390x)
 	test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
+	[ $ec -ne 0 ] && echo "An Error happened during installation"
+	ec=0
 	;;
     *)
 	# stop vnc

@@ -1,11 +1,10 @@
 #!/bin/bash
 echo 'This is SuSE Instsys Version %{version} Rel. %{release}'
 echo 'Build date: Tue Aug  7 14:49:34 CEST 2001'
-PATH=/sbin:/bin:/usr/sbin:/usr/bin
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin
 #
 #
 #
-set -x
 chmod +x /linuxrc
 function movetotmpfs
 {
@@ -13,22 +12,26 @@ function movetotmpfs
     mount -t shm -onr_inodes=10240 shmfs /newroot
     cp -ax / newroot
     cd newroot
-    mv newroot oldroot
-    pivot_root . oldroot
+    mv newroot oldroot.old
+    pivot_root . oldroot.old
     exec chroot . /linuxrc <dev/console >dev/console 2>&1
 }
-if test -d oldroot
+if test -d oldroot.old
 then
-    umount /oldroot
+    umount /oldroot.old
     freeramdisk /dev/ram0
-    mv oldroot oldroot.old
-elif test \! -d oldroot.old
+    mv oldroot.old oldroot
+elif test \! -d oldroot
 then
     movetotmpfs
 fi
 
 echo done doing movetotmpfs
 #
+#
+#
+/usr/sbin/groupadd -g 65 -o -r sshd
+/usr/sbin/useradd -o -g sshd -u 71 -s /bin/false -c "SSH daemon" -d /var/lib/sshd sshd
 #
 #
 DIRS="/mounts /dev/pts /var/empty /var/adm/mnt /var/adm/mount"
@@ -39,8 +42,8 @@ done
 #
 #	Main
 #
-
 mount -t devpts devpts /dev/pts
+
 . /bin/netsetup
 
 cat /etc/netsetup.inf

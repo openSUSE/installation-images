@@ -645,6 +645,11 @@ IP: $IP_ADDR"
 	    echo "Broadcast: $IP_BROADCAST"
 	    ;;
 	ctc|escon|iucv)
+#
+#	KRUECKE TODO
+#	We need a networkmask to get linuxrc in batch-mode
+#
+	    echo "Netmask: $IP_NETMASK"
 	    echo "Pointopoint: $IP_PEER"
 	    ;;
 	*)
@@ -691,7 +696,7 @@ function run_services () {
   echo "You should be able to login via telnet now, for ssh wait a few seconds,"
   echo "temporary host keys (only for installation) are being generated now:"
   echo
-  execcmd "/etc/rc.d/sshd start"
+  execcmd "/etc/init.d/sshd start"
   echo
   echo "Generation of temporary installation host keys finished."
   echo "After installation, new, different SSH keys will be generated."

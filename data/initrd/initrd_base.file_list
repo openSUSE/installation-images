@@ -97,7 +97,17 @@ if arch eq 's390' || arch eq 's390x'
     /usr/lib/libcrack.so*
   gdbm:
     /usr/lib/libgdbm.so*
-  samba-client:
+  attr:
+    /lib/libattr.so.1
+    /lib/libattr.so.1.0.0
+  acl:
+    /lib/libacl.so.1
+    /lib/libacl.so.1.0.0
+  popt:
+    /usr/lib/libpopt.so
+    /usr/lib/libpopt.so.0
+    /usr/lib/libpopt.so.0.0.0
+  samba-classic-client:
     m /usr/bin/smbmount /bin/smbmount
     m /usr/bin/smbmnt   /bin/smbmnt
     # to make mount(8) -t smbfs work:
@@ -308,7 +318,6 @@ if arch eq 's390' || arch eq 's390x'
     # /var/adm/fillup-templates/rc.config.syslogd
   linuxrc:
     m /usr/sbin/linuxrc /bin/linuxrc
-    l /bin/linuxrc  /bin/freeramdisk
 
   strace:
     /usr/bin/strace
