@@ -76,7 +76,7 @@ else
         #
         # no SCSI driver -- no initrd
         #
-        /bin/addSystemMap /mnt/boot/System.map-$_kernel_version /mnt/boot/vmlinux /mnt/boot/vmlinux.sm
+        /mnt/bin/addSystemMap /mnt/boot/System.map-$_kernel_version /mnt/boot/vmlinux /mnt/boot/vmlinux.sm
 
         echo "1 root=$_root_partition" >  /proc/iSeries/mf/A/cmdline          # slot A
         dd if=/mnt/boot/vmlinux.sm              of=/proc/iSeries/mf/A/vmlinux bs=4096
