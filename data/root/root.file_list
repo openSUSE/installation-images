@@ -594,6 +594,30 @@ if with_yast2 ne 'no'
       /
     libyui:
       /
+    yast2-db-keyboard:
+      /
+    yast2-db-mouse:
+      /
+    yast2-db-timezone:
+      /
+    yast2-trans-inst-bootloader:
+      /
+    yast2-trans-inst-environment:
+      /
+    yast2-trans-inst-general:
+      /
+    yast2-trans-inst-language:
+      /
+    yast2-trans-inst-mouse:
+      /
+    yast2-trans-inst-packages:
+      /
+    yast2-trans-inst-partitioning:
+      /
+    yast2-trans-inst-update:
+      /
+    yast2-trans-inst-user:
+      /
   else
     y2base:
       /usr/lib/YaST2
