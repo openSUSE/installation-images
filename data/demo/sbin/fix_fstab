@@ -35,7 +35,6 @@ for (@f, @g) {
 for (@f, @g) {
   next unless $_;
   @i = split;
-  printf "%-$l[0]s  %-$l[1]s  %-$l[2]s  %-$l[3]s  %-$l[4]s  %s\n", @i;
-
+  printf "%s\t%s\t%s\t%s %s %s\n", @i;
 }
 
