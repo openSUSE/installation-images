@@ -18,7 +18,6 @@ e prein
   /etc/{modules.conf,insserv.conf,inputrc}
   /sbin/mk_initrd
   /sbin/get_kernel_version
-  /sbin/hwclock_wrapper
   /sbin/insserv
   /usr/bin/old
   /root/.gnupg/suse_build_key
