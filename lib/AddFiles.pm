@@ -374,7 +374,7 @@ sub AddFiles
     }
     elsif(/^a\s+(\S+)\s+(\S+)$/) {
       SUSystem "sh -c \"cp -pLR $tdir/$1 $dir/$2\"" and
-        print "$Script: failed to move $1 to $2\n";
+        warn "$Script: failed to move $1 to $2\n";
     }
     elsif(/^([fF])\s+(\S+)\s+(\S+)(\s+(\S+))?$/) {
       my ($l, @l, $src, $name, $dst, $start_dir);
