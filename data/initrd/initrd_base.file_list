@@ -56,26 +56,26 @@ if arch eq 's390' || arch eq 's390x'
   glibc:
     /etc/nscd.conf
     /etc/rpc
-    /lib/ld.so.1
-    /lib/ld[-.]*.so
-    /lib/libc.so.*
-    /lib/libcrypt.so.*
-    /lib/libdl.so.*
-    #/lib/libm.so.*
-    #/lib/libmemusage.so
-    /lib/libnsl.so.*
-    /lib/libnss_compat.so.*
-    /lib/libnss_dns.so.*
-    /lib/libnss_files.so.*
-    /lib/libnss_hesiod.so.*
-    /lib/libnss_nis.so.*
-    /lib/libnss_nisplus.so.*
-    #/lib/libpcprofile.so
-    /lib/libpthread.so.*
-    /lib/libresolv.so.*
-    /lib/librt.so.*
-    #/lib/libthread_db.so.*
-    /lib/libutil.so.*
+    /lib*/ld.so.1
+    /lib*/ld[-.]*.so
+    /lib*/libc.so.*
+    /lib*/libcrypt.so.*
+    /lib*/libdl.so.*
+    #/lib*/libm.so.*
+    #/lib*/libmemusage.so
+    /lib*/libnsl.so.*
+    /lib*/libnss_compat.so.*
+    /lib*/libnss_dns.so.*
+    /lib*/libnss_files.so.*
+    /lib*/libnss_hesiod.so.*
+    /lib*/libnss_nis.so.*
+    /lib*/libnss_nisplus.so.*
+    #/lib*/libpcprofile.so
+    /lib*/libpthread.so.*
+    /lib*/libresolv.so.*
+    /lib*/librt.so.*
+    #/lib*/libthread_db.so.*
+    /lib*/libutil.so.*
   sed:
     /bin/sed
   tar:
@@ -90,46 +90,46 @@ if arch eq 's390' || arch eq 's390x'
     # are these really needed before the installation system is mounted?
     /sbin/fdasd
     /sbin/dasdfmt
-    /lib/libvtoc.so*
+    /lib*/libvtoc.so*
   libxcrypt:
-    /lib/libxcrypt.so*
+    /lib*/libxcrypt.so*
   cracklib:
-    /usr/lib/libcrack.so*
+    /usr/lib*/libcrack.so*
   gdbm:
-    /usr/lib/libgdbm.so*
+    /usr/lib*/libgdbm.so*
   attr:
-    /lib/libattr.so.1
-    /lib/libattr.so.1.0.0
+    /lib*/libattr.so.1
+    /lib*/libattr.so.1.0.0
   acl:
-    /lib/libacl.so.1
-    /lib/libacl.so.1.0.0
+    /lib*/libacl.so.1
+    /lib*/libacl.so.1.0.0
   popt:
-    /usr/lib/libpopt.so
-    /usr/lib/libpopt.so.0
-    /usr/lib/libpopt.so.0.0.0
+    /usr/lib*/libpopt.so
+    /usr/lib*/libpopt.so.0
+    /usr/lib*/libpopt.so.0.0.0
   samba-classic-client:
     m /usr/bin/smbmount /bin/smbmount
     m /usr/bin/smbmnt   /bin/smbmnt
     # to make mount(8) -t smbfs work:
     l /bin/smbmount  /sbin/mount.smbfs
-    # /lib/libnss_wins.so?
+    # /lib*/libnss_wins.so?
   cups-libs:
-    /usr/lib/libcups.so.*
+    /usr/lib*/libcups.so.*
   installation-kernel-rdripl:
-    /lib/modules
+    /lib*/modules
   <kernel_rpm>:
     m /boot/System.map-* /System.map
   e2fsprogs:
-    /lib/libcom_err.so.*
-    /lib/libcom_err.so.*
-    /lib/libe2p.so.*
-    /lib/libe2p.so.2.*
-    /lib/libext2fs.so.*
-    /lib/libext2fs.so.*
-    /lib/libss.so.*
-    /lib/libss.so.2.*
-    /lib/libuuid.so.*
-    /lib/libuuid.so.1.*
+    /lib*/libcom_err.so.*
+    /lib*/libcom_err.so.*
+    /lib*/libe2p.so.*
+    /lib*/libe2p.so.2.*
+    /lib*/libext2fs.so.*
+    /lib*/libext2fs.so.*
+    /lib*/libss.so.*
+    /lib*/libss.so.2.*
+    /lib*/libuuid.so.*
+    /lib*/libuuid.so.1.*
     /sbin/badblocks
     /sbin/debugfs
     /sbin/dumpe2fs
@@ -234,7 +234,7 @@ if arch eq 's390' || arch eq 's390x'
     /lib
     /sbin
   zlib:
-    /lib/libz.so*
+    /lib*/libz.so*
   shadow:
     /usr/sbin/chpasswd
     /bin/login
@@ -278,7 +278,7 @@ if arch eq 's390' || arch eq 's390x'
     /usr/sbin/freeramdisk
     #/usr/sbin
   ncurses:
-    /lib/libncurses.so.*
+    /lib*/libncurses.so.*
   sysvinit:
     m /sbin/halt      /sbin/halt.bin
     m /sbin/reboot    /sbin/reboot.bin
@@ -290,8 +290,8 @@ if arch eq 's390' || arch eq 's390x'
     /usr/sbin/inetd
     /etc/init.d/inetd
   openssl:
-    /usr/lib/libcrypto.so.*
-    /usr/lib/libssl.so.*
+    /usr/lib*/libcrypto.so.*
+    /usr/lib*/libssl.so.*
   openssh: prein
     /etc/ssh
     /etc/ssh/moduli
@@ -305,10 +305,10 @@ if arch eq 's390' || arch eq 's390x'
     /etc/ssh/ssh_config
     /usr/bin/ssh
     /usr/sbin/sshd
-    /usr/lib/ssh
+    /usr/lib*/ssh
     /var/adm/fillup-templates/sysconfig.ssh
     /var/empty
-    /var/lib/sshd
+    /var/lib*/sshd
   E prein
 
   heimdal-lib:

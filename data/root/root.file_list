@@ -2,7 +2,7 @@
 # the 'root' system
 #
 
-d bin dev etc lib mnt root sbin tmp usr var
+d bin dev etc lib lib64 mnt root sbin tmp usr var
 c 1777 0 0 tmp
 
 # add some /etc files
@@ -187,8 +187,8 @@ endif
 if arch eq 's390' || arch eq 's390x'
   s390-tools: postin
     /sbin/zipl
-    /lib/libparsecfg.so
-    /lib/libvtoc.so
+    /lib*/libparsecfg.so
+    /lib*/libvtoc.so
     /boot
     /etc/zipl.conf.sample
     /sbin/dasdfmt
@@ -247,7 +247,7 @@ t /var/log/news/news.{crit,err,notice}
 
 c 1777 0 0 /var/tmp
 
-d /usr/{bin,lib,libexec,sbin,share}
+d /usr/{bin,lib,lib64,libexec,sbin,share}
 
 s ../var/spool /usr/spool
 s ../var/tmp /usr/tmp
@@ -298,7 +298,7 @@ freetype2:
   /usr/lib*
 
 c 0755 0 0 /usr/bin
-c 0755 0 0 /usr/lib
+c 0755 0 0 /usr/lib*
 c 0755 0 0 /usr/sbin
 c 0755 0 0 /usr/share
 
@@ -381,7 +381,7 @@ if with_yast2 ne 'no'
   x /usr/X11R6/lib/X11/fonts/misc/fonts.alias /usr/X11R6/lib/X11/fonts/misc
   x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
 
-if arch eq 'x86_64'
+if arch eq 'x86_64' || arch eq 's390x'
   R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
 endif
 
@@ -519,7 +519,7 @@ if arch eq 'ppc' || arch eq 'sparc' || arch eq 'sparc64'
 endif
 
 lvm:
-  /lib/liblvm-*.so*
+  /lib*/liblvm-*.so*
   /sbin/lv*  
   /sbin/pv* 
   /sbin/vg*
@@ -637,7 +637,7 @@ if pre_release
     /bin/vim
     /bin/vi
 
-   r /lib/security/pam_userdb.so
+   r /lib*/security/pam_userdb.so
 
    x etc/inst_setup_ssh /sbin/
    c 755 0 0 /sbin/inst_setup_ssh
