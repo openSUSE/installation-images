@@ -528,7 +528,8 @@ if [ ! "$nodisk" ] ; then
     ln -snf /home/truetype  /usr/X11R6/lib/X11/fonts/truetype
   fi
 fi
-/sbin/syslogd
+
+sh -c '/sbin/syslogd 2>/dev/null'
 
 # run it again...
 [ -x /sbin/pcmcia.postin ] && /sbin/pcmcia.postin >/dev/null 2>&1
