@@ -2,6 +2,7 @@
 	- use setxkbmap
 	- integrated 8.2 live eval changes 
 	- adapted to recent package changes
+	- fixed deprecated head/tail calling syntax (-1) 
 
 20/3/2003:	v4.00
 	- added module info for qla2100
