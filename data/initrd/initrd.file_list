@@ -374,16 +374,21 @@ endif		# arch eq 'alpha'
 
 if arch eq 'sparc' || arch eq 'sparc64'
 
-  a /lib/modules/<kernel_ver>/fc4/*.o /modules
-  a /lib/modules/<kernel_ver>/fs/openpromfs.o /modules
+  a /lib/modules/<kernel_ver>/block/lvm-mod.o /modules
+  a /lib/modules/<kernel_ver>/block/linear.o /modules
+  a /lib/modules/<kernel_ver>/block/raid0.o /modules
+  a /lib/modules/<kernel_ver>/block/raid1.o /modules
+  a /lib/modules/<kernel_ver>/block/raid5.o /modules
+  #a /lib/modules/<kernel_ver>/fc4/*.o /modules
+  #a /lib/modules/<kernel_ver>/fs/openpromfs.o /modules
   #a /lib/modules/<kernel_ver>/misc/openprom.o /modules
-  a /lib/modules/<kernel_ver>/net/myri_sbus.o /modules
+  #a /lib/modules/<kernel_ver>/net/myri_sbus.o /modules
   a /lib/modules/<kernel_ver>/net/sunbmac.o /modules
   a /lib/modules/<kernel_ver>/net/sunhme.o /modules
   a /lib/modules/<kernel_ver>/net/sunqe.o /modules
-  a /lib/modules/<kernel_ver>/scsi/fcal.o /modules
-  a /lib/modules/<kernel_ver>/scsi/pluto.o /modules
-  a /lib/modules/<kernel_ver>/scsi/qlogicpti.o /modules
+  #a /lib/modules/<kernel_ver>/scsi/fcal.o /modules
+  #a /lib/modules/<kernel_ver>/scsi/pluto.o /modules
+  #a /lib/modules/<kernel_ver>/scsi/qlogicpti.o /modules
 
 endif
 

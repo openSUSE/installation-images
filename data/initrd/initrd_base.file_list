@@ -361,7 +361,7 @@ kbd:
   d kbd/keymaps/include
   m usr/lib/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
 
-if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64'
+if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64'
   g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz kbd/keymaps/Pl02.map
   g /usr/lib/kbd/keymaps/i386/qwerty/br-abnt2.map.gz kbd/keymaps/br-abnt2.map
   g /usr/lib/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz kbd/keymaps/cz-us-qwertz.map
