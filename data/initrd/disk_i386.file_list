@@ -118,7 +118,8 @@ a /lib/modules/<kernel_ver>/scsi/atp870u.o /
 a /lib/modules/<kernel_ver>/scsi/dc395x_trm.o /
 a /lib/modules/<kernel_ver>/scsi/dpt_i2o.o /
 a /lib/modules/<kernel_ver>/scsi/dtc.o /
-a /lib/modules/<kernel_ver>/scsi/eata_dma.o /
+# obsolete according to Configure.help
+# a /lib/modules/<kernel_ver>/scsi/eata_dma.o /
 a /lib/modules/<kernel_ver>/scsi/eata_pio.o /
 a /lib/modules/<kernel_ver>/scsi/g_NCR5380.o /
 a /lib/modules/<kernel_ver>/scsi/imm.o /
@@ -153,7 +154,7 @@ a /lib/modules/<kernel_ver>/cdrom/isp16.o /
 a /lib/modules/<kernel_ver>/cdrom/mcd.o /
 a /lib/modules/<kernel_ver>/cdrom/mcdx.o /
 a /lib/modules/<kernel_ver>/cdrom/optcd.o /
-a /lib/modules/<kernel_ver>/cdrom/sbpcd.o /
+# a /lib/modules/<kernel_ver>/cdrom/sbpcd.o /
 a /lib/modules/<kernel_ver>/cdrom/sjcd.o /
 a /lib/modules/<kernel_ver>/cdrom/sonycd535.o /
 a /lib/modules/<kernel_ver>/misc/aten.o /

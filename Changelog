@@ -1,3 +1,9 @@
+21/6/2000:	v0.79
+	- worked on module lists
+
+20/6/2000:	v0.78
+	- fixed boot patch
+
 7/6/2000:	v0.75
 	- fixed filelist typo
 	- added unicode to fontpath in XF4.0

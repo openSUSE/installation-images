@@ -278,6 +278,7 @@ r /modules/{hostess_sv11,z85230}.o
 r /modules/ircomm.o
 r /modules/irlan.o
 r /modules/bsd_comp.o
+r /modules/cops.o
 
 r /modules/comx-hw-comx.o
 r /modules/comx-hw-locomx.o
@@ -304,6 +305,7 @@ r /modules/sdladrv.o
 r /modules/x25_asy.o
 r /modules/yam.o
 r /modules/strip.o
+r /modules/wavelan.o
 
 a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules

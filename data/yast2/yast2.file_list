@@ -162,7 +162,8 @@ bdflush:
   /sbin/update
 
 ext2fs:
-  /sbin/*
+  /sbin
+  /lib
 
 file:
   /usr/bin/file
@@ -433,6 +434,7 @@ c 0755 0 0 /var/lib
 c 0755 0 0 /var/lib/YaST2
 else
   /usr/lib/YaST2
+  /usr/X11R6/lib/X11/fonts/uni
 c 0755 0 0 /usr
 c 0755 0 0 /usr/lib
 c 0755 0 0 /usr/lib/YaST2
@@ -455,6 +457,9 @@ netcfg:
 # we need ISaX
 isax:
   /usr/X11R6/bin/{isax,ISaX}
+
+saxtools:
+  /usr/X11R6/bin
 
 # created in aaa_base's postinstall
 X /etc/{passwd,group,shadow,nsswitch.conf} /etc

@@ -9,7 +9,6 @@ t modules/{MORE,NEEDMOD,NET,SCSI}
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 
 a /lib/modules/<kernel_ver>/scsi/BusLogic.o /modules
-a /lib/modules/<kernel_ver>/scsi/advansys.o /modules
 a /lib/modules/<kernel_ver>/scsi/aha1542.o /modules
 a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
 a /lib/modules/<kernel_ver>/scsi/ips.o /modules
@@ -19,9 +18,10 @@ a /lib/modules/<kernel_ver>/net/3c59x.o /modules
 a /lib/modules/<kernel_ver>/net/8390.o /modules
 a /lib/modules/<kernel_ver>/net/eepro100.o /modules
 a /lib/modules/<kernel_ver>/net/ne.o /modules
-a /lib/modules/<kernel_ver>/net/ne2k-pci.o /modules
 a /lib/modules/<kernel_ver>/net/tulip.o /modules
 
 # these mods are optional (most important first)
+M /lib/modules/<kernel_ver>/scsi/advansys.o /modules
+M /lib/modules/<kernel_ver>/net/ne2k-pci.o /modules
 M /lib/modules/<kernel_ver>/net/rtl8139.o /modules
 

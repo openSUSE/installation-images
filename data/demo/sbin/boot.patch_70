@@ -1,5 +1,5 @@
---- sbin/init.d/boot	Mon Jun  5 12:31:01 2000
-+++ sbin/init.d/boot	Mon Jun  5 12:35:53 2000
+--- sbin/init.d/boot	Mon Jun 19 15:29:02 2000
++++ sbin/init.d/boot	Tue Jun 20 15:03:03 2000
 @@ -216,8 +216,7 @@
  #
  # clean up
@@ -19,26 +19,18 @@
  mount -av -t nonfs,noproc
  rc_status -v1 -r
  
-@@ -365,13 +366,15 @@
+@@ -365,12 +366,14 @@
  	esac
  done < /proc/cpuinfo
  
--test "$GMT" != "YAST_ASK" && $CLOCKCMD --hctosys $GMT
--rc_status
--test -f /etc/adjtime || echo "0.0 0 0.0" > /etc/adjtime
--test "$GMT" != "YAST_ASK"  -a "$START_XNTPD" != "yes" && {
--    $CLOCKCMD --adjust $GMT
--    rc_status
--}
 +if [ "$GMT" != YAST_ASK ] ; then
-+  test "$GMT" != "YAST_ASK" && $CLOCKCMD --hctosys $GMT
-+  rc_status
-+  test -f /etc/adjtime || echo "0.0 0 0.0" > /etc/adjtime
-+  test "$GMT" != "YAST_ASK"  -a "$START_XNTPD" != "yes" && {
-+      $CLOCKCMD --adjust $GMT
-+      rc_status
-+  }
+ test "$GMT" != "YAST_ASK" && $CLOCKCMD --hctosys $GMT
+ rc_status
+ test -f /etc/adjtime || echo "0.0 0 0.0" > /etc/adjtime
+ if test "$GMT" != "YAST_ASK"  -a "$START_XNTPD" != "yes" ; then
+     $CLOCKCMD --adjust $GMT
+     rc_status
 +fi
+ fi
  rc_status -v -r
  
- #
