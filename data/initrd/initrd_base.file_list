@@ -49,6 +49,7 @@ if arch eq 's390' || arch eq 's390x'
   glibc:
     /etc/nscd.conf
     /etc/rpc
+    /lib/ld.so.1
     /lib/ld[-.]*.so
     /lib/libc.so.*
     /lib/libcrypt.so.*
@@ -96,9 +97,11 @@ if arch eq 's390' || arch eq 's390x'
     l ../bin/smbmount  /sbin/mount.smbfs
     # /lib/libnss_wins.so?
   cups-libs:
-    # /usr/lib/libcups.so.*
+    /usr/lib/libcups.so.*
   installation-kernel-rdripl:
     /lib/modules
+  <kernel_rpm>:
+    m /boot/k_deflt/System.map /System.map
   e2fsprogs:
     /lib/libcom_err.so.*
     /lib/libcom_err.so.*
@@ -241,6 +244,7 @@ if arch eq 's390' || arch eq 's390x'
     /usr/bin/cut
     /usr/bin/head
     /usr/bin/tail
+    /usr/bin/sort
   sh-utils:
     /bin/uname
     /bin/sleep
@@ -267,18 +271,20 @@ if arch eq 's390' || arch eq 's390x'
     /usr/lib/libcrypto.so.*
     /usr/lib/libssl.so.*
   openssh:
-    /etc/pam.d/sshd
     /etc/ssh
     /etc/ssh/moduli
-    /etc/ssh/ssh_config
-    /etc/ssh/sshd_config
     /usr/bin/scp
-    /usr/bin/ssh
-    /usr/sbin/sshd
     /usr/bin/ssh-keygen
+  openssh-server:
     /etc/init.d/sshd
+    /etc/pam.d/sshd
+    /etc/ssh/sshd_config
+    /usr/sbin/sshd
     # ??? do we need more ssh preconfiguration?
     t /etc/sysconfig/ssh
+  openssh-client:
+    /etc/ssh/ssh_config
+    /usr/bin/ssh
   syslogd:
     /etc/init.d/syslog
     /sbin/klogd
@@ -321,8 +327,9 @@ if arch eq 's390' || arch eq 's390x'
 
   t /var/log/{faillog,lastlog,messages}
 
-  modules:
+  modutils:
     /sbin/depmod
+#   e /sbin/depmod -a -F /System.map
   e /sbin/depmod -a -F /System.map <kernel_ver>
   r /sbin/depmod
 
@@ -353,10 +360,10 @@ endif
 x etc/host.conf etc
 
 devs:
-  /dev/sg*
   if arch eq 's390' || arch eq 's390x'
     m /usr/share/doc/packages/devs/makedevs.floppy /
   else
+    /dev/sg*
     m /usr/share/doc/packages/devs/makedevs /makedevs.floppy
   endif
 
