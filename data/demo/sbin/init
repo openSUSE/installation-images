@@ -319,7 +319,7 @@ fi
 
 umount /proc
 
-gettext -n "Integrating SuSE Linux 8.1 LiveEval CD"
+gettext -n "Integrating SuSE Linux 8.2 LiveEval CD"
 
 deb_stop
 
@@ -381,7 +381,7 @@ if [ "$part" ]; then
   [ "$dosdrive" ] && i="$dosdrive, "
 
   echo
-  printf "`gettext 'Using "suselive.810" on %s (%s, %s MB) to store data'`" "$part" "$i$fstype" "$partsize"
+  printf "`gettext 'Using "suselive.820" on %s (%s, %s MB) to store data'`" "$part" "$i$fstype" "$partsize"
   echo
 
   mkdir /host || error=20
@@ -406,8 +406,8 @@ if [ "$part" ]; then
     fi
     rm -f /etc/.SuSErmlist
   else
-    suseimg=suselive.810
-    perl -pi -e 's/^(suseimg=).*/$1suselive.810/' /etc/SuSElive
+    suseimg=suselive.820
+    perl -pi -e 's/^(suseimg=).*/$1suselive.820/' /etc/SuSElive
     if [ "$clean" ] ; then
       rm -f "/host/$suseswap" "/host/$susehome" 2>/dev/null
     fi
@@ -613,7 +613,7 @@ if [ ! "$nodisk" ] ; then
         tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
 
         if [ ! -f /mnt/suselive.txt ] ; then
-          printf "`gettext '%s contains data for your SuSE Linux 8.1 LiveEval CD.'`" "$suseimg" >/mnt/suselive.txt
+          printf "`gettext '%s contains data for your SuSE Linux 8.2 LiveEval CD.'`" "$suseimg" >/mnt/suselive.txt
           echo -e "\n\r" >>/mnt/suselive.txt
           gettext -s "suselive.swp (if it exists) is the swap file." >>/mnt/suselive.txt
           echo -e "\r" >>/mnt/suselive.txt
@@ -633,7 +633,7 @@ if [ ! "$nodisk" ] ; then
 
       if [ "$Aborted" ] ; then
 
-        gettext -e -s "SuSE Linux 8.1 LiveEval has not been configured.\nPress enter to reboot."
+        gettext -e -s "SuSE Linux 8.2 LiveEval has not been configured.\nPress enter to reboot."
 
         read
 
