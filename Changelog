@@ -1,3 +1,9 @@
+9/3/2002:	v1.128
+	- added yast2-trans-inst-proposal
+	- re-enabled apic boot option
+	- prepare inst_setup to run other commands besides yast
+	- fixed ppc module list
+
 4/3/2002:	v1.127
 	- add harddisk boot entry
 	- updated bootdisk README

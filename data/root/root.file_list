@@ -499,6 +499,8 @@ if with_yast2 ne 'no'
     /
   yast2-trans-inst-partitioning:
     /
+  yast2-trans-inst-proposal:
+    /
   yast2-trans-inst-timezone:
     /
   yast2-trans-inst-update:
