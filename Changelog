@@ -1,3 +1,5 @@
+	- add CD2/suseboot to trigger the HFS part,
+	  avoid 8.3 filenames and allow OF booting
 	- /lib/modules/<kernel>/extras -> extra
 8/4/2004:	v5.40
 	- support SuSE-SLES theme
