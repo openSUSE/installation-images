@@ -62,10 +62,10 @@ sub fixup_re;
 sub AddFiles
 {
   local $_;
-  my ($dir, $file_list, $ext_dir, $arch, $if_val, $tag);
+  my ($dir, $file_list, $ext_dir, $arch, $if_val, $if_taken, $tag);
   my ($rpms, $tdir, $tfile, $p, $r, $rc, $d, $u, $g, $files);
   my ($mod_list, @mod_list, %mod_list);
-  my ($inc_file, $inc_it, $debug, $eshift, $ignore);
+  my ($inc_file, $inc_it, $debug, $ifmsg, $ignore);
   my ($old_warn, $ver, $i, $cache_dir);
   my (@scripts, $s, @s, %script, $use_cache);
 
@@ -128,9 +128,7 @@ sub AddFiles
 
   $tag = "" unless defined $tag;
 
-  $if_val = 0;
-
-  $eshift = 1;
+  $if_val = $if_taken = 0;
 
   while($_ = $inc_it ? <I> : <F>) {
     if($inc_it && eof(I)) {
@@ -143,18 +141,26 @@ sub AddFiles
 
     s/^\s*//;
 
-    if($debug =~ /\bif\b/) {
-      printf ".<%x>%s\n", $if_val, $_;
-    }
+    $ifmsg = sprintf " [%x|%x] %s\n", $if_val, $if_taken, $_;
 
     s/<(kernel_ver|kernel_rpm|kernel_img|suse_release|suse_major|suse_minor)>/$ConfigData{$1}/g;
     for $i (qw( linuxrc lang )) {
       s/<$i>/$ENV{$i}/g if exists $ENV{$i};
     }
 
-    if(/^endif/) { $if_val >>= $eshift; next }
+    if(/^endif/) {
+      $if_val >>= 1;
+      $if_taken >>= 1;
+      print "*$ifmsg" if $debug =~ /\bif\b/;
+      next
+    }
 
-    if(/^else/) { $if_val ^= 1; next }
+    if(/^else/) {
+      $if_val &= ~1;
+      $if_val |= $if_taken & 1;
+      print "*$ifmsg" if $debug =~ /\bif\b/;
+      next
+    }
 
     if(/^ifarch\s+/)  { $if_val <<= 1; $if_val |= 1 if !/\b$arch\b/ || $arch eq ""; next }
     if(/^ifnarch\s+/) { $if_val <<= 1; $if_val |= 1 if  /\b$arch\b/ && $arch ne ""; next }
@@ -171,10 +177,10 @@ sub AddFiles
       my ( $re, $i, $eif );
 
       $eif = $1 ? 1 : 0;
-      $eshift = 1 if !$eif;
       $re = fixup_re $2;
       if($debug =~ /\bif\b/) {
-        printf "    eval \"%s\"\n", $re;
+        print "*$ifmsg";
+        printf "    # eval \"%s\"\n", $re;
       }
       $ignore += 10;
       $i = eval "if($re) { 0 } else { 1 }";
@@ -182,22 +188,23 @@ sub AddFiles
       die "$Script: syntax error in 'if' statement" unless defined $i;
       if($eif) {
         $if_val &= ~1;
+        $i = 0 if $i == 0 && ($if_taken & 1) == 0;
       }
       else {
         $if_val <<= 1;
+        $if_taken <<= 1;
       }
-#      $if_val ^= 1 if $eif;
-#      $if_val <<= 1;
       $if_val |= $i;
-#      $eshift++ if $eif;
+      $if_taken |= 1 - $i;
       next
     }
 
-    next if $if_val;
-
-    if($debug =~ /\bif\b/) {
-      printf "*<%x>%s\n", $if_val, $_;
+    if($if_val) {
+      print " $ifmsg" if $debug =~ /\bif\b/;
+      next
     }
+
+    print "*$ifmsg" if $debug =~ /\bif\b/;
 
     if(/^include\s+(\S+)$/) {
       die "$Script: recursive include not supported" if $inc_it;

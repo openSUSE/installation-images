@@ -157,7 +157,7 @@ else	# ! suse_release < 7.1
 #  m /usr/lib/kbd/unimaps/lat{1,1u,2,2u}.uni kbd/unimaps
 
   d kbd/keymaps/include
-  m usr/lib/kbd/keymaps/include/* kbd/keymaps/include
+  m usr/lib/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
 
   if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64'
     g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz kbd/keymaps/Pl02.map
@@ -179,10 +179,12 @@ else	# ! suse_release < 7.1
     g /usr/lib/kbd/keymaps/i386/qwerty/uk.map.gz kbd/keymaps/uk.map
     g /usr/lib/kbd/keymaps/i386/qwerty/us.map.gz kbd/keymaps/us.map
 
-    m /usr/lib/kbd/keymaps/i386/include/{{azerty,qwert{y,z}}-layout,linux-{keys-{bare,extd},with-{alt-and,modeshift}-altgr}}.inc kbd/keymaps/include
-    m /usr/lib/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
+    m /usr/lib/kbd/keymaps/i386/include/{linux-{keys-{bare,extd},with-modeshift-altgr}}.inc kbd/keymaps/include
+    m /usr/lib/kbd/keymaps/i386/include/linux-with-alt-and-altgr.inc kbd/keymaps/include
+    m /usr/lib/kbd/keymaps/i386/include/qwerty-layout.inc kbd/keymaps/include
+    m /usr/lib/kbd/keymaps/i386/include/qwertz-layout.inc kbd/keymaps/include
+    m /usr/lib/kbd/keymaps/i386/include/azerty-layout.inc kbd/keymaps/include
     g /usr/lib/kbd/keymaps/i386/qwertz/de-latin1.map.gz kbd/keymaps/de-latin1.map
-    g /usr/lib/kbd/keymaps/i386/include/euro.map.gz kbd/keymaps/include/euro.map
     g /usr/lib/kbd/keymaps/i386/include/euro1.map.gz kbd/keymaps/include/euro1.map
     g /usr/lib/kbd/keymaps/i386/include/euro2.map.gz kbd/keymaps/include/euro2.map
   endif

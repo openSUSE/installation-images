@@ -1,3 +1,6 @@
+	- fixed elsif
+	- removed unnecessary keytable includes
+
 12/7/2001:	v1.66
 	- new 'E' command
 	- support language specific configurations for liveeval
