@@ -1,3 +1,6 @@
+1/8/2003:	v2.101
+	- use modules have moved
+
 1/8/2003:	v2.100
 	- didn't catch all errors
 	- use <kernel_img>-<kernel_ver> for ia64
