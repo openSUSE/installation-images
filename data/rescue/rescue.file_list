@@ -307,11 +307,17 @@ portmap: postin
   /usr/sbin
 e postin
 
-ps: postin
-  /etc
-  /{,s}bin
-  /usr/bin
-e postin
+procps:
+  /bin/ps
+  /usr/bin/{free,top,vmstat}
+
+psmisc:
+  m /bin/fuser /usr/bin
+  /usr/bin/killall
+  /usr/bin/pstree
+
+procinfo:
+  /usr/bin/socklist
 
 reiserfs:
   /sbin

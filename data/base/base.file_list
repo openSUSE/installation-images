@@ -93,9 +93,18 @@ mktemp:
 module-init-tools:
   /sbin/depmod
 
-ps:
-  /{,s}bin
-  /usr/bin
+procps:
+  /bin/ps
+  /usr/bin/{free,top,vmstat}
+
+psmisc:
+  m /bin/fuser /usr/bin
+  /usr/bin/killall
+  /usr/bin/pstree
+
+procinfo:
+  /usr/bin/socklist
+
 
 rpm:
   /bin
