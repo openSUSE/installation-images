@@ -12,6 +12,11 @@ if arch eq 'ia32' || arch eq 'x86_64'
     x syslinux.cfg /
   endif
 
+  # set timeout to 30s
+  if theme eq 'Sun'
+    R s/^(timeout\s+)(\d+)/${1}300/ /syslinux.cfg
+  endif
+
   <kernel_rpm>:
     m /boot/<kernel_img> /linux
 
