@@ -348,10 +348,11 @@ X /etc/{passwd,group,shadow,nsswitch.conf,protocols} /etc
 
 # the agp module from xsvga may cause 700 permissions; fix it here
 c 0755 0 0 /lib/modules
-ifnarch ppc
+ifarch ppc
+d /lib/modules/<kernel_ver>/misc
+endif
 c 0755 0 0 /lib/modules/<kernel_ver>
 c 0755 0 0 /lib/modules/<kernel_ver>/misc
-endif
 
 # add the rest from instsys
 lvm:
