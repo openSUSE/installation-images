@@ -1,3 +1,8 @@
+06/11/2002:	v2.89
+	- fixed login behaviour (second getty)    (s390/s390x) #20780
+	- fixed error handling of lcs-device      (s390/s390x) #21558
+	- fixed error handling of wrong parameter (s390/s390x) #21587
+
 04/11/2002:	v2.88
 	- fixed typo in linuxrc					#21465
 	- fixed endlessloop if AUTOINSTALL was set and no

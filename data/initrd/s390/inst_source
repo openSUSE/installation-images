@@ -67,7 +67,7 @@ while :
 do
    echo -en $SOURCE_TXT1
    source=$INST_INFO
-   [ "$INST_INFO" = "nothing" ] && read source
+   [ "$AUTOINSTALL" = "yes" ] || read source
    case $source in
 	1|nfs) INST_INFO=nfs ; break ;;
 	2|SAMBA) INST_INFO=SAMBA ; break ;;
@@ -104,7 +104,7 @@ while :
 do
 	echo -en $IP_TXT1
 	ip=$INST_IP_ADDR
-	[ "$INST_IP_ADDR" = "250.250.250.250" ] && read ip
+	[ "$AUTOINSTALL" = "yes" ] || read ip
 	[ "$ip" = "" ] && continue
 	if echo $ip | check_ip
 	then
@@ -124,7 +124,7 @@ while :
 do
 	echo -en $IP_SERVER_TXT1
 	ip=$INST_X_ADDR
-	[ "$INST_X_ADDR" = "251.251.251.251" ] && read ip
+	[ "$AUTOINSTALL" = "yes" ] || read ip
 	[ "$ip" = "" ] && continue
 	if echo $ip | check_ip
 	then
@@ -143,7 +143,7 @@ ask_dir()
 while :
 do
 	echo -en $DIR_TXT1
-	[ "$INST_IP_DIR" = "empty" ] && read INST_IP_DIR
+	[ "$AUTOINSTALL" = "yes" ] || read INST_IP_DIR
 	[ -z "$INST_IP_DIR" ] && continue
 	if `echo $INST_IP_DIR | grep -v "^/" > /dev/null`
 	then
@@ -160,7 +160,7 @@ ask_screen()
 while :
 do
 	echo -en $SCREEN_TXT1
-	[ "$INST_SCREEN" = "nothing" ] && read INST_SCREEN
+	[ "$AUTOINSTALL" = "yes" ] || read INST_SCREEN
 	case $INST_SCREEN in
 		1|X) INST_SCREEN=X
 		   break
@@ -322,7 +322,7 @@ write_info_file()
 #			Setting console to this value
 #			means, that yast is asking for the terminaltype
 #
-			echo "Console: ttyS0,9600" >> $NETSETUPFILE
+#			echo "Console: ttyS0,9600" >> $NETSETUPFILE
 		;;
 		*)
 		;;

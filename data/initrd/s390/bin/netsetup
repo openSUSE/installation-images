@@ -110,6 +110,13 @@ function write_chandev {
     echo "$*" > /proc/chandev
 }
 #
+#
+#
+function shutdown_reset_conf_chandev {
+     write_chandev "shutdown"
+     write_chandev "reset_conf"
+}
+#
 function ask_select_protocol() {
     NO_ERROR=yes
     while :; do
@@ -880,7 +887,8 @@ function load_LCS_chandev () {
 	else
 		readln "Enter the read channel device number, e.g. 'FC20' (${DEVNO#0x}): "
 	fi
-	if [ -z "$ANSW" -o "$ANSW" = "auto" -o "$ANSW" = "AUTO" -o "$ANSW" = 0 ]; then
+	[ -z "$ANSW" ] && ANSW=$DEVNO
+	if [ "$ANSW" = "auto" -o "$ANSW" = "AUTO" -o "$ANSW" = 0 ]; then
             DEVNO=auto
 	    break
 	fi
@@ -904,6 +912,7 @@ function load_LCS_chandev () {
 	echo "The read channel device number should be a hex number in the range of 0-FFFE."
         NO_ERROR=no
      done
+     shutdown_reset_conf_chandev
      if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
 	PARM=""
         CHAN=""
@@ -929,6 +938,7 @@ function load_LCS_chandev () {
        execcmd "/sbin/ifconfig $IP_DEV"
        if [ $EXIT_CODE -eq 0 ]; then
          ANSW="yes"
+         echo "$IP_DEV is available, continuing with network setup."
          break
        else
          echo -e "\n$IP_DEV not available, check device addresses/cards and cables.\n"
@@ -939,10 +949,8 @@ function load_LCS_chandev () {
      yes_no "Do you want to retry the setup of the lcs module (Yes/No) ? "
      NO_ERROR=no
   done
-  if [ "$ANSW" = "yes" ]; then
-     echo "$IP_DEV is available, continuing with network setup."
-  else
-     write_chandev "reset_conf"
+  if [ "$ANSW" = "no" ]; then
+     shutdown_reset_conf_chandev
      false
   fi
 }
