@@ -73,8 +73,10 @@ util:
   /bin/dmesg
 
 <kernel_rpm>:
+ifnarch ppc
   /lib/modules/<kernel_ver>/misc/serial.o
   /lib/modules/<kernel_ver>/misc/lp.o
+endif
 
 ifdef blub
   /lib/modules/<kernel_ver>/net/{pppox,ppp,ppp_deflate}.o
@@ -110,7 +112,11 @@ s ../share/terminfo /usr/lib/terminfo
 shlibs:
   /sbin/ldconfig
   /lib/ld-2.*.so
+ifarch ppc
+  /lib/ld.so.1
+else
   /lib/ld-linux.so.2
+endif
   /lib/{libc.so.6,libcrypt.so.1,libdb.so.2,libdb.so.3,libdl.so.2,libm.so.6,libnsl.so.1}
   /lib/{libnss_compat.so.2,libnss_db.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
   /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2,librt.so.1,libutil.so.1}
@@ -231,9 +237,11 @@ sh_utils:
 strace:
   /usr/bin/strace
 
+ifnarch ppc
 ltrace:
   /usr/bin/ltrace
   /etc/ltrace.conf
+endif
 
 cpio:
   /usr/bin/{cpio,mt}
