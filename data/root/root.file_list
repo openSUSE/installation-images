@@ -443,6 +443,8 @@ if with_yast2 ne 'no'
     /
   yast2-xml:
     /
+  yast2-update:
+    /
   autoyast2-installation:
     /
 endif
