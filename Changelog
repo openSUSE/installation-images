@@ -1,3 +1,6 @@
+22/7/2002:	v2.24
+	- corrected error in /linuxrc and yast_start
+
 22/7/2002:	v2.23
 	- add usr/X11R6/lib64 to ld.so.conf
 	- fixed x86_64 typo
