@@ -774,7 +774,6 @@ r /sbin/insserv
 # some scripts write to /dev/null...
 r /dev
 
-r /root
  
 x usr/bin/conservative_lndir usr/bin
 if arch eq 'ppc'
