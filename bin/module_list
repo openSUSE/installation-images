@@ -1,0 +1,115 @@
+#! /usr/bin/perl
+
+sub check_deps;
+
+$md = shift;
+$ex = shift;
+
+print STDERR "checking module list...\n";
+
+die "$0: $md: $!\n" unless open F, $md;
+
+while(<F>) {
+  chomp;
+  next if /^\s*$/;
+  $cnt_next = s/\\$/ / ? 1 : 0;
+  if($cnt) {
+    @ml[-1] .= $_;
+  }
+  else {
+    push @ml, $_;
+  }
+  $cnt = $cnt_next;
+}
+
+close F;
+
+die "$0: $ex: $!\n" unless open F, $ex;
+
+while(<F>) {
+  chomp;
+  next if /^\s*(#|$)/;
+
+  if(s/^\-//) {
+    push @ex_no, $_;
+  }
+  else {
+    push @ex_yes, $_;
+  }
+}
+
+close F;
+
+if(@ex_no != 0) {
+ $ex_no = join '|', @ex_no;
+}
+
+if(@ex_yes != 0) {
+ $ex_yes = join '|', @ex_yes;
+}
+
+for (@ml) {
+  s#^/lib/modules/[^/]+/##;
+  $_ = "" if $ex_yes && !/^($ex_yes)/;
+  $_ = "" if $ex_no && /^($ex_no)/;
+
+  s#^(\S+)/##;
+  $p = $1;
+  s#/\S+/##g;
+  s/\.o\b//g;
+  s/\s+/ /g;
+  s/\s+$//;
+
+  if(/^(\S+):/) {
+    $path{$1} = $p unless exists $path{$1}
+  }
+
+  $_ = "$p $_" if $_;
+}
+@ml = grep $_ ne "", @ml;
+
+for (@ml) {
+  if(/^(\S+)\s+(\S+):\s*(.*?)$/) {
+    $p = $1;
+    if(exists $ml{$2}) {
+      print STDERR "  duplicate module: $p/$2.o, $path{$2}/$2.o\n"
+    }
+    $ml{$2} = $3;
+  }
+  else {
+    die "$0: oops: invalid line: \"$_\"\n"
+  }
+}
+
+while(check_deps) {}
+
+for (sort keys %ml) {
+  print "# $path{$_}: $_\n";
+  if($ml{$_}) {
+    print "$_: $ml{$_}\n"
+  }
+  else {
+    print "$_:\n"
+  }
+}
+
+sub check_deps
+{
+  local $_;
+  my ($i, $cnt);
+
+  for (keys %ml) {
+    if($ml{$_}) {
+      for $i (split ' ', $ml{$_}) {
+        if(!exists $ml{$i}) {
+          print STDERR "  unresolved deps in $_: $i, dropped\n";
+          delete $ml{$_};
+          $cnt++;
+        }
+      }
+    }
+  }
+
+  return $cnt;
+}
+
