@@ -85,7 +85,7 @@ if !(arch eq 'ppc' || arch eq 'ia64')
     /lib/modules/<kernel_ver>/misc/parport_probe.o
     /lib/modules/<kernel_ver>/scsi/imm.o
     /lib/modules/<kernel_ver>/scsi/ppa.o
-  if suse_major_release != 6
+  if suse_major_release >= 7.0 && arch ne 'alpha'
     /lib/modules/<kernel_ver>/misc/agpgart.o
   endif
 endif
@@ -287,7 +287,7 @@ endif
 strace:
   /usr/bin/strace
 
-if !(arch eq 'ppc' || arch eq 'ia64')
+if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'alpha')
   ltrace:
     /usr/bin/ltrace
     /etc/ltrace.conf
