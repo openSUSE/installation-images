@@ -1,3 +1,7 @@
+1/2/2005:	v6.25
+	- added ide modules
+	- take *-nongpl into account
+
 31/1/2005:	v6.24
 	- fixed some shared lib dependencies
 	- adapted to new boot graphics

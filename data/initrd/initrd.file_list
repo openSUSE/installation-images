@@ -27,7 +27,7 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
 
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
-  A gen/module.shortconfig.scsi@2 modules/module.config
+#  A gen/module.shortconfig.scsi@2 modules/module.config
 #  A gen/module.shortconfig.cdrom modules/module.config
   A gen/module.shortconfig.net modules/module.config
   A gen/module.shortconfig.pcmcia modules/module.config
@@ -53,7 +53,7 @@ elsif (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'medium'
 
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
-  A gen/module.shortconfig.scsi@2 modules/module.config
+#  A gen/module.shortconfig.scsi@2 modules/module.config
   A gen/module.shortconfig.net modules/module.config
   A gen/module.shortconfig.pcmcia modules/module.config
   A gen/module.shortconfig.usb modules/module.config
@@ -119,7 +119,7 @@ else
   include gen/module.files.net
   include gen/module.files.pcmcia
   include gen/module.files.scsi
-  include gen/module.files.scsi@2
+#  include gen/module.files.scsi@2
   include gen/module.files.usb
   # not strictly necessary
   include gen/module.files.other
@@ -130,7 +130,7 @@ else
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
   A gen/module.config.scsi modules/module.config
-  A gen/module.config.scsi@2 modules/module.config
+#  A gen/module.config.scsi@2 modules/module.config
 #  A gen/module.config.cdrom modules/module.config
   A gen/module.config.net modules/module.config
   A gen/module.config.pcmcia modules/module.config

@@ -215,6 +215,7 @@ if arch eq 's390' || arch eq 's390x' || with_smb
     else
       krb5:
         m /usr/lib*/libkrb5.so.* /lib
+        m /usr/lib*/libkrb5support.so.* /lib
         m /usr/lib*/libgssapi_krb5.so.* /lib
         m /usr/lib*/libk5crypto.so.* /lib
     endif
