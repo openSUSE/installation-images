@@ -1,6 +1,0 @@
-<chrp-boot>
-<description>SuSE Linux 7.0 for PPC</description>
-<os-name>SuSE Linux 7.0 for PPC</os-name>
-<boot-script>boot &device;:,\ppc\chrp\zimage.chrp.initrd root=/dev/fd0 fake_initrd</boot-script>
-</icon>
-</chrp-boot>

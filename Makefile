@@ -1,11 +1,10 @@
 
 # perl libraries & binaries
 PLIBS	= AddFiles MakeFATImage MakeMinixImage ReadConfig
-PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root mk_yast2\
-          mk_yast2_cd mk_yast2_nfs
+PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root mk_root
 
 .PHONY: all dirs initrd initrd_test boot boot_axp\
-        yast2 demo ps modules html clean distdir install install_xx
+        root demo ps modules html clean distdir install install_xx
 
 all:
 
@@ -37,8 +36,8 @@ boot_axp: initrd
 install_xx: initrd
 	bin/mk_install_xx
 
-yast2: dirs initrd
-	bin/mk_yast2
+root: dirs initrd
+	bin/mk_root
 
 demo: dirs
 	bin/mk_demo

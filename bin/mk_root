@@ -1,24 +1,21 @@
 #! /usr/bin/perl -w
 
-# Create a YaST2 image that can be used on a bootable CD.
+# Create a root image that can be used on a bootable CD.
 #
-# Source files and the file list are taken from data/yast2; the final
-# image is stored in images/yast2.
+# Source files and the file list are taken from data/root; the final
+# image is stored in images/root.
 #
-# Usage:        mk_yast2
+# Usage:        mk_root
 
-=head1 mk_yast2
+=head1 mk_root
 
-C<mk_yast2> creates a C<yast2> image (not compressed) that should be mounted
-to C</usr> within the C<root> image and contains everything necessary to run
-YaST2.
-
+C<mk_root> creates a C<root> image (not compressed).
 This image is intended to go onto a bootable CD.
 
-The files to go into the YaST2 image are taken from
-C<data/yast2/yast2.file_list>.
+The files to go into the root image are taken from
+C<data/root/root.file_list>.
 
-The final image is stored as C<images/yast2>.
+The final image is stored as C<images/root>.
 
 =cut
 
@@ -38,10 +35,10 @@ die "usage: $Script\n" if @ARGV;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # some config data
 
-$srcdir = "${DataPath}yast2";
-$tmpdir = "${BasePath}tmp/yast2";
+$srcdir = "${DataPath}root";
+$tmpdir = "${BasePath}tmp/root";
 $tmpinitrd = "${BasePath}tmp/initrd";
-$image = "${ImagePath}yast2";
+$image = "${ImagePath}root";
 
 # leave that much space
 $extra_size = 500;              # kbyte
@@ -59,8 +56,8 @@ if(-d($tmpdir)) {
   SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
 }
 
-AddFiles $tmpdir, "${srcdir}/yast2.file_list", $srcdir or
-  die "$Script: failed to setup yast2 image";
+AddFiles $tmpdir, "${srcdir}/root.file_list", $srcdir or
+  die "$Script: failed to setup root image";
 
 # strip everything
 SUSystem "fix_perms $tmpdir";
