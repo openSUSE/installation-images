@@ -50,15 +50,13 @@ elsif (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'medium'
   # for ia32 CD2 image
 
   include gen/module.files.autoload
-  include gen/module.files.usb
 
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
   A gen/module.shortconfig.scsi@2 modules/module.config
-#  A gen/module.shortconfig.cdrom modules/module.config
   A gen/module.shortconfig.net modules/module.config
   A gen/module.shortconfig.pcmcia modules/module.config
-  A gen/module.config.usb modules/module.config
+  A gen/module.shortconfig.usb modules/module.config
   A gen/module.shortconfig.firewire modules/module.config
   A gen/module.shortconfig.fs modules/module.config
   A gen/module.config.other modules/module.config
