@@ -96,9 +96,11 @@ x etc/pcmcia/config.opts etc/pcmcia
 x etc/pcmcia/fixed etc/pcmcia
 endif
 
-k_deflt:
+
 t modules/{MORE,NEEDMOD,NET,SCSI}
 
+ifnarch sparc
+k_deflt:
 ifdef 2.88
 a /lib/modules/<kernel_ver>/block/*.o /modules
 a /lib/modules/<kernel_ver>/net/*.o /modules
@@ -114,9 +116,7 @@ a /lib/modules/<kernel_ver>/misc/input.o /modules
 a /lib/modules/<kernel_ver>/misc/hid.o /modules
 a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
 a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
-
 else	# 2.88
-
 ### a /lib/modules/<kernel_ver>/block/DAC960.o /modules
 ### a /lib/modules/<kernel_ver>/block/cpqarray.o /modules
 
@@ -163,6 +163,7 @@ a /lib/modules/<kernel_ver>/net/8390.o /modules
 # a /lib/modules/<kernel_ver>/scsi/t128.o /modules
 # a /lib/modules/<kernel_ver>/scsi/u14-34f.o /modules
 endif	# 2.88
+endif
 
 x etc/host.conf etc
 
