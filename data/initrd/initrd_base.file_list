@@ -601,6 +601,10 @@ if product
   e echo "Product:	<product>" >>linuxrc.config
 endif
 
+if product eq 'UnitedLinux'
+  e echo "ProductDir:	<product>" >>linuxrc.config
+endif
+
 if lang
   e echo "Language:	<lang>" >>linuxrc.config
 endif
