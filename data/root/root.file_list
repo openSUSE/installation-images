@@ -386,6 +386,7 @@ if with_yast2 ne 'no'
     /etc/X11/xkb
     s /etc/X11/xkb /usr/X11R6/lib/X11
     /usr/X11R6/bin/xkbcomp
+    /usr/X11R6/bin/setxkbmap
     /usr/X11R6/bin/mkfontdir
     /usr/X11R6/bin/fc-cache
     /usr/X11R6/lib/X11/locale
@@ -623,7 +624,8 @@ netcfg:
 
 if with_yast2 ne 'no' && arch ne 's390' && arch ne 's390x'
   saxtools:
-    /usr/X11R6/bin
+     /usr/X11R6/bin
+   r /usr/X11R6/bin/xkbset
   saxident:
     /
 endif
@@ -804,6 +806,9 @@ mdadm:
 
 sock:
   /usr/bin/sock
+
+iproute2:
+  /sbin/ip
 
 if arch ne 's390' && arch ne 's390x'
   s /.bin/smbmount /sbin/mount.smbfs

@@ -608,7 +608,8 @@ if lang
 endif
 
 if demo
-  e echo "Demo:		1" >>linuxrc.config
+  e echo "UseIDESCSI:	1" >>linuxrc.config
+  e echo "LiveConfig:	suselive.820" >>linuxrc.config
 endif
 
   # r /usr/sbin/groupadd

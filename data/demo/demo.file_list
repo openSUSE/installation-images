@@ -9,7 +9,7 @@ devs:
 aaa_base:
   /root
 c 0711 0 0 /root
-  /etc/modules.conf
+  /etc/modules.conf{,.local}
   /etc/ld.so.conf
   /sbin/mk_initrd
   /etc/init.d
@@ -20,12 +20,12 @@ c 0711 0 0 /root
 # aaa_base's preinstall
   /sbin/SuSEconfig
 
-if suse_release == 8.1
-  p /sbin/boot.patch_81
-  p /sbin/halt.patch_81
+if suse_release == 8.2
+  p /sbin/boot.patch_82
+  p /sbin/halt.patch_82
 endif
 
-aaa_version:
+suse-release:
   /etc/SuSE-release
   /etc/issue{,.net}
   /etc/motd
@@ -55,7 +55,7 @@ else
   /lib*/ld-linux.so.2
 endif
   /lib*/libcrypt.so.1
-  /lib*/{libc.so.6,libdl.so.2}
+  /lib*/{libc.so.6,libdl.so.2,libm.so.6,librt.so.1,libpthread.so.0}
   /etc/nscd.conf
 
 bash:
@@ -66,22 +66,20 @@ readline:
   /lib*/libreadline.so.4*
   /lib*/libhistory.so.4*
 
-sh-utils:
-  /bin/{date,echo,false,sleep,stty,true,uname}
+coreutils:
+  /bin/{date,echo,false,sleep,stty,true,uname,kill,cat}
+  /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir,dd,touch}
   m /usr/bin/printf /bin
 
 util-linux:
-  /bin/{kill,mount,umount}
+  /bin/{mount,umount}
   /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,clock,hwclock,losetup,pivot_root}
 
-acl:
+libacl:
   /lib*
 
-attr:
+libattr:
   /lib*
-
-fileutils:
-  /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir,dd,touch}
 
 sysvinit:
   /sbin/{blogd,blogger}
@@ -103,17 +101,17 @@ net-tools:
   /bin/{hostname,domainname}
   /sbin/{ifconfig,route}
 
-textutils:
-  /bin/cat
-
 cron:
   /var
 
 sed:
   /bin/sed
 
-portmap:
-  /sbin/portmap
+#portmap:
+#  /sbin/portmap
+
+ps:
+  m /usr/bin/killall /bin
 
 yast2-core:
   m /usr/lib/YaST2/bin/startshell /sbin
@@ -131,7 +129,7 @@ zlib:
   /lib*/libz.so.1*
 
 modutils:
-  /sbin/{insmod,rmmod}
+  /sbin/{insmod,rmmod,insmod.old,rmmod.old}
 
 <kernel_rpm>:
   f / nls_iso8859-1.o /lib
@@ -142,12 +140,12 @@ x /etc/syslog.conf /etc
 x /sbin/init /sbin
 d etc/X11
 
-x /sbin/{live-shutdown,find_config,fix_fstab,letool} /sbin
+x /sbin/{live-shutdown,fix_fstab,letool} /sbin
 x /etc/XF86Config_3 /etc/XF86Config
 x /etc/XF86Config_4 /etc/X11/XF86Config
 
 d .livecd
-x locale .livecd/locale
+x gen/locale .livecd/locale
 
 r /etc/init.d/xdm
 r /etc/httpd
