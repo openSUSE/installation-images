@@ -12,13 +12,15 @@ sles8	= 8.1
 ; kernel image name
 ; use 'kernel_image' to override
 ;
+; *** These are actually perl regexps! ***
+;
 [KernelImage]
-default	= vmlinuz
-alpha	= vmlinux.gz
+default	= vmlinuz-
+alpha	= vmlinuz
 ppc	= vmlinux
 mips	= vmlinux
-s390	= k_deflt/image
-s390x	= k_deflt/image
+s390	= image
+s390x	= image
 
 
 ; kernel rpm name

@@ -297,24 +297,26 @@ sub Print2File
   return 1;
 }
 
+
+#
+# return list of kernel images
+#
 sub KernelImg
 {
   local $_;
-  my ($ki, @k, @k2);
+  my ($k_regexp, @k_files, @k_images, @kernels);
 
-  ($ki, @k) = @_;
+  ($k_regexp, @k_files) = @_;
 
-  chomp @k;
+  chomp @k_files;
 
-  for (@k) {
+  for (@k_files) {
     s#^/boot/##;
-    return $ki if $_ eq $ki;
-    push @k2, $_ if /^vmlin/ && !/autoconf|config|shipped|version/
+    next if /autoconf|config|shipped|version/;		# skip obvious garbage
+    push @k_images, $_ if m#$k_regexp#;
   }
 
-  return $k2[0] if @k2 == 1;
-
-  return $ki;
+  return @k_images;
 }
 
 
@@ -580,30 +582,61 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   $ConfigData{'use_cache'} = $use_cache;
 
   if($in_abuild) {
-    $ConfigData{kernel_img} = KernelImg $ConfigData{kernel_img}, (`ls $ConfigData{buildroot}/boot/*`);
+    my (@k_images2, %k_rpms);
+
+    my @k_images = KernelImg $ConfigData{kernel_img}, (`find $ConfigData{buildroot}/boot -type f`);
+
+    if(!@k_images) {
+      die "Error: No kernel image identified! (Looking for \"$ConfigData{kernel_img}\" in \"$ConfigData{kernel_rpm}\".)\n\n";
+    }
 
     $i = $ConfigData{buildroot} ? "-r $ConfigData{buildroot}" : "";
 
-    my $kn = `rpm $i -qf /boot/$ConfigData{kernel_img} | head -n 1 | cut -d- -f1` if -f "$ConfigData{buildroot}/boot/$ConfigData{kernel_img}";
-    # file ... not owned by any package
-    if ( $kn =~ /^file / ) {
-        $ConfigData{kernel_img} = readlink ( "/boot/$ConfigData{kernel_img}" );
-        $kn = `rpm $i -qf /boot/$ConfigData{kernel_img} | head -n 1 | cut -d- -f1` if -f "$ConfigData{buildroot}/boot/$ConfigData{kernel_img}";
+    for (@k_images) {
+      $j = `rpm $i -qf /boot/$_ | head -n 1 | sed 's/-[^-]*-[^-]*\$//'` if -f "$ConfigData{buildroot}/boot/$_";
+      chomp $j;
+      undef $j if $j =~ /^file /;	# avoid "file ... not owned by any package"
+      $k_rpms{$_} = $j if $j;
+      if($j && $j eq $ConfigData{kernel_rpm}) {
+        push @k_images2, $_;
+      }
     }
-    chomp $kn if $kn;
 
-    $ConfigData{kernel_rpm} = $kn if !$ENV{kernel} && $kn;
-
-    die "oops: unable to determine kernel rpm (looking for /boot/$ConfigData{kernel_img})" unless $ConfigData{kernel_rpm};
+    if(@k_images == 1) {
+      # ok, use just this one
+      $ConfigData{kernel_img} = $k_images[0];
+    }
+    else {
+      if(!@k_images2) {
+        die "Error: No kernel image identified! (Looking for \"$ConfigData{kernel_img}\" in \"$ConfigData{kernel_rpm}\".)\n\n";
+      }
+      elsif(@k_images2 > 1) {
+        warn
+          "Warning: Can't identify the real kernel image, choosing the first:\n",
+          join(", ", @k_images2), "\n\n";
+      }
+      $ConfigData{kernel_img} = $k_images2[0];
+    }
+    $ConfigData{kernel_rpm} = $k_rpms{$ConfigData{kernel_img}} if $k_rpms{$ConfigData{kernel_img}};
 
     $kv = `rpm $i -ql $ConfigData{kernel_rpm} 2>/dev/null | grep modules | head -n 1 | cut -d / -f 4`;
   }
   else {
-    $kv = RPMFileName $ConfigData{kernel_rpm};
+    $i = RPMFileName $ConfigData{kernel_rpm};
 
-    $ConfigData{kernel_img} = KernelImg $ConfigData{kernel_img}, (`rpm -qlp $kv 2>/dev/null | grep /boot`);
+    my @k_images = KernelImg $ConfigData{kernel_img}, (`rpm -qlp $i 2>/dev/null | grep ^/boot`);
 
-    $kv = `rpm -qlp $kv 2>/dev/null | grep modules | head -n 1 | cut -d / -f 4`;
+    if(!@k_images) {
+      die "Error: No kernel image identified! (Looking for \"$ConfigData{kernel_img}\".)\n\n";
+    }
+
+    if(@k_images != 1) {
+      warn "Warning: Can't identify the real kernel image, choosing the first:\n", join(", ", @k_images), "\n\n";
+    }
+
+    $ConfigData{kernel_img} = $k_images[0];
+
+    $kv = `rpm -qlp $i 2>/dev/null | grep modules | head -n 1 | cut -d / -f 4`;
   }
   chomp $kv;
 

@@ -732,8 +732,8 @@ heimdal-lib:
   /usr/lib*/libroken.so.*
 
 openldap2-client:
-  /usr/lib/liblber.so.*
-  /usr/lib/libldap.so.*
+  /usr/lib*/liblber.so.*
+  /usr/lib*/libldap.so.*
 
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*

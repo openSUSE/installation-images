@@ -8,7 +8,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
   endif
 
   <kernel_rpm>:
-    a /boot/<kernel_img>-<kernel_ver> /linux
+    a /boot/<kernel_img> /linux
 
   if demo eq 'eval'
     x message-eval /message
@@ -56,7 +56,7 @@ endif		# arch eq 'ia32'
 
 if arch eq 'ia64'
   d /efi/boot
-  a /boot/<kernel_img>-<kernel_ver> /efi/boot/linux
+  a /boot/<kernel_img> /efi/boot/linux
   elilo:
     if suse_release > 8.0
       m /boot/efi/SuSE/elilo.efi /efi/boot/bootia64.efi
@@ -68,6 +68,6 @@ if arch eq 'ia64'
 endif
 
 if arch eq 'alpha'
-  a /boot/<kernel_img>-<kernel_ver> /vmlinux.gz
+  a /boot/<kernel_img> /vmlinux.gz
 endif
 
