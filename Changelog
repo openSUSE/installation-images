@@ -1,6 +1,7 @@
 10/9/2001:	v1.93
 	- new boot splash
 	- fixed typo in inst_setup
+	- added checkproc to instsys
 
 9/9/2001:	v1.92
 	- parted has moved
