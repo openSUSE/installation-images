@@ -136,6 +136,9 @@ joe:
 less:
   /etc
   /usr/bin
+r /usr/bin/lesspipe.sh
+t /usr/bin/lesspipe.sh
+c 0755 0 0 /usr/bin/lesspipe.sh
 
 libz:
   /lib/libz.so*
@@ -251,7 +254,7 @@ strace:
 
 syslogd: postin
   /etc
-  /usr/sbin/{klogd,syslogd}
+  /sbin/{klogd,syslogd}
   /var/adm/fillup-templates/rc.config.syslogd
 e postin
 
@@ -259,7 +262,7 @@ sysvinit:
 n /dev/initctl
 c 600 0 0 /dev/initctl
   /{etc,sbin}
-r /sbin/{powerd,runlevel,setserialbits,start-stop-daemon,sulogin}
+# r /sbin/{powerd,runlevel,setserialbits,start-stop-daemon,sulogin}
   /usr/bin
 
 if suse_release >= 7.1

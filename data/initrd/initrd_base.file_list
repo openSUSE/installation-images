@@ -31,6 +31,7 @@ l linuxrc bin/setfont
 l linuxrc bin/init
 l linuxrc bin/mount
 l linuxrc bin/umount
+l linuxrc bin/cat
 l linuxrc bin/portmap
 l linuxrc etc/nothing
 

@@ -700,9 +700,12 @@ endif
 endif
 
 syslogd:
+if suse_release >= 7.1
+  /sbin/syslogd
+else
   /usr/sbin/syslogd
+endif
 
 # final clean up
 r /sbin/insserv
-r /etc/init.d
 
