@@ -58,7 +58,7 @@ mount -t devpts devpts /dev/pts
 #
 #	Ask for Installation source & start yast
 #
-. /inst_source
+[ $EXIT_SCRIPT -eq 0 ] && . /inst_source
 #
 #
 #
@@ -68,6 +68,10 @@ You should be able to login via telnet/ssh now.
 To restart network setup, enter:
 
 netsetup
+
+To continue the installation, enter:
+
+./inst_source
 "
 while bash -login
 do echo "linuxrc $$: restarting bash"; sleep 1; done

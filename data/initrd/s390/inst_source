@@ -164,11 +164,12 @@ nfs_install()
 #	Mount filesystems and start yast
 #
 $CONDOM mount -t nfs $INST_IP_ADDR:$INST_IP_DIR /var/adm/mount
-if [ ! -f /var/adm/mount/suse -a -z "$CONDOM" ]
+if [ ! -d /var/adm/mount/boot -a -z "$CONDOM" ]
 then
 	echo $MOUNT_ERR2
 	return 0
 fi
+umount /var/adm/mount
 return 1
 }
 #
@@ -208,14 +209,11 @@ write_info_file()
 		X)
 			echo "Display_IP: $INST_X_ADDR" >> $INFOFILENAME
 			echo "Display_IP: $INST_X_ADDR" >> $NETSETUPFILE
-			break
 		;;
 		VNC)
 			echo "VNC: 1" >> $INFOFILENAME
-			break
 		;;
 		SSH)
-			break
 		;;
 		*)
 		;;
@@ -241,6 +239,7 @@ then
 	do
 		ask_source
 		echo
+		[ "$INST_INFO" = ABORT ] && break
 #		echo $INST_INFO
 #
 		ask_ip
@@ -273,7 +272,7 @@ then
 #		Check for some critical files
 #		if they are there leave the loop
 #
-		[ -d /var/adm/mount/suse -o ! -z "$CONDOM" ] && break
+		[ -d /var/adm/mount/boot -o ! -z "$CONDOM" ] && break
 		echo $MOUNT_ERR
 	done
 fi
@@ -281,7 +280,7 @@ fi
 #	Filesytem and files are ready
 #	Ask the user for VNC or X-Windows
 #
-if [ "$INST_SCREEN" = "nothing" ]
+if [ "$INST_SCREEN" = "nothing" -a "$INST_INFO" != "ABORT" ]
 then
 	while :
 	do
@@ -298,7 +297,7 @@ then
 			ask_ip_server
 			echo
 		fi
-		export INSTSYS=/var/adm/mnt
+#		export INSTSYS=/var/adm/mnt
 		case $INST_SCREEN in
 			X)
 				export DISPLAY=$INST_X_ADDR:0.0
@@ -319,14 +318,21 @@ else
 	[ "$INST_SCREEN" = "X" ] && export DISPLAY=$INST_X_ADDR:0.0
 fi
 #
-write_info_file
 #
-if [ "$INST_SCREEN" != "SSH" ] 
-then
-	/bin/linuxrc
-fi
 #
-if [ ! -z "$CONDOM" ]
+if [ "$INST_INFO" != "ABORT" ]
 then
-	set
+#
+	write_info_file
+#
+	if [ "$INST_SCREEN" != "SSH" ] 
+	then
+		/bin/linuxrc
+	fi
+#
+	if [ ! -z "$CONDOM" ]
+	then
+		set
+	fi
 fi
+:

@@ -1,23 +1,21 @@
 #! /bin/sh
-
+#
 yast="$1"
 shift
 echo $yast > /tmp/linuxrc_installer_name
 export YAST2_SSH=false
 unset SSH_FAILED
-
 exec 2>&1
 stty sane
-
+#
 echo -en \\033c
-
+#
 # linuxrc passes the root directory of the freshly mounted instsys in
 # the environment variable INSTSYS.
 #
-
 # this script will symlink from the initrd to all files and
 # directories missing.
-
+#
 # a few files should be restored when installation has completed if we
 # return to linuxrc.
 FILES_TO_RESTORE="/etc/ld.so.cache"
@@ -25,7 +23,7 @@ for file in $FILES_TO_RESTORE
 do
     test -e $file && mv $file $file.initrd
 done
-
+#
 
 echo "integrating the installation system into the ramdisk..."
 $INSTSYS/usr/bin/conservative_lndir "$INSTSYS" "/"
@@ -166,6 +164,5 @@ for file in $FILES_TO_RESTORE
 do
     test -e $file.initrd && mv $file.initrd $file
 done
-
 
 exit $ec

@@ -447,7 +447,7 @@ function select_network_device_type() {
       echo "4) Channel To Channel"
       echo "5) Escon"
       echo "6) IUCV"
-      # The UTS c7000 driver has not been ported to 2.4 yet:
+#     The UTS c7000 driver has not been ported to 2.4 yet:
 #      if [ "`uname -r`" = 2.2.19 ]; then
 #        echo "7) CLAW (Cisco Mainframe Channel Connection)"
 #      fi
@@ -457,7 +457,7 @@ function select_network_device_type() {
       echo
       case "$ANSW" in
 	0)
-  	  # no network
+#	  no network
 	  NETSELECT="none"
           EXIT_SCRIPT=1
           no_network
@@ -655,7 +655,7 @@ IP: $IP_ADDR"
     esac
     [ "$IP_GATEWAY" ] && echo "Gateway: $IP_GATEWAY"
     [ "$IP_SEARCH" ]  && echo "Domain: $IP_SEARCH"
-    [ "$CHAN" ] && echo "Chandev: $CHAN"
+    [ "$CHAN" ]       && echo "Chandev: $CHAN"
     if [ "$NETSELECT" = tr -o "$NETSELECT" = eth ]; then
       echo "Alias $IP_DEV lcs"
 #      echo "Options lcs $PARM"

@@ -243,6 +243,7 @@ if arch eq 's390' || arch eq 's390x'
     /bin/login
     /etc/login.defs
     /etc/pam.d/login
+    /etc/pam.d/passwd
     /usr/sbin/groupadd
     /usr/sbin/useradd
   iputils:
@@ -271,6 +272,7 @@ if arch eq 's390' || arch eq 's390x'
     /bin/uname
     /bin/sleep
     /bin/date
+    /bin/stty
     /usr/bin/expr
     /usr/bin/chroot
   util-linux:
@@ -353,7 +355,6 @@ if arch eq 's390' || arch eq 's390x'
   x s390/linuxrc.config  /linuxrc.config
   x s390/sbin/halt       /sbin/halt
   x s390/sbin/nodns      /sbin/nodns
-  x s390/sbin/start_yast /sbin/yast
   x s390/sbin/realchroot /sbin/realchroot
 
   c 0755 0 0 /linuxrc
@@ -361,7 +362,6 @@ if arch eq 's390' || arch eq 's390x'
   c 0755 0 0 /bin/netsetup
   c 0755 0 0 /sbin/halt
   c 0755 0 0 /sbin/nodns
-  c 0755 0 0 /sbin/yast
   c 0755 0 0 /sbin/realchroot
 
   #
