@@ -1,4 +1,6 @@
-11/8/2003:	v4.14
+12/8/2003:	v4.14
+	- fixed locale-archive
+	- splash script usage changed
 	- s390: qeth is GPL now, do not show OCO license when loading it
 
 11/8/2003:	v4.13

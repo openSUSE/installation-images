@@ -40,7 +40,7 @@ for (sort keys %real_locales) {
 }
 
 for (sort keys %all_locales) {
-  if(!$real_locales{$_}) {
+  if(!exists($real_locales{$_})) {
     if(/\.utf8$/) {
       push @aliases, "$_\ten_US.utf8\n";
     }

@@ -54,7 +54,7 @@ for (sort keys %st) {
 
   for $res (split /\s|,/, $ConfigData{ini}{Splash}{cdrom}) {
     $res2 = sprintf "%04u%04u", split(/x/, $res);
-    print W "  E splash -s${full_splash} -f /etc/bootsplash/themes/$_/config/bootsplash-${res}.cfg >/$_/${res2}.spl\n";
+    print W "  E splash.bin -s${full_splash} -f /etc/bootsplash/themes/$_/config/bootsplash-${res}.cfg >/$_/${res2}.spl\n";
     print W "  l /$_/${res2}.spl /$_/floppy\n" if exists $fl_spl{$res};
   }
   print W "\n";
