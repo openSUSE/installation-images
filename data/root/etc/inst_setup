@@ -62,7 +62,9 @@ depmod -a 2>/dev/null
 # eventually start sshd
 arch=$(uname -m)
 case "$arch" in
-    s390|s390x) ;;
+    s390|s390x)
+	test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
+	;;
     *)
 	echo "starting sshd..."
 	if [ -x /usr/sbin/sshd ] && \
