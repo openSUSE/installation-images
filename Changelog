@@ -1,4 +1,5 @@
 	- add pcnet32 and acenic for chrp, fix typo in yaboot.conf
+	- copy initrd files fo i/p to sles cd1
 
 14/5/2004:	v5.54
 	- fixed typo in module config
