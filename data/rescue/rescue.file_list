@@ -319,9 +319,11 @@ if arch ne 'sparc'
     f / hpfs.o
     f / loop_fish2.o
 if arch eq 'alpha'
-    m /boot/System.map-*.default /System.map
+# ???
+#    m /boot/System.map-*.default /System.map
+    m /boot/System.map-* /System.map
 else
-    m /boot/System.map-*. /System.map
+    m /boot/System.map-* /System.map
 endif 
 
   # run depmod

@@ -326,7 +326,7 @@ for (@f) {
 }
 
 {
-  # set suse_release, suse_base, suse_major_release, suse_minor_release, suse_xrelease
+  # set suse_release, suse_base, suse_xrelease
   # kernel_ver
   # (used to be in etc/config)
 
@@ -445,11 +445,7 @@ for (@f) {
 
   $ENV{'kernel_ver'} = $kv;
 
-  if($ENV{'suse_release'} =~ /^(\d+)\.(\d+)$/) {
-    $ENV{'suse_major'} = $ENV{'suse_major_release'} = $1;
-    $ENV{'suse_minor'} = $ENV{'suse_minor_release'} = $2;
-  }
-  else {
+  if($ENV{'suse_release'} !~ /^(\d+)\.(\d+)$/) {
     die "invalid SuSE release";
   }
 
@@ -469,12 +465,16 @@ for (@f) {
   }
 
   if($rf =~ /^(\d+)\.(\d+)\.[5-9]/) {
-    $ENV{'suse_minor_release'} = $2 + 1;
-    $v = "$1." . $ENV{'suse_minor_release'};
+    $v = "$1." . ($2 + 1);
     $ENV{'suse_release'} = $v;
   }
 
-  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base suse_major_release suse_minor_release pre_release) ) {
+  # there is no 7.4
+  if($ENV{'suse_release'} eq "7.4" && $ENV{'pre_release'}) {
+    $ENV{'suse_release'} = $v = "8.0";
+  }
+
+  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base pre_release) ) {
     $ConfigData{$_} = $ENV{$_}
   }
 
@@ -487,7 +487,7 @@ for (@f) {
     print "Building for SuSE Linux $p$v ($a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
   }
 
-  # print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}><$ENV{'suse_major_release'}><$ENV{'suse_minor_release'}>\n";
+  # print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}>\n";
 }
 
 1;

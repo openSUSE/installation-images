@@ -76,3 +76,4 @@ clean:
 	-@umount test/initdisk/mnt 2>/dev/null ; true
 	-@rm -rf images test tmp
 	-@rm -f `find -name '*~'`
+	-@rm -rf /tmp/mk_base_* /tmp/mk_initrd_* /tmp/mk_rescue_* /tmp/mk_root_* 

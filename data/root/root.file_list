@@ -85,9 +85,11 @@ util-linux:
 
 <kernel_rpm>:
 if arch eq 'alpha'
-    m /boot/System.map-*.default /System.map
+# ???
+#    m /boot/System.map-*.default /System.map
+    m /boot/System.map-* /System.map
 else
-    m /boot/System.map-*. /System.map
+    m /boot/System.map-* /System.map
 endif
 
 if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arch eq 's390x')
@@ -675,7 +677,11 @@ x /usr/bin/setclock /usr/bin
 
 if arch eq 'ia32'
   xfiregl1:
-    /usr/X11R6/lib/modules/drivers/firegl{1,23}_drv.o
+    /usr/X11R6/lib/modules/drivers/firegl1_drv.o
+if suse_release >= 8.0
+  xfiregl23:
+endif
+    /usr/X11R6/lib/modules/drivers/firegl23_drv.o
 endif
 
 if arch eq 'ia32'
