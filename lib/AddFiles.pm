@@ -180,9 +180,16 @@ sub AddFiles
       $i = eval "if($re) { 0 } else { 1 }";
       $ignore -= 10;
       die "$Script: syntax error in 'if' statement" unless defined $i;
-      $if_val ^= 1 if $eif;
-      $if_val <<= 1; $if_val |= $i;
-      $eshift++ if $eif;
+      if($eif) {
+        $if_val &= ~1;
+      }
+      else {
+        $if_val <<= 1;
+      }
+#      $if_val ^= 1 if $eif;
+#      $if_val <<= 1;
+      $if_val |= $i;
+#      $eshift++ if $eif;
       next
     }
 

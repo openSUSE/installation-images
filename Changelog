@@ -1,3 +1,6 @@
+18/4/2001:	v1.55
+	- fixed evil bug in 'elsif' implementation
+
 18/4/2001:	v1.54
 	- integrated latest ia64 changes (by schwab)
 	- kkaempf: add y2d* packages
