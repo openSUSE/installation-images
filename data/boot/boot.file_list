@@ -24,7 +24,7 @@ endif
     endif
   endif
 
-  if (bootlogo eq 'no' || boot eq 'small') && bootlogo ne 'yes'
+  if bootlogo eq 'no'
     R s/\ngfxboot.*?\n/\n/s /syslinux.cfg
   else
     e cp /<theme>.boot bootlogo
