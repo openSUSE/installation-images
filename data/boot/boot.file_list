@@ -48,7 +48,7 @@ if arch eq 'ia32'
     R s/.*gfxboot.*//s /syslinux.cfg
   else
     gfxboot-devel:
-      m /usr/share/gfxboot/suseinstall /suselogo
+      m /usr/share/gfxboot/suselogo /suselogo
       if demo eq 'eval'
         x suseeval /suselogo
         if lang eq 'cs_CZ'
