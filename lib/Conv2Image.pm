@@ -73,7 +73,7 @@ sub Conv2Image
     SUSystem "mount -oloop $image /mnt" and die "$Script: mount failed";
 
     # copy everything
-    if(SUSystem "sh -c 'tar -C $dir -cf - . | tar -C /mnt -xpf -'") {
+    if(SUSystem "sh -c 'tar --sparse -C $dir -cf - . | tar -C /mnt -xpf -'") {
       SUSystem "umount /mnt" and warn "$Script: umount failed";
       die "$Script: could not add all files to image";
     }

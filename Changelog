@@ -1,3 +1,6 @@
+2/9/2004:	v6.8
+	- handle sparse files (#44603)
+
 1/9/2004:	v6.7
 	- libhd is in /lib
 

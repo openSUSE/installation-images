@@ -282,7 +282,7 @@ less:
   /usr/bin/less
 
 module-init-tools:
- /sbin/{depmod,genksyms,insmod,modinfo,modprobe,rmmod}
+ /sbin/{depmod,insmod,modinfo,modprobe,rmmod}
  /bin/lsmod
 
 procps:

@@ -259,10 +259,9 @@ mktemp:
   /bin/mktemp
 
 module-init-tools:
-  /sbin/{insmod,modprobe,rmmod,depmod,ksyms}
-  /sbin/{insmod,modprobe,rmmod,depmod}.old
-  # don't ask...
-  /bin/lsmod{,.old}
+  /etc
+  /sbin/{insmod,modprobe,rmmod,depmod,modinfo}
+  /bin/lsmod
 
 ncurses:
   /lib*/libncurses.so.5*
