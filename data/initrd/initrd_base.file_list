@@ -604,13 +604,11 @@ if with_gdb
 
 endif
 
-if productname
-  e echo "Product:	<productname>" >>linuxrc.config
-endif
+e echo "Product:	<product_name>" >>linuxrc.config
+e echo "UpdateDir:	<update_dir>" >>linuxrc.config
 
-if product eq 'UnitedLinux'
-  e echo "ProductDir:	<product>" >>linuxrc.config
-  e echo "MemLoadImage:	98304" >>linuxrc.config
+if load_image
+  e echo "MemLoadImage:	<load_image>" >>linuxrc.config
 endif
 
 if lang
