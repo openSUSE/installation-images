@@ -1,0 +1,35 @@
+#! /usr/bin/perl
+
+$md = shift;
+
+die "$md: $!\n" unless open F, $md;
+
+while(<F>) {
+  chomp;
+  next if /^\s*$/;
+  $cnt_next = s/\\$/ / ? 1 : 0;
+  if($cnt) {
+    @ml[-1] .= $_;
+  }
+  else {
+    push @ml, $_;
+  }
+  $cnt = $cnt_next;
+}
+
+close F;
+
+for (@ml) {
+  s#/\S+/##g;
+  s/\.o\b//g;
+  s/\s+/ /g;
+  s/\s+$//;
+}
+
+@ml{@ml} = ();
+@ml = sort keys %ml;
+
+for (@ml) {
+  print "$_\n"
+}
+
