@@ -1,3 +1,8 @@
+26/1/2005:	v6.23
+	- added perl modules for yast
+	- libmagic is in /lib64
+	- new modules
+
 24/1/2005:	v6.22
 	- improved mkbootdisk script
 	- module info updated
