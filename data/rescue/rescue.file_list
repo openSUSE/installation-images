@@ -363,16 +363,17 @@ if arch ne 'sparc'
 
     f / linear.o
     f / lvm-mod.o
-    if suse_release == 7.2
+    if arch eq 'ppc'
       f / md.o
     endif
     f / raid0.o
     f / raid1.o
     f / raid5.o
     f / xor.o
-
     f / reiserfs.o
-    f / jfs.o
+    if arch ne 'ia64'
+      f / jfs.o
+    endif
     f / jbd.o
     f / ext3.o
     f / hpfs.o
@@ -381,8 +382,6 @@ if arch ne 'sparc'
     f / xfs_support.o
     f / xfs_dmapi.o
 if arch eq 'alpha'
-# ???
-#    m /boot/System.map-*.default /System.map
     m /boot/System.map-* /System.map
 else
     m /boot/System.map-* /System.map

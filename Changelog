@@ -1,3 +1,8 @@
+16/3/2002:	v1.129
+	- fixed typo in inst_setup
+	- ppc needs md.o
+	- ia64 doesn't have jfs.o
+
 9/3/2002:	v1.128
 	- added yast2-trans-inst-proposal
 	- re-enabled apic boot option
