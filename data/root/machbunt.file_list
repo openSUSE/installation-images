@@ -184,7 +184,10 @@ if with_yast2 ne 'no'
   yast2-x11:
     /
 
-  if with_suse_font ne 'no'
+  if with_agfa_font ne 'no'
+    agfa-fonts:
+      /usr/X11R6/lib/X11/fonts/truetype/alb*.ttf
+  else if with_suse_font ne 'no'
     desktop-data-SuSE:
       /usr/X11R6/lib/X11/fonts/truetype/SUSESans*.ttf
   else
