@@ -22,6 +22,29 @@ endif
 # '' (default): 2.88MB image
 # 'large'     : no size limit
 
+if special eq 'xfs'
+  f / xfs.o /modules
+  f / jfs.o /modules
+  f / xfs_support.o /modules
+
+  f / linear.o /modules
+  f / lvm-mod.o /modules
+  f / md.o /modules
+  f / raid0.o /modules
+  f / raid1.o /modules
+  f / raid5.o /modules
+  f / xor.o /modules
+  f / hpfs.o /modules
+  f / loop_fish2.o /modules
+  f / isa-pnp.o /modules
+  f / lp.o /modules
+  f / parport.o /modules
+  f / parport_pc.o /modules
+  f / imm.o /modules
+  f / ppa.o /modules
+  f / ide-scsi.o /modules
+  f / agpgart.o /modules
+endif
 
 if arch eq 'ia32'
 
@@ -37,8 +60,10 @@ if arch eq 'ia32'
         f / hid.o /modules
         f / keybdev.o /modules
         f / usb-storage.o /modules
-        # f / isa-pnp.o /modules
-        # f / 8390.o /modules
+      endif
+
+      if special eq 'tulip'
+        f / tulip.o /modules
       endif
 
       if suse_xrelease eq 'beta'
@@ -49,7 +74,12 @@ if arch eq 'ia32'
 
     if initrd eq 'large'
 
-      f /lib/modules/<kernel_ver>/pcmcia-external *.o /modules
+      if suse_release == 7.2
+        f /lib/modules/<kernel_ver>/pcmcia *.o /modules
+      else
+        f /lib/modules/<kernel_ver>/pcmcia-external *.o /modules
+      endif
+
       r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs}.o
       r /modules/{sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
 
