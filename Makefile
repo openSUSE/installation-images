@@ -1,3 +1,4 @@
+
 # perl libraries & binaries
 PLIBS	= AddFiles MakeFATImage MakeMinixImage ReadConfig
 PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root mk_yast2\
@@ -64,4 +65,4 @@ clean:
 	-@umount test/initdisk/proc 2>/dev/null ; true
 	-@umount test/initdisk/mnt 2>/dev/null ; true
 	-@rm -rf images test tmp
-	-@rm -f *~ */*~
+	-@rm -f *~ */*~ */*/*~

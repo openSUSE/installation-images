@@ -106,7 +106,6 @@ ifdef 2.88
 a /lib/modules/<kernel_ver>/block/*.o /modules
 a /lib/modules/<kernel_ver>/net/*.o /modules
 a /lib/modules/<kernel_ver>/scsi/*.o /modules
-#a /lib/modules/<kernel_ver>/fs/reiserfs.o /modules
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 a /lib/modules/<kernel_ver>/misc/serial.o /modules
@@ -118,6 +117,11 @@ a /lib/modules/<kernel_ver>/misc/input.o /modules
 a /lib/modules/<kernel_ver>/misc/hid.o /modules
 a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
 a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
+r /modules/soundmodem.o
+r /modules/wanpipe.o
+r /modules/{pppox,ppp,ppp_deflate}.o
+r /modules/slip.o
+
 else	# 2.88
 a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
 a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
