@@ -1,0 +1,103 @@
+#! /usr/bin/perl
+
+# Create a boot disk and put everything on it.
+#
+# Source files and the file list are taken from data/boot; the image is
+# stored in images/boot.
+#
+# The maximum possible initrd size is returned in tmp/boot.max_initrd_size.
+#
+# Usage:        mk_boot
+
+=head1 mk_boot
+
+C<mk_boot> creates a boot disk.
+
+It packs the files from C<data/boot/boot.file_list> into a 1.44M FAT image
+and stores the image file as C<images/boot>.
+
+It needs C<syslinux> to do it. The location of the C<syslinux> binary is
+given in the C<syslinux> entry in C<etc/config>. Normally something like
+
+C<syslinux=../syslinux/syslinux>
+
+(if you are within the CVS tree).
+
+In addition to making a boot image, C<mk_boot> writes the maximum allowed
+size for C<initrd> to C<tmp/boot.max_initrd_size>. This is intended to be
+potentially useful for the C<mk_initrd> script (but currently this info
+isn't used).
+
+C<mk_boot> creates a FAT file system with only one FAT and with 15 root directory
+entries. This saves 11 kbytes on a 1.44M floppy.
+
+Note: if by any chance your C<initrd> is just too big by a few
+I<bytes>, you can try varying the cluster size. It I<may> help.
+
+=cut
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use AddFiles;
+use MakeFATImage;
+
+die "usage: $Script\n" if @ARGV;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$srcdir = "${DataPath}boot";
+$tmpdir = "${BasePath}tmp";
+$image = "${ImagePath}boot";
+$initrddir = "$tmpdir/initrd";
+$initdisk = "${ImagePath}initrd";
+
+#$kernel = "$BasePath$ConfigData{kernel}";
+#die "$Script: which kernel do we use?" unless $ConfigData{kernel} && -f $kernel;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+$i1 = $ConfigData{suse_major_release};
+$i2 = $ConfigData{suse_minor_release};
+
+$label = "SUSE${i1}${i2}_BOOT";
+
+# create an empty image
+($blocks, $block_size) = MakeFATImage($image, $label, 2, 63, 16, 40);
+
+die "$Script: failed to create FAT disk image \"$image\"\n" unless defined $blocks;
+
+printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $blocks, $block_size, $blocks * $block_size;
+
+# umount it first, just in case
+SUSystem "umount /mnt 2>/dev/null";
+
+# add the other files
+SUSystem "mount -oloop -t vfat $image /mnt" and
+  die "$Script: mount failed";
+
+# copy everything *except* the initdisk
+AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
+  die "$Script: failed to setup boot image";
+
+# copy the initdisk
+SUSystem "cp $initdisk /mnt/initrd" and
+  die "$Script: could not add $initdisk to the image";
+
+$i3 = $i2*10;
+SUSystem "touch -d $i1:$i3 /mnt/*";
+
+print "contents of $image:\n";
+system "ls -l /mnt";
+
+SUSystem "umount /mnt" and
+  die "$Script: umount failed";
+
+print "$Script: finished boot image \"$image\"\n";
+
