@@ -1,3 +1,5 @@
+	- create_interface: use by-bus naming for qeth/hsi
+
 7/6/2004:	v5.66
 	- add terminfo file for ibm3151
 	- use all terminfo files from ncurses in rescue system

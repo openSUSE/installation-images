@@ -7,7 +7,7 @@
 # Martin Vidner <mvidner@suse.cz>
 # Ihno Krumreich <ihno@suse.de>
 #
-# $Id: create_interface,v 1.14.2.2 2004/05/21 12:25:29 snwint Exp $
+# $Id: create_interface,v 1.14.2.3 2004/06/08 14:41:16 uli Exp $
 
 ROOT=$1
 INSTALLINF=/etc/install.inf
@@ -72,7 +72,12 @@ then
 #	Create interface file
 #
 	# interface config
-	if [ -z "$HWD_ID" ] ; then
+	# always use by-bus for qeth, hsi
+	if echo "$myhwcfg"|grep -E "(qeth|hsi)" 
+	then
+	# use by-bus naming
+		myifcfg=ifcfg-$myhwcfg
+	elif [ -z "$HWD_ID" ] ; then
 	# use kernel name
 		myifcfg=ifcfg-$NETDEV
 	else
