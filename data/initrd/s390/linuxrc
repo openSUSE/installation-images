@@ -58,7 +58,7 @@ set -- `cat /proc/meminfo | head -2 | tail -1`
 if [ ${#2} -lt 10 ]
 then
 	let MEM="$2/1024/1024"
-	if [ $MEM -lt 256 ]; then
+	if [ $MEM -lt 240 ]; then
 		echo "A total of 256 MB ram is recommended for installation."
 		echo "currently are only $MEM MB ram installed"
 	fi
