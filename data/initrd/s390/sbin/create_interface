@@ -1,0 +1,124 @@
+#!/bin/sh
+#
+#	Create interface
+#	Create chandev-Entry
+#
+ROOT=$1
+INSTALLINF=/etc/install.inf
+CHANDEVCONF=$ROOT/etc/chandev.conf
+DEVICEDIR=$ROOT/etc/sysconfig/network/
+ROUTINGFILE=$ROOT/etc/sysconfig/network/routes
+HOSTFILE=$ROOT/etc/HOSTNAME
+RESFILE=$ROOT/etc/resolv.conf
+DOMFILE=$ROOT/etc/defaultdomain
+CONFIGFILE=$ROOT/etc/sysconfig/network/config
+CONFIGFILETMP=$ROOT/etc/sysconfig/network/config.tmp
+MODCONFFILE=$ROOT/etc/modules.conf
+MODCONFFILETMP=$ROOT/etc/modules.conf.tmp
+# INSTALLINF=netsetup.inf
+# INSTALLINF=install.inf
+# CHANDEVCONF=chandev.conf
+# DEVICEDIR=
+# ROUTINGFILE=routes
+#
+#
+if [ -f $INSTALLINF ]
+then
+#	Check for chandev
+#	CHANDEV=`grep Chandev: $INSTALLINF | uniq | sed -e 's/Chandev: \\(.*\\)/\\1/'`
+#	[ -n "$CHANDEV" ] && echo $CHANDEV >> $CHANDEVCONF
+#
+#	Create modules.conf Entry (alias)
+#
+	MODCONF=`grep Alias: $INSTALLINF | uniq | sed -e 's/Alias: \\(.*\\)/\\1/'`
+	if [ -n "$MODCONF" ]
+	then
+		set -- $MODCONF
+		if [ $# -eq 2 ]
+		then
+			egrep "alias[[:space:]]*$1[[:space:]]*" $MODCONFFILE 2>&1 > /dev/null
+			if [ $? -eq 0 ]
+			then
+#				Entry found
+				egrep -v "alias[[:space:]]*$1[[:space:]]*" $MODCONFFILE > $MODCONFFILETMP
+				[ $? -eq 0 ] && mv $MODCONFFILETMP $MODCONFFILE
+				
+			fi
+			echo "alias $MODCONF" >> $MODCONFFILE
+		fi
+	fi
+#
+#	Create modules.conf Entry (Options)
+#
+	MODCONF=`grep Options: $INSTALLINF | uniq | sed -e 's/Options: \\(.*\\)/\\1/'`
+	if [ -n "$MODCONF" ]
+	then
+		egrep "options[[:space:]]*$1[[:space:]]*" $MODCONFFILE 2>&1 > /dev/null
+		if [ $? -eq 0 ]
+		then
+#			Entry found
+			egrep -v "options[[:space:]]*$1[[:space:]]*" $MODCONFFILE > $MODCONFFILETMP
+			[ $? -eq 0 ] && mv $MODCONFFILETMP $MODCONFFILE
+			
+		fi
+		echo "options $MODCONF" >> $MODCONFFILE
+	fi
+#
+#	Create interfacefile
+#
+	NETDEV=`grep Netdevice: $INSTALLINF | grep -v sit0 | uniq | sed -e 's/Netdevice: \\(.*\\)/\\1/'`
+	DEVICEFILE=${DEVICEDIR}ifcfg-$NETDEV
+	echo "BOOTPROTO=\"static\"" > $DEVICEFILE
+	echo "STARTMODE=\"onboot\"" >> $DEVICEFILE
+	IP=`grep "^IP:" $INSTALLINF | uniq | sed -e 's/IP: \\(.*\\)/\\1/'`
+	echo "IPADDR=\"$IP\"" >> $DEVICEFILE
+	IP_MTU=`grep "^IP_MTU:" $INSTALLINF | uniq | sed -e 's/IP_MTU: \\(.*\\)/\\1/'`
+	[ -n "$IP_MTU" ] && echo "MTU=\"$IP_MTU\"" >> $DEVICEFILE
+#
+#	Create pointopoint Interfaces
+#
+	PTOP=`grep Pointopoint: $INSTALLINF | uniq | sed -e 's/Pointopoint: \\(.*\\)/\\1/'`
+	[ -n "$PTOP" ] && echo "REMOTE_IPADDR=\"$PTOP\"" >> $DEVICEFILE
+#
+#	create broadcast-interface
+#
+	NWMASK=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
+	[ -n "$NWMASK" ] && echo "NETMASK=\"$NWMASK\"" >> $DEVICEFILE
+	NW=`grep Network: $INSTALLINF | uniq | sed -e 's/Network: \\(.*\\)/\\1/'`
+	[ -n "$NW" ] && echo "NETWORK=\"$NW\"" >> $DEVICEFILE
+	NWBROADCAST=`grep Broadcast: $INSTALLINF | uniq | sed -e 's/Broadcast: \\(.*\\)/\\1/'`
+	[ -n "$NWBROADCAST" ] && echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
+#	
+#	Create routingfile
+#
+	GW=`grep Gateway: $INSTALLINF | uniq | sed -e 's/Gateway: \\(.*\\)/\\1/'`
+	[ -n "$GW" ] && echo "default $GW 0.0.0.0 $NETDEV" >> $ROUTINGFILE
+#
+#	Create /etc/HOSTNAME
+#
+	HOSTNAME=`grep Machinename: $INSTALLINF | uniq | sed -e 's/Machinename: \\(.*\\)/\\1/'`
+	[ -n "$HOSTNAME" ] && echo "$HOSTNAME" > $HOSTFILE
+#
+#	Create /etc/resolv.conf
+#
+	DOMAIN=`grep Domain: $INSTALLINF | uniq | sed -e 's/Domain: \\(.*\\)/\\1/'`
+	NAMESERVER=`grep Nameserver: $INSTALLINF | uniq | sed -e 's/Nameserver: \\(.*\\)/\\1/'`
+	[ -n "$DOMAIN" -a ! -f "$RESFILE" ] && echo "domain $DOMAIN" >> $RESFILE
+	[ -n "$NAMESERVER" -a ! -f "$RESFILE" ] && echo "nameserver $NAMESERVER" >> $RESFILE
+#
+#	Create /etc/defaultdomain
+#
+	[ -n "$DOMAIN" -a ! -f "$DOMFILE" ] && echo "$DOMAIN" >> $DOMFILE
+	WAIT_FOR_INTERFACES=`grep ConnectWait: $INSTALLINF | uniq | sed -e 's/ConnectWait: \\(.*\\)/\\1/'`
+	if [ -n "$WAIT_FOR_INTERFACES" ]
+	then
+#
+#	WAIT_FOR_INTERFACES is not zero. Put the value into the file
+#	We are the first to modify this file. Default is zero
+#
+		sed "s/^WAIT_FOR_INTERFACES=.*/WAIT_FOR_INTERFACES=$WAIT_FOR_INTERFACES/" < $CONFIGFILE > $CONFIGFILETMP
+		[ $? -eq 0 ] && mv $CONFIGFILETMP $CONFIGFILE
+	fi
+	chroot $ROOT chkconfig network on
+fi
+:
