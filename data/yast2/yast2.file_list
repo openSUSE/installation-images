@@ -392,8 +392,8 @@ qtlib2:
   /usr/lib/*
 
 y2base:
-  /bin/y2bignfat
 ifenv suse_major_release 6
+  /bin/y2bignfat
   /lib/YaST2
 c 0755 0 0 /lib
 c 0755 0 0 /lib/YaST2
