@@ -149,12 +149,14 @@ glibc-locale:
   /usr/lib*/gconv/UNICODE*
   /usr/lib*/gconv/gconv-modules*
 
+if !(arch eq 's390' || arch eq 's390x')
 kbd:
   /usr/share/kbd
   /bin/loadkeys
   /usr/bin/{loadunimap,kbd_mode}
   /bin/{chvt,loadkeys}
   /usr/bin/{chvt,loadkeys}
+endif
 
 # temporary fix for yast's setfont problems
 m /usr/bin/setfont /usr/bin/setfont.bin

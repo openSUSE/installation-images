@@ -1,0 +1,49 @@
+#!/bin/sh
+#
+#	Create interface
+#	Create chandev-Entry
+#
+ROOT=$1
+INSTALLINF=/etc/install.inf
+CHANDEVCONF=/etc/chandev.conf
+DEVICEDIR=$ROOT/etc/sysconfig/network/
+ROUTINGFILE=$ROOT/etc/sysconfig/network/routes
+# INSTALLINF=netsetup.inf
+# CHANDEVCONF=chandev.conf
+# DEVICEDIR=
+# ROUTINGFILE=routes
+#
+#
+if [ -f $INSTALLINF ]
+then
+#	Check for chandev
+	CHANDEV=`grep Chandev: $INSTALLINF | sed -e 's/Chandev: \\(.*\\)/\\1/'`
+	if [ ! -z "$CHANDEV" ]
+	then
+		echo $CHANDEV >> $CHANDEVCONF
+	fi
+#
+#	Create interfacefile
+#
+	NETDEV=`grep Netdevice: $INSTALLINF | sed -e 's/Netdevice: \\(.*\\)/\\1/'`
+	DEVICEFILE=${DEVICEDIR}ifcfg-$NETDEV
+	echo "BOOTPROTO=\"static\"" >> $DEVICEFILE
+	echo "STARTMODE=\"onboot\"" >> $DEVICEFILE
+	IP=`grep IP: $INSTALLINF | sed -e 's/IP: \\(.*\\)/\\1/'`
+	echo "IPADDR=\"$IP\"" >> $DEVICEFILE
+	PTOP=`grep Pointopoint: $INSTALLINF | sed -e 's/Pointopoint: \\(.*\\)/\\1/'`
+	if [ ! -z "$PTOP" ]
+	then
+		echo "REMOTE_IPADDR=\"$PTOP\"" >> $DEVICEFILE
+	fi
+#	
+#	Create routingfile
+#
+	GW=`grep Gateway: $INSTALLINF | sed -e 's/Gateway: \\(.*\\)/\\1/'`
+	if [ ! -z "$GW" ]
+	then
+		echo "default $GW 0.0.0.0 -" >> $ROUTINGFILE
+	fi
+	
+fi
+:
