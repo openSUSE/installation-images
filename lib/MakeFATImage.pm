@@ -129,7 +129,10 @@ sub MakeFATImage
     $clusters, $rootsecs, $sec_p_track, $bs, $fs, $rs, $zs, $i, $j, @i
   );
 
-  ( $file_name, $id11, $secs_p_cluster, $sec_p_track ) = @_;
+  ( $file_name, $id11, $secs_p_cluster, $sec_p_track, $heads, $tracks ) = @_;
+
+  # if $heads and $tracks are specified, assume a disk image, otherwise
+  # we'll make a floppy image
 
   if(length($id11) > 11) {
     print STDERR "$Script: WARNING: volume label \"$id11\" too long\n";
@@ -137,12 +140,12 @@ sub MakeFATImage
   }
 
   $id8 = "SUSE";		# will be overwritten by syslinux anyway
-  $fats = 1;
+  $drive_id = $tracks ? 0xf8 : 0xf0;	# 0xf0: floppy; 0xf8: hard disk
+  $fats = $tracks ? 2 : 1;
   $sec_p_track = 18 unless $sec_p_track;
-  $heads = 2;
-  $tracks = 80;
+  $heads = 2 unless $heads;
+  $tracks = 80 unless $tracks;
   $root_ents = 16;
-  $drive_id = 0xf0;		# 0xf0: 1.44M floppy; 0xf8: hard disk
   $sec_size = 0x200;
   $serial_id = 0x31415926;
 
@@ -237,7 +240,7 @@ sub MakeFATImage
 
   # root directory and data sectors
   for($i = 0; $i < $sectors - $fats * $fatsecs - 1; $i++) {
-    print F $i ? $zs : $rs;
+    print F $i ? $zs : ($drive_number == 0x00 ? $rs : $zs);
   }
 
   # we're done!

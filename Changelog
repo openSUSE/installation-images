@@ -1,3 +1,6 @@
+14/9/2000:	v1.01
+	- no yast2/x11 on axp
+
 13/9/2000:	v1.00
 	- added i2o modules (module disk1)
 	- rewrote etc/config & lib/ReadConfig.pm to handle more

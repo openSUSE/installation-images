@@ -83,6 +83,9 @@ $label = "SUSE${i1}${i2}_BOOT";
 if($ENV{'boot'} eq 'small') {
   ($blocks, $block_size) = MakeFATImage($image, $label, 1)
 }
+elsif($ENV{'boot'} eq 'large') {
+  ($blocks, $block_size) = MakeFATImage($image, $label, 2, 63, 16, 40)
+}
 else {
   ($blocks, $block_size) = MakeFATImage($image, $label, 2, 36)
 }
