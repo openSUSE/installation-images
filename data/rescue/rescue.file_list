@@ -169,7 +169,9 @@ if arch eq 'ia32' || arch eq 'ppc'
   lilo:
     /boot
     /sbin
-    /usr/sbin
+  if arch eq 'ia32'
+      /usr/sbin
+  endif
 endif
 
 if arch eq 'ppc'
