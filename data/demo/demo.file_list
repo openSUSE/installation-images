@@ -44,7 +44,11 @@ aaa_version:
   /etc/SuSE-release
   /etc/issue{,.net}
 
+if suse_release >= 8.1
+filesystem:
+else
 aaa_dir:
+endif
   /etc/init.d
   /etc/{news,ppp,sysconfig}
   /var

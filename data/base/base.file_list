@@ -4,7 +4,11 @@ c 1777 0 0 tmp
 devs:
   /dev
 
+if suse_release >= 8.1
+filesystem:
+else
 aaa_dir:
+endif
   /etc/{ppp,rc.d,uucp}
   /etc/sysconfig
   /root
