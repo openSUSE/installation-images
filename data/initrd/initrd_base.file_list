@@ -41,7 +41,6 @@ if arch eq 's390' || arch eq 's390x'
     #/etc/init.d/network
     #/etc/init.d/route
     # for ssh key generation?
-    /bin/fillup
     /etc/init.d/random
     /etc/ld.so.conf
     /etc/rc.status
@@ -112,8 +111,8 @@ if arch eq 's390' || arch eq 's390x'
     /usr/lib*/libpopt.so.0
     /usr/lib*/libpopt.so.0.0.0
   samba-client:
-    m /usr/bin/smbmount /bin/smbmount
-    m /usr/bin/smbmnt   /bin/smbmnt
+    m /usr/lib/samba/smbmount-classic /bin/smbmount
+    m /usr/lib/samba/smbmnt-classic /bin/smbmnt
     # to make mount(8) -t smbfs work:
     l /bin/smbmount  /sbin/mount.smbfs
     # /lib*/libnss_wins.so?
@@ -511,7 +510,7 @@ endif # not on s390/ppc
 if (arch eq 'alpha' || arch eq 'ia32') && !nopcmcia
   pcmcia:
   d etc/pcmcia/cis
-  a etc/pcmcia/cis etc/pcmcia
+  m etc/pcmcia/cis etc/pcmcia
   t etc/pcmcia/fixed
   c 0755 0 0 etc/pcmcia/fixed
   l etc/pcmcia/fixed  etc/pcmcia/scsi
@@ -538,7 +537,7 @@ if with_smb
     d bin lib
 
     samba-client:
-      m /usr/bin/smbmount /bin/smbmount
+      m /usr/lib/samba/smbmnt-classic /bin/smbmount
 
     glibc:
       /lib*/ld-linux*.so.2

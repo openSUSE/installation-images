@@ -270,7 +270,6 @@ jfsutils:
 
 xfsprogs:
   /lib*
-  /sbin
   /usr/sbin
 
 xfsdump:
@@ -282,7 +281,7 @@ attr:
   /usr/bin
 
 dmapi:
-  /lib*
+  /usr/lib*
 
 rpm:
   /bin

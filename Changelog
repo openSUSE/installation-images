@@ -1,3 +1,7 @@
+22/8/2002:	2.44
+	- /usr/sbin vs. /sbin fun with xfs & dmapi
+	- samba package has innovative new layout
+
 21/8/2002:	v2.43
 	- support UL/SuSE themes
 
