@@ -214,7 +214,7 @@ if with_yast2 ne 'no'
     /
 
   if with_suse_font ne 'no'
-    desktop-data-SLES:
+    desktop-data-SuSE:
       /usr/X11R6/lib/X11/fonts/truetype/SUSESans*.ttf
   else
     ghostscript-fonts-std:
