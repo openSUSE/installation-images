@@ -1,3 +1,4 @@
+13/5/2004:	v5.53
 	- s390: netsetup: fix up parameters passed via READ/WRITE_DEVNO
 
 11/5/2004:	v5.52
