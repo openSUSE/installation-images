@@ -392,4 +392,10 @@ ifarch ia64
 
 endif
 
+else
+
+  # the inst-sys is symlinked to from the initrd.  To avoid
+  # symlinks for each file in empty directories of the initrd, these
+  # empty directories are removed now.
+  E s390/bin/remove-empty-directories
 endif # not arch s390
