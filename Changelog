@@ -1,3 +1,6 @@
+17/8/2000:	v0.97
+	- new kbd package for 7.1 only
+
 16/8/2000:	v0.96
 	- 7.0 live/eval done
 	- changes to deal with the new kbd package
