@@ -96,7 +96,7 @@ mboot:
 	make -C src/mboot
 
 base: dirs
-	@[ -d tmp/base ] || YAST_IS_RUNNING=1 full_splash=1 bin/mk_base
+	@[ -d tmp/base ] || YAST_IS_RUNNING=1 bin/mk_base
 
 html:
 	@for i in $(PLIBS); do echo $$i; pod2html --noindex --title=$$i --outfile=doc/$$i.html lib/$$i.pm; done

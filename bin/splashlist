@@ -17,7 +17,7 @@ $dst = "${DataPath}base/gen/splash";
 # now we really start...
 
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
-$full_splash = $ENV{'full_splash'} ? "" : " -n";
+$full_splash = $ENV{'full_splash'} || $ENV{'full_splash'} eq "" ? "" : " -n";
 
 if($ENV{themes}) {
   @themes{split ' ', $ENV{themes}} = ();

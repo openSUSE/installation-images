@@ -44,6 +44,12 @@ o rescue
   - build cramfs image (named rescue.cramfs) in addition to the normal (compressed) image
 
 
+o base
+
+  full_splash=0
+  - don't add silent splash image
+
+
 o initrd
 
   initrd_fs=<fstype>

@@ -463,7 +463,7 @@ endif
 
 endif # not on s390/ppc
 
-if (arch eq 'alpha' || arch eq 'ia32') && !nopcmcia
+if (arch eq 'alpha' || arch eq 'ia32' || arch eq 'x86_64') && !nopcmcia
   pcmcia:
   d etc/pcmcia/cis
   m etc/pcmcia/cis etc/pcmcia

@@ -49,7 +49,7 @@ modules3:  Network modules.
 
 modules4:  PCMCIA and file system modules and old (non-ATAPI) CDROM drivers.
 
-modules5:  Even more IDE/RAID/SCSI modules.
+modules5:  More IDE/RAID/SCSI modules.
 
 See modules[12345].txt for a detailed listing.
 
