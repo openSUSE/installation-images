@@ -187,8 +187,8 @@ kbd:
   m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
 
 # temporary fix for yast's setfont problems
-m /bin/setfont /bin/setfont.bin
-x /usr/bin/setfont /bin
+# m /bin/setfont /bin/setfont.bin
+# x /usr/bin/setfont /bin
 endif
 
 if !(arch eq 's390' || arch eq 's390x')
