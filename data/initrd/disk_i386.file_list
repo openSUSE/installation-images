@@ -38,13 +38,10 @@ a /lib/modules/<kernel_ver>/net/e100.o /
 a /lib/modules/<kernel_ver>/net/eepro.o /
 a /lib/modules/<kernel_ver>/net/eepro100.o /
 a /lib/modules/<kernel_ver>/net/eexpress.o /
-a /lib/modules/<kernel_ver>/net/epic100.o /
 a /lib/modules/<kernel_ver>/net/ne2k-pci.o /
 a /lib/modules/<kernel_ver>/net/pcnet32.o /
 a /lib/modules/<kernel_ver>/net/rl100a.o /
-a /lib/modules/<kernel_ver>/net/rrunner.o /
 a /lib/modules/<kernel_ver>/net/rtl8139.o /
-a /lib/modules/<kernel_ver>/net/skfp.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra32.o /
 a /lib/modules/<kernel_ver>/net/tulip.o /
