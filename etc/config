@@ -57,7 +57,7 @@ update	= /linux/suse/<arch>-<rel>
 [Theme SuSE-SLES]
 yast	= SuSELinux
 splash	= SuSE-SLES
-product	= SUSE Linux Server 9
+product	= SUSE LINUX Enterprise Server 9
 update	= /linux/suse/<arch>-<sles>
 memory	= 256
 image	= 128
