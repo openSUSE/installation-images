@@ -1,3 +1,6 @@
+20/8/2001:	v1.82
+	- adapt to aaa_dir changes
+
 20/8/2001:	v1.81
 	- improved inst_setup script
 	- new motd/issue files
