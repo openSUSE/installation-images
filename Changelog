@@ -1,3 +1,5 @@
+	- add pcnet32 and acenic for chrp, fix typo in yaboot.conf
+
 14/5/2004:	v5.54
 	- fixed typo in module config
 

@@ -106,7 +106,7 @@ image=install
   label=install
 #  append="ide0=noautotune"
 image=cdrom:1,\\vmlinux32
-  label=install32"
+  label=install32
   initrd=cdrom:1,\\initrd32
 
 EOF
