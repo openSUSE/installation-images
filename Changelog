@@ -1,6 +1,9 @@
+27/5/2004:	v5.61
+	- added multipath-tools (#40640)
+	- changed driver update handling to match the new linuxrc
 	- s390: netsetup: print the product string correctly (bug #40121,
 	  this time for real)
-	  - add ibm3151 terminfo file
+	- add ibm3151 terminfo file
 
 26/5/2004:	v5.60
 	- ensure passwords do not expire; added passwd (#41180)

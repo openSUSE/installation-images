@@ -490,6 +490,12 @@ smartmontools:
   /etc
   /usr/sbin
 
+multipath-tools: postin
+  /etc
+  /sbin
+  /usr/bin
+e postin
+
 if arch ne 'sparc'
   <kernel_rpm>:
     f / st.ko

@@ -986,6 +986,10 @@ sysconfig:
   /sbin/getcfg*
   /lib*/libgetconfig.so*
 
+multipath-tools:
+  /sbin
+  /usr/bin
+
 if with_yast2 ne 'no'
   if with_suse_font ne 'no'
     e mkfontscale usr/X11R6/lib/X11/fonts/truetype

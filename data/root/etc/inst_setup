@@ -80,7 +80,24 @@ mkdir -p /lib/modules/`uname -r`
 echo "integrating the shared objects of the installation system..."
 ldconfig
 
-# apply driver updates
+# driver update: rebuild yast update tree
+[ -L /y2update ] && rm -f /y2update
+[ -d /update/y2update ] && mv /update/y2update /update/y2update.bak
+for i in /update/[0-9]*/y2update ; do
+  [ -d "$i" ] && cp -a "$i" /update
+done
+if [ -d /update/y2update ] ; then
+  rm -rf /update/y2update.bak
+else
+  mv /update/y2update.bak /update/y2update
+fi
+
+# driver update: add files to inst-sys
+for i in /update/[0-9]*/inst-sys ; do
+  [ -d "$i" ] && adddir "$i" /
+done
+
+# driver update: run update.pre scripts
 for i in /update/[0-9]*/install/update.pre ; do
   [ -x "$i" ] && "$i"
 done
