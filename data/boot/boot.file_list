@@ -64,7 +64,11 @@ endif		# arch eq 'ia32'
 
 if arch eq 'ia64'
   m /boot/<kernel_img> /linux
-  gnu-efi:
+  if suse_release >= 7.3
+    elilo:
+  else
+    gnu-efi:
+  endif
     m /boot/elilo.efi /
   x elilo.conf /
   x startup.nsh /

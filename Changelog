@@ -1,3 +1,7 @@
+19/7/2001:	v1.69
+	- schwab: elilo instead of gnu-efi
+	- fixed typo to make axp work again
+
 17/7/2001:	v1.68
 	- support gcc 3.0
 	- made it work with xf86 4.1

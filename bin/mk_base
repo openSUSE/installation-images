@@ -45,5 +45,8 @@ else {
     die "$Script: error in shared lib config, please fix\n";
 }
 
+system "module_deps $tmpdir/modules.dep >${BasePath}tmp/mod_deps" and
+  die "$Script: base system broken\n";
+
 print "$Script: base system ready\n";
 
