@@ -1,3 +1,6 @@
+12/3/2003:	v3.25
+	- support 8.2
+
 11/3/2003:	v3.24
 	- added sungem_phy to module config
 	- added ide raid mods to inst-sys (#25098)
