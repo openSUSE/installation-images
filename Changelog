@@ -1,3 +1,5 @@
+	- s390: netsetup: added LCS fixes by Mark Ver (bug #40097)
+
 10/5/2004:	v5.51
 	- add /sbin/hotplug, drop remove events (#39109, #39894)
 	- drop udev.permissions from inst-sys

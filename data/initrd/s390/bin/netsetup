@@ -795,7 +795,7 @@ function load_LCS () {
      
      #shutdown_reset_conf_chandev
      if ! grep -q lcs /proc/modules; then
-  	execcmd "/sbin/insmod lcs"
+  	execcmd "/sbin/modprobe lcs"
      fi
      
      if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
@@ -813,8 +813,14 @@ function load_LCS () {
 	fi
         PARM="noauto=1 devno_portno_pairs=$DEVNO,$PORTNO"
 	CHAN="lcs,$DEVNO,$WRITE_DEVNO,$PORTNO"
-	echo "$DEVNO,$WRITE_DEVNO" >/sys/bus/ccwgroup/drivers/lcs
-	#FIXME: I suppose I need to do something with $PORTNO as well...
+        echo "$DEVNO,$WRITE_DEVNO" >/sys/bus/ccwgroup/drivers/lcs/group
+        #By default portno=0; value of 1 (OSA2) or higher (MP3000) allowed
+        if [ -n "$PORTNO" -a "$PORTNO" -gt 0 ]
+        then
+                echo "$PORTNO" >/sys/bus/ccwgroup/drivers/lcs/$DEVNO/portno
+        fi
+        # bring interface online
+        echo 1 >/sys/bus/ccwgroup/drivers/lcs/$DEVNO/online
      fi
      if grep lcs /proc/modules; then
        execcmd "/sbin/ifconfig $IP_DEV"
