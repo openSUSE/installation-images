@@ -1,3 +1,5 @@
+	- add dummy bin/mk_ppc_installation-images_bootbinaries.sh
+
 18/2/2004:	v5.12
 	- s390: new hardware configuration format for install.inf
 
