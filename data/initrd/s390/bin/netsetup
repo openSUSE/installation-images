@@ -1463,6 +1463,25 @@ function calc_gateway()
 	echo $(($ip1 & $nm1)).$(($ip2 & $nm2)).$(($ip3 & $nm3)).$((($ip4 & $nm4) + 1))
 }
 
+# Issue the welcome message with variable version string
+function welcome_msg() {
+    local line msg off left right end ls le
+
+    line="                                                                  "
+
+    msg="Welcome to $1 for zSeries"
+    off=$(expr ${#line} - ${#msg})
+    left=$(($off >> 1))
+    right=$(expr $left + ${#msg})
+    end=$(expr ${#line} - 1)
+    echo "= $line ="
+    ls=`echo "$line" | cut -b 1-$left`
+    le=`echo "$line" | cut -b $right-$end`
+    echo "=-${ls}${msg}${le}-="
+    echo "= $line ="
+}
+
+
 #
 #
 # MAIN
@@ -1477,8 +1496,8 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 #
 # Ensure that we have /proc, /sys mounted:
 #
-[ ! -f /proc/version ] && mount -t proc virtual-proc-filesystem /proc
-[ ! -d /sys/devices ] && mount -t sysfs none /sys
+[ ! -f /proc/version ] && mount -n -t proc virtual-proc-filesystem /proc
+[ ! -d /sys/devices ] && mount -n -t sysfs none /sys
 [ ! -d /etc/sysconfig/hardware ] && mkdir /etc/sysconfig/hardware
 #
 #
@@ -1524,10 +1543,10 @@ else
 #	export -p
 fi
 #
-echo "\
-=                                                                   =
-==-    Welcome to `grep ^Product /linuxrc.config|tail -n 1|sed s,^Product:[[:space:]]*,,g`      -==
-=                                                                   ="
+
+# Print out welcome message
+welcome_msg `grep ^Product /linuxrc.config|tail -n 1|sed s,^Product:[[:space:]]*,,g`
+
 [ "$DEBUG" = "yes" ] && echo -e "\n- Running in DEBUG mode. -\n"
 EXIT_SCRIPT=0
 CONFIG_IS_OK=0
