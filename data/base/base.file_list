@@ -138,13 +138,13 @@ endif
 freetype2:
     /usr/lib*/libfreetype.so.*
 
-XFree86:
+xorg-x11:
   /usr/X11R6/bin/mkfontscale
   /usr/X11R6/bin/mkfontdir
   s /usr/X11R6/bin/mkfontscale /usr/bin
   s /usr/X11R6/bin/mkfontdir /usr/bin
 
-XFree86-libs:
+xorg-x11-libs:
   /usr/X11R6/lib*/libXfont.so.*
   /usr/X11R6/lib*/libfontenc.so.*
 

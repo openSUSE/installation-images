@@ -402,9 +402,9 @@ if with_yast2 ne 'no'
   # s /var/X11R6/bin/X /usr/X11R6/bin/X
 
   if arch eq 's390' || arch eq 's390x'
-    XFree86-Xnest:
+    xorg-x11-Xnest:
       .
-    XFree86-Xvfb:
+    xorg-x11-Xvfb:
       .
   endif
 
@@ -412,8 +412,9 @@ if with_yast2 ne 'no'
 
   if arch ne 's390' && arch ne 's390x'
   # new XF86 4.0
-  XFree86-server:
-    /usr/X11R6/bin/XFree86
+  xorg-x11-server:
+    /usr/X11R6/bin/Xorg
+    s Xorg /usr/X11R6/bin/XFree86
     /usr/X11R6/lib*/modules/codeconv
     /usr/X11R6/lib*/modules/drivers/fbdev_drv.o
   if arch eq 'ppc' || arch eq 'ppc64'
@@ -439,11 +440,11 @@ if with_yast2 ne 'no'
   endif
 
   if arch ne 's390' && arch ne 's390x'
-    XFree86-server-glx:
+    xorg-x11-server-glx:
       /usr/X11R6/lib*/modules/extensions/lib{glx,GLcore}.a
   endif
 
-  XFree86-libs:
+  xorg-x11-libs:
     /usr/X11R6/lib*/lib{X11,Xext}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xrender,Xpm,Xrandr,Xcursor}.so*
@@ -464,11 +465,11 @@ if with_yast2 ne 'no'
     /usr/lib*/libfontconfig.so.*
     /usr/bin/fc-cache
 
-  XFree86-Mesa:
+  xorg-x11-Mesa:
     /usr/lib*/libGL.so.*
     /usr/lib*/libGLU.so.*
 
-  XFree86:
+  xorg-x11:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
     /etc/X11/xkb
     s /etc/X11/xkb /usr/X11R6/lib/X11
@@ -503,7 +504,7 @@ if with_yast2 ne 'no'
     R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
   endif
 
-  XFree86-fonts-75dpi:
+  xorg-x11-fonts-75dpi:
     m /usr/X11R6/lib/X11/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/X11R6/lib/X11/fonts/misc
 
   libusb:
@@ -520,7 +521,7 @@ if with_yast2 ne 'no'
       /lib/libdl.so.2
       /lib/libm.so.6
   endif
-  XFree86-Xvnc:
+  xorg-x11-Xvnc:
     /usr/X11R6/bin/Xvnc
 
   tightvnc:

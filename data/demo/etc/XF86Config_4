@@ -1,4 +1,4 @@
-# generic XFree86 4.x configuration file
+# generic X.Org configuration file
 
 Section "Files"
   FontPath	"/usr/X11R6/lib/X11/fonts/uni/"
