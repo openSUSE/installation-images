@@ -1,0 +1,19 @@
+#! /usr/bin/perl
+
+# create an empty FAT image; just for testing
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeFATImage;
+
+$i1 = $ConfigData{suse_major_release};
+$i2 = $ConfigData{suse_minor_release};
+$label = "SUSE${i1}${i2}_BOOT";
+
+$image = shift;
+
+($blocks, $block_size) = MakeFATImage($image, $label, @ARGV);
+
+die "$Script: failed to create DOS disk image \"$image\"\n" unless defined $blocks;
+
+printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $blocks, $block_size, $blocks * $block_size;

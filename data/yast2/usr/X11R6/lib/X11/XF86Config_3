@@ -45,7 +45,7 @@ Section "Device"
   Identifier	"Primary-Card"
   VendorName	"---AUTO DETECTED---"
   BoardName	"---AUTO DETECTED---"
-  Option	"sw_cursor"
+  # Option	"sw_cursor"
 EndSection
 
 Section "Device"
