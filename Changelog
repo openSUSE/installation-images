@@ -1,5 +1,6 @@
 4/3/2003:	v3.19
 	- fixed lib64 issue in rescue system
+	- put bootlogo on x86_64 disks
 
 4/3/2003:	v3.18
 	- fixed text mode boot message (#24600)
