@@ -157,9 +157,8 @@ if arch eq 's390' || arch eq 's390x'
   module-init-tools:
     /sbin/{depmod,genksyms,insmod,ksyms,modinfo,modprobe,rmmod}
     /bin/lsmod
-# lukemftp is not in neededforbuild, it's just nice to have, not needed:
-#  lukemftp:
-#    /usr/bin/ftp
+  lukemftp:
+    /usr/bin/ftp
   net-tools:
     /bin/hostname
     /sbin/ifconfig
