@@ -24,7 +24,7 @@ kernel_img=`if [ $suse_arch = ppc ] ; then echo vmlinux ; else echo $kernel_img 
 kernel_img=`if [ $suse_arch = ia64 ] ; then echo vmlinux ; else echo $kernel_img ; fi`
 
 # kernel rpm name (not needed in autobuild)
-kernel_rpm=k_deflt
+kernel_rpm=`if [ "$kernel" ] ; then echo $kernel ; else echo k_deflt ; fi`
 
 # some basic stuff
 syslinux=/usr/sbin/syslinux

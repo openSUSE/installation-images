@@ -19,9 +19,6 @@ are coded in the C<mk_initrd> script. You I<can> vary these values but it
 doesn't really pay of much. You will gain or loose a few bytes of the
 compressed initrd size only.
 
-The C<linuxrc> binary is taken from the location given by the C<linuxrc> entry
-in the C<etc/config> file.
-
 The final compressed image is stored as C<images/initrd>.
 
 =cut
@@ -61,9 +58,6 @@ $start_inodes = 4000;
 # $idlist = "$BasePath$ConfigData{idlist}";
 # die "$Script: where is our id list?" unless $ConfigData{idlist} && -f $idlist;
 
-$lxrc = "$BasePath$ConfigData{linuxrc}";
-die "$Script: where is linuxrc?" unless $ConfigData{linuxrc} && -f $lxrc;
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
@@ -75,19 +69,22 @@ if(-d($tmpdir)) {
 
 mkdir $tmpdir, 0755;
 
-AddFiles "$tmpdir/net-mod", "${srcdir}/initrd.file_list", $srcdir, "net" or
+$fl = "initrd";
+$fl = $ENV{'filelist'} if exists $ENV{'filelist'};
+
+AddFiles "$tmpdir/net-mod", "${srcdir}/$fl.file_list", $srcdir, "net" or
   die "$Script: failed to setup modules net image";
 
-AddFiles "$tmpdir/other-mo", "${srcdir}/initrd.file_list", $srcdir, "other" or
+AddFiles "$tmpdir/other-mo", "${srcdir}/$fl.file_list", $srcdir, "other" or
   die "$Script: failed to setup modules other image";
 
-AddFiles "$tmpdir/scsi-mod", "${srcdir}/initrd.file_list", $srcdir, "scsi" or
+AddFiles "$tmpdir/scsi-mod", "${srcdir}/$fl.file_list", $srcdir, "scsi" or
   die "$Script: failed to setup modules scsi image";
 
-AddFiles "$tmpdir/net2mod", "${srcdir}/initrd.file_list", $srcdir, "net2" or
+AddFiles "$tmpdir/net2mod", "${srcdir}/$fl.file_list", $srcdir, "net2" or
   die "$Script: failed to setup modules net image";
 
-AddFiles "$tmpdir/other2mo", "${srcdir}/initrd.file_list", $srcdir, "other2" or
+AddFiles "$tmpdir/other2mo", "${srcdir}/$fl.file_list", $srcdir, "other2" or
   die "$Script: failed to setup modules other image";
 
 # strip everything

@@ -265,6 +265,9 @@ a /lib/modules/<kernel_ver>/net/old_tulip.o /
 a /lib/modules/<kernel_ver>/net/olympic.o /
 a /lib/modules/<kernel_ver>/net/pcnet32.o /
 a /lib/modules/<kernel_ver>/net/plip.o /
+a /lib/modules/<kernel_ver>/misc/parport.o /
+a /lib/modules/<kernel_ver>/misc/parport_pc.o /
+a /lib/modules/<kernel_ver>/misc/parport_probe.o /
 a /lib/modules/<kernel_ver>/net/rl100a.o /
 a /lib/modules/<kernel_ver>/net/rrunner.o /
 a /lib/modules/<kernel_ver>/net/rtl8139.o /

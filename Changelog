@@ -1,5 +1,6 @@
 5/12/2000:	v1.15
 	- fix xkb problem
+	- updated modules disks
 
 1/12/2000:	v1.14
 	- updated ci_y2image to include disk_* files
