@@ -81,7 +81,7 @@ fileutils:
 findutils:
   /usr/bin/{find,xargs}
 
-if suse_release >= 7.3 && (arch eq 'axp' || suse_xrelease eq 'beta')
+if suse_release >= 7.3 && (arch eq 'alpha' || suse_xrelease eq 'beta')
   libgcc:
     /lib
 endif

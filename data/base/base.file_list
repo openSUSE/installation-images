@@ -35,7 +35,7 @@ findutils:
 diffutils:
   /usr/bin
 
-if suse_release >= 7.3 && (arch eq 'axp' || suse_xrelease eq 'beta')
+if suse_release >= 7.3 && (arch eq 'alpha' || suse_xrelease eq 'beta')
   libgcc:
     /lib
 endif
