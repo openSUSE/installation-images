@@ -226,6 +226,17 @@ if arch eq 'ia64'
     /usr/sbin
 endif
 
+evms:
+  /etc/evms.conf
+  /lib*
+  /sbin
+
+evms-gui:
+  /sbin/evmsn
+
+glib:
+  /opt/gnome/lib*/libglib-1.2.so*
+
 lvm2: postin
   /etc
   /sbin
@@ -255,6 +266,7 @@ module-init-tools:
 
 ncurses:
   /lib*/libncurses.so.5*
+  /usr/lib*/libpanel.so.*
   /usr/share/terminfo
   /usr/bin/{clear,tset,reset}
 

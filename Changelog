@@ -1,3 +1,6 @@
+23/6/2004:	v5.70
+	- added evms, evms-gui to rescue system (#42384)
+
 23/6/2004:	v5.69
 	- ppc only: added the necessary parts of "hotplug" to load
 	  updated firmware images to the IPR controller via iprconfig.
