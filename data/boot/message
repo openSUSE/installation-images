@@ -13,7 +13,6 @@ Available boot options:
   linux     - Installation
   noacpi    - Installation - ACPI Disabled
   failsafe  - Installation - Safe Settings
-  manual    - Manual Installation
   rescue    - Rescue System
   memtest   - Memory Test
 

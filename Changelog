@@ -1,6 +1,8 @@
+19/3/2005:	v6.42
 	- handle fully modular nls and cd drivers
 	- add st and rtas_flash for pseries
 	- enable hfs and hfsplus
+	- removed 'manual' from fallback message
 
 18/3/2005:	v6.41
 	- README updated (#66710)
