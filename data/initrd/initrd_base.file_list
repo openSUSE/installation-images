@@ -170,7 +170,7 @@ if arch eq 's390' || arch eq 's390x'
   modutils:
     /sbin/insmod
     /sbin/rmmod
-    /sbin/lsmod
+    /bin/lsmod
     /sbin/modprobe
     /sbin/ksyms
     /sbin/kallsyms
