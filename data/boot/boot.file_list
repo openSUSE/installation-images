@@ -29,7 +29,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
     endif
   endif
 
-  if ((arch ne 'ia32' && arch ne 'x86_64') || memtest eq 'no' || boot eq 'small' || liveeval) && memtest ne 'yes'
+  if ((arch ne 'ia32' && arch ne 'x86_64') || memtest eq 'no' || liveeval) && memtest ne 'yes'
     R s/\n# memory.*memtest\n//s /syslinux.cfg
     R s/.*memtest.*// /message
   else
