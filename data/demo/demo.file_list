@@ -87,7 +87,9 @@ bash:
   /bin/bash
 s bash /bin/sh
 
-readline:
+if suse_release >= 7.2
+  readline:
+endif
   /lib/libreadline.so.4*
   /lib/libhistory.so.4*
 
