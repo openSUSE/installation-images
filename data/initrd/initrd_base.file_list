@@ -320,6 +320,7 @@ else # arch is not s390 or s390x
   l linuxrc bin/umount
   l linuxrc bin/cat
   l linuxrc bin/portmap
+  l linuxrc bin/ps
   l linuxrc etc/nothing
 
   if linuxrc
