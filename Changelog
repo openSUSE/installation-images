@@ -1,4 +1,147 @@
+15/6/2004:	v5.67
+	- create_interface: use by-bus naming for qeth/hsi (bug #38819)
+	- add /lib/lilo/chrp/mkzimage_cmdline to CD1/ppc/netboot
+
+7/6/2004:	v5.66
+	- add terminfo file for ibm3151
+	- use all terminfo files from ncurses in rescue system
+	- remove /sbin/activate on ppc, its gone
+	- save a few bytes by making symlinks to hfsutils binary
+	- add 'other' module section to module.config on ppc (#41195)
+
+4/6/2004:	v5.65
+	- added polish texts (#41598)
+	- s390: initrd: added dasd_reload, removed libvtoc (now static)
+
+1/6/2004:	v5.64
+	- build only one initrd for ppc32, use pmac64 for G5
+
+1/6/2004:	v5.63
+	- s390: add /sbin/hcp to root image (bug #38817)
+	- remove usr/bin/ppc_post_install.sh, it was yast1 code
+
+28/5/2004:	v5.62
+	- minor module config & driver update fixes
+	- write yast mem limit only once to linuxrc.config; lowered it a bit
+
+27/5/2004:	v5.61
+	- added multipath-tools (#40640)
+	- changed driver update handling to match the new linuxrc
+	- s390: netsetup: print the product string correctly (bug #40121,
+	  this time for real)
+	- add ibm3151 terminfo file
+
+26/5/2004:	v5.60
+	- ensure passwords do not expire; added passwd (#41180)
+
+25/5/2004:	v5.59
+	- some modules were added twice to initrd
+
+24/5/2004:	v5.58
+	- fixed module config
+
+21/5/2004:	v5.57
+	- use cool new product name
+
+21/5/2004:	v5.56
+	- s390: change memory requirements according to test results
+	- update comment for ibmveth
+	- fixed typo in LIESMICH
+	- applied create_interface patch from #39401#c5
+	- added megaide (#39570)
+	- xfsdump has moved
+	- fixed some dangling symlinks
+
+16/5/2004:	v5.55
+	- add pcnet32 and acenic for chrp, fix typo in yaboot.conf
+	- copy initrd files fo i/p to sles cd1
+
+14/5/2004:	v5.54
+	- fixed typo in module config
+
+13/5/2004:	v5.53
+	- s390: netsetup: fix up parameters passed via READ/WRITE_DEVNO
+
+11/5/2004:	v5.52
+	- s390: netsetup: added LCS fixes by Mark Ver (bug #40097)
+	- add ibmveth, iseries_veth
+	- reworked module disk #1
+
+10/5/2004:	v5.51
+	- add /sbin/hotplug, drop remove events (#39109, #39894)
+	- drop udev.permissions from inst-sys
+	- minor module config fixes
+	- added memtest to boot disk
+	- s390: netsetup: use /linuxrc.config instead of /etc/SuSE-release
+	  (bug #40121)
+	- inst_setup_ssh: run with -n if not booted with nosshkey
+
+8/5/2004:	v5.50
+	- fixed .timestamp creation
+
+7/5/2004:	v5.49
+	- s390: netsetup: construct welcome msg from /etc/SuSE-release
+	  (bug #40121)
+	- add descriptions to elilo.conf entries
+	- write min memory requirement to linuxrc.config
+
+6/5/2004:	v5.48
+	- autoload loop.ko and unix.ko, if available
+	- add nv_drv.o to inst-sys for ppc (#39767)
+	- add vga_drv.o to inst-sys only for i386, x86_64 and ia64 (#39767)
+	- use real install file for pmac64
+	- set system time to inst-sys built time, for gpg key. part of (#28688)
+	- start a shell if /.start_shell exists, instead of just grepping
+	  in /proc/cmdline. gives yast a chance to touch this file after a crash (#33087)
+	- add dm-*.ko to initrd on i386, too
+
+30/4/2004:	v5.47
+	- put boot files for ppc on CD1
+	- autoload floppy driver (to give amd64 a chance to use driver
+	  update floppies)
+	- modules: +megaraid_mm, -xfs_dmapi
+
+29/4/2004:	v5.46
+	- enable memtest for x86_64
+
+28/4/2004:	v5.45
+	- desktop-data-SuSE -> *-SLES
+
+27/4/2004:	v5.44
+	- s390: round up detected memory size (bug #39504)
+	- s390: netsetup: cosmetic fixes
+	- s390: added dasdro script to initrd
+
+26/4/2004:	v5.43
+	- handle fractional kernel release numbers
+	- s390: better gateway default (bug #38895)
+	- added e100-intel
+	- minor s390* fixes
+
+19/4/2004:	v5.42
+	- rescue system: mount /sys (#38933), mount usbfs,
+	  start device-mapper (#38990)
+	- add ibmvscsis vscsi server for pseries
+	- add /etc/shadow to the file list for S/390
+	- added card bus modules to network module list (#36572)
+
+16/4/2004:	v5.41
+	- Fixed netsetup to not sleep for qeth deviced (#38816).
+	  Using correct path for statistics in netsetup.
+	- add CD2/suseboot to trigger the HFS part,
+	  avoid 8.3 filenames and allow OF booting
+	- /lib/modules/<kernel>/extras -> extra/ibmsis
+	- add sgiioc4 module (#38628)
+	- support SGI XPNET (#35867)
+	- no rpc.statd
+	- no error if module config mentions nonexistent modules
+
+8/4/2004:	v5.40
+	- support SuSE-SLES theme
+
+5/4/2004:	v5.39
 	- increased boot timeout to 20s (#38252)
+	- lowered YaST memory limit, YaST checks itself (#38298)
 
 3/4/2004:	v5.38
 	- adjusted YaST memory limits (#34537)
