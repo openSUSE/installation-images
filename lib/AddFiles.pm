@@ -152,7 +152,7 @@ sub AddFiles
 
     $ifmsg = sprintf " [%x|%x] %s\n", $if_val, $if_taken, $_;
 
-    s/<(kernel_ver|kernel_rpm|kernel_img|suse_release|theme|product)>/$ConfigData{$1}/g;
+    s/<(kernel_ver|kernel_rpm|kernel_img|suse_release|theme|product|productname)>/$ConfigData{$1}/g;
     for $i (qw( linuxrc lang extramod items )) {
       s/<$i>/$ENV{$i}/g if exists $ENV{$i};
     }
