@@ -1,3 +1,7 @@
+22/6/2000:	v0.80
+	- prepeared XF86Config for options & extensions
+	- added serial mod to test bootdisk
+
 21/6/2000:	v0.79
 	- worked on module lists
 
