@@ -87,6 +87,7 @@ sub AddFiles
 
   $arch = `uname -m`; chomp $arch;
   $arch = "ix86" if $arch =~ /^i\d86$/;
+  $arch = "sparc" if $arch =~ /^sparc/;
 
   $tag = "" unless defined $tag;
 
@@ -102,9 +103,10 @@ sub AddFiles
 
     if(/^else/) { $if_val ^= 1; next }
 
-    if(/^ifarch\s+(\S+)/) { $if_val <<= 1; $if_val |= 1 if $1 ne $arch; next }
-    if(/^ifdef\s+(\S+)/) { $if_val <<= 1; $if_val |= 1 if $1 ne $tag; next }
-    if(/^ifndef\s+(\S+)/) { $if_val <<= 1; $if_val |= 1 if $1 eq $tag; next }
+    if(/^ifarch\s+(\S+)/)  { $if_val <<= 1; $if_val |= 1 if $1 ne $arch; next }
+    if(/^ifnarch\s+(\S+)/) { $if_val <<= 1; $if_val |= 1 if $1 eq $arch; next }
+    if(/^ifdef\s+(\S+)/)   { $if_val <<= 1; $if_val |= 1 if $1 ne $tag;  next }
+    if(/^ifndef\s+(\S+)/)  { $if_val <<= 1; $if_val |= 1 if $1 eq $tag;  next }
 
     next if $if_val;
 

@@ -82,6 +82,7 @@ g /usr/lib/kbd/keymaps/sun/sunt5-fr-latin1.map.gz keytables/sunt5-fr-latin1.map
 g /usr/lib/kbd/keymaps/sun/sunt5-ru.map.gz keytables/sunt5-ru.map
 endif
 
+ifnarch sparc
 pcmcia:
 d etc/pcmcia/cis
 a etc/pcmcia/cis etc/pcmcia
@@ -93,9 +94,7 @@ l etc/pcmcia/fixed  etc/pcmcia/network
 x etc/pcmcia/config etc/pcmcia
 x etc/pcmcia/config.opts etc/pcmcia
 x etc/pcmcia/fixed etc/pcmcia
-
-# devs:
-#   .
+endif
 
 k_deflt:
 t modules/{MORE,NEEDMOD,NET,SCSI}
