@@ -116,15 +116,7 @@ o You can include other files:
 
     <file> is relative to the y2image/data/*/ tree.
 
-o There are several 'if' constructs:
-
-  the new
-
-    if/elsif/else/endif construct
-
-  and the old
-
-    ifarch/ifnarch, ifdef/ifndef, ifabuild/ifnabuild, ifenv/ifnenv
+o   if/elsif/else/endif
 
   - if <expression>
 
@@ -144,75 +136,6 @@ o There are several 'if' constructs:
 
     # note that 'suse_release' is actually $ENV{'suse_release'}; likewise
     # 'lang' etc. But 'abuild' and 'arch' are *not* $ENV{...}!
-
-  - ifarch/ifnarch <arch>
-
-    <arch> is matched against the output of 'uname -m', except for
-    32-bit Intel machines where 'ia32' should be used.
-
-    example:
-
-      ifarch ppc
-      # ...
-      endif
-
-  - ifdef/ifndef <value>
-
-    <value> is compared with a value specified by the script that
-    calls the AddFiles() function. This is currently used only
-    in connection with the 'initrd=small' environment setting
-
-    example:
-
-      ifdef small
-      # for 1.44MB disk
-      else
-      # for large disk
-      endif
-
-  - Both if[n]arch and if[n]def can have more than one argument which is
-    treated as an 'or' relation:
-
-    example:
-
-      ifarch ppc axp ia32
-      # arch is ppc || axp || ia32
-      endif
-
-  - ifabuild/ifnabuild
-
-    Checks whether we run in autobuild or not.
-
-    example:
-
-      ifnabuild
-      # not in autobuild
-      endif
-
-  - ifenv/ifnenv <env_var> <value>
-
-    Checks of the environment variable <env_var> has the value <value>.
-    Note that <vallue> must be specified; so it is not possible to test
-    for a set/unset env variable.
-
-    example:
-
-      ifenv suse_release 6.4
-      # special for SuSE 6.4
-      endif
-
-  if's can be nested to a level of at least 31. You won't get an error message if
-  there are unmatched else's or endif's. In fact something like
-
-    ifarch ia32
-    # ia32 only
-    else
-    # !ia32
-    else
-    # ia32 only
-    endif
-
-  is allowed (but of questionable value).
 
 o <package_name>: [script1,script2]
 
