@@ -1,4 +1,5 @@
 30/1/2004:	v5.03
+	- conservative_lndir no longer needed, linuxrc does it
 	- make it actually boot SL 9.1
 
 16/12/2003:	v5.02
