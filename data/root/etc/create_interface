@@ -84,9 +84,9 @@ then
 #
 	NWMASK=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
 	[ -n "$NWMASK" ] && echo "NETMASK=\"$NWMASK\"" >> $DEVICEFILE
-	NW=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
+	NW=`grep Network: $INSTALLINF | uniq | sed -e 's/Network: \\(.*\\)/\\1/'`
 	[ -n "$NW" ] && echo "NETWORK=\"$NW\"" >> $DEVICEFILE
-	NWBROADCAST=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
+	NWBROADCAST=`grep Broadcast: $INSTALLINF | uniq | sed -e 's/Broadcast: \\(.*\\)/\\1/'`
 	[ -n "$NWBROADCAST" ] && echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
 #	
 #	Create routingfile
