@@ -11,6 +11,20 @@
 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/lib/YaST2/bin:/usr/X11/bin
 
+if [ -f /.timestamp ] ; then
+  read build_time < /.timestamp
+  now_time=`TZ= LANG= LC_ALL= date +%Y%m%d`
+  if [ "$now_time" -lt "$build_time" ] ; then
+       echo
+       echo "your system time is not correct:"
+       TZ= date
+       echo "setting system time to:"
+       TZ= LANG= LC_ALL= date ${build_time#????*}1234${build_time%*????}.56
+       echo
+       sleep 3
+  fi
+fi
+
 if [ -x /sbin/udev -a -x /sbin/udevstart ] ; then
 echo -n "creating device nodes .."
 /sbin/udevstart
@@ -66,7 +80,24 @@ mkdir -p /lib/modules/`uname -r`
 echo "integrating the shared objects of the installation system..."
 ldconfig
 
-# apply driver updates
+# driver update: rebuild yast update tree
+[ -L /y2update ] && rm -f /y2update
+[ -d /update/y2update ] && mv /update/y2update /update/y2update.bak
+for i in /update/[0-9]*/y2update ; do
+  [ -d "$i" ] && cp -a "$i" /update
+done
+if [ -d /update/y2update ] ; then
+  rm -rf /update/y2update.bak
+else
+  mv /update/y2update.bak /update/y2update
+fi
+
+# driver update: add files to inst-sys
+for i in /update/[0-9]*/inst-sys ; do
+  [ -d "$i" ] && adddir "$i" /
+done
+
+# driver update: run update.pre scripts
 for i in /update/[0-9]*/install/update.pre ; do
   [ -x "$i" ] && "$i"
 done
@@ -127,12 +158,18 @@ export XCURSOR_THEME=crystalwhite
 rm -f /etc/fstab
 
 # start shell, useful on iSeries or via serial console
-grep -qwi start_shell /proc/cmdline && {
+rm -f /.start_shell
+grep -qwi start_shell /proc/cmdline && echo 42 > /.start_shell
+function start_shell() {
 echo 
 echo "ATTENTION"
 echo "Starting shell... (use 'exit' to proceed)"
 bash --init-file /root/.bash_login
 }
+
+if [ -f /.start_shell ] ; then
+	start_shell
+fi
 
 # anounce VNC via slpd
 if grep -qi "^VNC:.*1" /etc/install.inf ; then
@@ -173,12 +210,9 @@ echo "starting $yast..."
 fi
 
 # start shell, useful on iSeries or via serial console
-grep -qwi start_shell /proc/cmdline && {
-echo
-echo "ATTENTION"
-echo "Starting shell... (use 'exit' to proceed)"
-bash --init-file /root/.bash_login
-}
+if [ -f /.start_shell ] ; then
+	start_shell
+fi
 
 test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
 # still needed?
@@ -200,5 +234,6 @@ do
 done
 
 rm -f /etc/modules.conf
+rm -f /.start_shell
 
 exit $ec
