@@ -1,3 +1,6 @@
+27/8/2002:	v2.47
+	- ssh needs libgssapi now
+
 26/8/2002:	v2.46
 	- remove /etc/inst_setup_ssh and /etc/create_interface in inst-sys
 	- create new cd layout
