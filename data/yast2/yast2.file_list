@@ -127,6 +127,7 @@ aaa_base:
 kbd:
   /usr/lib/kbd
   /usr/share/locale
+  /bin/loadkeys
   /usr/bin/{chvt,loadkeys,setfont,loadunimap,kbd_mode}
 c 0755 0 0 /usr/share/locale/nl
 c 0755 0 0 /usr/share/locale/ru
