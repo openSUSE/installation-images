@@ -302,14 +302,77 @@ for (@f) {
   }
 }
 
-
 {
-  my $v = $ENV{'suse_release'};
-  my $a = $ENV{'suse_arch'};
-  my $s = $ENV{'suse_base'};
-  my $r;
+  # set suse_release, suse_base, suse_major_release, suse_minor_release, suse_xrelease
+  # kernel_ver
+  # (used to be in etc/config)
 
-  if(-f("/bin/rpm.bin") && -f("/bin/uname.bin")) {
+  my ( $r, $r0, $rx, $in_abuild, $base, $a, $v, $kv, $kn );
+
+  $a = $ENV{'suse_arch'};
+
+  $in_abuild = -f("/bin/rpm.bin") && -f("/bin/uname.bin") ? 1 : 0;
+
+  if($in_abuild) {
+    $r0 = `grep VERSION /etc/SuSE-release`;
+    $r0 =~ s/^.*=\s*//;
+    $r0 = "\L$r0";
+  }
+  else {
+    $r0 = $ENV{'suserelease'};
+  }
+
+  $rx = "$1-" if $r0 =~ s/-(.+)\s*$//;
+  $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
+  $r0 = "$r0-" if $r0 ne "";
+  $base = "/work/CDs/full-$r0$rx$a";
+
+  if(!$in_abuild) {
+    die "invalid SuSE release" unless -f "$base/suse/a1/aaa_base.rpm";
+    system "mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $base/suse/a1/aaa_base.rpm | cpio -iud --quiet etc/SuSE-release";
+
+    $r0 = `grep VERSION /tmp/r$$/etc/SuSE-release`;
+    $r0 =~ s/^.*=\s*//;
+    $r0 = "\L$r0";
+
+    $rx = "$1-" if $r0 =~ s/-(.+)\s*$//;
+    $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
+    $r0 = "$r0-" if $r0 ne "";
+
+    unlink "/tmp/r$$/etc/SuSE-release";
+    rmdir "/tmp/r$$/etc";
+    rmdir "/tmp/r$$";
+  }
+
+#  print "base = \"$base\", r0 = \"$r0\", rx = \"$rx\"\n";
+
+  if($in_abuild) {
+    $kv = `uname -r`;
+    $kn = `rpm -qf /boot/$ENV{kernel_img} | head -1 | cut -d- -f1`;
+    chomp $kn;
+    $ENV{'kernel_rpm'} = $kn if $kn;
+  }
+  else {
+    $kv = `rpm -qlp $base/suse/images/$ENV{'kernel_rpm'}.rpm 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
+  }
+  chomp $kv;
+
+  $ENV{'kernel_ver'} = $kv;
+  ($ENV{'suse_release'} = $r0) =~ s/-?$//;
+  ($ENV{'suse_xrelease'} = $rx) =~ s/-?$//;
+  $ENV{'suse_base'} = $base;
+
+  if($ENV{'suse_release'} =~ /^(\d+)\.(\d+)$/) {
+    $ENV{'suse_major_release'} = $1;
+    $ENV{'suse_minor_release'} = $2;
+  }
+  else {
+    die "invalid SuSE release";
+  }
+
+  ($v = "$r0$rx") =~ s/-?$//;
+
+  if($in_abuild) {
     if(-d "/.rpm-cache/$v-$a") {
       $r = "$v-$a"
     }
@@ -317,14 +380,17 @@ for (@f) {
       $r = $a
     }
     else {
-      die "No usable /.rpm-cache.\n"
+      die "No usable /.rpm-cache:\n";
+      system "ls -la /.rpm-cache"
     }
-    $s = $AutoBuild = "/.rpm-cache/$r"
+    $base = $AutoBuild = "/.rpm-cache/$r"
   }
 
   die "No SuSE release identified.\n" unless $a ne "" && $v ne "";
 
-  print "Building for SuSE Linux $v ($a,$ENV{'kernel_rpm'},$ENV{'kernel_ver'}) [$s].\n";
+  print "Building for SuSE Linux $v ($a,$ENV{'kernel_rpm'},$ENV{'kernel_ver'}) [$base].\n";
+
+#  print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}><$ENV{'suse_major_release'}><$ENV{'suse_minor_release'}>\n";
 }
 
 1;

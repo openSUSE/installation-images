@@ -1,4 +1,7 @@
+13/9/2000:	v1.00
 	- added i2o modules (module disk1)
+	- rewrote etc/config & lib/ReadConfig.pm to handle more
+	  complex SuSE release names
 
 24/8/2000:	v0.99
 	- increased initial initrd size
