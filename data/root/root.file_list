@@ -381,7 +381,7 @@ if with_yast2 ne 'no'
   x /usr/X11R6/lib/X11/fonts/misc/fonts.alias /usr/X11R6/lib/X11/fonts/misc
   x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
 
-if arch eq x86_64
+if arch eq 'x86_64'
   R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
 endif
 
