@@ -486,6 +486,8 @@ if with_yast2 ne 'no'
     /
   yast2-agent-fdisk:
     /
+  yast2-agent-http:
+    /
   yast2-agent-modules:
     /
   yast2-agent-probe:
@@ -493,6 +495,10 @@ if with_yast2 ne 'no'
   yast2-agent-rcconfig:
     /
   yast2-agent-system:
+    /
+  yast2-agent-tftp:
+    /
+  yast2-agent-xml:
     /
   yast2-core-clients:
     /
@@ -513,6 +519,8 @@ if with_yast2 ne 'no'
   yast2-lib-wizard:
     /
   yast2-lib-sequencer:
+    /
+  yast2-module-autoinst:
     /
   yast2-ui-ncurses:
     /
@@ -774,6 +782,14 @@ endif
 
 jfsprogs:
   /sbin/{fsck.jfs,mkfs.jfs}
+
+wget:
+  /etc
+  /usr/bin
+
+openssl:
+  /usr/lib
+  /usr/share/ssl
 
 if with_yast2 ne 'no'
   # make fonts.dir
