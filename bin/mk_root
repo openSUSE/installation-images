@@ -71,8 +71,6 @@ if($ENV{'keeproot'} != 1) {
     SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' ${BasePath}tmp/root.rpmlog | sort >$tmpdir/.packages";
   }
 
-  SUSystem "TZ= LANG= LC_ALL= date +%Y%m%d > $tmpdir/.timestamp";
-
 #  print "fix locale...\n";
 #  SUSystem "fix_locale $tmpdir";
   print "fix permissions of directories...\n";

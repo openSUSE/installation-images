@@ -1029,6 +1029,8 @@ r /sbin/insserv
 # some scripts write to /dev/null...
 r /dev
 
+E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
+
 # x usr/bin/conservative_lndir usr/bin
 if arch eq 'ppc'
 x usr/bin/ppc_post_install.sh usr/bin

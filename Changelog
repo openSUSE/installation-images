@@ -1,3 +1,6 @@
+8/5/2004:	v5.50
+	- fixed .timestamp creation
+
 7/5/2004:	v5.49
 	- s390: netsetup: construct welcome msg from /etc/SuSE-release
 	  (bug #40121)
