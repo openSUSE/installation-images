@@ -14,8 +14,6 @@ AUTO_PEER="$PEER"
 : ${DEVNO:=auto} ${DEVNO2:=auto} ${DEVNO3:=auto} ${PORTNO:=0} ${PEER:=TCPIP}
 : ${PORTNAME:=suselin7} ${PROTOCOL:=noproto}
 #
-# c7000 parameters:
-: ${LHOST:=UTS} ${UHOST:=C7011} ${LAPPL:=TCPIP} ${UAPPL:=TCPIP} ${DBG:=0}
 #
 # and export them:
 export DEVNO DEVNO2 DEVNO3 PORTNAME PORTNO PEER LHOST UHOST LAPPL UAPPL DBG
@@ -103,18 +101,6 @@ function check_memory () {
 	    echo "Warning: The kernel has only $MEM MB memory for applications"
 	    echo "80 MB are recommended for installation thru FTP and updating."
 	fi
-}
-#
-function write_chandev {
-    echo "Writing '$*' to /proc/chandev"
-    echo "$*" > /proc/chandev
-}
-#
-#
-#
-function shutdown_reset_conf_chandev {
-     write_chandev "shutdown"
-     write_chandev "reset_conf"
 }
 #
 function ask_select_protocol() {
@@ -235,7 +221,11 @@ function hwconfig_menu () {
 # Show all detected subchannels (in subchannel order) with their device IDs:
 #
 function show_subchannels () {
-	cat /proc/subchannels
+    echo -e "device\tonline\tcutype\tdevtype\tdetach_state"
+    for i in /sys/bus/ccw/devices/*
+    do
+	echo -e "`basename $i`\t`cat $i/online`\t`cat $i/cutype`\t`cat $i/devtype`\t`cat $i/detach_state`"
+    done
 }
 #
 #
@@ -252,7 +242,7 @@ function press_return_to_continue () {
 function ask_show_subchannels () {
         yes_no "Do you want to see all detected (non-DASD) subchannels? (yes/no) "
         if [ "$ANSW" = "yes" ]; then
-		show_subchannels | grep -v "^....   ....  3390"
+		show_subchannels | grep -v "3390/[0-9a-f][0-9a-f]"
 		press_return_to_continue
 	fi
 }
@@ -444,7 +434,6 @@ function set_IP_DEV {
   [ "$NETSELECT" = "ctc" ]     && IP_DEV=ctc0
   [ "$NETSELECT" = "escon" ]   && IP_DEV=escon0
   [ "$NETSELECT" = "iucv" ]    && IP_DEV=iucv0
-  [ "$NETSELECT" = "c7000" ]   && IP_DEV=ci0
   [ "$NETSELECT" = "qeth-tr" ] && IP_DEV=tr0
 }
 #
@@ -469,10 +458,6 @@ function select_network_device_type() {
       echo " 4) Channel To Channel"
       echo " 5) Escon"
       echo " 6) IUCV"
-#     The UTS c7000 driver has not been ported to 2.4 yet:
-#      if [ "`uname -r`" = 2.2.19 ]; then
-#        echo "7) CLAW (Cisco Mainframe Channel Connection)"
-#      fi
       echo " 8) Hipersockets"
       echo " 9) OSA High speed Token Ring (qdio)"
       echo "10) Show subchannels and detected devices"
@@ -485,7 +470,6 @@ function select_network_device_type() {
 			ctc) ANSW=4;;
 			escon) ANSW=5;;
 			iucv) ANSW=6;;
-#			c7000) ANSW=7;;
 			hsi) ANSW=8;;
 			qeth-tr) ANSW=9;;
 		esac
@@ -536,12 +520,6 @@ function select_network_device_type() {
           if load_IUCV; then
             break
           fi;;
-#       7)
-#         NETSELECT="c7000"
-#         set_IP_DEV
-#         if load_C7000; then
-#           break
-#         fi;;
         8)
           NETSELECT="hsi"
 	  set_IP_DEV
@@ -592,7 +570,7 @@ function activate_config() {
     while [ "$ANSW" = "y" ] ; do
 	IFCONFIG="ifconfig $IP_DEV $IP_ADDR"
 	case "$NETSELECT" in
-	    tr|eth|qeth|c7000|hsi|qeth-tr)
+	    tr|eth|qeth|hsi|qeth-tr)
 		IFCONFIG="$IFCONFIG netmask $IP_NETMASK broadcast $IP_BROADCAST" ;;
 	    ctc|escon|iucv)
 		IFCONFIG="$IFCONFIG pointopoint $IP_PEER" ;;
@@ -611,7 +589,7 @@ function activate_config() {
 	    echo "Warning: Could not ping my IP address!"
 	else
 	    case "$NETSELECT" in
-	    	tr|eth|qeth|c7000|hsi|qeth-tr)
+	    	tr|eth|qeth|hsi|qeth-tr)
                     NTRY=3
                     if [ "$NETSELECT" = qeth -o "$NETSELECT" = qeth-tr ]; then
                         echo -n "Waiting 12s for network device $IP_DEV."
@@ -702,7 +680,7 @@ Netdevice: $IP_DEV
 IP: $IP_ADDR"
     [ "$IP_MTU" -ne 0 ] && echo "MTU: $IP_MTU"
     case "$NETSELECT" in
-	tr|eth|qeth|hsi|c7000|qeth-tr)
+	tr|eth|qeth|hsi|qeth-tr)
 	    echo "Netmask: $IP_NETMASK"
 	    echo "Broadcast: $IP_BROADCAST"
 #	for qeth and hsi
@@ -738,10 +716,6 @@ IP: $IP_ADDR"
 #      echo "Alias: $IP_DEV ctc"
 #      echo "Options: ctc $PARM"
       echo "ConnectWait: 30"
-    fi
-    if [ "$NETSELECT" = "c7000" ]; then
-      echo "Alias: $IP_DEV c7000"
-      echo "Options: c7000 $PARM"
     fi
     if [ "$NETSELECT" = "iucv" ]; then
 #      echo "Alias: $IP_DEV netiucv"
@@ -1334,7 +1308,12 @@ function load_QETH () {
 #
 # load the ctc driver
 #
-function load_CTC_chandev () {
+function load_CTC () {
+  if ! grep -q cu3088 /proc/modules ; then
+    echo "Loading cu3088 module:"
+    execcmd "/sbin/modprobe cu3088"
+  fi
+  
   if [ "$NETSELECT" = escon ]; then
     NETTYPE=ESCON
     OTHERTYPE=CTC
@@ -1342,19 +1321,19 @@ function load_CTC_chandev () {
     NETTYPE=CTC
     OTHERTYPE=ESCON
   fi
-  sed -n '1,/^channels detected/d;s/0x/  /g;
-	s/  01    3088/CTC         /p;
-	s/  02    3088/ESCON       /p;
-	s/  05    3088/CTC or LCS  /p;
-	s/  06    3088/ESCON or LCS/p;' /proc/chandev | grep -v "$OTHERTYPE" |
-		cut -c 10-28,53-68 | sort >ctc_detected
-  if [ `grep '^[0-9a-f]' ctc_detected | wc -l` -lt 2 ]; then
+  
+  ls /sys/bus/ccw/drivers/cu3088|while read device
+  do
+    echo "$device `cat /sys/bus/ccw/drivers/cu3088/$device/cutype`"
+  done >ctc_detected
+  # FIXME: grep out OTHERTYPE
+  if [ `cat ctc_detected | wc -l` -lt 2 ]; then
 	echo "Couldn't find two $NETTYPE Channels (read and write)."
 	ask_show_subchannels
 	return 1
   fi
   echo "List of first 10 $NETTYPE Channels that were detected:"
-  echo "Dev. Channel type  CHPIDS"
+  echo "CHPIDS  Dev. Channel type"
   head -n 10 ctc_detected
   ANSW="yes"
   NO_ERROR=yes
@@ -1371,11 +1350,12 @@ function load_CTC_chandev () {
 		readln "Device address for read channel ($DEVNO): "
 	fi
 	[ "$ANSW" ] && export DEVNO=$ANSW
-        DEVNO="000$DEVNO"
-	DEVNO=${DEVNO:${#DEVNO}-4:4}
 	grep "^$DEVNO " ctc_detected >ctc_DEVNO
 	[ -s ctc_DEVNO ] || echo "Warning: $DEVNO is not a detected $NETTYPE channel"
-	[ "$LAST_DEVNO" = "$DEVNO" ] || DEVNO2=`echo | sed -n "1,/$DEVNO /d;s/^\(....\).*/\1/p;q" - ctc_detected`
+	
+	# Huh?
+	#[ "$LAST_DEVNO" = "$DEVNO" ] || DEVNO2=`echo | sed -n "1,/$DEVNO /d;s/^\(....\).*/\1/p;q" - ctc_detected`
+	
 	[ -z "$DEVNO2" -o "$DEVNO2" = auto ] && DEVNO2=`cut -d' ' -f 1 ctc_detected | head -n 2|tail -n 1`
 	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
 	then
@@ -1386,17 +1366,14 @@ function load_CTC_chandev () {
 		readln "Device address for write channel ($DEVNO2): "
 	fi
 	[ "$ANSW" ] && export DEVNO2=$ANSW
-        DEVNO2="000$DEVNO2"
-	DEVNO2=${DEVNO2:${#DEVNO2}-4:4}
 	grep "^$DEVNO2 " ctc_detected >ctc_DEVNO2
 	[ -s ctc_DEVNO2 ] || echo "Warning: $DEVNO2 is not a detected $NETTYPE channel"
         ask_select_protocol
-        PARM="ctc=$IP_DEV:0x$DEVNO:0x$DEVNO2:$PROTOCOL"
-        CHAN="$IP_DEV,0x$DEVNO,0x$DEVNO2,0,$PROTOCOL"
-	write_chandev "$CHAN"
+
 	if grep -q ctc /proc/modules; then
 	    if [ -d /proc/net/ctc ]; then
 		echo "Stopping ctc driver..."
+		# FIXME: no longer available in 2.6
 		ls -A /proc/net/ctc >ctc_devs
 		if [ -s ctc_devs ]; then
 		    for dev in `cat ctc_devs`; do
@@ -1406,16 +1383,21 @@ function load_CTC_chandev () {
 		fi
 	    fi
 	    execcmd "/sbin/rmmod ctc"
-            write_chandev "reprobe"
 	fi
 	echo "Starting ctc driver:"
 	execcmd "/sbin/modprobe ctc"
+	
+	echo "$DEVNO,$DEVNO2" >/sys/bus/ccwgroup/drivers/ctc/group
+	echo "$PROTOCOL" >/sys/devices/cu3088/$DEVNO/protocol
+	rm -f /hotplug.msg
+	echo 1 >/sys/devices/cu3088/$DEVNO/online
+	
         if grep ctc /proc/modules; then
           for i in 1 2 3 4 5 6 7; do
 	    sleep $i
             if [ -s /hotplug.msg ]; then
-	      if grep -q '^start ' /hotplug.msg; then
-	        read an IP_DEV < /hotplug.msg
+	      if head -n 1 /hotplug.msg| grep -q '^net'; then
+	        IP_DEV=`grep "^INTERFACE=" /hotplug.msg | sed "s,INTERFACE=,,"`
                 echo "$IP_DEV detected."
                 break
               fi
@@ -1432,75 +1414,6 @@ function load_CTC_chandev () {
           echo -e "\nctc module not loaded, module problem.\n"
         fi
         yes_no "Do you want to retry to configure $IP_DEV (Yes/No) ? "
-	NO_ERROR=no
-  done
-  if [ "$ANSW" = "yes" ]; then
-     echo "$IP_DEV is available, continuing with network setup."
-  else
-     write_chandev "reset_conf"
-     false
-  fi
-}
-#
-#
-# load the ctc driver
-#
-function load_CTC () {
-  if [ -f /proc/chandev ]; then
-	load_CTC_chandev
-	return
-  fi
-  ANSW="yes"
-  NO_ERROR=yes
-  while [ "$ANSW" = "yes" ]; do
-        if grep ctc /proc/modules; then
-          echo "Unloading the ctc driver..."
-          execcmd "/sbin/rmmod ctc"
-        fi
-        echo "Please enter the options for the CTC device driver now."
-	echo "Specify which channel addresses Linux should use (recommeded)"
-        echo "or enter 'auto' to autosense all available channel devices,"
-	echo "but be careful if you share channel devices!"
-	echo "ctc options:"
-	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
-	then
-		echo "Device address for read channel, e.g. '40A' ($DEVNO): $READ_DEVNO"
-		ANSW=$READ_DEVNO
-	else
-		[ -n "$READ_DEVNO" ] && DEVNO=$READ_DEVNO
-		readln "Device address for read channel, e.g. '40A' ($DEVNO): "
-	fi
-	[ "$ANSW" ] && export DEVNO=$ANSW
-        if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
-          PARM=""
-        else
-	  if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
-	  then
-		echo "Device address for write channel, e.g. '40B' ($DEVNO2): $WRITE_DEVNO"
-		ANSW=$WRITE_DEVNO
-	  else
-		[ -n "$WRITE_DEVNO" ] && DEVNO2=$WRITE_DEVNO
-		readln "Device address for write channel, e.g. '40B' ($DEVNO2): "
-	  fi
-	  [ "$ANSW" ] &&  export DEVNO2=$ANSW
-	  echo "The network device name used will be: $IP_DEV"
-          PARM="setup='\"ctc=0,0x$DEVNO,0x$DEVNO2,$IP_DEV\"'"
-        fi
-        echo "Trying to start the ctc module now..."
-        echo "modprobe ctc $PARM :"
-        execcmd "/sbin/modprobe ctc $PARM"
-        if grep ctc /proc/modules; then
-          execcmd "/sbin/ifconfig $IP_DEV"
-          if [ $EXIT_CODE -eq 0 ]; then
-            ANSW="yes"
-            break
-          else
-            echo -e "\n$IP_DEV not available, check device addresses.\n"
-          fi
-        else
-          echo -e "\nctc module not loaded, check device addresses.\n"
-        fi
-        yes_no "Do you want to retry the load of ctc (Yes/No) ? "
 	NO_ERROR=no
   done
   if [ "$ANSW" = "yes" ]; then
@@ -1529,16 +1442,18 @@ function load_IUCV () {
 	readln "The name of the peer guest, e.g. 'TCPIP' ($PEER): "
     fi
     [ "$ANSW" ] && export PEER=$ANSW
-    [ "$PEER" ] && PARM="iucv='$PEER'"
-    if grep netiucv /proc/modules; then
-      echo "Unloading netiucv module..."
+    if grep iucv /proc/modules; then
+      echo "Unloading netiucv, iucv modules..."
       execcmd "/sbin/rmmod netiucv"
+      execcmd "/sbin/rmmod iucv"
     fi
     echo "Trying to start the netiucv module now..."
-    echo "modprobe netiucv $PARM :"
-    execcmd "/sbin/modprobe netiucv $PARM"
+    echo "modprobe netiucv:"
+    execcmd "/sbin/modprobe netiucv"
     if grep netiucv /proc/modules; then
-      echo "netiucv module is loaded, checking interface $IP_DEV."
+      echo "netiucv module is loaded, activating it."
+      echo "$PEER" >/sys/bus/iucv/drivers/NETIUCV/connection
+      echo "checking interface $IP_DEV."
       execcmd "/sbin/ifconfig $IP_DEV"
       if [ $EXIT_CODE -eq 0 ]; then
         ANSW="yes"
@@ -1551,82 +1466,6 @@ function load_IUCV () {
     fi
     yes_no "Do you want to retry the setup of IUCV (Yes/No) ? "
     NO_ERROR=no
-  done
-  if [ "$ANSW" = "yes" ]; then
-     echo "$IP_DEV seems to exist, continuing with network setup."
-  else
-     false
-  fi
-}
-#
-#
-# load the UTS c7000 driver (Kernel 2.2 only)
-#
-function load_C7000 () {
-  echo "The C7000 driver from UTS is used for Cisco channel attached routers."
-  echo "It is not provided by IBM, in case of problems, please contact SuSE."
-  ANSW="yes"
-  while [ "$ANSW" = "yes" ]; do
-        echo "Please enter the options for the C7000 device driver now."
-        echo "You can let the base address be autodetected by entering 'auto'."
-	echo "If you are not sure what to enter please ask your system administrator."
-	echo ""
-	echo "c7000 options:"
-        readln "Base unit address of the channel attached router, e.g. '336C' ($DEVNO): "
-	[ "$ANSW" ] && export DEVNO=$ANSW
-        if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
-          PARM=""
-        else
-          PARM="base0=0x$DEVNO noauto=1"
-	fi
-#
-	echo   "Local host name        - claw directive 'host-name' (first string)"
-	readln "default: 'UTS' ($LHOST): "
-	[ "$ANSW" ] && export LHOST=$ANSW
-	[ $LHOST ] && PARM="$PARM lhost0=\"$LHOST\""
-#
-	echo   "Unit name              - claw directive 'device-name' (second string)"
-	readln "default: 'C7011' ($UHOST): "
-	[ "$ANSW" ] && export UHOST=$ANSW
-	[ $UHOST ] && PARM="$PARM uhost0=\"$UHOST\""
-#
-	echo   "Local application name - claw directive 'host-app' (third string)"
-	readln "default: 'TCPIP' ($LAPPL): "
-	[ "$ANSW" ] && export LAPPL=$ANSW
-	[ $LAPPL ] && PARM="$PARM lappl0=\"$LAPPL\""
-#
-	echo   "Unit application name  - claw directive 'device-app' (fourth string)"
-	readln "default: 'TCPIP' ($UAPPL): "
-	[ "$ANSW" ] && export UAPPL=$ANSW
-	[ $UAPPL ] && PARM="$PARM uappl0=\"$UAPPL\""
-#
-	echo   "Message level - higher numbers will result in additional diagnostic messages"
-	readln "default: '0' ($DBG): "
-	[ "$ANSW" ] && export DBG=$ANSW
-	[ $DBG ] && PARM="$PARM dbg=$DBG"
-#
-        echo "The network device name used will be: $IP_DEV"
-	if grep c7000 /proc/modules; then
-          echo "Unloading c7000 module..."
-          execcmd "/sbin/rmmod c7000"
-	fi
-        echo "Trying to start the c7000 module now..."
-        echo "insmod c7000 $PARM :"
-        execcmd "/sbin/insmod c7000 $PARM"
-        echo
-        if grep c7000 /proc/modules; then
-          echo "c7000 module is loaded, checking interface $IP_DEV."
-          execcmd "/sbin/ifconfig $IP_DEV"
-          if [ $EXIT_CODE -eq 0 ]; then
-            ANSW="yes"
-            break
-          else
-            echo "Error: $IP_DEV is not available, must be a setup or comm problem."
-          fi
-        else
-          echo "Error: The c7000 module is NOT loaded."
-        fi
-        yes_no "Do you want to retry the setup of c7000 (Yes/No) ? "
   done
   if [ "$ANSW" = "yes" ]; then
      echo "$IP_DEV seems to exist, continuing with network setup."
@@ -1748,7 +1587,7 @@ while [ $CONFIG_IS_OK = 0 ]; do
 	  [ "$ANSW" ] && export IP_ADDR=$ANSW
   fi
   case "$NETSELECT" in
-    tr|eth|qeth|hsi|c7000|qeth-tr)
+    tr|eth|qeth|hsi|qeth-tr)
 	    if [ "$AUTOINSTALL" = "yes" ]
 	    then
 		    echo "Please enter the net mask, e.g. '255.255.255.0' ($IP_NETMASK): $IP_NETMASK"
@@ -1811,7 +1650,7 @@ while [ $CONFIG_IS_OK = 0 ]; do
 	tr|eth)
 	    export IP_MTU=1492
 	    ;;
-	ctc|qeth|c7000|qeth-tr)
+	ctc|qeth|qeth-tr)
 	    export IP_MTU=1500
 	    ;;
 	iucv)
@@ -1849,9 +1688,9 @@ while [ $CONFIG_IS_OK = 0 ]; do
     	[ $IP_MTU -ge  68 -a $IP_MTU -le 1500 -o $IP_MTU = 0 ] && break
 	echo "For the LCS driver, the MTU must be in the range 68-1500."
         ;;
-      c7000|qeth|qeth-tr)
+      qeth|qeth-tr)
     	[ $IP_MTU -ge 576 -a $IP_MTU -le 1500 -o $IP_MTU = 0 ] && break
-	echo "The installation MTU range for qeth/c7000 is 576-1500, set other values later."
+	echo "The installation MTU range for qeth is 576-1500, set other values later."
 	;;
       hsi)
 	break
@@ -1863,7 +1702,7 @@ while [ $CONFIG_IS_OK = 0 ]; do
   [ $IP_HOST ] && echo "Full host name   : $IP_HOST"
   echo "IP address       : $IP_ADDR"
   case "$NETSELECT" in
-    tr|eth|qeth|hsi|c7000|qeth-tr)
+    tr|eth|qeth|hsi|qeth-tr)
 	    echo "Net mask         : $IP_NETMASK"
 	    [ "$IP_BROADCAST" ] && echo "Broadcast address: $IP_BROADCAST"
 	    [ "$IP_GATEWAY" ] && echo "Gateway address  : $IP_GATEWAY"

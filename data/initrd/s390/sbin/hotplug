@@ -1,2 +1,4 @@
 #!/bin/sh
-shift 1;echo $* > /hotplug.msg
+echo $* > /hotplug.msg
+set >>/hotplug.msg
+
