@@ -99,7 +99,7 @@ else
   sh_utils:
 endif
   /bin/{date,echo,false,pwd,sleep,stty,true,uname}
-  /usr/bin/expr
+  /usr/bin/{expr,tee}
 
 if suse_release >= 7.1
   util-linux:
