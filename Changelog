@@ -1,5 +1,7 @@
 24/1/2005:	v6.22
 	- improved mkbootdisk script
+	- module info updated
+	- allow empty root pw in rescue system (#49907)
 
 11/1/2005:	v6.21
 	- added libmagic
