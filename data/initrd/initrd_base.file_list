@@ -374,7 +374,7 @@ endif
   m /usr/share/kbd/consoletrans/trivial kbd/consoletrans
 
   d kbd/consolefonts
-#  g /usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz kbd/consolefonts/LatArCyrHeb-16.psfu
+  g /usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz kbd/consolefonts/LatArCyrHeb-16.psfu
   g /usr/share/kbd/consolefonts/lat1-16.psfu.gz kbd/consolefonts/lat1-16.psfu
   g /usr/share/kbd/consolefonts/lat2-16.psfu.gz kbd/consolefonts/lat2-16.psfu
   g /usr/share/kbd/consolefonts/iso07u-16.psfu.gz kbd/consolefonts/lat7-16.psfu

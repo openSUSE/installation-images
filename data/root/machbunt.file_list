@@ -273,8 +273,6 @@ endif
 
 
 if with_yast2 ne 'no' && arch ne 's390' && arch ne 's390x'
-  sax2:
-     /usr/X11R6/lib*/sax/api/data/fvwmrc.yast2
   sax2-tools:
      /usr/X11R6/bin
    r /usr/X11R6/bin/xkbset
@@ -298,6 +296,12 @@ utempter:
 
 freefont:
   /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
+
+fonts-bangla:
+  /usr/X11R6/lib/X11/fonts/truetype/MuktiNarrow.ttf
+
+fonts-arabic:
+  /usr/X11R6/lib/X11/fonts/truetype/KacstBook.ttf
 
 Crystalcursors:
   /usr/X11R6/lib/X11/icons/crystalwhite

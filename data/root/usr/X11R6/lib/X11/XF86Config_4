@@ -43,14 +43,13 @@ Section "Module"
 EndSection
 
 Section "InputDevice"
-  Driver	"keyboard"
+  Driver	"kbd"
   Identifier	"Keyboard[0]"
   Option	"Protocol"	"Standard"
   Option	"XkbRules"	"xfree86"
   Option	"XkbKeycodes"	"xfree86"
   Option	"XkbModel"	"pc104"
-  Option	"XkbLayout"	"de"
-  Option	"XkbVariant"	"nodeadkeys"
+  Option	"XkbLayout"	"us"
 EndSection
 
 Section "InputDevice"
