@@ -1,3 +1,8 @@
+9/2/2004:	v5.05
+	- lvm -> lvm2
+	- some module fixes
+	- added scsi package to rescue system (#34384)
+
 3/2/2004:	v5.04
 	- add package list to inst-sys
 	- some 2.6 module cleanup

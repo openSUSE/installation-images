@@ -196,10 +196,13 @@ if arch eq 'ppc'
     /usr/share/terminfo/v/vt320
   eject:
     /bin
-  scsi:
-    /bin
-    /dev
 endif
+
+scsi:
+  /bin
+  /dev
+  /usr/bin
+  /usr/sbin
 
 if arch eq 'ia32'
   grub:
@@ -211,12 +214,17 @@ if arch eq 'ia64'
     /usr/sbin
 endif
 
-lvm: postin
+lvm2: postin
+  /etc
+  /sbin
+  /var
+e postin
+
+device-mapper:
+  /dev
   /etc
   /lib*
   /sbin
-  /var/adm/fillup-templates/sysconfig.lvm
-e postin
 
 raidtools: postin
   /etc
@@ -473,8 +481,8 @@ if arch ne 'sparc'
     f / hpfs.ko
 #    f / loop_fish2.o
     f / xfs.ko
-#    f / xfs_support.ko
-#    f / xfs_dmapi.ko
+    f / xfs_quota.ko
+    f / xfs_dmapi.ko
     endif
 
 

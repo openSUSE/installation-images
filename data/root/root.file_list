@@ -650,11 +650,13 @@ if arch eq 'ppc' || arch eq 'sparc' || arch eq 'sparc64'
   # d /lib/modules/<kernel_ver>/misc
 endif
 
-lvm:
-  /lib*/liblvm-*.so*
+lvm2:
   /sbin/lv*  
   /sbin/pv* 
   /sbin/vg*
+
+device-mapper:
+  /lib*
 
 reiserfs:
   /sbin

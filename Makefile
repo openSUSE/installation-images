@@ -30,7 +30,7 @@ dirs:
 	@[ -d tmp ] || mkdir tmp
 
 initrd: dirs base
-	mkdevs=1 YAST_IS_RUNNING=1 bin/mk_initrd
+	mkdevs=${mkdevs:-1} YAST_IS_RUNNING=1 bin/mk_initrd
 
 plain_initrd: dirs
 	YAST_IS_RUNNING=1 bin/mk_initrd
