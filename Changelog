@@ -1,3 +1,6 @@
+23/8/2002:	v2.45
+	- added Option "ShadowFB" (#18235)
+
 22/8/2002:	v2.44
 	- /usr/sbin vs. /sbin fun with xfs & dmapi
 	- samba package has innovative new layout
