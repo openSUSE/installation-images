@@ -153,6 +153,7 @@ glibc-locale:
   /usr/lib/gconv/ISO8859*
   /usr/lib/gconv/KOI*
   /usr/lib/gconv/UNICODE*
+  /usr/lib/gconv/gconv-modules*
 
 if !(arch eq 's390' || arch eq 's390x')
 kbd:

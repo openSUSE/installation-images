@@ -151,6 +151,7 @@ lvm: postin
   /etc
   /lib
   /sbin
+  /var/adm/fillup-templates/sysconfig.lvm
 e postin
 
 raidtools: postin

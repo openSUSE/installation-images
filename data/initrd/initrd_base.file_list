@@ -317,29 +317,6 @@ if arch eq 's390' || arch eq 's390x'
 ###################################################################
 else # arch is not s390 or s390x
 
-
-
-  t linuxrc
-  c 0755 0 0 linuxrc
-if 0
-  l linuxrc bin/cardmgr
-  l linuxrc bin/cat
-  l linuxrc bin/echo
-  l linuxrc bin/init
-  l linuxrc bin/insmod
-  l linuxrc bin/loadkeys
-  l linuxrc bin/lsh
-  l linuxrc bin/mount
-  l linuxrc bin/portmap
-  l linuxrc bin/probe
-  l linuxrc bin/ps
-  l linuxrc bin/rmmod
-  l linuxrc bin/setfont
-  l linuxrc bin/sh
-  l linuxrc bin/umount
-endif
-  l linuxrc etc/nothing
-
   if linuxrc
     X <linuxrc> /linuxrc
   else
@@ -461,36 +438,39 @@ if arch eq 'alpha' || arch eq 'ia32' || arch eq 'ppc'
 endif
 
 if with_smb
-  d bin sbin lib
 
-  samba-client:
-    m /usr/bin/smbmount /bin/smbmount
-    m /usr/bin/smbmnt   /bin/smbmnt
-    # to make mount(8) -t smbfs work:
-    l /bin/smbmount  /sbin/mount.smbfs
+  d etc/samba
+  E echo "; just to make smbmount happy" >etc/samba/smb.conf
 
-  glibc:
-    /lib/ld-linux.so.2
-    /lib/ld-2.*.so
-    /lib/libc.so.6*
-    /lib/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
+  if arch eq 'ia32'
 
-  readline:
-    /lib/libreadline.so.4*
-    /lib/libhistory.so.4*
+    smbmount-diet:
+      m /usr/bin/smbmount /bin/smbmount
 
-  pam:
-    /lib/libpam.so.*
+  else
 
-  ncurses:
-    /lib/libncurses.so.5*
+    d bin lib
 
-  cups-libs:
-    m /usr/lib/libcups.so.* /lib
+    samba-client:
+      m /usr/bin/smbmount /bin/smbmount
 
-  openssl:
-    m /usr/lib/libcrypto.so.* /lib
-    m /usr/lib/libssl.so.* /lib
+    glibc:
+      /lib/ld-linux.so.2
+      /lib/ld-2.*.so
+      /lib/libc.so.6*
+      /lib/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
+
+    pam:
+      /lib/libpam.so.*
+
+    cups-libs:
+      m /usr/lib/libcups.so.* /lib
+
+    openssl:
+      m /usr/lib/libcrypto.so.* /lib
+      m /usr/lib/libssl.so.* /lib
+
+  endif
 
 endif
 
@@ -505,6 +485,13 @@ if with_gdb
   glibc:
     /lib/libm.so.6*
 
+  readline:
+    /lib/libreadline.so.4*
+    /lib/libhistory.so.4*
+
+  ncurses:
+    /lib/libncurses.so.5*
+
   bash:
     /bin/bash
     /bin/sh
@@ -512,8 +499,8 @@ if with_gdb
   linuxrc:
     m /usr/sbin/linuxrc /bin/linuxrc
 
-    E echo run >/zap
-    E echo -e "#! /bin/sh\ngdb --command /zap /bin/linuxrc" >/linuxrc
+    E echo run >zap
+    E echo -e "#! /bin/sh\ngdb --command /zap /bin/linuxrc" >linuxrc
 
 endif
 

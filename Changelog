@@ -1,7 +1,14 @@
-26/2/2002:	v1.24
+28/2/2002:	v1.125
+	- added 'gconf-modules' (#13991)
+	- added new network cards
+	- fixed lvm in rescue system (#13947)
+	- use special dietlibc smbmount
+	- increased initrd size
+
+26/2/2002:	v1.124
 	- some minor fixes (mainly xfs)
 
-25/2/2002:	v1.23
+25/2/2002:	v1.123
 	- fixed rescue system (#13854)
 	- added ehci driver
 	- added apic kernel
