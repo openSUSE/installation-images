@@ -170,11 +170,13 @@ bzip2:
 
 if arch eq 'ia32' || arch eq 'ppc'
   lilo:
-    /boot
+    if arch eq 'ppc'
+      /boot
+    endif
     /sbin
-  if arch eq 'ia32'
+    if arch eq 'ia32'
       /usr/sbin
-  endif
+    endif
 endif
 
 if arch eq 'ppc'

@@ -12,17 +12,28 @@ sub build_archive;
   ru_RU.KOI8-R/KOI8-R
 );
 
-die "no locale archive\n" unless -f "/usr/lib/locale/locale-archive";
+if(-f "/usr/lib/locale/locale-archive") {
+  print "using locale archive\n";
+}
+elsif(-d "/usr/lib/locale/en_US") {
+  print "using locale directories\n";
+}
+else {
+  die "no locale found\n";
+}
 
 build_archive 0;
 
 chomp(@l = `localedef --prefix=/tmp --list-archive`);
 @real_locales{@l} = ();
-chomp %real_locales;
 
-chomp(@l = `localedef --list-archive`);
+if(-f "/usr/lib/locale/locale-archive") {
+  chomp(@l = `localedef --list-archive`);
+}
+else {
+  chomp(@l = `ls /usr/lib/locale/`);
+}
 @all_locales{@l} = ();
-chomp %my_locales;
 
 for (sort keys %real_locales) {
   print "$_\n";
@@ -57,7 +68,7 @@ sub build_archive
 
   $with_aliases = shift;
 
-  $localedef = "localedef";
+  $localedef = "localedef --archive";
   $localedef .= " --alias-file=/tmp/locale.alias" if $with_aliases;
 
   system "mkdir -p /tmp/usr/lib/locale";
