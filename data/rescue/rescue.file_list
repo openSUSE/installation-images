@@ -9,7 +9,6 @@ aaa_dir:
   /etc/rc.config.d
   /root
   /etc/init.d
-  /usr/lib/db*
   /usr/tmp
   /var
 r /var/{spool,squid,lib/YaST}
