@@ -262,6 +262,12 @@ util-linux:
     /sbin/nvsetenv
   endif
 
+gdb:
+  /usr/bin/gdb
+
+glibc:
+  /lib/libthread_db*
+
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
 d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}

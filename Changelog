@@ -1,3 +1,6 @@
+15/2/2004:	v5.09
+	- add gdb for the time being
+
 13/2/2004:	v5.08
 	- add small initrd images for ppc:
 	  ppc_pmac_new ppc_pmac_miboot ppc_pmac_coff ppc_chrp ppc_prep
