@@ -51,6 +51,7 @@ perl:
   endif
 
 # FIXME: move perl to root core
+  /usr/lib/perl*/*/Class/Struct.pm
   /usr/lib/perl*/*/*/Config.pm
   /usr/lib/perl*/*/*/DynaLoader.pm
   /usr/lib/perl*/*/*/Sys/Hostname.pm
