@@ -1,3 +1,7 @@
+10/3/2004:	v5.25
+	- make slpd start
+	- disable udev
+
 10/3/2004:	v5.24
 	- s390: new netsetup
 

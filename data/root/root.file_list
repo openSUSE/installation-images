@@ -94,10 +94,10 @@ hwinfo:
 udev:
   /etc
   /sbin/udev
-  /sbin/udev.*.sh
+#  /sbin/udev.*.sh
   /lib/klibc
   /sbin/udevstart
-  /usr/bin/udevinfo
+  m /usr/bin/udevinfo /sbin
   /usr/lib*/libsysfs.so*
 
 mktemp:
@@ -470,13 +470,20 @@ if with_yast2 ne 'no'
   endif
   XFree86-Xvnc:
     /usr/X11R6/bin/Xvnc
+
   tightvnc:
     /usr/X11R6/bin/vncpasswd.arg
     /usr/share/vnc/classes
+
   openslp:
+    /etc/slp.spi
+    /etc/slp.conf
     /usr/bin/slptool
     /usr/lib*/libslp.so.*
+
   openslp-server:
+    /etc/slp.reg
+    /etc/slp.reg.d
     /usr/sbin/slpd
 
   libxml2:
