@@ -289,7 +289,7 @@ strace:
 syslogd: postin
   /etc
   /sbin/{klogd,syslogd}
-  /var/adm/fillup-templates/rc.config.syslogd
+  /var/adm/fillup-templates/sysconfig.syslog
 e postin
 
 sysvinit: postin

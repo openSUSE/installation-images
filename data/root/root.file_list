@@ -784,6 +784,7 @@ e /sbin/depmod -a -F /System.map <kernel_ver>
 
 # final clean up
 r /etc/X11/xserver/C
+r /usr/share/doc/packages/*
 
 # r /modules
 r /System.map
