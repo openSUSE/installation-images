@@ -203,6 +203,8 @@ if arch eq 'ppc'
     /usr/lib/libmenu.so.*
     # for p690 hvc console
     /usr/share/terminfo/v/vt320
+    # for ibm3151 terminals
+    /usr/share/terminfo/i/ibm3151
   eject:
     /bin
 endif
