@@ -857,9 +857,18 @@ function print_qeth_ranges () {
 #
 # ask for lcs parameters for OSA devices
 #
-function load_LCS_chandev () {
-  sed -n '1,/^channels detected/d;/^ /p;/^0x.... 0x.... 0x0[4567]/p' \
-	 /proc/chandev | cut -c 8-80 >lcs_detected
+function load_LCS () {
+  if ! grep -q cu3088 /proc/modules ; then
+    echo "Loading cu3088 module:"
+    execcmd "/sbin/modprobe cu3088"
+  fi
+  
+  ls /sys/bus/ccw/drivers/cu3088|while read device
+  do
+    echo "$device `cat /sys/bus/ccw/drivers/cu3088/$device/cutype`"
+  done >lcs_detected
+  #FIXME: filter out non-LCS devices
+  
   if [ `grep '^0' lcs_detected | wc -l` -lt 2 ]; then
 	echo "Could not find two(read/write) LCS Channels."
 	ask_show_subchannels
@@ -867,7 +876,7 @@ function load_LCS_chandev () {
   fi
   echo "First 16 possible OSA / OSA-2 channel devices detected:"
   echo "chan_type is a bitfield of: CTC=1 ESCON=2 LCS=0x4"
-  sort -k 2 lcs_detected | head -n 18 | sed 's/^0x//;s/^/ /;s/0x/  /g'
+  sort -k 2 lcs_detected | head -n 18
   echo 
   echo "We recommend to only use LCS autoprobing if Linux can see only two channel"
   echo "devices and you are sure that the relative adapter number 0 is not used"
@@ -876,51 +885,58 @@ function load_LCS_chandev () {
   echo "device number will be one greater. For autoprobing enter \"auto\"."
   AUTO_DEVNO="$DEVNO"
   [ -z "$DEVNO" -o "$DEVNO" = auto ] &&
-	DEVNO=`sed -n 's/^\(0x...[02468ace]\).*/\1/p' lcs_detected | head -n 1`
+	DEVNO=`sed -n 's/^\(0.0....[02468ace]\).*/\1/p' lcs_detected | head -n 1`
   ANSW="yes"
   NO_ERROR="yes"
   while [ "$ANSW" = "yes" ]; do
      while true; do
 	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
 	then
-		echo "Enter the read channel device number, e.g. 'FC20' (${DEVNO#0x}): $AUTO_DEVNO"
+		echo "Enter the read channel device number, e.g. '0.0.fc20' (${DEVNO}): $AUTO_DEVNO"
 		ANSW="$AUTO_DEVNO"
 	else
-		readln "Enter the read channel device number, e.g. 'FC20' (${DEVNO#0x}): "
+		readln "Enter the read channel device number, e.g. '0.0.fc20' (${DEVNO}): "
 	fi
 	[ -z "$ANSW" ] && ANSW=$DEVNO
 	if [ "$ANSW" = "auto" -o "$ANSW" = "AUTO" -o "$ANSW" = 0 ]; then
             DEVNO=auto
 	    break
 	fi
-        ANSW="${ANSW#0x}"
-	if [ "$ANSW" != "${ANSW//[^0-9a-fA-F]/}" ]; then
+        ANSW="${ANSW}"
+	if [ "$ANSW" != "${ANSW//[^.0-9a-fA-F]/}" ]; then
             echo "Invalid character detected, allowed hex numbers only consist of 0-9,a-f."
             NO_ERROR=no
 	    continue
 	fi
-	ANSW=0x$ANSW
-	if [ $(($ANSW & 1)) -eq 1 ]; then
+	ANSWh=${ANSW/[0-9].[0-9]./0x}
+	if [ $(($ANSWh & 1)) -eq 1 ]; then
 	    echo "Warning: You entered an odd read channel address, should be even!"
             NO_ERROR=no
 	    continue
         fi
-	if [ $(( $ANSW )) -ge 0 -a $(( $ANSW )) -le 65534 ]; then
+	if [ $(( $ANSWh )) -ge 0 -a $(( $ANSWh )) -le 65534 ]; then
             DEVNO="$ANSW"
+	    DEVNOh="$ANSWh"
 	    break
 	fi
 	echo
 	echo "The read channel device number should be a hex number in the range of 0-FFFE."
         NO_ERROR=no
      done
-     shutdown_reset_conf_chandev
+     
+     #shutdown_reset_conf_chandev
+     if ! grep -q lcs /proc/modules; then
+  	execcmd "/sbin/insmod lcs"
+     fi
+     
      if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
+        #FIXME: how does autoprobe work with 2.6?
 	PARM=""
         CHAN=""
      else
-        WRITE_DEVNO=`printf "0x%04x\n" $(($DEVNO + 1))`
+        WRITE_DEVNO=`printf "0.0.%04x\n" $(($DEVNOh + 1))`
         echo
-        echo "Please enter the relative port number on device address ${DEVNO#0x}"
+        echo "Please enter the relative port number on device address ${DEVNO}"
 	if [ ! "$AUTOINSTALL" = "yes" -o "$NO_ERROR" = "no" ]
 	then
 		readln "Relative port, e.g. '0' ($PORTNO): "
@@ -928,12 +944,8 @@ function load_LCS_chandev () {
 	fi
         PARM="noauto=1 devno_portno_pairs=$DEVNO,$PORTNO"
 	CHAN="noauto;lcs0,$DEVNO,$WRITE_DEVNO,0,$PORTNO"
-	write_chandev "$CHAN"
-     fi
-     if grep -q lcs /proc/modules; then
-        write_chandev "reprobe"
-     else
-  	execcmd "/sbin/insmod lcs"
+	echo "$DEVNO,$WRITE_DEVNO" >/sys/bus/ccwgroup/drivers/lcs
+	#FIXME: I suppose I need to do something with $PORTNO as well...
      fi
      if grep lcs /proc/modules; then
        execcmd "/sbin/ifconfig $IP_DEV"
@@ -951,82 +963,7 @@ function load_LCS_chandev () {
      NO_ERROR=no
   done
   if [ "$ANSW" = "no" ]; then
-     shutdown_reset_conf_chandev
-     false
-  fi
-}
-#
-#
-# ask for lcs parameters for OSA devices, checks for chandev and calls load_LCS_chandev then
-#
-function load_LCS () {
-  if [ -f /proc/chandev ]; then
-	load_LCS_chandev
-	return
-  fi
-  display_license || return 0
-  ANSW="yes"
-  NO_ERROR="yes"
-  while [ "$ANSW" = "yes" ]; do
-        echo "Please enter the device address of the network device"
-        echo "Ask your system administrator for the correct settings."
-        echo "If there is only _ONE_ OSA network device attached to your machine,"
-        echo "you may type \"auto\" for automatic detection; use this option carefully."
-	AUTO_DEVNO="$DEVNO"
-	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
-	then
-		echo "Network device address, e.g. 'FC20' ($DEVNO): $AUTO_DEVNO"
-		ANSW=$AUTO_DEVNO
-	else
-		readln "Network device address, e.g. 'FC20' ($DEVNO): "
-	fi
-	[ "$ANSW" ] && export DEVNO=$ANSW
-        if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
-          PARM=""
-        else
-          echo
-          echo "Please enter the relative port number on device address $DEVNO"
-	  if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
-	  then
-		echo "Relative port, e.g. '0' ($PORTNO): $PORTNO"
-		ANSW=$PORTNO
-	  else
-		  readln "Relative port, e.g. '0' ($PORTNO): "
-	  fi
-          [ "$ANSW" ] && export PORTNO=$ANSW
-          PARM="noauto=1 devno_portno_pairs=0x$DEVNO,$PORTNO"
-          WRITE_DEVNO=`printf "%0x\n" $(($DEVNO + 1))`
-	  CHAN="noauto;lcs0,0x$DEVNO,0x$WRITE_DEVNO,0,$PORTNO"
-        fi
-        echo
-        if grep lcs /proc/modules; then
-	  echo "Unloading LCS module..."
-          execcmd "/sbin/rmmod lcs"
-        fi
-        echo "Trying to start the LCS module now..."
-        echo "insmod lcs $PARM :"
-        execcmd "/sbin/insmod lcs $PARM"
-        if grep lcs /proc/modules; then
-          execcmd "/sbin/ifconfig $IP_DEV"
-          if [ $EXIT_CODE -eq 0 ]; then
-            if [ "$PARM" = "" ]; then
-		echo "Ensure that the device you want to use is detected as $IP_DEV"
-		echo "(check the lines beginning with \"lcs:\")."
-	    fi
-            ANSW="yes"
-            break
-          else
-            echo -e "\n$IP_DEV not available, check device addresses/cards.\n"
-          fi
-        else
-          echo -e "\nlcs module not loaded, check device addresses/cards.\n"
-        fi
-        yes_no "Do you want to retry the setup of the lcs module (Yes/No) ? "
-	NO_ERROR=no
-  done
-  if [ "$ANSW" = "yes" ]; then
-     echo "$IP_DEV is available, continuing with network setup."
-  else
+     #shutdown_reset_conf_chandev
      false
   fi
 }
@@ -1046,9 +983,18 @@ function load_QETH () {
     CUTYPE=01
     NETTYPE='OSA Express, Gigabit Ethernet or High Speed Token Ring'
   fi
-  sed -n '1,/^channels detected/d;/^0x/p;/^ driver/q' /proc/chandev > chandet
-  sed 's/^0x.... 0x//;s/ *0x/ /g;s/ [ny].*//;s/  */ /g' chandet >chandet.fmt
-  sed -n "s/10 1731 $CUTYPE 1732 $CUTYPE .. //p" chandet.fmt > chandet.qeth
+  
+  rm -f chandet.qeth
+  for i in /sys/bus/ccw/devices/*
+  do
+    if grep -q "^173[12]/$CUTYPE" $i/cutype
+    then
+	dn=`basename $i|sed "s,^[0-9].[0-9].,,"`
+	chp=`cat $i/../chpids|sed "s, ,,g"`
+	echo "$dn $chp" >>chandet.qeth
+    fi
+  done
+  
   NUMCHANS=`wc -l <chandet.qeth`
   echo $NUMCHANS "$NETTYPE Channels were detected."
   if [ $NUMCHANS -lt 3 ]; then
@@ -1201,7 +1147,7 @@ function load_QETH () {
     fi
   fi
   echo "Possible configuration: read: 0x$DEVNO, write: 0x$DEVNO2, data: 0x$DEVNO3"
-  DEVNOS=0x${DEVNO/auto/f801},0x${DEVNO2/auto/f802},0x${DEVNO3/auto/f803}
+  DEVNOS=0.0.${DEVNO/auto/f801},0.0.${DEVNO2/auto/f802},0.0.${DEVNO3/auto/f803}
   DEVNOs="$DEVNOS"
   ANSW="yes"
   NO_ERROR="yes"
@@ -1211,12 +1157,12 @@ function load_QETH () {
 	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
 	then
 		WRITE_DEVNO=`printf %04x $(( 0x$READ_DEVNO + 1 ))`
-		ANSW="0x$READ_DEVNO,0x$WRITE_DEVNO,0x$DATA_DEVNO"
+		ANSW="0.0.$READ_DEVNO,0.0.$WRITE_DEVNO,0.0.$DATA_DEVNO"
 	else
 		if [ -n "$READ_DEVNO" -a -n "$DATA_DEVNO" ]
 		then
 			WRITE_DEVNO=`printf %04x $(( 0x$READ_DEVNO + 1 ))`
-			DEVNOS="0x$READ_DEVNO,0x$WRITE_DEVNO,0x$DATA_DEVNO"
+			DEVNOS="0.0.$READ_DEVNO,0.0.$WRITE_DEVNO,0.0.$DATA_DEVNO"
 		fi
 		readln "($DEVNOS): "
 		[ -z "$ANSW" ] && ANSW="$DEVNOS"
@@ -1250,49 +1196,50 @@ function load_QETH () {
             echo "The portname may not consist of more than 8 characters."
 	    NO_ERROR=no
         done
-        if [ "$PORTNAME" ]; then
-          if [ "$DEVNOS" = auto ]; then
-	    CHAN="$CHAN;add_parms,0x10,portname:$PORTNAME"
-          else
-	    for range in `echo "$DEVNOS"|print_qeth_ranges`; do
-	      CHAN="$CHAN;add_parms,0x10,$range,portname:$PORTNAME"
-	    done
-          fi
-        fi
      fi
-     write_chandev "reset_conf"
      [ "$CHAN" ] && write_chandev "$CHAN"
      PARM="qeth_options=$DEVNOS"
      [ "$PORTNAME" ] && PARM="$PARM,portname:$PORTNAME"
-     if grep -q qeth /proc/modules; then
-        write_chandev "reprobe"
-     else
-  	execcmd "/sbin/modprobe qeth"
+     if ! grep -q qeth /proc/modules; then
+  	execcmd "/sbin/modprobe qeth_mod"
      fi
+     
      if grep qeth /proc/modules; then
-       for i in 2 1 2 3 4 5 6 7 8 9; do
+	rm -f /hotplug.msg
+	echo "$DEVNOS" >/sys/bus/ccwgroup/drivers/qeth/group
+	usleep 500000
+     
+	dp=`grep ^DEVPATH= /hotplug.msg|sed s,DEVPATH=,,`
+     
+	if test "$PORTNAME"
+	then
+	    echo "$PORTNAME" >/sys/$dp/portname
+	fi
+     
+	echo 1 >/sys/$dp/online
+     
+	for i in 2 1 2 3 4 5 6 7 8 9; do
 	 sleep $i
          if [ -s /hotplug.msg ]; then
-	   if grep -q "^start $IP_DEV" /hotplug.msg; then
+	   if grep -q "^INTERFACE=$IP_DEV" /hotplug.msg; then
              echo "$IP_DEV detected!"
 	     break
-           elif grep -q '^start ' /hotplug.msg; then
-	     read a dev < /hotplug.msg
+           elif grep -q '^INTERFACE=' /hotplug.msg; then
+	     dev=`grep ^INTERFACE= /hotplug.msg|sed s,INTERFACE=,,`
              echo "$dev detected, expected $IP_DEV, aborting."
-             write_chandev "reset_conf"
              return 1
            fi
          fi
-       done
-       execcmd "/sbin/ifconfig $IP_DEV"
-       if [ $EXIT_CODE -eq 0 ]; then
+	done
+	execcmd "/sbin/ifconfig $IP_DEV"
+	if [ $EXIT_CODE -eq 0 ]; then
          ANSW="yes"
          break
-       else
+	else
          echo -e "\n$IP_DEV not available, check device addresses/cards.\n"
-       fi
+	fi
      else
-       echo -e "\nqeth module not loaded, module problem.\n"
+	echo -e "\nqeth module not loaded, module problem.\n"
      fi
      yes_no "Do you want to retry the qeth-setup (Yes/No) ? "
      NO_ERROR=no
@@ -1300,7 +1247,6 @@ function load_QETH () {
   if [ "$ANSW" = "yes" ]; then
      echo "$IP_DEV is available, continuing with network setup."
   else
-     write_chandev "reset_conf"
      return 1
   fi
 }
