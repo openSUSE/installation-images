@@ -483,6 +483,8 @@ if with_yast2 ne 'no'
     /
   yast2-transfer:
     /
+  yast2-trans-bg:
+    /
   yast2-trans-bs:
     /
   yast2-trans-cs:
@@ -515,6 +517,8 @@ if with_yast2 ne 'no'
     /
   yast2-trans-pt_BR:
     /
+  yast2-trans-ru:
+    /
   yast2-trans-sk:
     /
   yast2-trans-sl_SI:
@@ -524,8 +528,6 @@ if with_yast2 ne 'no'
   yast2-trans-tr:
     /
   yast2-trans-zh_CN:
-    /
-  yast2-trans-zh_TW:
     /
   yast2-x11:
     /
@@ -802,6 +804,11 @@ mdadm:
 
 sock:
   /usr/bin/sock
+
+if arch ne 's390' && arch ne 's390x'
+  s /.bin/smbmount /sbin/mount.smbfs
+  s /.bin/smbmnt /bin/smbmnt
+endif
 
 shadow:
   /etc/pam.d/shadow
