@@ -14,13 +14,11 @@ c 0711 0 0 /root
   /etc/ld.so.conf
   /sbin/mk_initrd
   /etc/init.d
-  /etc/SuSE-release
   /etc/rc.status
-  /etc/cron.daily/aaa_base
   /etc/ppp
-  /etc/issue{,.net}
-  /etc/{hushlogins,inittab,motd,logfiles,netgroup}
-  /etc/{profile.dos,shells,zshrc}
+  /etc/{hushlogins,inittab,motd}
+  /etc/netgroup
+  /etc/{profile.dos,shells}
 # aaa_base's preinstall
   /sbin/SuSEconfig
 if suse_release == 7.2
@@ -37,9 +35,18 @@ if suse_release == 7.3
   p /sbin/halt.patch_73
 endif
 
+if suse_release == 8.0
+  p /sbin/boot.patch_80
+  p /sbin/halt.patch_80
+endif
+
+aaa_version:
+  /etc/SuSE-release
+  /etc/issue{,.net}
+
 aaa_dir:
   /etc/init.d
-  /etc/{news,ppp,rc.config.d}
+  /etc/{news,ppp,sysconfig}
   /var
 
 kbd:
@@ -88,11 +95,8 @@ util-linux:
 fileutils:
   /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir,dd,touch}
 
-pam:
-  /etc
-
 sysvinit:
-  /sbin/blogd
+  /sbin/{blogd,blogger}
   /bin/usleep
   /sbin/{setconsole,showconsole}
   /sbin/{checkproc,halt,killall5,killproc,mingetty,pidof,poweroff}
@@ -146,7 +150,8 @@ modutils:
 <kernel_rpm>:
   f / nls_iso8859-1.o /lib
 
-x /etc/{HOSTNAME,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
+# x /etc/{HOSTNAME,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
+x /etc/syslog.conf /etc
 
 x /sbin/init /sbin
 d etc/X11
@@ -161,7 +166,9 @@ if lang eq 'cs_CZ'
   x /sbin/live-shutdown_cz /sbin/live-shutdown
 endif
 
-x sbin/pcmcia.postin /sbin
+if suse_release == 7.3
+  x sbin/pcmcia.postin /sbin
+endif
 
 r /etc/init.d/xdm
 r /etc/httpd

@@ -20,43 +20,17 @@ if arch eq 'ia32'
       <kernel_rpm>:
         m /boot/<kernel_img> /linux
     endif
-#      R s/linuxrc=auto2,yast2/linuxrc=auto2,yast2,reboot/s /syslinux.cfg
   else
     <kernel_rpm>:
       m /boot/<kernel_img> /linux
   endif
 
-  if special eq 'e2compr'
-  X /boot/bzImage.e2compr /linux
-  endif
-
-  if special eq 'bzImage'
-  x bzImage /linux
-  endif
-
-  if lang eq 'fr'
-    x message.fr /message
-    x syslinux.cfg.fr /syslinux.cfg
-  endif
-
-  if lang eq 'ko'
-    x message.ko /message
-    x syslinux.cfg /syslinux.cfg
-  endif
-
   if demo eq 'eval'
     x message-eval /message
     x syslinux-eval.cfg /syslinux.cfg
-  endif
-
-  if demo eq 'live'
-    x message-live /message
-    x syslinux-live.cfg /syslinux.cfg
-  endif
-
-  if demo eq 'rescue'
-    x message-rescue /message
-    x syslinux-rescue.cfg /syslinux.cfg
+    if boot eq 'small'
+      A gen/initrdsize /syslinux.cfg
+    endif
   endif
 
   if (bootlogo eq 'no' || boot eq 'small') && bootlogo ne 'yes'
@@ -66,13 +40,10 @@ if arch eq 'ia32'
       m /usr/share/gfxboot/suselogo /suselogo
       if demo eq 'eval'
         x suseeval /suselogo
-        if lang eq 'cs_CZ'
-          x suseeval_cz /suselogo
-        endif
       endif
   endif
 
-  if (memtest eq 'no' || boot eq 'small') && memtest ne 'yes'
+  if (memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval'
     R s/.*mem.*test.*//s /syslinux.cfg
   else
     lilo:

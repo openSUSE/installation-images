@@ -55,6 +55,9 @@ cpio:
 cracklib:
   /usr/lib
 
+libxcrypt:
+  /lib
+
 db:
   /usr/lib/libdb-4.*
 
@@ -149,7 +152,7 @@ endif
 
 lvm: postin
   /etc
-  /lib
+  # /lib
   /sbin
   /var/adm/fillup-templates/sysconfig.lvm
 e postin

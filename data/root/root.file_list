@@ -536,7 +536,10 @@ if with_yast2 ne 'no'
   c 0755 0 0 /etc/X11
 endif
 
-gppshare:
+libgcc:
+  /lib/libgcc_s.so.*
+
+libstdc++:
   /usr/lib/libstdc++*.so*
 
 libjpeg:
@@ -595,7 +598,7 @@ endif
 
 # add the rest from instsys
 lvm:
-  /lib/liblvm-*.so*
+  # /lib/liblvm-*.so*
   /sbin/lv*  
   /sbin/pv* 
   /sbin/vg*
@@ -718,6 +721,9 @@ if pre_release
   pam-modules:
     /{etc,lib,sbin}
 
+  libxcrypt:
+    /lib/libxcrypt.so.*
+
   cracklib:
     /usr/lib/libcrack.so*
 
@@ -739,11 +745,9 @@ endif
    x root/.vimrc /root
 endif
 
-if arch eq 'ppc'
-  parted:
-    /sbin
-    /usr/lib
-endif
+parted:
+  /sbin
+  /usr/lib
 
 jfsutils:
   /sbin/{fsck.jfs,mkfs.jfs}

@@ -1,3 +1,16 @@
+24/5/2002:	v2.0
+	- deactivate bootlogo on small bootimages until kernel shrinks
+	  to a reasonable size to make the package build 
+	- deactivated xfs for module disk 1 (>650K)
+	- deactivated aic7xxx_old for module disk 2
+	- lvm package currently has no library
+	- added libxcrypt
+	- libgpp is now libstdc++, filename libstdc++.so.4.0.0
+	- added libgcc to root and brescue (probably needed elswhere too)
+	- XXX if this does not work yet, add libgcc to other images ...
+	- liveeval changes
+	- update elilo configuration
+
 24/3/2002:	v1.131
 	- add sg.o module and sg* devices to initrd, they are needed
 	  for usb (scsi emulation!)
