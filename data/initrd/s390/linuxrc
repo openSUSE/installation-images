@@ -41,18 +41,19 @@ fi
 #
 #	Main
 #
-mount -t devpts devpts /dev/pts
+mount -n -t devpts devpts /dev/pts
 #
 #	Kmod has a problem. call modprobe here
 #
 /sbin/modprobe cramfs
 /sbin/modprobe ipv6
 #
+#       Mounting virtual filesystems
 #
+[ ! -f /proc/version ] && mount -n -t proc none /proc
+[ ! -f /sys/class ] && mount -n -t sysfs none /sys
 #
-[ ! -f /proc/version ] && mount -n -t proc virtual-proc-filesystem /proc
-#
-#	Konfiguring the network
+#	Configuring the network
 #
 . /bin/netsetup
 #
@@ -67,7 +68,6 @@ mount -t devpts devpts /dev/pts
 #
 #
 #
-dmesg > /kernel.msg
 echo "
 You should be able to login via telnet/ssh now.
 To restart network setup, enter:

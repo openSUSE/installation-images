@@ -42,6 +42,10 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
   A gen/module.shortconfig.fs modules/module.config
   A gen/module.config.other modules/module.config
 
+  # add them to initrd, they're not on any module disk
+  include gen/module.files.extra
+  A gen/module.config.extra modules/module.config
+
 elsif (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'medium'
 
   # for ia32 CD2 image
@@ -66,53 +70,31 @@ if initrd eq 'initrd'
   include gen/module.files.net
   A gen/module.config.net modules/module.config
 endif
-if initrd eq 'initrd_ppc_pmac_new'
+if initrd eq 'initrd_ppc'
+  include gen/module.files.other
+  A gen/module.config.other modules/module.config
   include gen/module.files.autoload
-  include gen/module.files.ppc_pmac_new
+  include gen/module.files.ppc
   include gen/module.files.usb
   include gen/module.files.firewire
   A gen/module.config.autoload modules/module.config
-  A gen/module.config.ppc_pmac_new modules/module.config
+  A gen/module.config.ppc modules/module.config
   A gen/module.config.usb modules/module.config
   A gen/module.config.firewire modules/module.config
 endif
-if initrd eq 'initrd_ppc_pmac_miboot'
+if initrd eq 'initrd_ppc32_pmac_coff'
+  include gen/module.files.other
+  A gen/module.config.other modules/module.config
   include gen/module.files.autoload
-  include gen/module.files.ppc_pmac_miboot
-  include gen/module.files.usb
+  include gen/module.files.ppc32_pmac_coff
   include gen/module.files.firewire
   A gen/module.config.autoload modules/module.config
-  A gen/module.config.ppc_pmac_miboot modules/module.config
-  A gen/module.config.usb modules/module.config
+  A gen/module.config.ppc32_pmac_coff modules/module.config
   A gen/module.config.firewire modules/module.config
-endif
-if initrd eq 'initrd_ppc_pmac_coff'
-  include gen/module.files.autoload
-  include gen/module.files.ppc_pmac_coff
-  include gen/module.files.firewire
-  A gen/module.config.autoload modules/module.config
-  A gen/module.config.ppc_pmac_coff modules/module.config
-  A gen/module.config.firewire modules/module.config
-endif
-if initrd eq 'initrd_ppc_chrp'
-  include gen/module.files.autoload
-  include gen/module.files.ppc_chrp
-  A gen/module.config.autoload modules/module.config
-  A gen/module.config.ppc_chrp modules/module.config
-endif
-if initrd eq 'initrd_ppc_prep'
-  include gen/module.files.autoload
-  include gen/module.files.ppc_prep
-  A gen/module.config.autoload modules/module.config
-  A gen/module.config.ppc_prep modules/module.config
-endif
-if initrd eq 'initrd_ppc_power3'
-  include gen/module.files.autoload
-  include gen/module.files.ppc_power3
-  A gen/module.config.autoload modules/module.config
-  A gen/module.config.ppc_power3 modules/module.config
 endif
 if initrd eq 'initrd_ppc_pseries64'
+  include gen/module.files.other
+  A gen/module.config.other modules/module.config
   include gen/module.files.autoload
   include gen/module.files.ppc_pseries64
   include gen/module.files.usb
@@ -121,6 +103,8 @@ if initrd eq 'initrd_ppc_pseries64'
   A gen/module.config.usb modules/module.config
 endif
 if initrd eq 'initrd_ppc_iseries64'
+  include gen/module.files.other
+  A gen/module.config.other modules/module.config
   include gen/module.files.autoload
   include gen/module.files.ppc_iseries64
   A gen/module.config.autoload modules/module.config
@@ -143,6 +127,9 @@ else
   # not strictly necessary
   include gen/module.files.other
 
+  # add them explicitly to make sure we really have all modules from CD1
+  include gen/module.files.cd1
+
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
   A gen/module.config.scsi modules/module.config
@@ -154,12 +141,8 @@ else
   A gen/module.config.firewire modules/module.config
   A gen/module.config.fs modules/module.config
 
-  # for those that don't put these modules into inst-sys
-  # cf. data/root/root.file_list
-  if arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 's390' || arch eq 's390x'
-    include gen/module.files.extra
-    A gen/module.config.extra modules/module.config
-  endif
+  include gen/module.files.extra
+  A gen/module.config.extra modules/module.config
 
   A gen/module.config.other modules/module.config
 
@@ -168,7 +151,6 @@ endif
 else
   x s390/bin/remove-empty-directories bin/remove-empty-directories
   x s390/etc/initrd_keep_files etc/initrd_keep_files
-  x s390/etc/zfcp.conf etc/zfcp.conf
   c 0755 0 0 bin/remove-empty-directories
   # the inst-sys is symlinked to from the initrd.  To avoid
   # symlinks for each file in empty directories of the initrd, these
