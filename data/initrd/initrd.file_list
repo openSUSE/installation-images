@@ -82,7 +82,7 @@ g /usr/lib/kbd/keymaps/sun/sunt5-fr-latin1.map.gz keytables/sunt5-fr-latin1.map
 g /usr/lib/kbd/keymaps/sun/sunt5-ru.map.gz keytables/sunt5-ru.map
 endif
 
-ifnarch sparc
+ifarch alpha ix86 ppc
 pcmcia:
 d etc/pcmcia/cis
 a etc/pcmcia/cis etc/pcmcia
@@ -105,6 +105,7 @@ ifdef 2.88
 a /lib/modules/<kernel_ver>/block/*.o /modules
 a /lib/modules/<kernel_ver>/net/*.o /modules
 a /lib/modules/<kernel_ver>/scsi/*.o /modules
+a /lib/modules/<kernel_ver>/fs/reiserfs.o /modules
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 a /lib/modules/<kernel_ver>/misc/serial.o /modules
@@ -145,6 +146,8 @@ a /lib/modules/<kernel_ver>/net/de4x5.o /modules
 # a /lib/modules/<kernel_ver>/net/lance.o /modules
 a /lib/modules/<kernel_ver>/net/pcnet32.o /modules
 a /lib/modules/<kernel_ver>/net/tulip.o /modules
+a /lib/modules/<kernel_ver>/net/via-rhine.o /modules
+a /lib/modules/<kernel_ver>/net/dmfe.o /modules
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 a /lib/modules/<kernel_ver>/misc/serial.o /modules

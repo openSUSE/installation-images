@@ -55,8 +55,8 @@ $extra_size = 400;		# kbyte
 $extra_inodes = 200;
 
 # just make them large enough
-$start_size = 3000;		# kbyte
-$start_inodes = 3000;
+$start_size = 4000;		# kbyte
+$start_inodes = 4000;
 
 # $idlist = "$BasePath$ConfigData{idlist}";
 # die "$Script: where is our id list?" unless $ConfigData{idlist} && -f $idlist;

@@ -67,5 +67,8 @@ SUSystem "strip_dir $tmpdir";
 SUSystem "ldconfig -r $tmpdir";
 die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
+SUSystem "depmod -a -b $tmpdir";
+die "$Script: failed to run depmod" unless -f "$tmpdir/lib/modules/$ConfigData{kernel_ver}/modules.dep";
+
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
 

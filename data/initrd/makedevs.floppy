@@ -397,6 +397,7 @@ create_dev         smouse      10      8    c     1   664     root.root
 create_dev         pc110pad    10      9    c     1   664     root.root
 create_dev         adbmouse    10     10    c     1   664     root.root
 create_dev         nvram       10    144    c     1   600     root.root
+create_dev         agpgarti810 10    240    c     1   664     root.root
 
 # ---------------
 # Major number 11

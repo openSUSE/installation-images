@@ -103,10 +103,12 @@ sub AddFiles
 
     if(/^else/) { $if_val ^= 1; next }
 
-    if(/^ifarch\s+(\S+)/)  { $if_val <<= 1; $if_val |= 1 if $1 ne $arch; next }
-    if(/^ifnarch\s+(\S+)/) { $if_val <<= 1; $if_val |= 1 if $1 eq $arch; next }
-    if(/^ifdef\s+(\S+)/)   { $if_val <<= 1; $if_val |= 1 if $1 ne $tag;  next }
-    if(/^ifndef\s+(\S+)/)  { $if_val <<= 1; $if_val |= 1 if $1 eq $tag;  next }
+    if(/^ifarch\s+/)  { $if_val <<= 1; $if_val |= 1 if !/\b$arch\b/ || $arch eq ""; next }
+    if(/^ifnarch\s+/) { $if_val <<= 1; $if_val |= 1 if  /\b$arch\b/ && $arch ne ""; next }
+    if(/^ifdef\s+/)   { $if_val <<= 1; $if_val |= 1 if !/\b$tag\b/  || $tag  eq ""; next }
+    if(/^ifndef\s+/)  { $if_val <<= 1; $if_val |= 1 if  /\b$tag\b/  && $tag  ne ""; next }
+    if(/^ifabuild/)   { $if_val <<= 1; $if_val |= 1 if !$AutoBuild;                 next }
+    if(/^ifnabuild/)  { $if_val <<= 1; $if_val |= 1 if  $AutoBuild;                 next }
 
     next if $if_val;
 

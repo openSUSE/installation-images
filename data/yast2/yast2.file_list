@@ -7,6 +7,7 @@ c 1777 0 0 tmp
 
 aaa_base:
   /bin/fillup
+  /etc/modules.conf
 
 base:
   /bin/tar
@@ -45,14 +46,16 @@ ps:
 
 rpm:
   /bin/rpm
-# for autobuild
+ifabuild
 X /bin/rpm.bin bin/rpm
+endif
   /usr/lib/rpm/rpm{popt,rc}
 
 sh_utils:
   /bin/{date,echo,false,pwd,sleep,stty,true,uname}
-#for autobuild
+ifabuild
 X /bin/uname.bin bin/uname
+endif
 
 textutil:
   /bin/cat
@@ -62,14 +65,10 @@ util:
   /bin/{u,}mount
   /bin/dmesg
 
-# ##### add modules ????
-# k_deflt:
-# m /lib/modules /usr/lib
-# m /lib/modules/<kernel_ver>/block/loop.o /lib
-
+k_deflt:
+  /lib/modules/<kernel_ver>/{block,net,scsi,fs}
 # add link to initrd modules
 d /lib/modules/default
-c 0755 0 0 /usr/lib/modules
 s /modules /lib/modules/default/misc
 
 ncurses:
@@ -279,7 +278,8 @@ isax:
 # created in aaa_base's postinstall
 X /etc/{passwd,group,shadow,nsswitch.conf,protocols} /etc
 
-# hack: xxxxx
-# X /usr/local/yast2/source/general/YaST2 lib/YaST2/bin/YaST2
-# X /usr/local/yast2/source/general/YaST2.start lib/YaST2/bin/YaST2.start
+# the agp module from xsvga may cause 700 permissions; fix it here
+c 0755 0 0 /lib/modules
+c 0755 0 0 /lib/modules/<kernel_ver>
+c 0755 0 0 /lib/modules/<kernel_ver>/misc
 
