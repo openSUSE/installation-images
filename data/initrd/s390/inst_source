@@ -27,9 +27,13 @@ SCREEN_TXT1="Which terminal do want to use?\n\n    1) X-Window\n    2) VNC (VNC-
 MOUNT_ERR="CD not mounted. Please check parameters."
 MOUNT_ERR2="Root-disk not mounted. Please check parameters."
 ENTER_YES_NO="Please enter yes or no."
-FTPUSERTXT="Please enter the username for the FTP-access: "
-FTPPASSWORDTXT="Please enter the password for the FTP-Access: "
+FTPUSERTXT="Please enter the username for the FTP-access (for anonymous just press enter): "
+FTPPASSWORDTXT="Please enter the password for the FTP-Access (for anonymous just press enter): "
+SMBUSERTXT="Please enter the username for the SMB-access (for guest just press enter): "
+SMBPASSWORDTXT="Please enter the password for the SMB-Access (for guest just press enter): "
+WORKDOMAINTXT="Please enter the Domain (for no domain just press enter): "
 FTP_ASK_VALID="Is the following correct?\\\n\\\n    FTP User:  \$FTPUSER\\\n    FTP Password:           \$FTPPASSWORD\\\n\\\nYes/No: "
+SMB_ASK_VALID="Is the following correct?\\\n\\\n    SMB User:  \$FTPUSER\\\n    SMB Password:           \$FTPPASSWORD\\\n    Domain:   \$WORKDOMAIN\\\n\\\nYes/No: "
 VNC_PASSWORD="Please enter the Password for VNC-Access: "
 #
 # checks an IP to have numbers only between 0 and 255:
@@ -172,7 +176,7 @@ nfs_install()
 #	Mount filesystems and start yast
 #
 $CONDOM mount -t nfs $INST_IP_ADDR:$INST_IP_DIR /var/adm/mount -o ro
-if [ ! -d /var/adm/mount/boot -a -z "$CONDOM" ]
+if [ ! \( -d /var/adm/mount/boot -o -d /var/adm/mount/CD1/boot \) -a -z "$CONDOM" ]
 then
 	echo $MOUNT_ERR
 	return 0
@@ -186,15 +190,33 @@ return 1
 samba_install()
 {
 #
+#     Ask for domain/username/PW
+#
+while :
+do
+	echo -en $SMBUSERTXT
+	read FTPUSER
+#	[ -z "$FTPUSER" ] && continue
+	echo -en $SMBPASSWORDTXT
+	read FTPPASSWORD
+#	[ -z "$FTPPASSWORD" ] && continue
+	echo -en $WORKDOMAINTXT
+	read WORKDOMAIN
+#	[ -z "$WORKDOMAIN" ] && continue
+	eval echo -en $SMB_ASK_VALID
+	yes_no
+	[ "$ANSW" = "yes" ] && break
+done
+#
 #	Mount filesystems and start yast
 #
-$CONDOM mount -t smbfs //$INST_IP_ADDR/$INST_IP_DIR /var/adm/mount -o ro
-if [ ! -d /var/adm/mount/boot -a -z "$CONDOM" ]
-then
-	echo $MOUNT_ERR
-	return 0
-fi
-umount /var/adm/mount
+# $CONDOM mount -t smbfs //$INST_IP_ADDR/$INST_IP_DIR /var/adm/mount -o ro
+# if [ ! \( -d /var/adm/mount/boot -o -d /var/adm/mount/CD1/boot \) -a -z "$CONDOM" ]
+# then
+	# echo $MOUNT_ERR
+	# return 0
+# fi
+# umount /var/adm/mount
 return 1
 }
 #
@@ -206,10 +228,10 @@ while :
 do
 	echo -en $FTPUSERTXT
 	read FTPUSER
-	[ -z "$FTPUSER" ] && continue
+#	[ -z "$FTPUSER" ] && continue
 	echo -en $FTPPASSWORDTXT
 	read FTPPASSWORD
-	[ -z "$FTPPASSWORD" ] && continue
+#	[ -z "$FTPPASSWORD" ] && continue
 	eval echo -en $FTP_ASK_VALID
 	yes_no
 	[ "$ANSW" = "yes" ] && break
@@ -232,8 +254,10 @@ write_info_file()
 	echo "Serverdir: $INST_IP_DIR" >> $INFOFILENAME
 	echo "Instmode: $INST_INFO" >> $INFOFILENAME
 	[ "$INST_INFO" = "ftp" ] && echo "Install: ftp://$INST_IP_ADDR$INST_IP_DIR" >> $INFOFILENAME
+	[ "$INST_INFO" = "SAMBA" ] && echo "Install: smb://$INST_IP_ADDR$INST_IP_DIR" >> $INFOFILENAME
 	[ ! -z "$FTPUSER" ] && echo "Username: $FTPUSER" >> $INFOFILENAME
 	[ ! -z "$FTPPASSWORD" ] && echo "Password: $FTPPASSWORD" >> $INFOFILENAME
+	[ ! -z "$WORKDOMAIN" ] && echo "WorkDomain: $WORKDOMAIN" >> $INFOFILENAME
 	case $INST_SCREEN in
 		X)
 			echo "Display_IP: $INST_X_ADDR" >> $INFOFILENAME
@@ -303,7 +327,7 @@ then
 	done
 fi
 #
-#	Filesytem and files are ready
+#	Filesystem and files are ready
 #	Ask the user for VNC or X-Windows
 #
 if [ "$INST_SCREEN" = "nothing" -a "$INST_INFO" != "ABORT" ]
@@ -351,14 +375,8 @@ then
 #
 	write_info_file
 #
-	if [ "$INST_SCREEN" != "SSH" ] 
-	then
-		/bin/linuxrc
-	fi
+	[ "$INST_SCREEN" != "SSH" ] && /bin/linuxrc
 #
-	if [ ! -z "$CONDOM" ]
-	then
-		set
-	fi
+	[ ! -z "$CONDOM" ] && set
 fi
 :
