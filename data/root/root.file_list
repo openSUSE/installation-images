@@ -441,6 +441,8 @@ if with_yast2 ne 'no'
     /
   yast2-storage:
     /
+  yast2-theme-SuSELinux:
+    /
   yast2-x11:
     /
   yast2-xml:
@@ -642,7 +644,7 @@ jfsutils:
 xfsprogs:
   /sbin/fsck.xfs
   /sbin/mkfs.xfs
-  /usr/sbin/xfs_growfs
+  /usr/sbin/xfs_{growfs,admin,db}
 
 wget:
   /etc

@@ -1,5 +1,5 @@
 d bin dev etc mnt proc tmp
-d var/run var/adm/mount var/lib/YaST var/spool var/lock var/log var/tmp var/lib/dhcpcd
+d var/run var/adm/mount var/lib/YaST var/spool var/lock var/log var/log/YaST2 var/tmp var/lib/dhcpcd
 
 d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11 var/lib/xkb
 s /usr/X11R6/lib/X11 var/X11R6/lib

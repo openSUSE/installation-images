@@ -78,12 +78,8 @@ sub AddFiles
   $use_cache = 0;
   $use_cache = $ENV{'cache'} if exists $ENV{'cache'};
   if($use_cache) {
-    $cache_dir = `pwd`;
-    chomp $cache_dir;
-    $tmp_cache_dir = $cache_dir;
-    $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}";
-    $tmp_cache_dir .= "/${BasePath}tmp/cache/$ENV{'suse_release'}-$ENV{'suse_arch'}";
-    system "mkdir -p $tmp_cache_dir";
+    $cache_dir = $ConfigData{'cache_dir'};
+    $tmp_cache_dir = $ConfigData{'tmp_cache_dir'};
   }
 
   $ignore = $debug =~ /\bignore\b/ ? 1 : 0;
@@ -102,16 +98,16 @@ sub AddFiles
 
   $debug .= ',pkg';
 
-  if(!$AutoBuild) {
-    $rpms = "$ConfigData{suse_base}/suse";
-    die "$Script: where are the rpms?" unless $ConfigData{suse_base} && -d $rpms;
-    $rpms = "$rpms/*";
-  }
-  else {
-    $rpms = $AutoBuild;
-    die "$Script: where are the rpms?" unless -d $rpms;
-    print "running in autobuild environment\n";
-  }
+#  if(!$AutoBuild) {
+#    $rpms = "$ConfigData{suse_base}/suse";
+#    die "$Script: where are the rpms?" unless $ConfigData{suse_base} && -d $rpms;
+#    $rpms = "$rpms/*";
+#  }
+# else {
+#    $rpms = $AutoBuild;
+#    die "$Script: where are the rpms?" unless -d $rpms;
+#    print "running in autobuild environment\n";
+#  }
 
   if(! -d $dir) {
     die "$Script: failed to create $dir ($!)" unless mkdir $dir, 0755;
@@ -239,18 +235,18 @@ sub AddFiles
       undef $r;
       if($p =~ /^\//) {
         $r = $p;
-        warn "$Script: no such package: $r" unless -f $r;
+        warn("$Script: no such package: $r"), next unless -f $r;
       }
       else {
+        $r = RPMFileName $p;
+
         if($use_cache) {
           $rc = "$cache_dir/$p.rpm";
-          $r = $rc if -f $rc;
           $tmp_rpm = "$tmp_cache_dir/$p";
         }
-        $r = `echo -n $rpms/$p.rpm` unless $r;
-        warn "$Script: no such package: $p.rpm" unless -f $r;
+        warn("$Script: no such package: $p.rpm"), next unless $r && -f $r;
 
-        if(($use_cache & 2) && $rc && -f($r) && $rc ne $r) {
+        if(($use_cache & 2) && $rc && $r && -f($r) && $rc ne $r) {
           if(! -d($cache_dir)) {
             SUSystem("mkdir -p $cache_dir");
           }
@@ -269,6 +265,7 @@ sub AddFiles
           }
         }
       }
+
       $ver = (`rpm -qp $r`)[0];
       $ver = "" unless defined $ver;
       $ver =~ s/\s*$//;

@@ -165,13 +165,13 @@ require Exporter;
 @ISA = qw ( Exporter );
 @EXPORT = qw (
   $Script $BasePath $LibPath $BinPath $CfgPath $ImagePath $DataPath
-  $TmpBase %ConfigData SUSystem Print2File $MToolsCfg $AutoBuild
+  $TmpBase %ConfigData RPMFileName SUSystem Print2File $MToolsCfg $AutoBuild
 );
 
 use strict 'vars';
 use vars qw (
   $Script $BasePath $LibPath $BinPath $CfgPath $ImagePath $DataPath
-  $TmpBase %ConfigData $SUBinary &SUSystem &Print2File $MToolsCfg $AutoBuild
+  $TmpBase %ConfigData $SUBinary &RPMFileName &SUSystem &Print2File $MToolsCfg $AutoBuild
 );
 
 sub DebugInfo
@@ -193,6 +193,81 @@ sub DebugInfo
     print "  $_ = \"$ConfigData{$_}\"\n"
   }
 }
+
+#
+#
+#
+sub RPMFileName
+{
+  my ($rpm, $file, @f, $x);
+  local $_;
+
+  $rpm = shift;
+
+  $file = $ConfigData{'cache_dir'};
+
+  if($ConfigData{'use_cache'} && $file && -f "$file/$rpm.rpm") {
+
+    # print "*$rpm: $file/$rpm.rpm\n";
+
+    return "$file/$rpm.rpm";
+  }
+
+  $file = $ConfigData{'tmp_cache_dir'};
+
+  if($file && -d $file) {
+    $file .= "/.rpms";
+    mkdir $file, 0755 unless -d $file;
+    $file .= "/$rpm.rpm";
+
+    # print "#$rpm: $file\n" if -f $file;
+
+    return $file if -f $file;
+  }
+
+  undef $file;
+
+  for (`cat $ConfigData{'suse_base'}/find-name-rpm 2>/dev/null`) {
+    chomp;
+    s/^\.\///;
+    if(m#/(\Q$rpm\E|\Q$rpm\E\-[^\-]+\-[^\-]+)\.rpm$#) {
+      $file = "$ConfigData{'suse_base'}/$_";
+      last;
+    }
+  }
+
+  if(!$file) {
+    @f = glob "$ConfigData{'suse_base'}/$rpm.rpm";
+    if($f[0] && -f $f[0]) {
+      $file = $f[0];
+    }
+  }
+
+  if(!$file) {
+    @f = glob "$ConfigData{'suse_base'}/$rpm-*-*.rpm";
+    for (@f) {
+      if($_ && -f $_ && m#/\Q$rpm\E\-[^\-]+\-[^\-]+\.rpm$#) {
+        $file = $_;
+        last;
+      }
+    }
+  }
+
+  $x = $ConfigData{'tmp_cache_dir'};
+
+  if($file && $x && -d($x)) {
+    $x .= "/.rpms";
+    mkdir $x, 0755 unless -d $x;
+    if(-d $x) {
+      symlink($file, "$x/$rpm.rpm");
+    }
+  }
+
+  # print "$rpm: $file\n" if $file;
+
+  return $file;
+}
+
 
 #
 # execute string as root
@@ -366,17 +441,16 @@ for (@f) {
   $rx = "$1-" if $r0 =~ s/-(.+)\s*$//;
   $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
   $r0 = "$r0-" if $r0 ne "";
-#  $base = "/work/CDs/full-$r0$rx$a";
   $work = defined($ENV{'work'}) && -d($ENV{'work'}) ? $ENV{'work'} : "/work";
   $work .= "/CDs";
   $work .= "/all" if -d "$work/all";
-  $base = "$work/full-$rf-$a";
-  $base = "$work/full-$a" unless -d $base;
+  $base = "$work/full-$rf-$a/suse";
+  $base = "$work/full-$a/suse" unless -d $base;
+  $ConfigData{'suse_base'} = $ENV{'suse_base'} = $base;
 
   if(!$in_abuild) {
     die "Sorry, no packages in \"$work\"!\n" unless -d "$base";
-    my $suserelpack = "$base/suse/a1/aaa_version.rpm";
-    $suserelpack = "$base/suse/a1/aaa_base.rpm" unless -f $suserelpack;
+    my $suserelpack = RPMFileName "aaa_version";
     die "invalid SuSE release" unless -f $suserelpack;
     system "mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $suserelpack | cpio -iud --quiet etc/SuSE-release";
 
@@ -400,7 +474,6 @@ for (@f) {
 
   ($ENV{'suse_release'} = $r0) =~ s/-?$//;
   ($ENV{'suse_xrelease'} = $rx) =~ s/-?$//;
-  $ENV{'suse_base'} = $base;
 
   ($v = "$r0$rx") =~ s/-?$//;
 
@@ -417,6 +490,18 @@ for (@f) {
   if($ENV{'suse_release'} eq "7.4" && $ENV{'pre_release'}) {
     $ENV{'suse_release'} = $v = "8.0";
   }
+
+  my $cache_dir = `pwd`;
+  chomp $cache_dir;
+  my $tmp_cache_dir = $cache_dir;
+  $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}";
+  $ConfigData{'cache_dir'} = $cache_dir;
+  $tmp_cache_dir .= "/${BasePath}tmp/cache/$ENV{'suse_release'}-$ENV{'suse_arch'}";
+  $ConfigData{'tmp_cache_dir'} = $tmp_cache_dir;
+  system "mkdir -p $tmp_cache_dir" unless -d $tmp_cache_dir;
+  my $use_cache = 0;
+  $use_cache = $ENV{'cache'} if exists $ENV{'cache'};
+  $ConfigData{'use_cache'} = $use_cache;
 
   if($in_abuild) {
     $ENV{'kernel_img'} = KernelImg $ENV{'kernel_img'}, (`ls /boot/*`);
@@ -436,23 +521,7 @@ for (@f) {
     $kv = `rpm -ql $ENV{'kernel_rpm'} 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
   }
   else {
-    my ($use_cache, $cache_dir);
-
-    $use_cache = 0;
-    $use_cache = $ENV{'cache'} if exists $ENV{'cache'};
-    if($use_cache) {
-      $cache_dir = `pwd`;
-      chomp $cache_dir;
-      $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}"
-    }
-
-    undef $kv;
-    if($use_cache) {
-      $kv = "$cache_dir/$ENV{'kernel_rpm'}.rpm"
-    }
-    if(!(defined($kv) && -f($kv))) {
-      $kv = "$base/suse/images/$ENV{'kernel_rpm'}.rpm";
-    }
+    $kv = RPMFileName $ENV{'kernel_rpm'};
 
     $ENV{'kernel_img'} = KernelImg $ENV{'kernel_img'}, (`rpm -qlp $kv 2>/dev/null | grep /boot`);
 
@@ -472,7 +541,7 @@ for (@f) {
       system "ls -la /.rpm-cache";
       die "No usable /.rpm-cache (looking for \"$r\")!\n"
     }
-    $base = $AutoBuild = "/.rpm-cache/$r"
+    $ConfigData{'suse_base'} = $ENV{'suse_base'} = $base = $AutoBuild = "/.rpm-cache/$r"
   }
 
   for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base pre_release) ) {
