@@ -13,7 +13,8 @@ $saved = 0;
 for $dir (@ARGV) {
   for $f (`find $dir -type f`) {
     chomp $f;
-    next if $f =~ /modules/;		# skip modules
+    next if $f =~ /modules/ && $f !~ /X11R6\/lib\/modules/;	# skip modules
+    next if $f =~ /\.uc$/;	# some X.org modules
     $f0 = $f;
     $f =~ s/'/'\\''/g;
     $_ = `file '$f'`;
@@ -21,7 +22,7 @@ for $dir (@ARGV) {
     if(/\sELF\s.*\s(shared\s+object|executable)/) {
       $s = "strip -s -R .note -R .comment '$f'";
     }
-    elsif(/\sELF\s.*\srelocatable,/) {
+    elsif(/\sELF\s.*\srelocatable,|current ar archive/) {
       $s = "strip -g -R .note -R .comment '$f'";
     }
     if($s) {

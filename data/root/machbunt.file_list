@@ -99,10 +99,10 @@ if with_yast2 ne 'no'
       /usr/X11R6/lib*/modules/lib*.a
   endif
 
-  if arch ne 's390' && arch ne 's390x'
-    xorg-x11-server-glx:
-      /usr/X11R6/lib*/modules/extensions/lib{glx,GLcore}.a
-  endif
+#  if arch ne 's390' && arch ne 's390x'
+#    xorg-x11-server-glx:
+#      /usr/X11R6/lib*/modules/extensions/lib{glx,GLcore}.a
+#  endif
 
   xorg-x11-libs:
     /usr/X11R6/lib*/libX{11,cursor,ext,i,inerama,mu,muu,p,pm,randr,render,ss,t,tst,xf86dga,xf86misc,xf86vm}.so*
