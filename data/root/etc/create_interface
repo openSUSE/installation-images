@@ -25,12 +25,12 @@ if [ -f $INSTALLINF ]
 then
 #	Check for chandev
 #	CHANDEV=`grep Chandev: $INSTALLINF | uniq | sed -e 's/Chandev: \\(.*\\)/\\1/'`
-#	[ ! -z "$CHANDEV" ] && echo $CHANDEV >> $CHANDEVCONF
+#	[ -n "$CHANDEV" ] && echo $CHANDEV >> $CHANDEVCONF
 #
 #	Create modules.conf Entry (alias)
 #
 	MODCONF=`grep Alias: $INSTALLINF | uniq | sed -e 's/Alias: \\(.*\\)/\\1/'`
-	if [ ! -z "$MODCONF" ]
+	if [ -n "$MODCONF" ]
 	then
 		set -- $MODCONF
 		if [ $# -eq 2 ]
@@ -50,7 +50,7 @@ then
 #	Create modules.conf Entry (Options)
 #
 	MODCONF=`grep Options: $INSTALLINF | uniq | sed -e 's/Options: \\(.*\\)/\\1/'`
-	if [ ! -z "$MODCONF" ]
+	if [ -n "$MODCONF" ]
 	then
 		egrep "options[[:space:]]*$1[[:space:]]*" $MODCONFFILE 2>&1 > /dev/null
 		if [ $? -eq 0 ]
@@ -72,43 +72,43 @@ then
 	IP=`grep "^IP:" $INSTALLINF | uniq | sed -e 's/IP: \\(.*\\)/\\1/'`
 	echo "IPADDR=\"$IP\"" >> $DEVICEFILE
 	IP_MTU=`grep "^IP_MTU:" $INSTALLINF | uniq | sed -e 's/IP_MTU: \\(.*\\)/\\1/'`
-	[ ! -z "$IP_MTU" ] && echo "MTU=\"$NWMASK\"" >> $DEVICEFILE
+	[ -n "$IP_MTU" ] && echo "MTU=\"$IP_MTU\"" >> $DEVICEFILE
 #
 #	Create pointopoint Interfaces
 #
 	PTOP=`grep Pointopoint: $INSTALLINF | uniq | sed -e 's/Pointopoint: \\(.*\\)/\\1/'`
-	[ ! -z "$PTOP" ] && echo "REMOTE_IPADDR=\"$PTOP\"" >> $DEVICEFILE
+	[ -n "$PTOP" ] && echo "REMOTE_IPADDR=\"$PTOP\"" >> $DEVICEFILE
 #
 #	create broadcast-interface
 #
 	NWMASK=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
-	[ ! -z "$NWMASK" ] && echo "NETMASK=\"$NWMASK\"" >> $DEVICEFILE
+	[ -n "$NWMASK" ] && echo "NETMASK=\"$NWMASK\"" >> $DEVICEFILE
 	NW=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
-	[ ! -z "$NW" ] && echo "NETWORK=\"$NW\"" >> $DEVICEFILE
+	[ -n "$NW" ] && echo "NETWORK=\"$NW\"" >> $DEVICEFILE
 	NWBROADCAST=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
-	[ ! -z "$NWBROADCAST" ] && echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
+	[ -n "$NWBROADCAST" ] && echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
 #	
 #	Create routingfile
 #
 	GW=`grep Gateway: $INSTALLINF | uniq | sed -e 's/Gateway: \\(.*\\)/\\1/'`
-	[ ! -z "$GW" ] && echo "default $GW 0.0.0.0 $NETDEV" >> $ROUTINGFILE
+	[ -n "$GW" ] && echo "default $GW 0.0.0.0 $NETDEV" >> $ROUTINGFILE
 #
 #	Create /etc/HOSTNAME
 #
 	HOSTNAME=`grep Machinename: $INSTALLINF | uniq | sed -e 's/Machinename: \\(.*\\)/\\1/'`
-	[ ! -z "$HOSTNAME" ] && echo "$HOSTNAME" > $HOSTFILE
+	[ -n "$HOSTNAME" ] && echo "$HOSTNAME" > $HOSTFILE
 #
 #	Create /etc/resolv.conf
 #
 	DOMAIN=`grep Domain: $INSTALLINF | uniq | sed -e 's/Domain: \\(.*\\)/\\1/'`
 	NAMESERVER=`grep Nameserver: $INSTALLINF | uniq | sed -e 's/Nameserver: \\(.*\\)/\\1/'`
-	if [ ! -z "$DOMAIN" -a ! -z "$NAMESERVER" ]
+	if [ -n "$DOMAIN" -a -n "$NAMESERVER" ]
 	then
 		echo "domain $DOMAIN" >> $RESFILE
 		echo "nameserver $NAMESERVER" >> $RESFILE
 	fi
 	WAIT_FOR_INTERFACES=`grep ConnectWait: $INSTALLINF | uniq | sed -e 's/ConnectWait: \\(.*\\)/\\1/'`
-	if [ ! -z "$WAIT_FOR_INTERFACES" ]
+	if [ -n "$WAIT_FOR_INTERFACES" ]
 	then
 #
 #	WAIT_FOR_INTERFACES is not zero. Put the value into the file

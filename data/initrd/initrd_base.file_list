@@ -184,6 +184,7 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/ifconfig
     #/sbin/ipmaddr
     #/sbin/iptunnel
+    /usr/sbin/traceroute
     #/sbin/mii-tool
     /sbin/route
   nfs-utils:

@@ -138,7 +138,12 @@ while :
 do
 	echo -en $DIR_TXT1
 	read INST_IP_DIR
-	[ -n "$INST_IP_DIR" ] && break
+	[ -z "$INST_IP_DIR" ] && continue
+	if `echo $INST_IP_DIR | grep -v "^/" > /dev/null`
+	then
+		INST_IP_DIR=/$INST_IP_DIR
+	fi
+	break;
 done
 } # ask_dir
 #

@@ -681,7 +681,7 @@ IP: $IP_ADDR"
     fi
     [ "$IP_HOST" ]        && echo "Machinename: $IP_HOST"
     [ "$IP_DNS" ]         && echo "Nameserver: $IP_DNS"
-    [ "$IP_MTU" ]         && echo "IP_MUT: $IP_MTU"
+    [ "$IP_MTU" ]         && echo "IP_MTU: $IP_MTU"
 }
 #
 #
