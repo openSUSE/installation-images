@@ -129,7 +129,7 @@ glibc:
   /lib*/ld-2.*.so
 if arch eq 'ppc' || arch eq 's390' || arch eq 'mips'
   /lib*/ld.so.1
-else if arch eq 's390x'
+elsif arch eq 's390x'
   /lib*/ld64*
 else 
   /lib*/ld-linux*.so.2
