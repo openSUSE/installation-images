@@ -1,0 +1,62 @@
+#! /bin/bash
+
+function out_byte()
+{
+ 	let x=$1
+	echo -en "`printf \\\\%o $x`"
+}
+function write_int()
+{
+	let tmp1=($1 & 255)
+	let tmp2=($1>>8)
+	let tmp2=($tmp2&255)
+	let tmp3=($1>>16)
+	let tmp3=($tmp3&255)
+	let tmp4=($1>>24)
+	let tmp4=($tmp4&255)
+	out_byte $tmp1
+	out_byte $tmp2
+	out_byte $tmp3
+	out_byte $tmp4
+}
+function write_short()
+{
+	let tmp1=($1>>8)
+	let tmp2=($1&0xff)
+	out_byte $tmp2
+	out_byte $tmp1
+}
+
+function write_header()
+{
+  	# write signature
+	echo -n "BOOTSPL1"
+	# write text x coordinate
+	write_short $1
+	# write text y coordinate
+	write_short $2
+	# write text width
+	write_short $3
+	# write text height
+	write_short $4
+	# write file length
+	write_int $5
+}
+
+splash=/usr/share/splash/inst_splash
+rm -f $splash
+
+bootsplash_picture=/usr/share/splash/bootsplash-800x600.jpg
+cfgname=/usr/share/splash/bootsplash-800x600.cfg
+source $cfgname
+size=`wc -c<$bootsplash_picture`
+write_header $tx $ty $tw $th $size >> $splash
+cat $bootsplash_picture >> $splash
+
+bootsplash_picture=/usr/share/splash/bootsplash-1024x768.jpg
+cfgname=/usr/share/splash/bootsplash-1024x768.cfg
+source $cfgname
+size=`wc -c<$bootsplash_picture`
+write_header $tx $ty $tw $th $size >> $splash
+cat $bootsplash_picture >> $splash
+

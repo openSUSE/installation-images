@@ -219,9 +219,6 @@ x /usr/bin/setfont /usr/bin
 
 hdparm:
   /sbin/hdparm
-
-bdflush:
-  /sbin/update
 endif
 
 e2fsprogs:

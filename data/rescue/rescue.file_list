@@ -50,11 +50,6 @@ bash:
 readline:
   /lib
 
-if arch ne 's390'
-bdflush:
-  /sbin
-endif
-
 cpio:
   /bin
   /usr/bin

@@ -138,5 +138,6 @@ r /lib/modules
 
 # create splash
 x mk_splash /
+c 0755 0 0 /mk_splash
 e /mk_splash
 r /mk_splash

@@ -1,3 +1,7 @@
+19/9/2001:	v1.97
+	- removed references to bdflush: package deleted
+	- forgot to add mk_splash
+
 18/9/2001:	v1.96
 	- nfs-server: /var/state/nfs -> /var/lib/nfs
 	- splash is taken from splashanim package

@@ -98,9 +98,6 @@ e2fsprogs:
 r /lib/libe2p.so*
 r /lib/libss.so*
 
-bdflush:
-  /sbin/update
-
 netcfg:
   /etc/{hosts,inetd.conf,networks}
 
