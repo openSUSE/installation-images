@@ -423,7 +423,7 @@ c 0755 0 0 /usr/share
 
 x /etc/ld.so.conf /etc
 
-if arch ne 'alpha'
+if 1		# arch ne 'alpha'
   d /usr/X11R6/{bin,include/X11,share}
 
   s X11R6 /usr/X11
@@ -514,7 +514,7 @@ if arch ne 'alpha'
   endif
 endif
 
-if arch ne 'alpha'
+if 1		# arch ne 'alpha'
   yast2:
   if suse_major == 6
       /usr/X11R6/lib/X11/fonts/uni
@@ -562,7 +562,7 @@ libz:
   /lib/libz.so.1*
 
 c 0755 0 0 /usr
-if arch ne 'alpha'
+if 1		# arch ne 'alpha'
   c 0755 0 0 /usr/X11R6
   c 0755 0 0 /usr/X11R6/bin
   c 0755 0 0 /etc/X11
@@ -597,7 +597,7 @@ else
     /usr/lib/*
 endif
 
-if arch ne 'alpha'
+if 1		# arch ne 'alpha'
   y2base:
   if suse_major == 6
       /bin/y2bignfat
@@ -627,7 +627,7 @@ endif
 netcfg:
   /etc/{services,protocols}
 
-if arch ne 'alpha'
+if 1			# arch ne 'alpha'
 # we don't need ISaX
 #  isax:
 #    /usr/X11R6/bin/{isax,ISaX}

@@ -1,5 +1,6 @@
-26/2/2001:	v1.42
+27/2/2001:	v1.42
 	- we can now prepare hard disk boot images
+	- enabled yast2 for alpha
 
 9/2/2001:	v1.41
 	- fixed ppc filelist (lvm, parted)
