@@ -125,7 +125,8 @@ hwinfo:
   /usr/sbin
 
 udev:
-  /etc
+  /etc/udev/udev.conf
+  /etc/udev/udev.rules
   /sbin/udev
   /sbin/raiddetect
 #  /sbin/udev.*.sh
