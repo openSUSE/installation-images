@@ -1,3 +1,4 @@
+	- added evms
 	- .bash_login: exit early on system console
 	- typo in ppc/bootinfo.txt (#35176)
 

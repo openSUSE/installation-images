@@ -890,6 +890,15 @@ ntfsprogs:
 libselinux:
   /lib*/libselinux.so*
 
+evms:
+  /etc/evms.conf
+  /lib*
+  /sbin/evms{_activate,_gather_info}
+
+screen:
+  /etc
+  /usr/bin/screen
+
 # freefont:
 #  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
 
