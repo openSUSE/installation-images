@@ -1,5 +1,8 @@
-10/1/2005:	v6.17
+10/1/2005:	v6.18
 	- x86-64: add (empty) /lib64 directory to initrd (needed for patch cd)
+
+8/10/2004:	v6.17
+	- added norwegian translations
 
 5/10/2004:	v6.16
 	- don't set lower_zone_protection (#46535)
