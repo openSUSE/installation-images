@@ -110,8 +110,8 @@ if arch eq 's390' || arch eq 's390x'
     /usr/lib*/libpopt.so.0
     /usr/lib*/libpopt.so.0.0.0
   samba-client:
-    m /usr/lib*/samba/smbmount-classic /bin/smbmount
-    m /usr/lib*/samba/smbmnt-classic /bin/smbmnt
+    m /usr/lib*/samba/classic/smbmount /bin/smbmount
+    m /usr/lib*/samba/classic/smbmnt /bin/smbmnt
     # to make mount(8) -t smbfs work:
     l /bin/smbmount  /sbin/mount.smbfs
     # /lib*/libnss_wins.so?
@@ -536,7 +536,7 @@ if with_smb
   d etc/samba
   e echo "; just to make smbmount happy" >etc/samba/smb.conf
 
-  if arch eq 'ia32' || arch eq 'x86_64'
+  if arch eq 'ia32'
 
     smbmount-diet:
       m /usr/bin/smbmount /bin/smbmount
@@ -546,7 +546,7 @@ if with_smb
     d bin lib
 
     samba-client:
-      m /usr/lib*/samba/smbmnt-classic /bin/smbmount
+      m /usr/lib*/samba/classic/smbmount /bin/smbmount
 
     glibc:
       /lib*/ld-linux*.so.2

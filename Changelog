@@ -1,6 +1,10 @@
+27/9/2002:	v2.78
+	- samba-client package has changed
+
 27/9/2002:	v2.77
-        - corrected Installation error in linuxrc for s390 (Bug #20245)
-        - corrected string in linuxrc.config (Bug #19947)
+	- corrected Installation error in linuxrc for s390 (Bug #20245)
+	- corrected string in linuxrc.config (Bug #19947)
+
 26/9/2002:	v2.76
 	- bootlogo back on SLES
 
