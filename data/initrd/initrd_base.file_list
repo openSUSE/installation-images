@@ -270,6 +270,10 @@ if with_gdb
     m /usr/bin/killall /bin
     m /usr/bin/pstree /bin
 
+  coreutils:
+    m /usr/bin/head /bin
+    m /usr/bin/tail /bin
+
   bash:
     /bin/bash
     /bin/sh
@@ -279,7 +283,7 @@ if with_gdb
     linuxrc:
       m /usr/sbin/linuxrc /bin/linuxrc
 
-      e echo -e "#! /bin/sh\n/bin/bash\n" >linuxrc
+      e echo -e "#! /bin/sh\nexport PATH=/bin:/sbin:/lbin\nPS1=\\\\\\w\>\n/bin/bash\n" >linuxrc
 
   endif
 
@@ -292,6 +296,37 @@ if with_gdb
       e echo -e "#! /bin/sh\ngdb --command /zap /bin/linuxrc" >linuxrc
 
   endif
+
+
+  d /lbin
+  s /bin/linuxrc /lbin/cp
+  s /bin/linuxrc /lbin/mv
+  s /bin/linuxrc /lbin/modprobe
+  s /bin/linuxrc /lbin/rmmod
+  s /bin/linuxrc /lbin/lsmod
+  s /bin/linuxrc /lbin/mount
+  s /bin/linuxrc /lbin/umount
+  s /bin/linuxrc /lbin/cat
+  s /bin/linuxrc /lbin/hex
+  s /bin/linuxrc /lbin/lsof
+  s /bin/linuxrc /lbin/rm
+  s /bin/linuxrc /lbin/ln
+  s /bin/linuxrc /lbin/ls
+  s /bin/linuxrc /lbin/mkdevs
+  s /bin/linuxrc /lbin/mkdir
+  s /bin/linuxrc /lbin/chroot
+  s /bin/linuxrc /lbin/kill
+  s /bin/linuxrc /lbin/swapon
+  s /bin/linuxrc /lbin/swapoff
+  s /bin/linuxrc /lbin/free
+  s /bin/linuxrc /lbin/fstype
+  s /bin/linuxrc /lbin/lndir
+  s /bin/linuxrc /lbin/dhcpcd
+  s /bin/linuxrc /lbin/portmap
+  s /bin/linuxrc /lbin/lsh
+  s /bin/linuxrc /lbin/loadkeys
+  s /bin/linuxrc /lbin/dumpkeys
+  s /bin/linuxrc /lbin/setfont
 
 endif
 
