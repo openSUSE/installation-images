@@ -1,3 +1,6 @@
+4/6/2004:	v5.65
+	- added polish texts (#41598)
+
 1/6/2004:	v5.64
 	- build only one initrd for ppc32, use pmac64 for G5
 
