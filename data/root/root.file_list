@@ -110,6 +110,7 @@ endif
 
 ncurses:
   /lib*/libncurses.so.5*
+  /usr/bin/reset
   /usr/lib*/libpanel.so.5*
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
@@ -412,6 +413,7 @@ endif
 if with_yast2 ne 'no'
   yast2:
     /
+    s ../usr/lib/YaST2/bin/fdisk /sbin/fdisk
   yast2-bootloader:
     /
   yast2-core:

@@ -1,5 +1,7 @@
 30/7/2002:	v2.29
 	- added multipath module
+	- add /usr/bin/reset to inst-sys
+	- symlink /sbin/fdisk to /usr/lib/YaST2/bin/fdisk
 
 29/7/2002:	v2.28
 	- raid modules got accidentally removed from inst-sys
