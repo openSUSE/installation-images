@@ -254,6 +254,7 @@ if arch eq 's390' || arch eq 's390x'
     /etc/login.defs
     /etc/pam.d/login
     /etc/pam.d/passwd
+    /etc/pam.d/shadow
     /usr/sbin/groupadd
     /usr/sbin/useradd
   iputils:
