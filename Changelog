@@ -1,3 +1,9 @@
+7/3/2003:	v3.21
+	- build splashs without silent image to reduce size (#24750)
+	- put only a limited number of splash images on cd2 (#24750)
+	- run /bin/initviocons in .bash_login (#24728)
+	- removed all xfree drivers but fbdev, vga and vmware (#24623)
+
 6/3/2003:	v3.20
 	- don't put cd related modules into initrd (#24709)
 	- changed boot loader menu texts

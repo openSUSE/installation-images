@@ -30,7 +30,11 @@ endif
   endif
 
   if bootsplash ne 'modules1' && bootsplash ne '0'
-    e cp /<splash_theme>/*.spl .
+    if boot eq 'small' || boot eq 'medium'
+      e cp /<splash_theme>/floppy/*.spl .
+    else
+      e cp /<splash_theme>/*.spl .
+    endif
   endif
 
   if (memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval'

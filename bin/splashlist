@@ -37,6 +37,7 @@ print W "gfxboot-devel:\n  /\n";
 for (sort keys %st) {
   print W
     "  d /$_\n" .
+    "  d /$_/floppy\n" .
     "  m /usr/share/gfxboot/$_/bootlogo /$_\n";
 }
 
@@ -44,9 +45,13 @@ for (sort keys %st) {
   print W
     "bootsplash-theme-$_:\n  /\n";
 
+  undef %fl_spl;
+  @fl_spl{split /\s|,/, $ConfigData{ini}{Splash}{floppy}} = ();
+
   for $res (split /\s|,/, $ConfigData{ini}{Splash}{cdrom}) {
     $res2 = sprintf "%04u%04u", split(/x/, $res);
-    print W "  E splash -s -f /usr/share/splash/themes/$_/config/bootsplash-${res}.cfg >/$_/${res2}.spl\n"
+    print W "  E splash -s -n -f /usr/share/splash/themes/$_/config/bootsplash-${res}.cfg >/$_/${res2}.spl\n";
+    print W "  l /$_/${res2}.spl /$_/floppy\n" if exists $fl_spl{$res};
   }
   print W "\n";
 }
