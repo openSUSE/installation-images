@@ -192,9 +192,11 @@ umsprogs:
 c 0755 0 0 /sbin/umssync
 s /sbin/umssync /bin/umssync
 
-# clock no longer in util package
 util:
   /sbin/{ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
+ifarch ppc
+  /sbin/clock
+endif
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
@@ -426,5 +428,15 @@ ifarch ppc
 pdisk:
   /sbin/pdisk
 yaboot:
+  /usr/sbin/show_of_path.sh
   /var/lib/yaboot
+gawk:
+  /usr/bin/{g,}awk
+fbset:
+  /etc/fb.modes
+  /usr/sbin/fbset
 endif
+
+x /usr/bin/setclock /usr/bin
+
+

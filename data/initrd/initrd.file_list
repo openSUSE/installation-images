@@ -205,6 +205,13 @@ r /modules/sg.o
 r /modules/53c7,8xx.o
 r /modules/g_NCR5380.o
 r /modules/tmscsim.o
+r /modules/aha152x.o
+r /modules/aha1542.o
+r /modules/eata.o
+r /modules/eata_dma.o
+r /modules/dpt_i2o.o
+r /modules/wd7000.o
+r /modules/a100u2w.o
 
 # block
 r /modules/raid5.o
@@ -245,6 +252,10 @@ r /modules/x25_asy.o
 r /modules/yam.o
 r /modules/acenic.o
 r /modules/sk98lin.o
+r /modules/olympic.o
+r /modules/e2100.o
+r /modules/lne390.o
+r /modules/ne3210.o
 
 ifndef 2.88
 r /modules/arlan.o

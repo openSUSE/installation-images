@@ -4,6 +4,7 @@
 
 for $dir (@ARGV) {
   for $f (`find $dir -type f`) {
+    next if ( $f =~ /modules/ );
     $_ = `file $f`;
     if(/\sELF\s.*\s(shared\s+object|executable)/) {
       system "strip -s -R .note -R .comment $f";

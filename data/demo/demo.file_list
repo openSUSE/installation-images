@@ -21,17 +21,16 @@ c 0711 0 0 /root
   /etc/{hushlogins,inittab,motd,logfiles,netgroup}
   /etc/{profile.dos,shells,zshrc}
 # aaa_base's preinstall
-X /sbin/init.d/{boot,halt}.local /sbin/init.d
-X /etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
+#X /sbin/init.d/{boot,halt}.local /sbin/init.d
+#X /etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
 ifnabuild
 # fake so we don't use local files
-x /etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
+#x /etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
 endif
+  /sbin/SuSEconfig
+p /sbin/SuSEconfig.patch
+p /sbin/boot.patch
 p /sbin/halt.patch
-
-# no idea where those are from
-X /etc/SuSEconfig /etc
-#X /etc/rc.config /etc
 
 aaa_dir:
   /sbin/init.d
@@ -149,6 +148,8 @@ x /var/lib/news/{mailname,whoami} /var/lib/news
 
 d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled,xfine/tmp}
 d /opt/kde/share/config
+d /sbin/conf.d
+d /etc/pcmcia
 
 x /sbin/{live-setup,mk_links} /sbin
 ifnenv demo old

@@ -15,12 +15,20 @@ echo -n "Integrating Live CD"
 mount /S.u.S.E.
 
 /sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter\
-  opt opt/kde opt/kde/share var/X11R6/xfine
+  opt opt/kde opt/kde/share var/X11R6/xfine\
+  sbin/init.d sbin/conf.d etc/pcmcia
+# sbin/init.d/rc?.d
 
 cp -af /S.u.S.E./etc/pam.d/* /etc/pam.d
+rm -f /etc/pam.d/TRANS.TBL
 cp -af /S.u.S.E./etc/rc.config /etc
 cp -af /S.u.S.E./var/X11R6/sax/config/saxrc /var/X11R6/sax/config
 cp -af /S.u.S.E./opt/kde/share/config/* /opt/kde/share/config
+rm -f /opt/kde/share/config/TRANS.TBL
+cp -af /S.u.S.E./etc/SuSEconfig /etc
+rm -f /etc/SuSEconfig/TRANS.TBL
+cp -af /S.u.S.E./sbin/init.d/{boot,halt}.local /sbin/init.d
+cp -af /S.u.S.E./etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
 
 rm -f /etc/conf.modules
 touch -r /lib/modules/`uname -r`/modules.dep /etc/modules.conf
@@ -29,9 +37,21 @@ nodisk=
 [ "$live" = nodisk ] && nodisk=1
 
 perl -pi -e 's/^(FQHOSTNAME=).*/$1\"suse\"/' /etc/rc.config
+perl -pi -e 's/^(SUSEWM_UPDATE=).*/$1\"no\"/' /etc/rc.config
+rm -f /sbin/conf.d/SuSEconfig.{perl,groff}
 
 if [ -f /etc/install.inf ]; then
   eval `grep ': ' /etc/install.inf | sed -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /'`
+fi
+
+if [ "$Language" ] ; then
+  perl -pi -e 's/^(LANGUAGE=).*/$1\"'"$Language"'\"/' /etc/rc.config
+  perl -pi -e 'if(/unset LANG/) { $_ = "    export LANG=\"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/profile
+  perl -pi -e 'if(/unsetenv LANG/) { $_ = "    setenv LANG \"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/csh.cshrc
+fi
+
+if [ "Keytable" ] ; then
+  perl -pi -e 's/^(KEYTABLE=).*/$1\"'"$Keytable"'\"/' /etc/rc.config
 fi
 
 part=
