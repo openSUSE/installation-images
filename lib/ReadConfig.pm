@@ -309,7 +309,7 @@ sub KernelImg
   for (@k) {
     s#^/boot/##;
     return $ki if $_ eq $ki;
-    push @k2, $_ if /^vmlin/ && !/autoconf|config|version/
+    push @k2, $_ if /^vmlin/ && !/autoconf|config|shipped|version/
   }
 
   return $k2[0] if @k2 == 1;

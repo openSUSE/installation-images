@@ -266,7 +266,7 @@ sub AddFiles
         }
       }
 
-      $ver = (`rpm -qp $r`)[0];
+      $ver = (`rpm --nosignature -qp $r`)[0];
       $ver = "" unless defined $ver;
       $ver =~ s/\s*$//;
       if($ver =~ /^(\S+)-([^-]+-[^-]+)$/) {
@@ -286,7 +286,7 @@ sub AddFiles
 
       undef $sl;
 
-      @s = `rpm -qp --qf '%|PREIN?{PREIN\n}:{}|%|POSTIN?{POSTIN\n}:{}|%|PREUN?{PREUN\n}:{}|%|POSTUN?{POSTUN\n}:{}|' $r 2>/dev/null`;
+      @s = `rpm --nosignature -qp --qf '%|PREIN?{PREIN\n}:{}|%|POSTIN?{POSTIN\n}:{}|%|PREUN?{PREUN\n}:{}|%|POSTUN?{POSTUN\n}:{}|' $r 2>/dev/null`;
       for $s (@s) {
         chomp $s;
         $sl .= "," if $sl;
