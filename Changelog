@@ -3,6 +3,8 @@
 	- added vesa-section to XF86Config
 	- larger root image
 	- s390: create_interface fixed
+	- no kdebase3-Home yet
+	- amd64 has a floppy module
 
 8/3/2004:	v5.22
 	- added udp-receiver

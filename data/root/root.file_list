@@ -660,7 +660,8 @@ if with_yast2 ne 'no'
   r /usr/lib/qt3/plugins/imageformats/libqmng*
 
 if theme eq 'Home'
-  kdebase3-Home:
+#  kdebase3-Home:
+  kdebase3-SuSE:
 else
   kdebase3-SuSE:
 endif
