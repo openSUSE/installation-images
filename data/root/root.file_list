@@ -762,11 +762,6 @@ if with_yast2 ne 'no'
   e mkfontdir usr/X11R6/lib/X11/fonts/misc
 endif
 
-if arch eq 'ia64'
-  fpswa:
-    /sbin/fpswa_check_version
-endif
-
 c 644 0 0 /etc/shadow
 
 x /usr/lib/YaST/.Reh /usr/lib/YaST2

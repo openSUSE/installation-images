@@ -34,7 +34,7 @@ endif
     e cp /<splash_theme>.boot bootlogo
   endif
 
-  if (memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval'
+  if arch eq 'x86_64' || ((memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval')
     R s/\n# memory.*memtest\n//s /syslinux.cfg
   else
     memtest86:

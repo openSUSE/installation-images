@@ -148,23 +148,33 @@ libjpeg:
 
 bootsplash-theme-SuSE:
   /
-  m /usr/share/splash/themes/SuSE/bootloader/message /SuSE.boot
+  if arch eq 'ia32' || arch eq 'x86_64'
+    m /usr/share/splash/themes/SuSE/bootloader/message /SuSE.boot
+  endif
 
 bootsplash-theme-UnitedLinux:
   /
-  m /usr/share/splash/themes/UnitedLinux/bootloader/message /UnitedLinux.boot
+  if arch eq 'ia32' || arch eq 'x86_64'
+    m /usr/share/splash/themes/UnitedLinux/bootloader/message /UnitedLinux.boot
+  endif
 
 bootsplash-theme-SuSE-SLES:
   /
-  m /usr/share/splash/themes/SuSE-SLES/bootloader/message /SuSE-SLES.boot
+  if arch eq 'ia32' || arch eq 'x86_64'
+    m /usr/share/splash/themes/SuSE-SLES/bootloader/message /SuSE-SLES.boot
+  endif
 
 bootsplash-theme-OpenXchange:
   /
-  m /usr/share/splash/themes/OpenXchange/bootloader/message /OpenXchange.boot
+  if arch eq 'ia32' || arch eq 'x86_64'
+    m /usr/share/splash/themes/OpenXchange/bootloader/message /OpenXchange.boot
+  endif
 
 bootsplash-theme-SuSE-SLOS:
   /
-  m /usr/share/splash/themes/SuSE-SLOS/bootloader/message /SuSE-SLOS.boot
+  if arch eq 'ia32' || arch eq 'x86_64'
+    m /usr/share/splash/themes/SuSE-SLOS/bootloader/message /SuSE-SLOS.boot
+  endif
 
 <kernel_rpm>:
   /lib/modules
