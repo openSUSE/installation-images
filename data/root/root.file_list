@@ -484,6 +484,8 @@ if with_yast2 ne 'no'
     /
   yast2-theme-SuSELinux:
     /
+  yast2-theme-UnitedLinux:
+    /
   yast2-x11:
     /
   yast2-xml:

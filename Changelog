@@ -1,6 +1,7 @@
 5/9/2002:	v2.55
 	- added amd-8111, minor module config fixes
 	- removed hard coded SL from motd/issue
+	- added YaST2 UL theme
 
 4/9/2002:	v2.54
 	- fixed bugs in ftp and VNC-installation on s390
