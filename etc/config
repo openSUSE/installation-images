@@ -45,7 +45,7 @@ splash	= SuSE
 product	= SUSE Linux
 version = 9.2
 update	= /linux/suse/<arch>-<rel>
-image	= 160
+image	= 200
 
 
 [Theme Home]
@@ -54,6 +54,6 @@ splash  = SuSE-Home
 product = SUSE Linux
 version = 9.2
 update  = /linux/suse/<arch>-<rel>
-image   = 160
+image   = 200
 
 

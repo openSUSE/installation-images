@@ -1,3 +1,6 @@
+4/10/2004:	v6.15
+	- raise limit for image loading on amd64 (workaround for #46535)
+
 1/10/2004:	v6.14
 	- added yast2-trans-zh_TW
 	- new sata driver
