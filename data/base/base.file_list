@@ -162,6 +162,10 @@ bootsplash-theme-OpenXchange:
   /
   m /usr/share/splash/themes/OpenXchange/bootloader/message /OpenXchange.boot
 
+bootsplash-theme-SuSE-SLOS:
+  /
+  m /usr/share/splash/themes/SuSE-SLOS/bootloader/message /SuSE-SLOS.boot
+
 <kernel_rpm>:
   /lib/modules
 if arch eq 'alpha'
@@ -215,3 +219,5 @@ E splash -s -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-800x600.cfg 
 E splash -s -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-1024x768.cfg >>/SuSE-SLES.splash
 E splash -s -f /usr/share/splash/themes/OpenXchange/config/bootsplash-800x600.cfg >>/OpenXchange.splash
 E splash -s -f /usr/share/splash/themes/OpenXchange/config/bootsplash-1024x768.cfg >>/OpenXchange.splash
+E splash -s -f /usr/share/splash/themes/SuSE-SLOS/config/bootsplash-800x600.cfg >>/SuSE-SLOS.splash
+E splash -s -f /usr/share/splash/themes/SuSE-SLOS/config/bootsplash-1024x768.cfg >>/SuSE-SLOS.splash

@@ -614,6 +614,13 @@ for (@f) {
     $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
     $load_image = 96*1024;
   }
+  elsif($theme eq "SuSE-SLOS") {
+    $yast_theme = "SuSELinux";
+    $splash_theme = "SuSE-SLOS";
+    $product_name = "SuSE Linux";
+    $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
+    $load_image = 96*1024;
+  }
   else {
     die "don't know theme \"$theme\""
   }
