@@ -32,6 +32,7 @@ kernel/drivers/char/nvram.o
 kernel/drivers/char/agp/
 kernel/drivers/message/fusion
 kernel/drivers/message/i2o
+kernel/fs/cramfs/
 kernel/fs/ext3/
 kernel/fs/fat/
 kernel/fs/hpfs/

@@ -1,3 +1,7 @@
+18/2/2002:	v1.121
+	- drop firewire modules
+	- clear /module dir before starting yast2 if we don't have much memory
+
 15/2/2002:	v1.120
 	- make it possible to create an initrd where linuxrc runs in gdb
 	- create cramfs images, too

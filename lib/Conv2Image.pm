@@ -34,7 +34,7 @@ sub Conv2Image
   SUSystem "umount /mnt 2>/dev/null";
 
   if($fs eq 'cramfs') {
-    SUSystem "rm $image";
+    SUSystem "rm -f $image";
     system "touch $image";	# just to ensure the image gets the correct owner
     SUSystem "sh -c 'mkcramfs $dir $image >$image.cramfs.log'" and die "$Script: mkcramfs failed";
     $size = -s $image;
