@@ -447,8 +447,8 @@ sub AddFiles
     elsif(/^c\s+(\d+)\s+(\S+)\s+(\S+)\s+(.+)$/) {
       $p = $1; $u = $2; $g = $3;
       $d = $4; $d =~ s.(^|\s)/.$1.g;
-      SUSystem "sh -c 'cd $dir; chown $u.$g $d'" and
-        warn "$Script: failto to change owner of $d to $u.$g";
+      SUSystem "sh -c 'cd $dir; chown $u:$g $d'" and
+        warn "$Script: failto to change owner of $d to $u:$g";
       SUSystem "sh -c 'cd $dir; chmod $p $d'" and
         warn "$Script: failto to change perms of $d to $p";
     }
