@@ -20,6 +20,11 @@ fi
 # /proc/self/fd/N will fail
 exec < /dev/console > /dev/console 2>&1 3>&1
 
+if [ ! -x /sbin/hotplug -a -x /sbin/udev ] ; then
+echo using udev as hotplug helper
+echo /sbin/udev > /proc/sys/kernel/hotplug
+fi
+
 yast="$1"
 shift
 echo $yast > /tmp/linuxrc_installer_name
