@@ -1,0 +1,669 @@
+#! /bin/sh
+
+debug=
+
+[ -e /etc/.SuSEok ] && exit 0
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/S.u.S.E./bin:/S.u.S.E./usr/bin
+cd /
+
+
+# for all missing files, create a link to /S.u.S.E.
+# (_NOT_ recursive)
+function mk_links {
+  for i in "$@" ; do
+    [ -d "$i" ] || continue
+    [ -d "/S.u.S.E./$i" ] || continue
+    j=`( cd /S.u.S.E./$i && echo * )`
+    p=`( cd /S.u.S.E./$i && pwd )`
+    [ "$j" ] || continue
+    for k in $j ; do
+      if [ $k != TRANS.TBL -a $k != rr_moved -a $k != links.tgz ] ; then
+        if [ \( -e "$p/$k" -o -L "$p/$k" \) -a ! -e "$i/$k" ] ; then
+          if [ -L "$p/$k" ] ; then
+            ( cd $i && cp -a "$p/$k" . )
+          else
+            ( cd $i && ln -snf "$p/$k" . )
+          fi
+        fi
+      fi
+    done
+  done
+}
+
+
+# copy all args from /S.u.S.E.
+# (_recursive_)
+function add_to_root {
+  while [ "$1" ] ; do
+    [ -e "/S.u.S.E./$1" ] || {
+      shift ; continue
+    }
+    f=`( cd /S.u.S.E. && echo ./$1 )`
+    [ "$f" ] || {
+      shift
+      continue
+    }
+    for i in $f ; do
+      if [ -d /S.u.S.E./$i ] ; then
+        if [ ! -d "/$i" -o -L "/$i" ] ; then
+          rm -f /$i && mkdir /$i
+        fi
+        if [ -d "/$i" ] ; then
+          if [ "`echo /S.u.S.E./$i/*`" != "/S.u.S.E./$i/*" ] ; then
+            rm -rf /$i ; mkdir /$i
+            cp -af /S.u.S.E./$i/* /$i
+          fi
+        fi
+        chown --reference /S.u.S.E./$i /$i 2>/dev/null
+        chmod --reference /S.u.S.E./$i /$i
+      else
+        rm -f /$i && cp -af /S.u.S.E./$i /$i
+      fi
+    done
+    shift
+  done
+}
+
+
+# make a local copy of a directory, everything in dir gets linked
+# stops at the first non-existent argument
+# usage: link_dir [--recursive [max_depth]] dir1 ...
+function link_dir {
+  local i r
+
+  if [ "$1" = --recursive ] ; then
+    shift
+    if [ "$1" -ge 0 -o "$1" -lt 0 ] 2>/dev/null ; then
+      r="$1"
+      shift
+    else
+      r=1111
+    fi
+  else
+    r=0
+  fi
+
+  while [ "$1" ] ; do
+    if [ -d "/S.u.S.E./$1"  -a ! -L "/S.u.S.E./$1" ] ; then
+      if [ -L "$1" -o ! -d "$1" ] ; then
+        rm -f "$1"
+        mkdir "$1"
+        chown --reference /S.u.S.E./$1 $1 2>/dev/null
+        chmod --reference /S.u.S.E./$1 $1
+      fi
+      mk_links "$1"
+      if [ "$r" -ge 1 ] ; then
+        for i in $1/* ; do
+          [ -d $i ] && link_dir --recursive $((r-1)) $i
+        done
+      fi
+    else
+      return 1
+    fi
+    shift
+  done
+
+  return 0
+}
+
+
+function start_braille {
+  if [ "$Braille" -a -x /etc/init.d/suse-blinux ] ; then
+    proc_mnt=
+    if [ -d /proc/self ] ; then
+      proc_mnt=1
+    else
+      mount -n /proc 2>/dev/null
+    fi
+    sed -e "s#brlname=.*#brlname=$Braille#" -e "s#brlport=.*#brlport=$Brailledevice#" /etc/suse-blinux.conf >/tmp/suse-blinux.conf
+    mv -f /tmp/suse-blinux.conf /etc
+    /etc/init.d/suse-blinux start
+    braille_running=1
+    [ "$proc_mnt" ] || umount /proc 2>/dev/null
+  fi
+}
+
+function kill_and_wait {
+  killall -0 $1 2>/dev/null && {
+    killall $1 2>/dev/null
+    while killall -0 $1 2>/dev/null ; do
+      sleep 1
+    done
+  }
+}
+
+
+shopt -s expand_aliases
+alias deb_stop='[ "$debug" ] && echo $LINENO && ( unset LANG ; PS1="\w>" /bin/bash ) ; [ "$debug" -a -f /rc ] && . /rc ; [ "$debug" ] && rm -f /rc'
+
+preserve=`echo /sbin/live-setup /bin/bash \
+  /lib/lib* \
+  /etc/{.SuSEfiles,mtab} /tmp`
+
+#  /lib/lib{c.so.6,dl.so.2,ncurses.so.5.2,history.so.4.1,readline.so.4.1} /lib/ld-2.2.so
+
+exec 0<> /dev/tty1 1>&0 2>&0
+
+echo -en "\033cIntegruji Live CD"
+
+braille_running=
+
+nodisk=
+debug=
+new=
+clean=
+startshell=
+stop=
+x=",$live,"
+[ "$x" != "${x/,nodisk,}" ] && nodisk=1
+[ "$x" != "${x/,debug,}" ] && debug=1 startshell=1
+[ "$x" != "${x/,shell,}" ] && startshell=1
+[ "$x" != "${x/,new,}" ] && new=1
+[ "$x" != "${x/,clean,}" ] && clean=1 new=1
+[ "$x" != "${x/,stop,}" ] && stop=1
+[ "$x" != "${x/,xxx,}" ] && xxx=1
+
+if [ "$debug" ] ; then
+ echo -e "\nnodisk=$nodisk, debug=$debug, shell=$startshell, new=$new, clean=$clean, stop=$stop"
+fi
+
+deb_shell=
+[ "$startshell" ] && deb_shell=`/sbin/startshell /dev/tty6`
+
+deb_stop
+
+mount -n -oremount,rw /
+mount -n -t proc proc /proc
+# [ -f /sbin/portmap ] && /sbin/portmap
+mount /S.u.S.E.
+
+rmdir /initrd 2>/dev/null
+[ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
+
+# move us out of the way...
+mv $0 /sbin/live-setup
+
+if [ -f /S.u.S.E./suse/images/susee ] ; then
+  suseloop=suse/images/susee
+  sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
+  mv /tmp/fstab /etc/fstab
+  mkdir /.SuSE
+  umount /S.u.S.E.
+  mount /.SuSE
+
+  # ****  WARNING: there is currently no 'ln' available at this point!  ****
+
+  [ -e /dev/loopc0 ] || ln -snf /dev/loop0 /dev/loopc0
+  if [ -f /lib/loopc.o ] ; then
+    insmod /lib/loopc.o
+    echo "/.SuSE/$suseloop /S.u.S.E. iso9660 defaults,ro,loop=/dev/loopc0 0 0" >>/etc/fstab
+  else
+    echo "/.SuSE/$suseloop /S.u.S.E. ext2 defaults,ro,loop=/dev/loopc0 0 0" >>/etc/fstab
+  fi
+  mount /S.u.S.E.
+  fstype=`grep '/\.SuSE' /etc/mtab | head -1 | cut -d \  -f 3`
+  if [ "$fstype" ] ; then
+    sed -e "s/\.SuSE auto/.SuSE $fstype/" \
+        -e "s/\.SuSE iso9660/.SuSE $fstype/" /etc/fstab >/tmp/fstab
+    mv /tmp/fstab /etc/fstab
+  fi
+  sed -e '/^# mount Live CD/ a \' -e 'mount -v /.SuSE' /etc/init.d/boot >/tmp/boot
+  mv /tmp/boot /etc/init.d/boot
+  chmod 744 /etc/init.d/boot
+
+  sed -e '/^  # mount Live CD/ a \' -e '  [ ! -f /.SuSE/'"$suseloop"' ] && mount -n /.SuSE' \
+      -e '/^# umount Live CD/ i \' -e 'losetup -d /dev/loopc0\' -e 'umount -n /.SuSE' \
+      /sbin/live-shutdown >/tmp/live-shutdown
+  mv /tmp/live-shutdown /sbin/live-shutdown
+  chmod +x /sbin/live-shutdown
+fi
+
+if [ -f /S.u.S.E./suse/images/susec ] ; then
+  susecloop=suse/images/susec
+  sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
+  mv /tmp/fstab /etc/fstab
+  mkdir /.SuSE
+  umount /S.u.S.E.
+  mount /.SuSE
+  insmod /lib/cloop.o </.SuSE/$susecloop
+  echo "/dev/cloop /S.u.S.E. iso9660 defaults,ro 0 0" >>/etc/fstab
+  mount /S.u.S.E.
+  fstype=`grep '/\.SuSE' /etc/mtab | head -1 | cut -d \  -f 3`
+  if [ "$fstype" ] ; then
+    sed -e "s/\.SuSE auto/.SuSE $fstype/" \
+        -e "s/\.SuSE iso9660/.SuSE $fstype/" /etc/fstab >/tmp/fstab
+    mv /tmp/fstab /etc/fstab
+  fi
+
+  sed -e '/^# mount Live CD/ a \' \
+    -e 'mount -v /.SuSE\' -e "insmod /lib/cloop.o </.SuSE/$susecloop" \
+    /etc/init.d/boot >/tmp/boot
+  mv /tmp/boot /etc/init.d/boot
+  chmod 744 /etc/init.d/boot
+
+  sed -e '/Unmounting/ a \' \
+    -e 'umount -v /dev/cloop\' \
+    -e 'rmmod cloop' \
+    /etc/init.d/halt >/tmp/halt
+  mv /tmp/halt /etc/init.d/halt
+  chmod 744 /etc/init.d/halt
+
+  sed -e '/^  # mount Live CD/ a \' \
+      -e '  [ ! -f /.SuSE/'"$susecloop"' ] && mount -n /.SuSE\' \
+      -e "  insmod /lib/cloop.o </.SuSE/$susecloop 2>/dev/null" \
+      -e '/^# umount Live CD/ i \' -e 'rmmod cloop\' -e 'umount -n /.SuSE' \
+      /sbin/live-shutdown >/tmp/live-shutdown
+  mv /tmp/live-shutdown /sbin/live-shutdown
+  chmod +x /sbin/live-shutdown
+fi
+
+umount /proc
+
+deb_stop
+
+mk_links .
+link_dir bin etc lib sbin var boot
+
+link_dir sbin/conf.d
+
+link_dir etc/init.d
+link_dir etc/httpd
+link_dir etc/X11
+link_dir etc/init.d/rc[S0-6].d
+link_dir etc/ssh
+link_dir etc/susehelp.d
+
+link_dir opt opt/kde2 opt/kde2/share
+
+link_dir usr usr/lib usr/X11R6 usr/X11R6/bin
+link_dir usr/X11R6/lib usr/X11R6/lib/modules usr/X11R6/lib/modules/extensions
+
+add_to_root sbin/init
+
+add_to_root etc/pcmcia etc/pam.d etc/rc.config
+add_to_root etc/SuSEconfig
+add_to_root etc/init.d/{boot,halt}.local
+add_to_root etc/{passwd,group,shadow,gshadow,nsswitch.conf,wvdial.conf,rc.dialout}
+add_to_root etc/httpd/httpd.conf
+add_to_root etc/ppp etc/isdn etc/vbox etc/rc.config.d
+add_to_root etc/suse-blinux.conf
+add_to_root etc/{a2ps-site.cfg,pppoed.conf}
+add_to_root etc/usbmgr
+
+add_to_root opt/kde2/share/config
+
+deb_stop
+
+for i in `( cd /S.u.S.E./var && echo * )` ; do
+  if [ -d /S.u.S.E./var/$i ] ; then
+    if [ "$i" != X11R6 -a "$i" != adm -a "$i" != cache -a "$i" != lib ] ; then
+      rm -rf /var/$i
+      add_to_root var/$i
+    fi
+  fi
+done
+
+link_dir --recursive 1 var/cache
+rm -f /var/cache/*/*
+
+link_dir --recursive var/{X11R6,adm,lib}
+
+add_to_root var/X11R6/sax/config/saxrc
+
+rm -f var/X11R6/lib ; mkdir /var/X11R6/lib
+add_to_root var/X11R6/lib/{sax,xfine}
+
+add_to_root var/lib/{dhcp,majordomo,news,nfs,pcmcia,support,wvdial}
+
+touch /var/run/utmp
+
+deb_stop
+
+mods=/lib/modules/`uname -r`
+[ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
+
+[ -f /etc/httpd/httpd.conf ] && perl -pi -e 's/-(?=FollowSymLinks)//g' /etc/httpd/httpd.conf
+
+perl -pi -e 's/^(FQHOSTNAME=).*/$1\"suse\"/' /etc/rc.config
+perl -pi -e 's/^(SUSEWM_UPDATE=).*/$1\"no\"/' /etc/rc.config
+rm -f /sbin/conf.d/SuSEconfig.{perl,groff,alsa}
+
+if [ -f /etc/install.inf ] ; then
+  # localization tag - do not remove #
+  perl -pi -e 's/^(Sourcemounted:).*/$1 1/' /etc/install.inf
+  eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
+  [ ! "$LANG" -a -f /lang ] && export LANG=`cat /lang`
+fi
+rm -f /lang
+
+if [ "$Language" ] ; then
+  perl -pi -e 's/^(LANGUAGE=).*/$1\"'"$Language"'\"/' /etc/rc.config
+  perl -pi -e 'if(/unset LANG/) { $_ = "    export LANG=\"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/profile
+  perl -pi -e 'if(/unsetenv LANG/) { $_ = "    setenv LANG \"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/csh.cshrc
+fi
+
+if [ "$Keytable" ] ; then
+  perl -pi -e 's/^(KEYTABLE=).*/$1\"'"$Keytable"'\"/' /etc/rc.config
+fi
+
+#if [ "$Nameserver" ] ; then
+#  echo "nameserver $Nameserver" >>/etc/resolv.conf
+#fi
+
+part=
+touch /etc/SuSElive
+if [ "$Disks" -a ! "$nodisk" ]; then
+  mount -n -t proc proc /proc
+  cat /proc/mounts >/etc/mtab
+  /sbin/find_config $Disks >/etc/SuSElive
+  umount /proc
+  . /etc/SuSElive
+fi
+
+deb_stop
+
+newhome=
+nonewuser=
+error=
+udated=
+if [ "$part" ]; then
+  i=
+  [ "$dosdrive" ] && i="$dosdrive, "
+
+  echo
+  echo "Pou¾ívám "\""suselive.720"\"" na $part ($i$fstype, $partsize MB) k ukládání dat."
+
+  mkdir /host || error=20
+  mount $part /host || error=21
+  if [ "$error" = "" -a "$suseimg" -a -f /host/$suseimg -a "$new" != 1 ] ; then
+    echo "Aktualizuji souborový systém."
+    cp -a /etc/SuSElive /tmp
+    chattr +i $preserve
+    rm -rf /usr/X11R6
+    tar -zxpf /host/$suseimg 2>/dev/null
+    chattr -i $preserve
+    [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
+    rm -rf /home/tmp ; mkdir -p /home/tmp ; chmod 1777 /home/tmp
+    rm -rf /tmp ; ln -s /home/tmp /
+    updated=1
+    nonewuser=1
+    grep -q -s "part=$part" /etc/SuSElive || cp -a /tmp/SuSElive /etc
+    rm -f /tmp/SuSElive
+    if [ -f /etc/.SuSErmlist ] ; then
+      rm -rf `cat /etc/.SuSErmlist`
+    fi
+    rm -f /etc/.SuSErmlist
+  else
+    suseimg=suselive.720
+    perl -pi -e 's/^(suseimg=).*/$1suselive.720/' /etc/SuSElive
+    if [ "$clean" ] ; then
+      rm -f "/host/$suseswap" "/host/$susehome" 2>/dev/null
+    fi
+  fi
+
+  if [ ! "$error" ] ; then
+    [ ! "$suseswap" ] && suseswap=suselive.swp
+    [ ! "$susehome" ] && susehome=suselive.usr
+    if [ "$swapsize" -a ! -f "/host/$suseswap" ] ; then
+      echo "Vytváøím odkládací soubor "\""suselive.swp"\"" ($swapsize MB)"
+      dd if=/dev/zero of="/host/$suseswap" bs=1M count=$swapsize 2>/dev/null
+      perl -pi -e 's/^(suseswap=).*/$1suselive.swp/' /etc/SuSElive
+    fi
+    if [ "$homesize" -a ! -f "/host/$susehome" ] ; then
+      echo "Vytváøím u¾ivatelský soubor "\""suselive.usr"\"" ($homesize MB)"
+      dd if=/dev/zero of="/host/$susehome" bs=1M count=$homesize 2>/dev/null
+      mke2fs -q -F -b 1024 -m 0 "/host/$susehome" 2>/dev/null
+      tune2fs -i 0 "/host/$susehome" 2>/dev/null >/dev/null
+      perl -pi -e 's/^(susehome=).*/$1suselive.usr/' /etc/SuSElive
+      newhome=1
+    fi
+  fi
+else
+  if [ ! "$nodisk" ] ; then
+    echo
+    echo -e "\a®ádný pou¾itelný oddíl nenalezen. Va¹e data NEBUDOU ulo¾ena na disk."
+    sleep 10
+    error=99
+  fi
+fi
+
+if [ ! "$nodisk" ] ; then
+  if [ "$error" ] ; then
+    perl -pi -e 's/^(suseimg=).*/$1/; s/^(suseswap=).*/$1/; s/^(susehome=).*/$1/' /etc/SuSElive
+  fi
+  . /etc/SuSElive
+fi
+
+if [ ! "$updated" ] ; then
+  if [ "$suseswap" ] ; then
+    echo "Aktivuji odkládací prostor"
+    grep -q -s "$suseswap" /etc/fstab || {
+      echo "/host/$suseswap swap swap defaults 0 0" >>/etc/fstab
+    }
+  fi
+
+  if [ "$susehome" ] ; then
+    echo "Aktivuji /home"
+    grep -q -s "$susehome" /etc/fstab || {
+      echo "/host/$susehome /home ext2 defaults,loop=/dev/loop1 0 0" >>/etc/fstab
+    }
+  fi
+fi
+
+deb_stop
+
+if [ ! "$nodisk" ] ; then
+  if [ ! "$updated" ] ; then
+    mount /proc
+    ######### fix: what about non-usb computers??? #######
+    mount -t usbdevfs usb /proc/bus/usb
+    rmdir /mnt ; ln -s / /mnt
+    cp /etc/fstab /tmp/fstab.save
+    if [ "$suseswap" ] ; then
+      mkswap /host/$suseswap >/dev/null
+    fi
+    swapon -a
+    if [ "$susehome" ] ; then
+      mount /home
+      rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
+
+      if [ -d /usr/X11R6/lib/X11/fonts/truetype ] ; then
+        # make truetype dir
+        mkdir /home/truetype
+        cp -a /usr/X11R6/lib/X11/fonts/truetype/* /home/truetype
+        link_dir usr/X11R6/lib/X11 usr/X11R6/lib/X11/fonts
+        ln -snf /home/truetype  /usr/X11R6/lib/X11/fonts/truetype
+      fi
+    fi
+    /sbin/syslogd
+
+    # run it again...
+    [ -x /sbin/pcmcia.postin ] && /sbin/pcmcia.postin >/dev/null 2>&1
+    rm -f /sbin/pcmcia.postin
+
+    [ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
+
+    deb_stop
+
+    /usr/lib/YaST2/bin/YaST2.start
+
+    unset LANG
+
+    if [ ! \( "$debug" -o "$xxx" -o "$stop" \) ] ; then
+      echo -en \\033c
+      echo -en \\033c >/dev/tty2
+    fi
+
+    if [ -f /etc/X11/XF86Config ] ; then
+      perl -pi -e 's/((100|75)dpi)\"/$1:unscaled\"/' /etc/X11/XF86Config
+    fi
+
+    kill_and_wait cardmgr
+    kill_and_wait dhcpd
+    kill_and_wait lpd
+    kill_and_wait ipppd
+    kill_and_wait pppd
+    kill_and_wait usbmgr
+
+    killall syslogd
+
+    if [ -f /etc/install.inf ] ; then
+      eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
+    fi
+    [ "$xxx" ] && debug=1
+    deb_stop
+    # rm -rf /var/lib/YaST2
+    rm -f /var/lib/YaST2/runme_at_boot
+    rm -f /mnt ; mkdir /mnt
+    [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
+    cmp -s /etc/fstab /tmp/fstab.save || {
+      grep -v /proc /etc/fstab >>/tmp/fstab.save
+      mv /tmp/fstab.save /etc/fstab
+    }
+
+    if [ "$susehome" ] ; then
+      umount /home
+      losetup -d /dev/loop1
+    fi
+    swapoff -a 2>/dev/null
+    umount /host 2>/dev/null
+    rmdir /host 2>/dev/null
+    if [ "$part" ] ; then
+      fix_fstab $part </etc/fstab >/etc/fstab_
+      mv /etc/fstab_ /etc/fstab
+      sed -e '/^# mount config partition/ a \' -e "mount $part" /etc/init.d/boot >/etc/tmp_boot
+      mv /etc/tmp_boot /etc/init.d/boot
+      chmod 744 /etc/init.d/boot
+    fi
+    cp /proc/mounts /etc/mtab
+    if [ "$susehome" ] ; then
+      rm -rf /tmp ; ln -s /home/tmp /
+    fi
+
+    if [ "$part" ] ; then
+      # write initial config file
+      i=
+      [ "$dosdrive" ] && i="$dosdrive, "
+      echo
+      echo "Zapisuji informace do $suseimg na $part ($i$fstype, $partsize MB)"
+
+      mount -n $part /mnt || error=21
+
+      tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
+
+      if [ ! -f /mnt/suselive.txt ] ; then
+        echo -e "$suseimg obsahuje data va¹eho SuSE Linux 7.2 Evaluation CD.\r" >/mnt/suselive.txt
+        echo -e "suselive.swp (existuje-li) je odkládací soubor.\r" >>/mnt/suselive.txt
+        echo -e "suselive.usr (existuje-li) je souborový systém ext2 s domovským adresáøem u¾ivatele.\r" >>/mnt/suselive.txt
+      fi
+
+      if [ "$error" ] ; then
+        echo "Nastala chyba pøi zapisování $suseimg."
+        echo "Lituji, ale va¹e zmìny se asi ztratily. :-("
+      fi
+
+      umount -n /mnt
+
+      mount $part
+    fi
+
+    deb_stop
+
+    umount /proc/bus/usb
+    umount /proc
+  else
+    if [ "$suseswap" ] ; then
+      mkswap /host/$suseswap >/dev/null
+    fi
+    umount /host 2>/dev/null
+    rmdir /host 2>/dev/null
+    if [ "$suseswap" -o "$susehome" ] ; then
+      mount $part
+      if [ "$susehome" ] ; then
+        mount /home
+        rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
+        umount /home
+      fi
+    fi
+    deb_stop
+  fi
+fi
+
+if [ "$Braille" -a -x /etc/rc.d/suse-blinux ] ; then
+  if [ "$braille_running" ] ; then
+    /etc/rc.d/suse-blinux stop
+    braille_running=
+    umount /proc 2>/dev/null
+  fi
+else
+  rm -f /etc/init.d/rc?.d/*suse-blinux
+fi
+
+deb_stop
+
+mount -n /proc 2>/dev/null
+
+# wait for some stupid SuSEconfig script to finish
+killall -0 susedig.sh 2>/dev/null && {
+  echo "Èekám na SuSEconfig..."
+}
+while killall -0 susedig.sh 2>/dev/null ; do
+  sleep 1
+done
+
+# remove pcmcia modules
+rmmod `perl -ne 'print "$2 $1" if /^(pcmcia_core)\s.*\[(.*)\]/' /proc/modules` >/dev/null 2>&1
+
+umount -n /proc
+
+# don't ask...
+sleep 2
+
+if [ "$umount" != no ] ; then
+  umount /S.u.S.E. 2>/dev/null || {
+    if [ "$debug" ] ; then
+      mount -n /proc
+      pstree -Gp
+      lsof
+      umount -n /proc
+    fi
+    sleep 1
+    umount /S.u.S.E.
+  }
+  if [ "$suseloop" ] ; then
+    losetup -d /dev/loopc0
+    umount /.SuSE
+  fi
+
+  if [ "$susecloop" ] ; then
+    rmmod cloop
+    umount /.SuSE
+  fi
+else
+  echo "/S.u.S.E neodpojen"
+fi
+
+deb_stop
+
+echo -e "\033[71G\033[32mhotovo\033[m"
+
+unset LANG LANGUAGE
+
+[ "$debug" ] ||  rm -f /sbin/{find_config,fix_fstab}
+if [ "$nodisk" ] ; then
+  rm -f /sbin/live-shutdown /etc/.SuSEfiles
+fi
+
+[ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
+# ok, if nothing helps, remove at least the files...
+[ -d /initrd ] && rm -rf /initrd 2>/dev/null
+
+[ "$deb_shell" ] && kill -9 "$deb_shell"
+
+[ "$part" ] && umount $part 2>/dev/null
+
+[ "$stop" ] && debug=1
+deb_stop
+
+rm -f /sbin/live-setup ; [ $$ = 1 ] && exec /sbin/init
