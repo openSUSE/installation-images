@@ -42,6 +42,10 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
   A gen/module.shortconfig.fs modules/module.config
   A gen/module.config.other modules/module.config
 
+  # add them to initrd, they're not on any module disk
+  include gen/module.files.extra
+  A gen/module.config.extra modules/module.config
+
 elsif (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'medium'
 
   # for ia32 CD2 image
@@ -142,6 +146,9 @@ else
   include gen/module.files.usb
   # not strictly necessary
   include gen/module.files.other
+
+  # add them explicitly to make sure we really have all modules from CD1
+  include gen/module.files.cd1
 
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
