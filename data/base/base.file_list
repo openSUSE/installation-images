@@ -106,7 +106,7 @@ r /usr/lib/rpm/rpm{get,put}text
 r /usr/bin/rpmqpack
 
 popt:
-  /usr/lib*/libpopt.so.0*
+  /usr/lib*/libpopt.so*
 
 ncurses:
   /lib*/libncurses.so.5*

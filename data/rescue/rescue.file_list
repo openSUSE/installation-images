@@ -459,7 +459,6 @@ if arch ne 'sparc'
     f / raid1.o
     f / raid5.o
     f / xor.o
-    f / md.o
 if arch eq 'alpha'
     m /boot/System.map-* /System.map
 else
@@ -473,6 +472,9 @@ endif
 
   # serial console / mingetty setup for ppc mostly.
   x etc/init.d/boot.local /etc/init.d/boot.local
+
+# enable sysrq
+e perl -pi -e '\''s/^(ENABLE_SYSRQ=).*/$1"yes"/'\'' etc/sysconfig/sysctl
 
 # now run SuSEconfig
 E echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
