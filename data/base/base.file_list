@@ -137,10 +137,10 @@ if arch eq 'ia32' || arch eq 'x86_64'
     /usr/share/syslinux/isolinux*
 endif
 
-xf86:
+XFree86:
   m /usr/X11R6/bin/mkfontdir /usr/bin
 
-xshared:
+XFree86-libs:
   /usr/X11R6/lib*/libXfont.so*
 
 gawk:

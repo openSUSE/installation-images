@@ -335,10 +335,8 @@ if with_yast2 ne 'no'
 
   if arch ne 's390' && arch ne 's390x'
   # new XF86 4.0
-  xloader:
+  XFree86-server:
     /usr/X11R6/bin/XFree86
-
-  xmodules:
     /usr/X11R6/lib*/modules/codeconv
     /usr/X11R6/lib*/modules/drivers
   # video4linux stuff
@@ -356,22 +354,22 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/modules/lib*.a
   endif
 
- expat:
-    /usr/lib*/libexpat.so.0*
-
- fontconfig:
-    /usr/lib*/libfontconfig.so.1*
-    /usr/lib*/libXft.so.2*
-
-  xshared:
+  XFree86-libs:
     /usr/X11R6/lib*/lib{X11,Xext}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xft,Xrender,Xpm}.so*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
 
- XFree86-compat-libs:
-   /usr/X11R6/lib*/lib{Xxf86misc,Xxf86vm}.so*
+  XFree86-compat-libs:
+    /usr/X11R6/lib*/lib{Xxf86misc,Xxf86vm}.so*
+
+  expat:
+    /usr/lib*/libexpat.so.0*
+
+  fontconfig:
+    /usr/lib*/libfontconfig.so.1*
+    /usr/lib*/libXft.so.2*
 
   mesasoft:
     /
@@ -381,7 +379,7 @@ if with_yast2 ne 'no'
   mesaglu:
     /usr/lib*
 
-  xf86:
+  XFree86:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
     /etc/X11/xkb
     s /etc/X11/xkb /usr/X11R6/lib/X11
