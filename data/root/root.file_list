@@ -186,6 +186,7 @@ kbd:
   /bin/unicode_st{art,op}
   m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
 
+  /bin/setfont
 # temporary fix for yast's setfont problems
 # m /bin/setfont /bin/setfont.bin
 # x /usr/bin/setfont /bin
