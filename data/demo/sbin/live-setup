@@ -17,7 +17,6 @@ mount /S.u.S.E.
 /sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter\
   opt opt/kde opt/kde/share var/X11R6/xfine\
   sbin/init.d sbin/conf.d etc/pcmcia
-# sbin/init.d/rc?.d
 
 cp -af /S.u.S.E./etc/pam.d/* /etc/pam.d
 rm -f /etc/pam.d/TRANS.TBL
@@ -58,6 +57,7 @@ part=
 touch /etc/SuSElive
 if [ "$Disks" -a ! "$nodisk" ]; then
   mount -n -t proc proc /proc
+  cat /proc/mounts >/etc/mtab
   /sbin/find_config $Disks >/etc/SuSElive
   umount -n /proc
   . /etc/SuSElive
@@ -82,6 +82,7 @@ if [ "$part" ]; then
     chattr +i $preserve
     tar -zxpf /host/$suseimg 2>/dev/null
     chattr -i $preserve
+    touch -r /lib/modules/`uname -r`/modules.dep /etc/modules.conf
     updated=1
     nonewuser=1
     grep -q -s "part=$part" /etc/SuSElive || cp -a /tmp/SuSElive /etc
@@ -122,66 +123,80 @@ fi
 
 if [ ! "$nodisk" ] ; then
   if [ "$error" ] ; then
-    perl -pi -e 's/^(suseimg=).*/$1/; s/^(suseswap=).*/$1/' /etc/SuSElive
+    perl -pi -e 's/^(suseimg=).*/$1/; s/^(suseswap=).*/$1/; s/^(susehome=).*/$1/' /etc/SuSElive
   fi
   . /etc/SuSElive
 fi
 
-if [ "$suseswap" ] ; then
-  echo "Activating swap space"
-  mkswap /host/$suseswap >/dev/null
-  swapon /host/$suseswap
-fi
+if [ ! "$updated" ] ; then
+  if [ "$suseswap" ] ; then
+    echo "Activating swap space"
+    grep -q -s "$suseswap" /etc/fstab || {
+      echo "/host/$suseswap swap swap defaults 0 0" >>/etc/fstab
+    }
+  fi
 
-if [ "$susehome" ] ; then
-  echo "Activating /home"
-  grep -q -s "^/host/$susehome" /etc/fstab || {
-    echo "/host/$susehome /home ext2 defaults,loop=/dev/loop1 1 2" >>/etc/fstab
-  }
-fi
-
-if [ ! "$nonewuser" ] ; then
-  # iamwP/xQU2BbU
-  if [ ! "$nodisk" ] ; then
-    echo "suse::0:0:10000::::" >>/etc/shadow
-    echo "suse:x:815:100:SuSE Liveeval User:/home/suse:/bin/bash" >>/etc/passwd
+  if [ "$susehome" ] ; then
+    echo "Activating /home"
+    grep -q -s "$susehome" /etc/fstab || {
+      echo "/host/$susehome /home ext2 defaults,loop=/dev/loop1 0 0" >>/etc/fstab
+    }
   fi
 fi
-
-if [ "$newhome" ] ; then
-  mount /home && {
-    if [ ! -d /home/suse ] ; then
-      cp -pR /etc/skel /home/suse
-      chown -R 815.100 /home/suse
-    fi
-  }
-  umount /home
-fi
-
-umount /host 2>/dev/null
-rmdir /host 2>/dev/null
 
 if [ ! "$nodisk" ] ; then
   if [ ! "$updated" ] ; then
     mount /proc
-    rmdir /mnt
-    ln -s / /mnt
-    /bin/bash
-    [ -x /lib/YaST2/bin/YaST2.start ] && /lib/YaST2/bin/YaST2.start
-    /bin/bash
+    rmdir /mnt ; ln -s / /mnt
+    cp /etc/fstab /tmp/fstab.save
+    mkswap /host/$suseswap >/dev/null
+    swapon -a
+    if [ "$susehome" ] ; then
+      mount /home
+    fi
+    [ "$livetest" ] && /bin/bash
+    /lib/YaST2/bin/YaST2.start
+    rm -f /mnt ; mkdir /mnt
+    cmp -s /etc/fstab /tmp/fstab.save || {
+      grep -v /proc /etc/fstab >>/tmp/fstab.save
+      mv /tmp/fstab.save /etc/fstab
+    }
+    if [ "$susehome" ] ; then
+      umount /home
+      losetup -d /dev/loop1
+    fi
+    swapoff -a 2>/dev/null
+    umount /host 2>/dev/null
+    rmdir /host 2>/dev/null
+    fix_fstab $part </etc/fstab >/etc/fstab_
+    mv /etc/fstab_ /etc/fstab
+    cp /proc/mounts /etc/mtab
+    mount $part
+    [ "$livetest" ] && /bin/bash
     umount /proc
+  else
+    if [ "$suseswap" ] ; then
+      mkswap /host/$suseswap >/dev/null
+    fi
+    umount /host 2>/dev/null
+    rmdir /host 2>/dev/null
+    if [ "$suseswap" -o "$susehome" ] ; then
+      mount $part
+    fi
+    [ "$livetest" ] && /bin/bash
   fi
 fi
 
 if [ "$umount" != no ] ; then
   umount /S.u.S.E.
+  echo 
 else
   echo "/S.u.S.E not unmounted"
 fi
 
 echo -e "\033[71G\033[32mdone\033[m"
 
-rm -f /sbin/{find_config,mk_links}
+[ "$livetest" ] ||  rm -f /sbin/{find_config,fix_fstab,mk_links}
 if [ "$nodisk" ] ; then
   rm -f /sbin/live-shutdown /etc/.SuSEfiles
 fi

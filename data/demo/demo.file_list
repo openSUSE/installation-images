@@ -153,7 +153,7 @@ d /etc/pcmcia
 
 x /sbin/{live-setup,mk_links} /sbin
 ifnenv demo old
-x /sbin/{live-shutdown,find_config} /sbin
+x /sbin/{live-shutdown,find_config,fix_fstab} /sbin
 x /etc/XF86Config /etc
 endif
 

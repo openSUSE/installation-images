@@ -15,15 +15,6 @@ else
   exit 1
 fi
 
-if [ "$suseswap" ] ; then
-  swapoff "/host/$suseswap"
-fi
-
-if [ "$susehome" ] ; then
-  umount -n "/host/$susehome" 2>/dev/null
-  umount -n /host
-fi
-
 if [ "$part" -a "$suseimg" ]; then
   i=
   [ "$dosdrive" ] && i="$dosdrive, "

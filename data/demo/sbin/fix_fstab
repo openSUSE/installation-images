@@ -1,0 +1,41 @@
+#! /usr/bin/perl
+
+$part = shift;
+
+die "oops1\n" unless $part;
+
+@f = (<>);
+
+for (@f) {
+  @i = split;
+  if($i[0] eq $part) {
+    $mp = $i[1];
+#    $_ = "$i[0] $i[1] $i[2] defaults $i[4] $i[5]\n";
+    last;
+  }
+}
+
+die "oops2\n" unless $mp;
+
+for (@f) {
+  if(s#^/host/#$mp/#) {
+    push @g, $_;
+    undef $_;
+  }
+}
+
+for (@f, @g) {
+  @i = split;
+  for ($i = 0; $i < 5; $i++) {
+    $l = length $i[$i];
+    $l[$i] = $l >= $l[$i] ? $l : $l[$i];
+  }
+}
+
+for (@f, @g) {
+  next unless $_;
+  @i = split;
+  printf "%-$l[0]s  %-$l[1]s  %-$l[2]s  %-$l[3]s  %-$l[4]s  %s\n", @i;
+
+}
+

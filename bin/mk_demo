@@ -18,7 +18,7 @@ die "usage: $Script\n" if @ARGV;
 $srcdir = "${DataPath}demo";
 $tmpdir = "${BasePath}tmp/demo";
 $image = "${ImagePath}demo";
-$tmpinitrd = "${BasePath}tmp/initrd2";
+# $tmpinitrd = "${BasePath}tmp/initrd2";
 
 # leave that much space
 $extra_size = 3000;              # kbyte
