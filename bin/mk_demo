@@ -17,17 +17,17 @@ die "usage: $Script\n" if @ARGV;
 # some config data
 
 $srcdir = "${DataPath}demo";
-$tmpdir = "${BasePath}tmp/demo";
-$image = "${ImagePath}demo";
+$tmpdir = "${BasePath}tmp/liveeval";
+$image = "${ImagePath}liveeval";
 # $tmpinitrd = "${BasePath}tmp/initrd";
 
 # leave that much space
-$extra_size = 5700;              # kbyte
-$extra_inodes = 5000;
+$extra_size = 6000;              # kbyte
+$extra_inodes = 4000;
 
 # just make them large enough
 $start_size = 10000;             # kbyte
-$start_inodes = 10000;
+$start_inodes = 16000;
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...

@@ -86,7 +86,10 @@ modules: dirs base
 	bootsplash=modules1 bin/mk_mod_disk
 
 moduledisks:
-	@for i in 1 2 3 4; do modules=$$i make modules; done
+	modules=1 make modules
+	modules=2 make modules
+	modules=3 make modules
+	modules=4 make modules
 
 mboot:
 	make -C src/mboot
@@ -106,4 +109,4 @@ clean:
 	-@rm -rf images test tmp
 	-@rm -f `find -name '*~'`
 	-@rm -rf /tmp/mk_base_* /tmp/mk_initrd_* /tmp/mk_rescue_* /tmp/mk_root_* 
-	-@rm -rf data/initrd/gen data/boot/gen data/base/gen
+	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/demo/gen
