@@ -213,6 +213,11 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/dasdfmt
     /sbin/fdasd
     /sbin/zgetdump
+    /sbin/dasd_configure
+    /sbin/dasd_reload
+    /sbin/dasdro
+    /sbin/zfcp_host_configure
+    /sbin/zfcp_disk_configure
     e postin
   cpint:
     /sbin/hcp

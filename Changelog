@@ -1,3 +1,5 @@
+	- s390: added some scripts removed from initrd to root image
+
 21/9/2004:	v6.12
 	- qt package changes (#44803)
 	- added dmraid
