@@ -190,7 +190,7 @@ function add_livecd {
   add_to_root etc/init.d/{boot,halt}.local
   add_to_root etc/{passwd,group,shadow,gshadow,nsswitch.conf,wvdial.conf,rc.dialout}
   add_to_root etc/httpd/httpd.conf
-  add_to_root etc/ppp etc/isdn etc/vbox
+  add_to_root etc/ppp etc/isdn etc/vbox etc/news
   add_to_root etc/suse-blinux.conf
   add_to_root etc/{a2ps-site.cfg,pppoed.conf}
   add_to_root etc/usbmgr
@@ -200,6 +200,9 @@ function add_livecd {
 
   add_to_root opt/kde3/share/config
   add_to_root etc/opt/kde3/share/config/kdm
+
+  link_dir opt/OpenOffice.org opt/OpenOffice.org/program
+  add_to_root opt/OpenOffice.org/program/setup{,.bin}
 
   cp /usr/bin/lsof /bin
 
@@ -582,6 +585,16 @@ LANGUAGE=$Language
 /usr/lib/YaST2/bin/YaST2.start
 
 [ "$?" = 0 ] || yasterror=1
+
+# add home of preconfigured user
+add_to_root home/linux
+
+# add ooffice config, lang dependent
+rc_lang=`perl -n -e 'print $1 if /^RC_LANG="(\S\S)/' /etc/sysconfig/language`;
+if [ -d "/etc/skel.oo.$rc_lang/linux" ] ; then
+  cp -a "/etc/skel.oo.$rc_lang/linux/" home
+  chown -R linux:users home/linux
+fi
 
 rm -f /sbin/depmod
 mv /sbin/depmod.tmp /sbin/depmod

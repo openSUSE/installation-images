@@ -39,7 +39,6 @@ mkinitrd:
 
 filesystem:
   /etc/init.d
-  /etc/{news,ppp,sysconfig}
   /var
 
 kbd:
