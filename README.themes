@@ -1,4 +1,4 @@
-Hot to add new themes to installation-images
+How to add new themes to installation-images
 ============================================
 
 1. Add a new branch to the switch()-like statement in lib/ReadConfig.pm
