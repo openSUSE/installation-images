@@ -1,3 +1,7 @@
+1/10/2004:	v6.14
+	- added yast2-trans-zh_TW
+	- new sata driver
+
 27/9/2004:	v6.13
 	- s390: added some scripts removed from initrd to root image
 	- added hebrew yast translations

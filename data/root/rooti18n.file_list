@@ -88,6 +88,8 @@ endif
     /
   yast2-trans-zh_CN:
     /
+  yast2-trans-zh_TW:
+    /
 
 fbiterm:
   /usr/bin/fbiterm
