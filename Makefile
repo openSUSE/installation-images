@@ -54,6 +54,10 @@ bootcd:
 # with_smb=1
 	initrd=large boot=isolinux make boot
 
+bootdvd:
+# with_smb=1
+	is_dvd=1 initrd=large boot=isolinux make boot
+
 rootcd:
 	use_cramfs=1 make root
 

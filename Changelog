@@ -1,3 +1,6 @@
+9/8/2004:	v6.2
+	- support 32+64bit dual boot
+
 6/8/2004:	v6.1
 	- set root_i18n & root_gfx env vars to include them to the inst-sys
 	- add machbunt.file_list and rooti18n.file_list

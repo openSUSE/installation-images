@@ -136,6 +136,10 @@ o boot
   liveeval=1
   - liveeval bootloader config
 
+  is_dvd=1
+  - create dvd boot config (32/64 bit dual boot)
+
+
 o modules
 
   modules=<number>

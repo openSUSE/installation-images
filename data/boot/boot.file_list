@@ -71,10 +71,18 @@ if boot eq 'isolinux'
   #   1: enable 64bit check
   #   2: software is 64bit
   #   3: is dvd
-  if arch eq 'x86_64'
-    e echo -e "notice\t\t6" >>syslinux.cfg
+  #   4: software is 32+64bit (Needs bit 1 set, too!)
+  #
+  # note: entry is rewritten for DVD in spec file
+  if is_dvd
+    # just for testing
+    e echo -e "notice\t\t18" >>syslinux.cfg
   else
-    e echo -e "notice\t\t2" >>syslinux.cfg
+    if arch eq 'x86_64'
+      e echo -e "notice\t\t6" >>syslinux.cfg
+    else
+      e echo -e "notice\t\t2" >>syslinux.cfg
+    endif
   endif
 endif
 
