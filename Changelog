@@ -1,5 +1,13 @@
 15/8/2002:	v2.40
 	- use pcmcia in root image only on ia32
+	- start ssh in inst-sys when requested via UseSSH from install.inf
+	  create fresh hostkeys on sshd startup, or use provided hostkeys
+	  wenn booted with "nosshkey", default password is "root"
+	  boot option nossh is gone
+	  remove special s390 handling in inst_setup, use inst_setup_ssh if needed
+	  create resolv.conf from $nameserver and $domain, if set
+	  set hostname to IP:, if set, avoids root@(none) hostkeys
+	  do not use UsePrivilegeSeparation in inst-sys
 
 15/8/2002:	v2.39
 	- inst_source in sync with docu

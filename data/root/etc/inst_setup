@@ -80,20 +80,13 @@ EOF
 echo "integrating kernel modules of the installation system..."
 depmod -a 2>/dev/null
 
-# eventually start sshd
-case "$arch" in
-    s390|s390x)
-	test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
-	;;
-    *)
-	if [ -x /sbin/inst_setup_ssh ] && \
-          grep -vq ' nossh' /proc/cmdline && \
-          grep -qE 'InstMode:[[:space:]]*(nfs|http|ftp|tftp|smb)' /etc/install.inf ; then
-	. /sbin/inst_setup_ssh
-	fi
-        ;;
-esac
+# exists only on s390
+test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
 
+# boot with usessh=1 or use linuxrc to enable ssh 
+if grep -q "^UseSSH:.*1" /etc/install.inf ; then
+	test -x /sbin/inst_setup_ssh  &&  . /sbin/inst_setup_ssh
+fi
 
 # yast1 doesn't like it
 rm -f /etc/fstab
