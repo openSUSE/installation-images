@@ -514,7 +514,7 @@ endif
 if with_gdb
 
   strace:
-    /usr/bin/strace
+    m /usr/bin/strace /bin
 
   gdb:
     m /usr/bin/gdb /bin/gdb
@@ -533,6 +533,14 @@ if with_gdb
 
   ncurses:
     /lib*/libncurses.so.5*
+
+  procps:
+    /bin/ps
+
+  psmisc:
+    /bin/fuser
+    m /usr/bin/killall /bin
+    m /usr/bin/pstree /bin
 
   bash:
     /bin/bash
