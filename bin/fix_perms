@@ -3,3 +3,4 @@
 # fix permissions of all directories
 
 find $1 -type d -exec chmod a+rx {} \;
+find $1 -type f -exec chmod -st {} \;

@@ -1,3 +1,6 @@
+3/7/2002:	v2.7
+	- new yast2 packages
+
 24/6/2002:	v2.6
 	- add bin/ci_y2image_for_ppc, creates initrd on ppc
 	- add plain_initrd target

@@ -86,16 +86,17 @@ if($ENV{'keeproot'} != 1) {
       die "$Script: error in shared lib config, please fix\n";
   }
 
-  if(!exists($ENV{'with_yast2'}) || $ENV{'with_yast2'} ne 'no') {
-    if($debug =~ /\bignore\b/) {
-      system "yast2-deps" and
-        warn "$Script: error in yast2 package list, please fix\n";
-    }
-    else {
-      system "yast2-deps" and
-        die "$Script: error in yast2 package list, please fix\n";
-    }
-  }
+#  if(!exists($ENV{'with_yast2'}) || $ENV{'with_yast2'} ne 'no') {
+#    if($debug =~ /\bignore\b/) {
+#      system "yast2-deps" and
+#        warn "$Script: error in yast2 package list, please fix\n";
+#    }
+#    else {
+#      system "yast2-deps" and
+#        die "$Script: error in yast2 package list, please fix\n";
+#    }
+#  }
+
 }
 
 if($use_cramfs) {

@@ -57,7 +57,7 @@ r /usr/bin/{db*,glibcbug,localedef,rpcgen}
 #r /lib/libmemusage.so
 #r /lib/libpcprofile.so
 #r /lib/libthread_db.so.1
-  /usr/lib*/pt_chown
+#  /usr/lib*/pt_chown
 
 mktemp:
   /bin/mktemp

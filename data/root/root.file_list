@@ -419,120 +419,30 @@ if with_yast2 ne 'no'
 endif
 
 if with_yast2 ne 'no'
-  yast2-base:
+  yast2:
     /
-  yast2-instsys:
+  yast2-bootloader:
     /
-  yast2-agent-any:
+  yast2-core:
     /
-  yast2-agent-curl:
+  yast2-country:
     /
-  yast2-agent-fdisk:
+  yast2-installation:
     /
-  yast2-agent-ftp:
+  yast2-mouse:
     /
-  yast2-agent-http:
+  yast2-ncurses:
     /
-  yast2-agent-ini:
+  yast2-network-instsys:
     /
-  yast2-agent-modules:
+  yast2-packager:
     /
-  yast2-agent-package:
-    /
-  yast2-agent-probe:
-    /
-  yast2-agent-system:
-    /
-  yast2-agent-targetpkg:
-    /
-  yast2-agent-tftp:
-    /
-  yast2-agent-xml:
-    /
-  yast2-config-keyboard:
-    /
-  yast2-config-language:
-    /
-  yast2-config-mouse:
-    /
-  yast2-config-timezone:
-    /
-  yast2-config-x11:
-    /
-  yast2-core-clients:
-    /
-  yast2-core-scr:
-    /
-  yast2-core-wfm:
-    /
-  yast2-db-groups:
-    /
-  yast2-db-keyboard:
-    /
-  yast2-db-mouse:
-    /
-  yast2-db-timezone:
-    /
-  yast2-lib-network:
-    /
-  yast2-lib-sequencer:
-    /
-  yast2-lib-wizard:
-    /
-  yast2-lib-xml:
-    /
-  yast2-module-autoinst:
+  yast2-qt:
     /
   yast2-storage:
     /
-if 0
-  yast2-trans-autoinst:
+  yast2-xml:
     /
-  yast2-trans-inst-bootloader:
-    /
-  yast2-trans-inst-general:
-    /
-  yast2-trans-inst-keyboard:
-    /
-  yast2-trans-inst-language:
-    /
-  yast2-trans-inst-mouse:
-    /
-  yast2-trans-inst-packages:
-    /
-  yast2-trans-inst-partitioning:
-    /
-  yast2-trans-inst-proposal:
-    /
-  yast2-trans-inst-timezone:
-    /
-  yast2-trans-inst-update:
-    /
-  yast2-trans-inst-user:
-    /
-  yast2-trans-wizard:
-    /
-endif
-  yast2-ui-ncurses:
-    /
-  yast2-ui-qt:
-    /
-  libpkg:
-    /
-  libycp:
-    /
-  liby2:
-    /
-  libscr:
-    /
-  libyui:
-    /
-
-  if arch eq 'sparc64' || arch eq 'sparc'
-    yast2-agent-prom:
-      /
-  endif
-
 endif
 
 
@@ -592,6 +502,7 @@ netcfg:
 if with_yast2 ne 'no' && arch ne 's390' && arch ne 's390x'
   saxtools:
     /usr/X11R6/bin
+    /usr/X11R6/lib/sax
 endif
 
 if arch eq 'ppc' || arch eq 'sparc' || arch eq 'sparc64'
@@ -677,15 +588,12 @@ syslogd:
 
 if pre_release
   # will not appear in final release
-
   openssh:
-    /etc/ssh
-    /usr/bin/scp
     /etc/pam.d/sshd
     /etc/ssh
     /usr/sbin/sshd
-    /etc/ssh
     /usr/bin/ssh
+    /usr/bin/scp
 
   pam:
     /etc/pam.d/other
@@ -732,6 +640,7 @@ jfsutils:
 xfsprogs:
   /sbin/fsck.xfs
   /sbin/mkfs.xfs
+  /usr/sbin/xfs_growfs
 
 wget:
   /etc
