@@ -515,6 +515,12 @@ if with_yast2 ne 'no'
       s UnitedLinux usr/share/YaST2/theme/current
   endif
 
+  if theme eq 'SuSE-SLES'
+   yast2-theme-UnitedLinux:
+      /
+      s UnitedLinux usr/share/YaST2/theme/current
+  endif
+
 endif
 
 

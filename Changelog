@@ -1,3 +1,6 @@
+25/9/2002:	v2.73
+	- support SuSE-SLES theme
+
 25/9/2002:	v2.72
 	- added sisconfig and respective libraries to ppc rescue
 	- boot.local for serial console (#19498)

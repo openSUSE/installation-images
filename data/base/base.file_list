@@ -154,6 +154,12 @@ bootsplash-theme-UnitedLinux:
   /
   m /usr/share/splash/themes/UnitedLinux/bootloader/message /UnitedLinux.boot
 
+bootsplash-theme-SuSE-SLES:
+  /
+if 0
+  m /usr/share/splash/themes/SuSE-SLES/bootloader/message /SuSE-SLES.boot
+endif
+
 <kernel_rpm>:
   /lib/modules
 if arch eq 'alpha'
@@ -203,4 +209,5 @@ E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-800x600.cfg >>/Su
 E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-1024x768.cfg >>/SuSE.splash
 E splash -s -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-800x600.cfg >>/UnitedLinux.splash
 E splash -s -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-1024x768.cfg >>/UnitedLinux.splash
-
+E splash -s -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-800x600.cfg >>/SuSE-SLES.splash
+E splash -s -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-1024x768.cfg >>/SuSE-SLES.splash
