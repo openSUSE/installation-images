@@ -182,6 +182,11 @@ if suse_release >= 7.3 && (arch eq 'alpha' || suse_xrelease eq 'beta')
     /lib
 endif
 
+if suse_release >= 7.4
+  popt:
+    /usr/lib/libpopt.so*
+endif
+
 glibc:
   /sbin/ldconfig
   /lib/ld-2.*.so

@@ -374,8 +374,10 @@ for (@f) {
 
   if(!$in_abuild) {
     die "Sorry, no packages in \"$work\"!\n" unless -d "$base";
-    die "invalid SuSE release" unless -f "$base/suse/a1/aaa_base.rpm";
-    system "mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $base/suse/a1/aaa_base.rpm | cpio -iud --quiet etc/SuSE-release";
+    my $suserelpack = "$base/suse/a1/aaa_version.rpm";
+    $suserelpack = "$base/suse/a1/aaa_base.rpm" unless -f $suserelpack;
+    die "invalid SuSE release" unless -f $suserelpack;
+    system "mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $suserelpack | cpio -iud --quiet etc/SuSE-release";
 
     $r0 = `grep VERSION /tmp/r$$/etc/SuSE-release`;
     $r0 =~ s/^.*=\s*//;
@@ -463,7 +465,13 @@ for (@f) {
   }
 
   if(!exists($ENV{'pre_release'})) {
-    $ENV{'pre_release'} = $rf =~ /^\d+\.\d+a\b$/ ? 1 : 0;
+    $ENV{'pre_release'} = $rf =~ /^\d+\.\d+(a\b|\.99)$/ ? 1 : 0;
+  }
+
+  if($rf =~ /^(\d+)\.(\d+)\.[5-9]/) {
+    $ENV{'suse_minor_release'} = $2 + 1;
+    $v = "$1." . $ENV{'suse_minor_release'};
+    $ENV{'suse_release'} = $v;
   }
 
   for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base suse_major_release suse_minor_release pre_release) ) {
@@ -479,7 +487,7 @@ for (@f) {
     print "Building for SuSE Linux $p$v ($a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
   }
 
-#  print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}><$ENV{'suse_major_release'}><$ENV{'suse_minor_release'}>\n";
+  # print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}><$ENV{'suse_major_release'}><$ENV{'suse_minor_release'}>\n";
 }
 
 1;
