@@ -49,12 +49,3 @@ update	= /linux/suse/<arch>-<rel>
 image	= 200
 
 
-[Theme Home]
-yast    = SuSELinux
-splash  = SuSE-Home
-product = SUSE Linux
-version = 9.2
-update  = /linux/suse/<arch>-<rel>
-image   = 200
-
-

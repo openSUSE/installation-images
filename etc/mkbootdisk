@@ -737,14 +737,16 @@ use integer;
 
   # cluster size, extra root dir sectors
   my @format = (
-    [ 4, 1 ],	# 1 (at least 32 root entries (16 + 16 * _1_), default)
+    [ 4, 3 ],	# 1 (at least 64 root entries (16 + 16 * _3_), default)
     undef,	# 1
-    [ 4, 1 ],	# 2
+    [ 4, 5 ],	# 2
     [ 4, 3 ],	# 3
-    [ 4, 1 ],	# 4
+    [ 4, 5 ],	# 4
     [ 4, 3 ],	# 5
-    [ 4, 1 ],	# 6
-    [ 4, 2 ],	# 7
+    [ 4, 5 ],	# 6
+    [ 4, 6 ],	# 7
+    [ 4, 3 ],	# 8
+    [ 4, 4 ],	# 9
   );
 
   my $opt_disks = 2;
@@ -947,6 +949,7 @@ sub dir_sort;
 sub help;
 sub dir_size;
 sub get_disk_number;
+sub unpack_bootlogo;
 
 my $opt_file = "./bootdisk";
 my $opt_verbose = 0;
@@ -1023,6 +1026,7 @@ s/^(notice\s+)(\d+)/$1$n/ for @cfg;
 push @cfg, "disksize\t2880\n";
 open F, ">$src/syslinux.cfg"; print F @cfg; close F,
 unlink "$src/isolinux.cfg";
+unlink "$src/isolinux.bin";
 
 system "cp $opt_syslinux $src/ldlinux.sys" and die "error: no syslinux?\n";
 
@@ -1037,7 +1041,17 @@ system "$opt_syslinux $tmp_dir/img" and die "error: syslinux failed\n";
 
 system "mount -tmsdos -oloop $tmp_dir/img $tmp_dir/mp" and die "error: mount failed\n";
 my $mp = "$tmp_dir/mp";
-system "cp -r $src/${\dir_sort $src} $mp" and die "error: copy failed\n";
+for (dir_sort $src) {
+  if($_ ne 'bootlogo') {
+    system "cp -r $src/$_ $mp" and die "error: copy failed\n";
+  }
+  else {
+    for my $i (unpack_bootlogo $src) {
+      system "cp -r $src/$i $mp" and die "error: copy failed\n";
+    }
+  }
+}
+
 my $size = 0;
 for (`df -Pk $tmp_dir/mp`) {
   $i = (split)[3];
@@ -1085,16 +1099,23 @@ sub cleanup
 #
 sub dir_sort_func
 {
-  my ($w, $i, $p);
+  my ($wa, $wb, $i, $p, $r);
 
   $p = 2;
   for $i qw ( .*\.spl initrd64 linux64 initrd linux memtest bootlogo message .*\.cfg ) {
-    $w -= $p if $a =~ /^$i$/;
-    $w += $p if $b =~ /^$i$/;
+    if($i eq 'bootlogo') {
+      $r = $p;
+      $p <<= 1;
+    }
+    $wa = $p if $a =~ /^$i$/;
+    $wb = $p if $b =~ /^$i$/;
     $p <<= 1;
   }
 
-  return $w + ($a cmp $b);
+  $wa = $r unless $wa;
+  $wb = $r unless $wb;
+
+  return $wb - $wa + ($a cmp $b);
 }
 
 
@@ -1110,9 +1131,7 @@ sub dir_sort
   @dir = grep { !/^\./ } readdir D;
   closedir D;
 
-  my $files = join(',', sort(dir_sort_func @dir));
-  $files = "{".$files."}" if ($files =~ /,/);
-  return $files;
+  return ( sort dir_sort_func @dir );
 }
 
 
@@ -1179,5 +1198,39 @@ sub get_disk_number
 
   return $disks;
 }
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+sub unpack_bootlogo
+{
+  my ($dir, $tmp, $files, @files, @ext);
+  local $_;
+
+  $dir = shift;
+  $tmp = "$dir/bootlogo.unpacked";
+
+  mkdir "$tmp", 0755;
+
+  @files = `cpio --quiet -t <$dir/bootlogo`;
+
+  system "cd $tmp; cpio --quiet -i <../bootlogo";
+
+  for (@files) {
+    chomp;
+    if(-k("$tmp/$_") && ! -l("$tmp/$_")) {
+      push @ext, $_;
+      undef $_;
+    }
+  }
+
+  open P, "| cd $tmp; cpio --quiet -o >../bootlogo";
+  print P "$_\n" for grep $_, @files;
+  close P;
+
+  system "mv $tmp/$_ $dir" for @ext;
+
+  return ( 'bootlogo', @ext );
+}
+
 
 

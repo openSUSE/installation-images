@@ -1,3 +1,8 @@
+31/1/2005:	v6.24
+	- fixed some shared lib dependencies
+	- adapted to new boot graphics
+	- removed SuSE-Home theme
+
 26/1/2005:	v6.23
 	- added perl modules for yast
 	- libmagic is in /lib64

@@ -159,6 +159,9 @@ elsif($ENV{'boot'} eq 'isolinux') {
   system "cp -r $tmpbootdir/* $image" and
     die "$Script: failed to setup boot image";
 
+  system "unpack_bootlogo $image" and
+    die "$Script: failed to unpack bootlogo";
+
   print "contents of $image:\n";
   system "ls -l $image";
 
