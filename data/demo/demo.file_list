@@ -1,0 +1,129 @@
+d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var
+c 1777 0 0 tmp
+
+devs:
+# just testing!
+m /usr/doc/packages/devs/makedevs.floppy /makedevs
+c 0755 0 0 makedevs
+
+s /S.u.S.E./{boot,opt,usr} /
+
+aaa_base:
+  /root
+c 0711 0 0 /root
+  /etc/modules.conf
+  /etc/ld.so.conf
+  /sbin/mk_initrd
+  /sbin/init.d
+  /etc/SuSE-release
+  /etc/cron.daily/aaa_base
+  /etc/ppp
+  /etc/issue{,.net}
+  /etc/{hushlogins,inittab,motd,logfiles,netgroup}
+  /etc/{profile.dos,shells,zshrc}
+# aaa_base's preinstall
+X /sbin/init.d/{boot,halt}.local /sbin/init.d
+X /etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
+
+# no idea where those are from
+X /etc/SuSEconfig /etc
+X /etc/rc.config /etc
+
+aaa_dir:
+  /sbin/init.d
+  /etc/{news,ppp,rc.config.d}
+  /var
+
+<kernel_rpm>:
+ifnarch ppc
+  /lib/modules/<kernel_ver>/misc/serial.o
+  /lib/modules/<kernel_ver>/misc/lp.o
+endif
+
+# add link to initrd modules
+# check mk_demo before you're going to change this!!!
+d /lib/modules/default
+s ../../../modules /lib/modules/default/misc
+
+ifarch ppc sparc sparc64
+d /lib/modules/<kernel_ver>/misc
+endif
+c 0755 0 0 /lib/modules/<kernel_ver>
+c 0755 0 0 /lib/modules/<kernel_ver>/misc
+
+ncurses:
+  /lib/libncurses.so.5{,.0}
+
+shlibs:
+  /lib/ld-2.*.so
+ifarch ppc
+  /lib/ld.so.1
+else
+  /lib/ld-linux.so.2
+endif
+  /lib/{libc.so.6,libcrypt.so.1,libdb.so.2,libdb.so.3,libdl.so.2,libm.so.6,librt.so.1,libutil.so.1}
+  /etc/nscd.conf
+
+bash:
+  /bin/bash
+  /lib/libreadline.so.4.0
+  /lib/libhistory.so.4.0
+s bash /bin/sh
+
+sh_utils:
+  /bin/{date,echo,false,sleep,true,uname}
+ifabuild
+X /bin/uname.bin bin/uname
+endif
+
+util:
+  /bin/{kill,mount,umount}
+  /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon}
+
+fileutil:
+  /bin/{rm,rmdir,sync}
+
+shadow:
+  /bin/login
+
+#nkitb:
+## identd scripts; what for???
+#  /sbin/init.d
+
+pam:
+  /etc
+  /sbin/{pam_filter,unix_chkpwd}
+  /lib
+
+sysvinit:
+  /sbin/{checkproc,halt,init,killall5,killproc,mingetty,pidof,poweroff}
+  /sbin/{reboot,shutdown,startproc,telinit}
+  /etc/powerd.conf
+
+ext2fs:
+  /sbin/{e2fsck,e2label,fsck,fsck.ext2}
+
+bdflush:
+  /sbin/update
+
+netcfg:
+  /etc/{hosts,inetd.conf,networks}
+
+
+x /etc/{HOSTNAME,fstab,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
+t /etc/{printcap,mtab,sendmail.cf}
+t /var/run/utmp
+t /var/log/{faillog,lastlog,mail,messages,wtmp}
+
+d /var/log/news
+t /var/log/news/news.{crit,err,notice}
+c 0755 9 13 /var/log/news
+c 0640 0 13 /var/log/news/news.{crit,err,notice}
+
+d /var/adm/live
+t /var/adm/live/{gpm,i4l,sax,xf86}
+c 0755 0 0 /var/adm/live
+
+d /var/lib/apsfilter
+c 0755 0 0 /var/lib/apsfilter
+

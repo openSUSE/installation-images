@@ -337,9 +337,9 @@ a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
 
-a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
+# a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
+# a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
+# a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
 
 # a /lib/modules/<kernel_ver>/pcmcia/serial_cb.o /modules
 # a /lib/modules/<kernel_ver>/pcmcia/serial_cs.o /modules

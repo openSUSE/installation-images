@@ -1,0 +1,61 @@
+#! /usr/bin/perl -w
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
+
+die "usage: $Script\n" if @ARGV;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$srcdir = "${DataPath}demo";
+$tmpdir = "${BasePath}tmp/demo";
+$image = "${ImagePath}demo";
+$tmpinitrd = "${BasePath}tmp/initrd2";
+
+# leave that much space
+$extra_size = 500;              # kbyte
+$extra_inodes = 100;
+
+# just make them large enough
+$start_size = 30000;             # kbyte
+$start_inodes = 5000;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+# clean up
+if(-d($tmpdir)) {
+  SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
+}
+
+AddFiles $tmpdir, "${srcdir}/demo.file_list", $srcdir or
+  die "$Script: failed to setup live-cd image";
+
+SUSystem "sh -c 'cd $tmpdir; ./makedevs >/dev/null'" and
+  die "$Script: could not create all devices";
+SUSystem "rm $tmpdir/makedevs";
+
+# strip everything
+SUSystem "fix_perms $tmpdir";
+SUSystem "strip_dir $tmpdir";
+
+# SUSystem "ldconfig -r $tmpdir";
+# die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
+
+SUSystem "mkdir $tmpdir/modules";
+SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
+SUSystem "depmod -a -F /boot/System.map-$ConfigData{kernel_ver} -b $tmpdir $ConfigData{kernel_ver}";
+die "$Script: failed to run depmod" unless -f "$tmpdir/lib/modules/$ConfigData{kernel_ver}/modules.dep";
+SUSystem "rm -r $tmpdir/modules";
+SUSystem "ln -snf /modules $tmpdir/lib/modules/default/misc";
+
+Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
+

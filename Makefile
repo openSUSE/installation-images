@@ -5,7 +5,7 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root mk_yast2\
           mk_yast2_cd mk_yast2_nfs
 
 .PHONY: all dirs initrd initrd_test initrd2 initrd2_test boot boot2 boot_axp\
-        yast2 html clean distdir install
+        yast2 demo html clean distdir install
 
 all:
 
@@ -46,6 +46,9 @@ boot_axp: initrd
 
 yast2: dirs initrd2
 	bin/mk_yast2
+
+demo: dirs initrd2
+	bin/mk_demo
 
 html:
 	@for i in $(PLIBS); do echo $$i; pod2html --noindex --title=$$i --outfile=doc/$$i.html lib/$$i.pm; done
