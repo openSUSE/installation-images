@@ -153,6 +153,11 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arc
 
   f / agpgart.o
 
+else
+
+  # make at least the directory to get depmod working
+  d /lib/modules/<kernel_ver>/misc
+
 endif
 
 if !(arch eq 'sparc' || arch eq 'sparc64' || arch eq 'ia64' || arch eq 's390' || arch eq 's390x')
