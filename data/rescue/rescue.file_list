@@ -429,6 +429,10 @@ openssh:
   /usr/bin
   /usr/lib*
 
+dhcpcd:
+  /sbin
+  /var
+
 if arch ne 'sparc'
   <kernel_rpm>:
     f / st.o
