@@ -690,6 +690,8 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   $ConfigData{update_dir} = $update_dir;
   $ConfigData{load_image} = $load_image;
 
+  $ConfigData{min_memory} = $ConfigData{ini}{"Theme $theme"}{memory};
+
   # print STDERR "yast_theme = $ConfigData{yast_theme}\n";
   # print STDERR "splash_theme = $ConfigData{splash_theme}\n";
   # print STDERR "product_name = $ConfigData{product_name}\n";

@@ -597,6 +597,10 @@ if load_image
   e echo "MemLoadImage:	<load_image>" >>linuxrc.config
 endif
 
+if min_memory
+  e echo "MinMemory:	<min_memory>" >>linuxrc.config
+endif
+
 if lang
   e echo "Language:	<lang>" >>linuxrc.config
 endif
