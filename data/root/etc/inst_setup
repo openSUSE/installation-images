@@ -81,7 +81,7 @@ case "$arch" in
   It is NOT a feature of the final release.
 
   If you don't want sshd to be started, use
-  the 'nosshd' option at the boot promt.
+  the 'nosshd' option at the boot prompt.
 
   Press return to contiunue...
 xxx
