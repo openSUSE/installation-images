@@ -514,6 +514,12 @@ endif
 
 if with_gdb
 
+  iputils:
+    /bin/ping
+
+  net-tools:
+    m /sbin/{ifconfig,route} /bin
+
   strace:
     m /usr/bin/strace /bin
 
@@ -524,7 +530,8 @@ if with_gdb
     /lib*/ld-linux*.so.2
     /lib*/ld-2.*.so
     /lib*/libc.so.6*
-    /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
+    /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*,libresolv.so.2*}
+    /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
     /lib*/libm.so.6*
     /lib*/libthread_db.so*
 
