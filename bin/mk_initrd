@@ -33,6 +33,7 @@ The final compressed image is stored as C<images/initrd>.
 BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
 use ReadConfig;
 use MakeMinixImage;
+use MakeExt2Image;
 use AddFiles;
 use Conv2Image;
 
