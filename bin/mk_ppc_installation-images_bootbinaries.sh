@@ -76,7 +76,7 @@ cat > $CD1/ppc/bootinfo.txt <<EOF
 <chrp-boot>
 <description>$BUILD_DISTRIBUTION_NAME</description>
 <os-name>$BUILD_DISTRIBUTION_NAME</os-name>
-boot-script>boot &device;:1,yaboot.chrp </boot-script>
+<boot-script>boot &device;:1,yaboot.chrp </boot-script>
 </chrp-boot>
 
 EOF
