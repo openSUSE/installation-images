@@ -68,11 +68,14 @@ mkdir $tmpdir || die "$Script: failed to create $tmpdir";
 AddFiles $tmpdir, "${srcdir}/root.file_list", $srcdir or
   die "$Script: failed to setup root image";
 
-# strip everything
+print "fix locale...\n";
 SUSystem "fix_locale $tmpdir";
+print "fix permissions of directories...\n";
 SUSystem "fix_perms $tmpdir";
+print "strip everything...\n";
 SUSystem "strip_dir $tmpdir";
 
+print "running ldconfig...";
 SUSystem "ldconfig -r $tmpdir";
 die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
