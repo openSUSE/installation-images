@@ -538,7 +538,7 @@ if [ ! "$nodisk" ] ; then
   fi
 fi
 
-sh -c '/sbin/syslogd 2>/dev/null'
+sh -c '/sbin/syslogd >&1'
 
 # run it again...
 [ -x /sbin/pcmcia.postin ] && /sbin/pcmcia.postin >/dev/null 2>&1
