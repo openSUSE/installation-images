@@ -52,12 +52,6 @@ readline:
 ash:
   /bin/ash.static
 
-acl:
-  /lib*/libacl.so.*
-
-attr:
-  /lib*/libattr.so.*
-
 fileutils:
   /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
   /usr/bin/du
