@@ -1,0 +1,25 @@
+INSTALLATION AND MODULE DISK FOR HP SERVERS WITH iLO
+====================================================
+
+The two 1.44 MB disk images in this directory (bootdisk and modules1) are
+special boot and modules disks for HP systems using iLO (integrated Lights
+Out). The standard UL boot and modules disks cannot be used on these systems.
+
+How to use these disks:
+
+- Create the two disks by writing the images to 1.44 MB floppy disks using dd
+  (Unix) or rawrite.exe (DOS/Windows).
+- Configure the "Virtual Devices" in iLO to use the local floppy disk drive.
+- Insert the boot disk into the drive and start the server using the "Virtual
+  Power Button"
+- The server boots from the local floppy disk
+- Select the type of installation and hit <ENTER>, or just wait for the timeout
+  to start a standard installation
+- Remove the boot floppy disk and insert the modules disk when requested.
+- Hit any key to continue loading the modules disk and starting the
+  installation
+
+If you plan to do an installation via network, you need to use the "manual
+installation" option and load the network device driver from linuxrc later.
+Refer to the "Installation Manual" chapter "Preparation" section "Installation"
+for details on a network based installation.

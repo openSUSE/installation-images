@@ -408,6 +408,7 @@ for (@f) {
   # (used to be in etc/config)
 
   my ( $r, $r0, $rx, $in_abuild, $base, $a, $v, $kv, $kn, $rf, $work, $ki, @f, $prod );
+  my ( $theme, $real_arch, $ul_release, $sles_release, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir );
 
   $a = $ENV{'suse_arch'};
 
@@ -567,10 +568,78 @@ for (@f) {
     $ConfigData{'suse_base'} = $ENV{'suse_base'} = $base = $AutoBuild = "/.rpm-cache/$r"
   }
 
-  $ENV{theme} = "SuSE" unless $ENV{theme};
   $ENV{product} = $prod unless $ENV{product};
 
-  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base pre_release theme product) ) {
+  $theme = $ENV{theme} ? $ENV{theme} : "SuSE";
+
+  $real_arch = `uname -m`;
+  chomp $real_arch;
+  $real_arch = "i386" if $real_arch =~ /^i.86$/;
+
+  $ul_release = "ul1";
+  $sles_release= "sles8";
+
+  if($theme eq "SuSE") {
+    $yast_theme = "SuSELinux";
+    $splash_theme = "SuSE";
+    $product_name = "SuSE Linux";
+    $update_dir = "/linux/suse/$real_arch-$ENV{suse_release}";
+    $load_image = "";
+  }
+  elsif($theme eq "UnitedLinux") {
+    $yast_theme = "UnitedLinux";
+    $splash_theme = "UnitedLinux";
+    $product_name = "UnitedLinux";
+    $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
+    $load_image = 96*1024;
+  }
+  elsif($theme eq "SuSE-SLES") {
+    $yast_theme = "SuSELinux";
+    $splash_theme = "SuSE-SLES";
+    $product_name = "SuSE Linux";
+    $update_dir = "/linux/suse/$real_arch-$sles_release";
+    $load_image = 96*1024;
+  }
+  elsif($theme eq "UL-SLES") {
+    $yast_theme = "SuSELinux";
+    $splash_theme = "SuSE-SLES";
+    $product_name = "SuSE Linux";
+    $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
+    $load_image = 96*1024;
+  }
+  elsif($theme eq "OpenXchange") {
+    $yast_theme = "SuSELinux";
+    $splash_theme = "OpenXchange";
+    $product_name = "SuSE Linux";
+    $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
+    $load_image = 96*1024;
+  }
+  elsif($theme eq "SuSE-SLOS") {
+    $yast_theme = "SuSELinux";
+    $splash_theme = "SuSE-SLOS";
+    $product_name = "SuSE Linux";
+    $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
+    $load_image = 96*1024;
+  }
+  elsif($theme eq "OpenSchool") {
+    $yast_theme = "SuSELinux";
+    $splash_theme = "OpenSchool";
+    $product_name = "SuSE Linux";
+    $update_dir = "/linux/UnitedLinux/$real_arch-$ul_release";
+    $load_image = 96*1024;
+  }
+  else {
+    die "don't know theme \"$theme\""
+  }
+
+  $ENV{theme} = $theme;
+  $ENV{yast_theme} = $yast_theme;
+  $ENV{splash_theme} = $splash_theme;
+  $ENV{product_name} = $product_name;
+  $ENV{update_dir} = $update_dir;
+  $ENV{load_image} = $load_image;
+
+  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base pre_release theme product product_name yast_theme splash_theme update_dir load_image) ) {
     $ConfigData{$_} = $ENV{$_}
   }
 
@@ -580,7 +649,7 @@ for (@f) {
 
   if(!exists $ENV{silent}) {
     my $p = $ENV{'pre_release'} ? "pre-" : "";
-    print "Building for $prod $p$v ($ConfigData{theme},$a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
+    print "Building for $product_name $p$v ($ConfigData{theme},$a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
   }
 
   # print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}>\n";
