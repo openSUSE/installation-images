@@ -33,6 +33,11 @@ sub Conv2Image
 
   SUSystem "umount /mnt 2>/dev/null";
 
+  if($fs eq 'minix' && !-x('/sbin/mkfs.minix')) {
+    $fs = 'ext2';
+    print STDERR "WARNING: no support for minix fs; using ext2!\n"
+  }
+
   while($cnt <= 2) {
 #    print ">>$c_k, $c_inodes\n";
     ( $tmp_k, $blk_size, $tmp_inodes ) = $fs eq 'minix' ? MakeMinixImage($image, $c_k, $c_inodes) : MakeExt2Image($image, $c_k, $c_inodes);
