@@ -90,7 +90,7 @@ if grep -q "^UseSSH:.*1" /etc/install.inf ; then
 fi
 
 # for yast debugging.
-grep -iwq < /proc/cmdline debug && {
+grep -iwq y2debug < /proc/cmdline && {
 export Y2DEBUG=1
 export Y2MAXLOGSIZE=50000
 export Y2MAXLOGNUM=5

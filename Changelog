@@ -1,3 +1,6 @@
+	- remove wrong y2debug check in inst_setup
+	  causes huge amount of y2log unconditional
+
 11/9/2002:	v2.65
 	- changed parmline for installation boot
 	- changed create_interface to write entry in
