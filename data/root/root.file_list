@@ -193,7 +193,7 @@ if suse_release >= 7.3 && (arch eq 'alpha' || suse_xrelease eq 'beta')
     /lib
 endif
 
-if suse_release >= 7.4
+if suse_release >= 8.0
   popt:
     /usr/lib/libpopt.so*
 endif
@@ -578,10 +578,17 @@ liblcms:
   /usr/lib/liblcms.so*
 
 if with_yast2 ne 'no'
-  qt:
-    /usr/lib/libqt.so.2
-    /usr/lib/qt2
-    /usr/lib/qt-2.*/lib/libqt.so*
+  if suse_release >= 8.0
+    qt3:
+      /usr/lib/libqt.so.3
+      /usr/lib/qt3
+      /usr/lib/qt-3.*/lib/libqt.so*
+  else
+    qt:
+      /usr/lib/libqt.so.2
+      /usr/lib/qt2
+      /usr/lib/qt-2.*/lib/libqt.so*
+  endif
 endif
 
 # remove these:
