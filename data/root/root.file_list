@@ -74,6 +74,7 @@ coreutils:
   /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc,od}
   /bin/sort
   /bin/kill
+  /usr/bin/readlink
 
 gzip:
   bin/g{un,}zip
