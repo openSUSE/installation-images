@@ -1,3 +1,5 @@
+	- s390: netsetup: use /linuxrc.config instead of /etc/SuSE-release
+	  (bug #40121)
 	- inst_setup_ssh: run with -n if not booted with nosshkey
 
 10/5/2004:	v5.51

@@ -294,10 +294,6 @@ if arch eq 's390' || arch eq 's390x'
   strace:
     /usr/bin/strace
 
-  sles-release:
-    /etc/SuSE-release
-
-
   x s390/bin/netsetup    /bin/netsetup
   x s390/check           /check
   x s390/etc/passwd      /etc/passwd

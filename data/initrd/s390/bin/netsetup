@@ -1520,7 +1520,7 @@ fi
 #
 echo "\
 =                                                                   =
-==-    Welcome to `head -n 1 /etc/SuSE-release`      -==
+==-    Welcome to `grep ^Product /linuxrc.config|tail -n 1|sed s,^Product:[[:space:]]*,,g`      -==
 =                                                                   ="
 [ "$DEBUG" = "yes" ] && echo -e "\n- Running in DEBUG mode. -\n"
 EXIT_SCRIPT=0
