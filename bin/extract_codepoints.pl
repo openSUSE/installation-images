@@ -13,38 +13,22 @@
 # FIXME : write more here as program matures; also, write better and more
 # accurately
 #
+# $Id: extract_codepoints.pl,v 1.2 2004/04/06 21:32:10 odabrunz Exp $
 #
 # 2004 Olaf Dabrunz
 #
 
 my $debug=1;
+my $path=".";
+
+my @dirs = ();
 
 use strict;
 use File::Find;
-use vars qw($opt_d $opt_l);
+use vars qw($opt_d $opt_l $opt_t);
 use Getopt::Std;
 
 binmode STDOUT, ":utf8";
-
-# find all language subdirectories of the form [a-z][a-z](_[A-Z][A-Z]|)
-
-my $path=".";
-
-opendir(DIR, $path)     or die "cannot open directory $path: $!\n";
-
-my @dirs = map  { $_->[1] }        
-        grep { -d $_->[1] }
-        map  { [ $_, "$path/$_" ] }        
-        grep { /^[a-z][a-z](_[A-Z][A-Z]|)$/ }
-        readdir(DIR);
-
-closedir(DIR);
-
-# BUT, at the moment only the following translation are ready and will be
-# included 
-@dirs = ( 'ja', 'cy', 'es', 'fi', 'it', 'nl', 'ro', 'sl_SI', 'zh', 'bg', 'cs',
-    'en_GB', 'fr', 'hu', 'no', 'pt', 'ru', 'sv', 'tr', 'zh_CN', 'bs', 'de',
-    'en_US', 'gl', 'id', 'ko', 'nb', 'pl', 'pt_BR', 'sk', 'ta', 'tv', 'zh_TW');
 
 
 $0 =~ m/([^\/]*)$/;
@@ -53,21 +37,56 @@ my $progname = $1;
 # Usage message
 sub usage {
     print <<EOF;
-$progname version 0.2
+$progname version 0.9
 Extracts the Unicode UTF-8 character codes used in "gettext" message files.
 
 $progname [-d <selector>] [-l <lang_dir>]
 
 Options:
-    -d <selector>           set debugging selector 
-    -l <lang_dir>           only process this language subdirectory 
+    -d <selector>           set debugging selector (defaults to $debug)
+    -l <lang_dir>           only process this language subdirectory (defaults
+                            to all configured languages (see \@dirs in the source))
+    -t <top-level-dir>      set top-level directory of the translation tree
+                            (defaults to '$path')
 EOF
 }
 
 # parse command line options
-if (! getopts('d:l:')) { usage; exit 1; }
+if (! getopts('d:l:t:')) { usage; exit 1; }
 if (defined $opt_d) { $debug = $opt_d; }
 if (defined $opt_l) { @dirs = ( $opt_l ); }
+if (defined $opt_t) { $path = ( $opt_t ); }
+
+# expand "~"-constructs in pathname
+$path =~ s{ ^ ~ ( [^/]* ) }
+          { $1
+                ? (getpwnam($1))[7]
+                : ( $ENV{HOME} || $ENV{LOGDIR} || (getpwuid($>))[7] )
+          }ex;
+
+chdir($path) or die "cannot change to directory $path: $!\n";
+
+# find all language subdirectories of the form [a-z][a-z](_[A-Z][A-Z]|)
+# (this is currently unused...)
+
+if (! defined $opt_l) {
+    opendir(DIR, ".")     or die "cannot open directory '.': $!\n";
+
+    @dirs = map  { $_->[1] }        
+            grep { -d $_->[1] }
+            map  { [ $_, "$path/$_" ] }        
+            grep { /^[a-z][a-z](_[A-Z][A-Z]|)$/ }
+            readdir(DIR);
+
+    closedir(DIR);
+
+    # BUT, at the moment only the following translation are ready and will be
+    # included 
+    @dirs = ( 'ja', 'cy', 'es', 'fi', 'it', 'nl', 'ro', 'sl_SI', 'zh', 'bg', 'cs',
+        'en_GB', 'fr', 'hu', 'no', 'pt', 'ru', 'sv', 'tr', 'zh_CN', 'bs', 'de',
+        'en_US', 'gl', 'id', 'ko', 'nb', 'pl', 'pt_BR', 'sk', 'ta', 'tv', 'zh_TW');
+}
+
 
 # These are the language directories we have to parse for a given font file
 # name prefix; also, the coderanges that are extracted at the end for this
@@ -87,21 +106,23 @@ if (defined $opt_l) { @dirs = ( $opt_l ); }
 #
 
 my @fontspecs = (
-    'SuSESans'    ,  [ @dirs ]    , [ [ 0x0000, 0x2E7F ] ],
-    'FreeSans'    ,  [ @dirs ]    , [ [ 0x0000, 0x2E7F ] ],
-    'kochi-'      ,  [ 'ja' ]     , [ [ 0x2E80, 0x312F ], [ 0x3190, 0x9FFF ], [ 0xF900, 0xFAFF ] ],
-    'bkai'        ,  [ 'zh_TW' ]  , [ [ 0x2E80, 0x312F ], [ 0x3190, 0x9FFF ], [ 0xF900, 0xFAFF ] ],
-    'bsmi'        ,  [ 'zh_TW' ]  , [ [ 0x2E80, 0x312F ], [ 0x3190, 0x9FFF ], [ 0xF900, 0xFAFF ] ],
-    'gkai'        ,  [ 'zh_CN' ]  , [ [ 0x2E80, 0x312F ], [ 0x3190, 0x9FFF ], [ 0xF900, 0xFAFF ] ],
-    'gbsn'        ,  [ 'zh_CN' ]  , [ [ 0x2E80, 0x312F ], [ 0x3190, 0x9FFF ], [ 0xF900, 0xFAFF ] ],
-    'batang'      ,  [ 'ko' ]     , [ [ 0x3130, 0x318F ], ],
-    'dotum'       ,  [ 'ko' ]     , [ [ 0x3130, 0x318F ], ],
-    'gulim'       ,  [ 'ko' ]     , [ [ 0x3130, 0x318F ], ],
-    'hline'       ,  [ 'ko' ]     , [ [ 0x3130, 0x318F ], ]
+    [ 'SuSESans'    ,  { map { $_ => 1 } @dirs }        , [ [ 0x0020, 0x036F ], [ 0x1E00, 0x1EFF ] ] ],
+    [ 'FreeSans'    ,  { map { $_ => 1 } @dirs }        , [ [ 0x0370, 0x04FF ], [ 0x1F00, 0x1FFF ] ] ],
+    [ 'kochi'       ,  { map { $_ => 1 } ('ja') }       , [ [ 0x2E80, 0x312F ], [ 0x3190, 0x9FFF ], [ 0xF900, 0xFAFF ] ] ],
+#    [ 'bkai'        ,  { map { $_ => 1 } ('zh_TW') }    , [ [ 0x2E80, 0x312F ], [ 0x3190, 0x9FFF ], [ 0xF900, 0xFAFF ] ] ],
+    [ 'bsmi'        ,  { map { $_ => 1 } ('zh_TW') }    , [ [ 0x2E80, 0x312F ], [ 0x3190, 0x9FFF ], [ 0xF900, 0xFAFF ] ] ],
+#    [ 'gkai'        ,  { map { $_ => 1 } ('zh_CN') }    , [ [ 0x2E80, 0x312F ], [ 0x3190, 0x9FFF ], [ 0xF900, 0xFAFF ] ] ],
+    [ 'gbsn'        ,  { map { $_ => 1 } ('zh_CN') }    , [ [ 0x2E80, 0x312F ], [ 0x3190, 0x9FFF ], [ 0xF900, 0xFAFF ] ] ],
+    [ 'batang'      ,  { map { $_ => 1 } ('ko') }       , [ [ 0x3130, 0x318F ], [ 0xAC00, 0xD7FF ] ] ],
+#    [ 'dotum'       ,  { map { $_ => 1 } ('ko') }       , [ [ 0x3130, 0x318F ], [ 0xAC00, 0xD7FF ] ] ],
+#    [ 'gulim'       ,  { map { $_ => 1 } ('ko') }       , [ [ 0x3130, 0x318F ], [ 0xAC00, 0xD7FF ] ] ],
+#    [ 'hline'       ,  { map { $_ => 1 } ('ko') }       , [ [ 0x3130, 0x318F ], [ 0xAC00, 0xD7FF ] ] ],
 );
 
-my @SuSESansCPA = ();
-
+my $unassigned = 'unassigned';
+my %unassigned_dirs = ();
+my %CPAs = ();
+my $currentdir = "";
 
 sub debugprint {
     my ($string, $prefix, $color, $subsys, $hl) = @_;
@@ -128,7 +149,8 @@ sub debugprint {
 
 sub savecp {
     my ($string) = @_;
-    my $uc = 0;
+    my $uc = 0; my $assigned = 0;
+    my $fspec = (); my $range = ();
     debugprint("$string\n", "        savecp:", "\e[01m", 4, undef);
 
     my $l = length($string);
@@ -137,25 +159,32 @@ sub savecp {
         $uc = ord(substr($string, $i, 1));
         printf("%s: %#x ", substr($string, $i, 1), $uc) if $debug & 8;
 
-        # FIXME : now only handling one codepoint array, implement algorithm
-        # described above and below
-#        foreach ($low, $high) $fontspec[3] {
-#            $SuSESansCPA[$uc] = 1, last if ($low <= $uc && $uc <= $high);
-#        }
-        $SuSESansCPA[$uc] = 1;
-
+        $assigned = 0;
+        # for all fonts, if current source-dir is in the font's hash of dirs,
+        # add codepoint to the font's array
+        foreach $fspec (@fontspecs) {
+            my ($font, $subdirs, $coderanges) = @$fspec;
+            if ( exists $subdirs->{$currentdir} ) {
+               foreach $range (@$coderanges) {
+                   my ($low, $high) = @$range;
+                   if ($low <= $uc && $uc <= $high) {
+                       @{$CPAs{$font}}[$uc] = 1;
+                       $assigned = 1;
+                       last;
+                   }
+               }
+           }
+        }
+        # remember codepoints we could not assign to any font
+        if (!$assigned) { @{$CPAs{$unassigned}}[$uc] = 1; $unassigned_dirs{$currentdir} = 1; };
     }
     print "\n" if $debug & 8;
-    #   for all characters in the string
-    #       for all fonts, if current source-dir is in the font's list of dirs
-    #           add codepoint to the font's array
-    #       done
-    #   done
 }
 
 # parse a line belonging to a msgstr-entry and add it to the codepoint array;
 # concatenate C-style multiline strings and remove C-style "\[abfnrtv0]", while
-# interpreting "\[\?'"]", "\[ox][0-9][0-9]"
+# interpreting "\[\?'"]", "\o...", "\x..", "\u....", ("\U........" is missing,
+# since Perl 5.8 does not yet support surrogates).
 
 sub parse_string {
     ($_) = @_;
@@ -195,6 +224,8 @@ sub parse_string {
 sub parse_file {
     # find passes the basename of the current file in $_
     my $file = $_;
+    $currentdir = $File::Find::dir ;
+    $currentdir =~ s,/.*$,, ;
     return unless ! -d $file && $file =~ /\.po$/io;
     debugprint("$File::Find::dir/$file\n", "parsing file", "", 1, undef);
 
@@ -215,22 +246,56 @@ sub parse_file {
     close(FH);
 }
 
+
+sub dump_CPAs {
+    my $fspec = (); my $range = ();
+    my $i = 0; my $count = 0; my $fontcount = 0;
+    my $fname = "";
+
+    foreach $fspec (@fontspecs, [$unassigned, {}, []] ) {
+        my ($font, $subdirs, $coderanges) = @$fspec;
+        printf("\n\n\e[31;01mFont: %s\e[m\n\n", $font) if $debug & 32;
+
+        $fname = $font . ".ucp";
+        open(FH, ">:utf8", $fname)   or die "unable to open file $fname: $!";
+
+        $fontcount = 0;
+        for ( $i=0; $i <= 0xFFFF; $i++ ) {
+            if (@{$CPAs{$font}}[$i]) {
+                $count++; $fontcount++;
+                if ($debug & 32) {
+                    if ($debug & 16) {
+                        if ($font ne $unassigned) {
+                            printf("%#4.4x %s\n", $i, chr($i));
+                        } else {
+                            printf("%#4.4x %s", $i, chr($i)); map { print " " . $_; } keys(%unassigned_dirs); print "\n";
+                        }
+                    } else {
+                        printf("%#4.4x\n", $i);
+                    }
+                }
+                if ($font ne $unassigned) {
+                    printf(FH "%#4.4x %s\n", $i, chr($i));
+                } else {
+                    printf(FH "%#4.4x %s", $i, chr($i)); map { print FH " " . $_; } keys(%unassigned_dirs); print FH "\n";
+                }
+            }
+        }
+
+        close(FH);
+        print "\n" if $debug & 32;
+        print "used codepoints in font \"$font\": $fontcount\n";
+    }
+
+    print "\n" if $debug & 32;
+    print "total used codepoints: $count\n";
+}
+
+
 # Main loop over all files
 find( \&parse_file, @dirs );
 
-#dump_all_arrays();
+# dump output to files
+dump_CPAs();
 
-my $i = 0; my $count = 0;
 
-for ( $i=0; $i < $#SuSESansCPA; $i++ ) {
-    if ($SuSESansCPA[$i]) {
-        $count++;
-        if ($debug & 16) {
-            printf("%#4.4x %s\n", $i, chr($i));
-        } else {
-            printf("%#4.4x\n", $i);
-        }
-    }
-}
-
-print "total used codepoints: $count\n";
