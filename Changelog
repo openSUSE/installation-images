@@ -1,9 +1,9 @@
 26/4/2004:	v5.41
 	- fvwmrc.notitle now fvwmrc.yast2, taken from sax2.rpm (#36488)
-???
 	- add CD2/suseboot to trigger the HFS part,
 	  avoid 8.3 filenames and allow OF booting
 	- /lib/modules/<kernel>/extras -> extra
+
 8/4/2004:	v5.40
 	- support SuSE-SLES theme
 
