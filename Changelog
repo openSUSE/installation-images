@@ -1,3 +1,5 @@
+	- switch ADB keyboards to linuxkeycodes
+
 18/11/2003:	v5.00
 	- moved to kernel 2.6
 

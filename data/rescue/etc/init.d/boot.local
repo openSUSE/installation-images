@@ -14,6 +14,11 @@
 # before we're going to the first run level.
 #
 
+# kernel 2.6 uses linuxkeycodes for all keyboards
+# 2.4 kernels may still use ADB keycodes, but all the maps have the new encoding 
+# since post 9.0. Just switch the kernel side if the default is still ADB
+test -f /proc/sys/dev/mac_hid/keyboard_sends_linux_keycodes && echo 1 > /proc/sys/dev/mac_hid/keyboard_sends_linux_keycodes
+
 date
 while read line; do
         case "$line" in
