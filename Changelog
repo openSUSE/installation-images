@@ -1,3 +1,6 @@
+12/2/2002:	v1.120
+	- add proceed hint to start_shell kernel arg
+
 12/2/2002:	v1.119
 	- fixed kbd dirs
 	- added pam modules (make sshd happy)

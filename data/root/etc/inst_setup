@@ -139,7 +139,7 @@ esac
 rm -f /etc/fstab
 
 # start shell, useful on iSeries or via serial console
-grep -qi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell..." ; bash ; }
+grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell... (use 'exit' to proceed)" ; bash ; }
 
 # now, run yast
 echo "starting yast..."
@@ -153,7 +153,7 @@ if [ "$yast" = yast2 ] ; then
 fi
 
 # start shell, useful on iSeries or via serial console
-grep -qi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell..." ; bash ; }
+grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell... (use 'exit' to proceed)" ; bash ; }
 
 # stop sshd
 killall sshd 2>/dev/null >/dev/null
