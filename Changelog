@@ -1,5 +1,5 @@
 28/10/2002:	v2.87
-	- fixed labeling of product in suse.ins files
+	- fixed labeling of product in suse.ins files (#21202)
 
 28/10/2002:	v2.86
 	- check entered machine and path for ftp-installation (#20792)
