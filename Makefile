@@ -40,7 +40,7 @@ bootcd2:
 
 bootdisk:
 # with_smb=1
-	noinitrd=small initrd=small bootsplash=yes bootlogo=yes boot=small make boot
+	noinitrd=small initrd=small bootsplash=yes boot=small make boot
 
 bootcd:
 # with_smb=1
