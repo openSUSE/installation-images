@@ -1,3 +1,6 @@
+12/7/2002:	v2.18
+	- remove explicit isa-pnp deps from module.config
+
 12/7/2002:	v2.17
 	- mkfs.cramfs has moved
 	- fixed package name handling
