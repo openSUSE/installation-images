@@ -120,6 +120,11 @@ if suse_release < 7.1
   /lib/libdb.so.3
 endif
 
+if suse_release >= 7.1
+  gpart:
+    /usr/bin
+endif
+
 gzip:
   /bin
   /usr/bin
