@@ -325,7 +325,7 @@ if with_yast2 ne 'no'
   yast2:
     /usr
     /var
-    s /usr/lib/YaST2/bin/YaST2.start /sbin/yast
+    s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast
   yast2-bootloader:
     /
   yast2-core:
@@ -536,7 +536,7 @@ pam-modules:
   /{etc,lib*,sbin}
 
   # don't use cracklib
-  c 755 0 0 /etc/security
+  c 755 0 0 /etc /etc/security
   R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
 
 libxcrypt:

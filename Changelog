@@ -1,4 +1,10 @@
+9/11/2004:	v6.18
 	- s390: added /sbin/dasdview (bug #42986)
+	- fix module dependencies (reverse loading order) (#47909)
+	- turn off automatic module disk requests when we boot from CD (it
+	  is pointless anyway) (#47909, #46809)
+	- no module disks
+	- new yast startup concept (#46886)
 
 7/10/2004:	v6.17
 	- added norwegian translations

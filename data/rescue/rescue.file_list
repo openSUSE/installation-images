@@ -216,6 +216,7 @@ scsi:
   /bin
   /usr/bin
   /usr/sbin
+  /usr/lib*/libsgutils.so*
 
 if arch eq 'ia32'
   grub:
@@ -318,7 +319,7 @@ pam-modules: postin
   /{etc,lib*,sbin}
 
   # don't use cracklib
-  c 755 0 0 /etc/security
+  c 755 0 0 /etc /etc/security
   R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
 
 E postin

@@ -382,3 +382,8 @@ e echo "RescueImage:	/boot/rescue64" >>linuxrc.config
 e echo "RootImage:	/boot/root64" >>linuxrc.config
 endif
 
+# turn off automatic module disks requests in linuxrc (there are no module
+# disks)
+
+e echo "ModuleDisks:	0" >>linuxrc.config
+

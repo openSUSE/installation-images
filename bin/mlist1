@@ -107,7 +107,7 @@ open W2, ">$list";
 for (sort { "$path{$a} $a" cmp "$path{$b} $b" } keys %ml) {
   print W2 "$path{$_}: $_\n";
   if($ml{$_}) {
-    print W1 "$_: $ml{$_}\n"
+    print W1 "$_: ", join(' ', reverse(split(' ', $ml{$_}))), "\n"
   }
   else {
     print W1 "$_:\n"

@@ -67,31 +67,36 @@ if with_yast2 ne 'no'
   c 0755 0 0 /dev
 
   if arch ne 's390' && arch ne 's390x'
-  # new XF86 4.0
-  xorg-x11-server:
-    /usr/X11R6/bin/Xorg
-    s Xorg /usr/X11R6/bin/XFree86
-    /usr/X11R6/lib*/modules/drivers/fbdev_drv.o
-  if arch eq 'ppc' || arch eq 'ppc64'
-    /usr/X11R6/lib*/modules/drivers/nv_drv.o
-  endif
-  if arch eq 'ia32' || arch eq 'ia64' || arch eq 'x86_64'
-    /usr/X11R6/lib*/modules/drivers/{vesa,vga}_drv.o
-  endif
-  if arch eq 'ia64'
-    /usr/X11R6/lib*/modules/drivers/*_drv.o
-  endif
-  if arch eq 'ia32'
-    /usr/X11R6/lib*/modules/drivers/vmware_drv.o
-  endif
-    /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.a
-    /usr/X11R6/lib*/modules/fonts/libbitmap.a
-    /usr/X11R6/lib*/modules/input
-    /usr/X11R6/lib*/modules/linux
-  if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc' && arch ne 'ppc64'
-      /usr/X11R6/lib*/modules/*.uc
-  endif
-    /usr/X11R6/lib*/modules/lib*.a
+    xorg-x11-server:
+      /usr/X11R6/bin/Xorg
+      s Xorg /usr/X11R6/bin/XFree86
+
+      if arch eq 'ia32' || arch eq 'ia64' || arch eq 'x86_64'
+        /usr/X11R6/lib*/modules/drivers/vesa_drv.o
+      endif
+
+      if arch eq 'ia32'
+        /usr/X11R6/lib*/modules/drivers/vmware_drv.o
+      endif
+
+      /usr/X11R6/lib*/modules/drivers/ati_drv.o
+      /usr/X11R6/lib*/modules/drivers/atimisc_drv.o
+      /usr/X11R6/lib*/modules/drivers/fbdev_drv.o
+      /usr/X11R6/lib*/modules/drivers/i810_drv.o
+      /usr/X11R6/lib*/modules/drivers/nv_drv.o
+      /usr/X11R6/lib*/modules/drivers/r128_drv.o
+      /usr/X11R6/lib*/modules/drivers/radeon_drv.o
+
+      /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.a
+      /usr/X11R6/lib*/modules/fonts/libbitmap.a
+      /usr/X11R6/lib*/modules/input
+      /usr/X11R6/lib*/modules/linux
+
+      if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc' && arch ne 'ppc64'
+        /usr/X11R6/lib*/modules/*.uc
+      endif
+
+      /usr/X11R6/lib*/modules/lib*.a
   endif
 
   if arch ne 's390' && arch ne 's390x'
@@ -100,7 +105,7 @@ if with_yast2 ne 'no'
   endif
 
   xorg-x11-libs:
-    /usr/X11R6/lib*/libX{11,ext,mu,muu,i,t,render,pm,randr,cursor,p,tst,inerama,xf86vm,xf86dga,xf86misc}.so*
+    /usr/X11R6/lib*/libX{11,cursor,ext,i,inerama,mu,muu,p,pm,randr,render,ss,t,tst,xf86dga,xf86misc,xf86vm}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/libXft.so.2*
     /usr/X11R6/lib*/libxkbfile.so.*
@@ -142,13 +147,9 @@ if with_yast2 ne 'no'
 
     /usr/X11R6/lib/X11/fonts/misc/fonts.scale
 
-  if arch eq 'ia64'
-    x /usr/X11R6/lib/X11/XF86Config_4.ia64 /usr/X11R6/lib/X11/XF86Config_4
-  else
-    x /usr/X11R6/lib/X11/XF86Config_4 /usr/X11R6/lib/X11
-  endif
+    /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
 
-  /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
+    x /usr/X11R6/lib/X11/XF86Config_4 /usr/X11R6/lib/X11
 
 
   if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
@@ -185,6 +186,12 @@ if with_yast2 ne 'no'
   libxslt:
     /usr/lib*
     /usr/bin
+
+  libgcrypt:
+    /usr/lib*/libgcrypt.so*
+
+  libgpg-error:
+   /usr/lib*/libgpg-error.so*
 
   fvwm2:
     /usr/X11R6/bin/fvwm{,2}
@@ -264,12 +271,20 @@ if with_yast2 ne 'no'
 endif
 
 
-if with_yast2 ne 'no' && arch ne 's390' && arch ne 's390x'
+if with_yast2 ne 'no'
   sax2-tools:
-     /usr/X11R6/bin
+     if arch eq 's390' || arch eq 's390x'
+       /usr/X11R6/bin/testX
+     else
+       /usr/X11R6/bin
+     endif
    r /usr/X11R6/bin/xkbset
-  sax2-ident:
-    /
+
+  if arch ne 's390' && arch ne 's390x'
+    sax2-ident:
+      /
+  endif
+
 endif
 
 vim:
