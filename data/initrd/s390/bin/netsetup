@@ -1623,7 +1623,7 @@ fi
 #
 
 # Print out welcome message
-welcome_msg `grep ^Product /linuxrc.config|tail -n 1|sed s,^Product:[[:space:]]*,,g`
+welcome_msg "`grep ^Product /linuxrc.config|tail -n 1|sed s,^Product:[[:space:]]*,,g`"
 
 [ "$DEBUG" = "yes" ] && echo -e "\n- Running in DEBUG mode. -\n"
 EXIT_SCRIPT=0

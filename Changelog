@@ -1,3 +1,6 @@
+	- s390: netsetup: print the product string correctly (bug #40121,
+	  this time for real)
+
 26/5/2004:	v5.60
 	- ensure passwords do not expire; added passwd (#41180)
 
