@@ -6,4 +6,5 @@ LC_CTYPE=de_DE
 export LC_CTYPE
 PS1="`pwd -P` # "
 ignoreeof=0
-export PS1 ignoreeof
+HISTCONTROL=ignoredups
+export PS1 ignoreeof HISTCONTROL
