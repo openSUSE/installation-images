@@ -4,6 +4,10 @@ c 1777 0 0 tmp
 devs:
   /dev
 
+fillup:
+  /bin
+  /var/adm/fillup-templates
+
 if suse_release >= 8.1
 filesystem:
 else
@@ -27,7 +31,6 @@ e prein
   /etc
 r /etc/{csh*,default*,mailcap,mime.types,permissions*}
 r /etc/{rc.d.README,runlevel.fallback,zshrc,cron.daily}
-  /bin
   /sbin
   /root
 r /etc/init.d/rc?.d/*kerneld
@@ -99,6 +102,9 @@ dosfstools:
 
 findutils:
   /usr/bin/{find,xargs}
+
+acl:
+  /lib*
 
 if arch eq 'alpha' || suse_xrelease eq 'beta'
   libgcc:

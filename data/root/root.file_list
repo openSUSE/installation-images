@@ -11,10 +11,13 @@ r /etc/ssh/CVS
 r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
 r /etc/inst_setup
 
+fillup:
+  /bin
+  /var/adm/fillup-templates
+
 aaa_base: prein,postin
 e prein
   /etc/init.d
-  /bin/fillup
   /etc/{modules.conf,insserv.conf,inputrc}
   /sbin/mk_initrd
   /sbin/get_kernel_version
@@ -31,6 +34,12 @@ tar:
 
 sed:
   /bin/sed
+
+acl:
+  /lib*
+
+attr:
+  /lib*
 
 bash:
   /bin/bash

@@ -15,6 +15,10 @@ t var/run/utmp
 
 c 1777 0 0 tmp
 
+fillup:
+  /bin
+  /var/adm/fillup-templates
+
 aaa_base:
   /etc/nsswitch.conf
 

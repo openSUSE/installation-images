@@ -2,6 +2,10 @@
 	- inst_source in sync with docu
 	- DASD-Parameter insertet
 	- added acl,attr,libmng libs to base file list
+	- fillup in separate package
+	- added pcnet32-old module
+	- fixed some lib dependencies
+	- handle UnitedLinux properly
 	- add ssh-keygen
 	- add ssh and related files, starting with release 8.1
 	- add a few ifarch ppc64 to ifarch ppc checks

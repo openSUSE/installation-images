@@ -407,7 +407,7 @@ for (@f) {
   # kernel_ver
   # (used to be in etc/config)
 
-  my ( $r, $r0, $rx, $in_abuild, $base, $a, $v, $kv, $kn, $rf, $work, $ki, @f );
+  my ( $r, $r0, $rx, $in_abuild, $base, $a, $v, $kv, $kn, $rf, $work, $ki, @f, $prod );
 
   $a = $ENV{'suse_arch'};
 
@@ -425,8 +425,16 @@ for (@f) {
     $in_abuild = 1 if $ENV{'BUILD_BASENAME'};
   }
 
+  $prod = "SuSE Linux";
+
   if($in_abuild) {
-    $r0 = `grep VERSION /etc/SuSE-release`;
+    if(-f "/etc/SuSE-release") {
+      $r0 = `grep VERSION /etc/SuSE-release`;
+    }
+    elsif(-f "/etc/UnitedLinux-release") {
+      $prod = "UnitedLinux";
+      $r0 = `grep VERSION /etc/UnitedLinux-release`;
+    }
     $r0 =~ s/^.*=\s*//;
     $r0 =~ s/\s*$//;
     $r0 = "\L$r0";
@@ -452,10 +460,17 @@ for (@f) {
   if(!$in_abuild) {
     # die "Sorry, no packages in \"$work\"!\n" unless -d "$base";
     my $suserelpack = RPMFileName "aaa_version";
+    $suserelpack = RPMFileName "unitedlinux-release" unless -f $suserelpack;
     die "invalid SuSE release" unless -f $suserelpack;
-    system "mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $suserelpack | cpio -iud --quiet etc/SuSE-release";
+    system "mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $suserelpack | cpio -iud --quiet";
 
-    $r0 = `grep VERSION /tmp/r$$/etc/SuSE-release`;
+    if(-f "/tmp/r$$/etc/SuSE-release") {
+      $r0 = `grep VERSION /tmp/r$$/etc/SuSE-release`;
+    }
+    else {
+      $prod = "UnitedLinux";
+      $r0 = `grep VERSION /tmp/r$$/etc/UnitedLinux-release`;
+    }
     $r0 =~ s/^.*=\s*//;
     $r0 =~ s/\s*$//;
     $r0 = "\L$r0";
@@ -466,12 +481,17 @@ for (@f) {
     $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
     $r0 = "$r0-" if $r0 ne "";
 
-    unlink "/tmp/r$$/etc/SuSE-release";
-    rmdir "/tmp/r$$/etc";
-    rmdir "/tmp/r$$";
+    system "rm -rf /tmp/r$$";
   }
 
-#  print "base = \"$base\", r0 = \"$r0\", rx = \"$rx\"\n";
+  if($prod eq "UnitedLinux") {
+    if($rf eq "1.0") {
+      $r0 = "8.1";
+      $rx = "";
+    }
+  }
+
+  # print "prod = \"$prod\", base = \"$base\", r0 = \"$r0\", rx = \"$rx\", rf = \"$rf\"\n";
 
   ($ENV{'suse_release'} = $r0) =~ s/-?$//;
   ($ENV{'suse_xrelease'} = $rx) =~ s/-?$//;
@@ -557,7 +577,7 @@ for (@f) {
 
   if(!exists $ENV{silent}) {
     my $p = $ENV{'pre_release'} ? "pre-" : "";
-    print "Building for SuSE Linux $p$v ($a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
+    print "Building for $prod $p$v ($a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
   }
 
   # print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}>\n";
