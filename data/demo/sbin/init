@@ -450,11 +450,18 @@ if [ ! "$new" ] ; then
   rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
   umount /home
 
+  umount $partition
+  umount /S.u.S.E.
+  if [ -d /.SuSE ] ; then
+    losetup -d /dev/loopc0 2>/dev/null
+    umount /.SuSE
+  fi
+
   umount /proc
 
   deb_stop
 
-  rm -f /sbin/live-setup ; exec /sbin/init
+  rm -f /sbin/live-setup ; umount -a 2>/dev/null ; exec /sbin/init
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
