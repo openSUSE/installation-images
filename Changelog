@@ -1,4 +1,6 @@
 	- add kernel/drivers/base/ to search list
+	- add firmware_class to list of know modules
+	- add dm-mod, dm-crypt and raid6 on ppc
 
 27/2/2004:	v5.16
 	- bk: s390 fixes
