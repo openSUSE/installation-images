@@ -587,9 +587,9 @@ if with_yast2 ne 'no'
   gpart:
     /usr/bin
 
-  if with_vera_font ne 'no'
-    bitstream-vera:
-      /usr/X11R6/lib/X11/fonts/truetype/Vera*.ttf
+  if with_suse_font ne 'no'
+    desktop-data-SuSE:
+      /usr/X11R6/lib/X11/fonts/truetype/SUSESans*.ttf
   else
     ghostscript-fonts-std:
       /usr/X11R6/lib/X11/fonts/URW
@@ -643,8 +643,10 @@ if with_yast2 ne 'no'
   kdebase3-SuSE:
     /opt/kde3/share/config/SuSE/default/qtrc
 
+  thinkeramik:
+    /opt/kde3/lib*/kde3/plugins/styles/thinkeramik.so
+
   kdelibs3:
-    /opt/kde3/lib*/kde3/plugins/styles/keramik.so
     /opt/kde3/lib*/libkdefx.so*
 endif
 
@@ -758,6 +760,7 @@ heimdal-lib:
   /usr/lib*/libasn1.so.*
   /usr/lib*/libgssapi.so.*
   /usr/lib*/libkrb5.so.*
+  /usr/lib*/libkafs.so.*
   /usr/lib*/libroken.so.*
 
 openldap2-client:
@@ -885,7 +888,7 @@ blueprint-cursor-theme:
   /usr/X11R6/lib/X11/icons/blueprint-cursor-theme
 
 if with_yast2 ne 'no'
-  if with_vera_font ne 'no'
+  if with_suse_font ne 'no'
     e mkfontscale usr/X11R6/lib/X11/fonts/truetype
     e mkfontdir usr/X11R6/lib/X11/fonts/truetype
     e fc-cache usr/X11R6/lib/X11/fonts/truetype
@@ -894,10 +897,6 @@ if with_yast2 ne 'no'
     e mkfontdir usr/share/ghostscript/fonts
     e fc-cache usr/share/ghostscript/fonts
   endif
-
-#  e mkfontscale usr/X11R6/lib/X11/fonts/truetype
-#  e mkfontdir usr/X11R6/lib/X11/fonts/truetype
-#  e fc-cache usr/X11R6/lib/X11/fonts/truetype
 
   e mkfontscale usr/X11R6/lib/X11/fonts/misc
   e mkfontdir usr/X11R6/lib/X11/fonts/misc
