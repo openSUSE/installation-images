@@ -25,6 +25,10 @@ if [ -f /.timestamp ] ; then
   fi
 fi
 
+if [ -d /dev/pts ] ; then
+  grep -q devpts /proc/mounts || mount -t devpts devpts /dev/pts
+fi
+
 if [ -x /sbin/udev -a -x /sbin/udevstart ] ; then
 echo -n "creating device nodes .."
 /sbin/udevstart

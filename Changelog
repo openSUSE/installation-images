@@ -1,3 +1,8 @@
+17/9/2004:	v6.10
+	- more failsafe options
+	- libnscd added
+	- fbiterm added
+
 13/9/2004:	v6.9
 	- creating kernel modules 'updated' link (#44740)
 	- removed /sbin/quick_* (#45106)

@@ -86,3 +86,16 @@ endif
     /
   yast2-trans-zh_CN:
     /
+
+fbiterm:
+  /usr/bin/fbiterm
+  /usr/share/fbiterm/fonts/8x16.pcf.gz
+  /usr/share/fbiterm/fonts/b16.pcf.gz
+
+libiterm:
+  /usr/lib*/libiterm.so*
+  /usr/share/terminfo/i
+
+xorg-x11-libs:
+  /usr/X11R6/lib*/libXfont.so.*
+

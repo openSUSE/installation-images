@@ -392,6 +392,9 @@ setserial: postin
   /bin/setserial
 e postin
 
+libnscd:
+  /lib*/libnscd.so*
+
 pwdutils:
   /{etc,bin}
   /usr/bin

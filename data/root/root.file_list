@@ -588,6 +588,9 @@ sock:
 iproute2:
   /sbin/ip
 
+libnscd:
+  /lib*/libnscd.so*
+
 pwdutils:
   /etc/pam.d/shadow
   /usr/sbin/chpasswd
