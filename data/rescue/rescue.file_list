@@ -1,0 +1,241 @@
+d bin cdrom dev etc floppy home lib mnt proc sbin tmp var
+c 1777 0 0 tmp
+
+devs:
+  /dev
+
+aaa_dir:
+  /etc/{ppp,rc.d,uucp}
+  /etc/rc.config.d
+  /root
+  /sbin/init.d
+  /usr/lib/db*
+  /usr/tmp
+  /var
+r /var/{spool,squid,lib/YaST}
+
+aaa_base: prein,postin
+e prein
+  /etc
+r /etc/{csh*,default*,mailcap,mime.types,permissions*}
+r /etc/{rc.d.README,runlevel.fallback,zshrc,cron.daily}
+  /bin
+  /sbin
+r /sbin/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
+r /sbin/init.d/rc?.d/*kerneld
+r /sbin/init.d/rc?.d/*cron
+r /sbin/init.d/rc?.d/*pcnfsd
+r /sbin/init.d/rc?.d/*routed
+r /sbin/init.d/rc?.d/*nfs
+r /sbin/init.d/rc?.d/*xdm
+  /usr/bin
+r /usr/bin/ChangeSymlinks
+  /lib/YaST/SuSEconfig.functions
+  /var/adm/fillup-templates
+e postin
+r /var/adm/fillup-templates
+t /etc/fstab
+R s/^(FQHOSTNAME=).*/$1\"Rescue\"/ /etc/rc.config
+
+base:
+  /{,s}bin
+  /usr/{,s}bin
+
+bash:
+  /{bin,lib}
+
+bdflush:
+  /sbin
+
+cpio:
+  /bin
+  /usr/bin
+
+cracklib:
+# ???
+#  /usr/sbin/{mkdict,packer}
+  /usr/lib
+
+db:
+  /usr/lib/libdb-3*
+
+diffutils:
+  /usr/bin
+
+dump:
+  /sbin/{dump,restore}
+
+# we use vim instead (no termcap)
+#elvis:
+#  /usr/{bin,lib}
+#s elvis /usr/bin/vi
+
+e2fsprogs:
+  /{lib,sbin}
+  /usr/{,s}bin
+
+fileutils:
+  /bin
+  /usr/bin
+
+findutils:
+  /usr/bin/{find,xargs}
+
+glibc:
+  /etc/nscd.conf
+  /{lib,sbin}
+r /lib/libdb.so.*
+r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
+  /usr/{,s}bin
+r /usr/bin/{db*,glibcbug,localedef,rpcgen}
+  /usr/lib/pt_chown
+
+gzip:
+  /bin
+  /usr/bin
+
+# ???
+#inetd:
+#  /sbin
+#  /usr/sbin
+
+joe:
+  /usr/bin/{joe,jmacs}
+  /usr/lib/{joerc,jmacsrc}
+
+less:
+  /etc
+  /usr/bin
+
+libz:
+  /usr/lib/libz.so*
+
+lilo:
+  /boot
+  /sbin
+
+lvm:
+  /lib
+  /sbin
+
+mdutils:
+  /sbin
+
+mktemp:
+  /bin/mktemp
+
+modutils:
+  /sbin/{insmod,modprobe,rmmod,lsmod,ksyms}
+
+ncurses:
+  /lib/libncurses.so.5*
+  /usr/share/terminfo/d/dumb
+  /usr/share/terminfo/l
+  /usr/share/terminfo/v/vt10[02]
+
+# ???
+#  /usr/bin
+  /usr/bin/{clear,tset,reset}
+
+net-tools:
+  /{,s}bin
+
+netcat:
+  /usr/bin
+
+netcfg:
+  /etc
+r /etc/{diphosts,ftpusers,hosts.*}
+
+nfsserv:
+  /sbin/init.d
+  /usr/sbin/{rpc.*,showmount}
+  /var/state/nfs
+
+nkita:
+  /usr/sbin/icmpinfo
+
+nkitb:
+  /usr/bin
+r /usr/bin/{ruptime,talk}
+
+pam:
+  /{etc,lib,sbin}
+
+pciutils:
+  /sbin
+
+portmap:
+  /sbin
+  /usr/sbin
+
+ps:
+  /{,s}bin
+  /usr/bin
+
+reiserfs:
+  /sbin
+
+rpm:
+  /bin
+  /usr/bin
+  /{usr,var}/lib/rpm
+r /usr/lib/rpm/rpm{get,put}text
+
+rsync:
+  /etc
+  /usr/{,s}bin
+
+setserial:
+  /bin/setserial
+
+sh-utils:
+  /{etc,bin}
+r /bin/su
+  /usr/bin
+
+shadow:
+  /{etc,bin}
+  /usr/bin
+  /usr/sbin/pwunconv
+
+strace:
+  /usr/bin/strace
+
+syslogd: postin
+  /{etc,sbin}
+  /usr/sbin/{klogd,syslogd}
+  /var/adm/fillup-templates/rc.config.syslogd
+e postin
+
+sysvinit:
+n /dev/initctl
+c 600 0 0 /dev/initctl
+  /{etc,sbin}
+r /sbin/{powerd,runlevel,setserialbits,start-stop-daemon,sulogin}
+  /usr/bin
+
+textutils:
+ /bin
+ /usr/bin
+
+traceroute:
+  /usr/sbin/traceroute
+
+util-linux:
+ /bin/{dmesg,kill,mount,umount}
+ /etc/filesystems
+ /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,hwclock,mkfs,mkfs.bfs,mkswap,swapon,swapoff}
+ /usr/{bin,sbin}
+
+vim:
+  /etc
+  /bin/vi{,m}
+  /usr/bin/vi{,m}
+
+# now run SuSEconfig
+e echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
+e echo "proc /proc proc defaults 0 0" >>/etc/fstab
+e echo "devpts /dev/pts devpts defaults 0 0" >>/etc/fstab
+e /sbin/SuSEconfig --force --norestarts
+

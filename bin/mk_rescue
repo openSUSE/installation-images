@@ -1,0 +1,74 @@
+#! /usr/bin/perl -w
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# the usual fuss...
+
+BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
+use ReadConfig;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
+
+die "usage: $Script\n" if @ARGV;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
+
+$srcdir = "${DataPath}rescue";
+$tmpdir = "${BasePath}tmp/rescue";
+$image = "${ImagePath}rescue";
+
+# leave that much space
+$extra_size = 1000;              # kbyte
+$extra_inodes = 100;
+
+# just make them large enough
+$start_size = 30000;             # kbyte
+$start_inodes = 5000;
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+
+# clean up
+if(-d($tmpdir)) {
+  SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
+}
+
+AddFiles $tmpdir, "${srcdir}/rescue.file_list", $srcdir or
+  die "$Script: failed to setup rescue image";
+
+# SUSystem "sh -c 'cd $tmpdir; ./makedevs >/dev/null'" and
+#   die "$Script: could not create all devices";
+# SUSystem "rm $tmpdir/makedevs";
+
+# strip everything
+SUSystem "fix_perms $tmpdir";
+SUSystem "strip_dir $tmpdir";
+
+SUSystem "ldconfig -r $tmpdir";
+die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
+
+if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+  system "check_libs $tmpdir" and
+    warn "$Script: error in shared lib config, please fix\n";
+}
+else {
+  system "check_libs $tmpdir" and
+    die "$Script: error in shared lib config, please fix\n";
+}
+
+Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
+
+# compress it
+system "gzip -f -9 $image" and
+  die "$Script: gzip failed";
+
+rename "${image}.gz", "$image";
+
+$i = -s "$image";
+
+print "$Script: compressed rescue to \"$image\" ($i bytes)\n";
+
