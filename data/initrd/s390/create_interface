@@ -76,7 +76,7 @@ then
 	HOSTNAME=`grep Machinename: $INSTALLINF | uniq | sed -e 's/Machinename: \\(.*\\)/\\1/'`
 	if [ ! -z "$HOSTNAME" ]
 	then
-		echo "$HOSTNAME" >> $HOSTFILE
+		echo "$HOSTNAME" > $HOSTFILE
 	fi
 #
 #	Create /etc/resolv.conf

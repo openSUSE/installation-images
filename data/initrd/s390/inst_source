@@ -22,10 +22,14 @@ IP_TXT1="Please enter the IP-Number of the host providing the installation media
 IP_SERVER_TXT1="Please enter the IP-Number of the host running the X-Server: "
 IP_ERROR1="\n Host is not reponding. please enter a new number\n"
 DIR_TXT1="Please enter the directory of the installation media: "
-ASK_VALID="Is the following corret?\\\n\\\n    Installation Source:  \$INST_INFO\\\n    IP-Address:           \$INST_IP_ADDR\\\n    Directory:            \$INST_IP_DIR\\\n\\\nYes/No: "
+ASK_VALID="Is the following correct?\\\n\\\n    Installation Source:  \$INST_INFO\\\n    IP-Address:           \$INST_IP_ADDR\\\n    Directory:            \$INST_IP_DIR\\\n\\\nYes/No: "
 SCREEN_TXT1="Which terminal do want to use?\n\n    1) X-Window\n    2) VNC (VNC-Client or Java enabled Browser)\n    3) ssh\n    Choice: "
 MOUNT_ERR="CD not mounted. Please check parameters."
 MOUNT_ERR2="Root-disk not mounted. Please check parameters."
+ENTER_YES_NO="Please enter yes or no."
+FTPUSER="Please enter the username for the FTP-access: "
+FTPPASSWORD="Please enter the password for the FTP-Access: "
+FTP_ASK_VALID="Is the following correct?\\\n\\\n    FTP User:  \$FTPUSER\\\n    FTP Password:           \$FTPPASSWORD\\\n\\\nYes/No: "
 #
 # checks an IP to have numbers only between 0 and 255:
 #
@@ -79,6 +83,7 @@ function yes_no () {
       [nN] | [nN][oO])  ANSW=no
                      break;;
     esac
+    echo $ENTER_YES_NO
   done
 }
 #
@@ -181,13 +186,31 @@ samba_install()
 #	Mount filesystems and start yast
 #
 $CONDOM mount -t smbfs //$INST_IP_ADDR/$INST_IP_DIR /var/adm/mount
-if [ -f /var/adm/mount/images/root -o ! -z "$CONDOM" ]
+if [ ! -d /var/adm/mount/boot -a -z "$CONDOM" ]
 then
-	$CONDOM mount -t ext2 /var/adm/mount/suse/images/root /var/adm/mnt -o loop
-else
-	echo $MOUNT_ERR2
+	echo $MOUNT_ERR
 	return 0
 fi
+umount /var/adm/mount
+return 1
+}
+#
+#	Installation via FTP
+#
+ftp_install()
+{
+while :
+do
+	echo -en $FTPUSER
+	read FTPUSER
+	[ -z "$FTPUSER" ] && continue
+	echo -en $FTPPASSWORD
+	read FTPPASSWORD
+	[ -z "$FTPPASSWORD" ] && continue
+	eval echo -en $FTP_ASK_VALID
+	yes_no
+	[ "$ANSW" = "yes" ] && break
+done
 return 1
 }
 #
@@ -205,6 +228,9 @@ write_info_file()
 	echo "Server: $INST_IP_ADDR" >> $INFOFILENAME
 	echo "Serverdir: $INST_IP_DIR" >> $INFOFILENAME
 	echo "Instmode: $INST_INFO" >> $INFOFILENAME
+	[ "$INST_INFO" = "ftp" ] && echo "Install: ftp://$INST_IP_ADDR$INST_IP_DIR" >> $INFOFILENAME
+	[ ! -z "$FTPUSER" ] && echo "Username: $FTPUSER" >> $INFOFILENAME
+	[ ! -z "$FTPPASSWORD" ] && echo "Password: $FTPPASSWORD" >> $INFOFILENAME
 	case $INST_SCREEN in
 		X)
 			echo "Display_IP: $INST_X_ADDR" >> $INFOFILENAME
@@ -262,8 +288,10 @@ then
 				nfs_install || break
 			;;
 			SAMBA)
+				samba_install || break
 			;;
 			ftp)
+				ftp_install || break;
 			;;
 			*)
 			;;
