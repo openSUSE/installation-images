@@ -1,14 +1,14 @@
-Create SUSE LINUX 9.1 boot disks
-================================
+Creating SUSE LINUX 9.1 Boot Disks
+==================================
 
-Due to increasing kernel size there are now three boot disks!
+Due to increasing kernel size, there are now three boot disks.
 
-You can create the boot disks if you have access to either a running Linux
+You can create the boot disks if you have access to a running Linux
 box or a running DOS box.
 
-Under DOS, write bootdsk1, bootdsk2 and bootdsk3 to formatted (i.e.
+Under DOS, write bootdsk1, bootdsk2 and bootdsk3 to formatted (i.e.,
 error-free) 1.44MB-floppies using CD1:/dosutils/rawrite/rawrite.exe. For
-Windows systems there is CD1:/dosutils/rawwritewin/rawwritewin.exe.
+Windows systems, there is CD1:/dosutils/rawwritewin/rawwritewin.exe.
 
 With Linux, use commands like:
 
@@ -29,45 +29,45 @@ With Linux, use commands like:
 Now you have three boot disks. Start your computer using the first disk.
 
 
-Create modules disks
-====================
+Creating Modules Disks
+======================
 
-Only a few modules fit on the boot disk. Therefore five modules floppies
+Only a few modules fit on the boot disk. Therefore, five modules floppies
 exist. If you do not find the driver for your hardware on the normal disk,
 just insert the appropriate modules disk as soon as linuxrc asks for it.
 
 Choose one of the modules disk images in this directory according to the
 list below.
 
-Under Windows/DOS, use rawrite as descibed in 'Create boot disks'. Under
+Under Windows or DOS, use rawrite as descibed in 'Creating Boot Disks'. Under
 Linux, use a command like
 
   cd /where_CD1_is_mounted/boot
   dd if=modules1 of=/dev/fd0u1440
 
-Of course you would replace 'modules1' with the image name you want.
+Replace 'modules1' with the name of the desired image.
 
-modules1:  USB and FireWire (IEEE1394) modules.
+modules1:  USB and FireWire (IEEE1394) modules
 
-modules2:  IDE/RAID/SCSI modules.
+modules2:  IDE/RAID/SCSI modules
 
-modules3:  Network modules.
+modules3:  Network modules
 
-modules4:  PCMCIA and file system modules and old (non-ATAPI) CDROM drivers.
+modules4:  PCMCIA and file system modules and old (non-ATAPI) CDROM drivers
 
-modules5:  More IDE/RAID/SCSI modules.
+modules5:  More IDE/RAID/SCSI modules
 
 See modules[12345].txt for a detailed listing.
 
 
 
-Create a rescue floppy
-======================
+Creating a Rescue Floppy
+========================
 
-There is already a rescue system on CD. But in case you cannot access the CD
-or you just want a smaller rescue system, you can create a rescue floppy.
+There is already a rescue system on CD. If you cannot access the CD
+or just want a smaller rescue system, you can create a rescue floppy.
 
-Under Windows/DOS, use rawrite as descibed in 'Create boot disks'. Under
+Under Windows or DOS, use rawrite as described in 'Creating Boot Disks'. Under
 Linux, use a command like
 
   cd /where_CD1_is_mounted/boot
@@ -75,8 +75,8 @@ Linux, use a command like
 
 
 
-What are the other files in this directory?
-===========================================
+Other Files in This Directory
+=============================
 
 rescue:    (Large) rescue system.
 

@@ -2,6 +2,7 @@
 	- add ipr to iseries initrd
 	- add more dm-* modules to ppc initrds
 	- added getcfg & create_interface (#35624)
+	- updated README/LIESMICH
 
 1/4/2004:	v5.35
 	- s390: added initrd size to suse.ins*
