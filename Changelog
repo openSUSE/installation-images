@@ -1,5 +1,9 @@
+23/9/2003:	v2.113
+	- do not touch resolv.conf and defaultdomain on update (bug #30672)
+
 23/9/2003:	v2.112
 	- fixed cut-and-paste-programming error in create_interface
+	  (bug #31455)
 
 17/9/2003:	v2.111
 	- new sata modules
