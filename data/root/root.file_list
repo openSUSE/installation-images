@@ -771,5 +771,4 @@ endif
 x usr/bin/conservative_lndir usr/bin
 if arch eq 'ppc'
 x usr/bin/ppc_post_install.sh usr/bin
-x etc/info info
 endif

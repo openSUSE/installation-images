@@ -7,6 +7,7 @@
 	  add PATH to .bash_profile and print installer name
 	- apic is back
 	- do start_shell also with usessh, there is a console anyway
+	- remove the info file for YaST1, not needed anymore
 
 27/8/2002:	v2.47
 	- ssh needs libgssapi now
