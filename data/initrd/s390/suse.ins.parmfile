@@ -1,2 +1,2 @@
-ramdisk_size=65536 root=/dev/ram1 ro init=/linuxrc
+ramdisk_size=65536 root=/dev/ram1 ro init=/linuxrc TERM=dumb
 
