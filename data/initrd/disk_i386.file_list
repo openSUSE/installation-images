@@ -34,13 +34,6 @@ endif	# initrd
 ifdef net
 t {NEEDMOD,NET}
 
-a /lib/modules/<kernel_ver>/net/3c501.o /
-a /lib/modules/<kernel_ver>/net/3c503.o /
-a /lib/modules/<kernel_ver>/net/3c505.o /
-a /lib/modules/<kernel_ver>/net/3c507.o /
-a /lib/modules/<kernel_ver>/net/3c509.o /
-a /lib/modules/<kernel_ver>/net/3c515.o /
-a /lib/modules/<kernel_ver>/net/3c90x.o /
 a /lib/modules/<kernel_ver>/net/82596.o /
 a /lib/modules/<kernel_ver>/net/ac3200.o /
 a /lib/modules/<kernel_ver>/net/acenic.o /
@@ -61,7 +54,6 @@ a /lib/modules/<kernel_ver>/net/epic100.o /
 a /lib/modules/<kernel_ver>/net/es3210.o /
 a /lib/modules/<kernel_ver>/net/eth16i.o /
 a /lib/modules/<kernel_ver>/net/ewrk3.o /
-a /lib/modules/<kernel_ver>/net/fmv18x.o /
 a /lib/modules/<kernel_ver>/net/hp-plus.o /
 a /lib/modules/<kernel_ver>/net/hp.o /
 a /lib/modules/<kernel_ver>/net/hp100.o /
@@ -88,7 +80,6 @@ a /lib/modules/<kernel_ver>/net/smc-ultra32.o /
 a /lib/modules/<kernel_ver>/net/smc9194.o /
 a /lib/modules/<kernel_ver>/net/tlan.o /
 a /lib/modules/<kernel_ver>/net/via-rhine.o /
-a /lib/modules/<kernel_ver>/net/wd.o /
 a /lib/modules/<kernel_ver>/net/yellowfin.o /
 endif	# net
 

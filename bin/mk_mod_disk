@@ -76,11 +76,16 @@ SUSystem "umount /mnt 2>/dev/null";
 SUSystem "mount -oloop -t msdos $image /mnt" and
   die "$Script: mount failed";
 
-$mods = "$srcdir/net-mod.gz $srcdir/other-mo.gz $srcdir/scsi-mod.gz";
-$mods = "$srcdir/net2mod.gz $srcdir/other2mo.gz" if $ENV{modules} eq "2";
-
-SUSystem "cp $mods /mnt" and
-  die "$Script: could not add module images";
+if($ENV{modules} eq "2") {
+  SUSystem "cp  $srcdir/net2mod.gz /mnt/net-mod.gz" and
+    die "$Script: could not add net2mod.gz";
+  SUSystem "cp  $srcdir/other2mo.gz /mnt/other-mo.gz" and
+    die "$Script: could not add other2mo.gz";
+}
+else {
+  SUSystem "cp $srcdir/net-mod.gz $srcdir/other-mo.gz $srcdir/scsi-mod.gz /mnt" and
+    die "$Script: could not add module images";
+}
 
 $i3 = $i2*10;
 SUSystem "touch -d $i1:$i3 /mnt/*";

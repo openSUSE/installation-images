@@ -225,6 +225,8 @@ sub Print2File
 # initialization part
 #
 
+$ENV{'LANG'} = undef;
+
 if($0 =~ /(.*?)((?<![^\/])bin\/)?([^\/]+)$/) {
   $Script = $3;
   $BasePath = $1;
