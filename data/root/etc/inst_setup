@@ -92,6 +92,10 @@ xxx
         ;;
 esac
 
+
+# yast1 doesn't like it
+rm -f /etc/fstab
+
 # now, run yast
 ec=
 if [ "$yast" = yast1 ] ; then
