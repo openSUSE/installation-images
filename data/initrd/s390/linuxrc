@@ -58,7 +58,7 @@ mount -t devpts devpts /dev/pts
 #
 #	Ask for Installation source & start yast
 #
-# . /inst_source
+. /inst_source
 #
 #
 #

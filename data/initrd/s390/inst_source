@@ -186,6 +186,7 @@ write_info_file()
 	case $SCREEN_SOURCE in
 		X)
 			echo "Display_IP: $IP_SERVER_SOURCE" >> $INFOFILENAME
+			echo "Display_IP: $IP_SERVER_SOURCE" >> $NETSETUPFILE
 			break
 		;;
 		VNC)
@@ -217,15 +218,15 @@ while :
 do
 	ask_source
 	echo
-	echo $SOURCE
+#	echo $SOURCE
 
 	ask_ip
 	echo
-	echo $IP_SOURCE
+#	echo $IP_SOURCE
 
 	ask_dir
 	echo
-	echo $DIR_SOURCE
+#	echo $DIR_SOURCE
 
 	eval echo -en $ASK_VALID
 	yes_no
