@@ -1,0 +1,14 @@
+- special disks for HP servers that include network modules in initrd, so that
+  no network module disk is needed (#20103)
+
+  hp1=1 theme=UnitedLinux usbscsi=1 fastboot=1 make bootdisk
+  hp1=1 theme=UnitedLinux modules=1 make modules
+
+
+- special disks that enable new code in linuxrc to address the usb vs. scsi
+  device ordering problem (#21017)
+
+  theme=UnitedLinux usbscsi=1 fastboot=1 make bootdisk
+  theme=UnitedLinux modules=1 make modules
+  etc, for module disks 2-4
+
