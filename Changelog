@@ -2,8 +2,7 @@
 	- changed parmline for installation boot
 	- changed create_interface to write entry in
 	  modules.conf
-	- olh: remove wrong y2debug check in inst_setup
-	  causes huge amount of y2log unconditional
+	- fixed y2debug issue (too much logs per default)
 
 11/9/2002:	v2.64
 	- run linuxrc in linemode on s390
