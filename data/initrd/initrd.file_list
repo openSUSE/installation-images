@@ -12,18 +12,42 @@ endif
 
 if arch eq 'ia32'
 
-  a /lib/modules/<kernel_ver>/misc/nvram.o /modules
-  a /lib/modules/<kernel_ver>/net/8390.o /modules
+  if suse_release >= 7.2
 
-  if suse_major == 6
-    a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
-    a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
-    a /lib/modules/<kernel_ver>/misc/usb-ohci.o /modules
-    a /lib/modules/<kernel_ver>/misc/input.o /modules
-    a /lib/modules/<kernel_ver>/misc/hid.o /modules
-    a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
-    a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
+    f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
+    f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
+
+    f / DAC960.o /modules
+    f / cciss.o /modules
+    f / cpqarray.o /modules
+
+    f / nvram.o /modules
+
+    f / usbcore.o /modules
+    f / usb-uhci.o /modules
+    f / usb-ohci.o /modules
+    f / input.o /modules
+    f / hid.o /modules
+    f / keybdev.o /modules
+    f / mousedev.o /modules
+    f / usb-storage.o /modules
+
+    f / parport.o /modules
+    f / paride.o /modules
+    f / parport_pc.o /modules
+
+    f / i2o_pci.o /modules
+    f / i2o_core.o /modules
+    f / i2o_config.o /modules
+    f / i2o_block.o /modules
+
+    f / isp16.o /modules
+
   else
+
+    a /lib/modules/<kernel_ver>/misc/nvram.o /modules
+    a /lib/modules/<kernel_ver>/net/8390.o /modules
+
     a /lib/modules/<kernel_ver>/usb/usbcore.o /modules
     a /lib/modules/<kernel_ver>/usb/usb-uhci.o /modules
     a /lib/modules/<kernel_ver>/usb/usb-ohci.o /modules
@@ -31,167 +55,99 @@ if arch eq 'ia32'
     a /lib/modules/<kernel_ver>/usb/hid.o /modules
     a /lib/modules/<kernel_ver>/usb/keybdev.o /modules
     a /lib/modules/<kernel_ver>/usb/mousedev.o /modules
+
+    a /lib/modules/<kernel_ver>/block/*.o /modules
+    a /lib/modules/<kernel_ver>/net/*.o /modules
+    a /lib/modules/<kernel_ver>/scsi/*.o /modules
+    a /lib/modules/<kernel_ver>/misc/parport.o /modules
+    a /lib/modules/<kernel_ver>/misc/paride.o /modules
+    a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
+    a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
+
+    a /lib/modules/<kernel_ver>/misc/i2o_pci.o /modules
+    a /lib/modules/<kernel_ver>/misc/i2o_core.o /modules
+    a /lib/modules/<kernel_ver>/misc/i2o_config.o /modules
+    a /lib/modules/<kernel_ver>/misc/i2o_block.o /modules
+
+    # just to get the cdrom menue in linuxrc
+    a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
+
+    a /lib/modules/<kernel_ver>/scsi/pas16.o /modules
+
+    # to fill up the disk...
+    a /lib/modules/<kernel_ver>/cdrom/gscd.o /modules
+    a /lib/modules/<kernel_ver>/cdrom/mcdx.o /modules
+    a /lib/modules/<kernel_ver>/cdrom/mcd.o /modules
+    a /lib/modules/<kernel_ver>/cdrom/cm206.o /modules
+
+    M pas16 gscd mcdx mcd cm206
+
   endif
 
-  a /lib/modules/<kernel_ver>/block/*.o /modules
-  a /lib/modules/<kernel_ver>/net/*.o /modules
-  a /lib/modules/<kernel_ver>/scsi/*.o /modules
-  a /lib/modules/<kernel_ver>/misc/parport.o /modules
-  a /lib/modules/<kernel_ver>/misc/paride.o /modules
-  a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
-  a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
-
-  a /lib/modules/<kernel_ver>/misc/i2o_pci.o /modules
-  a /lib/modules/<kernel_ver>/misc/i2o_core.o /modules
-  a /lib/modules/<kernel_ver>/misc/i2o_config.o /modules
-  a /lib/modules/<kernel_ver>/misc/i2o_block.o /modules
-
-  # just to get the cdrom menue in linuxrc
-  a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
-
-  M /lib/modules/<kernel_ver>/scsi/pas16.o /modules
-
-  # to fill up the disk...
-  M /lib/modules/<kernel_ver>/cdrom/gscd.o /modules
-  M /lib/modules/<kernel_ver>/cdrom/mcdx.o /modules
-  M /lib/modules/<kernel_ver>/cdrom/mcd.o /modules
-  M /lib/modules/<kernel_ver>/cdrom/cm206.o /modules
 
   # scsi
-  r /modules/ide-scsi.o
-  r /modules/scsi_debug.o
-  r /modules/sg.o
+  r /modules/{ide-scsi,scsi_debug,sg}.o
 
   # block
-  r /modules/nbd.o
-  r /modules/xd.o
-  r /modules/drbd.o
+  r /modules/{nbd,xd,drbd}.o
 
   # net
-  r /modules/soundmodem.o
-  r /modules/wanpipe.o
-  r /modules/{pppox,ppp,ppp_deflate}.o
-  r /modules/slip.o
-  r /modules/{irda,irda_deflate}.o
-  r /modules/syncppp.o
-  r /modules/sktr.o
-  r /modules/wanxl.o
-  r /modules/{n2,c101}.o
-  r /modules/hdlc.o
-  r /modules/cosa.o
-  r /modules/sealevel.o
-  r /modules/{hostess_sv11,z85230}.o
-  r /modules/ircomm.o
-  r /modules/irlan.o
-  r /modules/bsd_comp.o
-  r /modules/cops.o
+  r /modules/{soundmodem,wanpipe,pppox,ppp,ppp_deflate,slip,irda,irda_deflate,syncppp,sktr}.o
+  r /modules/{wanxl,n2,c101,hdlc,cosa,sealevel,hostess_sv11,z85230,ircomm,irlan,bsd_comp,cops}.o
 
-  r /modules/comx-hw-comx.o
-  r /modules/comx-hw-locomx.o
-  r /modules/comx-hw-mixcom.o
-  r /modules/comx-proto-fr.o
-  r /modules/comx-proto-lapb.o
-  r /modules/comx-proto-ppp.o
-  r /modules/comx.o
-  r /modules/6pack.o
-  r /modules/baycom_epp.o
-  r /modules/baycom_par.o
-  r /modules/bpqether.o
-  r /modules/baycom_ser_fdx.o
-  r /modules/baycom_ser_hdx.o
-  r /modules/dlci.o
-  r /modules/dmascc.o
-  r /modules/hdlcdrv.o
-  r /modules/ipddp.o
-  r /modules/lapbether.o
-  r /modules/mkiss.o
-  r /modules/scc.o
-  r /modules/sdla.o
-  r /modules/sdladrv.o
-  r /modules/x25_asy.o
-  r /modules/yam.o
-  r /modules/strip.o
-  r /modules/wavelan.o
+  r /modules/{comx-hw-comx,comx-hw-locomx,comx-hw-mixcom,comx-proto-fr,comx-proto-lapb}.o
+  r /modules/{comx-proto-ppp,comx,6pack,baycom_epp,baycom_par,bpqether,baycom_ser_fdx}.o
+  r /modules/{baycom_ser_hdx,dlci,dmascc,hdlcdrv,ipddp,lapbether,mkiss,scc,sdla,sdladrv}.o
+  r /modules/{x25_asy,yam,strip,wavelan,bonding,rcpci,pc300,eata_dma}.o
 
-  r /modules/bonding.o
-  r /modules/rcpci.o
-  r /modules/pc300.o
-  r /modules/eata_dma.o
-
-  r /modules/ppa.o
-  r /modules/imm.o
+  r /modules/{ppa,imm}.o
 
   # really huge (gigabit) networks mods: make room for other stuff
-  r /modules/skfp.o
-  r /modules/sk98lin.o
-  r /modules/dgrs.o
-  r /modules/acenic.o
+  r /modules/{skfp,sk98lin,dgrs,acenic}.o
 
-  r /modules/tlan.o
-  r /modules/arlan.o
-  r /modules/arlan-proc.o
-
-  r /modules/ltpc.o
-  r /modules/de620.o
-  r /modules/de600.o
-  r /modules/depca.o
+  r /modules/{tlan,arlan,arlan-proc,ltpc,de620,de600,depca}.o
 
   # who needs these ACRNet things anyway?
-  r /modules/arcnet.o
-  r /modules/com20020.o
-  r /modules/com90io.o
-  r /modules/com90xx.o
+  r /modules/{arcnet,com20020,com90io,com90xx}.o
 
-  r /modules/ppp_mppe.o
-  r /modules/ethertap.o
-  r /modules/arc-rimi.o
-  r /modules/yellowfin.o
-  r /modules/shaper.o
-  r /modules/3c503.o
-  r /modules/3c501.o
-  r /modules/3c509.o
-  r /modules/3c507.o
-  r /modules/3c505.o
-  r /modules/hp-plus.o
-  r /modules/ni65.o
-  r /modules/ni5010.o
+  r /modules/{ppp_mppe,ethertap,arc-rimi,yellowfin,shaper,3c503,3c501,3c509,3c507,3c505}.o
+  r /modules/{hp-plus,ni65,ni5010}.o
 
-  a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
+  if suse_release >= 7.2
 
-  a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /modules
+    r /modules/{aironet4500_proc,aironet4500_core,aironet4500_card,osst}.o
 
-  a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
-  a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
+    # make it really small!
+    r /modules/{BusLogic,advansys,qlogicfc,qla2x00}.o
 
-  M /lib/modules/<kernel_ver>/scsi/advansys.o /modules
+  else
 
-  M /lib/modules/<kernel_ver>/net/old_tulip.o /modules
-  M /lib/modules/<kernel_ver>/net/ibmtr.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
 
-  M /lib/modules/<kernel_ver>/net/sb1000.o /modules
-  M /lib/modules/<kernel_ver>/net/lanstreamer.o /modules
-  M /lib/modules/<kernel_ver>/net/sbni.o /modules
-  M /lib/modules/<kernel_ver>/net/3c515.o /modules
-  M /lib/modules/<kernel_ver>/net/ni52.o /modules
-  M /lib/modules/<kernel_ver>/net/at1700.o /modules
-  M /lib/modules/<kernel_ver>/net/lne390.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /modules
 
+    a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
+    a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
+
+    M advansys old_tulip ibmtr sb1000 lanstreamer sbni 3c515 ni52 at1700 lne390
+
+  endif
 
 endif		# arch eq 'ia32'
 

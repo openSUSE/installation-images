@@ -1,3 +1,6 @@
+13/3/2001:	v1.46
+	- more or less ready for 7.2/kernel 2.4
+
 6/3/2001:	v1.45
 	- it's now possible to remove yast2 via environment: 'with_yast2=no'
 

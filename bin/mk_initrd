@@ -70,6 +70,8 @@ if($ENV{'keepinitrd'} != 1) {
       die "$Script: failed to remove old $tmpdirx";
   }
 
+  SUSystem "rm -f ${BasePath}tmp/initrd.opt_mods";
+
   $fl = "initrd";
   $fl = $ENV{'filelist'} if exists $ENV{'filelist'};
 

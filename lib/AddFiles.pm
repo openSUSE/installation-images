@@ -71,7 +71,7 @@ sub AddFiles
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
-  $debug = "";
+  $debug = "pkg";
   $debug = $ENV{'debug'} if exists $ENV{'debug'};
 
   $use_cache = 0;
@@ -288,6 +288,7 @@ sub AddFiles
     elsif(!/^[a-zA-Z]\s+/ && /^(.*)$/) {
       $files = $1;
       $files =~ s.(^|\s)/.$1.g;
+      $files = "." if $files =~ /^\s*$/;
       SUSystem "sh -c '( cd $tdir; tar -cf - $files 2>$tfile ) | tar -C $dir -xpf -'" and
         warn "$Script: failed to copy $files";
 
@@ -335,12 +336,12 @@ sub AddFiles
       SUSystem "sh -c \"cp -a $tdir/$1 $dir/$2\"" and
         print "$Script: $1 not copied to $2 (ignored)\n";
     }
-    elsif(/^f\s+(\S+)\s+(\S+)\s+(\S+)$/) {
+    elsif(/^f\s+(\S+)\s+(\S+)(\s+(\S+))?$/) {
       my ($l, @l, $src, $name, $dst);
 
       $src = $1;
       $name = $2;
-      $dst = $3;
+      $dst = $4;
       $src =~ s#^/*##;
       SUSystem "sh -c \"cd $tdir ; find $src -type f -name '$name'\" >$tfile";
 
@@ -350,10 +351,27 @@ sub AddFiles
       SUSystem "rm -f $tfile";
       chomp @l;
 
-      for $l (@l) {
-        SUSystem "sh -c \"cp -a $tdir/$l $dir/$dst\"" and
-          print "$Script: $l not copied to $dst (ignored)\n";
+      if($dst) {
+        for $l (@l) {
+          SUSystem "sh -c \"cp -a $tdir/$l $dir/$dst\"" and
+            print "$Script: $l not copied to $dst (ignored)\n";
+        }
       }
+      else {
+        for $l (@l) {
+          SUSystem "sh -c '( cd $tdir; tar -cf - $l 2>$tfile ) | tar -C $dir -xpf -'" and
+            warn "$Script: failed to copy $files";
+
+          my (@f, $f);
+          @f = `cat $tfile`;
+          print STDERR @f;
+          SUSystem "rm -f $tfile";
+          for $f (@f) {
+            warn "$Script: failed to copy \"$l\"" if $f =~ /tar:\s+Error/;
+          }
+        }
+      }
+
     }
     elsif(/^p\s+(\S+)$/) {
       SUSystem "patch -d $dir -p0 --no-backup-if-mismatch <$ext_dir/$1 >/dev/null" and
@@ -391,6 +409,7 @@ sub AddFiles
       SUSystem "mknod $dir/$1 p" and
         warn "$Script: failto to make named pipe $1";
     }
+=head1
     elsif(/^M\s+(\S+)\s+(\S+)$/) {
       SUSystem "sh -c \"cp -av $tdir/$1 $dir/$2\" >$tfile" and
         print "$Script: $1 not copied to $2 (ignored)\n";
@@ -408,6 +427,20 @@ sub AddFiles
           $mod_list{$g} = 1;
         }
       }
+    }
+=cut
+    elsif(/^M\s+(.*)$/) {
+      my ($ml, @ml);
+
+      $ml = $1;
+      @ml = split ' ', $ml;
+      if($ml !~ m#/#) {
+        @ml = map { $_ = "modules/$_.o\n" } @ml;
+      }
+      else {
+        @ml = map { $_ .= "\n" } @ml;
+      }
+      push @mod_list, @ml
     }
     elsif(/^e\s+(.+)$/) {
       my ($cmd);
@@ -469,6 +502,10 @@ sub AddFiles
 
   SUSystem "rm -rf $tdir";
   SUSystem "rm -f $tfile";
+
+  if($ENV{'drop_modules'}) {
+    push @mod_list, (split /,/, $ENV{'drop_modules'})
+  }
 
   if(@mod_list && $mod_list) {
     open F, ">$mod_list";

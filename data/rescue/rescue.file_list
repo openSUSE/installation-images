@@ -38,11 +38,19 @@ t /etc/fstab
 R s/^(FQHOSTNAME=).*/$1\"Rescue\"/ /etc/rc.config
 
 base:
+if suse_release >= 7.2
+  /bin
+else
   /{,s}bin
+endif
   /usr/{,s}bin
 
 bash:
-  /{bin,lib}
+  /bin
+if suse_release >= 7.2
+  readline:
+endif
+  /lib
 
 bdflush:
   /sbin
@@ -199,14 +207,16 @@ nfs-server: postin
   /var/state/nfs
 e postin
 
-nkita:
+icmpinfo:
   /usr/sbin/icmpinfo
 
-nkitb:
-  /usr/bin
-r /usr/bin/{ruptime,talk}
-if suse_release < 7.1
-  /usr/sbin/traceroute
+if suse_release < 7.2
+  nkitb:
+    /usr/bin
+  r /usr/bin/{ruptime,talk}
+  if suse_release < 7.1
+    /usr/sbin/traceroute
+  endif
 endif
 
 pam:

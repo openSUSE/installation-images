@@ -22,12 +22,12 @@ find . -depth -name CVS -exec rm -r {} \;
 rm -rf bin/ci_* MAINTAINER cache data/boot/linux.loopc
 cd /tmp
 
+tar -Icf $y2image.tar.bz2 y2image-$ver
+
 if [ "$1" = test ] ; then
   echo "y2image directory tree: $y2image"
   exit
 fi
-
-tar -Icf $y2image.tar.bz2 y2image-$ver
 
 if mkdir /work/src/done/STABLE/y2image ; then
   cd /work/src/done/STABLE/y2image

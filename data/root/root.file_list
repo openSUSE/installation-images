@@ -72,8 +72,13 @@ else
 endif
   /bin/{domain,host}name
 
-nkitb:
-  /bin/ping
+if suse_release >= 7.2
+  iputils:
+    /bin/ping
+else
+  nkitb:
+    /bin/ping
+endif
 
 ps:
   /bin/ps
@@ -106,9 +111,22 @@ endif
 
 <kernel_rpm>:
 if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
-if suse_release < 7.1
+  if suse_release < 7.1
     /lib/modules/<kernel_ver>/misc/serial.o
-endif
+  endif
+
+  if suse_release >= 7.2
+    f / lp.o
+    f / parport.o
+    f / parport_pc.o
+    f / imm.o
+    f / ppa.o
+    f / 3w-xxxx.o
+    f / BusLogic.o
+    f / a100u2w.o
+    f / advansys.o
+    # etc...
+  else
     /lib/modules/<kernel_ver>/misc/lp.o
     /lib/modules/<kernel_ver>/misc/parport.o
     /lib/modules/<kernel_ver>/misc/parport_pc.o
@@ -136,23 +154,13 @@ endif
     /lib/modules/<kernel_ver>/scsi/qlogicisp.o
     /lib/modules/<kernel_ver>/scsi/sym53c8xx.o
     /lib/modules/<kernel_ver>/scsi/tmscsim.o
+  endif
 
-  if suse_release >= 7.0 && arch ne 'alpha'
+  if suse_release >= 7.2
+    f / agpgart.o
+  elsif suse_release >= 7.0 && arch ne 'alpha'
     /lib/modules/<kernel_ver>/misc/agpgart.o
   endif
-endif
-
-ifdef blub
-  /lib/modules/<kernel_ver>/net/{pppox,ppp,ppp_deflate}.o
-  /lib/modules/<kernel_ver>/net/slip.o
-  /lib/modules/<kernel_ver>/net/{irda,irda_deflate}.o
-  /lib/modules/<kernel_ver>/net/syncppp.o
-  /lib/modules/<kernel_ver>/net/sktr.o
-  /lib/modules/<kernel_ver>/net/wanpipe.o
-  /lib/modules/<kernel_ver>/misc/wanrouter.o
-  /lib/modules/<kernel_ver>/net/dlci.o
-  /lib/modules/<kernel_ver>/net/sdla.o
-  /lib/modules/<kernel_ver>/net/sdladrv.o
 endif
 
 # add link to initrd modules
@@ -238,7 +246,11 @@ if suse_release < 7.1
   c 0755 0 0 /usr/share/locale/ru
 endif
 
-base:
+if suse_release >= 7.2
+  hdparm:
+else
+  base:
+endif
   /sbin/hdparm
 
 bdflush:
@@ -287,11 +299,7 @@ else
 endif
   /sbin/{ifconfig,route,plipconfig}
 
-if suse_major == 6
-  nkitb:
-else
-  portmap:
-endif
+portmap:
   /sbin/portmap
 
 if arch ne 'sparc' && arch ne 'sparc64'
@@ -331,14 +339,15 @@ d /usr/{bin,lib,libexec,sbin,share}
 s ../var/spool /usr/spool
 s ../var/tmp /usr/tmp
 
-base:
-if suse_major == 6
-    /usr/bin/{,e,f}grep
-    /usr/bin/sed
-else
+if suse_release >= 7.2
+  grep:
     /bin/{,e,f}grep
-    /bin/sed
+  base:
+else
+  base:
+    /bin/{,e,f}grep
 endif
+  /bin/sed
 
 if suse_release >= 7.1
   diffutils:
@@ -368,8 +377,11 @@ if arch ne 'ia64' && suse_release < 7.1
    /sbin/kerneld
 endif
 
-nkitb:
-  /usr/bin/telnet
+if suse_release >= 7.2
+else
+  nkitb:
+    /usr/bin/telnet
+endif
 
 ps:
 m /bin/fuser /usr/bin
@@ -484,9 +496,7 @@ if with_yast2 ne 'no'
 
   xshared:
     /usr/X11R6/lib/lib{X11,Xext}.so*
-  if suse_major != 6
-      /usr/X11R6/lib/lib{SM,ICE,Xxf86misc}.so*
-  endif
+    /usr/X11R6/lib/lib{SM,ICE,Xxf86misc,libXxf86vm}.so*
   d /usr/X11R6/lib/{X11,modules}
 
   xf86:
@@ -498,14 +508,9 @@ if with_yast2 ne 'no'
   else
     /usr/X11R6/lib/X11/xkb
   endif
-  /usr/X11R6/lib/X11/locale
-  if suse_major == 6
-      /usr/X11R6/lib/X11/nls
-      /usr/X11R6/lib/X11/xserver
-  else
-      /etc/X11/xserver
-    s /etc/X11/xserver /usr/X11R6/lib/X11
-  endif
+    /usr/X11R6/lib/X11/locale
+    /etc/X11/xserver
+  s /etc/X11/xserver /usr/X11R6/lib/X11
   # unicode stuff
   d /usr/X11R6/lib/X11/fonts/{misc,uni}
     /usr/X11R6/lib/X11/fonts/misc/{6x13,cursor}.pcf.gz
@@ -520,11 +525,9 @@ endif
 
 if with_yast2 ne 'no'
   yast2:
-  if suse_major == 6
-      /usr/X11R6/lib/X11/fonts/uni
-  else
       /sbin
       /usr/lib/YaST2
+      /var/lib/YaST2
     if suse_release < 7.1
       y2t_inst:
         /usr/lib/YaST2
@@ -556,7 +559,6 @@ if with_yast2 ne 'no'
       y2d_inst-timezone:
         /usr/lib/YaST2
     endif
-  endif
 endif
 
 libpng:
@@ -602,21 +604,48 @@ else
 endif
 
 if with_yast2 ne 'no'
-  y2base:
-  if suse_major == 6
-      /bin/y2bignfat
-      /lib/YaST2
-    c 0755 0 0 /lib
-    c 0755 0 0 /lib/YaST2
-      /var/lib/YaST2
-    c 0755 0 0 /var/lib
-    c 0755 0 0 /var/lib/YaST2
-  else
+  if suse_release >= 7.2
+    yast2-base:
       /usr/lib/YaST2
-      /usr/X11R6/lib/X11/fonts/uni
-    c 0755 0 0 /usr
-    c 0755 0 0 /usr/lib
-    c 0755 0 0 /usr/lib/YaST2
+    libycp:
+      /
+    liby2:
+      /
+    libscr:
+      /
+    libyui:
+      /
+    yast2-core-clients:
+      /
+    yast2-core-scr:
+      /
+    yast2-core-translator:
+      /
+    yast2-core-wfm:
+      /
+    yast2-ui-qt:
+      /
+    yast2-ui-ncurses:
+      /
+    yast2-agent-any:
+      /
+    yast2-agent-fdisk:
+      /
+    yast2-agent-isax:
+      /
+    yast2-agent-modules:
+      /
+    yast2-agent-probe:
+      /
+    yast2-agent-rcconfig:
+      /
+  else
+    y2base:
+        /usr/lib/YaST2
+        /usr/X11R6/lib/X11/fonts/uni
+      c 0755 0 0 /usr
+      c 0755 0 0 /usr/lib
+      c 0755 0 0 /usr/lib/YaST2
   endif
 endif
 
@@ -645,9 +674,12 @@ c 0755 0 0 /lib/modules
 if arch eq 'ppc' || arch eq 'sparc' || arch eq 'sparc64'
   d /lib/modules/<kernel_ver>/misc
 endif
-if arch ne 'ia64'
-  c 0755 0 0 /lib/modules/<kernel_ver>
-  c 0755 0 0 /lib/modules/<kernel_ver>/misc
+
+if suse_release < 7.2
+  if arch ne 'ia64'
+    c 0755 0 0 /lib/modules/<kernel_ver>
+    c 0755 0 0 /lib/modules/<kernel_ver>/misc
+  endif
 endif
 
 # add the rest from instsys

@@ -221,6 +221,28 @@ sub Print2File
   return 1;
 }
 
+sub KernelImg
+{
+  local $_;
+  my ($ki, @k, @k2);
+
+  ($ki, @k) = @_;
+
+  chomp @k;
+
+  for (@k) {
+    s#^/boot/##;
+    return $ki if $_ eq $ki;
+    push @k2, $_ if /^vmlin/ && !/autoconf|config|version/
+  }
+
+  return $k2[0] if @k2 == 1;
+
+  return $ki;
+}
+
+
+
 #
 # initialization part
 #
@@ -307,11 +329,23 @@ for (@f) {
   # kernel_ver
   # (used to be in etc/config)
 
-  my ( $r, $r0, $rx, $in_abuild, $base, $a, $v, $kv, $kn, $rf );
+  my ( $r, $r0, $rx, $in_abuild, $base, $a, $v, $kv, $kn, $rf, $work, $ki, @f );
 
   $a = $ENV{'suse_arch'};
 
-  $in_abuild = -f("/bin/rpm.bin") && -f("/bin/uname.bin") ? 1 : 0;
+  $in_abuild = 0;
+
+  if(-f "/.buildenv") {
+    open F, "/.buildenv";
+    @f = grep !/^\s*(#|$)/, (<F>);
+    close F;
+    for (@f) {
+      if(/^\s*(\S+)\s*=\s*(.*)$/) {
+        $ENV{$1} = `echo -n $2`;
+      }
+    }
+    $in_abuild = 1 if $ENV{'BUILD_BASENAME'};
+  }
 
   if($in_abuild) {
     $r0 = `grep VERSION /etc/SuSE-release`;
@@ -331,10 +365,12 @@ for (@f) {
   $r0 = $1 if $r0 =~ /^(\d+\.\d+)/;
   $r0 = "$r0-" if $r0 ne "";
 #  $base = "/work/CDs/full-$r0$rx$a";
-  $base = "/work/CDs/full-$rf-$a";
-  $base = "/work/CDs/full-$a" unless -d $base;
+  $work = -d $ENV{'work'} ? $ENV{'work'} : "/work";
+  $base = "$work/CDs/full-$rf-$a";
+  $base = "$work/CDs/full-$a" unless -d $base;
 
   if(!$in_abuild) {
+    die "Sorry, no packages in \"$work\"!\n" unless -d "$base";
     die "invalid SuSE release" unless -f "$base/suse/a1/aaa_base.rpm";
     system "mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $base/suse/a1/aaa_base.rpm | cpio -iud --quiet etc/SuSE-release";
 
@@ -361,10 +397,21 @@ for (@f) {
   $ENV{'suse_base'} = $base;
 
   if($in_abuild) {
-    $kv = `uname -r`;
-    $kn = `rpm -qf /boot/$ENV{kernel_img} | head -1 | cut -d- -f1`;
+    $ENV{'kernel_img'} = KernelImg $ENV{'kernel_img'}, (`ls /boot/*`);
+    undef $kn;
+
+    $kn = `rpm -qf /boot/$ENV{'kernel_img'} | head -1 | cut -d- -f1` if -f "/boot/$ENV{'kernel_img'}";
     chomp $kn;
-    $ENV{'kernel_rpm'} = $kn if $kn;
+
+    if($ENV{'kernel'}) {
+      $ENV{'kernel_rpm'} = $ENV{'kernel'};
+    }
+    else {
+      $ENV{'kernel_rpm'} = $kn;
+    }
+    die "oops: unable to determine kernel rpm" unless $ENV{'kernel_rpm'};
+
+    $kv = `rpm -ql $ENV{'kernel_rpm'} 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
   }
   else {
     my ($use_cache, $cache_dir);
@@ -374,7 +421,6 @@ for (@f) {
     if($use_cache) {
       $cache_dir = `pwd`;
       chomp $cache_dir;
-#      $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}"
       $cache_dir .= "/${BasePath}cache/$rf-$ENV{'suse_arch'}"
     }
 
@@ -385,6 +431,8 @@ for (@f) {
     if(!(defined($kv) && -f($kv))) {
       $kv = "$base/suse/images/$ENV{'kernel_rpm'}.rpm";
     }
+
+    $ENV{'kernel_img'} = KernelImg $ENV{'kernel_img'}, (`rpm -qlp $kv 2>/dev/null | grep /boot`);
 
     $kv = `rpm -qlp $kv 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
   }
@@ -403,23 +451,15 @@ for (@f) {
   ($v = "$r0$rx") =~ s/-?$//;
 
   if($in_abuild) {
-#    if(-d "/.rpm-cache/$v-$a") {
-#      $r = "$v-$a"
-#    }
-    if(-d "/.rpm-cache/$rf-$a") {
-      $r = "$rf-$a"
-    }
-    elsif(-d "/.rpm-cache/$a") {
-      $r = $a
-    }
-    else {
+    $r = $ENV{'BUILD_BASENAME'};
+    if(!($r && -d("/.rpm-cache/$r"))) {
       system "ls -la /.rpm-cache";
-      die "No usable /.rpm-cache (looking for \"$rf-$a\" or \"$a\")!\n"
+      die "No usable /.rpm-cache (looking for \"$r\")!\n"
     }
     $base = $AutoBuild = "/.rpm-cache/$r"
   }
 
-  for (qw (kernel_ver suse_release suse_xrelease suse_base suse_major_release suse_minor_release) ) {
+  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base suse_major_release suse_minor_release) ) {
     $ConfigData{$_} = $ENV{$_}
   }
 
@@ -427,7 +467,7 @@ for (@f) {
 
   $v .= " [$rf]" if $v ne $rf;
 
-  print "Building for SuSE Linux $v ($a,$ENV{'kernel_rpm'},$ENV{'kernel_ver'}) [$base].\n";
+  print "Building for SuSE Linux $v ($a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
 
 #  print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}><$ENV{'suse_major_release'}><$ENV{'suse_minor_release'}>\n";
 }

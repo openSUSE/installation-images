@@ -72,50 +72,57 @@ mkdir $tmpdir, 0755;
 $fl = "initrd";
 $fl = $ENV{'filelist'} if exists $ENV{'filelist'};
 
-AddFiles "$tmpdir/net-mod", "${srcdir}/$fl.file_list", $srcdir, "net" or
-  die "$Script: failed to setup modules net image";
+if($ENV{modules} eq "2") {
+  AddFiles "$tmpdir/net2mod", "${srcdir}/$fl.file_list", $srcdir, "net2" or
+    die "$Script: failed to setup modules net image";
 
-AddFiles "$tmpdir/other-mod", "${srcdir}/$fl.file_list", $srcdir, "other" or
-  die "$Script: failed to setup modules other image";
+  AddFiles "$tmpdir/other2mo", "${srcdir}/$fl.file_list", $srcdir, "other2" or
+    die "$Script: failed to setup modules other image";
+}
+else {
+  AddFiles "$tmpdir/net-mod", "${srcdir}/$fl.file_list", $srcdir, "net" or
+    die "$Script: failed to setup modules net image";
 
-AddFiles "$tmpdir/scsi-mod", "${srcdir}/$fl.file_list", $srcdir, "scsi" or
-  die "$Script: failed to setup modules scsi image";
+  AddFiles "$tmpdir/other-mod", "${srcdir}/$fl.file_list", $srcdir, "other" or
+    die "$Script: failed to setup modules other image";
 
-AddFiles "$tmpdir/net2mod", "${srcdir}/$fl.file_list", $srcdir, "net2" or
-  die "$Script: failed to setup modules net image";
-
-AddFiles "$tmpdir/other2mo", "${srcdir}/$fl.file_list", $srcdir, "other2" or
-  die "$Script: failed to setup modules other image";
+  AddFiles "$tmpdir/scsi-mod", "${srcdir}/$fl.file_list", $srcdir, "scsi" or
+    die "$Script: failed to setup modules scsi image";
+}
 
 # strip everything
 SUSystem "strip_dir $tmpdir";
 
-# create the image
-Conv2Image "$image/net-mod", "$tmpdir/net-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
-Conv2Image "$image/other-mod", "$tmpdir/other-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
-Conv2Image "$image/scsi-mod", "$tmpdir/scsi-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
-Conv2Image "$image/net2mod", "$tmpdir/net2mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
-Conv2Image "$image/other2mo", "$tmpdir/other2mo", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+# create the image & compress it
+if($ENV{modules} eq "2") {
+  Conv2Image "$image/net2mod", "$tmpdir/net2mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+  Conv2Image "$image/other2mo", "$tmpdir/other2mo", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
 
-# compress it
-system "gzip -f -9 $image/net-mod" and die "$Script: gzip failed";
-system "gzip -f -9 $image/other-mod" and die "$Script: gzip failed";
-system "gzip -f -9 $image/scsi-mod" and die "$Script: gzip failed";
-system "gzip -f -9 $image/net2mod" and die "$Script: gzip failed";
-system "gzip -f -9 $image/other2mo" and die "$Script: gzip failed";
+  system "gzip -f -9 $image/net2mod" and die "$Script: gzip failed";
+  system "gzip -f -9 $image/other2mo" and die "$Script: gzip failed";
 
-$i = -s "$image/net-mod.gz";
-print "$Script: compressed initrd to \"$image/net-mod.gz\" ($i bytes)\n";
+  $i = -s "$image/net2mod.gz";
+  print "$Script: compressed initrd to \"$image/net2mod.gz\" ($i bytes)\n";
 
-$i = -s "$image/other-mod.gz";
-print "$Script: compressed initrd to \"$image/other-mod.gz\" ($i bytes)\n";
+  $i = -s "$image/other2mo.gz";
+  print "$Script: compressed initrd to \"$image/other2mo.gz\" ($i bytes)\n";
+}
+else {
+  Conv2Image "$image/net-mod", "$tmpdir/net-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+  Conv2Image "$image/other-mod", "$tmpdir/other-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+  Conv2Image "$image/scsi-mod", "$tmpdir/scsi-mod", 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
 
-$i = -s "$image/scsi-mod.gz";
-print "$Script: compressed initrd to \"$image/scsi-mod.gz\" ($i bytes)\n";
+  system "gzip -f -9 $image/net-mod" and die "$Script: gzip failed";
+  system "gzip -f -9 $image/other-mod" and die "$Script: gzip failed";
+  system "gzip -f -9 $image/scsi-mod" and die "$Script: gzip failed";
 
-$i = -s "$image/net2mod.gz";
-print "$Script: compressed initrd to \"$image/net2mod.gz\" ($i bytes)\n";
+  $i = -s "$image/net-mod.gz";
+  print "$Script: compressed initrd to \"$image/net-mod.gz\" ($i bytes)\n";
 
-$i = -s "$image/other2mo.gz";
-print "$Script: compressed initrd to \"$image/other2mo.gz\" ($i bytes)\n";
+  $i = -s "$image/other-mod.gz";
+  print "$Script: compressed initrd to \"$image/other-mod.gz\" ($i bytes)\n";
+
+  $i = -s "$image/scsi-mod.gz";
+  print "$Script: compressed initrd to \"$image/scsi-mod.gz\" ($i bytes)\n";
+}
 
