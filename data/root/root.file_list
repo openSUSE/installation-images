@@ -145,7 +145,8 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arc
   f / pci2000.o
   f / pci2220i.o
   f / qla1280.o
-  f / qla2x00.o
+  f / qla2200.o
+  f / qla2300.o
   f / qlogicfc.o
   f / qlogicisp.o
   f / sym53c8xx.o

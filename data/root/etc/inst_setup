@@ -38,6 +38,16 @@ then
     }
 fi
 
+arch=$(uname -m)
+
+case "$arch" in
+  i?86)
+    # remove modules to free memory
+    rm -f /modules/*
+    touch /modules/{MORE,NEEDMOD} etc/need_modules_disk
+  ;;
+esac
+
 # create a new modules.dep
 #
 # modules from initrd (in /modules) are preferred over those from CD (below
@@ -60,13 +70,11 @@ echo "integrating kernel modules of the installation system..."
 depmod -a 2>/dev/null
 
 # eventually start sshd
-arch=$(uname -m)
 case "$arch" in
     s390|s390x)
 	test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
 	;;
     *)
-	echo "starting sshd..."
 	if [ -x /usr/sbin/sshd ] && \
           grep -vq ' nossh' /proc/cmdline && \
           grep -q 'Bootmode:.*Net' /etc/install.inf ; then

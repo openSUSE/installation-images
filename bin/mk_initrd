@@ -123,7 +123,7 @@ close F;
 
 # create the image
 # alternatively, check if ENV{initrd} eq 'small'
-$fstype = $arch eq 'i386' ? 'minix' : 'ext2';
+$fstype = $arch eq 'i386' && !$ENV{'nominix'} ? 'minix' : 'ext2';
 
 # add an inode for each symlink that will be added from the initrd to
 # the instsys.  this nice idea creates an unwanted dependency between
@@ -142,7 +142,7 @@ $i = -s "$image";
 print "$Script: compressed initrd to \"$image\" ($i bytes)\n";
 
 # add boot splash
-if($ENV{'initrd'} eq 'large') {
+if($ENV{'initrd'} eq 'large' || $ENV{'bootsplash'} eq 'yes') {
   system "cat $srcdir/bootsplash-*x* >>$image";
   $i = -s "$image";
   print "$Script: bootsplash added to \"$image\" (new size: $i bytes)\n";

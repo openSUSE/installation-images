@@ -4,8 +4,13 @@ if arch eq 'ia32'
   x syslinux.cfg /
 
   if boot eq 'small' && kernel_rpm eq "k_deflt" && suse_release >= 7.3
-    k_inst:
-      m /boot/vminst /linux
+    if bootsplash eq 'yes'
+      <kernel_rpm>:
+        m /boot/<kernel_img> /linux
+    else
+      k_inst:
+        m /boot/vminst /linux
+    endif
       R s/linuxrc=auto2,yast2/linuxrc=auto2,yast2,reboot/s /syslinux.cfg
   else
     <kernel_rpm>:

@@ -1,3 +1,8 @@
+18/9/2001:	v1.95
+	- prepare to build initrd with ext2 on ia32
+	- replace qla2x00.o with qla2[23]00.o
+	- ia32: remove modules from initrd before starting yast
+
 11/9/2001:	v1.94
 	- really use pcmcia-external modules
 

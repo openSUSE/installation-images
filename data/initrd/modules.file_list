@@ -52,10 +52,12 @@ f / pci2000.o /
 f / pci2220i.o /
 f / ppa.o /
 f / psi240i.o /
+f / qla1280.o /
+f / qla2200.o /
+# f / qla2300.o /
 f / qlogicfas.o /
 f / qlogicfc.o /
 f / qlogicisp.o /
-f / qla2x00.o /
 f / seagate.o /
 f / sim710.o /
 f / sym53c416.o /
