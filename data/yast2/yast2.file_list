@@ -117,9 +117,15 @@ ifarch ppc
 else
   /lib/ld-linux.so.2
 endif
+ifarch alpha
+  /lib/{libc.so.6.1,libcrypt.so.1.1,libdb.so.2.1,libdb.so.3,libdl.so.2.1,libm.so.6.1,libnsl.so.1.1}
+  /lib/{libnss_compat.so.2,libnss_db.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
+  /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2.1,librt.so.1,libutil.so.1.1}
+else
   /lib/{libc.so.6,libcrypt.so.1,libdb.so.2,libdb.so.3,libdl.so.2,libm.so.6,libnsl.so.1}
   /lib/{libnss_compat.so.2,libnss_db.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
   /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2,librt.so.1,libutil.so.1}
+endif
   /usr/sbin/rpcinfo
   /usr/{bin,lib}
   /etc/rpc
@@ -292,6 +298,9 @@ endif
 
 c 0755 0 0 /dev
 
+# no yast2 for alpha yet
+ifnarch alpha
+
 xshared:
   /usr/X11R6/lib/libX{11.so,11.so.6,11.so.6.1,ext.so,ext.so.6,ext.so.6.3}
 d /usr/X11R6/lib/{X11,modules}
@@ -312,6 +321,9 @@ x /usr/X11R6/lib/X11/XF86Config /usr/X11R6/lib/X11
 yast2:
   /usr/X11R6/lib/X11/fonts/uni
 
+# no yast2 for alpha yet
+endif
+
 c 0755 0 0 /usr
 c 0755 0 0 /usr/X11R6
 c 0755 0 0 /usr/X11R6/bin
@@ -327,6 +339,9 @@ libjpeg:
 eject:
   /usr/bin/eject
 
+# no yast2 for alpha yet
+ifnarch alpha
+
 qtlib2:
   /usr/lib/*
 
@@ -339,6 +354,9 @@ c 0755 0 0 /lib/YaST2
 c 0755 0 0 /var/lib
 c 0755 0 0 /var/lib/YaST2
 
+# no yast2 for alpha yet
+endif
+
 # remove these:
 r root mnt tmp usr/libexec
 
@@ -347,12 +365,15 @@ syslinux:
   /usr/sbin/syslinux
 endif
 
+netcfg:
+  /etc/{services,protocols}
+
 # we need ISaX
 isax:
   /usr/X11R6/bin/{isax,ISaX}
 
 # created in aaa_base's postinstall
-X /etc/{passwd,group,shadow,nsswitch.conf,protocols} /etc
+X /etc/{passwd,group,shadow,nsswitch.conf} /etc
 
 # the agp module from xsvga may cause 700 permissions; fix it here
 c 0755 0 0 /lib/modules

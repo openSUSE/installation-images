@@ -138,7 +138,7 @@ t /var/log/news/news.{crit,err,notice}
 c 0755 9 13 /var/log/news
 c 0640 0 13 /var/log/news/news.{crit,err,notice}
 
-d /var/adm/live
+d /var/adm/{live,mount}
 t /var/adm/live/{gpm,i4l,sax,xf86,kbase}
 c 0755 0 0 /var/adm/live
 
@@ -147,8 +147,9 @@ c 0755 0 0 /var/lib/apsfilter
 
 x /var/lib/news/{mailname,whoami} /var/lib/news
 
-d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled}
+d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled,xfine/tmp}
 d /opt/kde/share/config
 
 x /sbin/{live-setup,live-shutdown,mk_links,find_config} /sbin
+x /etc/XF86Config /etc
 

@@ -7,6 +7,10 @@ ifenv demo yes
 x message-demo /message
 x syslinux-demo.cfg /syslinux.cfg
 else
+ifenv demo old
+x message-demoold /message
+x syslinux-demoold.cfg /syslinux.cfg
+else
 x message /
 x syslinux.cfg /
 endif

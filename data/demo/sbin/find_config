@@ -13,7 +13,7 @@ exit unless $ARGV[0] =~ /^\//;
 
 for (`LANG= fdisk -l $ARGV[0] 2>/dev/null`) {
   chomp;
-  if(/^(\/\S+)(\s|\*)+(\d+)\s+(\d+)\s+(\d+)(\s|\+)+(\d+)\s+(.+)/) {
+  if(/^(\/\S+)(\s|\*)+(\d+)\s+(\d+)\s+(\d+)(\s|\+)+([0-9a-fA-F]+)\s+(.+)/) {
     if($5 >= $minsize) {
       $id = hex $7;
       if(exists $good_ids{$id}) {

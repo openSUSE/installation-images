@@ -15,7 +15,7 @@ echo -n "Integrating Live CD"
 mount /S.u.S.E.
 
 /sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter\
-  opt opt/kde opt/kde/share
+  opt opt/kde opt/kde/share var/X11R6/xfine
 
 cp -af /S.u.S.E./etc/pam.d/* /etc/pam.d
 cp -af /S.u.S.E./etc/rc.config /etc
@@ -23,6 +23,10 @@ cp -af /S.u.S.E./var/X11R6/sax/config/saxrc /var/X11R6/sax/config
 cp -af /S.u.S.E./opt/kde/share/config/* /opt/kde/share/config
 
 rm -f /etc/conf.modules
+touch -r /lib/modules/`uname -r`/modules.dep /etc/modules.conf
+
+nodisk=
+[ "$live" = nodisk ] && nodisk=1
 
 perl -pi -e 's/^(FQHOSTNAME=).*/$1\"suse\"/' /etc/rc.config
 
@@ -31,16 +35,18 @@ if [ -f /etc/install.inf ]; then
 fi
 
 part=
-if [ "$Disks" ]; then
+touch /etc/SuSElive
+if [ "$Disks" -a ! "$nodisk" ]; then
   mount -n -t proc proc /proc
   /sbin/find_config $Disks >/etc/SuSElive
   umount -n /proc
- . /etc/SuSElive
+  . /etc/SuSElive
 fi
 
 newhome=
 nonewuser=
 error=
+udated=
 if [ "$part" ]; then
   i=
   [ "$dosdrive" ] && i="$dosdrive, "
@@ -56,6 +62,7 @@ if [ "$part" ]; then
     chattr +i $preserve
     tar -zxpf /host/$suseimg 2>/dev/null
     chattr -i $preserve
+    updated=1
     nonewuser=1
     grep -q -s "part=$part" /etc/SuSElive || cp -a /tmp/SuSElive /etc
     rm -f /tmp/SuSElive
@@ -86,14 +93,19 @@ if [ "$part" ]; then
     fi
   fi
 else
-  echo "Found no usable partition. Your data will not be saved to disk."
-  error=99
+  if [ ! "$nodisk" ] ; then
+    echo
+    echo "Found no usable partition. Your data will not be saved to disk."
+    error=99
+  fi
 fi
 
-if [ "$error" ] ; then
-  perl -pi -e 's/^(suseimg=).*/$1/; s/^(suseswap=).*/$1/' /etc/SuSElive
+if [ ! "$nodisk" ] ; then
+  if [ "$error" ] ; then
+    perl -pi -e 's/^(suseimg=).*/$1/; s/^(suseswap=).*/$1/' /etc/SuSElive
+  fi
+  . /etc/SuSElive
 fi
-. /etc/SuSElive
 
 if [ "$suseswap" ] ; then
   echo "Activating swap space"
@@ -110,8 +122,10 @@ fi
 
 if [ ! "$nonewuser" ] ; then
   # iamwP/xQU2BbU
-  echo "suse::0:0:10000::::" >>/etc/shadow
-  echo "suse:x:815:100:SuSE Liveeval User:/home/suse:/bin/bash" >>/etc/passwd
+  if [ ! "$nodisk" ] ; then
+    echo "suse::0:0:10000::::" >>/etc/shadow
+    echo "suse:x:815:100:SuSE Liveeval User:/home/suse:/bin/bash" >>/etc/passwd
+  fi
 fi
 
 if [ "$newhome" ] ; then
@@ -127,9 +141,28 @@ fi
 umount /host 2>/dev/null
 rmdir /host 2>/dev/null
 
-umount /S.u.S.E.
+if [ ! "$nodisk" ] ; then
+  if [ ! "$updated" ] ; then
+    mount /proc
+    rmdir /mnt
+    ln -s / /mnt
+    /bin/bash
+    [ -x /lib/YaST2/bin/YaST2.start ] && /lib/YaST2/bin/YaST2.start
+    /bin/bash
+    umount /proc
+  fi
+fi
+
+if [ "$umount" != no ] ; then
+  umount /S.u.S.E.
+else
+  echo "/S.u.S.E not unmounted"
+fi
 
 echo -e "\033[71G\033[32mdone\033[m"
 
 rm -f /sbin/{find_config,mk_links}
+if [ "$nodisk" ] ; then
+  rm -f /sbin/live-shutdown /etc/.SuSEfiles
+fi
 rm -f /sbin/live-setup ; exec /sbin/init

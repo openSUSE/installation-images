@@ -438,9 +438,9 @@ a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
 a /lib/modules/<kernel_ver>/misc/parport.o /modules
 a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
 
-ifdef blub
+ifndef blub
 a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
-a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
+# a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
 else
 a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
