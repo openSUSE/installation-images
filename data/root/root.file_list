@@ -646,7 +646,6 @@ if pre_release || suse_release >= 8.1
     /usr/bin/ssh
     /usr/bin/ssh-keygen
     /usr/bin/scp
-    /var/empty
     e prein
 
   heimdal-lib:

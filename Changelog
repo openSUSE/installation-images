@@ -1,7 +1,11 @@
 4/9/2002:	v2.54
 	- fixed bugs in ftp and VNC-installation on s390
+	- added ip to rescue system (#18644)
+	- added openssh to rescue system
+	
 4/9/2002:	v2.53
 	- ftp and samba installation on s390
+
 2/9/2002:	v2.52
 	- Modify WAIT_FOR_INTERFACES in /etc/sysconfig/network/config
 

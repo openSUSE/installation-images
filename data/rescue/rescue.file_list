@@ -26,6 +26,9 @@ sysconfig:
   /sbin
   /var
 
+iproute2:
+  /sbin/ip
+
 aaa_base: prein,postin
 e prein
   /etc
@@ -390,6 +393,11 @@ ddrescue:
 
 hex:
   /usr/bin/hex
+
+openssh:
+  /etc/ssh
+  /usr/bin
+  /usr/lib
 
 if arch ne 'sparc'
   <kernel_rpm>:
