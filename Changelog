@@ -1,3 +1,6 @@
+16/3/2004:	v5.27
+	- support sles9
+
 15/3/2004:	v5.26
 	- added sata_vsc
 	- s390: fixed missing NS problem (bug #35812)
