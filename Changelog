@@ -1,3 +1,7 @@
+12/12/2000:	v1.19
+	- hwinfo needs its shared lib
+	- added locale again (all linked to en_US)
+
 9/12/2000:	v1.18
 	- avoid insserv error msg
 	- fixed kbd include file list

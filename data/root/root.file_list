@@ -52,10 +52,11 @@ joe:
 
 if suse_release >= 7.1
   hwinfo:
+  /usr/lib
 else
   libhd:
 endif
-  /usr/sbin/hwinfo
+  /usr/sbin
 
 mktemp:
   /bin/mktemp
@@ -177,7 +178,7 @@ endif
   /usr/{bin,lib}
   /etc/rpc
 if suse_release >= 7.1
-  r /usr/lib/locale
+#  r /usr/lib/locale
 else
   /usr/share/locale/{locale.alias,ar_SA,cs,cs_CZ,de,de_DE,el,el_GR,en_GB,en_US,es,es_ES}
   /usr/share/locale/{fr,fr_FR,hu_HU,it,it_IT,nl,nl_NL,pl,pl_PL,pt_BR,pt_PT,ro_RO}

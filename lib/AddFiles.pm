@@ -315,7 +315,7 @@ sub AddFiles
         warn "$Script: failed to symlink $1 to $2";
     }
     elsif(/^m\s+(\S+)\s+(\S+)$/) {
-      SUSystem "cp -a $tdir/$1 $dir/$2" and
+      SUSystem "sh -c \"cp -a $tdir/$1 $dir/$2\"" and
         warn "$Script: failed to move $1 to $2";
     }
     elsif(/^a\s+(\S+)\s+(\S+)$/) {

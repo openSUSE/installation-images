@@ -1,0 +1,17 @@
+#! /bin/sh
+
+# make all locales links to en_US
+
+cd $1/usr/lib/locale || {
+  echo "oops, no locale?"
+  exit 1
+}
+
+for i in * ; do
+  [ -L $i ] && continue
+  [ -d $i ] || continue
+  [ "$i" = en_US ] && continue
+  # just check we don't accidentally erase the whole disk...
+  [ -d $i/LC_MESSAGES ] && rm -rf $i
+  ln -s en_US $i
+done

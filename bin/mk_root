@@ -62,6 +62,7 @@ AddFiles $tmpdir, "${srcdir}/root.file_list", $srcdir or
   die "$Script: failed to setup root image";
 
 # strip everything
+SUSystem "fix_locale $tmpdir";
 SUSystem "fix_perms $tmpdir";
 SUSystem "strip_dir $tmpdir";
 

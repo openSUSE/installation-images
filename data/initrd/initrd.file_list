@@ -225,6 +225,7 @@ endif		# arch eq 'alpha'
 if arch eq 'ia32'
 
   ifdef small	# (test) initrd for 1.44MB floppies
+    M /lib/modules/<kernel_ver>/net/pcnet32.o /modules
     M /lib/modules/<kernel_ver>/net/3c59x.o /modules
     a /lib/modules/<kernel_ver>/net/tulip.o /modules
 
