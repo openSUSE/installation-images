@@ -460,7 +460,7 @@ for (@f) {
   if(!$in_abuild) {
     # die "Sorry, no packages in \"$work\"!\n" unless -d "$base";
     my $suserelpack = RPMFileName "aaa_version";
-    $suserelpack = RPMFileName "unitedlinux-release" unless -f $suserelpack;
+    $suserelpack = RPMFileName "unitedlinux-release" unless $suserelpack && -f($suserelpack);
     die "invalid SuSE release" unless -f $suserelpack;
     system "mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $suserelpack | cpio -iud --quiet";
 
@@ -567,7 +567,10 @@ for (@f) {
     $ConfigData{'suse_base'} = $ENV{'suse_base'} = $base = $AutoBuild = "/.rpm-cache/$r"
   }
 
-  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base pre_release) ) {
+  $ENV{theme} = "SuSE" unless $ENV{theme};
+  $ENV{product} = $prod unless $ENV{product};
+
+  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base pre_release theme product) ) {
     $ConfigData{$_} = $ENV{$_}
   }
 
@@ -577,7 +580,7 @@ for (@f) {
 
   if(!exists $ENV{silent}) {
     my $p = $ENV{'pre_release'} ? "pre-" : "";
-    print "Building for $prod $p$v ($a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
+    print "Building for $prod $p$v ($ConfigData{theme},$a,$ENV{'kernel_rpm'}:$ENV{'kernel_img'},$ENV{'kernel_ver'}) [$base].\n";
   }
 
   # print "<$ENV{'suse_release'}><$ENV{'suse_xrelease'}>\n";

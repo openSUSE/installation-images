@@ -6,30 +6,10 @@ if arch eq 'ia32' || arch eq 'x86_64'
     A gen/initrdsize /syslinux.cfg
   else
     x syslinux.cfg /
-    if arch eq 'ia32'
-if 0
-      k_apic:
-        m /boot/vmapic /apic
-endif
-      <kernel_rpm>:
-        m /boot/<kernel_img> /linux
-    endif
   endif
 
-  if boot eq 'small' && kernel_rpm eq "k_deflt"
-    if bootsplash eq 'yes'
-      <kernel_rpm>:
-        m /boot/<kernel_img> /linux
-    else
-#      k_inst:
-#        m /boot/vminst /linux
-      <kernel_rpm>:
-        m /boot/<kernel_img> /linux
-    endif
-  else
-    <kernel_rpm>:
-      m /boot/<kernel_img> /linux
-  endif
+  <kernel_rpm>:
+    m /boot/<kernel_img> /linux
 
   if demo eq 'eval'
     x message-eval /message
@@ -42,11 +22,7 @@ endif
   if (bootlogo eq 'no' || boot eq 'small') && bootlogo ne 'yes'
     R s/.*gfxboot.*//s /syslinux.cfg
   else
-    gfxboot-devel:
-      m /usr/share/gfxboot/suselogo /suselogo
-      if demo eq 'eval'
-        x suseeval /suselogo
-      endif
+    e cp /<theme>.boot bootlogo
   endif
 
   if (memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval'
@@ -56,7 +32,7 @@ endif
       m /boot/memtest.bin /memtest
   endif
 
-  R s/x\.y/<suse_release>/ /message
+  R s/product_name/<product>/ /message
 
   if initrd_name
     R s/\binitrd=initrd\b/initrd=$ENV{'initrd_name'}/ /syslinux.cfg

@@ -148,6 +148,11 @@ libjpeg:
 
 bootsplash-theme-SuSE:
   /
+  m /usr/share/splash/themes/SuSE/bootloader/message /SuSE.boot
+
+bootsplash-theme-UnitedLinux:
+  /
+  m /usr/share/splash/themes/UnitedLinux/bootloader/message /UnitedLinux.boot
 
 <kernel_rpm>:
   /lib/modules
@@ -194,6 +199,8 @@ E cp /lib/modules/<kernel_ver>/modules.pcimap /
 r /lib/modules
 
 # create splash
-E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-800x600.cfg >>/usr/share/splash/inst_splash
-E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-1024x768.cfg >>/usr/share/splash/inst_splash
+E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-800x600.cfg >>/SuSE.splash
+E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-1024x768.cfg >>/SuSE.splash
+E splash -s -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-800x600.cfg >>/UnitedLinux.splash
+E splash -s -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-1024x768.cfg >>/UnitedLinux.splash
 

@@ -52,6 +52,7 @@ die "usage: $Script\n" if @ARGV;
 
 $srcdir = "${DataPath}boot";
 $tmpdir = "${BasePath}tmp";
+$tmpbootdir = "${BasePath}tmp/boot";
 $image = "${ImagePath}boot";
 $initrddir = "$tmpdir/initrd";
 $initrddirx = "$tmpdir/.initrd";
@@ -74,6 +75,14 @@ $arch = $ConfigData{suse_arch};
 $ia32_like = $arch eq 'i386' || $arch eq 'x86_64';
 
 $fstype = $ia32_like ? 'msdos' : 'vfat';
+
+# clean up
+if(-d($tmpbootdir)) {
+  SUSystem "rm -rf $tmpbootdir" and die "$Script: failed to remove old $tmpbootdir";
+}
+
+mkdir $tmpdir || die "$Script: failed to create $tmpdir";
+
 
 if($ia32_like) {
   if($ENV{'syslinux'}) {
@@ -110,7 +119,12 @@ if(-e $image) {
 
 ($i1, $i2) = split /\./, $ConfigData{suse_release};
 
-$label = "SUSE${i1}${i2}_BOOT";
+if($ConfigData{theme} eq "UnitedLinux") {
+  $label = "UNITEDLINUX";
+}
+else {
+  $label = "SUSE${i1}${i2}_BOOT";
+}
 
 # create an empty image
 if($ENV{'boot'} eq 'small') {
@@ -128,7 +142,10 @@ elsif($ENV{'boot'} eq 'isolinux') {
   SUSystem "mkdir $image";
 
   # copy everything *except* the initdisk
-  AddFiles $image, "${srcdir}/boot.file_list", $srcdir or
+  AddFiles $tmpbootdir, "${srcdir}/boot.file_list", $srcdir or
+    die "$Script: failed to setup boot image";
+
+  SUSystem "cp -a $tmpbootdir/* $image" and
     die "$Script: failed to setup boot image";
 
   SUSystem "mv $image/syslinux.cfg $image/isolinux.cfg" and
@@ -169,7 +186,10 @@ SUSystem "mount -oloop -t $fstype $image /mnt" and
   die "$Script: mount failed";
 
 # copy everything *except* the initdisk
-AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
+AddFiles $tmpbootdir, "${srcdir}/boot.file_list", $srcdir or
+  die "$Script: failed to setup boot image";
+
+SUSystem "cp -a $tmpbootdir/* /mnt" and
   die "$Script: failed to setup boot image";
 
 if($ia32_like) {
@@ -238,7 +258,10 @@ if($ia32_like) {
         die "$Script: mount failed";
 
       # copy everything *except* the initdisk
-      AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
+      AddFiles $tmpbootdir, "${srcdir}/boot.file_list", $srcdir or
+        die "$Script: failed to setup boot image";
+
+      SUSystem "cp -a $tmpbootdir/* /mnt" and
         die "$Script: failed to setup boot image";
 
       SUSystem "umount /mnt" and

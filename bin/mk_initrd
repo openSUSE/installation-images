@@ -148,9 +148,9 @@ print "$Script: compressed initrd to \"$image\" ($i bytes)\n";
 
 # add boot splash
 if(($ENV{'initrd'} eq 'large' || $ENV{'bootsplash'} eq 'yes') && $ENV{'bootsplash'} ne 'no') {
-  system "cat ${BasePath}tmp/base/usr/share/splash/inst_splash >>$image";
+  system "cat ${BasePath}tmp/base/$ConfigData{theme}.splash >>$image";
   $i = -s "$image";
-  print "$Script: bootsplash added to \"$image\" (new size: $i bytes)\n";
+  print "$Script: $ConfigData{theme} bootsplash added to \"$image\" (new size: $i bytes)\n";
 }
 
 mkdir $gendir, 0755;
