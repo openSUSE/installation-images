@@ -413,9 +413,9 @@ function activate_config() {
 	esac
 	VERBOSE=1 execcmd "/sbin/ifconfig $IP_DEV"
         sleep 1
-	VERBOSE=1 execcmd "ping -n -c 3 -w 1 $IP_ADDR"
+	VERBOSE=1 execcmd "ping -n -c 2 -w 3 $IP_ADDR"
 	if [ $? -gt 0 ]; then
-	    echo "Warning: Could not ping my IP address!"
+	    echo "Warning: Could not reach my own IP address!"
 	else
 	    case "$NETSELECT" in
 		tr|eth|geth|c7000)
@@ -427,7 +427,7 @@ function activate_config() {
 		    fi
 		    if [ "$IP_GATEWAY" ]; then
 			echo "Trying to ping the IP address of the Gateway:"
-			execcmd "ping -n -c $NTRY -w 1 $IP_GATEWAY" 
+			execcmd "ping -n -c $NTRY -w 3 $IP_GATEWAY" 
 			if [ $? -eq 0 ]; then
 			    echo "Gateway seems to respond to our pings, continuing."
 			    break
@@ -449,7 +449,7 @@ function activate_config() {
 			    done
 			fi
 			echo "Trying to ping the IP address of the peer:"
-			execcmd "ping -n -c 3 -w 1 $IP_PEER"
+			execcmd "ping -n -c 1 -w 3 $IP_PEER"
 			if [ $? -eq 0 ]; then
 			    echo "Peer seems to respond to our pings, continuing."
 			    break
@@ -468,13 +468,12 @@ function activate_config() {
       execcmd "route add default gw $IP_GATEWAY"
     fi
     if [ "$IP_DNS" ]; then
-	echo "Trying to ping the IP address of the DNS Server:"
-	execcmd "ping -c 3 -w 1 $IP_DNS"
+	echo "Trying to reach the DNS Server:"
+	execcmd "ping -c 1 -w 3 $IP_DNS"
 	if [ $? -gt 0 ]; then
 	    echo "Warning: The DNS address $IP_DNS did not ping."
 	    echo "Diagnostics:"
-	    echo "tracepath to the DNS IP $IP_DNS:"
-	    execcmd "tracepath $IP_DNS"
+	    VERBOSE=1 execcmd "tracepath $IP_DNS"
 	    echo "Flaky DNS will cause delays when logging in and during"
 	    echo "Installation. To disable DNS enter: \"nodns\"."
 	fi
@@ -497,8 +496,7 @@ Keytable: de-lat1-nd
 Bootmode: Net
 Sourcemounted: 0
 Netdevice: $IP_DEV
-IP: $IP_ADDR
-"
+IP: $IP_ADDR"
     if [ "$IP_DNS" ]; then      echo "Nameserver: $IP_DNS";       fi
     if [ "$NFS_SERVER" ]; then  echo "Server: $NFS_SERVER";       fi
     if [ "$NFS_SERVER_DIR" ]; then echo "Serverdir: $NFS_SERVER_DIR"; fi
@@ -1099,11 +1097,11 @@ fi
 
 if [ "$LINUXRC_DEBUG" = "yes" ]
 then
-    YAST_INFO="/etc/netsetup.inf"
-    LINUXRC_INFO="/info"
-else
     YAST_INFO="./netsetup.inf"
     LINUXRC_INFO="./info"
+else
+    YAST_INFO="/etc/netsetup.inf"
+    LINUXRC_INFO="/info"
 fi
 
 if [ "$LINUXRC_DEBUG" = "no" ]; then

@@ -15,8 +15,12 @@ r /var/{spool,squid,lib/YaST}
 
 grep:
   /bin
+tar:
+  /bin/tar
+sed:
+  /bin/sed
 base:
-  /bin
+  #/bin
   /usr/{,s}bin
 
 bash:
@@ -46,6 +50,11 @@ r /lib*/libdb.so.*
 r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
   /usr/{,s}bin
 r /usr/bin/{db*,glibcbug,localedef,rpcgen}
+# does anybody need these in base???
+#r /lib/libanl.so.1
+#r /lib/libmemusage.so
+#r /lib/libpcprofile.so
+#r /lib/libthread_db.so.1
   /usr/lib*/pt_chown
 
 mktemp:

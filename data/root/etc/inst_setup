@@ -115,10 +115,16 @@ fi
 # start shell, useful on iSeries or via serial console
 grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell... (use 'exit' to proceed)" ; bash ; }
 
-# stop vnc
-killall Xvnc 2>/dev/null >/dev/null
-# stop sshd
-killall sshd 2>/dev/null >/dev/null
+case "$arch" in
+    s390|s390x)
+	test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
+	;;
+    *)
+	# stop vnc
+	killall Xvnc 2>/dev/null >/dev/null
+	# stop sshd
+	killall sshd 2>/dev/null >/dev/null
+esac
 
 umount devpts 2>/dev/null
 

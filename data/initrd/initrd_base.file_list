@@ -27,8 +27,9 @@ if arch eq 's390' || arch eq 's390x'
 
   aaa_base: prein,postin
   e prein
-    /etc/init.d/network
-    /etc/init.d/route
+    # wie geht das jetzt??
+    #/etc/init.d/network
+    #/etc/init.d/route
     # for ssh key generation?
     /etc/init.d/random
     /etc/ld.so.conf
@@ -76,11 +77,12 @@ if arch eq 's390' || arch eq 's390x'
     /bin/bash
     /bin/sh
   s390-tools:
+    # are these really needed before the installation system is mounted?
     /sbin/fdasd
     /sbin/dasdfmt
     /lib/libvtoc.so*
   libxcrypt:
-    /usr/lib/libxcrypt.so*
+    /lib/libxcrypt.so*
   cracklib:
     /usr/lib/libcrack.so*
   gdbm:
@@ -92,7 +94,7 @@ if arch eq 's390' || arch eq 's390x'
     l ../bin/smbmount  /sbin/mount.smbfs
     # /lib/libnss_wins.so?
   cups-libs:
-    /usr/lib/libcups.so.*
+    # /usr/lib/libcups.so.*
   installation-kernel-rdripl:
     /lib/modules
   e2fsprogs:
@@ -260,7 +262,7 @@ if arch eq 's390' || arch eq 's390x'
   openssh:
     /etc/pam.d/sshd
     /etc/ssh
-    /etc/ssh/primes
+    /etc/ssh/moduli
     /etc/ssh/ssh_config
     /etc/ssh/sshd_config
     /usr/bin/scp

@@ -27,8 +27,10 @@ e prein
 e postin
 r /var/adm/fillup-templates
 
-base:
+tar:
   /bin/tar
+
+sed:
   /bin/sed
 
 bash:
@@ -465,6 +467,10 @@ if with_yast2 ne 'no'
   yast2-lib-wizard:
     /
   yast2-lib-sequencer:
+    /
+  yast2-lib-network:
+    /
+  yast2-lib-xml:
     /
   yast2-module-autoinst:
     /
