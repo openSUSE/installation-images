@@ -712,8 +712,8 @@ endif
 
 if arch eq 'ppc'
   parted:
-    /sbin/parted
-    /usr/lib/libparted.so*
+    /sbin
+    /usr/lib
 endif
 
 jfsprogs:

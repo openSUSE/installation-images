@@ -1,8 +1,12 @@
 if arch eq 'ia32'
 
+  x message /
+  x syslinux.cfg /
+
   if boot eq 'small' && kernel_rpm eq "k_deflt" && suse_release >= 7.3
     k_inst:
       m /boot/vminst /linux
+      R s/linuxrc=auto2,yast2/linuxrc=auto2,yast2,reboot/s /syslinux.cfg
   else
     <kernel_rpm>:
       m /boot/<kernel_img> /linux
@@ -15,9 +19,6 @@ if arch eq 'ia32'
   if special eq 'bzImage'
   x bzImage /linux
   endif
-
-  x message /
-  x syslinux.cfg /
 
   if lang eq 'fr'
     x message.fr /message

@@ -140,3 +140,11 @@ rename "${image}.gz", "$image";
 
 $i = -s "$image";
 print "$Script: compressed initrd to \"$image\" ($i bytes)\n";
+
+# add boot splash
+if($ENV{'initrd'} eq 'large') {
+  system "cat $srcdir/bootsplash-*x* >>$image";
+  $i = -s "$image";
+  print "$Script: bootsplash added to \"$image\" (new size: $i bytes)\n";
+}
+
