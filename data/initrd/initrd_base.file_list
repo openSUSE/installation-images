@@ -358,7 +358,7 @@ endif
 x etc/host.conf etc
 
 devs:
-  if arch eq 's390' || arch eq 's390x'
+  if arch eq 's390' || arch eq 's390x' || arch eq 'ppc' || arch eq 'ppc64'
     m /usr/share/doc/packages/devs/makedevs.floppy /
   else
     /dev/sg*
@@ -367,7 +367,7 @@ devs:
 
 c 0755 0 0 makedevs.floppy
 
-if arch ne 's390' && arch ne 's390x'
+if arch ne 's390' && arch ne 's390x' && arch ne 'ppc' && arch ne 'ppc64'
 
 kbd:
 
@@ -452,9 +452,9 @@ if arch eq 'sparc' || arch eq 'sparc64'
   g /usr/share/kbd/keymaps/sun/sunt5-uk.map.gz kbd/keymaps/sunt5-uk.map
 endif
 
-endif # not on s390
+endif # not on s390/ppc
 
-if (arch eq 'alpha' || arch eq 'ia32' || arch eq 'ppc') && !nopcmcia
+if (arch eq 'alpha' || arch eq 'ia32') && !nopcmcia
   pcmcia:
   d etc/pcmcia/cis
   a etc/pcmcia/cis etc/pcmcia

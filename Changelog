@@ -1,5 +1,7 @@
 8/7/2002:	v2.11
 	- added autoyast2-installation
+	- no kdb/pcmcia in initrd on ppc
+	- use makedevs.floppy on ppc
 
 5/7/2002:	v2.10
 	- libpng fixes
