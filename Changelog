@@ -1,3 +1,7 @@
+12/7/2002:	v2.17
+	- mkfs.cramfs has moved
+	- fixed package name handling
+
 11/7/2002:	v2.16
 	- added saxident
 	- corrected some devs package confusion

@@ -35,8 +35,8 @@ $extra_size = 10;		# kbyte
 $extra_inodes = 10;
 
 # just make them large enough
-$start_size = 4000;		# kbyte
-$start_inodes = 4000;
+$start_size = 5000;		# kbyte
+$start_inodes = 1000;
 
 $disk = 1;
 $disk = $ENV{modules} + 0 if exists $ENV{modules};

@@ -65,8 +65,8 @@ o initrd
   with_smb=1
   - add smb support
 
-  with_gdb=1
-  - create an initrd where linuxrc runs within gdb; requires with_smb=1
+  with_gdb=1|2
+  - create an initrd with gdb; if with_gdb=2 start linuxrc from gdb
 
   demo=eval
   - create an initrd for LiveEval

@@ -230,7 +230,7 @@ sub RPMFileName
   for (`cat $ConfigData{'suse_base'}/find-name-rpm 2>/dev/null`) {
     chomp;
     s/^\.\///;
-    if(m#/(\Q$rpm\E|\Q$rpm\E\-[^\-]+\-[^\-]+)\.rpm$#) {
+    if(m#/(\Q$rpm\E|\Q$rpm\E\-[^\-]+\-[^\-]+\.[^.\-]+)\.rpm$#) {
       $file = "$ConfigData{'suse_base'}/$_";
       last;
     }
@@ -246,7 +246,8 @@ sub RPMFileName
   if(!$file) {
     @f = glob "$ConfigData{'suse_base'}/$rpm-*-*.rpm";
     for (@f) {
-      if($_ && -f $_ && m#/\Q$rpm\E\-[^\-]+\-[^\-]+\.rpm$#) {
+      next if /\.src\.rpm$/;
+      if($_ && -f $_ && m#/\Q$rpm\E\-[^\-]+\-[^\-]+\.[^.\-]+\.rpm$#) {
         $file = $_;
         last;
       }
@@ -446,10 +447,10 @@ for (@f) {
   $work .= "/all" if -d "$work/all";
   $base = "$work/full-$rf-$a/suse";
   $base = "$work/full-$a/suse" unless -d $base;
-  $ConfigData{'suse_base'} = $ENV{'suse_base'} = $base;
+  $ConfigData{'suse_base'} = $ENV{'suse_base'} = "$base/*";
 
   if(!$in_abuild) {
-    die "Sorry, no packages in \"$work\"!\n" unless -d "$base";
+    # die "Sorry, no packages in \"$work\"!\n" unless -d "$base";
     my $suserelpack = RPMFileName "aaa_version";
     die "invalid SuSE release" unless -f $suserelpack;
     system "mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $suserelpack | cpio -iud --quiet etc/SuSE-release";
