@@ -8,12 +8,34 @@
 # (overlapping because of Unicode Han-Unification) CJK translations like
 # "zh_CN", "zh_TW" etc.
 #
+# The resulting list of used codepoints for each font will be used to generate
+# stripped-down versions of fonts that only include glyphs for the code-points
+# that are needed to display the texts of the installation-system. (This way
+# better fonts can be used and still fit into the installation system
+# ram-disk.)
+#
+# To make the display of mixed-font texts possible, the Qt Toolkit that is
+# used in the graphical installation system is configured with a list of
+# fonts, and Qt then selects the first font in the list that contains a key
+# character for a given range to display codepoints in that range.
+#
+# Thus, the "@fontspec"-table below in this program needs to take into account
+# the codepoint-ranges that Qt uses. E.g. there is no point in having two
+# fonts the contain glyphs for different codepoint-ranges of the Japanese Han
+# characters, since Qt uses only the first font it finds in the list that has
+# 0x4e00 (the character for "one" (Japanese: ichi)) for the whole range of
+# Japanese Han characters.
+#
+# FIXME : the key character that triggers the recognition of a range in a
+# specific font inside Qt *always* needs to be included in the target font
+# (maybe even if no other code-points in that range are being used?).
+#
 # The resulting fonts will be handled as a font replacement stack by Qt. 
 #
 # FIXME : write more here as program matures; also, write better and more
 # accurately
 #
-# $Id: extract_codepoints.pl,v 1.2 2004/04/06 21:32:10 odabrunz Exp $
+# $Id: extract_codepoints.pl,v 1.3 2004/04/07 11:51:15 odabrunz Exp $
 #
 # 2004 Olaf Dabrunz
 #
@@ -80,8 +102,8 @@ if (! defined $opt_l) {
 
     closedir(DIR);
 
-    # BUT, at the moment only the following translation are ready and will be
-    # included 
+    # BUT, at the moment only the following translations are ready and will be
+    # included (FIXME : this list is not checked!)
     @dirs = ( 'ja', 'cy', 'es', 'fi', 'it', 'nl', 'ro', 'sl_SI', 'zh', 'bg', 'cs',
         'en_GB', 'fr', 'hu', 'no', 'pt', 'ru', 'sv', 'tr', 'zh_CN', 'bs', 'de',
         'en_US', 'gl', 'id', 'ko', 'nb', 'pl', 'pt_BR', 'sk', 'ta', 'tv', 'zh_TW');
@@ -119,10 +141,36 @@ my @fontspecs = (
 #    [ 'hline'       ,  { map { $_ => 1 } ('ko') }       , [ [ 0x3130, 0x318F ], [ 0xAC00, 0xD7FF ] ] ],
 );
 
+# create hash for dir -> fonts lookup
+my %dirs_to_fonts = ( map { $_ => [] } @dirs );
+my $x = ""; my $y = "";
+foreach $x (@dirs) {
+    foreach $y (@fontspecs) {
+        my ($a, $b, $c) = @$y;
+        if ( exists $b->{$x} ) {
+            push @{$dirs_to_fonts{$x}}, $a;
+        }
+    }
+}
+
+# create hash for fontname -> @fontspecs entry number lookup
+my %fname_to_fontspecs = ();
+my $i = 0;
+foreach $x (@fontspecs) {
+    my ($font, $subdirs, $coderanges) = @$x;
+    $fname_to_fontspecs{$font} = $i;
+    $i++;
+}
+
+my @global_CPA = ();
 my $unassigned = 'unassigned';
-my %unassigned_dirs = ();
 my %CPAs = ();
 my $currentdir = "";
+
+# ---------------------------------------------------------------------------
+#
+# Subroutines
+#
 
 sub debugprint {
     my ($string, $prefix, $color, $subsys, $hl) = @_;
@@ -133,50 +181,39 @@ sub debugprint {
     }
 }
 
-# For simplicity, every font has its own array of codepoints. We only add used
-# codepoints to a table when the directory we are in is in the corresponding
-# font's set of source directories.
-# E.g., for a Japanese font we only want to collect codepoints that come from
-# Japanese po-files, i.e. the ones below "ja".
+# Algorithm:
 #
-# The algorithm for generating the used codepoint arrays is this:
-# 1. while scanning a source file, if we are in a source-dir corresponding to
-#    the font, put the codepoint into that font array
-# 2. when we finally write an array to the font's file, write only the
-#    codepoints that fall in the ranges specified for that font
+# 1. (Init) For each directory in "@dirs", create a list of fonts that contain
+#    that directory in its list of fonts ("%dirs_to_fonts").
+# 2. (Scan) Scan a source file. For each found code-point, put the name of the
+#    language-part of the directory (e.g. 'ja') at the position of the
+#    character-code into the code-point array. 
+# 3. (Evaluation) After the scan, go through the list of code-points and for
+#    every entry, for every language saved in it, put the code-point number
+#    into the code-point array of every font that is in "%dirs_to_fonts" for
+#    this language.
+# 4. (Output) For each font, write an output file containing all the
+#    code-points found in that font's code-point array.
 #
 
+
+# save the code-points of a string in the array-of-hashes @global_CPA
 
 sub savecp {
     my ($string) = @_;
-    my $uc = 0; my $assigned = 0;
+    my $uc = 0; my $i = 0;
     my $fspec = (); my $range = ();
     debugprint("$string\n", "        savecp:", "\e[01m", 4, undef);
 
     my $l = length($string);
     print "                " if $debug & 8;
-    for ( my $i=0; $i<$l; $i++ ) {
-        $uc = ord(substr($string, $i, 1));
-        printf("%s: %#x ", substr($string, $i, 1), $uc) if $debug & 8;
 
-        $assigned = 0;
-        # for all fonts, if current source-dir is in the font's hash of dirs,
-        # add codepoint to the font's array
-        foreach $fspec (@fontspecs) {
-            my ($font, $subdirs, $coderanges) = @$fspec;
-            if ( exists $subdirs->{$currentdir} ) {
-               foreach $range (@$coderanges) {
-                   my ($low, $high) = @$range;
-                   if ($low <= $uc && $uc <= $high) {
-                       @{$CPAs{$font}}[$uc] = 1;
-                       $assigned = 1;
-                       last;
-                   }
-               }
-           }
-        }
-        # remember codepoints we could not assign to any font
-        if (!$assigned) { @{$CPAs{$unassigned}}[$uc] = 1; $unassigned_dirs{$currentdir} = 1; };
+    # For each character, add the current language directory to the code-point
+    # in the global code-point array.
+    for ( $i=0; $i<$l; $i++ ) {
+        $uc = ord(substr($string, $i, 1));
+        $global_CPA[$uc]{$currentdir}++;
+        printf("%s: %#x ", substr($string, $i, 1), $uc) if $debug & 8;
     }
     print "\n" if $debug & 8;
 }
@@ -185,6 +222,12 @@ sub savecp {
 # concatenate C-style multiline strings and remove C-style "\[abfnrtv0]", while
 # interpreting "\[\?'"]", "\o...", "\x..", "\u....", ("\U........" is missing,
 # since Perl 5.8 does not yet support surrogates).
+#
+# FIXME : This is not a complete C-parser; e.g. it does not recognize comments
+# (/* */, //), and thus strings in comments are seen and evaluated as normal
+# strings. But this is not a major problem, since for syntactically correctly
+# quoted strings (including strings in comments) it only produces false
+# positives (and thereby maybe slightly expand the array of used code-points).
 
 sub parse_string {
     ($_) = @_;
@@ -246,6 +289,37 @@ sub parse_file {
     close(FH);
 }
 
+# (Evaluation) After the scan, go through the list of code-points and for every
+# entry, for every language saved in it, put the code-point number into the
+# code-point array of every font that is in "%dirs_to_fonts" for this language.
+
+sub evaluate_global_CPA {
+    my $dir = ""; my $font = ""; my $range = (); my $i = 0;
+    my $exists = 0; my $assigned = 0;
+
+    print "assigning collected code-points to fonts...\n" if $debug & 1;
+    for ( $i=0; $i <= 0xFFFF; $i++ ) {
+        $assigned = 0; $exists = 0;
+        foreach $dir (keys %{$global_CPA[$i]}) {
+            $exists = 1;
+            foreach $font (@{$dirs_to_fonts{$dir}}) {
+                my ($font, $subdirs, $coderanges) = @{$fontspecs[$fname_to_fontspecs{$font}]};
+                foreach $range (@$coderanges) {
+                    my ($low, $high) = @$range;
+                    if ($low <= $i && $i <= $high) {
+                        @{$CPAs{$font}}[$i] = 1;
+                        $assigned = 1;
+                        last;
+                    }
+                }
+            }
+        }
+        # remember codepoints we could not assign to any font
+        if ($exists && !$assigned) { @{$CPAs{$unassigned}}[$i] = 1; };
+    }
+}
+
+# Dump code-point arrays to files (<font>.ucp)
 
 sub dump_CPAs {
     my $fspec = (); my $range = ();
@@ -268,7 +342,7 @@ sub dump_CPAs {
                         if ($font ne $unassigned) {
                             printf("%#4.4x %s\n", $i, chr($i));
                         } else {
-                            printf("%#4.4x %s", $i, chr($i)); map { print " " . $_; } keys(%unassigned_dirs); print "\n";
+                            printf("%#4.4x %s", $i, chr($i)); map { print " " . $_; } keys %{$global_CPA[$i]}; print "\n";
                         }
                     } else {
                         printf("%#4.4x\n", $i);
@@ -277,7 +351,7 @@ sub dump_CPAs {
                 if ($font ne $unassigned) {
                     printf(FH "%#4.4x %s\n", $i, chr($i));
                 } else {
-                    printf(FH "%#4.4x %s", $i, chr($i)); map { print FH " " . $_; } keys(%unassigned_dirs); print FH "\n";
+                    printf(FH "%#4.4x %s", $i, chr($i)); map { print FH " " . $_; } keys %{$global_CPA[$i]}; print FH "\n";
                 }
             }
         }
@@ -291,9 +365,16 @@ sub dump_CPAs {
     print "total used codepoints: $count\n";
 }
 
+# ---------------------------------------------------------------------------
+#
+# Main program
+#
 
 # Main loop over all files
 find( \&parse_file, @dirs );
+
+# assign code-points to fonts
+evaluate_global_CPA();
 
 # dump output to files
 dump_CPAs();
