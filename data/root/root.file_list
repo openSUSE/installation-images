@@ -184,6 +184,7 @@ kbd:
   /bin/{chvt,loadkeys}
   /bin/{chvt,loadkeys}
   /bin/unicode_st{art,op}
+  /bin/testutf8
   m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
 
   /bin/setfont

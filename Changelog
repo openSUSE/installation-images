@@ -1,3 +1,7 @@
+14/9/2003:	v4.25
+	- give x86_64 people some keymaps (#30458)
+	- added testutf8
+
 10/9/2003:	v4.24
 	- fixed bootdisk (knew nothing about scsi mods)
 	- added sata driver
