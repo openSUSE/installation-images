@@ -37,7 +37,7 @@ boot_axp: initrd
 install_xx: initrd
 	bin/mk_install_xx
 
-root: dirs base initrd
+root: dirs base
 	bin/mk_root
 
 demo: dirs base
