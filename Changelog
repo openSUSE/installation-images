@@ -1,3 +1,6 @@
+1/4/2004:	v5.35
+	- s390: added initrd size to suse.ins*
+
 31/3/2004:	v5.34
 	- add icom serial driver to iseries initrd
 	- s390: added missing files from s390-tools
