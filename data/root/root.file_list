@@ -349,7 +349,6 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/lib{X11,Xext}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/lib{Xmu,Xi,Xt,Xft,Xrender,Xpm}.so*
-  d /usr/X11R6/lib*/{X11,modules}
 
  XFree86-compat-libs:
    /usr/X11R6/lib*/lib{Xxf86misc,Xxf86vm}.so*
@@ -451,7 +450,7 @@ endif
 libpng:
   /usr/lib*/libpng*.so*
 
-libz:
+zlib:
   /lib*/libz.so.1*
 
 c 0755 0 0 /usr

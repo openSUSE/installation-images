@@ -150,10 +150,10 @@ r /usr/bin/lessclose.sh
 t /usr/bin/lessclose.sh
 c 0755 0 0 /usr/bin/lessclose.sh
 
-libz:
+zlib:
   /lib*/libz.so*
 
-bzip:
+bzip2:
   /usr/lib*/libbz2.so*	
 
 if arch eq 'ia32' || arch eq 'ppc'

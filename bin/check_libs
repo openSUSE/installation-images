@@ -18,15 +18,18 @@ print "finding ELF objects...\n";
 for $f (`find . -type f`) {
   chomp $f;
   next if $f =~ /modules/;              # skip modules
-  push @type_f,$f;
+  push @type_f, $f;
 }
 
-@type_f = map(quotemeta,@type_f);
+@type_f = map(quotemeta, @type_f);
 
-for (`file @type_f`)
-{
+for($i = 0; $i < @type_f; $i += 100) {
+  push @i, `file @type_f[$i .. $i + 99]`;
+}
+
+for (@i) {
   if(/(.*):.*?\s+ELF\s.*\s(shared\s+object|executable)/) {
-      push @ELF,$1;
+    push @ELF,$1;
   }
 }
 

@@ -233,7 +233,7 @@ if arch eq 's390' || arch eq 's390x'
     /etc
     /lib
     /sbin
-  libz:
+  zlib:
     /lib/libz.so*
   shadow:
     /usr/sbin/chpasswd

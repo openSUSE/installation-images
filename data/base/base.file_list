@@ -105,7 +105,7 @@ ncurses:
   /usr/share/terminfo/l
   /usr/share/terminfo/v/vt10[02]
 
-libz:
+zlib:
   /lib*/libz.so*
 
 if arch eq 'ia32' || arch eq 'x86_64'
