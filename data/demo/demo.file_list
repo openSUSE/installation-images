@@ -117,11 +117,12 @@ pam:
 
 sysvinit:
   /sbin/{checkproc,halt,init,killall5,killproc,mingetty,pidof,poweroff}
-  /sbin/{reboot,shutdown,startproc,telinit}
+  /sbin/{reboot,shutdown,startproc,telinit,sulogin}
   /etc/powerd.conf
 
 ext2fs:
   /sbin/{e2fsck,e2label,fsck,fsck.ext2}
+  /lib
 
 bdflush:
   /sbin/update
@@ -139,6 +140,16 @@ textutil:
 cron:
   /var
 
+<kernel_rpm>:
+  /lib/modules/<kernel_ver>/misc/serial.o
+  /lib/modules/<kernel_ver>/misc/lp.o
+  /lib/modules/<kernel_ver>/misc/parport.o
+  /lib/modules/<kernel_ver>/misc/parport_pc.o
+  /lib/modules/<kernel_ver>/misc/parport_probe.o
+  /lib/modules/<kernel_ver>/scsi/imm.o
+  /lib/modules/<kernel_ver>/scsi/ppa.o
+  /lib/modules/<kernel_ver>/misc/agpgart.o
+
 x /etc/{HOSTNAME,fstab,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
 t /etc/{printcap,mtab,sendmail.cf}
 t /var/run/utmp
@@ -149,8 +160,9 @@ t /var/log/news/news.{crit,err,notice}
 c 0755 9 13 /var/log/news
 c 0640 0 13 /var/log/news/news.{crit,err,notice}
 
-d /var/log/httpd
 d /var/state/dhcp
+d /var/log/httpd
+d /var/state/httpd
 d /var/lock/subsys/httpd
 
 d /var/adm/{live,mount}
@@ -166,6 +178,7 @@ d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled,xfine/tmp}
 d /opt/kde/share/config
 d /sbin/conf.d
 d /etc/{pcmcia,httpd,isdn,vbox}
+d /var/lib/xkb
 
 x /sbin/{live-setup,mk_links} /sbin
 ifenv demo eval

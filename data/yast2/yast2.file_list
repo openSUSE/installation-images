@@ -336,8 +336,10 @@ xmach64:
   .
 endif
 
+ifnarch sparc sparc64
 xfbdev:
   .
+endif
 
 # old XF86 3.3
 ifarch ix86 alpha

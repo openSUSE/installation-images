@@ -239,7 +239,7 @@ sub AddFiles
       SUSystem "mknod $dir/$3 b $1 $2" and
         die "$Script: failto to make block dev $3 ($1, $2)";
     }
-    elsif(/^c\s+(\d+)\s+(\d+)\s+(\S+)$/) {
+    elsif(/^C\s+(\d+)\s+(\d+)\s+(\S+)$/) {
       SUSystem "mknod $dir/$3 c $1 $2" and
         die "$Script: failto to make char dev $3 ($1, $2)";
     }

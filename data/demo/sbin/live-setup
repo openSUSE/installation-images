@@ -6,7 +6,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/S.u.S.E./bin
 cd /
 
 preserve=`echo /sbin/{init,live-setup} /bin/bash\
-  /lib/lib{c.so.6,dl.so.2,ncurses.so.5.0,history.so.4.0,readline.so.4.0}\
+  /lib/lib{c.so.6,dl.so.2,ncurses.so.5.0,history.so.4.1,readline.so.4.1}\
   /lib/ld-2.1.3.so\
   /etc/{.SuSEfiles,mtab} /tmp`
 
@@ -17,11 +17,20 @@ nodisk=
 
 mount /S.u.S.E.
 
+rm -rf /lib/modules
+
 ln -snf /S.u.S.E./var/lib/rpm /var/lib
+
+rm -f /var/X11R6/lib ; mkdir /var/X11R6/lib
 
 /sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter\
   opt opt/kde opt/kde/share var/X11R6/xfine\
-  sbin/init.d sbin/conf.d etc/pcmcia etc/httpd
+  sbin/init.d sbin/conf.d etc/pcmcia etc/httpd\
+  var/X11R6/lib
+
+rm -f usr           ; mkdir usr           ; /sbin/mk_links usr
+rm -f usr/X11R6     ; mkdir usr/X11R6     ; /sbin/mk_links usr/X11R6
+rm -f usr/X11R6/bin ; mkdir usr/X11R6/bin ; /sbin/mk_links usr/X11R6/bin
 
 if [ -d etc/X11 -a ! -L etc/X11 ] ; then
   /sbin/mk_links etc/X11
@@ -52,6 +61,13 @@ cp -af /S.u.S.E./etc/isdn/* /etc/isdn
 cp -af /S.u.S.E./etc/vbox/* /etc/vbox
 cp -af /S.u.S.E./etc/rc.config.d/* /etc/rc.config.d
 rm -f /etc/{ppp,isdn,vbox,rc.config.d}/TRANS.TBL
+cp -af /S.u.S.E./var/X11R6/lib/sax /var/X11R6/lib
+rm -f /var/X11R6/lib/xfine ; mkdir /var/X11R6/lib/xfine
+cp -af /S.u.S.E./etc/suse-blinux.conf /etc
+cp -af /S.u.S.E./var/lib/{YaST,codadmin,dhcp,jove,ldap,minicom,pcmcia,svgatext,wvdial,xdm,zope} /var/lib
+mkdir -p /var/lib/dosemu/drives
+/sbin/mk_links var/lib/dosemu var/lib/dosemu/drives
+rm -f `find /var/lib -name TRANS.TBL`
 
 rm -f /etc/conf.modules
 touch -r /lib/modules/`uname -r`/modules.dep /etc/modules.conf
@@ -64,8 +80,16 @@ rm -f /sbin/conf.d/SuSEconfig.{perl,groff}
 
 perl -pi -e 's/^(Sourcemounted:).*/$1 1/' /etc/install.inf
 
-if [ -f /etc/install.inf ]; then
-  eval `grep ': ' /etc/install.inf | sed -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /'`
+if [ -f /etc/install.inf ] ; then
+  echo
+  mount -n -t proc proc /proc
+  /usr/sbin/hwinfo --special=braille 2>>/etc/install.inf
+  umount /proc
+fi
+
+if [ -f /etc/install.inf ] ; then
+#  eval `grep ': ' /etc/install.inf | sed -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /'`
+  eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
 fi
 
 if [ "$Language" ] ; then
@@ -81,6 +105,15 @@ fi
 #if [ "$Nameserver" ] ; then
 #  echo "nameserver $Nameserver" >>/etc/resolv.conf
 #fi
+
+if [ "$Braille" ] ; then
+  sed -e "s#brlname=.*#brlname=$Braille#" -e "s#brlport=.*#brlport=$Brailledevice#" /etc/suse-blinux.conf >/tmp/suse-blinux.conf
+  mv -f /tmp/suse-blinux.conf /etc
+  /etc/rc.d/suse-blinux start
+  umount /proc 2>/dev/null
+else
+  rm -f /etc/rc.d/rc?.d/*suse-blinux
+fi
 
 part=
 touch /etc/SuSElive
@@ -101,7 +134,7 @@ if [ "$part" ]; then
   [ "$dosdrive" ] && i="$dosdrive, "
 
   echo
-  echo "Using "\""suselive.640"\"" on $part ($i$fstype, $partsize MB) to store data"
+  echo "Using "\""suselive.700"\"" on $part ($i$fstype, $partsize MB) to store data"
 
   mkdir /host || error=20
   mount $part /host || error=21
@@ -112,6 +145,8 @@ if [ "$part" ]; then
     tar -zxpf /host/$suseimg 2>/dev/null
     chattr -i $preserve
     touch -r /lib/modules/`uname -r`/modules.dep /etc/modules.conf
+    rm -rf /home/tmp ; mkdir -p /home/tmp ; chmod 1777 /home/tmp
+    rm -rf /tmp ; ln -s /home/tmp /
     updated=1
     nonewuser=1
     grep -q -s "part=$part" /etc/SuSElive || cp -a /tmp/SuSElive /etc
@@ -121,8 +156,8 @@ if [ "$part" ]; then
     fi
     rm -f /etc/.SuSErmlist
   else
-    suseimg=suselive.640
-    perl -pi -e 's/^(suseimg=).*/$1suselive.640/' /etc/SuSElive
+    suseimg=suselive.700
+    perl -pi -e 's/^(suseimg=).*/$1suselive.700/' /etc/SuSElive
   fi
 
   if [ ! "$error" ] ; then
@@ -146,7 +181,7 @@ else
   if [ ! "$nodisk" ] ; then
     echo
     echo -e "\aFound no usable partition. Your data will NOT be saved to disk."
-    sleep 4
+    sleep 10
     error=99
   fi
 fi
@@ -185,7 +220,9 @@ if [ ! "$nodisk" ] ; then
     swapon -a
     if [ "$susehome" ] ; then
       mount /home
+      rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
     fi
+    /usr/sbin/syslogd
     [ "$livetest" ] && /bin/bash
     # to be compatible with 6.4
     if [ -x /usr/lib/YaST2/bin/YaST2.start ] ; then
@@ -193,6 +230,8 @@ if [ ! "$nodisk" ] ; then
     else
       /lib/YaST2/bin/YaST2.start
     fi
+    killall syslogd
+    rm -f /var/lib/YaST2
     rm -f /mnt ; mkdir /mnt
     cmp -s /etc/fstab /tmp/fstab.save || {
       grep -v /proc /etc/fstab >>/tmp/fstab.save
@@ -205,9 +244,14 @@ if [ ! "$nodisk" ] ; then
     swapoff -a 2>/dev/null
     umount /host 2>/dev/null
     rmdir /host 2>/dev/null
-    fix_fstab $part </etc/fstab >/etc/fstab_
-    mv /etc/fstab_ /etc/fstab
+    if [ "$part" ] ; then
+      fix_fstab $part </etc/fstab >/etc/fstab_
+      mv /etc/fstab_ /etc/fstab
+    fi
     cp /proc/mounts /etc/mtab
+    if [ "$susehome" ] ; then
+      rm -rf /tmp ; ln -s /home/tmp /
+    fi
     mount $part
     [ "$livetest" ] && /bin/bash
     umount /proc
@@ -219,9 +263,19 @@ if [ ! "$nodisk" ] ; then
     rmdir /host 2>/dev/null
     if [ "$suseswap" -o "$susehome" ] ; then
       mount $part
+      if [ "$susehome" ] ; then
+        mount /home
+        rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
+        umount /home
+      fi
     fi
     [ "$livetest" ] && /bin/bash
   fi
+fi
+
+if [ "$Braille" -a -x /etc/rc.d/suse-blinux ] ; then
+  /etc/rc.d/suse-blinux stop
+  umount /proc 2>/dev/null
 fi
 
 if [ "$umount" != no ] ; then

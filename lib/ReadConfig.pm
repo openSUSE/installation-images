@@ -225,7 +225,7 @@ sub Print2File
 # initialization part
 #
 
-$ENV{'LANG'} = undef;
+delete $ENV{'LANG'};
 
 if($0 =~ /(.*?)((?<![^\/])bin\/)?([^\/]+)$/) {
   $Script = $3;

@@ -261,7 +261,7 @@ o <action> <arg1> <arg2> ...
 
   - make char device
 
-    c <major> <minor> <name>
+    C <major> <minor> <name>
 
   - add some extra files (That is, add files not from packages but from
     the y2image/data/*/ directory.)
