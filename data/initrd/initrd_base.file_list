@@ -8,9 +8,7 @@ s /usr/X11R6/lib/X11 var/X11R6/lib
 d modules
 d dev/usb
 d mounts
-if pre_release
 d root
-endif
 
 t var/run/utmp
 
@@ -112,11 +110,24 @@ if arch eq 's390' || arch eq 's390x'
     /usr/lib*/libpopt.so.0
     /usr/lib*/libpopt.so.0.0.0
   samba-client:
-    m /usr/lib*/samba/smbmount-classic /bin/smbmount
-    m /usr/lib*/samba/smbmnt-classic /bin/smbmnt
+    m /usr/lib*/samba/classic/smbmount /bin/smbmount
+    m /usr/lib*/samba/classic/smbmnt /bin/smbmnt
     # to make mount(8) -t smbfs work:
     l /bin/smbmount  /sbin/mount.smbfs
     # /lib*/libnss_wins.so?
+    /etc/samba/smb.conf
+    /usr/share/samba/codepages/codepage.850
+    /usr/share/samba/codepages/unicode_map.850
+    /usr/share/samba/codepages/unicode_map.ISO8859-1
+    /usr/share/samba/codepages/unicode_map.ISO8859-15
+
+  openldap2-client:
+    /usr/lib*/liblber.so.*
+    /usr/lib*/libldap.so.*
+
+  cyrus-sasl:
+    /usr/lib*/libsasl.so.*
+
   cups-libs:
     /usr/lib*/libcups.so.*
   installation-kernel-rdripl:
@@ -149,6 +160,11 @@ if arch eq 's390' || arch eq 's390x'
     /usr/bin/chattr
     /usr/bin/lsattr
     /usr/bin/uuidgen
+  reiserfs:
+    /sbin/reiserfsck
+    /sbin/fsck.reiserfs
+  jfsutils:
+    /sbin/fsck.jfs
   fileutils:
     /bin/chgrp
     /bin/chmod
@@ -172,6 +188,8 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/modprobe
     /sbin/ksyms
     /sbin/kallsyms
+  lukemftp:
+    /usr/bin/ftp
   net-tools:
     #/bin/dnsdomainname
     #/bin/domainname
@@ -181,6 +199,7 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/ifconfig
     #/sbin/ipmaddr
     #/sbin/iptunnel
+    /usr/sbin/traceroute
     #/sbin/mii-tool
     /sbin/route
   nfs-utils:
@@ -237,6 +256,11 @@ if arch eq 's390' || arch eq 's390x'
     /etc
     /lib*
     /sbin
+
+    # don't use cracklib
+    c 755 0 0 /etc/security
+    R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
+
   zlib:
     /lib*/libz.so*
   shadow:
@@ -245,6 +269,7 @@ if arch eq 's390' || arch eq 's390x'
     /etc/login.defs
     /etc/pam.d/login
     /etc/pam.d/passwd
+    /etc/pam.d/shadow
     /usr/sbin/groupadd
     /usr/sbin/useradd
   iputils:
@@ -348,6 +373,7 @@ if arch eq 's390' || arch eq 's390x'
   x s390/etc/inetd.conf  /etc/inetd.conf
   x s390/etc/inittab     /etc/inittab
   x s390/etc/profile     /etc/profile
+  x s390/etc/hosts       /etc/hosts
   x s390/inst_source     /inst_source
   x s390/linuxrc         /linuxrc
   x s390/linuxrc.finish  /linuxrc.finish
@@ -357,6 +383,7 @@ if arch eq 's390' || arch eq 's390x'
   x s390/sbin/nodns      /sbin/nodns
   x s390/sbin/hotplug    /sbin/hotplug
   x s390/sbin/realchroot /sbin/realchroot
+  x s390/sbin/create_interface /sbin/create_interface
 
   c 0755 0 0 /linuxrc
   c 0755 0 0 /inst_source
@@ -528,7 +555,7 @@ if with_smb
   d etc/samba
   e echo "; just to make smbmount happy" >etc/samba/smb.conf
 
-  if arch eq 'ia32' || arch eq 'x86_64'
+  if arch eq 'ia32'
 
     smbmount-diet:
       m /usr/bin/smbmount /bin/smbmount
@@ -538,7 +565,7 @@ if with_smb
     d bin lib
 
     samba-client:
-      m /usr/lib*/samba/smbmnt-classic /bin/smbmount
+      m /usr/lib*/samba/classic/smbmount /bin/smbmount
 
     glibc:
       /lib*/ld-linux*.so.2
@@ -595,8 +622,15 @@ if with_gdb
 
 endif
 
-if product
-  e echo "Product:	<product>" >>linuxrc.config
+if usbscsi
+  e echo "UseUSBSCSI:	1" >>linuxrc.config
+endif
+
+e echo "Product:	<product_name>" >>linuxrc.config
+e echo "UpdateDir:	<update_dir>" >>linuxrc.config
+
+if load_image
+  e echo "MemLoadImage:	<load_image>" >>linuxrc.config
 endif
 
 if lang

@@ -24,6 +24,7 @@ kernel/drivers/parport/
 kernel/drivers/pnp/
 kernel/drivers/scsi/
 kernel/drivers/usb/storage/
+kernel/drivers/usb/host/
 kernel/drivers/usb/hid.o
 kernel/drivers/usb/uhci.o
 kernel/drivers/usb/usb-ohci.o
