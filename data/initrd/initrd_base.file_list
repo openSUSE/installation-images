@@ -167,6 +167,12 @@ if arch eq 's390' || arch eq 's390x'
     /bin/rmdir
     /bin/sync
     /bin/touch
+    /bin/cat
+    /bin/sort
+    /usr/bin/wc
+    /usr/bin/cut
+    /usr/bin/head
+    /usr/bin/tail
   modutils:
     /sbin/insmod
     /sbin/rmmod
@@ -273,13 +279,6 @@ if arch eq 's390' || arch eq 's390x'
     /lib*
   tcpd:
     /usr/sbin/tcpd
-  textutils:
-    /bin/cat
-    /bin/sort
-    /usr/bin/wc
-    /usr/bin/cut
-    /usr/bin/head
-    /usr/bin/tail
   sh-utils:
     /bin/uname
     /bin/sleep
