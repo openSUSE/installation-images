@@ -1,9 +1,9 @@
   
-  >>> >>> >>> SuSE Linux Enterprise Server 8 for S/390 and zSeries <<< <<< <<<
+  >>> >>> SuSE Linux Enterprise Server 8 for S/390 and zSeries <<< <<<
 
-             Choose the device numbers you want to use for Linux 
-                !!!    BE CAREFUL WHEN SELECTING DASDs -   !!!
-                !!! YOU MAY DESTROY DATA ON SHARED DEVICES !!!
+    Check with the file README on CD1 for any preparational steps
+    before starting the installer.
 
-    2. Start installation or update with  'YaST'.
+    Then start installation with the 'YaST' command.
 
+    have a lot of fun :)
