@@ -17,8 +17,8 @@ die "usage: $Script\n" if @ARGV;
 # some config data
 
 $srcdir = "${DataPath}demo";
-$tmpdir = "${BasePath}tmp/demo";
-$image = "${ImagePath}demo";
+$tmpdir = "${BasePath}tmp/liveeval";
+$image = "${ImagePath}liveeval";
 # $tmpinitrd = "${BasePath}tmp/initrd";
 
 # leave that much space

@@ -209,12 +209,12 @@ function add_livecd {
 
 
 shopt -s expand_aliases
-alias deb_stop='[ "$debug" ] && echo $LINENO && ( unset LANG ; PS1="\w>" /bin/bash ) ; [ "$debug" -a -f /rc ] && . /rc ; [ "$debug" ] && rm -f /rc'
+alias deb_stop='[ "$debug" ] && echo -e "\n$LINENO" && ( unset LANG ; PS1="\w>" /bin/bash ) ; [ "$debug" -a -f /rc ] && . /rc ; [ "$debug" ] && rm -f /rc'
 
-preserve=
-for i in /sbin/live-setup /bin/bash /lib/lib* /etc/{.SuSEfiles,mtab} /tmp ; do
-  [ -e "$i" ] && preserve="$preserve $i"
-done
+#preserve=
+#for i in /sbin/live-setup /bin/bash /lib/lib* /etc/{.SuSEfiles,mtab} /tmp ; do
+#  [ -e "$i" ] && preserve="$preserve $i"
+#done
 
 if [ "$1" = "--link-livecd" ] ; then
   mv $0 /sbin/live-setup
@@ -239,7 +239,9 @@ rm -f /lang
 TEXTDOMAIN=livecd
 export TEXTDOMAIN Language LANG LANGUAGE
 
-echo -en "\033c"
+[ -f /etc/liveeval.conf ] && . /etc/liveeval.conf
+
+[ $0 = /sbin/init ] && echo -en "\033c"
 
 braille_running=
 
@@ -258,415 +260,443 @@ x=",$live,"
 [ "$x" != "${x/,clean,}" ] && clean=1 new=1
 [ "$x" != "${x/,stop,}" ] && stop=1
 [ "$x" != "${x/,yast,}" ] && yaststop=1 startshell=1
-[ "$x" != "${x/,xxx,}" ] && xxx=1
+[ "$x" != "${x/,xxx,}" ] && xxx=1 startshell=1
+
+swapfile=
+swappart=
+partition=
+[ "$l_nodisk" ] && nodisk=1
+[ "$l_new" ] && new=1
+[ "$l_swapfile" ] && swapfile="suselive.swp"
+[ "$l_swappart" ] && swappart=/dev/$l_swappart
+[ "$l_partition" ] && partition=/dev/$l_partition
+livehome=suselive.usr
+swapsize=100
+homesize=100
 
 if [ "$debug" ] ; then
- echo -e "\nnodisk=$nodisk, debug=$debug, shell=$startshell, new=$new, clean=$clean, stop=$stop"
+ echo -e "\ndebug=$debug, yast=$yaststop, shell=$startshell, new=$new, clean=$clean, stop=$stop"
+ echo "nodisk=$nodisk, liveconfig=$liveconfig, swapfile=$swapfile, swappart=$swappart, partition=$partition"
 fi
 
 deb_shell=
-[ "$startshell" ] && deb_shell=`/sbin/startshell /dev/tty6`
+[ $0 != /sbin/init -a "$startshell" ] && deb_shell=`/sbin/startshell /dev/tty6`
 
 deb_stop
 
-mount -n -oremount,rw /
-mount -n -t proc proc /proc
-[ -x /sbin/portmap ] && /sbin/portmap
-[ -f /lib/nls_iso8859-1.o ] && insmod /lib/nls_iso8859-1.o
+if [ $0 = /sbin/init ] ; then
+  # first run
 
-mount /S.u.S.E.
-
-rmdir /initrd 2>/dev/null
-[ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
-
-# move us out of the way...
-mv $0 /sbin/live-setup
-
-if [ -f /S.u.S.E./boot/susee ] ; then
-  suseloop=boot/susee
-  sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
-  mv /tmp/fstab /etc/fstab
-  mkdir /.SuSE
-  umount /S.u.S.E.
-  mount /.SuSE
-
-  # ****  WARNING: there is currently no 'ln' available at this point!  ****
-
-  [ -e /dev/loopc0 ] || ln -snf /dev/loop0 /dev/loopc0
-  if [ -f /lib/loopc.o ] ; then
-    insmod /lib/loopc.o
-    echo "/.SuSE/$suseloop /S.u.S.E. iso9660 defaults,ro,loop=/dev/loopc0 0 0" >>/etc/fstab
-  else
-    echo "/.SuSE/$suseloop /S.u.S.E. ext2 defaults,ro,loop=/dev/loopc0 0 0" >>/etc/fstab
-  fi
-  mount /S.u.S.E.
-  fstype=`grep '/\.SuSE' /etc/mtab | head -1 | cut -d \  -f 3`
-  if [ "$fstype" ] ; then
-    sed -e "s/\.SuSE auto/.SuSE $fstype/" \
-        -e "s/\.SuSE iso9660/.SuSE $fstype/" /etc/fstab >/tmp/fstab
-    mv /tmp/fstab /etc/fstab
-  fi
-  sed -e '/# mount Live CD/ a \' -e '	mount -v /.SuSE' /etc/init.d/boot.localfs >/tmp/boot
-  mv /tmp/boot /etc/init.d/boot.localfs
-  chmod 744 /etc/init.d/boot.localfs
-
-  sed -e '/^  # mount Live CD/ a \' -e '  [ ! -f /.SuSE/'"$suseloop"' ] && mount -n /.SuSE' \
-      -e '/^# umount Live CD/ i \' -e 'losetup -d /dev/loopc0\' -e 'umount -n /.SuSE' \
-      /sbin/live-shutdown >/tmp/live-shutdown
-  mv /tmp/live-shutdown /sbin/live-shutdown
-  chmod +x /sbin/live-shutdown
-fi
-
-umount /proc
-
-gettext -n "Integrating SuSE Linux 8.2 LiveEval CD"
-
-deb_stop
-
-id1=
-id2=
-[ -f /S.u.S.E./etc/liveeval-id ] && id1=`cat /S.u.S.E./etc/liveeval-id`
-[ -f /etc/liveeval-id ] && id2=`cat /etc/liveeval-id`
-
-if [ "$id2" = "" -o "$id2" != "$id1" ] ; then
-  add_livecd
-else
-  add_to_root sbin/init
-fi
-rm -f /etc/liveeval-id
-
-deb_stop
-
-mods=/lib/modules/`uname -r`
-[ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
-
-[ -f /etc/httpd/httpd.conf ] && perl -pi -e 's/-(?=FollowSymLinks)//g' /etc/httpd/httpd.conf
-
-perl -pi -e 's/^(SUSEWM_UPDATE=).*/$1\"no\"/' /etc/sysconfig/windowmanager
-rm -f /sbin/conf.d/SuSEconfig.{perl,groff,alsa}
-
-if [ -f /etc/install.inf ] ; then
-  perl -pi -e 's/^(Sourcemounted:).*/$1 1/' /etc/install.inf
-  eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
-  Language=$Locale
-fi
-
-if [ "$Language" ] ; then
-  perl -pi -e 'if(/unset LANG/) { $_ = "    export LANG=\"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/profile
-  perl -pi -e 'if(/unsetenv LANG/) { $_ = "    setenv LANG \"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/csh.cshrc
-fi
-
-if [ "$Keytable" ] ; then
-  perl -pi -e 's/^(KEYTABLE=).*/$1\"'"$Keytable"'\"/' /etc/sysconfig/keyboard
-fi
-
-part=
-touch /etc/SuSElive
-if [ "$Disks" -a ! "$nodisk" ]; then
+  mount -n -oremount,rw /
   mount -n -t proc proc /proc
-  cat /proc/mounts >/etc/mtab
-  /sbin/find_config $Disks >/etc/SuSElive
+  # [ -x /sbin/portmap ] && /sbin/portmap
+  killall portmap
+  [ -f /lib/nls_iso8859-1.o ] && insmod /lib/nls_iso8859-1.o
+
+  mount /S.u.S.E.
+
+  rmdir /initrd 2>/dev/null
+  [ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
+
+  # move us out of the way...
+  mv $0 /sbin/live-setup
+
+  if [ -f /S.u.S.E./boot/susee ] ; then
+    suseloop=boot/susee
+    sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
+    mv /tmp/fstab /etc/fstab
+    mkdir /.SuSE
+    umount /S.u.S.E.
+    mount /.SuSE
+
+    # ****  WARNING: there is currently no 'ln' available at this point!  ****
+
+    [ -e /dev/loopc0 ] || ln -snf /dev/loop0 /dev/loopc0
+    if [ -f /lib/loopc.o ] ; then
+      insmod /lib/loopc.o
+      echo "/.SuSE/$suseloop /S.u.S.E. iso9660 defaults,ro,loop=/dev/loopc0 0 0" >>/etc/fstab
+    else
+      echo "/.SuSE/$suseloop /S.u.S.E. ext2 defaults,ro,loop=/dev/loopc0 0 0" >>/etc/fstab
+    fi
+    mount /S.u.S.E.
+    fstype=`grep '/\.SuSE' /etc/mtab | head -1 | cut -d \  -f 3`
+    if [ "$fstype" ] ; then
+      sed -e "s/\.SuSE auto/.SuSE $fstype/" \
+          -e "s/\.SuSE iso9660/.SuSE $fstype/" /etc/fstab >/tmp/fstab
+      mv /tmp/fstab /etc/fstab
+    fi
+    sed -e '/# mount Live CD/ a \' -e '	mount -v /.SuSE' /etc/init.d/boot.localfs >/tmp/boot
+    mv /tmp/boot /etc/init.d/boot.localfs
+    chmod 744 /etc/init.d/boot.localfs
+
+    sed -e '/^  # mount Live CD/ a \' -e '  [ ! -f /.SuSE/'"$suseloop"' ] && mount -n /.SuSE' \
+        -e '/^# umount Live CD/ i \' -e 'losetup -d /dev/loopc0\' -e 'umount -n /.SuSE' \
+        /sbin/live-shutdown >/tmp/live-shutdown
+    mv /tmp/live-shutdown /sbin/live-shutdown
+    chmod +x /sbin/live-shutdown
+  fi
+
   umount /proc
-  . /etc/SuSElive
-fi
 
-deb_stop
+  gettext -n "Integrating SuSE Linux 8.2 LiveEval CD"
 
-newhome=
-nonewuser=
-error=
-udated=
-if [ "$part" ]; then
-  i=
-  [ "$dosdrive" ] && i="$dosdrive, "
+  deb_stop
+
+  id1=
+  id2=
+  [ -f /S.u.S.E./etc/liveeval-id ] && id1=`cat /S.u.S.E./etc/liveeval-id`
+  [ -f /etc/liveeval-id ] && id2=`cat /etc/liveeval-id`
+
+  if [ "$id2" = "" -o "$id2" != "$id1" ] ; then
+    add_livecd
+  else
+    add_to_root sbin/init
+  fi
+  rm -f /etc/liveeval-id
 
   echo
-  printf "`gettext 'Using "suselive.820" on %s (%s, %s MB) to store data'`" "$part" "$i$fstype" "$partsize"
-  echo
 
-  mkdir /host || error=20
-  mount $part /host || error=21
-  if [ "$error" = "" -a "$suseimg" -a -f /host/$suseimg -a "$new" != 1 ] ; then
+  deb_stop
+
+  mods=/lib/modules/`uname -r`
+  [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
+
+  [ -f /etc/httpd/httpd.conf ] && perl -pi -e 's/-(?=FollowSymLinks)//g' /etc/httpd/httpd.conf
+
+  perl -pi -e 's/^(SUSEWM_UPDATE=).*/$1\"no\"/' /etc/sysconfig/windowmanager
+  rm -f /sbin/conf.d/SuSEconfig.{perl,groff,alsa}
+
+  if [ -f /etc/install.inf ] ; then
+    perl -pi -e 's/^(Sourcemounted:).*/$1 1/' /etc/install.inf
+    eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
+    Language=$Locale
+  fi
+
+  if [ "$Language" ] ; then
+    perl -pi -e 'if(/unset LANG/) { $_ = "    export LANG=\"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/profile
+    perl -pi -e 'if(/unsetenv LANG/) { $_ = "    setenv LANG \"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/csh.cshrc
+  fi
+
+  if [ "$Keytable" ] ; then
+    perl -pi -e 's/^(KEYTABLE=).*/$1\"'"$Keytable"'\"/' /etc/sysconfig/keyboard
+  fi
+
+  deb_stop
+
+  mkdir /host /newroot
+
+  mount -n -t shm -onr_inodes=20480 shm /newroot
+
+  error=
+  if [ "$new" ] ; then
+    tar -lcf - . | tar -C /newroot -xpf -
+  else
     gettext -s "Updating filesystem"
-    cp -a /etc/SuSElive /tmp
-    chattr +i $preserve
-    rm -rf /usr/X11R6
-    rm -rf /etc/* 2>/dev/null
-    tar -zxpf /host/$suseimg 2>/dev/null
-    chattr -i $preserve
-    [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
+    mount -n $partition /host || error=21
+    tar -C /newroot -zxpf /host/$liveconfig
+    umount -n /host
+    for i in /etc/liveeval.conf /sbin/live-setup ; do
+      rm -f /newroot$i
+      cp $i /newroot$i
+    done
+  fi
+
+  cd /newroot
+  mkdir -p oldroot
+  pivot_root . oldroot
+
+  umount -n /oldroot/S.u.S.E.
+  [ -d /oldroot/.SuSE ] && umount -n /oldroot/.SuSE
+
+  # killall portmap 2>/dev/null
+   
+  deb_stop
+
+  exec /sbin/live-setup
+
+  deb_stop
+
+  exit
+
+else
+
+  # second run
+
+  mount /proc
+  mount /S.u.S.E.
+  [ -d /.SuSE ] && mount /oldroot/.SuSE
+
+  [ -d /oldroot ] && umount /oldroot 2>/dev/null && rmdir /oldroot 2>/dev/null
+  rmdir /newroot 2>/dev/null
+  freeramdisk /dev/ram2
+
+  mods=/lib/modules/`uname -r`
+  [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
+
+  if [ ! "$nodisk" ] ; then
     rm -rf /home/tmp ; mkdir -p /home/tmp ; chmod 1777 /home/tmp
     rm -rf /tmp ; ln -s /home/tmp /
-    updated=1
-    nonewuser=1
-    grep -q -s "part=$part" /etc/SuSElive || cp -a /tmp/SuSElive /etc
-    rm -f /tmp/SuSElive
-    if [ -f /etc/.SuSErmlist ] ; then
-      rm -rf `cat /etc/.SuSErmlist`
-    fi
-    rm -f /etc/.SuSErmlist
-  else
-    suseimg=suselive.820
-    perl -pi -e 's/^(suseimg=).*/$1suselive.820/' /etc/SuSElive
-    if [ "$clean" ] ; then
-      rm -f "/host/$suseswap" "/host/$susehome" 2>/dev/null
-    fi
-  fi
-
-  if [ ! "$error" ] ; then
-    [ ! "$suseswap" ] && suseswap=suselive.swp
-    [ ! "$susehome" ] && susehome=suselive.usr
-    if [ "$swapsize" -a ! -f "/host/$suseswap" ] ; then
-      printf "`gettext 'Creating swap file "suselive.swp" (%s MB)'`" "$swapsize"
-      echo
-      dd if=/dev/zero of="/host/$suseswap" bs=1M count=$swapsize 2>/dev/null
-      perl -pi -e 's/^(suseswap=).*/$1suselive.swp/' /etc/SuSElive
-    fi
-    if [ "$homesize" -a ! -f "/host/$susehome" ] ; then
-      printf "`gettext 'Creating user data file "suselive.usr" (%s MB)'`" "$homesize"
-      echo
-      dd if=/dev/zero of="/host/$susehome" bs=1M count=$homesize 2>/dev/null
-      mke2fs -q -F -b 1024 -m 0 "/host/$susehome" 2>/dev/null
-      tune2fs -i 0 "/host/$susehome" 2>/dev/null >/dev/null
-      perl -pi -e 's/^(susehome=).*/$1suselive.usr/' /etc/SuSElive
-      newhome=1
-    fi
-  fi
-else
-  if [ ! "$nodisk" ] ; then
-    echo
-    echo -en "\a"
-    gettext -s -e "Found no usable partition. Your data will NOT be saved to disk."
-    sleep 10
-    error=99
-  fi
-fi
-
-if [ ! "$nodisk" ] ; then
-  if [ "$error" ] ; then
-    perl -pi -e 's/^(suseimg=).*/$1/; s/^(suseswap=).*/$1/; s/^(susehome=).*/$1/' /etc/SuSElive
-  fi
-  . /etc/SuSElive
-fi
-
-if [ ! "$updated" ] ; then
-  if [ "$suseswap" ] ; then
-    gettext -s "Activating swap space"
-    grep -q -s "$suseswap" /etc/fstab || {
-      echo "/host/$suseswap swap swap defaults 0 0" >>/etc/fstab
-    }
-  fi
-
-  if [ "$susehome" ] ; then
-    gettext -s "Activating /home"
-    grep -q -s "$susehome" /etc/fstab || {
-      echo "/host/$susehome /home ext2 defaults,loop=/dev/loop1 0 0" >>/etc/fstab
-    }
   fi
 fi
 
 deb_stop
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+if [ ! "$new" ] ; then
+
+  mount $partition
+  mount /home
+  rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
+  umount /home
+
+  umount /proc
+
+  deb_stop
+
+  rm -f /sbin/live-setup ; exec /sbin/init
+fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 if [ ! "$nodisk" ] ; then
-  if [ ! "$updated" ] ; then
-    mount /proc
-    [ -d /proc/bus/usb ] && mount -t usbdevfs usb /proc/bus/usb
-    rmdir /mnt ; ln -s / /mnt
-    cp /etc/fstab /tmp/fstab.save
-    if [ "$suseswap" ] ; then
-      mkswap /host/$suseswap >/dev/null
+
+  mkdir -p /host
+  mount $partition /host
+
+  if [ "$clean" ] ; then
+    rm -f /host/$swapfile /host/$livehome 2>/dev/null
+  fi
+
+  if [ "$swapfile" ] ; then
+    if [ ! -f "/host/$swapfile" ] ; then
+      printf "`gettext 'Creating swap file "suselive.swp" (%s MB)'`" $swapsize
+      echo
+      dd if=/dev/zero of=/host/$swapfile bs=1M count=$swapsize 2>/dev/null
     fi
-    swapon -a
-    if [ "$susehome" ] ; then
-      mount /home
-      rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
+    mkswap /host/$swapfile >/dev/null
+  fi
 
-      if [ -d /usr/X11R6/lib/X11/fonts/truetype ] ; then
-        # make truetype dir
-        mkdir /home/truetype
-        cp -a /usr/X11R6/lib/X11/fonts/truetype/* /home/truetype
-        link_dir usr/X11R6/lib/X11 usr/X11R6/lib/X11/fonts
-        ln -snf /home/truetype  /usr/X11R6/lib/X11/fonts/truetype
-      fi
-    fi
-    /sbin/syslogd
+  if [ ! -f "/host/$livehome" ] ; then
+    printf "`gettext 'Creating user data file "suselive.usr" (%s MB)'`" $homesize
+    echo
+    dd if=/dev/zero of=/host/$livehome bs=1M count=$homesize 2>/dev/null
+    mke2fs -q -F -b 1024 -m 0 /host/$livehome 2>/dev/null
+    tune2fs -i 0 /host/$livehome 2>/dev/null >/dev/null
+  fi
 
-    # run it again...
-    [ -x /sbin/pcmcia.postin ] && /sbin/pcmcia.postin >/dev/null 2>&1
-    rm -f /sbin/pcmcia.postin
+  if [ "$swapfile" ] ; then
+    gettext -s "Activating swap space"
+    echo "/host/$swapfile swap swap defaults 0 0" >>/etc/fstab
+  fi
 
-    [ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
+  if [ "$swappart" ] ; then
+    gettext -s "Activating swap space"
+    echo "$swappart swap swap defaults 0 0" >>/etc/fstab
+  fi
 
-    # yast likes to call it, so take it away
-    mv /sbin/depmod /sbin/depmod.tmp
-    ln -snf /bin/true /sbin/depmod
+  if [ "$livehome" ] ; then
+    gettext -s "Activating /home"
+    echo "/host/$livehome /home ext2 defaults,loop=/dev/loop1 0 0" >>/etc/fstab
+  fi
 
-    [ "$yaststop" ] && debug=1
+else
 
-    deb_stop
+  if [ "$swappart" ] ; then
+    gettext -s "Activating swap space"
+    echo "$swappart swap swap defaults 0 0" >>/etc/fstab
+  fi
 
-    LANGUAGE=$Language
-    [ "$LANGUAGE" ] || LANGUAGE=en_US
+fi
 
-    /usr/lib/YaST2/bin/YaST2.start
+deb_stop
 
-    [ "$?" = 0 ] || yasterror=1
+[ -d /proc/bus/usb ] && mount -t usbdevfs usb /proc/bus/usb
+rmdir /mnt ; ln -s / /mnt
+cp /etc/fstab /tmp/fstab.save
+swapon -a
 
-    rm -f /sbin/depmod
-    mv /sbin/depmod.tmp /sbin/depmod
+if [ ! "$nodisk" ] ; then
+  mount /home
+  rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
 
-    # unset LANG
-
-    if [ ! \( "$debug" -o "$xxx" -o "$stop" \) ] ; then
-      echo -en \\033c
-      echo -en \\033c >/dev/tty2
-    fi
-
-    if [ -f /etc/X11/XF86Config ] ; then
-      perl -pi -e 's/((100|75)dpi)\"/$1:unscaled\"/' /etc/X11/XF86Config
-    fi
-
-    kill_and_wait cardmgr
-    kill_and_wait dhcpd
-    kill_and_wait lpd
-    kill_and_wait ipppd
-    kill_and_wait pppd
-    kill_and_wait usbmgr
-    kill_and_wait xidle
-
-    [ -d /proc/asound ] && /etc/init.d/alsasound stop
-
-    killall syslogd
-
-    umount /var/adm/mount 2>/dev/null
-
-    [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
-
-    hwscan --storage
-    perl -pi -e 's/^Configured=new/Configured=no/' /var/lib/hardware/unique-keys/*
-
-    if [ -f /etc/install.inf ] ; then
-      eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
-    fi
-
-    if [ -f /etc/yast.inf ] ; then
-      eval $(grep 'Aborted.*: ' /etc/yast.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
-    fi
-
-    [ "$yasterror" ] && Aborted=1
-
-    [ "$xxx" ] && debug=1
-    deb_stop
-    # rm -rf /var/lib/YaST2
-    rm -f /var/lib/YaST2/runme_at_boot
-    rm -f /mnt ; mkdir /mnt
-    cmp -s /etc/fstab /tmp/fstab.save || {
-      perl -ne 'print unless /^\s*proc\s+\/proc\s+proc/' /etc/fstab >>/tmp/fstab.save
-      mv /tmp/fstab.save /etc/fstab
-    }
-
-    # set default runlevel, yast2 doesn't do this properly
-    rl=3
-    [ -x /var/X11R6/bin/X ] && rl=5
-    perl -pi -e 's/^(id:)(\d+)(:initdefault:)/${1}'$rl'$3/' /etc/inittab
-
-    # create all mountpoints mentioned in fstab (work around yast2 bug)
-    mkdir -p `perl -nle '$_ = (split)[1]; print if m#^/.#' /etc/fstab`
-
-    if [ "$susehome" ] ; then
-      umount /home
-      losetup -d /dev/loop1
-    fi
-    swapoff -a 2>/dev/null
-    umount /host 2>/dev/null
-    rmdir /host 2>/dev/null
-    if [ "$part" -a ! "$Aborted" ] ; then
-      fix_fstab $part </etc/fstab >/etc/fstab_
-      mv /etc/fstab_ /etc/fstab
-      sed -e '/^# mount config partition/ a \' -e "mount $part" /etc/init.d/boot >/etc/tmp_boot
-      mv /etc/tmp_boot /etc/init.d/boot
-      chmod 744 /etc/init.d/boot
-    fi
-    cp /proc/mounts /etc/mtab
-    if [ "$susehome" ] ; then
-      rm -rf /tmp ; ln -s /home/tmp /
-    fi
-
-    if [ "$part" ] ; then
-
-      mount -n $part /mnt || error=21
-
-      if [ "$Aborted" ] ; then
-
-        [ -f /mnt/$susehome ] && rm -f /mnt/$susehome
-        [ -f /mnt/$suseswap ] && rm -f /mnt/$suseswap
-
-      else
-
-        # write initial config file
-        i=
-        [ "$dosdrive" ] && i="$dosdrive, "
-        echo
-        printf "`gettext 'Writing info to %s on %s (%s, %s MB)'`" "$suseimg" "$part" "$i$fstype" "$partsize"
-        echo
-
-        tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
-
-        if [ ! -f /mnt/suselive.txt ] ; then
-          printf "`gettext '%s contains data for your SuSE Linux 8.2 LiveEval CD.'`" "$suseimg" >/mnt/suselive.txt
-          echo -e "\n\r" >>/mnt/suselive.txt
-          gettext -s "suselive.swp (if it exists) is the swap file." >>/mnt/suselive.txt
-          echo -e "\r" >>/mnt/suselive.txt
-          gettext -s "suselive.usr (if it exists) is an ext2 file system with the user's home dir." >>/mnt/suselive.txt
-          echo -e "\r" >>/mnt/suselive.txt
-        fi
-
-        if [ "$error" ] ; then
-          printf "`gettext 'An error occurred while writing %s.'`" "$suseimg"
-          echo
-          gettext -s "Sorry, your LiveEval CD changes might be lost. :-("
-        fi
-
-      fi
-
-      umount -n /mnt
-
-      if [ "$Aborted" ] ; then
-
-        gettext -e -s "SuSE Linux 8.2 LiveEval has not been configured.\nPress enter to reboot."
-
-        read
-
-        deb_stop
-
-        reboot -f
-
-      fi
-
-      mount $part
-    fi
-
-    deb_stop
-
-    umount /proc/bus/usb
-    umount /proc
-  else
-    if [ "$suseswap" ] ; then
-      mkswap /host/$suseswap >/dev/null
-    fi
-    umount /host 2>/dev/null
-    rmdir /host 2>/dev/null
-    if [ "$suseswap" -o "$susehome" ] ; then
-      mount $part
-      if [ "$susehome" ] ; then
-        mount /home
-        rm -rf /home/tmp ; mkdir /home/tmp ; chmod 1777 /home/tmp
-        umount /home
-      fi
-    fi
-    deb_stop
+  if [ -d /usr/X11R6/lib/X11/fonts/truetype ] ; then
+    # make truetype dir
+    mkdir /home/truetype
+    cp -a /usr/X11R6/lib/X11/fonts/truetype/* /home/truetype
+    link_dir usr/X11R6/lib/X11 usr/X11R6/lib/X11/fonts
+    ln -snf /home/truetype  /usr/X11R6/lib/X11/fonts/truetype
   fi
 fi
+/sbin/syslogd
+
+# run it again...
+[ -x /sbin/pcmcia.postin ] && /sbin/pcmcia.postin >/dev/null 2>&1
+rm -f /sbin/pcmcia.postin
+
+# yast likes to call it, so take it away
+mv /sbin/depmod /sbin/depmod.tmp
+ln -snf /bin/true /sbin/depmod
+
+[ "$yaststop" ] && debug=1
+
+deb_stop
+
+LANGUAGE=$Language
+[ "$LANGUAGE" ] || LANGUAGE=en_US
+
+/usr/lib/YaST2/bin/YaST2.start
+
+[ "$?" = 0 ] || yasterror=1
+
+rm -f /sbin/depmod
+mv /sbin/depmod.tmp /sbin/depmod
+
+# unset LANG
+
+if [ ! \( "$debug" -o "$xxx" -o "$stop" \) ] ; then
+  echo -en \\033c
+  echo -en \\033c >/dev/tty2
+fi
+
+if [ -f /etc/X11/XF86Config ] ; then
+  perl -pi -e 's/((100|75)dpi)\"/$1:unscaled\"/' /etc/X11/XF86Config
+fi
+
+kill_and_wait cardmgr
+kill_and_wait dhcpd
+kill_and_wait lpd
+kill_and_wait ipppd
+kill_and_wait pppd
+kill_and_wait usbmgr
+kill_and_wait xidle
+
+[ -d /proc/asound ] && /etc/init.d/alsasound stop
+
+killall syslogd
+
+umount /var/adm/mount 2>/dev/null
+
+[ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
+
+hwscan --storage
+hwscan --pci
+perl -pi -e 's/^Configured=new/Configured=no/' /var/lib/hardware/unique-keys/*
+
+#if [ -f /etc/install.inf ] ; then
+#  eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
+#fi
+
+if [ -f /etc/yast.inf ] ; then
+  eval $(grep 'Aborted.*: ' /etc/yast.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
+fi
+
+rm -f /etc/install.inf /etc/yast.inf
+
+[ "$yasterror" ] && Aborted=1
+
+[ "$xxx" ] && debug=1
+
+deb_stop
+
+# rm -rf /var/lib/YaST2
+rm -f /var/lib/YaST2/runme_at_boot
+rm -f /mnt ; mkdir /mnt
+cat /etc/fstab >>/tmp/fstab.save
+fix_fstab "$partition" </tmp/fstab.save >/etc/fstab
+
+# set default runlevel, yast2 doesn't do this properly
+rl=3
+[ -x /var/X11R6/bin/X ] && rl=5
+perl -pi -e 's/^(id:)(\d+)(:initdefault:)/${1}'$rl'$3/' /etc/inittab
+
+# create all mountpoints mentioned in fstab
+mkdir -p `perl -nle '$_ = (split)[1]; print if m#^/.#' /etc/fstab`
+
+if [ ! "$nodisk" ] ; then
+  umount /home
+  losetup -d /dev/loop1
+fi
+swapoff -a 2>/dev/null
+umount /host 2>/dev/null
+rmdir /host 2>/dev/null
+
+deb_stop
+
+cp /proc/mounts /etc/mtab
+umount $partition 2>/dev/null
+
+deb_stop
+
+if [ \( ! "$nodisk" \) -a \( ! "$Aborted" \) ] ; then
+  sed -e '/^# mount config partition/ a \' -e "mount $partition" /etc/init.d/boot >/etc/tmp_boot
+  mv /etc/tmp_boot /etc/init.d/boot
+  chmod 744 /etc/init.d/boot
+fi
+
+cp /proc/mounts /etc/mtab
+
+if [ ! "$nodisk" ] ; then
+
+  rm -rf /tmp ; ln -s /home/tmp /
+
+  mount -n $partition /mnt || error=21
+
+  if [ "$Aborted" ] ; then
+
+    [ -f /mnt/$livehome ] && rm -f /mnt/$livehome
+    [ -f /mnt/$swapfile ] && rm -f /mnt/$swapfile
+
+  else
+
+    # write initial config file
+    echo
+    printf "`gettext 'Writing LiveEval config'`"
+    echo
+
+    cd /
+    tar -zclf /mnt/$liveconfig . 2>/dev/null || error=1
+
+    if [ ! -f /mnt/suselive.txt ] ; then
+      printf "`gettext '%s contains data for your SuSE Linux 8.2 LiveEval CD.'`" "$suseimg" >/mnt/suselive.txt
+      echo -e "\n\r" >>/mnt/suselive.txt
+      gettext -s "suselive.swp (if it exists) is the swap file." >>/mnt/suselive.txt
+      echo -e "\r" >>/mnt/suselive.txt
+      gettext -s "suselive.usr (if it exists) is an ext2 file system with the user's home dir." >>/mnt/suselive.txt
+      echo -e "\r" >>/mnt/suselive.txt
+    fi
+
+    if [ "$error" ] ; then
+      printf "`gettext 'An error occurred while writing %s.'`" "$liveconfig"
+      echo
+      gettext -s "Sorry, your LiveEval CD changes might be lost. :-("
+    fi
+
+  fi
+
+  umount -n /mnt
+
+  if [ "$Aborted" ] ; then
+
+    gettext -e -s "SuSE Linux 8.2 LiveEval has not been configured.\nPress enter to reboot."
+
+    read
+
+    deb_stop
+
+    reboot -f
+
+  fi
+
+  mount $partition
+
+fi
+
+
+deb_stop
+
+umount /proc/bus/usb
+umount /proc
 
 if [ "$Braille" -a -x /etc/rc.d/suse-blinux ] ; then
   if [ "$braille_running" ] ; then
@@ -675,7 +705,7 @@ if [ "$Braille" -a -x /etc/rc.d/suse-blinux ] ; then
     umount /proc 2>/dev/null
   fi
 else
-  rm -f /etc/init.d/rc?.d/*suse-blinux
+  chkconfig suse-blinux off
 fi
 
 deb_stop
@@ -689,6 +719,8 @@ killall -0 susedig.sh 2>/dev/null && {
 while killall -0 susedig.sh 2>/dev/null ; do
   sleep 1
 done
+
+deb_stop
 
 # remove pcmcia modules
 rmmod `perl -ne 'print "$2 $1" if /^(pcmcia_core)\s.*\[(.*)\]/' /proc/modules` >/dev/null 2>&1
@@ -709,24 +741,22 @@ umount -n /proc
 # don't ask...
 sleep 2
 
-if [ "$umount" != no ] ; then
-  umount /S.u.S.E. 2>/dev/null || {
-    if [ "$debug" ] ; then
-      mount -n /proc
-      pstree -Gp
-      lsof
-      umount -n /proc
-    fi
-    sleep 3
-    umount /S.u.S.E.
-  }
-  if [ "$suseloop" ] ; then
-    losetup -d /dev/loopc0
-    umount /.SuSE
-  fi
+deb_stop
 
-else
-  gettext -s "/S.u.S.E not unmounted"
+umount /S.u.S.E. 2>/dev/null || {
+  if [ "$debug" ] ; then
+    mount -n /proc
+    pstree -Gp
+    lsof
+    umount -n /proc
+  fi
+  sleep 3
+  umount /S.u.S.E.
+}
+
+if [ -d /.SuSE ] ; then
+  losetup -d /dev/loopc0
+  umount /.SuSE
 fi
 
 deb_stop
@@ -737,18 +767,16 @@ fi
 [ "$COLUMNS" = 0 -o "$COLUMNS" = "" ] && COLUMNS=80
 echo -e "\015\033[${COLUMNS}C\033[10D\033[1;32mdone\033[m"
 
-[ "$debug" ] ||  rm -f /sbin/{find_config,fix_fstab}
-if [ "$nodisk" ] ; then
-  rm -f /sbin/live-shutdown /etc/.SuSEfiles
-fi
+[ "$debug" ] ||  rm -f /sbin/fix_fstab
 
-[ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
-# ok, if nothing helps, remove at least the files...
-[ -d /initrd ] && rm -rf /initrd 2>/dev/null
+
+if [ "$nodisk" ] ; then
+  rm -f /sbin/live-shutdown
+fi
 
 [ "$deb_shell" ] && kill -9 "$deb_shell"
 
-[ "$part" ] && umount $part 2>/dev/null
+[ "$partition" ] && umount $partition 2>/dev/null
 
 [ "$stop" ] && debug=1
 deb_stop
