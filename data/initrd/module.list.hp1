@@ -1,0 +1,16 @@
+;
+; network modules
+;
+e100           	Intel PRO/100 / EtherExpr. PRO/100
+e1000          	Intel PRO/1000
+bcm5700        	Broadcom BCM5700 support
+tg3            	Broadcom Tigon3 Ethernet
+
+;
+; file system modules
+;
+ext3           	Ext3
+reiserfs       	ReiserFS
+vfat           	VFAT
+cramfs         	CRAMFS
+
