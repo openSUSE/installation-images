@@ -1,3 +1,6 @@
+27/8/2001:	v1.84
+	- added 'extramod' env var to assist creating specialized booot disks
+
 22/8/2001:	v1.83
 	- re-added gconv directory
 
