@@ -78,7 +78,7 @@ modules: dirs base
 	bin/mk_mod_disk
 
 hp1disks:
-	hp1=1 usbscsi=1 fastboot=1 make bootdisk
+	hp1=1 usbscsi=1 fastboot=1 linuxrc=linuxrc_tiny make bootdisk
 	hp1=1 modules=1 make modules
 
 usbdisks:
