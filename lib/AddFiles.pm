@@ -66,7 +66,7 @@ sub AddFiles
   my ($rpms, $tdir, $tfile, $p, $r, $rc, $d, $u, $g, $files);
   my ($mod_list, @mod_list, %mod_list);
   my ($inc_file, $inc_it, $debug, $ifmsg, $ignore);
-  my ($old_warn, $ver, $i, $cache_dir);
+  my ($old_warn, $ver, $i, $cache_dir, $tmp_cache_dir, $tmp_rpm);
   my (@scripts, $s, @s, %script, $use_cache);
   my (@packs, $sl);
 
@@ -80,7 +80,10 @@ sub AddFiles
   if($use_cache) {
     $cache_dir = `pwd`;
     chomp $cache_dir;
-    $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}"
+    $tmp_cache_dir = $cache_dir;
+    $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}";
+    $tmp_cache_dir .= "/${BasePath}tmp/cache/$ENV{'suse_release'}-$ENV{'suse_arch'}";
+    system "mkdir -p $tmp_cache_dir";
   }
 
   $ignore = $debug =~ /\bignore\b/ ? 1 : 0;
@@ -114,8 +117,10 @@ sub AddFiles
     die "$Script: failed to create $dir ($!)" unless mkdir $dir, 0755;
   }
 
-  $tdir = "${TmpBase}.dir";
-  die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
+  if(!($use_cache & 4)) {
+    $tdir = "${TmpBase}.dir";
+    die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
+  }
   $tfile = "${TmpBase}.afile";
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -234,11 +239,12 @@ sub AddFiles
         if($use_cache) {
           $rc = "$cache_dir/$p.rpm";
           $r = $rc if -f $rc;
+          $tmp_rpm = "$tmp_cache_dir/$p";
         }
         $r = `echo -n $rpms/$p.rpm` unless $r;
         warn "$Script: no such package: $p.rpm" unless -f $r;
 
-        if($use_cache >= 2 && $rc && -f($r) && $rc ne $r) {
+        if(($use_cache & 2) && $rc && -f($r) && $rc ne $r) {
           if(! -d($cache_dir)) {
             SUSystem("mkdir -p $cache_dir");
           }
@@ -266,7 +272,14 @@ sub AddFiles
       else {
         $ver = "";
       }
-      $ver .= '*' if defined($rc) && $rc eq $r;
+      if($use_cache) {
+        if(-d $tmp_rpm) {
+          $ver .= '#';
+        }
+        elsif(defined($rc) && $rc eq $r) {
+          $ver .= '*';
+        }
+      }
 
       undef $sl;
 
@@ -294,13 +307,20 @@ sub AddFiles
         }
       }
 
-      SUSystem "rm -rf $tdir" and
-        die "$Script: failed to remove $tdir";
-      die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
-
-      SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet -dimu --no-absolute-filenames'" and
-        warn "$Script: failed to extract $r";
-
+      if(!($use_cache & 4)) {
+        SUSystem "rm -rf $tdir" and die "$Script: failed to remove $tdir";
+        die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
+        SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet -dimu --no-absolute-filenames'" and
+          warn "$Script: failed to extract $r";
+      }
+      else {
+        $tdir = $tmp_rpm;
+        if(!-d($tdir)) {
+          die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
+          SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet -dimu --no-absolute-filenames'" and
+            warn "$Script: failed to extract $r";
+        }
+      }
     }
     elsif(!/^[a-zA-Z]\s+/ && /^(.*)$/) {
       $files = $1;
@@ -548,7 +568,9 @@ sub AddFiles
 
   close F;
 
-  SUSystem "rm -rf $tdir";
+  if(!($use_cache & 4)) {
+    SUSystem "rm -rf $tdir";
+  }
   SUSystem "rm -f $tfile";
 
   open F, ">${dir}.rpms";

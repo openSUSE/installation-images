@@ -1,3 +1,9 @@
+11/2/2002:	v1.118
+	- kbd things have been moved to /usr/share
+	- heimdal libs have been moved, too
+	- added Xft fix again
+	- implemented better caching to speed things up
+
 5/2/2002:	v1.117
 	- updated module list
 	- redistributed modules on modules disks
