@@ -1,5 +1,6 @@
 24/6/2002:	v2.6
 	- add bin/ci_y2image_for_ppc, creates initrd on ppc
+	- add plain_initrd target
 
 20/6/2002:	v2.5
 	- cdrom support is in kernel modules now

@@ -24,6 +24,9 @@ dirs:
 initrd: dirs base
 	bin/mk_initrd
 
+plain_initrd: dirs
+	bin/mk_initrd
+
 initrd_test: initrd
 	bin/mk_initrd_test
 	@echo "now, run bin/initrd_test"
