@@ -4,6 +4,8 @@
 	- base is not available anymore, since 8.1
 	- use makedevs.floppy on ppc again, for smaller initrd size
 	- do not rely on user sshd in inst-sys, disable UsePrivilegeSeparation
+	- source bashrc when using start_shell
+	- add initviocons on ppc
 
 16/7/2002:	v2.19
 	- ihno: latest s390/s390x changes

@@ -557,6 +557,10 @@ if arch eq 'ppc'
     /usr/bin/hrmdir
     /usr/bin/humount
     /usr/bin/hvol
+
+  initviocons:
+    /bin/initviocons
+    /usr/bin/termprobes
 endif
 
 if arch eq 'ia32'

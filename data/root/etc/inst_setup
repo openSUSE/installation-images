@@ -99,7 +99,7 @@ esac
 rm -f /etc/fstab
 
 # start shell, useful on iSeries or via serial console
-grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell... (use 'exit' to proceed)" ; bash ; }
+grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell... (use 'exit' to proceed)" ; bash --init-file /root/.bash_login ; }
 
 # now, run yast
 echo "starting yast..."
@@ -113,7 +113,7 @@ elif [ "$yast" ] ; then
 fi
 
 # start shell, useful on iSeries or via serial console
-grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell... (use 'exit' to proceed)" ; bash ; }
+grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell... (use 'exit' to proceed)" ; bash --init-file /root/.bash_login ; }
 
 case "$arch" in
     s390|s390x)
