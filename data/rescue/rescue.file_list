@@ -233,7 +233,7 @@ e postin
 reiserfs:
   /sbin
 
-jfsprogs:
+jfsutils:
   /sbin
 
 rpm:
