@@ -126,7 +126,16 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
     f / mousedev.o
     f / usb-storage.o
 
+    f / linear.o
+    f / lvm-mod.o
+    f / md.o
+    f / raid0.o
+    f / raid1.o
+    f / raid5.o
+    f / xor.o
+
     f / reiserfs.o
+
     f / isa-pnp.o
     f / lp.o
     f / parport.o

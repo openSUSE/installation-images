@@ -6,6 +6,9 @@ if arch eq 'sparc' || arch eq 'sparc64'
   t modules/{NET,SCSI}
 else
   if initrd eq 'small'
+    # make linuxrc automatically ask for modules disk
+    t etc/need_modules_disk
+
     t modules/{MORE,NEEDMOD}
   else
     t modules/{MORE,NET,SCSI,OTHER}

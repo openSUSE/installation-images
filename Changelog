@@ -1,3 +1,7 @@
+6/4/2001:	v1.52
+	- added lvm mods
+	- boot floppy didn't ask for modules disk
+
 4/4/2001:	v1.51
 	- fixed rescue system
 	- yast2 reworked again

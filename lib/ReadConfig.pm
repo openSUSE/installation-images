@@ -248,6 +248,7 @@ sub KernelImg
 #
 
 delete $ENV{'LANG'};
+delete $ENV{'LANGUAGE'};
 
 if($0 =~ /(.*?)((?<![^\/])bin\/)?([^\/]+)$/) {
   $Script = $3;
