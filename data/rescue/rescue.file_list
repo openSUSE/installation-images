@@ -195,6 +195,7 @@ ncurses:
 
 net-tools:
   /{,s}bin
+  /usr/sbin
 
 netcat:
   /usr/bin
@@ -345,9 +346,6 @@ e postin
 textutils:
   /bin
   /usr/bin
-
-traceroute:
-  /usr/sbin/traceroute
 
 util-linux: postin
   /etc
