@@ -102,7 +102,7 @@ endif
 t modules/{MORE,NET,SCSI,OTHER}
 
 ifnarch sparc
-k_deflt:
+<kernel_rpm>:
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
@@ -176,6 +176,29 @@ r /modules/sdladrv.o
 r /modules/x25_asy.o
 r /modules/yam.o
 
+a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
+
+a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /modules
+
+a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
+a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
+
 else	# !2.88
 ### a /lib/modules/<kernel_ver>/block/DAC960.o /modules
 ### a /lib/modules/<kernel_ver>/block/cpqarray.o /modules
@@ -229,7 +252,6 @@ ifdef blub
 a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
 a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
 else
-pcmcia:
 a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
@@ -247,30 +269,4 @@ endif	# 2.88
 endif
 
 x etc/host.conf etc
-
-ifdef 2.88
-pcmcia:
-a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
-
-a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /modules
-
-a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
-a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
-endif
 

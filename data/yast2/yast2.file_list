@@ -2,7 +2,7 @@
 # the 'root' system
 #
 
-d bin etc lib mnt root sbin tmp usr var
+d bin dev etc lib mnt root sbin tmp usr var
 c 1777 0 0 tmp
 
 aaa_base:
@@ -72,7 +72,7 @@ util:
   /bin/{u,}mount
   /bin/dmesg
 
-k_deflt:
+<kernel_rpm>:
   /lib/modules/<kernel_ver>/misc/serial.o
   /lib/modules/<kernel_ver>/misc/lp.o
 
