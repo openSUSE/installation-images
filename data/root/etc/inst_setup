@@ -15,7 +15,7 @@ echo -en \\033c
 # this script will symlink from the initrd to all files and
 # directories missing.
 
-# a few files should be restored when installaion has completed if we
+# a few files should be restored when installation has completed if we
 # return to linuxrc.
 FILES_TO_RESTORE="/etc/ld.so.cache"
 for file in $FILES_TO_RESTORE
@@ -56,7 +56,7 @@ usbmapfile=/etc/modules.usbmap
 parportmapfile=/etc/modules.parportmap
 EOF
 
-echo "integrating kernel modules of the instalaltion system..."
+echo "integrating kernel modules of the installation system..."
 depmod -a 2>/dev/null
 
 # eventually start sshd
