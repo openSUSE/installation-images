@@ -34,6 +34,7 @@ use MakeMinixImage;
 use MakeExt2Image;
 use AddFiles;
 use Conv2Image;
+use CompressImage;
 
 die "usage: $Script\n" if @ARGV;
 
@@ -135,13 +136,7 @@ $fstype = $arch eq 'i386' && !$ENV{'nominix'} ? 'minix' : 'ext2';
 # thus we hardcode 800 additional inodes:
 $extra_inodes += 800; 
 Conv2Image $image, $tmpdir, $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
-
-# compress it
-print "compressing the image...\n";
-system "gzip -f -9 $image" and die "$Script: gzip failed";
-rename "${image}.gz", "$image";
-
-$i = -s "$image";
+$i = CompressImage $image;
 print "$Script: compressed initrd to \"$image\" ($i bytes)\n";
 
 # add boot splash

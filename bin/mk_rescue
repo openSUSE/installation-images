@@ -8,6 +8,7 @@ use ReadConfig;
 use MakeExt2Image;
 use AddFiles;
 use Conv2Image;
+use CompressImage;
 
 die "usage: $Script\n" if @ARGV;
 
@@ -20,8 +21,8 @@ $tmpdir = "${BasePath}tmp/rescue";
 $image = "${ImagePath}rescue";
 
 # leave that much space
-$extra_size = 1000;              # kbyte
-$extra_inodes = 100;
+$extra_size = 2000;              # kbyte
+$extra_inodes = 1000;
 
 # just make them large enough
 $start_size = 60000;             # kbyte
@@ -30,7 +31,8 @@ $start_inodes = 10000;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
-$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+$debug = exists($ENV{'debug'}) ? $ENV{'debug'} : "";
+$use_cramfs = exists($ENV{'use_cramfs'}) ? $ENV{'use_cramfs'} : "";
 
 # clean up
 if(-d($tmpdir)) {
@@ -60,15 +62,15 @@ else {
     die "$Script: error in shared lib config, please fix\n";
 }
 
+if($use_cramfs) {
+  Conv2Image $image, $tmpdir, 'cramfs';
+  die "$Script: $!" unless rename $image, "$image.cramfs";
+  $i = -s "$image.cramfs";
+  print "$Script: created \"$image.cramfs\" ($i bytes)\n";
+
+}
+
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
-
-# compress it
-system "gzip -f -9 $image" and
-  die "$Script: gzip failed";
-
-rename "${image}.gz", "$image";
-
-$i = -s "$image";
-
+$i = CompressImage $image;
 print "$Script: compressed rescue to \"$image\" ($i bytes)\n";
 

@@ -1,4 +1,9 @@
-12/2/2002:	v1.120
+15/2/2002:	v1.120
+	- make it possible to create an initrd where linuxrc runs in gdb
+	- create cramfs images, too
+	- renamed files on module disks ("*-mod.gz" -> "*-modules")
+	- minor fixes in module list
+	- added timezone data to inst-sys
 	- add proceed hint to start_shell kernel arg
 
 12/2/2002:	v1.119

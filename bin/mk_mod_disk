@@ -56,7 +56,7 @@ unlink "$image.txt";
 for (@modimages) {
   SUSystem "sh -c 'cat ${gen}config.$_ >>/mnt/module.config'";
   system "sh -c 'cat ${gen}list.$_ >>$image.txt'";
-  SUSystem "cp  $srcdir/${_}-mod.gz /mnt" and die "$Script: could not add ${_}-mod.gz";
+  SUSystem "cp  $srcdir/${_}-modules /mnt" and die "$Script: could not add ${_}-modules";
 }
 
 $i3 = $i2*10;

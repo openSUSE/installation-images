@@ -24,7 +24,7 @@ sub Conv2Image
 {
   my (
     $image, $dir, $fs, $x_k, $x_inodes, $c_k, $c_inodes, $blk_size, $blks,
-    $ublks, $inds, $uinds, $tmp_k, $tmp_inodes, $cnt
+    $ublks, $inds, $uinds, $tmp_k, $tmp_inodes, $cnt, $size, $name
   );
 
   ($image, $dir, $fs, $c_k, $c_inodes, $x_k, $x_inodes) = @_;
@@ -32,6 +32,20 @@ sub Conv2Image
   $cnt = 1;
 
   SUSystem "umount /mnt 2>/dev/null";
+
+  if($fs eq 'cramfs') {
+    SUSystem "rm $image";
+    system "touch $image";	# just to ensure the image gets the correct owner
+    SUSystem "sh -c 'mkcramfs $dir $image >$image.cramfs.log'" and die "$Script: mkcramfs failed";
+    $size = -s $image;
+    die "$Script: no image?" if $size == 0;
+    $name = $image;
+    $name =~ s#^.*/##;
+    die "$Script: strange image name" if $name eq "";
+    $name .= " " . ($size >> 10);
+    SUSystem "pcramfs '$name' $image" and die "$Script: pcramfs failed";
+    return;
+  }
 
   if($fs eq 'minix' && !-x('/sbin/mkfs.minix')) {
     $fs = 'ext2';

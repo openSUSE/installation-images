@@ -13,6 +13,7 @@ use MakeMinixImage;
 use MakeExt2Image;
 use AddFiles;
 use Conv2Image;
+use CompressImage;
 
 die "usage: $Script\n" if @ARGV;
 
@@ -61,9 +62,9 @@ close F;
 
 for (@modimages) {
   $ENV{'items'} = $_;
-  AddFiles "$tmpdir/${_}-mod", "${srcdir}/$fl.file_list", $srcdir, $_ or
+  AddFiles "$tmpdir/${_}-modules", "${srcdir}/$fl.file_list", $srcdir, $_ or
     die "$Script: failed to setup $_ modules image";
-  list_modules "${_}-mod";
+  list_modules "${_}-modules";
 }
 
 # strip everything
@@ -72,10 +73,9 @@ SUSystem "strip_dir $tmpdir";
 $fstype = !$ENV{'nominix'} ? 'minix' : 'ext2';
 
 for (@modimages) {
-  Conv2Image "$image/${_}-mod", "$tmpdir/${_}-mod/modules", $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
-  system "gzip -f -9 $image/${_}-mod" and die "$Script: gzip failed";
-  $i = -s "$image/${_}-mod.gz";
-  print "$Script: compressed image to \"$image/${_}-mod.gz\" ($i bytes)\n";
+  Conv2Image "$image${_}-modules", "$tmpdir/${_}-modules/modules", $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
+  $i = CompressImage "$image${_}-modules";
+  print "$Script: compressed image to \"$image${_}-modules\" ($i bytes)\n";
 }
 
 

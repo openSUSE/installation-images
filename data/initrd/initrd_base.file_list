@@ -498,3 +498,23 @@ endif
 aaa_base:
   /etc/nsswitch.conf
 
+if with_gdb
+
+  gdb:
+    m /usr/bin/gdb /bin/gdb
+
+  glibc:
+    /lib/libm.so.6*
+
+  bash:
+    /bin/bash
+    /bin/sh
+
+  linuxrc:
+    m /usr/sbin/linuxrc /bin/linuxrc
+
+    E echo run >/zap
+    E echo -e "#! /bin/sh\ngdb --command /zap /bin/linuxrc" >/linuxrc
+
+endif
+

@@ -749,6 +749,11 @@ openssl:
   /usr/lib
   /usr/share/ssl
 
+timezone:
+  /usr
+  r /usr/share/zoneinfo/posix
+  r /usr/share/zoneinfo/right
+
 if with_yast2 ne 'no'
   # make fonts.dir
   E mkfontdir usr/X11R6/lib/X11/fonts/misc

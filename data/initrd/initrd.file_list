@@ -11,6 +11,7 @@ if !(arch eq 's390' || arch eq 's390x')
 
 if extramod
   f / <extramod>.o /modules
+  f / af_packet.o /modules
 endif
 
 

@@ -8,6 +8,7 @@ use ReadConfig;
 use MakeExt2Image;
 use AddFiles;
 use Conv2Image;
+use CompressImage;
 
 die "usage: $Script\n" if @ARGV;
 
@@ -65,14 +66,6 @@ SUSystem "bin/file_list $tmpdir";
 die "failed to make file list" unless -s "$tmpdir/etc/.SuSEfiles";
 
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
-
-# compress it
-system "gzip -f -9 $image" and
-  die "$Script: gzip failed";
-
-rename "${image}.gz", "$image";
-
-$i = -s "$image";
-
+$i = CompressImage $image;
 print "$Script: compressed live cd to \"$image\" ($i bytes)\n";
 

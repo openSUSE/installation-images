@@ -52,6 +52,7 @@ $start_inodes = 5000;
 # now we really start...
 
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+$use_cramfs = exists($ENV{'use_cramfs'}) ? $ENV{'use_cramfs'} : "";
 
 # clean up
 if(-d($tmpdir)) {
@@ -97,6 +98,13 @@ if(!exists($ENV{'with_yast2'}) || $ENV{'with_yast2'} ne 'no') {
     system "yast2-deps" and
       die "$Script: error in yast2 package list, please fix\n";
   }
+}
+
+if($use_cramfs) {
+  Conv2Image $image, $tmpdir, 'cramfs';
+  die "$Script: $!" unless rename $image, "$image.cramfs";
+  $i = -s "$image.cramfs";
+  print "$Script: created \"$image.cramfs\" ($i bytes)\n";
 }
 
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
