@@ -148,7 +148,7 @@ lvm:
   /lib
   /sbin
 
-mdutils:
+raidtools:
   /sbin
 
 mktemp:

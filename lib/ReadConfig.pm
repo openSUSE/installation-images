@@ -349,6 +349,10 @@ for (@f) {
 
 #  print "base = \"$base\", r0 = \"$r0\", rx = \"$rx\"\n";
 
+  ($ENV{'suse_release'} = $r0) =~ s/-?$//;
+  ($ENV{'suse_xrelease'} = $rx) =~ s/-?$//;
+  $ENV{'suse_base'} = $base;
+
   if($in_abuild) {
     $kv = `uname -r`;
     $kn = `rpm -qf /boot/$ENV{kernel_img} | head -1 | cut -d- -f1`;
@@ -356,14 +360,29 @@ for (@f) {
     $ENV{'kernel_rpm'} = $kn if $kn;
   }
   else {
-    $kv = `rpm -qlp $base/suse/images/$ENV{'kernel_rpm'}.rpm 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
+    my ($use_cache, $cache_dir);
+
+    $use_cache = 0;
+    $use_cache = $ENV{'cache'} if exists $ENV{'cache'};
+    if($use_cache) {
+      $cache_dir = `pwd`;
+      chomp $cache_dir;
+      $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}"
+    }
+
+    undef $kv;
+    if($use_cache) {
+      $kv = "$cache_dir/$ENV{'kernel_rpm'}.rpm"
+    }
+    if(!(defined($kv) && -f($kv))) {
+      $kv = "$base/suse/images/$ENV{'kernel_rpm'}.rpm";
+    }
+
+    $kv = `rpm -qlp $kv 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
   }
   chomp $kv;
 
   $ENV{'kernel_ver'} = $kv;
-  ($ENV{'suse_release'} = $r0) =~ s/-?$//;
-  ($ENV{'suse_xrelease'} = $rx) =~ s/-?$//;
-  $ENV{'suse_base'} = $base;
 
   if($ENV{'suse_release'} =~ /^(\d+)\.(\d+)$/) {
     $ENV{'suse_major'} = $ENV{'suse_major_release'} = $1;

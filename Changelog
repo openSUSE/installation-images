@@ -1,3 +1,8 @@
+6/12/2000:	v1.17
+	- added cache for rpms
+	- renamed mdutils -> raidtools
+	- new y2[dt]_* packages
+
 5/12/2000:	v1.16
 	- added dosfsck
 

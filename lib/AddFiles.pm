@@ -63,16 +63,24 @@ sub AddFiles
 {
   local $_;
   my ($dir, $file_list, $ext_dir, $arch, $if_val, $tag);
-  my ($rpms, $tdir, $tfile, $p, $r, $d, $u, $g, $files);
+  my ($rpms, $tdir, $tfile, $p, $r, $rc, $d, $u, $g, $files);
   my ($mod_list, @mod_list, %mod_list);
   my ($inc_file, $inc_it, $debug, $eshift, $ignore);
-  my ($old_warn, $ver, $i);
-  my (@scripts, $s, @s, %script);
+  my ($old_warn, $ver, $i, $cache_dir);
+  my (@scripts, $s, @s, %script, $use_cache);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
   $debug = "";
   $debug = $ENV{'debug'} if exists $ENV{'debug'};
+
+  $use_cache = 0;
+  $use_cache = $ENV{'cache'} if exists $ENV{'cache'};
+  if($use_cache) {
+    $cache_dir = `pwd`;
+    chomp $cache_dir;
+    $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}"
+  }
 
   $ignore = $debug =~ /\bignore\b/ ? 1 : 0;
 
@@ -199,13 +207,38 @@ sub AddFiles
         @scripts = split /,/, $2;
       }
 
+      undef $rc;
+      undef $r;
       if($p =~ /^\//) {
         $r = $p;
         warn "$Script: no such package: $r" unless -f $r;
       }
       else {
-        $r = `echo -n $rpms/$p.rpm`;
+        if($use_cache) {
+          $rc = "$cache_dir/$p.rpm";
+          $r = $rc if -f $rc;
+        }
+        $r = `echo -n $rpms/$p.rpm` unless $r;
         warn "$Script: no such package: $p.rpm" unless -f $r;
+
+        if($use_cache >= 2 && $rc && -f($r) && $rc ne $r) {
+          if(! -d($cache_dir)) {
+            SUSystem("mkdir -p $cache_dir");
+          }
+          if(-d $cache_dir) {
+            SUSystem("cp -a $r $rc");
+            if(-f $rc) {
+              $r = $rc;
+            }
+            else {
+              warn "$Script: failed to cache package $r";
+            }
+          }
+          else {
+            warn "$Script: failed to create cache dir $cache_dir";
+            $use_cache = 0;
+          }
+        }
       }
       $ver = (`rpm -qp $r`)[0];
       $ver =~ s/\s*$//;
@@ -215,6 +248,7 @@ sub AddFiles
       else {
         $ver = "";
       }
+      $ver .= '*' if defined($rc) && $rc eq $r;
 
       print "adding package $p$ver\n" if $debug =~ /\bpkg\b/;
 
@@ -331,6 +365,11 @@ sub AddFiles
       my ($f, $g);
       for $f (`cat $tfile`) {
         if($f =~ /\s->\s$dir\/(.*)\n?$/) {
+          $g = $1; $g =~ s/^\/*//;
+          push @mod_list, "$g\n" unless exists $mod_list{$g};
+          $mod_list{$g} = 1;
+        }
+        elsif($f =~ /\s->\s\`$dir\/(.*)\'\n?$/) {
           $g = $1; $g =~ s/^\/*//;
           push @mod_list, "$g\n" unless exists $mod_list{$g};
           $mod_list{$g} = 1;

@@ -49,7 +49,11 @@ joe:
   /usr/bin/joe
   /usr/lib/joerc
 
-hwinfo:
+if suse_release >= 7.1
+  hwinfo:
+else
+  libhd:
+endif
   /usr/sbin/hwinfo
 
 mktemp:
@@ -226,7 +230,11 @@ if arch eq 'ia32' || arch eq 'ppc'
 endif
 
 if arch ne 'ia64'
-  mdutils:
+  if suse_release >= 7.1
+    raidtools:
+  else
+    mdutils:
+  endif
     /sbin/*
 endif
 
@@ -478,16 +486,37 @@ if arch ne 'alpha'
   else
       /sbin
       /usr/lib/YaST2
-    y2t_inst:
-      /usr/lib/YaST2
-    y2t_inst-language:
-      /usr/lib/YaST2
-    y2d_inst-keyboard:
-      /usr/lib/YaST2
-    y2d_inst-timezone:
-      /usr/lib/YaST2
-    y2d_inst-mouse:
-      /usr/lib/YaST2
+    if suse_release < 7.1
+      y2t_inst:
+        /usr/lib/YaST2
+    else
+      y2t_inst-bootloader:
+        /usr/lib/YaST2
+      y2t_inst-environment:
+        /usr/lib/YaST2
+      y2t_inst-general:
+        /usr/lib/YaST2
+      y2t_inst-language:
+        /usr/lib/YaST2
+      y2t_inst-mouse:
+        /usr/lib/YaST2
+      y2t_inst-packages:
+        /usr/lib/YaST2
+      y2t_inst-partitioning:
+        /usr/lib/YaST2
+      y2t_inst-update:
+        /usr/lib/YaST2
+      y2t_inst-user:
+        /usr/lib/YaST2
+      y2t_inst-x11:
+        /usr/lib/YaST2
+      y2d_inst-keyboard:
+        /usr/lib/YaST2
+      y2d_inst-mouse:
+        /usr/lib/YaST2
+      y2d_inst-timezone:
+        /usr/lib/YaST2
+    endif
   endif
 endif
 
