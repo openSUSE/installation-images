@@ -4,20 +4,20 @@
 
 
 
-To start the installation, just press <return>.
+0fTo start the installation enter 'linux' and press <return>.07
 
 
 Available boot options:
 
- linux    - start installation (this is the default)
- manual   - manual installation
- failsafe - installation with some options that are needed on tricky hardware
-            (it is in fact equivalent to "linux ide=nodma apm=off acpi=off")
- apic     - start installation, use kernel with APIC support
- rescue   - start rescue system
- harddisk - boot installed system
+  harddisk  - Boot from Harddisk (this is default)
+  linux     - Installation
+  noacpi    - Installation - ACPI Disabled
+  failsafe  - Installation - Safe Settings
+  manual    - Manual Installation
+  rescue    - Rescue System
+  memtest   - Memory Test
 
+'noacpi' or 'failsafe' may be necessary on some tricky hardware.
 
 Have a lot of fun...
-
 
