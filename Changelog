@@ -1,3 +1,6 @@
+8/3/2003:	v3.22
+	- putting cd related modules back (#24709)
+
 7/3/2003:	v3.21
 	- build splashs without silent image to reduce size (#24750)
 	- put only a limited number of splash images on cd2 (#24750)
