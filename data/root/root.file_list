@@ -535,7 +535,6 @@ if with_yast2 ne 'no'
     /usr/X11R6/bin/FvwmCommand
     /usr/X11R6/lib/X11/fvwm2/FvwmCommandS
     /usr/X11R6/share/fvwm/ConfigFvwmDefaults
-    x etc/fvwmrc /usr/X11R6/share/fvwm/fvwmrc.notitle
 
   fribidi:
     /usr/lib*/libfribidi.so*
@@ -730,6 +729,8 @@ netcfg:
   /etc/{services,protocols}
 
 if with_yast2 ne 'no' && arch ne 's390' && arch ne 's390x'
+  sax2:
+     /usr/X11R6/share/fvwm/fvwmrc.yast2
   saxtools:
      /usr/X11R6/bin
    r /usr/X11R6/bin/xkbset
