@@ -534,3 +534,13 @@ xfiregl1:
   /usr/X11R6/lib/modules/drivers/firegl1_drv.o
 endif
 
+ifarch ix86
+# needed for blinux start script
+sysvinit:
+  /sbin/{kill,start}proc
+sbl:
+  /usr/lib/suse-blinux
+  /etc/rc.d/suse-blinux
+  /etc/suse-blinux.conf
+endif
+

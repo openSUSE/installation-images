@@ -31,7 +31,7 @@ Section "InputDevice"
   Driver	"mouse"
   Identifier	"Mouse[1]"
   Option	"Device"	"/dev/mouse"
-  Option	"Protocol"	"PS/2"
+  Option	"Protocol"	"Auto"
 EndSection
 
 Section "Monitor"
