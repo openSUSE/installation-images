@@ -20,13 +20,17 @@ die "usage: $Script\n" if @ARGV;
 $cfg = "${CfgPath}module.config";
 $deps = "${BasePath}tmp/module_deps";
 $fnames = "${BasePath}tmp/module_list";
-$mdisk = "${BasePath}tmp/module_disks";
+$mdisk_c = "${BasePath}tmp/module_disks_create";
+$mdisk_l = "${BasePath}tmp/module_disks_list";
+$mdisk_i = "${BasePath}tmp/module_disks_images";
 $dst = "${DataPath}initrd/gen/module.";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+
+$arch = `uname -m`; chomp $arch; $arch = "ia32" if $arch =~ /^i\d86$/;
 
 $err = 0;
 
@@ -51,7 +55,7 @@ while(<F>) {
 close F;
 
 
-die "$Script: $cfg: $!\n" unless open F, $cfg;
+die "$Script: $cfg: $!\n" unless open(F, "$cfg.$arch") || open(F, $cfg);
 
 while(<F>) {
   chomp;
@@ -65,6 +69,11 @@ while(<F>) {
   }
   if(/MoreModules=(.*)/i) {
     $sect{$sect}{'MoreModules'} = $1;
+    next;
+  }
+
+  if(/ModuleClass=(.*)/i) {
+    $sect{$sect}{'ModuleClass'} = $1;
     next;
   }
 
@@ -153,8 +162,23 @@ for (@sect) {
   $s = $_;
   $s =~ s/\s*//g;
   $s = $1 if exists($sect{$_}{'MoreModules'}) && $sect{$_}{'MoreModules'} =~ /^(\S+)-mod/;
+  if(exists($sect{$_}{'MoreModules'}) && exists($sect{$_}{'ModDisk'})) {
+    $moddisk_i{$sect{$_}{'ModDisk'}} .= " $sect{$_}{'MoreModules'}";
+  }
 
-  $moddisk{$sect{$_}{'ModDisk'}} .= " $s" if exists $sect{$_}{'ModDisk'};
+  $s = $sect{$_}{'ModuleClass'} if exists $sect{$_}{'ModuleClass'};
+  $moddisk_l{$sect{$_}{'ModDisk'}} .= " $s" if exists $sect{$_}{'ModDisk'};
+
+  # to make it possible to put something on the disk that wasn't created by mk_modules
+  if(exists $sect{$_}{'ModDisk'}) {
+    if(
+      !exists($sect{$_}{'MoreModules'}) ||
+      !exists($sect{$_}{'ModuleClass'}) ||
+      "$sect{$_}{'ModuleClass'}-mod" eq $sect{$_}{'MoreModules'}
+    ) {
+      $moddisk_c{$sect{$_}{'ModDisk'}} .= " $s";
+    }
+  }
 
   open W, ">${dst}config.$s";
   print W "[$_]\n";
@@ -206,12 +230,22 @@ for (@sect) {
 }
 
 
-open W, ">$mdisk";
-
-for (sort keys %moddisk) {
-  print W "$_:$moddisk{$_}\n"
+open W, ">$mdisk_c";
+for (sort keys %moddisk_c) {
+  print W "$_:$moddisk_c{$_}\n"
 }
+close W;
 
+open W, ">$mdisk_l";
+for (sort keys %moddisk_l) {
+  print W "$_:$moddisk_l{$_}\n"
+}
+close W;
+
+open W, ">$mdisk_i";
+for (sort keys %moddisk_i) {
+  print W "$_:$moddisk_i{$_}\n"
+}
 close W;
 
 

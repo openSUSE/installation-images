@@ -50,6 +50,7 @@ $modlist = "${BasePath}tmp/initrd.modlist";
 $tmpdirx = "${BasePath}tmp/.initrd";
 $image = "${ImagePath}initrd";
 $arch = "$ConfigData{suse_arch}";
+$gendir = "${DataPath}boot/gen";
 
 # the compressed image size varies only slightly with these; about +-1k with
 # reasonable inode/block combinations
@@ -145,4 +146,12 @@ if($ENV{'initrd'} eq 'large' || $ENV{'bootsplash'} eq 'yes') {
   $i = -s "$image";
   print "$Script: bootsplash added to \"$image\" (new size: $i bytes)\n";
 }
+
+mkdir $gendir, 0755;
+
+die "$Script: $!" unless open F, ">$gendir/initrdsize";
+print F "initrdsize\t", int(($i + 511) / 512), "\n";
+close F;
+
+
 

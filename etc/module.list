@@ -29,6 +29,7 @@ kernel/drivers/usb/usb-ohci.o
 kernel/drivers/usb/usb-uhci.o
 kernel/drivers/usb/hcd/ehci-hcd.o
 kernel/drivers/usb/usbcore.o
+kernel/drivers/usb/pegasus.o
 kernel/drivers/char/nvram.o
 kernel/drivers/char/agp/
 kernel/drivers/message/fusion
@@ -39,6 +40,7 @@ kernel/fs/fat/
 kernel/fs/hpfs/
 kernel/fs/jbd/
 kernel/fs/jfs/
+kernel/fs/ntfs/
 kernel/fs/reiserfs/
 kernel/fs/smbfs/
 kernel/fs/vfat/

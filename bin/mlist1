@@ -18,6 +18,8 @@ $ex = "${CfgPath}module.list";
 $deps = "${BasePath}tmp/module_deps";
 $list = "${BasePath}tmp/module_list";
 
+$arch = `uname -m`; chomp $arch; $arch = "ia32" if $arch =~ /^i\d86$/;
+
 print STDERR "checking module list...\n";
 
 die "$0: $md: $!\n" unless open F, $md;
@@ -37,7 +39,7 @@ while(<F>) {
 
 close F;
 
-die "$0: $ex: $!\n" unless open F, $ex;
+die "$0: $ex: $!\n" unless open(F, "$ex.$arch") || open(F, $ex);
 
 while(<F>) {
   chomp;

@@ -1,3 +1,14 @@
+3/3/2002:	v1.126
+	- allow bootdisks to have the initrd on a module disk
+	- support really small initrd (no pcmcia, nearly no keytables)
+	- rearranged module disks
+	- prepare for module config to be arch dependent
+	- added ntfs driver (for harddisk installs)
+	- added usb network driver (pegasus)
+	- added trivial bootloader to module disk that just prints a message
+	- removed apic boot option
+	- new text boot message
+
 28/2/2002:	v1.125
 	- added 'gconf-modules' (#13991)
 	- added new network cards

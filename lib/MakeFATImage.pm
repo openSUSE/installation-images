@@ -127,13 +127,15 @@ sub MakeFATImage
     $drive_id, $fatbits, $secs_p_cluster, $sec_size, $hidden_secs,
     $drive_number, $serial_id, $sectors, $fatsecs, $usable_secs,
     $clusters, $rootsecs, $sec_p_track, $bs, $fs, $rs, $zs, $i, $j, @i,
-    $mbr_track, $mbr, $pt, $mboot, $mboot_file
+    $mbr_track, $mbr, $pt, $mboot, $mboot_file, $boot_file, $boot_msg
   );
 
-  ( $file_name, $id11, $secs_p_cluster, $sec_p_track, $heads, $tracks, $mbr, $mboot_file ) = @_;
+  ( $file_name, $id11, $secs_p_cluster, $sec_p_track, $heads, $tracks, $mbr, $mboot_file, $boot_msg ) = @_;
 
   # if $heads and $tracks are specified, assume a disk image, otherwise
   # we'll make a floppy image
+
+  $boot_file = "${BasePath}src/mboot/boot";
 
   if(length($id11) > 11) {
     print STDERR "$Script: WARNING: volume label \"$id11\" too long\n";
@@ -172,11 +174,24 @@ sub MakeFATImage
   $rootsecs += $usable_secs % $secs_p_cluster;	# don't waste space for nothing
   $root_ents = $rootsecs * $sec_size / 0x20;
 
-  # the boot sector
+  # boot sector
+
+  if($boot_msg) {
+    if(open F, $boot_file) {
+      read F, $i, 100;
+      close F;
+      $boot_msg = $i . $boot_msg . "\x00";
+    }
+    else {
+      undef $boot_msg;
+    }
+  }
+
+  $i = $boot_msg ? 0x3c : 0xfe;
   $bs = pack (
     "C3A8vCvCvvCvvvVVCCCVA11A8Z448v",
 
-    0xeb, 0xfe, 0x90,		# jmp $; nop
+    0xeb, $i, 0x90,		# jmp to boot code
     $id8,			# some label
     $sec_size,			# sector length (e.g. 512 bytes)
     $secs_p_cluster,		# sector per cluster (e.g. 1)
@@ -199,6 +214,10 @@ sub MakeFATImage
     "",				# fill up with zeroes
     0xaa55			# some id
   );
+
+  if($boot_msg) {
+    substr($bs, 0x3e, length $boot_msg) = $boot_msg;
+  }
 
   # the first fat sector
   # ##### needs to be generalized!!!

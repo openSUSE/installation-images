@@ -2,11 +2,12 @@ if arch eq 'ia32'
 
   x message /
   if boot eq 'small'
-    x syslinux-small.cfg /syslinux.cfg
+    x syslinux.cfg /syslinux.cfg
+    A gen/initrdsize /syslinux.cfg
   else
     x syslinux.cfg /
-    k_apic:
-      m /boot/vmapic /apic
+#    k_apic:
+#      m /boot/vmapic /apic
   endif
 
   if boot eq 'small' && kernel_rpm eq "k_deflt" && suse_release >= 7.3
@@ -19,7 +20,7 @@ if arch eq 'ia32'
       <kernel_rpm>:
         m /boot/<kernel_img> /linux
     endif
-      R s/linuxrc=auto2,yast2/linuxrc=auto2,yast2,reboot/s /syslinux.cfg
+#      R s/linuxrc=auto2,yast2/linuxrc=auto2,yast2,reboot/s /syslinux.cfg
   else
     <kernel_rpm>:
       m /boot/<kernel_img> /linux

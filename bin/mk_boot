@@ -56,8 +56,10 @@ $image = "${ImagePath}boot";
 $initrddir = "$tmpdir/initrd";
 $initrddirx = "$tmpdir/.initrd";
 $initdisk = "${ImagePath}initrd";
+$tinyinitdisk = "${ImagePath}initrd.tiny";
 
 $image .= ".$ENV{'boot'}" if defined $ENV{'boot'};
+$noinitrd = exists($ENV{'noinitrd'}) ?  $ENV{'noinitrd'} : "";
 
 # mbr boot program (ia32 only)
 $mboot_file = "${BasePath}src/mboot/mboot";
@@ -184,8 +186,14 @@ if($arch eq 'i386') {
 
   # Print2File "$tmpdir/initrd.max_size", "$free\n" or die "$Script: oops!";
 
-  $j = -s $initdisk;
-  die "$Script: $initdisk missing" unless $j > 0;
+  if($noinitrd) {
+    $j = -s $tinyinitdisk;
+    $tinyinitdisk = undef, $j = 0 unless $j > 0 && $j - $free < 0;
+  }
+  else {
+    $j = -s $initdisk;
+    die "$Script: $initdisk missing" unless $j > 0;
+  }
   $k = $j - $free;
   if($k >= 0) {
     print "$Script: $initdisk $k bytes too big\n";
@@ -258,8 +266,16 @@ if($arch eq 'i386') {
 }
 
 # copy the initdisk
-SUSystem "cp $initdisk /mnt/initrd" and
-  die "$Script: could not add $initdisk to the image";
+if($noinitrd) {
+  if($tinyinitdisk) {
+    SUSystem "cp $tinyinitdisk /mnt/small" and
+      die "$Script: could not add $tinyinitdisk to the image";
+  }
+}
+else {
+  SUSystem "cp $initdisk /mnt/initrd" and
+    die "$Script: could not add $initdisk to the image";
+}
 
 $i3 = $i2*10;
 SUSystem "touch -d $i1:$i3 /mnt/*";

@@ -296,6 +296,7 @@ $ENV{MTOOLSRC} = $MToolsCfg;
 
 if($<) {	# only if we are *not* already root
   $SUBinary = "/usr/local/bin/sw";
+  $SUBinary = "/usr/bin/sw" if -x "/usr/bin/sw";
   $SUBinary = undef unless -x $SUBinary && -u $SUBinary;
 }
 

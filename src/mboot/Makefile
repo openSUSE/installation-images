@@ -1,6 +1,9 @@
-all: mboot
+all: mboot boot
 
 mboot: mboot.asm
+	nasm -f bin -o $@ -l $(@).lst $<
+
+boot: boot.asm
 	nasm -f bin -o $@ -l $(@).lst $<
 
 boottest: boottest.asm

@@ -25,7 +25,7 @@ sub list_modules;
 $srcdir = "${DataPath}initrd";
 $tmpdir = "${BasePath}tmp/modules";
 $image = "${ImagePath}";
-$mdisk = "${BasePath}tmp/module_disks";
+$mdisk = "${BasePath}tmp/module_disks_create";
 
 # the compressed image size varies only slightly with these; about +-1k with
 # reasonable inode/block combinations
