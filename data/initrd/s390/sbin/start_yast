@@ -3,7 +3,7 @@
 # determine the installation source to feed bin/linuxrc which then
 # starts yast
 #
-inst_source "$@"
+/inst_source "$@"
 stty sane
 echo "Unmounting /mnt..."
 umount /mnt
