@@ -108,6 +108,7 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arc
 
   f / reiserfs.o
   f / jfs.o
+  f / jbd.o
   f / ext3.o
   f / hpfs.o
   f / loop_fish2.o
@@ -192,7 +193,9 @@ endif
 r /usr/bin/db_*
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
-  /usr/lib/gconv
+  /usr/lib/gconv/ISO8859*
+  /usr/lib/gconv/KOI*
+  /usr/lib/gconv/UNICODE*
 m /lib/libpthread.so.0 /usr/lib
 
 if !(arch eq 's390' || arch eq 's390x')
@@ -587,7 +590,8 @@ if arch eq 'ppc' || arch eq 'sparc' || arch eq 'sparc64'
   # the agp module from xsvga may cause 700 permissions; fix it here
   # c 0755 0 0 /lib/modules
 
-  d /lib/modules/<kernel_ver>/misc
+  # what for???
+  # d /lib/modules/<kernel_ver>/misc
 endif
 
 # add the rest from instsys
@@ -733,10 +737,10 @@ c 644 0 0 /etc/shadow
 x etc/inst_setup /sbin/inst_setup
 c 755 0 0 /sbin/inst_setup
 
-# add link to initrd modules
-# check mk_root before you're going to change this!!!
-d /lib/modules/<kernel_ver>/initrd
-e /bin/ln -s /modules/*.o /lib/modules/<kernel_ver>/initrd
+## add link to initrd modules
+## check mk_root before you're going to change this!!!
+#d /lib/modules/<kernel_ver>/initrd
+#e /bin/ln -s /modules/*.o /lib/modules/<kernel_ver>/initrd
 
 # run depmod
 e /sbin/depmod -a -F /System.map <kernel_ver>
@@ -744,7 +748,8 @@ e /sbin/depmod -a -F /System.map <kernel_ver>
 # final clean up
 r /etc/X11/xserver/C
 
-r /modules /System.map
+# r /modules
+r /System.map
 r /sbin/insserv
 
 if ! pre_release
