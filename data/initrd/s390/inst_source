@@ -37,6 +37,16 @@ FTP_ASK_VALID="Is the following correct?\\\n\\\n    FTP User:  \$FTPUSER\\\n    
 SMB_ASK_VALID="Is the following correct?\\\n\\\n    SMB User:  \$FTPUSER\\\n    SMB Password:           \$FTPPASSWORD\\\n    Domain:   \$WORKDOMAIN\\\n\\\nYes/No: "
 VNC_PASSWORD_TXT="Please enter the Password for VNC-Access (6 to 8 characters): "
 VNC_PASSWORD_ERROR="Passwort is too short. Please enter a new one.\n"
+
+# memory requirements for different installation paths in MB
+# ATM these are just wild guesses
+MEM_X=128
+MEM_VNC=128
+MEM_SSH=64
+MEM_FTP=256
+MEM_NFS=128
+MEM_SAMBA=128
+
 #
 # checks an IP to have numbers only between 0 and 255:
 #
@@ -69,9 +79,9 @@ do
    source=$INST_INFO
    [ "$AUTOINSTALL" = "yes" ] || read source
    case $source in
-	1|nfs) INST_INFO=nfs ; break ;;
-	2|SAMBA) INST_INFO=SAMBA ; break ;;
-	3|ftp) INST_INFO=ftp ; break ;;
+	1|nfs) INST_INFO=nfs ; mem_needed_source=$MEM_NFS ; break ;;
+	2|SAMBA) INST_INFO=SAMBA ; mem_needed_source=$MEM_SAMBA ; break ;;
+	3|ftp) INST_INFO=ftp ; mem_needed_source=$MEM_FTP ; break ;;
 	0) INST_INFO=ABORT ; break ;;
 	*) ;;
    esac
@@ -182,9 +192,11 @@ do
 	[ "$AUTOINSTALL" = "yes" ] || read INST_SCREEN
 	case $INST_SCREEN in
 		1|X) INST_SCREEN=X
+		   mem_needed_screen=$MEM_X
 		   break
 		;;
 		2|VNC) INST_SCREEN=VNC
+		   mem_needed_screen=$MEM_VNC
 		   while :
 		   do
 			   echo -en $VNC_PASSWORD_TXT
@@ -196,6 +208,7 @@ do
 		   break
 		;;
 		3|SSH) INST_SCREEN=SSH
+		   mem_needed_screen=$MEM_SSH
 		   break
 		;;
 		*) INST_SCREEN=nothing
@@ -444,6 +457,19 @@ then
 			;;
 		esac
 	done
+
+	mem_needed=$((mem_needed_source + mem_needed_screen))
+	MEM=`grep MemTotal /proc/meminfo|sed 's,[^0-9]*\([0-9]*\)[^0-9]*,\1,g'`
+        let MEM="$MEM/1024"
+	if test $MEM -lt $mem_needed
+	then
+		echo "WARNING:"
+		echo "A total of ${mem_needed} MB RAM is needed for this installation path."
+		echo "There are only $MEM MB available on this system."
+		echo "If you choose to continue installation may fail in unpredictable ways."
+		echo "Press ENTER to continue."
+		read dummy
+	fi
 #
 #
 #

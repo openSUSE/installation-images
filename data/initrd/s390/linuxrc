@@ -52,18 +52,6 @@ mount -t devpts devpts /dev/pts
 #
 [ ! -f /proc/version ] && mount -n -t proc virtual-proc-filesystem /proc
 #
-#	Check the memory. If less than 256 Mb issue a warning.
-#
-MEM=`grep MemTotal /proc/meminfo|sed 's,[^0-9]*\([0-9]*\)[^0-9]*,\1,g'`
-if [ ${#MEM} -lt 7 ]
-then
-	let MEM="$MEM/1024"
-	if [ $MEM -lt 240 ]; then
-		echo "A total of 256 MB ram is recommended for installation."
-		echo "currently are only $MEM MB ram installed"
-	fi
-fi
-#
 #	Konfiguring the network
 #
 . /bin/netsetup
