@@ -7,7 +7,7 @@
 # Martin Vidner <mvidner@suse.cz>
 # Ihno Krumreich <ihno@suse.de>
 #
-# $Id: create_interface,v 1.14.2.4 2004/06/22 15:46:23 snwint Exp $
+# $Id: create_interface,v 1.14.2.5 2004/06/29 09:24:46 hare Exp $
 
 ROOT=$1
 INSTALLINF=/etc/install.inf
@@ -72,10 +72,10 @@ then
 #	Create interface file
 #
 	# interface config
-	# always use by-bus for qeth, hsi, ctc, and lcs
-	if echo "$myhwcfg"|grep -E "(qeth|hsi|ctc|lcs)" 
+	# always use getcfg names for S/390
+	if echo "$myhwcfg"|grep -E "(qeth|hsi|ctc|lcs|iucv)" 
 	then
-	# use by-bus naming
+	# use getcfg naming
 		myifcfg=ifcfg-$myhwcfg
 	elif [ -z "$HWD_ID" ] ; then
 	# use kernel name
