@@ -30,6 +30,16 @@ fi
 if grep -qwi nosshkey < /proc/cmdline ; then
 	# for inst-sys testing
 	cp -av $INSTSYS/etc/ssh/*key* /etc/ssh/
+	# if shadow is a symlink then usessh was probably off
+	# now you can just run this script and login and debug that thing..
+	test -L /etc/shadow -a -L /etc/passwd -a ! -z "$1" && {
+	mv -v /etc/passwd /etc/passwd.
+	mv -v /etc/shadow /etc/shadow.
+	cat /etc/passwd. > /etc/passwd
+	cat /etc/shadow. > /etc/shadow
+	echo "setting root pwd to $1"
+	echo root:$1 | chpasswd
+	}
 else
 	#
 	echo "generating SSH keys  ...  "
