@@ -1,3 +1,5 @@
+	- added hvsi* to rescue console / gettys. (requested by IBM)
+
 22/6/2004:	v5.69
 	- added megaraid-old
 	- fix ifcfg filename for ctc and lcs devices (#42329)
