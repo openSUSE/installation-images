@@ -310,6 +310,9 @@ o <action> <arg1> <arg2> ...
   - execute a program
     <program> is _not_ run within a chroot env (use 'e' if you want to chroot)
 
+    <program> is run from within the 'base' environment.  $PWD will
+    be at the root of the filesystem which is currently built.
+
     E <program> <arg1> <arg2> ...
 
   - apply a perl regexp in a sed-like fashion to a file, <regexp> may contain
