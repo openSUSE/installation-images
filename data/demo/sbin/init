@@ -644,6 +644,17 @@ fi
 
 cp /proc/mounts /etc/mtab
 
+if [ "$Braille" -a -x /etc/rc.d/suse-blinux ] ; then
+  if [ "$braille_running" ] ; then
+    /etc/rc.d/suse-blinux stop
+    braille_running=
+  fi
+else
+  chkconfig suse-blinux off
+fi
+
+deb_stop
+
 if [ ! "$nodisk" ] ; then
 
   rm -rf /tmp ; ln -s /home/tmp /
@@ -700,25 +711,7 @@ if [ ! "$nodisk" ] ; then
 
 fi
 
-
 deb_stop
-
-umount /proc/bus/usb
-umount /proc
-
-if [ "$Braille" -a -x /etc/rc.d/suse-blinux ] ; then
-  if [ "$braille_running" ] ; then
-    /etc/rc.d/suse-blinux stop
-    braille_running=
-    umount /proc 2>/dev/null
-  fi
-else
-  chkconfig suse-blinux off
-fi
-
-deb_stop
-
-mount -n /proc 2>/dev/null
 
 # wait for some stupid SuSEconfig script to finish
 killall -0 susedig.sh 2>/dev/null && {
@@ -744,10 +737,11 @@ done
 
 unset LANG LANGUAGE TEXTDOMAINDIR TEXTDOMAIN
 
-umount -n /proc
+umount /proc/bus/usb
+umount /proc
 
 # don't ask...
-sleep 2
+sleep 4
 
 deb_stop
 
