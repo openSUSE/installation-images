@@ -62,10 +62,10 @@ if arch eq 'ia32'
         f / input.o /modules
         f / hid.o /modules
         f / keybdev.o /modules
-        if !pre_release
+#        if !pre_release
           # remove just temporarily
           f / usb-storage.o /modules
-        endif
+#        endif
       endif
 
       if extramod
