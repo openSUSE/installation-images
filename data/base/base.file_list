@@ -222,11 +222,11 @@ E cp /lib/modules/<kernel_ver>/modules.pcimap /
 r /lib/modules
 
 # create splash
-E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-800x600.cfg >>/SuSE.splash
-E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-1024x768.cfg >>/SuSE.splash
-E splash -s -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-800x600.cfg >>/UnitedLinux.splash
-E splash -s -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-1024x768.cfg >>/UnitedLinux.splash
-E splash -s -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-800x600.cfg >>/SuSE-SLES.splash
-E splash -s -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-1024x768.cfg >>/SuSE-SLES.splash
-E splash -s -f /usr/share/splash/themes/OpenXchange/config/bootsplash-800x600.cfg >>/OpenXchange.splash
-E splash -s -f /usr/share/splash/themes/OpenXchange/config/bootsplash-1024x768.cfg >>/OpenXchange.splash
+E splash -s -n -f /usr/share/splash/themes/SuSE/config/bootsplash-800x600.cfg >>/SuSE.splash
+E splash -s -n -f /usr/share/splash/themes/SuSE/config/bootsplash-1024x768.cfg >>/SuSE.splash
+E splash -s -n -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-800x600.cfg >>/UnitedLinux.splash
+E splash -s -n -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-1024x768.cfg >>/UnitedLinux.splash
+E splash -s -n -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-800x600.cfg >>/SuSE-SLES.splash
+E splash -s -n -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-1024x768.cfg >>/SuSE-SLES.splash
+E splash -s -n -f /usr/share/splash/themes/OpenXchange/config/bootsplash-800x600.cfg >>/OpenXchange.splash
+E splash -s -n -f /usr/share/splash/themes/OpenXchange/config/bootsplash-1024x768.cfg >>/OpenXchange.splash

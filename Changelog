@@ -1,6 +1,7 @@
 9/4/2003:	v2.96
 	- add missing libs for SLEC
 	- move symbios-old from scsi mod disk to initrd 
+	- fixed cd2 boot image size
 
 3/3/2003:	v2.95
 	- added lvm modules to initrd on CD, too (#23644)
