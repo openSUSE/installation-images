@@ -4,8 +4,8 @@ PLIBS	= AddFiles MakeFATImage MakeMinixImage ReadConfig
 PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root mk_yast2\
           mk_yast2_cd mk_yast2_nfs
 
-.PHONY: all dirs initrd initrd_test initrd2 initrd2_test boot boot2 boot_axp root\
-        yast2 yast2_cd nfs html clean distdir install
+.PHONY: all dirs initrd initrd_test initrd2 initrd2_test boot boot2 boot_axp\
+        yast2 html clean distdir install
 
 all:
 
@@ -35,23 +35,14 @@ initrd2_test: initrd2
 	bin/mk_initrd2_test
 	@echo "now, run bin/initrd2_test"
 
-initrdx: dirs
-	bin/mk_initrdx
-
 boot: initrd
 	bin/mk_boot
 
 boot2: initrd2
 	bin/mk_boot2
 
-bootx: initrd2
-	bin/mk_bootx
-
 boot_axp: initrd
 	bin/mk_boot_axp
-
-root: dirs
-	bin/mk_root
 
 yast2: dirs initrd2
 	bin/mk_yast2
