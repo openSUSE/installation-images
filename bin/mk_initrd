@@ -95,8 +95,10 @@ if($ENV{'keepinitrd'} != 1) {
   AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir, $ENV{'initrd'}, "${BasePath}tmp/initrd.opt_mods" or
     die "$Script: failed to setup initrd image";
 
-  print "stripping object files...\n";
-  SUSystem "strip_dir $tmpdir";
+  if(!$ENV{with_gdb}) {
+    print "stripping object files...\n";
+    SUSystem "strip_dir $tmpdir";
+  }
 }
 
 # on S/390, the initrd contains shared objects
