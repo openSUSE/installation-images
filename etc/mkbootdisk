@@ -1,0 +1,1172 @@
+#! /usr/bin/perl
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# Create SUSE Linux boot disks.
+#
+# Try 'mkbootdisk --help' for a usage summary.
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+use strict 'vars';
+use integer;
+
+%::ConfigData = ( full_product_name => "SUSE Linux 9.3" );
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# Basic FAT manipulation functions.
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+{
+  package FAT;
+
+  use strict 'vars';
+  use integer;
+
+
+  sub new
+  {
+    my $self = {};
+
+    bless $self;
+
+    $self->{offset} = 0;
+    $self->{image} = "\x00" x 0x200;
+
+    return $self
+  }
+
+  sub image
+  {
+    my $self = shift;
+
+    return $self->{image};
+  }
+
+
+  sub offset
+  {
+    my $self = shift;
+
+    $self->{offset} = shift if @_;
+
+    return $self->{offset};
+  }
+
+
+  sub write_image
+  {
+    my $self = shift;
+
+    if(@_) {
+      my $file = shift;
+      open W1, ">$file";
+      print W1 $self->image;
+      close W1;
+    }
+  }
+
+
+  sub read_image
+  {
+    my $self = shift;
+
+    if(@_) {
+      my $file = shift;
+      my $image;
+      open F1, $file;
+      read F1, $image, -s($file);
+      close F1;
+      $self->{image} = $image;
+    }
+  }
+
+
+  sub resize_image
+  {
+    my $self = shift;
+    my $new_size = shift;
+
+    my $len = $new_size + $self->{offset} - length($self->image);
+    $self->{image} .= "\x00" x $len if $len > 0;
+  }
+
+
+  sub _string
+  {
+    my $self = shift;
+    my $ofs = $self->{offset} + shift;
+    my $len = 0 + shift;
+
+    substr($self->{image}, $ofs, $len) = pack("a$len", shift) if @_[0];
+    return substr($self->{image}, $ofs, $len);
+  }
+
+
+  sub _byte
+  {
+    my $self = shift;
+    my $ofs = $self->{offset} + shift;
+
+    substr($self->{image}, $ofs, 1) = pack("C", shift) if @_[0];
+    return unpack("C", substr($self->{image}, $ofs, 1));
+  }
+
+
+  sub _word
+  {
+    my $self = shift;
+    my $ofs = $self->{offset} + shift;
+
+    substr($self->{image}, $ofs, 2) = pack("v", shift) if @_[0];
+    return unpack("v", substr($self->{image}, $ofs, 2));
+  }
+
+
+  sub _dword
+  {
+    my $self = shift;
+    my $ofs = $self->{offset} + shift;
+
+    substr($self->{image}, $ofs, 4) = pack("V", shift) if @_[0];
+    return unpack("V", substr($self->{image}, $ofs, 4));
+  }
+
+
+  sub sector
+  {
+    my $self = shift;
+    my $sec = shift;
+    my $len = $self->sector_size;
+    my $ofs = $sec * $len + $self->{offset};
+
+    if(@_) {
+      my $buf = shift;
+      my $xlen = $len - length($buf);
+      $buf .= "\x00" x $xlen if $xlen > 0;
+      substr($self->{image}, $ofs, $len) = $buf;
+    }
+
+    return substr($self->{image}, $ofs, $len);
+  }
+
+
+  sub cluster
+  {
+    my $self = shift;
+    my $cl_nr = shift;
+    my $len = $self->sector_size * $self->cluster_size;
+
+    return undef if $cl_nr < 2;
+
+    my $ofs = ($cl_nr - 2) * $len + $self->{offset};
+
+    $ofs += ($self->res_sectors + $self->fats * $self->fat_size + $self->_root_sectors) * $self->sector_size;
+
+    if(@_) {
+      my $buf = shift;
+      my $xlen = $len - length($buf);
+      $buf .= "\x00" x $xlen if $xlen > 0;
+      substr($self->{image}, $ofs, $len) = $buf;
+    }
+
+    return substr($self->{image}, $ofs, $len);
+  }
+
+
+  #
+  # dir_entry(cluster, entry_index [, buffer])
+  #
+  sub dir_entry
+  {
+    my $self = shift;
+    my $cl_nr = shift;
+    my $entry = shift;
+    my $len = 32;
+    my $ofs;
+
+    return undef if $cl_nr < 2 && $cl_nr != 0;
+
+    $ofs = $self->res_sectors + $self->fats * $self->fat_size;
+    if($cl_nr >= 2) {
+      $ofs += $self->_root_sectors + ($cl_nr - 2) * $self->cluster_size;
+    }
+
+    $ofs = $ofs * $self->sector_size + $self->{offset} + ($entry << 5);
+
+    if(@_) {
+      my $buf = shift;
+      my $xlen = $len - length($buf);
+      $buf .= "\x00" x $xlen if $xlen > 0;
+      substr($self->{image}, $ofs, $len) = $buf;
+    }
+
+    return substr($self->{image}, $ofs, $len);
+  }
+
+
+  # dos_date(day, month, year)
+  # or
+  # dos_date(unix_time)
+
+  sub dos_date
+  {
+    my (@u);
+
+    @u = @_;
+    if(@u == 1) {
+      @u = (localtime shift)[3..5];
+      $u[1]++;
+    }
+
+    return pack("v", $u[0] + ($u[1] << 5) + (($u[2] < 80 ? 0 : $u[2] - 80) << 9));
+  }
+
+
+  # dos_time(second, minute, hour)
+  # or
+  # dos_time(unix_time)
+
+  sub dos_time
+  {
+    my (@u);
+
+    @u = @_;
+    if(@u == 1) {
+      @u = (localtime shift)[0..2];
+    }
+
+    return pack("v", ($u[0] >> 1) + ($u[1] << 5) + ($u[2] << 11));
+  }
+
+
+  sub fs_date
+  {
+    my $self = shift;
+
+    $self->{fs_date} = dos_date(@_) if @_;
+
+    return $self->{fs_date};
+  }
+
+
+  sub fs_time
+  {
+    my $self = shift;
+
+    $self->{fs_time} = dos_time(@_) if @_;
+
+    return $self->{fs_time};
+  }
+
+
+  #
+  # dir_entry(name, attribute, time, date, start, size);
+  #
+  sub new_dir_entry
+  {
+    my ($name, $attribute, $time, $date, $start, $size) = @_;
+
+    return pack("A11CZ10a2a2vV", $name, $attribute, "", $time, $date, $start, $size);
+  }
+
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  sub boot_code
+  {
+    my $self = shift;
+
+    $self->_word(0, 0xfeeb);
+    $self->_byte(2, 0x90);
+
+    if(@_) {
+      my $code = shift;
+      $self->_byte(1, 0x3c);
+      $self->_string(0x3e, length($code), $code);
+    }
+  }
+
+
+  sub manuf_id
+  {
+    my $self = shift;
+
+    if(@_) {
+      return unpack("A8", $self->_string(0x03, 8, pack("A8", shift)));
+    }
+    else {
+      return unpack("A8", $self->_string(0x03, 8));
+    }
+  }
+
+
+  sub sector_size
+  {
+    my $self = shift;
+
+    return $self->_word(0x0b, shift);
+  }
+
+
+  sub cluster_size
+  {
+    my $self = shift;
+
+    return $self->_byte(0x0d, shift);
+  }
+
+
+  sub res_sectors
+  {
+    my $self = shift;
+
+    return $self->_word(0x0e, shift);
+  }
+
+
+  sub fats
+  {
+    my $self = shift;
+
+    return $self->_byte(0x10, shift);
+  }
+
+
+  sub root_entries
+  {
+    my $self = shift;
+
+    if(@_) {
+      my $entries = shift;
+      my $sec_size = $self->sector_size;
+      if($sec_size) {
+        $entries = (((($entries << 5) + $sec_size - 1) / $sec_size) * $sec_size) >> 5;
+      }
+      return $self->_word(0x11, $entries);
+    }
+    else {
+      return $self->_word(0x11, shift);
+    }
+  }
+
+
+  sub sectors
+  {
+    my $self = shift;
+    my $secs;
+
+    if(@_) {
+      $secs = shift;
+      if($secs >> 16) {
+        $self->_dword(0x20, $secs);
+      }
+      else {
+        $self->_word(0x13, $secs);
+      }
+    }
+
+    $secs = $self->_word(0x13);
+    $secs = $self->_dword(0x20) unless $secs;
+
+    return $secs;
+  }
+
+
+  sub media_id
+  {
+    my $self = shift;
+
+    return $self->_byte(0x15, shift);
+  }
+
+
+  sub fat_size
+  {
+    my $self = shift;
+
+    return $self->_word(0x16, shift);
+  }
+
+
+  sub track_size
+  {
+    my $self = shift;
+
+    return $self->_word(0x18, shift);
+  }
+
+
+  sub heads
+  {
+    my $self = shift;
+
+    return $self->_word(0x1a, shift);
+  }
+
+
+  sub hidden_sectors
+  {
+    my $self = shift;
+
+    return $self->_dword(0x1c, shift);
+  }
+
+
+  sub drive_id
+  {
+    my $self = shift;
+
+    return $self->_byte(0x24, shift);
+  }
+
+
+  sub extended_bpb
+  {
+    my $self = shift;
+
+    return $self->_byte(0x26, shift);
+  }
+
+
+  sub serial
+  {
+    my $self = shift;
+
+    return $self->_dword(0x27, shift);
+  }
+
+
+  sub volume_id
+  {
+    my $self = shift;
+
+    if(@_) {
+      return unpack("A11", $self->_string(0x2b, 11, pack("A11", shift)));
+    }
+    else {
+      return unpack("A11", $self->_string(0x2b, 11));
+    }
+  }
+
+
+  sub fat_bits
+  {
+    my $self = shift;
+
+    if(@_) {
+      my $bits = shift;
+      $bits = 16 unless $bits == 12 || $bits == 32;
+      $self->_string(0x36, 8, sprintf("FAT%-5u", $bits));
+    }
+
+    my $id = $self->_string(0x36, 8);
+    if($id =~ /FAT(\d+)/) {
+      $id = $1 + 0;
+    }
+    else {
+      $id = undef;
+    }
+
+    return $id;
+  }
+
+
+  sub _root_sectors
+  {
+    my $self = shift;
+
+    return (($self->root_entries << 5) + $self->sector_size - 1) / $self->sector_size;
+  }
+
+
+  sub _data_sectors
+  {
+    my $self = shift;
+
+    return $self->sectors - $self->res_sectors - $self->fats * $self->fat_size - $self->_root_sectors;
+  }
+
+
+  sub clusters
+  {
+    my $self = shift;
+
+    return $self->_data_sectors / $self->cluster_size;
+  }
+
+
+  sub cluster_to_sector
+  {
+    my $self = shift;
+    my $cl_nr = shift;
+
+    return undef if $cl_nr < 2;
+
+    return $self->res_sectors + $self->fats * $self->fat_size + $self->_root_sectors +
+      ($cl_nr - 2) * $self->cluster_size;
+  }
+
+
+  sub sector_to_cluster
+  {
+    my $self = shift;
+    my $sec_nr = shift;
+
+    $sec_nr -= $self->res_sectors + $self->fats * $self->fat_size + $self->_root_sectors;
+
+    return undef if $sec_nr < 0;
+
+    return $sec_nr / $self->cluster_size + 2;
+  }
+
+
+  sub wasted_sectors
+  {
+    my $self = shift;
+
+    return $self->_data_sectors - $self->clusters * $self->cluster_size;
+  }
+
+
+  sub fat_entry
+  {
+    my $self = shift;
+    my $cl_nr = shift;
+    my $bits = $self->fat_bits;
+    my $fats = $self->fats;
+    my ($cl, $i, $ofs);
+
+    return undef unless $bits;
+
+    if(@_) {
+      for($i = 0; $i < $fats; $i++) {
+        if($bits == 12) {
+          $ofs = ($self->res_sectors + $self->fat_size * $i) * $self->sector_size + $cl_nr + ($cl_nr >> 1);
+          $cl = $self->_word($ofs);
+          if($cl_nr & 1) {
+            $cl = ($cl & ~0xfff0) + (($_[0] << 4) & 0xfff0);
+          }
+          else {
+            $cl = ($cl & ~0xfff) + ($_[0] & 0xfff);
+          }
+          $self->_word($ofs, $cl);
+        }
+        elsif($bits == 16) {
+          $self->_word(($self->res_sectors + $self->fat_size * $i) * $self->sector_size + ($cl_nr << 1), $_[0]);
+        }
+      }
+    }
+
+    if($bits == 12) {
+      $cl = $self->_word($self->res_sectors * $self->sector_size + $cl_nr + ($cl_nr >> 1));
+      if($cl_nr & 1) {
+        $cl >>= 4;
+      }
+      else {
+        $cl &= 0xfff;
+      }
+    }
+    elsif($bits == 16) {
+      $cl = $self->_word($self->res_sectors * $self->sector_size + ($cl_nr << 1));
+    }
+
+    return $cl;
+  }
+
+
+  sub free_cluster
+  {
+    my $self = shift;
+    my $clusters = $self->clusters + 2;
+    my $cl_nr;
+
+    for($cl_nr = 2; $cl_nr < $clusters; $cl_nr ++) {
+      return $cl_nr unless $self->fat_entry($cl_nr);
+    }
+
+    return undef;
+  }
+
+
+  sub add_file
+  {
+    my $self = shift;
+    my ($cl_nr, $idx, $name, $attr, $buf) = @_;
+    my $cl_len = $self->cluster_size * $self->sector_size;
+    my $len = length($buf);
+    my ($i, $cl, $start, $next);
+
+    if($len) {
+      $start = $self->free_cluster;
+      return undef unless $start;
+    }
+
+    $self->dir_entry($cl_nr, $idx, new_dir_entry(
+      $name, $attr, $self->fs_time, $self->fs_date, $start, $len
+    ));
+
+    return 1 unless $len;
+
+    for($i = 0; $i < $len; $i += $cl_len) {
+      $self->cluster($start, substr($buf, $i, $cl_len));
+      $self->fat_entry($start, 0xffff);
+      if($i + $cl_len < $len) {
+        $next = $self->free_cluster;
+        return undef unless $next;
+        $self->fat_entry($start, $next);
+      }
+      $start = $next;
+    }
+
+    return 1;
+  }
+
+
+  sub add_dir
+  {
+    my $self = shift;
+    my ($cl_nr, $idx, $name, $attr) = @_;
+    my $start = $self->free_cluster;
+
+    return undef unless $start;
+
+    $self->dir_entry($cl_nr, $idx, new_dir_entry(
+      $name, 0x10 | $attr, $self->fs_time, $self->fs_date, $start, 0
+    ));
+    $self->fat_entry($start, 0xffff);
+
+    $self->dir_entry($start, 0, new_dir_entry(
+      ".", 0x10 | $attr, $self->fs_time, $self->fs_date, $start, 0
+    ));
+    $self->dir_entry($start, 1, new_dir_entry(
+      "..", 0x10 | $attr, $self->fs_time, $self->fs_date, $cl_nr, 0
+    ));
+
+    return $start;
+  }
+
+
+  sub init_fs
+  {
+    my $self = shift;
+    my ($clusters, $i, $ofs, $buf);
+
+    $self->_word($self->sector_size - 2, 0xaa55);
+    $self->resize_image($self->sector_size * $self->sectors);
+
+    $clusters = $self->clusters;
+
+    if(!$self->fat_bits && !$self->fat_size) {
+      for(my $i = 0; $i < 2; $i++) {
+        # two iterations should be enough
+        $self->fat_bits($clusters <= 0xff5 ? 12 : 16);
+        $self->fat_size((($self->fat_bits * ($clusters + 2) + 7) / 8 + $self->sector_size - 1) / $self->sector_size);
+        $clusters = $self->clusters;
+      }
+    }
+
+    for($i = $self->res_sectors; $i < $self->sectors; $i++) {
+      # clear all sectors
+      $self->sector($i, undef);
+    }
+
+    for($i = 0; $i < $self->fats; $i++) {
+      $ofs = ($self->res_sectors + $i * $self->fat_size) * $self->sector_size;
+      $self->_byte($ofs, $self->media_id);
+      $self->_word($ofs + 1, 0xffff);
+      $self->_byte($ofs + 3, 0xff) if $self->fat_bits >= 16;
+      $self->_dword($ofs + 4, 0xffffffff) if $self->fat_bits == 32;
+    }
+
+    $self->add_file(0, 0, $self->volume_id, 8, undef);
+  }
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# Create special FAT image.
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+{
+  package MakeFAT;
+
+  use strict 'vars';
+  use integer;
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  my $boot_msg = "\r
+  I'm $::ConfigData{full_product_name} Boot Disk <disk>. I cannot boot. :-(\r
+  \r
+  Please try Boot Disk 1.\r\n";
+
+
+  # Not more than 1024 chars (1 cluster)! --> Or adjust cluster size!
+  my $readme =
+  "This is $::ConfigData{full_product_name} Boot Disk <disk>.
+
+  <x_readme>
+  To access Boot Disk data, you have to join the individual disk images first:
+
+    cat bootdsk? >/tmp/bootdisk
+
+  Then mount it as usual:
+
+    mount -oloop /tmp/bootdisk /mnt
+
+  When you're done, unmount it:
+
+    umount /mnt
+
+  If you have changed Boot Disk data and want to get separate Boot Disk images
+  of floppy size back, split it:
+
+    split -a 1 -b 1440k /tmp/bootdisk /tmp/bootdsk
+
+  The new Boot Disks are /tmp/bootdsk[a-<last_disk_letter>].\n";
+
+
+  my $x_readme =
+  "\n***  There is nothing for you to change on this disk.  ***\n";
+
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # cluster size, extra root dir sectors
+  my @format = (
+    [ 4, 1 ],	# 1 (at least 32 root entries (16 + 16 * _1_), default)
+    undef,	# 1
+    [ 4, 1 ],	# 2
+    [ 4, 3 ],	# 3
+    [ 4, 1 ],	# 4
+    [ 4, 3 ],	# 5
+    [ 4, 1 ],	# 6
+    [ 4, 2 ],	# 7
+  );
+
+  my $opt_disks = 2;
+  my ($serial, $fat);
+
+
+  sub set_boot_msg
+  {
+    my $msg = shift;
+    my $code =
+      "\xfa\x31\xc9\x8e\xd1\x89\xcc\x8e\xd9\x8e\xc1\xfb\xfc\xe8\x00\x00" .
+      "\x5e\x81\xc6\x13\x00\xac\x08\xc0\x74\xfe\xbb\x07\x00\xb4\x0e\xcd" .
+      "\x10\xeb\xf2";
+
+    $fat->boot_code($code . $msg . "\x00");
+  }
+
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  sub create_image
+  {
+    my ($cl_size, $x_root, $i, $ldsk);
+
+    $cl_size = $format[$opt_disks] ? $format[$opt_disks][0] : $format[0][0];
+    $x_root = $format[$opt_disks] ? $format[$opt_disks][1] : $format[0][1];
+
+    $fat = FAT::new;
+
+    $fat->resize_image(1440 * 1024 * $opt_disks);
+
+    $fat->sector_size(0x200);
+    $fat->res_sectors(1);
+    $fat->extended_bpb(0x29);
+
+    $fat->sectors(1440 * 2 * $opt_disks);
+    $fat->track_size(18);
+    $fat->heads(2);
+    $fat->cluster_size($cl_size);
+    $fat->fats(1);
+    $fat->root_entries((16 * $x_root) + 1);
+
+    $fat->media_id(0xf0);
+    $fat->drive_id(0x00);
+
+    $fat->serial($serial + 0);
+    $fat->volume_id("BOOTDISK1");
+    $fat->manuf_id("SUSE");
+
+    $fat->fs_date(time);
+    $fat->fs_time(0, 10, 9);
+
+    $fat->init_fs;
+
+    $i = $readme;
+    $i =~ s/<x_readme>//g;
+    $i =~ s/<disk>/1/g;
+    $ldsk = chr($opt_disks - 1 + ord('a'));
+    $i =~ s/<last_disk_letter>/$ldsk/g;
+    $fat->add_file(0, 1, "README  TXT", 0, $i);
+  }
+
+
+  sub create_small_image
+  {
+    my $disk = shift;
+    my ($max_cl, $i, $dsk, $ldsk);
+
+    $fat->offset($disk * 1440 * 1024);
+
+    $fat->sector_size(0x200);
+    $fat->res_sectors(1);
+    $fat->extended_bpb(0x29);
+
+    $fat->sectors(1440 * 2);
+    $fat->track_size(18);
+    $fat->heads(2);
+    $fat->cluster_size(2);
+    $fat->fats(1);
+    $fat->root_entries((16 * 1) + 1);
+
+    $fat->media_id(0xf0);
+    $fat->drive_id(0x00);
+
+    $fat->serial($serial + ($disk & 0xf));
+
+    $dsk = $disk + 1;
+
+    $fat->volume_id("BOOTDISK$dsk");
+    $fat->manuf_id("SUSE");
+
+    $i = $boot_msg;
+    $i =~ s/<disk>/$dsk/g;
+    set_boot_msg($i);
+
+    $fat->init_fs;
+
+    $i = $readme;
+    $i =~ s/<x_readme>/$x_readme/g;
+    $i =~ s/<disk>/$dsk/g;
+    $ldsk = chr($opt_disks - 1 + ord('a'));
+    $i =~ s/<last_disk_letter>/$ldsk/g;
+    $fat->add_file(0, 1, "README  TXT", 0, $i);
+
+    $max_cl = $fat->clusters + 2;
+
+    for($i = 3; $i < $max_cl; $i++) {
+      $fat->fat_entry($i, 0xfff7);
+    }
+
+    # printf "res = %u\n", $fat->cluster_to_sector(2);
+
+    if($i = $fat->wasted_sectors) {
+      warn "small image: $i sectors wasted\n"
+    }
+  }
+
+
+  sub Image
+  {
+    my ($i, $res_sectors, $start_sec, $sec, $cl, $clusters, $free_clusters);
+    my ($fat_entry, $file, $verbose);
+
+    ($file, $opt_disks, $verbose) = @_;
+
+    $serial = int(rand(0x10000000)) << 4;
+
+    create_image;
+
+    for($i = 1; $i < $opt_disks; $i++) {
+      create_small_image $i;
+    }
+
+    $res_sectors = $fat->cluster_to_sector(2 + 1);	# 1 cluster for 'README'
+
+    # print "res_sectors = $res_sectors\n";
+
+    $fat->offset(0);
+
+    for($i = 1; $i < $opt_disks; $i++) {
+      $start_sec = 1440 * 2 * $i;
+      for($sec = $start_sec; $sec < $start_sec + $res_sectors; $sec ++) {
+        $cl = $fat->sector_to_cluster($sec);
+        $fat->fat_entry($cl, 0xfff7);
+        # print "sec = $sec, $cl\n";
+      }
+    }
+
+    $clusters = $fat->clusters + 2;
+    $free_clusters = 0;
+
+    for($i = 2; $i < $clusters; $i++) {
+      $fat_entry = $fat->fat_entry($i);
+      $free_clusters++ if defined($fat_entry) && $fat_entry == 0;
+    }
+
+    if($verbose) {
+      printf "      image size = %u\n", $fat->sectors * $fat->sector_size;
+      printf "        manuf id = \"%s\"\n", $fat->manuf_id;
+      printf "     sector size = 0x%x\n", $fat->sector_size;
+      printf " sectors/cluster = %u\n", $fat->cluster_size;
+      printf "reserved sectors = %u\n", $fat->res_sectors;
+      printf "            fats = %u\n", $fat->fats;
+      printf "root dir entries = %u\n", $fat->root_entries;
+      printf "         sectors = %u\n", $fat->sectors;
+      printf "        media id = 0x%02x\n", $fat->media_id;
+      printf "     sectors/fat = %u\n", $fat->fat_size;
+      printf "   sectors/track = %u\n", $fat->track_size;
+      printf "           heads = %u\n", $fat->heads;
+      printf "  hidden sectors = %u\n", $fat->hidden_sectors;
+      printf "        drive id = 0x%02x\n", $fat->drive_id;
+      printf " extended bpb id = 0x%02x\n", $fat->extended_bpb;
+      printf "          serial = 0x%08x\n", $fat->serial;
+      printf "       volume id = \"%s\"\n", $fat->volume_id;
+      printf "        fat bits = %u\n", $fat->fat_bits;
+      printf "        clusters = %u\n", $fat->clusters;
+      printf "   free clusters = %u (%uk)\n", $free_clusters, ($free_clusters * $fat->cluster_size * $fat->sector_size) >> 10;
+      printf "  wasted sectors = %u\n", $fat->wasted_sectors if $fat->wasted_sectors;
+    }
+
+    $fat->write_image($file) if $file;
+
+    return ( $free_clusters, $fat->cluster_size * $fat->sector_size );
+  }
+}
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# Parse command line and do something.
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+use Getopt::Long;
+
+sub cleanup;
+sub dir_sort_func;
+sub dir_sort;
+sub help;
+sub dir_size;
+sub get_disk_number;
+
+my $opt_file = "./bootdisk";
+my $opt_verbose = 0;
+my $opt_src = undef;
+my $opt_64 = 0;
+my $opt_96 = 0;
+my $opt_keep = undef;
+
+my ($boot_disks, $tmp_dir, $buf, $i);
+
+END { cleanup }
+$SIG{INT} = \&cleanup;
+$SIG{TERM} = \&cleanup;
+
+$ENV{PATH} = "/bin:/usr/bin:/sbin:/usr/sbin";
+
+chomp (my $arch = `uname -m`);
+$opt_64 = 1 if $arch eq 'x86_64';
+
+GetOptions(
+  'help|h'    => \&help,
+  'verbose|v' => \$opt_verbose,
+  'out|o=s'   => \$opt_file,
+  '96'        => sub { $opt_64 = 0; $opt_96 = 1 },
+  '64'        => sub { $opt_64 = 1; $opt_96 = 0 },
+  '32'        => sub { $opt_64 = 0; $opt_96 = 0 },
+  'keep'      => \$opt_keep,
+);
+
+$opt_src = shift;
+
+help unless $opt_src && -d($opt_src);
+
+die "error: must be root to run this script\n" if $<;
+
+chomp ($tmp_dir = `mktemp -d /tmp/mkbootdisk.XXXXXXXXXX`);
+die "error: mktemp failed\n" if $?;
+
+my $src = "$opt_src/boot/loader";
+$src = "$opt_src/loader" unless -d $src;
+$src = $opt_src unless -d $src;
+
+mkdir "$tmp_dir/src", 0755;
+mkdir "$tmp_dir/mp", 0755;
+system "cp -a '$src'/* $tmp_dir/src" and die "error: failed to copy boot loader files\n";
+
+$src = "$tmp_dir/src";
+
+# delete unnecessary files
+if(!$opt_96) {
+  for my $f (<$src/*64>) {
+    if($opt_64) {
+      (my $s = $f) =~ s/64$//;
+      rename $f, $s;
+    }
+    else {
+      unlink $f;
+    }
+  }
+}
+
+# prepare syslinux config file
+
+open F, "$src/isolinux.cfg"; my @cfg = <F>; close F;
+my $n = 2;
+$n = 6 if $opt_64;
+$n = 18 if $opt_96;
+s/^(notice\s+)(\d+)/$1$n/ for @cfg;
+push @cfg, "disksize\t2880\n";
+open F, ">$src/syslinux.cfg"; print F @cfg; close F,
+unlink "$src/isolinux.cfg";
+
+$boot_disks = get_disk_number $src;
+$boot_disks = 2 if $boot_disks < 2;
+
+MakeFAT::Image("$tmp_dir/img", $boot_disks, $opt_verbose);
+
+system "mount -tmsdos -oloop $tmp_dir/img $tmp_dir/mp" and die "error: mount failed\n";
+my $mp = "$tmp_dir/mp";
+system "cp -r $src/${\dir_sort $src} $mp" and die "error: copy failed\n";
+my $size = 0;
+for (`df -Pk $tmp_dir/mp`) {
+  $i = (split)[3];
+  if($i =~ /^\d+$/) {
+    $size = $i;
+    last;
+  }
+}
+system "umount $mp" and die "error: umount failed\n";
+undef $mp;
+
+$i = "32 bit";
+$i = "64 bit" if $opt_64;
+$i = "32+64 bit" if $opt_96;
+
+print "Writing $boot_disks boot disks ($i, ${size}k free).\n";
+
+open F, "$tmp_dir/img";
+for ($i = 1; $i <= $boot_disks; $i++) {
+  unlink "$opt_file$i";
+  open W, ">$opt_file$i";
+  sysread F, $buf, 1440*1024;
+  syswrite W, $buf;
+  close W;
+}
+close F;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# Unmount image and remove temorary files.
+#
+sub cleanup
+{
+  system "umount $mp" if $mp;
+  undef $mp;
+  system "rm -r $tmp_dir" if ! $opt_keep && -d "$tmp_dir";
+  undef $tmp_dir;
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# Sorting function to ensure files are written in the correct order.
+#
+sub dir_sort_func
+{
+  my ($w, $i, $p);
+
+  $p = 2;
+  for $i qw ( .*\.spl initrd64 linux64 initrd linux memtest bootlogo message .*\.cfg ) {
+    $w -= $p if $a =~ /^$i$/;
+    $w += $p if $b =~ /^$i$/;
+    $p <<= 1;
+  }
+
+  return $w + ($a cmp $b);
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# Sort directory.
+#
+sub dir_sort
+{
+  my ($i, $size, @dir);
+
+  opendir D, shift;
+  @dir = grep { !/^\./ } readdir D;
+  closedir D;
+
+  my $files = join(',', sort(dir_sort_func @dir));
+  $files = "{".$files."}" if ($files =~ /,/);
+  return $files;
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+sub help
+{
+  (my $p = $0) =~ s:.*/::;
+
+  print STDERR
+  "Usage: $p [options] cd_mount_point\n" .
+  "Create boot disk images from SUSE Linux DVD or CD1.\n" .
+  "Options:\n" .
+  "  --out file\twrite disks as fileN (default: bootdisk)\n" .
+  "  --32\t\tcreate boot disks for 32 bit arch\n" .
+  "  --64\t\tcreate boot disks for 64 bit arch\n" .
+  "Examples:\n" .
+  "  $p /media/cdrom\n" .
+  "  - write boot disks as bootdisk1 ... bootdiskN (N is approx. 6)\n" .
+  "  $p --64 --out foo /media/cdrom\n" .
+  "  - write 64 bit boot disks as foo1 ... fooN\n";
+
+  exit 0;
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+sub dir_size
+{
+  my ($i, $size);
+  my ($dir, $block_size) = @_;
+
+  for $i (<$dir/*>) {
+    next if -l $i;
+    next if $i =~ m|/\.\.?$|;
+    $size += dir_size($i, $block_size) if -d $i;
+    $size += ((-s $i) + $block_size - 1) / $block_size if -f $i;
+  }
+
+  return $size;
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+sub get_disk_number
+{
+  my ( $est, $i, $blocks, $block_size, $dir_size, $disks );
+
+  my $src = shift;
+
+  # minimum estimate
+  $est = dir_size($src, 2048) / 720 + 1;
+
+  for($i = $est; $i < $est + 10; $i++) {        # max 10 tries
+    ($blocks, $block_size) = MakeFAT::Image(undef, $i);
+    # print "$i: $est, $blocks, $block_size\n";
+
+    $dir_size = dir_size($src, $block_size);
+    # print "$blocks, $dir_size\n";
+    if($blocks >= $dir_size) {
+      $disks = $i;
+      last;
+    }
+    undef $blocks;
+  }
+
+  return $disks;
+}
+
+
