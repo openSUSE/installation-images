@@ -9,7 +9,7 @@ sles9   = 9.1
 
 
 ; kernel image name
-; use 'kernel_image' to override
+; use 'kernel_img' to override
 ;
 ; *** These are actually perl regexps! ***
 ;
@@ -17,6 +17,7 @@ sles9   = 9.1
 default	= vmlinuz-
 alpha	= vmlinuz
 ppc	= vmlinux
+ppc64	= vmlinux
 mips	= vmlinux
 s390	= image
 s390x	= image
@@ -40,25 +41,35 @@ floppy	=
 [Theme SuSE]
 yast	= SuSELinux
 splash	= SuSE
-product	= SUSE LINUX
+product	= SUSE Linux
 version = 9.1
 update	= /linux/suse/<arch>-<rel>
+image	= 160
 
 
 [Theme Home]
 yast	= SuSELinux
 splash	= SuSE-Home
-product	= SUSE LINUX
+product	= SUSE Linux
 version = 9.1
 update	= /linux/suse/<arch>-<rel>
+image	= 160
 
 
 [Theme SuSE-SLES]
 yast	= SuSELinux
-# splash	= SuSE-SLES
-splash	= SuSE
-product	= SuSE Linux
+splash	= SuSE-SLES
+product	= SUSE LINUX Enterprise Server 9
 update	= /linux/suse/<arch>-<sles>
-image	= 128
+memory	= 256
+image	= 160
+
+
+[Theme SuSE-NLD]
+yast	= SuSELinux
+splash	= SuSE-NLD
+product	= Novell Linux Desktop 9
+update	= /linux/suse/<arch>-<sles>
+image	= 160
 
 
