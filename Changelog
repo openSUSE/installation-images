@@ -1,3 +1,8 @@
+	- s390: added missing files from s390-tools
+	- s390: netsetup: NETIUCV is now netiucv (bug #37092)
+	- s390: added lotsa perl stuff for YaST disk dialogs (bug #37068)
+	- s390: added missing sshd user/group (bug #37056)
+
 29/3/2004:	v5.33
 	- added pmtools (#36818)
 	- changed sshd message (#36928)

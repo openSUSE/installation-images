@@ -1363,7 +1363,7 @@ function load_IUCV () {
     fi
     [ "$ANSW" ] && export PEER=$ANSW
 
-    IUCVDIR="/sys/bus/iucv/drivers/NETIUCV"
+    IUCVDIR="/sys/bus/iucv/drivers/netiucv"
     if [ -d "$IUCVDIR" ]; then
       echo "Unloading netiucv, iucv modules..."
       execcmd "/sbin/rmmod netiucv"

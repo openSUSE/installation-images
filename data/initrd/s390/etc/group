@@ -30,3 +30,4 @@ users:x:100:
 nobody:x:65533:nobody
 nogroup:x:65534:nobody
 abuild:x:99:
+sshd:!:65:

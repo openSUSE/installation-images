@@ -79,6 +79,9 @@ if arch eq 's390' || arch eq 's390x'
     # are these really needed before the installation system is mounted?
     /sbin/fdasd
     /sbin/dasdfmt
+    /sbin/dasd_configure
+    /sbin/zfcp_host_configure
+    /sbin/zfcp_disk_configure
     /lib*/libvtoc.so*
   libxcrypt:
     /lib*/libxcrypt.so*
