@@ -1,3 +1,4 @@
+	- add hfs, hfs+ on ppc
 	- add /etc/bash.bashrc to ignore history dups
 	- run udevstart early and reconnect console fd
 	- add udev to rescue
