@@ -239,15 +239,21 @@ for (@sect) {
   for $f (sort { $fname{$a} cmp $fname{$b} } keys %{$sect{$_}{'a'}}) {
     next if $sect{$_}{'r'}{$f};
     if($fname{$f}) {
-      if($_ eq 'cd1') {
-        print W "  /lib/modules/<kernel_ver>/$fname{$f}\n";
-      }
-      else {
-        print W "a /lib/modules/<kernel_ver>/$fname{$f} /modules\n";
-      }
+      print W "a /lib/modules/<kernel_ver>/$fname{$f} /modules\n";
     }
   }
   close W;
+
+  if($_ eq 'cd1') {
+    open W, ">${dst}files.$s-instsys";
+    for $f (sort { $fname{$a} cmp $fname{$b} } keys %{$sect{$_}{'a'}}) {
+      next if $sect{$_}{'r'}{$f};
+      if($fname{$f}) {
+        print W "  /lib/modules/<kernel_ver>/$fname{$f}\n";
+      }
+    }
+    close W;
+  }
 
   open W, ">${dst}list.$s";
   print W ";\n; ${\real_name($_)} modules\n;\n";

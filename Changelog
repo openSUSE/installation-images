@@ -1,3 +1,6 @@
+25/5/2004:	v5.59
+	- some modules were added twice to initrd
+
 24/5/2004:	v5.58
 	- fixed module config
 
