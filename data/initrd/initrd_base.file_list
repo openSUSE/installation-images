@@ -603,6 +603,7 @@ endif
 
 if product eq 'UnitedLinux'
   e echo "ProductDir:	<product>" >>linuxrc.config
+  e echo "MemLoadImage:	98304" >>linuxrc.config
 endif
 
 if lang
