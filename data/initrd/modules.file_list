@@ -12,7 +12,7 @@ f / tulip.o /
 endif	# net
 
 
-if ites eq 'scsi'
+if items eq 'scsi'
 t {MORE,NEEDMOD,SCSI}
 
 f / DAC960.o /
