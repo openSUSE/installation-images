@@ -1,3 +1,6 @@
+7/10/2004:	v6.17
+	- added norwegian translations
+
 5/10/2004:	v6.16
 	- don't set lower_zone_protection (#46535)
 	- mount root image from CD if mem less about 350MB (#46535)
