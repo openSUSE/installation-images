@@ -274,6 +274,7 @@ if arch eq 's390' || arch eq 's390x'
     /usr/lib*/libasn1.so.*
     /usr/lib*/libgssapi.so.*
     /usr/lib*/libkrb5.so.*
+    /usr/lib*/libkafs.so.*
     /usr/lib*/libroken.so.*
 
   openldap2-client:
