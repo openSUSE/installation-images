@@ -73,17 +73,17 @@ printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $bloc
 SUSystem "umount /mnt 2>/dev/null";
 
 # add the other files
-SUSystem "mount -oloop -t msdos $image /mnt" and
+SUSystem "mount -oloop -t vfat $image /mnt" and
   die "$Script: mount failed";
 
 if($ENV{modules} eq "2") {
   SUSystem "cp  $srcdir/net2mod.gz /mnt/net-mod.gz" and
     die "$Script: could not add net2mod.gz";
-  SUSystem "cp  $srcdir/other2mo.gz /mnt/other-mo.gz" and
+  SUSystem "cp  $srcdir/other2mo.gz /mnt/other-mod.gz" and
     die "$Script: could not add other2mo.gz";
 }
 else {
-  SUSystem "cp $srcdir/net-mod.gz $srcdir/other-mo.gz $srcdir/scsi-mod.gz /mnt" and
+  SUSystem "cp $srcdir/net-mod.gz $srcdir/other-mod.gz $srcdir/scsi-mod.gz /mnt" and
     die "$Script: could not add module images";
 }
 

@@ -1,6 +1,7 @@
 9/1/2001:	v1.26
 	- drop all XFree86 3.x servers (ia32 only)
 	- add /usr/bin/od
+	- use long filenames on modules disk
 
 7/1/2001:	v1.25
 	- fixed rescue-system
