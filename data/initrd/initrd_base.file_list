@@ -59,7 +59,7 @@ if arch eq 's390' || arch eq 's390x'
   glibc:
     /etc/nscd.conf
     /etc/rpc
-    /lib*/ld.so.1
+    /lib*/ld*.so*
     /lib*/ld[-.]*.so
     /lib*/libc.so.*
     /lib*/libcrypt.so.*
@@ -107,7 +107,6 @@ if arch eq 's390' || arch eq 's390x'
     /lib*/libacl.so.1
     /lib*/libacl.so.1.0.0
   popt:
-    /usr/lib*/libpopt.so
     /usr/lib*/libpopt.so.0
     /usr/lib*/libpopt.so.0.0.0
   samba-classic-client:
