@@ -64,6 +64,9 @@ $start_inodes = 7000;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
+# default to 'large'
+$ENV{'initrd'} = 'large' if $ENV{'initrd'} eq '';
+
 if($ENV{'keepinitrd'} != 1) {
   # clean up
   if(-d $tmpdir) {

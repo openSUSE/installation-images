@@ -1,3 +1,6 @@
+8/1/2002:	v1.111
+	- new module handling
+
 4/1/2002:	v1.110
 	- added more yast2 packages
 	- added wget & openssl

@@ -29,6 +29,7 @@ kernel/drivers/usb/usb-ohci.o
 kernel/drivers/usb/usb-uhci.o
 kernel/drivers/usb/usbcore.o
 kernel/drivers/char/nvram.o
+kernel/drivers/char/agp/
 kernel/drivers/message/fusion
 kernel/drivers/message/i2o
 kernel/fs/ext3/

@@ -1,0 +1,15 @@
+; module line format:
+;		module,description,parameter,pre_install,post_install,initrd,auto
+;
+; module:	the actual module name (without '.o')
+; description:	a short description; leave it blank if you do not want this module
+; 		to be displayed in linuxrc
+; parameter:	module parameters
+; pre_install:	space separated list of modules to be loaded before the module
+; post_install:	space separated list of modules to be loaded after the module
+; initrd:	set it to 1 if you want this module to be added to the initrd
+;		of the installed system
+; auto:		set it to 1 if it _would_ be safe to always load this module
+;
+
+

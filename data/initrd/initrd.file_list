@@ -1,202 +1,63 @@
 # common part for all initrds
 include initrd_base.file_list
 
-x module.config /modules
-
 if !(arch eq 's390' || arch eq 's390x')
 <kernel_rpm>:
 
-# we support 3 different initrd sizes: 'small', '', 'large'
+# we support 2 different initrd sizes: 'small' and 'large'
 # 'small'     : bootdisk
-# '' (default): 2.88MB image
 # 'large'     : no size limit
+# no longer supported: '': 2.88MB image
 
-if special eq 'xfs'
-  f / xfs.o /modules
-  f / jfs.o /modules
-  f / xfs_support.o /modules
-
-  f / linear.o /modules
-  f / lvm-mod.o /modules
-  f / md.o /modules
-  f / raid0.o /modules
-  f / raid1.o /modules
-  f / raid5.o /modules
-  f / xor.o /modules
-  f / hpfs.o /modules
-  f / loop_fish2.o /modules
-  f / isa-pnp.o /modules
-  f / lp.o /modules
-  f / parport.o /modules
-  f / parport_pc.o /modules
-  f / imm.o /modules
-  f / ppa.o /modules
-  f / ide-scsi.o /modules
-  f / agpgart.o /modules
+if extramod
+  f / <extramod>.o /modules
 endif
+
 
 if arch eq 'ia32'
 
+  x module.help modules/module.config
+
   if initrd eq 'small'
 
-    f / nvram.o /modules
+    include gen/module.files.autoload
+    include gen/module.files.usb
 
-      if usb_mods ne 'no'
-        f / usbcore.o /modules
-        f / usb-uhci.o /modules
-        f / usb-ohci.o /modules
-        f / input.o /modules
-        f / hid.o /modules
-        f / keybdev.o /modules
-        f / usb-storage.o /modules
-      endif
+    # note: order _does_ matter
+    A gen/module.config.autoload modules/module.config
+    A gen/module.shortconfig.scsi modules/module.config
+    A gen/module.shortconfig.cdrom modules/module.config
+    A gen/module.shortconfig.net modules/module.config
+    A gen/module.shortconfig.pcmcia modules/module.config
+    A gen/module.config.usb modules/module.config
+    A gen/module.shortconfig.fs modules/module.config
+    A gen/module.config.other modules/module.config
 
-      if extramod
-        f / <extramod>.o /modules
-      endif
+  elsif initrd eq 'large'
 
-      if suse_xrelease eq 'beta'
-        M usbcore usb-uhci usb-ohci input hid keybdev usb-storage
-      endif
+    include gen/module.files.autoload
+    include gen/module.files.cdrom
+    include gen/module.files.fs
+    include gen/module.files.net
+    include gen/module.files.pcmcia
+    include gen/module.files.scsi
+    include gen/module.files.usb
+    # not strictly necessary
+    include gen/module.files.other
 
-  else
-
-    f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
-    f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
-
-    f / mptbase.o /modules
-    f / mptscsih.o /modules
-
-    f / reiserfs.o /modules
-
-    f / DAC960.o /modules
-    f / cciss.o /modules
-    f / cpqarray.o /modules
-
-    f / nvram.o /modules
-
-    f / usbcore.o /modules
-    f / usb-uhci.o /modules
-    f / usb-ohci.o /modules
-    f / input.o /modules
-    f / hid.o /modules
-    f / keybdev.o /modules
-    f / mousedev.o /modules
-    f / usb-storage.o /modules
-
-    f / isa-pnp.o /modules
-    f / parport.o /modules
-    f / paride.o /modules
-    f / parport_pc.o /modules
-
-    f / i2o_pci.o /modules
-    f / i2o_core.o /modules
-    f / i2o_config.o /modules
-    f / i2o_block.o /modules
-
-    f / isp16.o /modules
-
-    if initrd eq 'large'
-
-      if suse_release == 7.2
-        f /lib/modules/<kernel_ver>/pcmcia *.o /modules
-      else
-        f /lib/modules/<kernel_ver>/pcmcia-external *.o /modules
-      endif
-
-      r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs}.o
-      r /modules/{sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
-
-    endif
+    # note: order _does_ matter
+    A gen/module.config.autoload modules/module.config
+    A gen/module.config.scsi modules/module.config
+    A gen/module.config.cdrom modules/module.config
+    A gen/module.config.net modules/module.config
+    A gen/module.config.pcmcia modules/module.config
+    A gen/module.config.usb modules/module.config
+    A gen/module.config.fs modules/module.config
+    A gen/module.config.other modules/module.config
 
   endif
 
-  # scsi
-  r /modules/{ide-scsi,scsi_debug,sg}.o
-
-  # block
-  r /modules/{nbd,xd,drbd}.o
-
-  # net
-  r /modules/{soundmodem,wanpipe,pppox,ppp,ppp_deflate,slip,irda,irda_deflate,syncppp,sktr}.o
-  r /modules/{wanxl,n2,c101,hdlc,cosa,sealevel,hostess_sv11,z85230,ircomm,irlan,bsd_comp,cops}.o
-
-  r /modules/{comx-hw-comx,comx-hw-locomx,comx-hw-mixcom,comx-proto-fr,comx-proto-lapb}.o
-  r /modules/{comx-proto-ppp,comx,6pack,baycom_epp,baycom_par,bpqether,baycom_ser_fdx}.o
-  r /modules/{baycom_ser_hdx,dlci,dmascc,hdlcdrv,ipddp,lapbether,mkiss,scc,sdla,sdladrv}.o
-  r /modules/{x25_asy,yam,strip,wavelan,bonding,rcpci,pc300,eata_dma}.o
-
-  r /modules/{actisys,cyclomx,esi,girbil,irport,irtty,litelink,lmc,nsc-ircc,old_belkin}.o
-  r /modules/{pppoe,rfc1051,rfc1201,smc-ircc,tekram,toshoboe,w83977af_ir,ali-ircc}.o
-
-  if initrd eq '' 
-
-    r /modules/{ppa,imm}.o
-
-    # really huge (gigabit) networks mods: make room for other stuff
-    r /modules/{skfp,sk98lin,dgrs,acenic}.o
-
-    r /modules/{tlan,arlan,arlan-proc,ltpc,de620,de600,depca}.o
-
-    # who needs these ACRNet things anyway?
-    r /modules/{arcnet,com20020,com90io,com90xx,arc-rawmode,com20020-isa,com20020-pci,}.o
-
-    r /modules/{ppp_mppe,ethertap,arc-rimi,yellowfin,shaper,3c503,3c501,3c509,3c507,3c505}.o
-    r /modules/{hp-plus,ni65,ni5010}.o
-
-    r /modules/{aironet4500_proc,aironet4500_core,aironet4500_card,osst}.o
-
-    # make it really small!
-    r /modules/{BusLogic,advansys,qlogicfc,qla2x00}.o
-
-    # pcmcia
-
-    f / i82365.o      /modules
-    f / ds.o          /modules
-    f / tcic.o        /modules
-    f / pcmcia_core.o /modules
-    f / cb_enabler.o  /modules
-
-    f / ide_cs.o      /modules
-    f / aha152x_cs.o  /modules
-    f / tulip_cb.o    /modules
-    f / xirc2ps_cs.o  /modules
-    f / pcnet_cs.o    /modules
-    f / apa1480_cb.o  /modules
-    f / 3c574_cs.o    /modules
-    f / 3c575_cb.o    /modules
-    f / 3c589_cs.o    /modules
-
-    f / epic_cb.o     /modules
-    f / fdomain_cs.o  /modules
-    f / fmvj18x_cs.o  /modules
-    f / ftl_cs.o      /modules
-    f / qlogic_cs.o   /modules
-    f / smc91c92_cs.o /modules
-
-    # duplicate, no longer exsists
-    r /modules/3c90x.o
-
-    r /modules/st.o
-    r /modules/aic7xxx_old.o
-    r /modules/irda-usb.o
-    r /modules/{lance,cycx_drv,eata_pio,eata}.o
-    r /modules/{lanstreamer,sunhme,sb1000,airo}.o
-    r /modules/{vpi0,ppscsi,epsa2,epst,onscsi,sparcsi,t348,t358}.o
-    r /modules/{ppp_generic,ppp_synctty,ppp_async}.o
-
-    r /modules/{cs89x0,sundance,iph5526}.o
-
-    M 3c515 ni52 at1700 lne390 tms380tr smctr ewrk3 eth16i
-    M starfire hamachi ibmtr de4x5 rrunner hp100
-    M eepro100 olympic
-
-    r /modules/{apa1480_cb,wavelan_cs}.o
-
-  endif
-
-endif		# arch eq 'ia32'
-
+endif
 
 
 if arch eq 'ppc'

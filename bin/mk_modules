@@ -54,10 +54,10 @@ $fl = "modules";
 $fl = $ENV{'filelist'} if exists $ENV{'filelist'};
 
 if($disk == 2) {
-  @modimages = qw ( cdrom net pcmcia );
+  @modimages = qw ( net pcmcia cdrom );
 }
 else {
-  @modimages = qw ( fs scsi );
+  @modimages = qw ( scsi fs );
 }
 
 for (@modimages) {
@@ -73,7 +73,7 @@ SUSystem "strip_dir $tmpdir";
 $fstype = !$ENV{'nominix'} ? 'minix' : 'ext2';
 
 for (@modimages) {
-  Conv2Image "$image/${_}-mod", "$tmpdir/${_}-mod", $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
+  Conv2Image "$image/${_}-mod", "$tmpdir/${_}-mod/modules", $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
   system "gzip -f -9 $image/${_}-mod" and die "$Script: gzip failed";
   $i = -s "$image/${_}-mod.gz";
   print "$Script: compressed image to \"$image/${_}-mod.gz\" ($i bytes)\n";

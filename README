@@ -4,7 +4,7 @@
 To build a new image, you have to:
 
  - be root
- - put the y2image dir on a *local* file system (non-NFS)
+ - put the installation-images dir on a *local* file system (non-NFS)
  - on ia32 systems: linuxrc & syslinux installed
 
 Then you can do:
@@ -34,8 +34,8 @@ Then you can do:
     - build a (2.88MB) Live/LiveEval boot image (for ia32)
     - add 'boot=small initrd=small' to get a 1.44MB *test* image
 
-The images are stored in the y2image/image directory, the contents of the
-images (except for the boot image) in the y2image/tmp directory.
+The images are stored in the image directory, the contents of the
+images (except for the boot image) in the tmp directory.
 
 There is some special magic built into the scripts that make sure that the
 initrd fits on the boot disk by removing/adding some of the modules. See the
@@ -55,13 +55,13 @@ but note:
 2. How to make boot disks
 =========================
 
-The various boot disks differ only slightly from the y2image stuff
+The various boot disks differ only slightly from the installation-images stuff
 (different kernel, module lists and syslinux.cfg file) and are derived from
-the y2image directory using the bin/ci_boot* scripts.
+the installation-images directory using the bin/ci_boot* scripts.
 
 o 'boot' (*the* boot image (2.88MB, 1st CD, ia32 only)
 
-  Whithin the y2image directory, do a
+  Whithin the installation-images directory, do a
 
     make boot
 
@@ -114,7 +114,7 @@ o You can include other files:
 
     include <file>
 
-    <file> is relative to the y2image/data/*/ tree.
+    <file> is relative to the data/*/ tree.
 
 o   if/elsif/else/endif
 
@@ -201,7 +201,7 @@ o <action> <arg1> <arg2> ...
 
     s <args>
 
-  - apply a patch from the y2image/data/*/ tree
+  - apply a patch from the data/*/ tree
     (The patch *must not* contain absolute path names!)
 
     p <patch>
@@ -219,9 +219,13 @@ o <action> <arg1> <arg2> ...
     C <major> <minor> <name>
 
   - add some extra files (That is, add files not from packages but from
-    the y2image/data/*/ directory.)
+    the data/*/ directory.)
 
     x <src> <dst>
+
+  - append <src> to <dst>; <src> is from the data/*/ directory.
+
+    A <src> <dst>
 
   - execute a program/rpm-script
     <program> is run within a chroot env, but <script> is _not_

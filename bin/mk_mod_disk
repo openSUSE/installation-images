@@ -20,6 +20,7 @@ die "usage: $Script\n" if @ARGV;
 
 $srcdir = "${ImagePath}";
 $image = "${ImagePath}modules$ENV{modules}";
+$gen = "${DataPath}initrd/gen/module.";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
@@ -28,10 +29,10 @@ $disk = 1;
 $disk = $ENV{modules} + 0 if exists $ENV{modules};
 
 if($disk == 2) {
-  @modimages = qw ( cdrom net pcmcia );
+  @modimages = qw ( net pcmcia cdrom );
 }
 else {
-  @modimages = qw ( fs scsi );
+  @modimages = qw ( scsi fs );
 }
 
 ($i1, $i2) = split /\./, $ConfigData{suse_release};      
@@ -52,7 +53,10 @@ SUSystem "umount /mnt 2>/dev/null";
 SUSystem "mount -oloop -t vfat $image /mnt" and
   die "$Script: mount failed";
 
+SUSystem "cp ${DataPath}initrd/module.help /mnt/module.config";
 for (@modimages) {
+  SUSystem "sh -c 'cat ${gen}config.$_ >>/mnt/module.config'";
+  system "sh -c 'cat ${gen}list.$_ >>$image.txt'";
   SUSystem "cp  $srcdir/${_}-mod.gz /mnt" and die "$Script: could not add ${_}-mod.gz";
 }
 
@@ -60,7 +64,7 @@ $i3 = $i2*10;
 SUSystem "touch -d $i1:$i3 /mnt/*";
 
 print "contents of $image:\n";
-system "ls -l /mnt";
+system "ls -lU /mnt";
 
 SUSystem "umount /mnt" and
   die "$Script: umount failed";

@@ -146,7 +146,7 @@ sub AddFiles
     $ifmsg = sprintf " [%x|%x] %s\n", $if_val, $if_taken, $_;
 
     s/<(kernel_ver|kernel_rpm|kernel_img|suse_release)>/$ConfigData{$1}/g;
-    for $i (qw( linuxrc lang extramod )) {
+    for $i (qw( linuxrc lang extramod items )) {
       s/<$i>/$ENV{$i}/g if exists $ENV{$i};
     }
 
@@ -399,6 +399,10 @@ sub AddFiles
     elsif(/^p\s+(\S+)$/) {
       SUSystem "patch -d $dir -p0 --no-backup-if-mismatch <$ext_dir/$1 >/dev/null" and
         warn "$Script: failed to apply patch $1";
+    }
+    elsif(/^A\s+(\S+)\s+(\S+)$/) {
+      SUSystem "sh -c 'cat $ext_dir/$1 >>$dir/$2'" and
+        warn "$Script: failed to append $1 to $2";
     }
     elsif(/^x\s+(\S+)\s+(\S+)$/) {
       SUSystem "cp -dR $ext_dir/$1 $dir/$2" and
