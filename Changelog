@@ -1,3 +1,10 @@
+4/9/2001:	v1.91
+	- added root password for instsys
+
+30/8/2001:	v1.90
+	- remove 3.3.6 X server for SPARC, 4.1.0 works for all now
+	- linuxrc can do a 'ps' now
+
 30/8/2001:	v1.89
 	- non-ia32 archs don't like modules
 

@@ -74,6 +74,8 @@ f / i2o_scsi.o /
 
 f / parport.o /
 f / parport_pc.o /
+
+f / isa-pnp.o /
 endif	# scsi
 
 
@@ -188,7 +190,6 @@ f / pcnet32.o /
 f / plip.o /
 f / parport.o /
 f / parport_pc.o /
-f / rrunner.o /
 f / rtl8139.o /
 f / sis900.o /
 f / sk98lin.o /
@@ -198,9 +199,12 @@ f / smc-ultra32.o /
 f / smc9194.o /
 f / starfire.o /
 f / tlan.o /
+f / tulip.o /
 f / via-rhine.o /
 f / wd.o /
 f / yellowfin.o /
+
+f / isa-pnp.o /
 endif	# net
 
 
