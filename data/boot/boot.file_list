@@ -44,7 +44,7 @@ if arch eq 'ia32'
   if (bootlogo eq 'no' || boot eq 'small') && bootlogo ne 'yes'
     R s/.*gfxboot.*//s /syslinux.cfg
   else
-    gfxboot:
+    gfxboot-devel:
       m /usr/share/gfxboot/suseinstall /suselogo
   endif
 

@@ -1,3 +1,5 @@
+	- remove lessopen/lessclose from rescue system
+
 8/5/2001:	v1.63
 	- worked on module lists
 

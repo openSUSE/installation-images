@@ -156,6 +156,12 @@ less:
 r /usr/bin/lesspipe.sh
 t /usr/bin/lesspipe.sh
 c 0755 0 0 /usr/bin/lesspipe.sh
+r /usr/bin/lessopen.sh
+t /usr/bin/lessopen.sh
+c 0755 0 0 /usr/bin/lessopen.sh
+r /usr/bin/lessclose.sh
+t /usr/bin/lessclose.sh
+c 0755 0 0 /usr/bin/lessclose.sh
 
 libz:
   /lib/libz.so*
@@ -295,6 +301,7 @@ c 600 0 0 /dev/initctl
   /{etc,sbin}
 # r /sbin/{powerd,runlevel,setserialbits,start-stop-daemon,sulogin}
   /usr/bin
+  /bin/usleep
 e postin
 
 if suse_release >= 7.1

@@ -528,7 +528,10 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib/modules/drivers
   # video4linux stuff
   r /usr/X11R6/lib/modules/drivers/linux
-    /usr/X11R6/lib/modules/extensions/lib{dbe,extmod,dri}.a
+    /usr/X11R6/lib/modules/extensions/lib{dbe,extmod}.a
+  if arch ne 'ia32'
+    /usr/X11R6/lib/modules/extensions/libdri.a
+  endif
     /usr/X11R6/lib/modules/fonts/libbitmap.a
     /usr/X11R6/lib/modules/input
     /usr/X11R6/lib/modules/linux
@@ -755,9 +758,10 @@ if with_yast2 ne 'no'
     /usr/X11R6/bin
 endif
 
-# the agp module from xsvga may cause 700 permissions; fix it here
-c 0755 0 0 /lib/modules
 if arch eq 'ppc' || arch eq 'sparc' || arch eq 'sparc64'
+  # the agp module from xsvga may cause 700 permissions; fix it here
+  # c 0755 0 0 /lib/modules
+
   d /lib/modules/<kernel_ver>/misc
 endif
 
@@ -879,7 +883,8 @@ if arch eq 'ppc'
     /usr/lib/libparted.so*
 endif
 
-if suse_release >= 7.2
+# remember the sbl package entry above!
+if suse_release >= 7.2 && arch eq 'ia32'
  r /usr/lib/suse-blinux/profile/default
  s y2bignfat /usr/lib/suse-blinux/profile/default
 endif
