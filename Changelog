@@ -3,6 +3,8 @@
 	- added ehci driver
 	- added apic kernel
 	- added xfs module
+	- ro: removed setclock, hwclock_wrapper from aaa_base instead
+	- schwab: Increase initial initrd size again
 
 25/2/2002:	v1.122
 	- move ssh startup to separate file
