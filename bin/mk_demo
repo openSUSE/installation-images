@@ -59,3 +59,13 @@ SUSystem "ln -snf /modules $tmpdir/lib/modules/default/misc";
 
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
 
+# compress it
+system "gzip -f -9 $image" and
+  die "$Script: gzip failed";
+
+rename "${image}.gz", "$image";
+
+$i = -s "$image";
+
+print "$Script: compressed live cd to \"$image\" ($i bytes)\n";
+

@@ -187,6 +187,10 @@ sub AddFiles
       SUSystem "sh -c \"cp -a $tdir/$1 $dir/$2\"" and
         print STDERR "$Script: $1 not copied to $2 (ignored)\n";
     }
+    elsif(/^p\s+(\S+)$/) {
+      SUSystem "patch -d $dir -p0 <$ext_dir/$1 >/dev/null" and
+        die "$Script: failed to apply patch $1";
+    }
     elsif(/^x\s+(\S+)\s+(\S+)$/) {
       SUSystem "cp -dR $ext_dir/$1 $dir/$2" and
         die "$Script: failed to move $1 to $2";

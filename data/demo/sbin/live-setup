@@ -1,6 +1,14 @@
 #! /bin/sh
 
+PATH=$PATH:/S.u.S.E./bin
 cd /
 
+mount /S.u.S.E.
+
 /sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter
+
+cp -af /S.u.S.E./etc/pam.d/* /etc/pam.d
+cp -af /S.u.S.E./etc/rc.config /etc
+
+umount /S.u.S.E.
 

@@ -23,10 +23,11 @@ c 0711 0 0 /root
 # aaa_base's preinstall
 X /sbin/init.d/{boot,halt}.local /sbin/init.d
 X /etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
+p /sbin/boot.patch
 
 # no idea where those are from
 X /etc/SuSEconfig /etc
-X /etc/rc.config /etc
+#X /etc/rc.config /etc
 
 aaa_dir:
   /sbin/init.d
@@ -70,7 +71,7 @@ bash:
 s bash /bin/sh
 
 sh_utils:
-  /bin/{date,echo,false,sleep,true,uname}
+  /bin/{date,echo,false,sleep,stty,true,uname}
 ifabuild
 X /bin/uname.bin bin/uname
 endif
@@ -80,7 +81,7 @@ util:
   /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon}
 
 fileutil:
-  /bin/{rm,rmdir,sync}
+  /bin/{rm,rmdir,sync,chmod,chown}
 
 shadow:
   /bin/login
@@ -108,6 +109,15 @@ bdflush:
 netcfg:
   /etc/{hosts,inetd.conf,networks}
 
+net_tool:
+  /bin/{hostname,domainname}
+  /sbin/{ifconfig,route}
+
+textutil:
+  /bin/cat
+
+cron:
+  /var
 
 x /etc/{HOSTNAME,fstab,inews_mail_gateway,host.conf,nntpserver,resolv.conf,syslog.conf} /etc
 t /etc/{printcap,mtab,sendmail.cf}
@@ -130,5 +140,5 @@ x /var/lib/news/{mailname,whoami} /var/lib/news
 
 d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled}
 
-x /sbin/{mk_links,live-setup} /sbin
+x /sbin/{live-setup,mk_links} /sbin
 
