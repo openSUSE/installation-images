@@ -6,8 +6,10 @@ hostname suse
 # Not syslog kernel symbol parsing takes _many_ seconds, so give it some time!
 /sbin/klogd -p -c 8
 sleep 1
-mount -t proc virtual-proc-filesystem /proc
+mount -t proc virtual-proc-filesystem /proc -o rw
 echo Mounted /proc
+mount -t devpts virtual-pts-filesystem /dev/pts -o rw
+echo Mounted /dev/pts
 sleep 1
 echo Creating /var/log/boot.msg
 sleep 1

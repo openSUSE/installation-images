@@ -30,15 +30,26 @@ if arch eq 's390' || arch eq 's390x'
   # there is no need to log in into this ramdisk, because you either
   # use the HMC or VM, which are both secured by other means.
 
-  aaa_base:
+  aaa_base: prein,postin
+  e prein
     /etc/init.d/network
     /etc/init.d/route
     # for ssh key generation?
     /etc/init.d/random
     /etc/ld.so.conf
+    /etc/rc.status
+    /bin/fillup
+    /var/adm/fillup-templates
+    /etc/{modules.conf,insserv.conf}
+    /sbin/get_kernel_version
+    /sbin/insserv
+  e postin
+  r /var/adm/fillup-templates
   aaa_dir:
     /
-  # devs: ???
+  devs:
+    /dev/pts
+    /dev/dasd*
   glibc:
     /etc/nscd.conf
     /etc/rpc
@@ -137,7 +148,7 @@ if arch eq 's390' || arch eq 's390x'
   net-tools:
     #/bin/dnsdomainname
     #/bin/domainname
-    #/bin/hostname
+    /bin/hostname
     #/bin/netstat
     #/sbin/arp
     /sbin/ifconfig
@@ -161,6 +172,8 @@ if arch eq 's390' || arch eq 's390x'
     #/etc/services
     #/var/adm/setup
     #/var/adm/setup/setup.netconfig
+  nkitserv:
+    /usr/sbin/in.telnetd
   grep:
     /bin/grep
   ed:
@@ -179,7 +192,7 @@ if arch eq 's390' || arch eq 's390x'
   portmap:
     /etc/init.d/portmap
     /sbin/portmap
-    /sbin/rcportmap
+    #/sbin/rcportmap
     #DEBUG/usr/sbin/pmap_dump
     #DEBUG/usr/sbin/pmap_set
   readline:
@@ -207,6 +220,30 @@ if arch eq 's390' || arch eq 's390x'
     m /sbin/halt      /sbin/halt.bin
     m /sbin/reboot    /sbin/reboot.bin
     m /sbin/shutdown  /sbin/shutdown.bin
+    /sbin/startproc
+    /sbin/checkproc
+    /sbin/killproc
+  inetd:
+    /usr/sbin/inetd
+    /etc/init.d/inetd
+  openssh:
+    /etc/pam.d/sshd
+    /etc/ssh
+    /etc/ssh/primes
+    /etc/ssh/ssh_config
+    /etc/ssh/sshd_config
+    /usr/bin/scp
+    /usr/bin/ssh
+    /usr/sbin/sshd
+    /usr/bin/ssh-keygen
+    /etc/init.d/sshd
+  syslogd:
+    /etc/init.d/syslog
+    /sbin/klogd
+    /sbin/syslogd
+    # /var/adm/fillup-templates/rc.config.syslogd
+  linuxrc:
+    m /usr/sbin/linuxrc_tiny /bin/linuxrc
 
   # (insert (shell-command "find s390 -name CVS -prune -o -type f -path '*bin/*' -printf '\\n  c 0755 0 0 /%P'; echo" (quote (4)) nil) (shell-command "find s390 -name CVS -prune -o -type f -printf '\\n  x %-20p /%P'; echo" (quote (4)) nil))
 
@@ -235,6 +272,12 @@ if arch eq 's390' || arch eq 's390x'
 
   # 
   c 0755 0 0 /etc/profile
+
+  r /sbin/insserv
+  r /bin/fillup
+
+  t /var/log/{faillog,lastlog,messages}
+
 ###################################################################
 else # arch is not s390 or s390x
 
@@ -266,10 +309,12 @@ else # arch is not s390 or s390x
 	m /usr/sbin/linuxrc /linuxrc
       endif
   endif
+
+  x etc/syslog.conf etc
+
 endif
 
 x etc/host.conf etc
-x etc/syslog.conf etc
 
 devs:
   m /usr/share/doc/packages/devs/makedevs.floppy /

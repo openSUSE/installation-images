@@ -10,6 +10,47 @@ if [ "$LINUXRC_RECORD" ]; then
   LINUXRC_READ=""
 fi
 
+
+# The kernel passes all boot parameter to the linuxrc environment.
+
+# kernel parameters with name LINUXRC_<name> will be used as the first
+# answer to 
+
+function linuxrc_prompt # PROMPT RESULT
+# This function sets the variable ${!RESULT} to either a value from
+# this environment or a 
+
+# set $RESULT from $LINUXRC_$RESULT, if that is set.  If
+# $LINUXRC_$RESULT is unset, output PROMPT and read answer into
+# $RESULT.
+{
+    local PROMPT=$1; shift
+    local RESULT=$1; shift
+
+    local DEFAULT_RESULT=DEFAULT_$RESULT
+    local LINUXRC_RESULT=LINUXRC_$RESULT
+
+    # If there is a default value from the parmline, check if RESULT
+    # is unset, and if so, set it from LINUXRC_RESULT.
+
+    ${!LINUXRC_RESULT+eval "${DEFAULT_RESULT}='${!LINUXRC_RESULT}'"}
+
+    printf "%s" "$PROMPT --> [${!DEFAULT_RESULT}] "
+
+    unset $RESULT
+
+    if ${!LINUXRC_RESULT+false} 
+    then
+	local REPLY
+	read REPLY
+	eval "$RESULT='${REPLY}'"
+    else
+	unset $LINUXRC_RESULT
+	eval "$RESULT='${!DEFAULT_RESULT}'"
+	echo "${!RESULT}"
+    fi
+}
+
 #
 # readln reads a line into $ANSW.
 #
@@ -35,7 +76,7 @@ function readln () {
     fi
     if [ "$ANSW" = "restart" -o "$ANS" = "RESTART" ]; then
 	echo;echo;echo "-- Restarting linuxrc --";echo;echo
-	if [ "$DEBUG" = "yes" ]; then
+	if [ "$LINUXRC_DEBUG" = "yes" ]; then
 	    . ./linuxrc || exit 1
 	else
 	    . /linuxrc || exit 1
@@ -77,7 +118,7 @@ function check_memory () {
 #
 function execcmd () {
 	CMD="$*"
-	if [ "$DEBUG" = "yes" ]; then
+	if [ "$LINUXRC_DEBUG" = "yes" ]; then
 		echo "--> "$CMD
 	else
 		eval $CMD
@@ -135,7 +176,7 @@ show_license () {
 #
 function display_license() {
   if [ "$LICENSE_ACKNOWLEGED" = yes ]; then return; fi
-  if [ "$DEBUG" = "yes" -o "$LINUXRC_RECORD" -o "$LINUXRC_READ" ]; then return; fi
+  if [ "$LINUXRC_DEBUG" = "yes" -o "$LINUXRC_RECORD" -o "$LINUXRC_READ" ]; then return; fi
   echo "To set up the network, you have to read and confirm the license information"
   echo "of the network device driver provided by IBM."
   yes_no "Do you want to see the license (Yes/No) ? "
@@ -513,9 +554,9 @@ MTU: $IP_MTU"
 #
 function run_services () {
   echo "Network Setup finished, running inetd..."
-  execcmd "/usr/sbin/inetd &"
-  execcmd "/sbin/portmap &"
-  execcmd "/etc/rc.d/sshd start &"
+  execcmd "/etc/init.d/inetd start &"
+  execcmd "/etc/init.d/portmap start &"
+  execcmd "/etc/init.d/sshd start &"
   #/usr/sbin/rpc.mountd -d call &
   #/usr/sbin/rpc.nfsd -d auth &
 }
@@ -524,7 +565,7 @@ function run_services () {
 # configure name resolving
 #
 function dns_config () {
-  if [ "$DEBUG" = "yes" ]; then echo "-->(Installing /etc/resolv.conf)";return; fi
+  if [ "$LINUXRC_DEBUG" = "yes" ]; then echo "-->(Installing /etc/resolv.conf)";return; fi
   cat > /etc/resolv.conf <<EOF
 #
 # /etc/resolv.conf
@@ -1072,17 +1113,17 @@ fi
 
 # set debug to yes/no
 #set -vx
-: ${DEBUG=no}
+: ${LINUXRC_DEBUG=no}
 
-if [ "$DEBUG" = "no" ]
+if [ "$LINUXRC_DEBUG" = "no" ]
 then INSTALLINF="/etc/install.inf"
 else INSTALLINF="./install.inf"
 fi
 
-if [ "$DEBUG" = "no" ]; then
+if [ "$LINUXRC_DEBUG" = "no" ]; then
 	if [ -e /linuxrc.init ]; then
 		. /linuxrc.init
-		rm /linuxrc.init
+		mv /linuxrc.init.done
 		#
 		# We use the initenv from the kernel parmfile only in the first run
 		#
@@ -1101,7 +1142,7 @@ if [ "$DEBUG" = "no" ]; then
 else
 	if [ -e ./linuxrc.init.debug ]; then
 		. ./linuxrc.init.debug
-		rm ./linuxrc.init.debug
+		mv ./linuxrc.init.debug.done
 	fi
 #	export -p
 fi
@@ -1110,7 +1151,7 @@ echo "\
 =                                                                           =
 ==-    Welcome to SuSE Linux Enterprise Server 7 for S/390 and zSeries    -==
 =                                                                           ="
-if [ "$DEBUG" = "yes" ]; then echo "- Running in DEBUG mode. -"; echo ; fi
+if [ "$LINUXRC_DEBUG" = "yes" ]; then echo "- Running in DEBUG mode. -"; echo ; fi
 EXIT_SCRIPT=0
 CONFIG_IS_OK=0
 while [ $CONFIG_IS_OK = 0 ]; do

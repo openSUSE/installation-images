@@ -15,7 +15,8 @@ e prein
   /sbin/insserv
   /sbin/bootp
   /usr/bin/old
-  /root
+  /root/.gnupg/suse_build_key
+  /root/.gnupg/suse_build_key
   /var/adm/fillup-templates
 e postin
 r /var/adm/fillup-templates
