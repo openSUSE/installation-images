@@ -8,7 +8,13 @@ t modules/{MORE,NEEDMOD,NET,SCSI}
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 
-a /lib/modules/<kernel_ver>/scsi/BusLogic.o /modules
+if special eq 'intel'
+  a /lib/modules/<kernel_ver>/misc/i2o_pci.o /modules
+  a /lib/modules/<kernel_ver>/misc/i2o_core.o /modules
+  a /lib/modules/<kernel_ver>/misc/i2o_config.o /modules
+  a /lib/modules/<kernel_ver>/misc/i2o_block.o /modules
+endif
+
 a /lib/modules/<kernel_ver>/scsi/aha1542.o /modules
 a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
 a /lib/modules/<kernel_ver>/scsi/ips.o /modules
@@ -21,6 +27,7 @@ a /lib/modules/<kernel_ver>/net/ne.o /modules
 a /lib/modules/<kernel_ver>/net/tulip.o /modules
 
 # these mods are optional (most important first)
+M /lib/modules/<kernel_ver>/scsi/BusLogic.o /modules
 M /lib/modules/<kernel_ver>/scsi/advansys.o /modules
 M /lib/modules/<kernel_ver>/net/ne2k-pci.o /modules
 M /lib/modules/<kernel_ver>/net/rtl8139.o /modules
