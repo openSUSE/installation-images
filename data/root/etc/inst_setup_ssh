@@ -10,6 +10,8 @@ cp -a $INSTSYS/root/.bash_login /root
 cp -a $INSTSYS/root/.vimrc /root
 cp -a $INSTSYS/etc/shadow /etc
 cp -a $INSTSYS/etc/ssh /etc
+grep -vi UsePrivilegeSeparation < $INSTSYS/etc/ssh/sshd_config > /etc/ssh/sshd_config
+echo UsePrivilegeSeparation no >> /etc/ssh/sshd_config
 chmod -R og-rxw  /etc/ssh /root /etc/shadow 2>/dev/null
 chown -R 0.0  /etc/ssh /root /etc/shadow 2>/dev/null
 echo "nameserver 10.10.0.1" > /etc/resolv.conf
