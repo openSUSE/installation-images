@@ -18,6 +18,9 @@ suse_arch=`if [ $suse_arch = sparc64 ] ; then echo sparc ; else echo $suse_arch 
 # the SuSE distribution (we get our rpm's from there - unless we are in autobuild)
 SuSE_base=/work/CDs/full-$suse_arch
 
+# check if we are in auto build
+in_abuild=`if [ -x /bin/uname.bin ] ; then echo yes ; fi`
+
 # kernel rpm name
 kernel_rpm=k_deflt
 
@@ -26,7 +29,7 @@ kernel_img=vmlinuz
 kernel_img=`if [ $suse_arch = axp ] ; then echo vmlinux.gz ; else echo $kernel_img ; fi`
 
 # kernel version (needed to locate the module directory)
-kernel_ver=`if [ -x /bin/uname.bin ] ; then uname -r ; else rpm -qlp $SuSE_base/suse/images/$kernel_rpm.rpm 2>/dev/null | grep modules | head -1 | cut -d / -f 4 ; fi`
+kernel_ver=`if [ "$in_abuild" ] ; then uname -r ; else rpm -qlp $SuSE_base/suse/images/$kernel_rpm.rpm 2>/dev/null | grep modules | head -1 | cut -d / -f 4 ; fi`
 
 # location of the installation system on CD
 yast2_dir=suse/inst-sys

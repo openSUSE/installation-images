@@ -88,8 +88,8 @@ SUSystem "cp $lxrc $tmpdir/linuxrc" and
   die "$Script: linuxrc not copied";
 
 # add info
-SUSystem "cp ${CfgPath}info $tmpdir" and
-  print STDERR "$Script: no info file";
+# SUSystem "cp ${CfgPath}info $tmpdir" and
+#  print STDERR "$Script: no info file";
 
 # strip everything
 SUSystem "strip_dir $tmpdir";

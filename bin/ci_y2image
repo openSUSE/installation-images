@@ -1,0 +1,39 @@
+#! /bin/sh
+
+# check in y2image to /work/src/done/STABLE
+# call from the y2image directory
+
+ver=0.20
+y2image=/tmp/y2image-$ver
+
+if [ "$ver" = "" ] ; then
+  echo "no version info?"
+  exit 1
+fi
+
+echo "going to check in y2image version $ver..."
+
+make clean
+rm -rf $y2image
+mkdir $y2image
+tar -cf - * | tar -C $y2image -xf -
+cd $y2image
+find . -depth -name CVS -exec rm -r {} \;
+rm -f bin/ci_y2image MAINTAINER
+cd /tmp
+
+tar -zcf $y2image.tar.gz y2image-$ver
+
+if mkdir /work/src/done/STABLE/y2image ; then
+  cd /work/src/done/STABLE/y2image
+  cp $y2image.tar.gz /work/SRC/all/y2image/y2image.{changes,spec} .
+  perl -pi -e 's/^(Version:\s+)\S+/${1}'$ver'/' /work/src/done/STABLE/y2image/y2image.spec
+  perl -pi -e 's/^(Source.+?-)\S+?(\.tar\.gz)/${1}'$ver'${2}/' /work/src/done/STABLE/y2image/y2image.spec
+  . /work/src/bin/.profile
+  vc y2image
+  rm /work/src/done/STABLE/y2image/*~
+  echo "ok"
+else
+  echo oops
+  exit 1
+fi

@@ -93,8 +93,10 @@ AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
   die "$Script: failed to setup boot image";
 
 # add info
-SUSystem "cp ${CfgPath}info /mnt" and
-  die "$Script: failed to copy info";
+if(!$Config{in_abuild}) {
+  SUSystem "cp ${CfgPath}info /mnt" and
+    die "$Script: failed to copy info";
+}
 
 #SUSystem "cp $kernel /mnt/linux" and
 #  die "$Script: could not add the kernel image";
