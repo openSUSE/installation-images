@@ -11,7 +11,10 @@ if arch eq 's390' || arch eq 's390x'
 endif 
 
 d /initrddevs.tiny/dev
-  m /dev/{null,zero,console,tty[1349],ram0} /initrddevs.tiny/dev
+  m /dev/{null,zero,console,ram0} /initrddevs.tiny/dev
+  if arch ne 's390' && arch ne 's390x'
+    m /dev/tty[1349] /initrddevs.tiny/dev
+  endif
 
 m /usr/share/doc/packages/devs/makedevs.floppy /
 c 0755 0 0 makedevs.floppy
