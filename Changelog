@@ -3,6 +3,7 @@
 	- don't use kdebase3-*
 	- using udev as hotplug helper
 	- replace tg3 with bcm5700 on pseries
+	- libwrap & libsysfs have moved
 
 22/3/2004:	v5.29
 	- more space in rescue system

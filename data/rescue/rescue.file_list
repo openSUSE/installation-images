@@ -127,7 +127,7 @@ nscd:
   /etc/nscd.conf
 
 tcpd:
-  /usr/lib*/libwrap.so*
+  /lib*/libwrap.so*
 
 libgcc:
   /lib*
@@ -451,7 +451,7 @@ hwinfo:
 udev:
   /lib/klibc
   /etc
-  /usr/lib*/libsysfs.so*
+  /lib*/libsysfs.so*
   /usr/bin
   /sbin  
 

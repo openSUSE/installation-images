@@ -98,7 +98,7 @@ udev:
   /lib/klibc
   /sbin/udevstart
   m /usr/bin/udevinfo /sbin
-  /usr/lib*/libsysfs.so*
+  /lib*/libsysfs.so*
 
 mktemp:
   /bin/mktemp
@@ -160,7 +160,7 @@ popt:
   /usr/lib*/libpopt.so*
 
 tcpd:
-  /usr/lib*/libwrap.so*
+  /lib*/libwrap.so*
 
 libgcc:
   /lib*
