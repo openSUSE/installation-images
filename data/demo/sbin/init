@@ -656,7 +656,11 @@ else
 fi
 
 if [ -x /etc/init.d/canna ] ; then
-  grep -q -i 'RC_LANG="ja_jp' /etc/sysconfig/language || chkconfig canna off
+  if grep -q -i 'RC_LANG="ja_jp' /etc/sysconfig/language ; then
+    add_to_root var/lib/canna
+  else
+    chkconfig canna off
+  fi
 fi
 
 deb_stop
