@@ -188,10 +188,11 @@ netcfg:
   /etc
 r /etc/{diphosts,ftpusers,hosts.*}
 
-nfs-server:
+nfs-server: postin
   /etc/init.d
   /usr/sbin/{rpc.*,showmount}
   /var/state/nfs
+e postin
 
 nkita:
   /usr/sbin/icmpinfo
@@ -209,9 +210,11 @@ pam:
 pciutils:
   /sbin
 
-portmap:
+portmap: postin
+  /etc
   /sbin
   /usr/sbin
+e postin
 
 ps:
   /{,s}bin
@@ -258,12 +261,13 @@ syslogd: postin
   /var/adm/fillup-templates/rc.config.syslogd
 e postin
 
-sysvinit:
+sysvinit: postin
 n /dev/initctl
 c 600 0 0 /dev/initctl
   /{etc,sbin}
 # r /sbin/{powerd,runlevel,setserialbits,start-stop-daemon,sulogin}
   /usr/bin
+e postin
 
 if suse_release >= 7.1
   textutils:

@@ -1,3 +1,7 @@
+14/1/2001:	v1.29
+	- fixed module lists
+	- bootdisk no longer has _any_ scsi/net modules
+
 12/1/2001:	v1.28
 	- more syslogd moved to /sbin
 	- make it possible to consistently reload the module disk

@@ -250,6 +250,19 @@ sub AddFiles
       }
       $ver .= '*' if defined($rc) && $rc eq $r;
 
+      if($debug =~ /\bscripts\b/) {
+        my ($sl);
+
+        for $s ( 'prein', 'postin' ) {
+          @s = `rpm --queryformat '%{\U$s\E}' -qp $r 2>/dev/null`;
+          if(!(@s == 0 || $s[0] =~ /^\(none\)\s*$/)) {
+            $sl .= "," if $sl;
+            $sl .= $s;
+          }
+        }
+        $ver .= " \{$sl\}" if $sl;
+      }
+
       print "adding package $p$ver\n" if $debug =~ /\bpkg\b/;
 
       for $s (@scripts) {

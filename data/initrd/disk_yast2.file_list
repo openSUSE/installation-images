@@ -8,30 +8,39 @@ t modules/{MORE,NEEDMOD,NET,SCSI}
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 
-if special eq 'intel'
-  a /lib/modules/<kernel_ver>/misc/i2o_pci.o /modules
-  a /lib/modules/<kernel_ver>/misc/i2o_core.o /modules
-  a /lib/modules/<kernel_ver>/misc/i2o_config.o /modules
-  a /lib/modules/<kernel_ver>/misc/i2o_block.o /modules
+a /lib/modules/<kernel_ver>/usb/usbcore.o /modules
+a /lib/modules/<kernel_ver>/usb/usb-uhci.o /modules
+a /lib/modules/<kernel_ver>/usb/usb-ohci.o /modules
+a /lib/modules/<kernel_ver>/usb/input.o /modules
+a /lib/modules/<kernel_ver>/usb/hid.o /modules
+a /lib/modules/<kernel_ver>/usb/keybdev.o /modules
+a /lib/modules/<kernel_ver>/usb/mousedev.o /modules
+
+if 0
+  if special eq 'intel'
+    a /lib/modules/<kernel_ver>/misc/i2o_pci.o /modules
+    a /lib/modules/<kernel_ver>/misc/i2o_core.o /modules
+    a /lib/modules/<kernel_ver>/misc/i2o_config.o /modules
+    a /lib/modules/<kernel_ver>/misc/i2o_block.o /modules
+  endif
+
+  a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
+
+  a /lib/modules/<kernel_ver>/net/tulip.o /modules
+
+  # these mods are optional (most important first)
+  M /lib/modules/<kernel_ver>/net/3c59x.o /modules
+
+  M /lib/modules/<kernel_ver>/net/8390.o /modules
+  M /lib/modules/<kernel_ver>/net/eepro100.o /modules
+  M /lib/modules/<kernel_ver>/net/ne.o /modules
+
+  M /lib/modules/<kernel_ver>/scsi/ips.o /modules
+  M /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
+  M /lib/modules/<kernel_ver>/scsi/aha1542.o /modules
+
+  M /lib/modules/<kernel_ver>/scsi/BusLogic.o /modules
+  M /lib/modules/<kernel_ver>/scsi/advansys.o /modules
+  M /lib/modules/<kernel_ver>/net/ne2k-pci.o /modules
+  M /lib/modules/<kernel_ver>/net/rtl8139.o /modules
 endif
-
-a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
-
-a /lib/modules/<kernel_ver>/net/tulip.o /modules
-
-# these mods are optional (most important first)
-M /lib/modules/<kernel_ver>/net/3c59x.o /modules
-
-M /lib/modules/<kernel_ver>/net/8390.o /modules
-M /lib/modules/<kernel_ver>/net/eepro100.o /modules
-M /lib/modules/<kernel_ver>/net/ne.o /modules
-
-M /lib/modules/<kernel_ver>/scsi/ips.o /modules
-M /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
-M /lib/modules/<kernel_ver>/scsi/aha1542.o /modules
-
-M /lib/modules/<kernel_ver>/scsi/BusLogic.o /modules
-M /lib/modules/<kernel_ver>/scsi/advansys.o /modules
-M /lib/modules/<kernel_ver>/net/ne2k-pci.o /modules
-M /lib/modules/<kernel_ver>/net/rtl8139.o /modules
-

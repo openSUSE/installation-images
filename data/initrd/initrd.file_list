@@ -11,8 +11,9 @@ endif
 <kernel_rpm>:
 
 if arch eq 'ia32'
+
   a /lib/modules/<kernel_ver>/misc/nvram.o /modules
-  if suse_major_release == 6
+  if suse_major == 6
     a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
     a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
     a /lib/modules/<kernel_ver>/misc/usb-ohci.o /modules
@@ -29,62 +30,200 @@ if arch eq 'ia32'
     a /lib/modules/<kernel_ver>/usb/keybdev.o /modules
     a /lib/modules/<kernel_ver>/usb/mousedev.o /modules
   endif
-endif
+
+  a /lib/modules/<kernel_ver>/block/*.o /modules
+  a /lib/modules/<kernel_ver>/net/*.o /modules
+  a /lib/modules/<kernel_ver>/scsi/*.o /modules
+  a /lib/modules/<kernel_ver>/misc/parport.o /modules
+  a /lib/modules/<kernel_ver>/misc/paride.o /modules
+  a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
+  a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
+
+  a /lib/modules/<kernel_ver>/misc/i2o_pci.o /modules
+  a /lib/modules/<kernel_ver>/misc/i2o_core.o /modules
+  a /lib/modules/<kernel_ver>/misc/i2o_config.o /modules
+  a /lib/modules/<kernel_ver>/misc/i2o_block.o /modules
+
+  # just to get the cdrom menue in linuxrc
+  a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
+
+  M /lib/modules/<kernel_ver>/scsi/pas16.o /modules
+
+  # to fill up the disk...
+  M /lib/modules/<kernel_ver>/cdrom/gscd.o /modules
+  M /lib/modules/<kernel_ver>/cdrom/mcdx.o /modules
+  M /lib/modules/<kernel_ver>/cdrom/mcd.o /modules
+  M /lib/modules/<kernel_ver>/cdrom/cm206.o /modules
+
+  # scsi
+  r /modules/ide-scsi.o
+  r /modules/scsi_debug.o
+  r /modules/sg.o
+
+  # block
+  r /modules/nbd.o
+  r /modules/xd.o
+
+  # net
+  r /modules/soundmodem.o
+  r /modules/wanpipe.o
+  r /modules/{pppox,ppp,ppp_deflate}.o
+  r /modules/slip.o
+  r /modules/{irda,irda_deflate}.o
+  r /modules/syncppp.o
+  r /modules/sktr.o
+  r /modules/wanxl.o
+  r /modules/{n2,c101}.o
+  r /modules/hdlc.o
+  r /modules/cosa.o
+  r /modules/sealevel.o
+  r /modules/{hostess_sv11,z85230}.o
+  r /modules/ircomm.o
+  r /modules/irlan.o
+  r /modules/bsd_comp.o
+  r /modules/cops.o
+
+  r /modules/comx-hw-comx.o
+  r /modules/comx-hw-locomx.o
+  r /modules/comx-hw-mixcom.o
+  r /modules/comx-proto-fr.o
+  r /modules/comx-proto-lapb.o
+  r /modules/comx-proto-ppp.o
+  r /modules/comx.o
+  r /modules/6pack.o
+  r /modules/baycom_epp.o
+  r /modules/baycom_par.o
+  r /modules/bpqether.o
+  r /modules/baycom_ser_fdx.o
+  r /modules/baycom_ser_hdx.o
+  r /modules/dlci.o
+  r /modules/dmascc.o
+  r /modules/hdlcdrv.o
+  r /modules/ipddp.o
+  r /modules/lapbether.o
+  r /modules/mkiss.o
+  r /modules/scc.o
+  r /modules/sdla.o
+  r /modules/sdladrv.o
+  r /modules/x25_asy.o
+  r /modules/yam.o
+  r /modules/strip.o
+  r /modules/wavelan.o
+
+  r /modules/bonding.o
+  r /modules/rcpci.o
+  r /modules/pc300.o
+  r /modules/eata_dma.o
+
+  r /modules/ppa.o
+  r /modules/imm.o
+
+  a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
+
+  a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /modules
+
+  a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
+  a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
+
+  # really huge (gigabit) networks mods: make room for other stuff
+  M /lib/modules/<kernel_ver>/net/skfp.o /modules
+  M /lib/modules/<kernel_ver>/net/sk98lin.o /modules
+  M /lib/modules/<kernel_ver>/net/dgrs.o /modules
+  M /lib/modules/<kernel_ver>/net/acenic.o /modules
+
+  M /lib/modules/<kernel_ver>/net/ltpc.o /modules
+
+  M /lib/modules/<kernel_ver>/net/tlan.o /modules
+  M /lib/modules/<kernel_ver>/net/arlan.o /modules
+  M /lib/modules/<kernel_ver>/net/arlan-proc.o /modules
+
+  M /lib/modules/<kernel_ver>/net/de620.o /modules
+  M /lib/modules/<kernel_ver>/net/de600.o /modules
+  M /lib/modules/<kernel_ver>/net/depca.o /modules
+
+  # who needs these ACRNet things anyway?
+  M /lib/modules/<kernel_ver>/net/arcnet.o /modules
+  M /lib/modules/<kernel_ver>/net/com20020.o /modules
+  M /lib/modules/<kernel_ver>/net/com90io.o /modules
+  M /lib/modules/<kernel_ver>/net/com90xx.o /modules
+
+endif		# arch eq 'ia32'
+
+
 
 if arch eq 'ppc'
 
-    a /lib/modules/<kernel_ver>/*/ide-tape.o /modules
-    a /lib/modules/<kernel_ver>/*/nbd.o /modules
-    a /lib/modules/<kernel_ver>/*/binfmt_misc.o /modules
-    a /lib/modules/<kernel_ver>/*/fat.o /modules
-    a /lib/modules/<kernel_ver>/*/msdos.o /modules
-    a /lib/modules/<kernel_ver>/*/ncpfs.o /modules
-    a /lib/modules/<kernel_ver>/*/smbfs.o /modules
-    a /lib/modules/<kernel_ver>/*/sysv.o /modules
-    a /lib/modules/<kernel_ver>/*/udf.o /modules
-    a /lib/modules/<kernel_ver>/*/ufs.o /modules
-    a /lib/modules/<kernel_ver>/*/vfat.o /modules
-    a /lib/modules/<kernel_ver>/*/ip_masq_autofw.o /modules
-    a /lib/modules/<kernel_ver>/*/ip_masq_ftp.o /modules
-    a /lib/modules/<kernel_ver>/*/ipv6.o /modules
-    a /lib/modules/<kernel_ver>/*/ipx.o /modules
-    a /lib/modules/<kernel_ver>/*/rose.o /modules
-    a /lib/modules/<kernel_ver>/*/sc.o /modules
-    a /lib/modules/<kernel_ver>/*/3c59x.o /modules
-    a /lib/modules/<kernel_ver>/*/3c90x.o /modules
-    a /lib/modules/<kernel_ver>/*/8390.o /modules
-    a /lib/modules/<kernel_ver>/*/arc-rimi.o /modules
-    a /lib/modules/<kernel_ver>/*/arcnet.o /modules
-    a /lib/modules/<kernel_ver>/*/arlan-proc.o /modules
-    a /lib/modules/<kernel_ver>/*/arlan.o /modules
-    a /lib/modules/<kernel_ver>/*/bonding.o /modules
-    a /lib/modules/<kernel_ver>/*/bpqether.o /modules
-    a /lib/modules/<kernel_ver>/*/bsd_comp.o /modules
-    a /lib/modules/<kernel_ver>/*/com20020.o /modules
-    a /lib/modules/<kernel_ver>/*/eepro100.o /modules
-    a /lib/modules/<kernel_ver>/*/lance.o /modules
-    a /lib/modules/<kernel_ver>/*/ne2k-pci.o /modules
-    a /lib/modules/<kernel_ver>/*/old_tulip.o /modules
-    a /lib/modules/<kernel_ver>/*/olympic.o /modules
-    a /lib/modules/<kernel_ver>/*/rcpci.o /modules
-    a /lib/modules/<kernel_ver>/*/rl100a.o /modules
-    a /lib/modules/<kernel_ver>/*/rtl8139.o /modules
-    a /lib/modules/<kernel_ver>/*/sb1000.o /modules
-    a /lib/modules/<kernel_ver>/*/scc.o /modules
-    a /lib/modules/<kernel_ver>/*/tlan.o /modules
-    a /lib/modules/<kernel_ver>/*/tulip.o /modules
-    a /lib/modules/<kernel_ver>/*/via-rhine.o /modules
-    a /lib/modules/<kernel_ver>/*/ide-scsi.o /modules
-    a /lib/modules/<kernel_ver>/*/scsi_debug.o /modules
-    a /lib/modules/<kernel_ver>/*/sg.o /modules
-    a /lib/modules/<kernel_ver>/*/st.o /modules
-    a /lib/modules/<kernel_ver>/*/hid.o /modules
-    a /lib/modules/<kernel_ver>/*/usb-storage.o /modules
-    a /lib/modules/<kernel_ver>/*/usbserial.o /modules
+  a /lib/modules/<kernel_ver>/*/ide-tape.o /modules
+  a /lib/modules/<kernel_ver>/*/nbd.o /modules
+  a /lib/modules/<kernel_ver>/*/binfmt_misc.o /modules
+  a /lib/modules/<kernel_ver>/*/fat.o /modules
+  a /lib/modules/<kernel_ver>/*/msdos.o /modules
+  a /lib/modules/<kernel_ver>/*/ncpfs.o /modules
+  a /lib/modules/<kernel_ver>/*/smbfs.o /modules
+  a /lib/modules/<kernel_ver>/*/sysv.o /modules
+  a /lib/modules/<kernel_ver>/*/udf.o /modules
+  a /lib/modules/<kernel_ver>/*/ufs.o /modules
+  a /lib/modules/<kernel_ver>/*/vfat.o /modules
+  a /lib/modules/<kernel_ver>/*/ip_masq_autofw.o /modules
+  a /lib/modules/<kernel_ver>/*/ip_masq_ftp.o /modules
+  a /lib/modules/<kernel_ver>/*/ipv6.o /modules
+  a /lib/modules/<kernel_ver>/*/ipx.o /modules
+  a /lib/modules/<kernel_ver>/*/rose.o /modules
+  a /lib/modules/<kernel_ver>/*/sc.o /modules
+  a /lib/modules/<kernel_ver>/*/3c59x.o /modules
+  a /lib/modules/<kernel_ver>/*/3c90x.o /modules
+  a /lib/modules/<kernel_ver>/*/8390.o /modules
+  a /lib/modules/<kernel_ver>/*/arc-rimi.o /modules
+  a /lib/modules/<kernel_ver>/*/arcnet.o /modules
+  a /lib/modules/<kernel_ver>/*/arlan-proc.o /modules
+  a /lib/modules/<kernel_ver>/*/arlan.o /modules
+  a /lib/modules/<kernel_ver>/*/bonding.o /modules
+  a /lib/modules/<kernel_ver>/*/bpqether.o /modules
+  a /lib/modules/<kernel_ver>/*/bsd_comp.o /modules
+  a /lib/modules/<kernel_ver>/*/com20020.o /modules
+  a /lib/modules/<kernel_ver>/*/eepro100.o /modules
+  a /lib/modules/<kernel_ver>/*/lance.o /modules
+  a /lib/modules/<kernel_ver>/*/ne2k-pci.o /modules
+  a /lib/modules/<kernel_ver>/*/old_tulip.o /modules
+  a /lib/modules/<kernel_ver>/*/olympic.o /modules
+  a /lib/modules/<kernel_ver>/*/rcpci.o /modules
+  a /lib/modules/<kernel_ver>/*/rl100a.o /modules
+  a /lib/modules/<kernel_ver>/*/rtl8139.o /modules
+  a /lib/modules/<kernel_ver>/*/sb1000.o /modules
+  a /lib/modules/<kernel_ver>/*/scc.o /modules
+  a /lib/modules/<kernel_ver>/*/tlan.o /modules
+  a /lib/modules/<kernel_ver>/*/tulip.o /modules
+  a /lib/modules/<kernel_ver>/*/via-rhine.o /modules
+  a /lib/modules/<kernel_ver>/*/ide-scsi.o /modules
+  a /lib/modules/<kernel_ver>/*/scsi_debug.o /modules
+  a /lib/modules/<kernel_ver>/*/sg.o /modules
+  a /lib/modules/<kernel_ver>/*/st.o /modules
+  a /lib/modules/<kernel_ver>/*/hid.o /modules
+  a /lib/modules/<kernel_ver>/*/usb-storage.o /modules
+  a /lib/modules/<kernel_ver>/*/usbserial.o /modules
 
 endif	# arch eq 'ppc'
 
+
+
 if arch eq 'alpha'
+
   a /lib/modules/<kernel_ver>/block/*.o /modules
   a /lib/modules/<kernel_ver>/net/*.o /modules
   a /lib/modules/<kernel_ver>/scsi/*.o /modules
@@ -210,208 +349,13 @@ if arch eq 'alpha'
     r /modules/z85230.o
     r /modules/wavelan.o
   endif		# small
+
 endif		# arch eq 'alpha'
 
-if arch eq 'ia32'
 
-  ifdef small	# (test) initrd for 1.44MB floppies
-    M /lib/modules/<kernel_ver>/net/pcnet32.o /modules
-    M /lib/modules/<kernel_ver>/net/3c59x.o /modules
-    a /lib/modules/<kernel_ver>/net/tulip.o /modules
-
-    # a /lib/modules/<kernel_ver>/net/8390.o /modules
-    a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
-    # a /lib/modules/<kernel_ver>/misc/parport.o /modules
-    # a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
-    # a /lib/modules/<kernel_ver>/misc/serial.o /modules
-
-    if special eq 'nousb'
-      r /modules/usbcore.o
-      r /modules/usb-uhci.o
-      r /modules/usb-ohci.o
-      r /modules/input.o
-      r /modules/hid.o
-      r /modules/keybdev.o
-      r /modules/mousedev.o
-    endif
-
-    if special eq 'scsi'
-      M /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
-      M /lib/modules/<kernel_ver>/net/dmfe.o /modules
-      M /lib/modules/<kernel_ver>/net/via-rhine.o /modules
-      M /lib/modules/<kernel_ver>/net/eepro100.o /modules
-      M /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
-      M /lib/modules/<kernel_ver>/net/pcnet32.o /modules
-    endif
-
-    if special eq 'pcmcia'
-      M /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
-      M /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
-      M /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
-
-      M /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
-      M /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
-      M /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
-
-      M /lib/modules/<kernel_ver>/pcmcia/serial_cb.o /modules
-      M /lib/modules/<kernel_ver>/pcmcia/serial_cs.o /modules
-      M /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
-    endif
-
-    if special eq 'intel'
-      a /lib/modules/<kernel_ver>/misc/i2o_pci.o /modules
-      a /lib/modules/<kernel_ver>/misc/i2o_core.o /modules
-      a /lib/modules/<kernel_ver>/misc/i2o_config.o /modules
-      a /lib/modules/<kernel_ver>/misc/i2o_block.o /modules
-      a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
-      a /lib/modules/<kernel_ver>/net/eepro100.o /modules
-      M /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
-      M /lib/modules/<kernel_ver>/net/tulip.o /modules
-      M /lib/modules/<kernel_ver>/net/3c59x.o /modules
-      M /lib/modules/<kernel_ver>/usb/usb-ohci.o /modules
-    endif
-
-  else	# normal initrd (for 2.88MB floppies on ia32)
-    a /lib/modules/<kernel_ver>/block/*.o /modules
-    a /lib/modules/<kernel_ver>/net/*.o /modules
-    a /lib/modules/<kernel_ver>/scsi/*.o /modules
-    a /lib/modules/<kernel_ver>/misc/parport.o /modules
-    a /lib/modules/<kernel_ver>/misc/paride.o /modules
-    a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
-    a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
-
-    if special eq 'e2compr'
-      M /lib/modules/<kernel_ver>/net/sk98lin.o /modules
-      M /lib/modules/<kernel_ver>/net/dgrs.o /modules
-      M /lib/modules/<kernel_ver>/net/acenic.o /modules
-    endif
-
-    if special eq 'intel'
-      a /lib/modules/<kernel_ver>/misc/i2o_pci.o /modules
-      a /lib/modules/<kernel_ver>/misc/i2o_core.o /modules
-      a /lib/modules/<kernel_ver>/misc/i2o_config.o /modules
-      a /lib/modules/<kernel_ver>/misc/i2o_block.o /modules
-
-      M /lib/modules/<kernel_ver>/net/dgrs.o /modules
-    endif
-
-    # just to get the cdrom menue in linuxrc
-    a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
-
-    M /lib/modules/<kernel_ver>/scsi/pas16.o /modules
-
-    # to fill up the disk...
-    M /lib/modules/<kernel_ver>/cdrom/gscd.o /modules
-    M /lib/modules/<kernel_ver>/cdrom/mcdx.o /modules
-    M /lib/modules/<kernel_ver>/cdrom/mcd.o /modules
-    M /lib/modules/<kernel_ver>/cdrom/cm206.o /modules
-
-    # scsi
-    r /modules/ide-scsi.o
-    r /modules/scsi_debug.o
-    r /modules/sg.o
-
-    # block
-    r /modules/nbd.o
-    r /modules/xd.o
-
-    # net
-    r /modules/soundmodem.o
-    r /modules/wanpipe.o
-    r /modules/{pppox,ppp,ppp_deflate}.o
-    r /modules/slip.o
-    r /modules/{irda,irda_deflate}.o
-    r /modules/syncppp.o
-    r /modules/sktr.o
-    r /modules/wanxl.o
-    r /modules/{n2,c101}.o
-    r /modules/hdlc.o
-    r /modules/cosa.o
-    r /modules/sealevel.o
-    r /modules/{hostess_sv11,z85230}.o
-    r /modules/ircomm.o
-    r /modules/irlan.o
-    r /modules/bsd_comp.o
-    r /modules/cops.o
-
-    r /modules/comx-hw-comx.o
-    r /modules/comx-hw-locomx.o
-    r /modules/comx-hw-mixcom.o
-    r /modules/comx-proto-fr.o
-    r /modules/comx-proto-lapb.o
-    r /modules/comx-proto-ppp.o
-    r /modules/comx.o
-    r /modules/6pack.o
-    r /modules/baycom_epp.o
-    r /modules/baycom_par.o
-    r /modules/bpqether.o
-    r /modules/baycom_ser_fdx.o
-    r /modules/baycom_ser_hdx.o
-    r /modules/dlci.o
-    r /modules/dmascc.o
-    r /modules/hdlcdrv.o
-    r /modules/ipddp.o
-    r /modules/lapbether.o
-    r /modules/mkiss.o
-    r /modules/scc.o
-    r /modules/sdla.o
-    r /modules/sdladrv.o
-    r /modules/x25_asy.o
-    r /modules/yam.o
-    r /modules/strip.o
-    r /modules/wavelan.o
-
-    r /modules/bonding.o
-    r /modules/rcpci.o
-    r /modules/pc300.o
-    r /modules/eata_dma.o
-
-    r /modules/ppa.o
-    r /modules/imm.o
-
-    a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /modules
-
-    a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/tulip_cb.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/pcnet_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /modules
-
-    a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/fdomain_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
-    a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
-
-    # really huge (gigabit) networks mods: make room for other stuff
-    M /lib/modules/<kernel_ver>/net/skfp.o /modules
-    M /lib/modules/<kernel_ver>/net/sk98lin.o /modules
-    M /lib/modules/<kernel_ver>/net/dgrs.o /modules
-    M /lib/modules/<kernel_ver>/net/acenic.o /modules
-
-    M /lib/modules/<kernel_ver>/net/arlan.o /modules
-    M /lib/modules/<kernel_ver>/net/arlan-proc.o /modules
-
-    # who needs these ACRNet things anyway?
-    M /lib/modules/<kernel_ver>/net/arcnet.o /modules
-    M /lib/modules/<kernel_ver>/net/com20020.o /modules
-    M /lib/modules/<kernel_ver>/net/com90io.o /modules
-    M /lib/modules/<kernel_ver>/net/com90xx.o /modules
-
-
-  endif	# !small
-endif		# arch eq 'ia32'
 
 if arch eq 'sparc' || arch eq  'sparc64'
+
   a /lib/modules/<kernel_ver>/fc4/*.o /modules
   a /lib/modules/<kernel_ver>/fs/openpromfs.o /modules
   #a /lib/modules/<kernel_ver>/misc/openprom.o /modules
@@ -422,9 +366,15 @@ if arch eq 'sparc' || arch eq  'sparc64'
   a /lib/modules/<kernel_ver>/scsi/fcal.o /modules
   a /lib/modules/<kernel_ver>/scsi/pluto.o /modules
   a /lib/modules/<kernel_ver>/scsi/qlogicpti.o /modules
+
 endif
 
+
+
 ifarch ia64
+
   a /lib/modules/<kernel_ver>/kernel/drivers/*/*.o /modules
   a /lib/modules/<kernel_ver>/kernel/drivers/*/*/*.o /modules
+
 endif
+

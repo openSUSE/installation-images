@@ -7,15 +7,25 @@
 
 # misc modules
 
-misc/paride: 10 disk
-misc/parport: 10 disk
-misc/parport_pc: 10 disk
-misc/parport_probe: 10 disk
-misc/pcd: 10 disk
+misc/paride: 10
+misc/parport: 10
+misc/parport_pc: 10
+misc/parport_probe: 10
+misc/pcd: 10
 misc/nvram: 10 disk
 misc/openprom: 10 disk
 net/8390: 10 disk
 
+misc/i2o_block: 10 disk
+  Intelligent I/O Block
+misc/i2o_config: 10 disk
+  Intelligent I/O Config
+misc/i2o_core: 10 disk
+  Intelligent I/O Core
+misc/i2o_pci: 10 disk
+  Intelligent I/O PCI
+misc/i2o_scsi: 10
+  Intelligent I/O SCSI
 
 # cdrom
 
@@ -83,7 +93,11 @@ block/nbd: 0
   Network Block Device
 block/xd: 0
   XT Hard Disk Controller (DTC 5150X)
+block/cciss: 10
+  Compaq CISS Array
 
+scsi/3w-xxxx: 10
+  3ware RAID
 scsi/53c7,8xx: 10
   NCR 53c7,8xx (old driver)
 scsi/AM53C974: 10
@@ -108,6 +122,8 @@ scsi/aic7xxx: 10
   Adaptec 274x/284x/294x
 scsi/atp870u: 10
   ACARD AEC-671X
+scsi/cpqfc: 10
+  Compaq Fibre Channel 64-bit/66Mhz
 scsi/dc395x_trm: 10
   Tekram Tekram DC395U/UW/F, DC315/U
 scsi/dpt_i2o: 10
@@ -146,6 +162,8 @@ scsi/ncr53c8xx: 10
   NCR 53c8xx
 scsi/onscsi: 0
   OnSpec 90c26 ppSCSI Adapter
+scsi/osst: 0
+  OnStream SC-x0 SCSI tape support
 scsi/pas16: 10
   Pro Audio Spectrum SCSI
 scsi/pci2000: 10
@@ -215,6 +233,8 @@ net/3c90x: 10
   3Com 3c90x/3c980 B/C series
 net/6pack: 0
   6pack Protocol Module (AX.25)
+net/8139too: 10
+  RealTek RTL8139
 net/82596: 10
   i82596 Ethernet Driver
 net/ac3200: 10
@@ -287,6 +307,10 @@ net/dmascc: 0
 net/dmfe: 10
   DM9102 PCI Fast Ethernet
 net/dummy: 0
+net/e100: 10
+  EtherExpress Pro 100 (Intel driver)
+net/e1000: 10
+  EtherExpress Pro 1000 (Intel)
 net/e2100: 10
   Cabletron E21xx
 net/eepro: 10
@@ -374,6 +398,7 @@ net/pcnet32: 10
   AMD PCI PCnet32 (PCI bus NE2100)
 net/ppp: 0
 net/ppp_deflate: 0
+net/ppp_mppe: 0
 net/pppox: 0
 net/plip: 10
   PLIP (IP via parallel port)
@@ -402,8 +427,8 @@ net/sis900: 10
   SiS 900 PCI Fast Ethernet
 net/sk98lin: 10
   SysKonnect Gigabit Ethernet 984x
-#net/skfp: 10
-#  SysKonnect FDDI (SK-55xx/SK-58xx)
+net/skfp: 10
+  SysKonnect FDDI (SK-55xx/SK-58xx)
 net/sktr: 10
   SysKonnect Token Ring
 net/slhc: 0
@@ -518,4 +543,7 @@ pcmcia/serial_cs: 0
 pcmcia/sram_mtd: 0
 pcmcia/ss5136dn_cs: 0
 pcmcia/teles_cs: 0
+
+# ???
+pcmcia/pcilynx_cb: 10
 

@@ -107,7 +107,7 @@ system "gzip -f -9 $image/other2mo" and die "$Script: gzip failed";
 $i = -s "$image/net-mod.gz";
 print "$Script: compressed initrd to \"$image/net-mod.gz\" ($i bytes)\n";
 
-$i = -s "$image/other-mo.gz";
+$i = -s "$image/other-mod.gz";
 print "$Script: compressed initrd to \"$image/other-mod.gz\" ($i bytes)\n";
 
 $i = -s "$image/scsi-mod.gz";
