@@ -5,7 +5,7 @@
 #
 ROOT=$1
 INSTALLINF=/etc/install.inf
-CHANDEVCONF=/etc/chandev.conf
+CHANDEVCONF=$ROOT/etc/chandev.conf
 DEVICEDIR=$ROOT/etc/sysconfig/network/
 ROUTINGFILE=$ROOT/etc/sysconfig/network/routes
 # INSTALLINF=netsetup.inf
@@ -17,7 +17,7 @@ ROUTINGFILE=$ROOT/etc/sysconfig/network/routes
 if [ -f $INSTALLINF ]
 then
 #	Check for chandev
-	CHANDEV=`grep Chandev: $INSTALLINF | sed -e 's/Chandev: \\(.*\\)/\\1/'`
+	CHANDEV=`grep Chandev: $INSTALLINF | uniq | sed -e 's/Chandev: \\(.*\\)/\\1/'`
 	if [ ! -z "$CHANDEV" ]
 	then
 		echo $CHANDEV >> $CHANDEVCONF
@@ -25,13 +25,13 @@ then
 #
 #	Create interfacefile
 #
-	NETDEV=`grep Netdevice: $INSTALLINF | sed -e 's/Netdevice: \\(.*\\)/\\1/'`
+	NETDEV=`grep Netdevice: $INSTALLINF | uniq | sed -e 's/Netdevice: \\(.*\\)/\\1/'`
 	DEVICEFILE=${DEVICEDIR}ifcfg-$NETDEV
-	echo "BOOTPROTO=\"static\"" >> $DEVICEFILE
+	echo "BOOTPROTO=\"static\"" > $DEVICEFILE
 	echo "STARTMODE=\"onboot\"" >> $DEVICEFILE
-	IP=`grep IP: $INSTALLINF | sed -e 's/IP: \\(.*\\)/\\1/'`
+	IP=`grep IP: $INSTALLINF | uniq | sed -e 's/IP: \\(.*\\)/\\1/'`
 	echo "IPADDR=\"$IP\"" >> $DEVICEFILE
-	PTOP=`grep Pointopoint: $INSTALLINF | sed -e 's/Pointopoint: \\(.*\\)/\\1/'`
+	PTOP=`grep Pointopoint: $INSTALLINF | uniq | sed -e 's/Pointopoint: \\(.*\\)/\\1/'`
 	if [ ! -z "$PTOP" ]
 	then
 		echo "REMOTE_IPADDR=\"$PTOP\"" >> $DEVICEFILE
@@ -39,7 +39,7 @@ then
 #	
 #	Create routingfile
 #
-	GW=`grep Gateway: $INSTALLINF | sed -e 's/Gateway: \\(.*\\)/\\1/'`
+	GW=`grep Gateway: $INSTALLINF | uniq | sed -e 's/Gateway: \\(.*\\)/\\1/'`
 	if [ ! -z "$GW" ]
 	then
 		echo "default $GW 0.0.0.0 -" >> $ROUTINGFILE
