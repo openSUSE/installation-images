@@ -852,26 +852,26 @@ ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
 
-freefont:
-  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
+# freefont:
+#  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
 
 blueprint-cursor-theme:
   /usr/X11R6/lib/X11/icons/blueprint-cursor-theme
 
 if with_yast2 ne 'no'
   if with_vera_font ne 'no'
-    # e mkfontscale usr/X11R6/lib/X11/fonts/truetype
-    # e mkfontdir usr/X11R6/lib/X11/fonts/truetype
-    # e fc-cache usr/X11R6/lib/X11/fonts/truetype
+    e mkfontscale usr/X11R6/lib/X11/fonts/truetype
+    e mkfontdir usr/X11R6/lib/X11/fonts/truetype
+    e fc-cache usr/X11R6/lib/X11/fonts/truetype
   else
     e mkfontscale usr/share/ghostscript/fonts
     e mkfontdir usr/share/ghostscript/fonts
     e fc-cache usr/share/ghostscript/fonts
   endif
 
-  e mkfontscale usr/X11R6/lib/X11/fonts/truetype
-  e mkfontdir usr/X11R6/lib/X11/fonts/truetype
-  e fc-cache usr/X11R6/lib/X11/fonts/truetype
+#  e mkfontscale usr/X11R6/lib/X11/fonts/truetype
+#  e mkfontdir usr/X11R6/lib/X11/fonts/truetype
+#  e fc-cache usr/X11R6/lib/X11/fonts/truetype
 
   e mkfontscale usr/X11R6/lib/X11/fonts/misc
   e mkfontdir usr/X11R6/lib/X11/fonts/misc
