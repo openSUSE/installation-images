@@ -3,6 +3,7 @@
 	- support creation of isolinux boot CDs
 	- gfx boot images are taken from gfxboot package now
 	- added nvram.o back to (small) initrd
+	- new elilo.conf
 
 26/4/2001:	v1.61
 	- added hpfs.o (#6806)
