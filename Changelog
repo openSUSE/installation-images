@@ -1,3 +1,6 @@
+19/7/2001:	v1.70
+	- joerc has moved to /etc
+
 19/7/2001:	v1.69
 	- schwab: elilo instead of gnu-efi
 	- fixed typo to make axp work again

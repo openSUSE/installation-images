@@ -109,7 +109,11 @@ gzip:
 
 joe:
   /usr/bin/{joe,jmacs}
+if suse_release >= 7.3
+  /etc/{joerc,jmacsrc}
+else
   /usr/lib/{joerc,jmacsrc}
+endif
 
 less:
   /etc

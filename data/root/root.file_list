@@ -45,7 +45,11 @@ gzip:
 
 joe:
   /usr/bin/joe
+if suse_release >= 7.3
+  /etc/joerc
+else
   /usr/lib/joerc
+endif
 
 hwinfo:
   /usr/lib
