@@ -28,6 +28,10 @@ if(-d($tmpdir)) {
   SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
 }
 
+$ENV{silent} = 1;
+
+system "splashlist" and die "$Script: splash info broken\n";
+
 AddFiles $tmpdir, "${srcdir}/base.file_list", $srcdir or
   die "$Script: failed to setup base system";
 

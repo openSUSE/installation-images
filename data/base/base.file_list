@@ -4,11 +4,7 @@ c 1777 0 0 tmp
 devs:
   /dev
 
-if suse_release >= 8.1
 filesystem:
-else
-aaa_dir:
-endif
   /etc/{ppp,rc.d,uucp}
   /etc/sysconfig
   /root
@@ -29,11 +25,6 @@ sed:
 
 tar:
   /bin
-
-if suse_release < 8.1
-base:
-  /usr/{,s}bin
-endif
 
 bash:
   /bin
@@ -92,20 +83,12 @@ rpm:
 r /usr/lib/rpm/rpm{get,put}text
 r /usr/bin/rpmqpack
 
-if suse_release >= 7.1
-  sh-utils:
-else
-  sh_utils:
-endif
+sh-utils:
   /{etc,bin}
 r /bin/su
   /usr/bin
 
-if suse_release >= 7.1
-  textutils:
-else
-  textutil:
-endif
+textutils:
   /bin
   /usr/bin
 
@@ -146,22 +129,6 @@ libmng:
 libjpeg:
   /usr/lib*/libjpeg.so*
 
-bootsplash-theme-SuSE:
-  /
-  m /usr/share/splash/themes/SuSE/bootloader/message /SuSE.boot
-
-bootsplash-theme-UnitedLinux:
-  /
-  m /usr/share/splash/themes/UnitedLinux/bootloader/message /UnitedLinux.boot
-
-bootsplash-theme-SuSE-SLES:
-  /
-  m /usr/share/splash/themes/SuSE-SLES/bootloader/message /SuSE-SLES.boot
-
-bootsplash-theme-OpenXchange:
-  /
-  m /usr/share/splash/themes/OpenXchange/bootloader/message /OpenXchange.boot
-
 <kernel_rpm>:
   /lib/modules
 if arch eq 'alpha'
@@ -200,18 +167,12 @@ db:
 gdbm:
   /usr/lib*/libgdbm.so.*
 
+# create splash
+include gen/splash
+
 # run depmod
 E /sbin/depmod -a -F /System.map <kernel_ver> || true
 E cp /lib/modules/<kernel_ver>/modules.dep /
 E cp /lib/modules/<kernel_ver>/modules.pcimap /
 r /lib/modules
 
-# create splash
-E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-800x600.cfg >>/SuSE.splash
-E splash -s -f /usr/share/splash/themes/SuSE/config/bootsplash-1024x768.cfg >>/SuSE.splash
-E splash -s -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-800x600.cfg >>/UnitedLinux.splash
-E splash -s -f /usr/share/splash/themes/UnitedLinux/config/bootsplash-1024x768.cfg >>/UnitedLinux.splash
-E splash -s -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-800x600.cfg >>/SuSE-SLES.splash
-E splash -s -f /usr/share/splash/themes/SuSE-SLES/config/bootsplash-1024x768.cfg >>/SuSE-SLES.splash
-E splash -s -f /usr/share/splash/themes/OpenXchange/config/bootsplash-800x600.cfg >>/OpenXchange.splash
-E splash -s -f /usr/share/splash/themes/OpenXchange/config/bootsplash-1024x768.cfg >>/OpenXchange.splash

@@ -22,6 +22,9 @@ o general options
   theme=<theme>
   - select this theme (default: theme=SuSE)
 
+  themes=<list of themes>
+  - list of supported themes, support all if empty
+
 o root
 
   use_cramfs=0
@@ -125,5 +128,4 @@ o demo
 
   lang=cs_CZ
   - special czech version
-
 

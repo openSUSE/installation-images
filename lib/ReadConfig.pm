@@ -625,11 +625,19 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
 
   die "Don't know theme \"$theme\"\n" unless exists $ConfigData{ini}{"Theme $theme"};
 
+  if($ENV{themes}) {
+    my %t;
+    @t{split ' ', $ENV{themes}} = ();
+    die "Theme \"$theme\" not supported\n" unless exists $t{$theme};
+  }
+
   $yast_theme = $ConfigData{ini}{"Theme $theme"}{yast};
   $splash_theme = $ConfigData{ini}{"Theme $theme"}{splash};
   $product_name = $ConfigData{ini}{"Theme $theme"}{product};
   $update_dir = $ConfigData{ini}{"Theme $theme"}{update};
   $update_dir =~ s/<ul>/$ul_release/g;
+  $update_dir =~ s/<sles>/$sles_release/g;
+  $update_dir =~ s/<rel>/$rel/g;
   $update_dir =~ s/<arch>/$realarch/g;
   $load_image = $ConfigData{ini}{"Theme $theme"}{image};
   $load_image = $load_image * 1024 if $load_image;
@@ -653,12 +661,12 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
     $r = $ConfigData{suse_release};
     $r .= " $ConfigData{suse_xrelease}" if $ConfigData{suse_xrelease};
 
-    print "Building for $product_name $r $ConfigData{arch} ($ul_release/$sles_release), theme = $ConfigData{theme}\n";
-    print "Kernel: $ConfigData{kernel_rpm}, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
+    print "--- Building for $product_name $r $ConfigData{arch} ($ul_release/$sles_release), theme $ConfigData{theme}\n";
+    print "--- Kernel: $ConfigData{kernel_rpm}, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
 
     $r = $ConfigData{suse_base};
     $r =~ s/\/\*$//;
-    print "Source: $r\n- - -\n";
+    print "--- Source: $r\n";
   }
 }
 

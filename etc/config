@@ -30,7 +30,7 @@ default	= k_deflt
 yast	= SuSELinux
 splash	= SuSE
 product	= SuSE Linux
-update	= /linux/suse/<arch>-<ul>
+update	= /linux/suse/<arch>-<rel>
 
 
 [Theme UnitedLinux]
@@ -45,7 +45,7 @@ image	= 96
 yast	= SuSELinux
 splash	= SuSE-SLES
 product	= SuSE Linux
-update	= /linux/suse/<arch>-<ul>
+update	= /linux/suse/<arch>-<sles>
 image	= 96
 
 
