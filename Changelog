@@ -2,6 +2,7 @@
 	- added vesa driver (x86-like archs only)
 	- added vesa-section to XF86Config
 	- larger root image
+	- s390: create_interface fixed
 
 8/3/2004:	v5.22
 	- added udp-receiver

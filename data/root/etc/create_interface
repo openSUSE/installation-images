@@ -4,8 +4,9 @@
 #
 # Olaf Hering <olh@suse.de>
 # Michal Svec <msvec@suse.cz>
+# Ihno Krumreich <ihno@suse.de>
 #
-# $Id: create_interface,v 1.11 2003/12/03 11:44:24 uli Exp $
+# $Id: create_interface,v 1.12 2004/03/10 11:18:57 snwint Exp $
 
 ROOT=$1
 INSTALLINF=/etc/install.inf
@@ -150,5 +151,13 @@ then
 		[ $? -eq 0 ] && mv $CONFIGFILETMP $CONFIGFILE
 	fi
 	chroot $ROOT chkconfig network on
+fi
+#
+#	Copy all hwcfg-files to the installed system
+#
+ERG=`ls /etc/sysconfig/hardware/hwcfg-* 2> /dev/null`
+if [ $? = 0 ]
+then
+	cp /etc/sysconfig/hardware/hwcfg-* $ROOT/etc/sysconfig/hardware
 fi
 :
