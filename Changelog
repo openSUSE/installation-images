@@ -1,5 +1,6 @@
 20/4/2004:	v5.43
 	- added e100-intel
+	- minor s390* fixes
 
 19/4/2004:	v5.42
 	- rescue system: mount /sys (#38933), mount usbfs,
