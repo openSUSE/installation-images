@@ -1,3 +1,4 @@
+	- add icom serial driver to iseries initrd
 	- s390: added missing files from s390-tools
 	- s390: netsetup: NETIUCV is now netiucv (bug #37092)
 	- s390: added lotsa perl stuff for YaST disk dialogs (bug #37068)
