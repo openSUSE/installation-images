@@ -235,7 +235,7 @@ if suse_major == 6
 else
   dosfstls:
 endif
-   /sbin/{mkdosfs,mkfs.msdos}
+   /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
 
 if suse_release >= 7.1
   net-tools:
