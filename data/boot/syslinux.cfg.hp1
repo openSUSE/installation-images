@@ -18,12 +18,12 @@ label apic
 # manual
 label manual
   kernel linux
-  append initrd=initrd ramdisk_size=65536 manual=1
+  append initrd=initrd ramdisk_size=65536 manual=1 acpi=oldboot
 
 # rescue
 label rescue
   kernel linux
-  append initrd=initrd ramdisk_size=65536 rescue=1
+  append initrd=initrd ramdisk_size=65536 rescue=1 acpi=oldboot
 
 # memory test
 label memtest

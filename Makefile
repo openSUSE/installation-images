@@ -77,6 +77,17 @@ modules: dirs base
 	bin/mk_modules
 	bin/mk_mod_disk
 
+hp1disks:
+	hp1=1 usbscsi=1 fastboot=1 make bootdisk
+	hp1=1 modules=1 make modules
+
+usbdisks:
+	usbscsi=1 fastboot=1 make bootdisk
+	modules=1 make modules
+	modules=2 make modules
+	modules=3 make modules
+	modules=4 make modules
+
 mboot:
 	make -C src/mboot
 
