@@ -1,3 +1,6 @@
+16/12/2003:	v5.02
+	- minor boot disk fix
+
 16/12/2003:	v5.01
 	- switch ADB keyboards to linuxkeycodes
 	- new boot disk layout
