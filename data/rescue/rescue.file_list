@@ -438,6 +438,7 @@ if arch ne 'sparc'
     f / st.o
     if arch ne 'ppc'
     f / sg.o
+    f / scsi_mod.o
     f / reiserfs.o
     if arch ne 'ia64'
       f / jfs.o
@@ -458,6 +459,7 @@ if arch ne 'sparc'
     f / raid1.o
     f / raid5.o
     f / xor.o
+    f / md.o
 if arch eq 'alpha'
     m /boot/System.map-* /System.map
 else

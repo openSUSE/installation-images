@@ -47,7 +47,9 @@ modules3:  Netzwerkmodule.
 
 modules4:  PCMCIA- und Dateisystem-Module und alte (nicht-ATAPI) CDROM-Treiber.
 
-In modules[1234].txt finden Sie eine ausführliche Liste.
+modules5:  Noch mehr IDE/RAID/SCSI-Module.
+
+In modules[12345].txt finden Sie eine ausführliche Liste.
 
 
 
