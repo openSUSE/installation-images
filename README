@@ -301,11 +301,16 @@ o <action> <arg1> <arg2> ...
     x <src> <dst>
 
   - execute a program/rpm-script
-    <program> is run within a chroot env, but _not_ the <script> - so be
-    careful! <script> must be one of the scripts given after the package name
+    <program> is run within a chroot env, but <script> is _not_
+    <script> must be one of the scripts given after the package name
 
     e <program> <arg1> <arg2> ...
     e <script>
+
+  - execute a program
+    <program> is _not_ run within a chroot env (use 'e' if you want to chroot)
+
+    E <program> <arg1> <arg2> ...
 
   - apply a perl regexp in a sed-like fashion to a file, <regexp> may contain
     white space but not <file>

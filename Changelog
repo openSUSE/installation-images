@@ -1,5 +1,12 @@
+16/7/2001:	v1.67
 	- fixed elsif
 	- removed unnecessary keytable includes
+	- kukuk: /lib/ld* rules
+	- olh: remove yast2-core-translator from file list
+	- olh: update for ppc
+	- olh: add freetype2.rpm
+	- olh: umsprogs i386 only
+	- olh: /usr/X11R6/lib/modules/*.uc maybe i386 only
 
 12/7/2001:	v1.66
 	- new 'E' command
