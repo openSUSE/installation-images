@@ -1,9 +1,8 @@
+23/6/2004:	v5.69
 	- ppc only: added the necessary parts of "hotplug" to load
 	  updated firmware images to the IPR controller via iprconfig.
 	  (LTC#9506 / SUSE#42300)
 	- added hvsi* to rescue console / gettys. (requested by IBM)
-
-22/6/2004:	v5.69
 	- added megaraid-old
 	- fix ifcfg filename for ctc and lcs devices (#42329)
 
