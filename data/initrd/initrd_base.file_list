@@ -7,10 +7,12 @@ s /usr/X11R6/lib/X11 var/X11R6/lib
 d modules
 d dev/usb
 
-# agpgarti810 device
-if arch eq 'ia32'
-  xsvga:
-    /dev/agpgarti810
+if suse_release < 7.1
+  # agpgarti810 device
+  if arch eq 'ia32'
+    xsvga:
+      /dev/agpgarti810
+  endif
 endif
 
 t var/run/utmp

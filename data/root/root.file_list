@@ -672,7 +672,7 @@ m /boot/System.map-<kernel_ver> /System.map
 
 if arch eq 'ia32'
   xfiregl1:
-    /usr/X11R6/lib/modules/drivers/firegl1_drv.o
+    /usr/X11R6/lib/modules/drivers/firegl{1,23}_drv.o
 endif
 
 if arch eq 'ia32'

@@ -58,9 +58,10 @@ else
   /sbin/init.d
 endif
 
-xsvga:
-  /dev/agpgarti810
-#  /lib/modules/<kernel_ver>/misc/agpgarti810.o
+if suse_release < 7.1
+  xsvga:
+    /dev/agpgarti810
+endif
 
 ncurses:
   /lib/libncurses.so.5*

@@ -1,3 +1,8 @@
+	- add firegl2 & 3 driver
+
+18/12/2000:	v1.23
+	- agpgarti810 device no longer in xsvga package
+
 14/12/2000:	v1.22
 	- fixed minor bug in boot disk creation
 
