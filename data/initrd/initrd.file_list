@@ -393,6 +393,12 @@ if arch eq 'ix86'
     a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
     a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
 
+    # really huge (gigabit) networks mods: make room for other stuff
+    M /lib/modules/<kernel_ver>/net/skfp.o /modules
+    M /lib/modules/<kernel_ver>/net/sk98lin.o /modules
+    M /lib/modules/<kernel_ver>/net/dgrs.o /modules
+    M /lib/modules/<kernel_ver>/net/acenic.o /modules
+
     # who needs these ACRNet things anyway?
     M /lib/modules/<kernel_ver>/net/com20020.o /modules
     M /lib/modules/<kernel_ver>/net/com90io.o /modules

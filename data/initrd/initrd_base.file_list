@@ -8,7 +8,7 @@ d modules
 d dev/usb
 
 # agpgarti810 device
-if arch eq 'ix86'
+if arch eq 'ix86' && suse_release < 7.1
   xsvga:
     /dev/agpgarti810
 endif

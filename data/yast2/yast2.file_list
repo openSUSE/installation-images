@@ -24,10 +24,14 @@ s bash /bin/sh
 ash:
   /bin/ash.static
 
-fileutils:
+if suse_release >= 7.1
+  fileutils:
+else
+  fileutil:
+endif
   /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
   /usr/bin/du
-if suse_major_release == 6
+if suse_major == 6
     /usr/bin/touch
 else
     /bin/touch
@@ -46,7 +50,11 @@ libhd:
 mktemp:
   /bin/mktemp
 
-net-tools:
+if suse_release >= 7.1
+  net-tools:
+else
+  net_tool:
+endif
   /bin/{domain,host}name
 
 nkitb:
@@ -65,13 +73,21 @@ if abuild
 endif
   /usr/lib/rpm/rpm{popt,rc}
 
-sh-utils:
+if suse_release >= 7.1
+  sh-utils:
+else
+  sh_utils:
+endif
   /bin/{date,echo,false,pwd,sleep,stty,true,uname}
 if abuild
   X /bin/uname.bin bin/uname
 endif
 
-util-linux:
+if suse_release >= 7.1
+  util-linux:
+else
+  util:
+endif
   /bin/kill
   /bin/{u,}mount
   /bin/dmesg
@@ -85,7 +101,7 @@ if !(arch eq 'ppc' || arch eq 'ia64')
     /lib/modules/<kernel_ver>/misc/parport_probe.o
     /lib/modules/<kernel_ver>/scsi/imm.o
     /lib/modules/<kernel_ver>/scsi/ppa.o
-  if suse_major_release >= 7.0 && arch ne 'alpha'
+  if suse_major >= 7.0 && arch ne 'alpha'
     /lib/modules/<kernel_ver>/misc/agpgart.o
   endif
 endif
@@ -121,7 +137,11 @@ ncurses:
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
 
-shlibs:
+if suse_release >= 7.1
+  glibc:
+else
+  shlibs:
+endif
   /sbin/ldconfig
   /lib/ld-2.*.so
 if arch eq 'ppc'
@@ -137,14 +157,21 @@ else
     /lib/lib{c,m}.so.6*
 endif
   /lib/{libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libnsl.so.1*}
-  /lib/{libnss_compat.so.2,libnss_db.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
+if suse_release < 7.1
+  /lib/libnss_db.so.2
+endif
+  /lib/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
   /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt.so.1,libutil.so.1*}
   /usr/sbin/rpcinfo
   /usr/{bin,lib}
   /etc/rpc
+if suse_release >= 7.1
+  r /usr/lib/locale
+else
   /usr/share/locale/{locale.alias,ar_SA,cs,cs_CZ,de,de_DE,el,el_GR,en_GB,en_US,es,es_ES}
   /usr/share/locale/{fr,fr_FR,hu_HU,it,it_IT,nl,nl_NL,pl,pl_PL,pt_BR,pt_PT,ro_RO}
   /usr/share/locale/{ru_RU,ru_RU.KOI8-R,sk,sk_SK,tr_TR}
+endif
 r /usr/bin/db_*
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
@@ -155,7 +182,9 @@ aaa_base:
 
 kbd:
   /usr/lib/kbd
+if suse_release < 7.1
   /usr/share/locale
+endif
   /bin/loadkeys
   /usr/bin/{chvt,loadkeys,loadunimap,kbd_mode}
 
@@ -163,8 +192,10 @@ kbd:
 m /usr/bin/setfont /usr/bin/setfont.bin
 x /usr/bin/setfont /usr/bin
 
-c 0755 0 0 /usr/share/locale/nl
-c 0755 0 0 /usr/share/locale/ru
+if suse_release < 7.1
+  c 0755 0 0 /usr/share/locale/nl
+  c 0755 0 0 /usr/share/locale/ru
+endif
 
 base:
   /sbin/hdparm
@@ -172,7 +203,11 @@ base:
 bdflush:
   /sbin/update
 
-ext2fs:
+if suse_release >= 7.1
+  e2fsprogs:
+else
+  ext2fs:
+endif
   /sbin
   /lib
 
@@ -194,17 +229,21 @@ if arch ne 'ia64'
     /sbin/*
 endif
 
-if suse_major_release == 6
+if suse_major == 6
   mkdosfs:
 else
   dosfstls:
 endif
    /sbin/{mkdosfs,mkfs.msdos}
 
-net-tools:
+if suse_release >= 7.1
+  net-tools:
+else
+  net_tool:
+endif
   /sbin/{ifconfig,route,plipconfig}
 
-if suse_major_release == 6
+if suse_major == 6
   nkitb:
 else
   portmap:
@@ -216,7 +255,11 @@ umsprogs:
 c 0755 0 0 /sbin/umssync
 s /sbin/umssync /bin/umssync
 
-util-linux:
+if suse_release >= 7.1
+  util-linux:
+else
+  util:
+endif
   /sbin/{ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
 if arch eq 'ppc'
     /sbin/clock
@@ -242,7 +285,7 @@ s ../var/spool /usr/spool
 s ../var/tmp /usr/tmp
 
 base:
-if suse_major_release == 6
+if suse_major == 6
     /usr/bin/{,e,f}grep
     /usr/bin/sed
 else
@@ -250,10 +293,18 @@ else
     /bin/sed
 endif
 
-diffutils:
+if suse_release >= 7.1
+  diffutils:
+else
+  diff:
+endif
   /usr/bin/{cmp,diff}
 
-findutils:
+if suse_release >= 7.1
+  findutils:
+else
+  find:
+endif
   /usr/bin/{find,xargs}
 
 less:
@@ -262,7 +313,7 @@ less:
 
 modules:
  /sbin/{depmod,genksyms,insmod,ksyms,lsmod,modinfo,modprobe,rmmod,insmod.static}
-if arch ne 'ia64'
+if arch ne 'ia64' && suse_release < 7.1
    /sbin/kerneld
 endif
 
@@ -276,9 +327,13 @@ m /bin/fuser /usr/bin
 timezone:
   /usr/share/zoneinfo/{iso3166,zone}.tab
 
-sh-utils:
+if suse_release >= 7.1
+  sh-utils:
+else
+  sh_utils:
+endif
   /usr/bin/{dirname,chroot,test,tty}
-if suse_major_release == 6
+if suse_major == 6
     /usr/bin/basename
 else
     /bin/basename
@@ -295,16 +350,20 @@ endif
 
 cpio:
   /usr/bin/mt
-if suse_major_release == 6
+if suse_major == 6
     /usr/bin/cpio
 else
   /bin/cpio
 endif
 
-textutils:
+if suse_release >= 7.1
+  textutils:
+else
+  textutil:
+endif
   /bin/cat
   /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc}
-if suse_major_release == 6
+if suse_major == 6
     /usr/bin/sort
 else
     /bin/sort
@@ -374,16 +433,20 @@ if arch ne 'alpha'
 
   xshared:
     /usr/X11R6/lib/lib{X11,Xext}.so*
-  if suse_major_release != 6
+  if suse_major != 6
       /usr/X11R6/lib/lib{SM,ICE,Xxf86misc}.so*
   endif
   d /usr/X11R6/lib/{X11,modules}
 
   xf86:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
-    /usr/X11R6/lib/X11/locale
+  if suse_release >= 7.1
+    /etc/X11/xkb
+  else
     /usr/X11R6/lib/X11/xkb
-  if suse_major_release == 6
+    /usr/X11R6/lib/X11/locale
+  endif
+  if suse_major == 6
       /usr/X11R6/lib/X11/nls
       /usr/X11R6/lib/X11/xserver
   else
@@ -395,7 +458,7 @@ if arch ne 'alpha'
     /usr/X11R6/lib/X11/fonts/misc/{6x13,cursor}.pcf.gz
 
   x /usr/X11R6/lib/X11/fonts/misc/fonts.* /usr/X11R6/lib/X11/fonts/misc
-  if suse_major_release == 6
+  if suse_major == 6
     x /usr/X11R6/lib/X11/XF86Config_3 /usr/X11R6/lib/X11/XF86Config
   else
     x /usr/X11R6/lib/X11/XF86Config_{3,4} /usr/X11R6/lib/X11
@@ -404,7 +467,7 @@ endif
 
 if arch ne 'alpha'
   yast2:
-  if suse_major_release == 6
+  if suse_major == 6
       /usr/X11R6/lib/X11/fonts/uni
   else
       /sbin
@@ -434,14 +497,23 @@ libjpeg:
   /usr/lib/libjpeg.so*
 
 eject:
+if suse_release >= 7.1
+  /bin/eject
+else
   /usr/bin/eject
+endif
 
-libmng:
-  /usr/lib/libmng.so*
+if suse_release >= 7.1
+  libmng:
+    /usr/lib/libmng.so*
+else
+  qtlib2:
+    /usr/lib/*
+endif
 
 if arch ne 'alpha'
   y2base:
-  if suse_major_release == 6
+  if suse_major == 6
       /bin/y2bignfat
       /lib/YaST2
     c 0755 0 0 /lib

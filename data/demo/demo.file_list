@@ -46,9 +46,11 @@ aaa_dir:
 kbd:
   /sbin/init.d
 
+if suse_release < 7.1
 xsvga:
   /dev/agpgarti810
 #  /lib/modules/<kernel_ver>/misc/agpgarti810.o
+endif
 
 #<kernel_rpm>:
 #ifnarch ppc
@@ -70,7 +72,11 @@ xsvga:
 ncurses:
   /lib/libncurses.so.5*
 
-shlibs:
+if suse_release >= 7.1
+  glibc:
+else
+  shlibs:
+endif
   /lib/ld-2.*.so
 if arch eq 'ppc'
     /lib/ld.so.1
@@ -87,17 +93,29 @@ bash:
   /lib/libhistory.so.4*
 s bash /bin/sh
 
-sh_utils:
+if suse_release >= 7.1
+  sh-utils:
+else
+  sh_utils:
+endif
   /bin/{date,echo,false,sleep,stty,true,uname}
 if abuild
   X /bin/uname.bin bin/uname
 endif
 
-util:
+if suse_release >= 7.1   
+  util-linux:
+else
+  util:
+endif
   /bin/{kill,mount,umount}
   /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,clock,hwclock,losetup}
 
-fileutil:
+if suse_release >= 7.1
+  fileutils:
+else
+  fileutil:
+endif
   /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir}
 
 #shadow:
@@ -117,7 +135,11 @@ sysvinit:
   /sbin/{reboot,shutdown,startproc,telinit,sulogin}
   /etc/powerd.conf
 
-ext2fs:
+if suse_release >= 7.1
+  e2fsprogs:
+else
+  ext2fs:
+endif
   /sbin/{e2fsck,e2label,fsck,fsck.ext2}
   /lib
 
@@ -127,11 +149,19 @@ bdflush:
 netcfg:
   /etc/{hosts,inetd.conf,networks}
 
-net_tool:
+if suse_release >= 7.1
+  net-tools:
+else
+  net_tool:
+endif
   /bin/{hostname,domainname}
   /sbin/{ifconfig,route}
 
-textutil:
+if suse_release >= 7.1
+  textutils:
+else
+  textutil:
+endif
   /bin/cat
 
 cron:
@@ -150,9 +180,14 @@ base:
   /lib/modules/<kernel_ver>/scsi/ppa.o
   /lib/modules/<kernel_ver>/misc/agpgart.o
 
-if special eq 'cloop'
-  X /tmp/cloop.o /lib
-  b 240 0 /dev/cloop
+if special eq 'cloop' || special eq 'loopc'
+  if special eq 'cloop'
+    X /tmp/cloop.o /lib
+    b 240 0 /dev/cloop
+  else
+    X /tmp/loopc.o /lib
+    b 240 0 /dev/loopc0
+  endif
 
   modules:
     /sbin/{insmod,rmmod}

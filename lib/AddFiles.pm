@@ -63,12 +63,27 @@ sub AddFiles
   my ($dir, $file_list, $ext_dir, $arch, $if_val, $tag);
   my ($rpms, $tdir, $tfile, $p, $r, $d, $u, $g, $files);
   my ($mod_list, @mod_list, %mod_list);
-  my ($inc_file, $inc_it, $debug, $eshift);
+  my ($inc_file, $inc_it, $debug, $eshift, $ignore);
+  my ($old_warn, $ver);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
   $debug = "";
   $debug = $ENV{'debug'} if exists $ENV{'debug'};
+
+  $ignore = $debug =~ /\bignore\b/ ? 1 : 0;
+
+  $old_warn =  $SIG{'__WARN__'};
+
+  $SIG{'__WARN__'} = sub {
+    my $a = shift;
+
+    return if $ignore >= 10;
+
+    $a =~ s/<F>/$file_list/;
+    $a =~ s/<I>/$inc_file/;
+    if($ignore) { warn $a } else { die $a }
+  };
 
   if(!$AutoBuild) {
     $rpms = "$ConfigData{suse_base}/suse";
@@ -157,8 +172,10 @@ sub AddFiles
 #        printf "      <%s>\n", $re0;
         printf "    eval \"%s\"\n", $re;
       }
+      $ignore += 10;
       $i = eval "if($re) { 0 } else { 1 }";
-      die "$Script: sytax error in 'if' statement" unless defined $i;
+      $ignore -= 10;
+      die "$Script: syntax error in 'if' statement" unless defined $i;
       $if_val ^= 1 if $eif;
       $if_val <<= 1; $if_val |= $i;
       $eshift++ if $eif;
@@ -185,27 +202,35 @@ sub AddFiles
 #          die "$Script: failed to remove $tdir";
 #        die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
 ##        SUSystem "sh -c 'cd / ; rpm -ql $p | tar -T - -cf - | tar -C $tdir -xpf -'" and
-##          die "$Script: failed to extract $p";
+##          warn "$Script: failed to extract $p";
 #        print "adding package $p...\n";
 #        SUSystem "sh -c 'cd $tdir ; rpm -ql $p | cpio --quiet -o 2>/dev/null | cpio --quiet -dimu --no-absolute-filenames'" and
-#          die "$Script: failed to extract $r";
+#          warn "$Script: failed to extract $r";
 #      }
 #      else {
 
       if($p =~ /^\//) {
         $r = $p;
-        die "$Script: no such package: $r" unless -f $r;
+        warn "$Script: no such package: $r" unless -f $r;
       }
       else {
         $r = `echo -n $rpms/$p.rpm`;
-        die "$Script: no such package: $p.rpm" unless -f $r;
+        warn "$Script: no such package: $p.rpm" unless -f $r;
       }
-      print "adding package $p...\n" if $AutoBuild || $debug =~ /\bpkg\b/;
+      $ver = (`rpm -qp $r`)[0];
+      $ver =~ s/\s*$//;
+      if($ver =~ /^(\S+)-([^-]+-[^-]+)$/) {
+        $ver = $1 eq $p ? " [$2]" : "";
+      }
+      else {
+        $ver = "";
+      }
+      print "adding package $p$ver\n" if $AutoBuild || $debug =~ /\bpkg\b/;
       SUSystem "rm -rf $tdir" and
         die "$Script: failed to remove $tdir";
       die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
       SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet -dimu --no-absolute-filenames'" and
-        die "$Script: failed to extract $r";
+        warn "$Script: failed to extract $r";
 
 #      }
 
@@ -213,40 +238,48 @@ sub AddFiles
     elsif(!/^[a-zA-Z]\s+/ && /^(.*)$/) {
       $files = $1;
       $files =~ s.(^|\s)/.$1.g;
-      SUSystem "sh -c '( cd $tdir; tar -cf - $files ) | tar -C $dir -xpf -'" and
-        die "$Script: failed to copy $files";
+      SUSystem "sh -c '( cd $tdir; tar -cf - $files 2>$tfile ) | tar -C $dir -xpf -'" and
+        warn "$Script: failed to copy $files";
+
+      my (@f, $f);
+      @f = `cat $tfile`;
+      print STDERR @f;
+      SUSystem "rm -f $tfile";
+      for $f (@f) {
+        warn "$Script: failed to copy \"$files\"" if $f =~ /tar:\s+Error/;
+      }
     }
     elsif(/^d\s+(.+)$/) {
       $d = $1; $d =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c 'cd $dir; mkdir -p $d'" and
-        die "$Script: failed to create $d";
+        warn "$Script: failed to create $d";
     }
     elsif(/^t\s+(.+)$/) {
       $d = $1; $d =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c 'cd $dir; touch $d'" and
-        die "$Script: failed to touch $d";
+        warn "$Script: failed to touch $d";
     }
     elsif(/^r\s+(.+)$/) {
       $d = $1; $d =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c 'cd $dir; rm -rf $d'" and
-        die "$Script: failed to remove $d";
+        warn "$Script: failed to remove $d";
     }
     elsif(/^S\s+(.+)$/) {
       $d = $1; $d =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c 'cd $dir; strip $d'" and
-        die "$Script: failed to strip $d";
+        warn "$Script: failed to strip $d";
     }
     elsif(/^l\s+(\S+)\s+(\S+)$/) {
       SUSystem "ln $dir/$1 $dir/$2" and
-        die "$Script: failed to link $1 to $2";
+        warn "$Script: failed to link $1 to $2";
     }
     elsif(/^s\s+(\S+)\s+(\S+)$/) {
       SUSystem "ln -s $1 $dir/$2" and
-        die "$Script: failed to symlink $1 to $2";
+        warn "$Script: failed to symlink $1 to $2";
     }
     elsif(/^m\s+(\S+)\s+(\S+)$/) {
       SUSystem "cp -a $tdir/$1 $dir/$2" and
-        die "$Script: failed to move $1 to $2";
+        warn "$Script: failed to move $1 to $2";
     }
     elsif(/^a\s+(\S+)\s+(\S+)$/) {
       SUSystem "sh -c \"cp -a $tdir/$1 $dir/$2\"" and
@@ -254,11 +287,11 @@ sub AddFiles
     }
     elsif(/^p\s+(\S+)$/) {
       SUSystem "patch -d $dir -p0 --no-backup-if-mismatch <$ext_dir/$1 >/dev/null" and
-        die "$Script: failed to apply patch $1";
+        warn "$Script: failed to apply patch $1";
     }
     elsif(/^x\s+(\S+)\s+(\S+)$/) {
       SUSystem "cp -dR $ext_dir/$1 $dir/$2" and
-        die "$Script: failed to move $1 to $2";
+        warn "$Script: failed to move $1 to $2";
     }
     elsif(/^X\s+(\S+)\s+(\S+)$/) {
       SUSystem "cp -fdR $1 $dir/$2 2>/dev/null" and
@@ -266,23 +299,23 @@ sub AddFiles
     }
     elsif(/^g\s+(\S+)\s+(\S+)$/) {
       SUSystem "sh -c 'gunzip -c $tdir/$1 >$dir/$2'" and
-        die "$Script: could not uncompress $1 to $2";
+        warn "$Script: could not uncompress $1 to $2";
     }
     elsif(/^c\s+(\d+)\s+(\S+)\s+(\S+)\s+(.+)$/) {
       $p = $1; $u = $2; $g = $3;
       $d = $4; $d =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c 'cd $dir; chown $u.$g $d'" and
-        die "$Script: failto to change owner of $d to $u.$g";
+        warn "$Script: failto to change owner of $d to $u.$g";
       SUSystem "sh -c 'cd $dir; chmod $p $d'" and
-        die "$Script: failto to change perms of $d to $p";
+        warn "$Script: failto to change perms of $d to $p";
     }
     elsif(/^b\s+(\d+)\s+(\d+)\s+(\S+)$/) {
       SUSystem "mknod $dir/$3 b $1 $2" and
-        die "$Script: failto to make block dev $3 ($1, $2)";
+        warn "$Script: failto to make block dev $3 ($1, $2)";
     }
     elsif(/^C\s+(\d+)\s+(\d+)\s+(\S+)$/) {
       SUSystem "mknod $dir/$3 c $1 $2" and
-        die "$Script: failto to make char dev $3 ($1, $2)";
+        warn "$Script: failto to make char dev $3 ($1, $2)";
     }
     elsif(/^M\s+(\S+)\s+(\S+)$/) {
       SUSystem "sh -c \"cp -av $tdir/$1 $dir/$2\" >$tfile" and
@@ -313,6 +346,8 @@ sub AddFiles
     print F @mod_list;
     close F;
   }
+
+  $SIG{'__WARN__'} = $old_warn;
 
   return 1;
 }

@@ -29,7 +29,13 @@ if [ -f /S.u.S.E./suse/images/susee ] ; then
   mkdir /.SuSE
   umount /S.u.S.E.
   mount /.SuSE
-  echo "/.SuSE/$suseloop /S.u.S.E. ext2 defaults,ro,loop=/dev/loop0 0 0" >>/etc/fstab
+  [ -e /dev/loopc0 ] || cp -a /dev/loop0 /dev/loopc0
+  if [ -f /lib/loopc.o ] ; then
+    insmod /lib/loopc.o
+    echo "/.SuSE/$suseloop /S.u.S.E. iso9660 defaults,ro,loop=/dev/loopc0 0 0" >>/etc/fstab
+  else
+    echo "/.SuSE/$suseloop /S.u.S.E. ext2 defaults,ro,loop=/dev/loopc0 0 0" >>/etc/fstab
+  fi
   mount /S.u.S.E.
   fstype=`grep '/\.SuSE' /etc/mtab | head -1 | cut -d \  -f 3`
   if [ "$fstype" ] ; then
@@ -40,7 +46,7 @@ if [ -f /S.u.S.E./suse/images/susee ] ; then
   sed -e '/^# mount Live CD/ a \' -e 'mount -v /.SuSE' /sbin/init.d/boot >/tmp/boot
   mv /tmp/boot /sbin/init.d/boot
   sed -e '/^  # mount Live CD/ a \' -e '  [ ! -f /.SuSE/'"$suseloop"' ] && mount -n /.SuSE' \
-      -e '/^# umount Live CD/ i \' -e 'losetup -d /dev/loop0\' -e 'umount -n /.SuSE' \
+      -e '/^# umount Live CD/ i \' -e 'losetup -d /dev/loopc0\' -e 'umount -n /.SuSE' \
       /sbin/live-shutdown >/tmp/live-shutdown
   mv /tmp/live-shutdown /sbin/live-shutdown
   chmod +x /sbin/live-shutdown
@@ -386,7 +392,7 @@ fi
 if [ "$umount" != no ] ; then
   umount /S.u.S.E.
   if [ "$suseloop" ] ; then
-    losetup -d /dev/loop0
+    losetup -d /dev/loopc0
     umount /.SuSE
   fi
 

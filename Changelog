@@ -1,3 +1,11 @@
+15/11/2000:	v1.09
+	- started to switch to new package names
+	- improved error handling on missing files
+	- dropped locale stuff
+
+14/11/2000:	v1.08
+	- added support for loopc.o compression module (image "susee")
+
 31/10/2000:	v1.07
 	- support for compressing loop device (cloop.o)
 	- moved LiveEval images to suse/images/

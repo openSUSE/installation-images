@@ -255,7 +255,7 @@ $| = 1;
 
 $_ = $BinPath;
 s:^(.+)/$:$1:;
-$ENV{PATH} = "$_:/sbin:/usr/sbin:$ENV{PATH}";
+$ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:$_";
 
 $TmpBase = "/tmp/${Script}_${$}";
 $MToolsCfg = "$TmpBase.mtoolsrc";
@@ -366,8 +366,8 @@ for (@f) {
   $ENV{'suse_base'} = $base;
 
   if($ENV{'suse_release'} =~ /^(\d+)\.(\d+)$/) {
-    $ENV{'suse_major_release'} = $1;
-    $ENV{'suse_minor_release'} = $2;
+    $ENV{'suse_major'} = $ENV{'suse_major_release'} = $1;
+    $ENV{'suse_minor'} = $ENV{'suse_minor_release'} = $2;
   }
   else {
     die "invalid SuSE release";
