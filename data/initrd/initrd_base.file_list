@@ -47,11 +47,7 @@ d consoletrans
 ifenv suse_release 7.1
 m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat7u.uni,latin2u.trans,trivial} consoletrans
 else
-ifarch ppc
-m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat7u.uni,latin2u.trans,trivial} consoletrans
-else
 m /usr/lib/kbd/consoletrans/{cyralt.uni,koi2alt,lat1u.uni,lat2u.uni,lat7u.uni,latin2u.scrnmap,trivial} consoletrans
-endif
 endif
 
 d consolefonts
