@@ -480,6 +480,14 @@ if arch ne 'alpha'
       /usr/lib/YaST2
     y2t_inst:
       /usr/lib/YaST2
+    y2t_inst-language:
+      /usr/lib/YaST2
+    y2d_inst-keyboard:
+      /usr/lib/YaST2
+    y2d_inst-timezone:
+      /usr/lib/YaST2
+    y2d_inst-mouse:
+      /usr/lib/YaST2
   endif
 endif
 
