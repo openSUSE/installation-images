@@ -78,8 +78,8 @@ case $my_REDIRECT in
 		echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102"
 		echo "$my_DEVICE:12345:respawn:/sbin/agetty -L $my_SPEED $my_REDIRECT vt102" >> /etc/inittab
 		echo $my_REDIRECT >> /etc/securetty
-		;;
 	fi
+		;;
 
 	hvc*)
 	echo adding this line to inittab

@@ -1,3 +1,6 @@
+	- fixed syntax error in data/rescue/etc/init.d/boot.local
+	  (bug #71759)
+
 8/3/2005:	v6.37
 	- lilo exists on amd64, too
 
