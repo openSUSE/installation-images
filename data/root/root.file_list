@@ -348,11 +348,12 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/modules/drivers
   # video4linux stuff
   r /usr/X11R6/lib*/modules/drivers/linux
-    /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod,freetype}.a
+    /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.a
   if arch ne 'ia64' && arch ne 'x86_64'
     /usr/X11R6/lib*/modules/extensions/libdri.a
   endif
     /usr/X11R6/lib*/modules/fonts/libbitmap.a
+    /usr/X11R6/lib*/modules/fonts/libfreetype.a
     /usr/X11R6/lib*/modules/input
     /usr/X11R6/lib*/modules/linux
   if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc' && arch ne 'ppc64'
@@ -364,7 +365,8 @@ if with_yast2 ne 'no'
   XFree86-libs:
     /usr/X11R6/lib*/lib{X11,Xext}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
-    /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xft,Xrender,Xpm,Xrandr}.so*
+    /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xrender,Xpm,Xrandr}.so*
+    /usr/X11R6/lib*/libXft.so.2*
     /usr/X11R6/lib*/libfontconfig.so*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
@@ -399,7 +401,6 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib/X11/fonts/misc/cursor.pcf.gz
     # 'fixed' font
     /usr/X11R6/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz
-    m /usr/X11R6/lib/X11/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/X11R6/lib/X11/fonts/misc
 
     /usr/X11R6/lib/X11/fonts/misc/fonts.scale
 
@@ -411,6 +412,9 @@ if with_yast2 ne 'no'
   if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
     R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
   endif
+
+  XFree86-fonts-75dpi:
+    m /usr/X11R6/lib/X11/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/X11R6/lib/X11/fonts/misc
 
   xf86tools:
     /usr/X11R6/lib/X11/XftConfig
@@ -583,20 +587,20 @@ libjpeg:
 eject:
   /bin/eject
 
-libmng:
-  /usr/lib*/libmng.so*
-
-liblcms:
-  /usr/lib*/liblcms.so*
-
 if with_yast2 ne 'no'
+# would be only needed for libqmng plugin
+#  libmng:
+#    /usr/lib*/libmng.so*
+#  liblcms:
+#    /usr/lib*/liblcms.so*
+
   qt3:
     /etc/X11/qtrc
     /usr/lib/qt3/bin/qtconfig
     /usr/lib/qt3
     /usr/lib*/libqt*.so.3
     /usr/lib/qt3/lib*/libqt*.so*
-#    E echo -e "[General]\nenableXft=false\nuseXft=false\nstyle=Platinum" >/etc/X11/qtrc
+  r /usr/lib/qt3/plugins/imageformats/libqmng*
 
   kdebase3-SuSE:
     /opt/kde3/share/config/SuSE/default/qtrc
@@ -604,7 +608,6 @@ if with_yast2 ne 'no'
   kdelibs3:
     /opt/kde3/lib*/kde3/plugins/styles/keramik.so
     /opt/kde3/lib*/libkdefx.so*
-
 endif
 
 # remove these:
@@ -810,9 +813,6 @@ endif
 
 c 644 0 0 /etc/shadow
 
-perl:
-  /
-
 gdbm:
   /usr/lib*/libgdbm.so.*
   /usr/lib*/libgdbm_compat.so.*
@@ -822,11 +822,23 @@ xf86tools:
   /usr/X11R6/lib/X11/XftConfig
 
 if with_yast2 ne 'no'
+  r usr/share/ghostscript/fonts/fonts.dir
+  r usr/share/ghostscript/fonts/fonts.scale
   e mkfontdir usr/X11R6/lib/X11/fonts/misc
+  e mkfontdir usr/X11R6/lib/X11/fonts/uni
+  e mkfontscale usr/X11R6/lib/X11/fonts/uni
+  e mkfontscale usr/share/ghostscript/fonts
   e mkfontdir usr/share/ghostscript/fonts
+  e fc-cache usr/share/ghostscript/fonts
+  e fc-cache usr/X11R6/lib/X11/fonts/uni
+
+  e touch usr/X11R6/lib/X11/fonts/*/*
+  e sleep 2
+  e touch usr/X11R6/lib/X11/fonts/*/font*
 endif
 
 r /usr/X11R6/bin/mkfontdir
+r /usr/X11R6/bin/mkfontscale
 r /usr/X11R6/bin/fc-cache
 
 x /usr/lib/YaST/.Reh /usr/lib/YaST2

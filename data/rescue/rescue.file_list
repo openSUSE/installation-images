@@ -91,6 +91,10 @@ dump:
 hdparm:
   /sbin
 
+ntfsprogs:
+  /usr/lib*/libntfs.so.*
+  /usr/{,s}bin
+
 e2fsprogs:
   /{lib*,sbin}
   /usr/{,s}bin
