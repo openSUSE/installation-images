@@ -96,7 +96,7 @@ cat $CD1/ppc/bootinfo.txt
 #
 cat > $CD1/yaboot.txt <<EOF
 
-  Welcome to SuSE Linux (SLES9 preview)!
+  Welcome to SuSE Linux (SLES9)!
 
   Use  "install"     to boot the pSeries 64bit kernel
   Use  "install32"   to boot the 32bit RS/6000 kernel

@@ -1,3 +1,6 @@
+30/7/2004:	v5.77
+	- remove preview string from yaboot.txt
+
 6/7/2004:	v5.76
 	- s390: eliminate invalid check for qeth data channel (bug #42538)
 
