@@ -109,6 +109,7 @@ endif
   /bin/kill
   /bin/{u,}mount
   /bin/dmesg
+  /sbin/losetup
 
 <kernel_rpm>:
 if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
@@ -135,6 +136,7 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
     f / xor.o
 
     f / reiserfs.o
+    f / loop_fish2.o
 
     f / isa-pnp.o
     f / lp.o
@@ -179,7 +181,7 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
 
   if suse_release >= 7.2
     f / agpgart.o
-  elsif suse_release >= 7.0 && arch ne 'alpha'
+  elsif (suse_release >= 7.0 && arch ne 'alpha') && !(suse_release >= 7.2)
     /lib/modules/<kernel_ver>/misc/agpgart.o
   endif
 endif
@@ -210,7 +212,7 @@ endif
   /lib/ld-2.*.so
 if arch eq 'ppc'
     /lib/ld.so.1
-elsif arch eq 'ia64'
+elsif (arch eq 'ia64') && !(arch eq 'ppc')
   /lib/ld-linux-ia64.so.2
 else
   /lib/ld-linux.so.2
@@ -518,7 +520,7 @@ if with_yast2 ne 'no'
 
   mesasoft:
     /
-    e /usr/X11R6/bin/switch2mesasoft
+    e /usr/X11R6/bin/switch2mesasoft || true
     r /usr/X11R6/bin/switch2mesasoft
 
   xf86glu:
@@ -553,12 +555,6 @@ if with_yast2 ne 'no'
     yast2-base:
       /
     yast2-instsys:
-      /
-    y2d_inst-keyboard:
-      /
-    y2d_inst-mouse:
-      /
-    y2d_inst-timezone:
       /
     yast2-agent-any:
       /
@@ -774,10 +770,7 @@ d /tmp
 
 if arch eq 'ia32'
   reiserfs:
-    /sbin/dumpreiserfs
-    /sbin/mkreiserfs
-    /sbin/resize_reiserfs
-    /sbin/unpackreiserfs
+    /sbin
 endif
 
 if suse_release >= 7.2

@@ -1,3 +1,11 @@
+24/4/2001:	v1.59
+	- more mods & utils in rescue system
+	- re-added some tools formerly in nkitb
+
+24/4/2001:	v1.58
+	- added loop_fish2.o to inst-sys
+	- added fs modules (raid, lvm, etc.) to rescue system
+
 23/4/2001:	v1.57
 	- more yast2 stuff
 

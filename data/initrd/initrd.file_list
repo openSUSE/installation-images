@@ -23,15 +23,13 @@ if arch eq 'ia32'
 
     if initrd eq 'small'
 
-      # drop usb support for now...
-      if 0
         f / usbcore.o /modules
         f / usb-uhci.o /modules
         f / usb-ohci.o /modules
         f / input.o /modules
         f / hid.o /modules
         f / keybdev.o /modules
-      endif
+        f / usb-storage.o /modules
 
     else
 

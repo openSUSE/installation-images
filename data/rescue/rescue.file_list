@@ -214,7 +214,16 @@ e postin
 icmpinfo:
   /usr/sbin/icmpinfo
 
-if suse_release < 7.2
+if suse_release >= 7.2
+  iputils:
+    /bin/ping
+  telnet:
+    /usr/bin/telnet
+  finger:
+    /usr/bin/finger
+  rsh:
+    /usr/bin
+else
   nkitb:
     /usr/bin
   r /usr/bin/{ruptime,talk}
@@ -309,7 +318,7 @@ else
 endif
   /bin/{dmesg,kill,mount,umount}
   /etc/filesystems
-  /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,hwclock,mkfs,mkfs.bfs,mkswap,swapon,swapoff}
+  /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,hwclock,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
   /usr/{bin,sbin}
 
 vim:
@@ -319,6 +328,34 @@ vim:
 
 gdbm:
   /usr/lib/libgdbm.so.2*
+
+hwinfo:
+  /usr/{sbin,lib}
+
+if suse_release >= 7.2
+  <kernel_rpm>:
+    f / st.o
+    f / sg.o
+
+    f / linear.o
+    f / lvm-mod.o
+    f / md.o
+    f / raid0.o
+    f / raid1.o
+    f / raid5.o
+
+    f / xor.o
+    f / reiserfs.o
+    f / loop_fish2.o
+    m /boot/System.map-* /System.map
+
+  modutils:
+    /sbin/depmod
+
+  # run depmod
+  e /sbin/depmod -a -F /System.map <kernel_ver>
+  r /System.map /sbin/depmod
+endif
 
 # now run SuSEconfig
 e echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
