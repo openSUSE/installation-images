@@ -172,7 +172,7 @@ nfs_install()
 #	Mount filesystems and start yast
 #
 $CONDOM mount -t nfs $INST_IP_ADDR:$INST_IP_DIR /var/adm/mount -o ro
-if [ ! -d /var/adm/mount/boot -a -z "$CONDOM" ]
+if [ ! \( -d /var/adm/mount/boot -o -d /var/adm/mount/CD1/boot \) -a -z "$CONDOM" ]
 then
 	echo $MOUNT_ERR
 	return 0
@@ -189,7 +189,7 @@ samba_install()
 #	Mount filesystems and start yast
 #
 $CONDOM mount -t smbfs //$INST_IP_ADDR/$INST_IP_DIR /var/adm/mount -o ro
-if [ ! -d /var/adm/mount/boot -a -z "$CONDOM" ]
+if [ ! \( -d /var/adm/mount/boot -o -d /var/adm/mount/CD1/boot \) -a -z "$CONDOM" ]
 then
 	echo $MOUNT_ERR
 	return 0
