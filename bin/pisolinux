@@ -1,0 +1,18 @@
+#! /usr/bin/perl
+
+# patch new base dir into isolinux
+
+$dir = shift;
+
+if(length($dir) > 24 || length($dir) < 1) {
+  die "invalid dir \"$dir\"\n"
+}
+
+$dir .= "\x00" x (25 - length($dir));
+
+sysread STDIN, $buf, 64000;
+
+die "oops, is not isolinux\n" unless (length $buf > 8000) && ($buf =~ s#/isolinux\x00{16}#$dir#s);
+
+syswrite STDOUT, $buf;
+

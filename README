@@ -318,6 +318,7 @@ o <action> <arg1> <arg2> ...
     X <src> <dst>
 
   - search for a file <name> below <dir> and copy it to <dst>
+    (<dst> may be omitted)
 
     f <dir> <name> <dst>
 

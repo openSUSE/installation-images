@@ -116,6 +116,12 @@ ncurses:
 libz:
   /lib/libz.so*
 
+if arch eq 'ia32'
+  syslinux:
+    /usr/sbin/syslinux
+    /usr/share/syslinux/isolinux*
+endif
+
 aaa_base: prein,postin
 e prein
   /etc

@@ -20,13 +20,6 @@ C<mk_boot> creates a boot disk.
 It packs the files from C<data/boot/boot.file_list> into a 1.44M FAT image
 and stores the image file as C<images/boot>.
 
-It needs C<syslinux> to do it. The location of the C<syslinux> binary is
-given in the C<syslinux> entry in C<etc/config>. Normally something like
-
-C<syslinux=../syslinux/syslinux>
-
-(if you are within the CVS tree).
-
 In addition to making a boot image, C<mk_boot> writes the maximum allowed
 size for C<initrd> to C<tmp/boot.max_initrd_size>. This is intended to be
 potentially useful for the C<mk_initrd> script (but currently this info
@@ -73,9 +66,22 @@ $arch = $ConfigData{suse_arch};
 $fstype = $arch eq 'i386' ? 'msdos' : 'vfat';
 
 if($arch eq 'i386') {
-  $syslx = "$BasePath$ConfigData{syslinux}";
-  die "$Script: where is syslinux?" unless $ConfigData{syslinux} && -x $syslx;
+  if($ENV{'syslinux'}) {
+    $syslx = $ENV{'syslinux'};
+  } else {
+    $syslx = "${BasePath}tmp/base/usr/sbin/syslinux"
+  }
+  die "$Script: where is syslinux?" unless -x $syslx;
+
+  if($ENV{'isolinux'}) {
+    $isolx = $ENV{'isolinux'};
+  } else {
+    $isolx = "${BasePath}tmp/base/usr/share/syslinux/isolinux.bin"
+  }
+  die "$Script: where is isolinux?" unless -f $isolx;
 }
+
+# print STDERR "syslinux = $syslx, isolinux = $isolx\n";
 
 #$kernel = "$BasePath$ConfigData{kernel}";
 #die "$Script: which kernel do we use?" unless $ConfigData{kernel} && -f $kernel;
@@ -86,6 +92,10 @@ if($arch eq 'i386') {
 # clean up
 if(-d $initrddirx) {
   die "$Script: the initrd must be rebuilt";
+}
+
+if(-e $image) {
+  SUSystem "rm -rf $image" and die "$Script: failed to remove old $image";
 }
 
 $i1 = $ConfigData{suse_major_release};
@@ -104,6 +114,28 @@ elsif($ENV{'boot'} eq 'hd') {
 elsif($ENV{'boot'} eq 'large' || ($arch eq 'ia64' && !$ENV{'boot'})) {
   # about 20MB image; see lib/MakeFATImage.pm for the meaning of the args
   ($blocks, $block_size) = MakeFATImage($image, $label, 2, 63, 16, 40)
+}
+elsif($ENV{'boot'} eq 'isolinux') {
+  SUSystem "mkdir $image";
+
+  # copy everything *except* the initdisk
+  AddFiles $image, "${srcdir}/boot.file_list", $srcdir or
+    die "$Script: failed to setup boot image";
+
+  SUSystem "mv $image/syslinux.cfg $image/isolinux.cfg" and
+    die "$Script: syslinux.cfg missing";
+
+  SUSystem "sh -c 'pisolinux /suse/images/boot <$isolx >$image/isolinux.bin'" and
+    die "$Script: isolinux.bin missing";
+
+  # copy the initdisk
+  SUSystem "cp $initdisk $image" and
+    die "$Script: could not add $initdisk to the image";
+
+  print "contents of $image:\n";
+  system "ls -l $image";
+
+  exit 0;
 }
 else {
   ($blocks, $block_size) = MakeFATImage($image, $label, 2, 36)

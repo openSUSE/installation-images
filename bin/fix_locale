@@ -24,7 +24,7 @@ for i in * $utf8 ; do
   [ -d $i -o \( ! -e $i \) ] || continue
   # leave them alone...
   case $i in
-    en_US|cs_CZ|ru_RU.koi8r) continue ;;
+    en_US|en_US.utf8|cs_CZ|ru_RU.koi8r) continue ;;
   esac
   # just check we don't accidentally erase the whole disk...
   [ -d $i/LC_MESSAGES ] && rm -rf $i
@@ -32,6 +32,7 @@ for i in * $utf8 ; do
   # create the right links
 
   case $i in
+    *.utf8)                                           ln -s en_US.utf8 $i ;;
     cs_CZ*|hr_HR*|hu_HU*|ro_RO*|sk_SK*|sl_SI*|pl_PL*) ln -s cs_CZ $i ;;
     *)                                                ln -s en_US $i ;;
   esac

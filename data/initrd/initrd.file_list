@@ -23,13 +23,15 @@ if arch eq 'ia32'
 
     if initrd eq 'small'
 
-        f / usbcore.o /modules
-        f / usb-uhci.o /modules
-        f / usb-ohci.o /modules
-        f / input.o /modules
-        f / hid.o /modules
-        f / keybdev.o /modules
-        f / usb-storage.o /modules
+        if usb_mods ne 'no'
+          f / usbcore.o /modules
+          f / usb-uhci.o /modules
+          f / usb-ohci.o /modules
+          f / input.o /modules
+          f / hid.o /modules
+          f / keybdev.o /modules
+          f / usb-storage.o /modules
+        endif
 
     else
 

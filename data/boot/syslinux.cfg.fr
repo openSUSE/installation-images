@@ -1,49 +1,28 @@
-# yast2, auto-inst
 default linux
-append linuxrc=french,auto2,yast2 initrd=initrd rw ramdisk_size=65536
+
+# default: yast2
+label linux
+  kernel linux
+  append linuxrc=french,auto2,yast2 initrd=initrd rw ramdisk_size=65536
 
 # manual
 label manual
   kernel linux
-  append initrd=initrd rw ramdisk_size=65536
+  append linuxrc=french initrd=initrd rw ramdisk_size=65536
 
-# update, yast1
-label update
+# rescue
+label rescue
   kernel linux
-  append linuxrc=french,auto2,yast1 initrd=initrd rw ramdisk_size=65536
+  append linuxrc=french,auto2,rescue initrd=initrd rw ramdisk_size=65536
 
-# yast1, auto-inst
-label yast1
-  kernel linux
-  append linuxrc=french,auto2,yast1 initrd=initrd rw ramdisk_size=65536
+# memory test
+label memtest
+  kernel memtest
 
-# yast1, auto-inst
-label zast1
-  kernel linux
-  append linuxrc=french,auto2,yast1 initrd=initrd rw ramdisk_size=65536
-
-# yast2, auto-inst
-label yast2
-  kernel linux
-  append linuxrc=french,auto2,yast2 initrd=initrd rw ramdisk_size=65536
-
-# yast2, auto-inst
-label zast2
-  kernel linux
-  append linuxrc=french,auto2,yast2 initrd=initrd rw ramdisk_size=65536
-
-# live-cd
-label demo
-  kernel linux
-  append linuxrc=french,auto2,demo initrd=initrd rw ramdisk_size=65536
-
-# special
-label suse
-  kernel linux
-  append initrd=initrd rw ramdisk_size=65536
-
-display message
-prompt 1
-timeout 30
-readinfo 2
-framebuffer 1
+implicit	0
+gfxboot		suselogo
+display		message
+prompt		1
+timeout		100
+readinfo	2
+framebuffer	1

@@ -27,5 +27,3 @@ kernel_img=`if [ "$kernel_file" ] ; then echo $kernel_file ; else echo $kernel_i
 # kernel rpm name (not needed in autobuild)
 kernel_rpm=`if [ "$kernel" ] ; then echo $kernel ; else echo k_deflt ; fi`
 
-# some basic stuff
-syslinux=`if [ "$syslinux" ] ; then echo $syslinux ; else echo /usr/sbin/syslinux ; fi`
