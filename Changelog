@@ -1,3 +1,7 @@
+17/2/2005:	v6.32
+	- use cifs instead of samba
+	- add some libs to initrd, as linuxrc is no longer statically linked
+
 14/2/2005:	v6.31
 	- replace cd2 boot image
 	- add exportfs to rescue (#50687)

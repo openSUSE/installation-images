@@ -47,6 +47,7 @@ kernel/fs/jfs/
 kernel/fs/ntfs/
 kernel/fs/reiserfs/
 kernel/fs/smbfs/
+kernel/fs/cifs/
 kernel/fs/vfat/
 kernel/fs/xfs
 kernel/fs/exportfs/
