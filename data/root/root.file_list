@@ -409,6 +409,9 @@ if with_yast2 ne 'no'
   libxml2:
     /usr/lib*/libxml2.so*
 
+  curl:
+    /usr/lib*/libcurl.so*
+
 endif
 
 if with_yast2 ne 'no'
@@ -417,6 +420,8 @@ if with_yast2 ne 'no'
   yast2-instsys:
     /
   yast2-agent-any:
+    /
+  yast2-agent-curl:
     /
   yast2-agent-fdisk:
     /
@@ -464,11 +469,11 @@ if with_yast2 ne 'no'
     /
   yast2-db-timezone:
     /
-  yast2-lib-wizard:
+  yast2-lib-network:
     /
   yast2-lib-sequencer:
     /
-  yast2-lib-network:
+  yast2-lib-wizard:
     /
   yast2-lib-xml:
     /
@@ -476,6 +481,7 @@ if with_yast2 ne 'no'
     /
   yast2-storage:
     /
+if 0
   yast2-trans-autoinst:
     /
   yast2-trans-inst-bootloader:
@@ -502,6 +508,7 @@ if with_yast2 ne 'no'
     /
   yast2-trans-wizard:
     /
+endif
   yast2-ui-ncurses:
     /
   yast2-ui-qt:

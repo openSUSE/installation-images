@@ -38,8 +38,13 @@ t /etc/fstab
 grep:
   /bin
 
-base:
+sed:
   /bin
+
+tar:
+  /bin
+
+base:
   /usr/{,s}bin
 
 bash:

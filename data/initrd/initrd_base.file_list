@@ -68,8 +68,9 @@ if arch eq 's390' || arch eq 's390x'
     /lib/librt.so.*
     #/lib/libthread_db.so.*
     /lib/libutil.so.*
-  base:
+  sed:
     /bin/sed
+  tar:
     /bin/tar
     # /usr/sbin/freeramdisk ?
     # /usr/sbin/ksymoops ?

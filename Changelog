@@ -1,3 +1,7 @@
+12/6/2002:	v2.3
+	- yast2 package changes
+	- tar & sed are in separate packages
+
 28/5/2002:	v2.2
 	- added yast2-storage
 	- lib64 fixes

@@ -15,12 +15,14 @@ r /var/{spool,squid,lib/YaST}
 
 grep:
   /bin
-tar:
-  /bin/tar
+
 sed:
-  /bin/sed
+  /bin
+
+tar:
+  /bin
+
 base:
-  #/bin
   /usr/{,s}bin
 
 bash:
