@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+#
 #=============================
 # Colorset dark/dark
 #-----------------------------
@@ -23,7 +25,7 @@ MenuStyle * Foreground black, Background grey80
 #=============================
 # Default Style
 #-----------------------------
-DefaultFont "-gnu-unifont-medium-r-normal--16-160-75-75-c-80-*-*,-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-*-*,*"
+DefaultFont "StringEncoding=UTF-8:xft:sans-serif:encoding=iso10646-1:size=13;-gnu-unifont-medium-r-normal--16-160-75-75-c-80-*-*,-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-*-*,*"
 
 #=============================
 # Global Styles

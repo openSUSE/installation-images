@@ -1,3 +1,6 @@
+6/9/2003:	v4.20
+	- mfabian: fixed some utf8 things in fvwmrc
+
 6/9/2003:	v4.19
 	- remove setfont wrapper script
 	- adapted splash mode resolution list
