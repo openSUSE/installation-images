@@ -37,7 +37,11 @@ if linuxrc
   X <linuxrc> /linuxrc
 else
   linuxrc:
-    m /usr/sbin/linuxrc /linuxrc
+    if initrd eq 'small'
+      m /usr/sbin/linuxrc_tiny /linuxrc
+    else
+      m /usr/sbin/linuxrc /linuxrc
+    endif
 endif
 
 x etc/host.conf etc

@@ -1,3 +1,6 @@
+1/8/2001:	v1.74
+	- use linuxrc_tiny in 'small' initrd
+
 30/7/2001:	v1.73
 	- dropped some mods to make it build
 

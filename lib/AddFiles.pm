@@ -371,7 +371,7 @@ sub AddFiles
       chomp @l;
 
       if(@l == 0) {
-        warn "$Script: file not found: \"$name\"";
+        warn "$Script: \"$name\" not found in \"$src\"";
       }
 
       if($dst) {

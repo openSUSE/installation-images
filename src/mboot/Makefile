@@ -1,7 +1,10 @@
 all: mboot
 
-mboot:	mboot.asm
+mboot: mboot.asm
+	nasm -f bin -o $@ -l $(@).lst $<
+
+boottest: boottest.asm
 	nasm -f bin -o $@ -l $(@).lst $<
 
 clean:
-	@rm -f mboot *~ *.lst
+	@rm -f mboot boottest *~ *.lst

@@ -47,7 +47,10 @@ if arch eq 'ia32'
 
   elsif initrd eq 'large'
 
-    f /lib/modules/<kernel_ver>/pcmcia *.o /modules
+    f /lib/modules/<kernel_ver>/kernel/drivers/scsi *.o /modules
+    f /lib/modules/<kernel_ver>/kernel/drivers/net *.o /modules
+
+    f /lib/modules/<kernel_ver>/pcmcia-external *.o /modules
     r /modules/{avm_cs,avma1_cs,elsa_cs,sedl_cs}.o
     r /modules/{sedlbauer_cs,teles_cs,ohci1394_cb,pcilynx_cb}.o
 
