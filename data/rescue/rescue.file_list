@@ -501,7 +501,6 @@ if arch ne 'sparc'
     f / hpfs.ko
     f / xfs.ko
     f / xfs_quota.ko
-    f / xfs_dmapi.ko
     endif
 
 
