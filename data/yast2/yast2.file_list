@@ -78,7 +78,7 @@ util:
   /bin/dmesg
 
 <kernel_rpm>:
-ifnarch ppc
+ifnarch ppc ia64
   /lib/modules/<kernel_ver>/misc/serial.o
   /lib/modules/<kernel_ver>/misc/lp.o
 ifnenv suse_major_release 6
@@ -104,7 +104,7 @@ endif
 d /lib/modules/default
 s ../../../modules /lib/modules/default/misc
 
-ifnarch sparc sparc64
+ifnarch sparc sparc64 ia64
 pcmcia:
   /sbin/cardmgr
   /sbin/cardctl
@@ -123,9 +123,18 @@ shlibs:
 ifarch ppc
   /lib/ld.so.1
 else
+ifarch ia64
+  /lib/ld-linux-ia64.so.1
+else
   /lib/ld-linux.so.2
 endif
-  /lib/{libc.so.6*,libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libm.so.6*,libnsl.so.1*}
+endif
+ifarch ia64
+  /lib/lib{c,m}.so.0*
+else
+  /lib/lib{c,m}.so.6*
+endif
+  /lib/{libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libnsl.so.1*}
   /lib/{libnss_compat.so.2,libnss_db.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
   /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt.so.1,libutil.so.1*}
   /usr/sbin/rpcinfo
@@ -178,8 +187,10 @@ activate:
   /sbin/activate
 endif
 
+ifnarch ia64
 mdutils:
   /sbin/*
+endif
 
 ifenv suse_major_release 6
 mkdosfs:
@@ -247,7 +258,10 @@ less:
   /usr/bin/less
 
 modules:
- /sbin/{depmod,genksyms,insmod,kerneld,ksyms,lsmod,modinfo,modprobe,rmmod,insmod.static}
+ /sbin/{depmod,genksyms,insmod,ksyms,lsmod,modinfo,modprobe,rmmod,insmod.static}
+ifnarch ia64
+ /sbin/kerneld
+endif
 
 nkitb:
   /usr/bin/telnet
@@ -270,7 +284,7 @@ endif
 strace:
   /usr/bin/strace
 
-ifnarch ppc
+ifnarch ppc ia64
 ltrace:
   /usr/bin/ltrace
   /etc/ltrace.conf
@@ -344,7 +358,9 @@ r /usr/X11R6/lib/modules/drivers/linux
   /usr/X11R6/lib/modules/fonts/libbitmap.a
   /usr/X11R6/lib/modules/input
   /usr/X11R6/lib/modules/linux
+ifnarch ia64
   /usr/X11R6/lib/modules/*.uc
+endif
   /usr/X11R6/lib/modules/lib*.a
 
 # no yast2 for alpha yet
@@ -469,8 +485,10 @@ c 0755 0 0 /lib/modules
 ifarch ppc sparc sparc64
 d /lib/modules/<kernel_ver>/misc
 endif
+ifnarch ia64
 c 0755 0 0 /lib/modules/<kernel_ver>
 c 0755 0 0 /lib/modules/<kernel_ver>/misc
+endif
 
 # add the rest from instsys
 lvm:
@@ -503,7 +521,7 @@ d /mnt
 d /proc
 d /tmp
 
-ifnarch ppc
+ifarch ix86
 reiserfs:
   /sbin/dumpreiserfs
   /sbin/mkreiserfs

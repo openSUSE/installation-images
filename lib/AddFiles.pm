@@ -70,9 +70,10 @@ sub AddFiles
   if(!$AutoBuild) {
     $rpms = "$ConfigData{suse_base}/suse";
     die "$Script: where are the rpms?" unless $ConfigData{suse_base} && -d $rpms;
+    $rpms = "$rpms/*";
   }
   else {
-    $rpms = "/.rpm-cache";
+    $rpms = $AutoBuild;
     die "$Script: where are the rpms?" unless -d $rpms;
     print "running in autobuild environment\n"
   }
@@ -155,8 +156,8 @@ sub AddFiles
         die "$Script: no such package: $r" unless -f $r;
       }
       else {
-        $r = `echo -n $rpms/*/$p.rpm`;
-        die "$Script: no such package: $p.rpm" if $r eq "$rpms/*/$p.rpm";
+        $r = `echo -n $rpms/$p.rpm`;
+        die "$Script: no such package: $p.rpm" unless -f $r;
       }
       print "adding package $p...\n" if $AutoBuild;
       SUSystem "rm -rf $tdir" and

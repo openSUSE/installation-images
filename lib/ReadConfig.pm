@@ -301,14 +301,24 @@ for (@f) {
 }
 
 
-$AutoBuild = 1 if -f("/bin/rpm.bin") && -f("/bin/uname.bin");
-
 {
   my $v = $ENV{'suse_release'};
   my $a = $ENV{'suse_arch'};
   my $s = $ENV{'suse_base'};
+  my $r;
 
-  $s = "autobuild" if $AutoBuild;
+  if(-f("/bin/rpm.bin") && -f("/bin/uname.bin")) {
+    if(-d "/.rpm-cache/$v-$a") {
+      $r = "$v-$a"
+    }
+    elsif(-d "/.rpm-cache/$a") {
+      $r = $a
+    }
+    else {
+      die "No usable /.rpm-cache.\n"
+    }
+    $s = $AutoBuild = "/.rpm-cache/$r"
+  }
 
   die "No SuSE release identified.\n" unless $a ne "" && $v ne "";
 

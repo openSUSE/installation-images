@@ -1,3 +1,14 @@
+3/7/2000:	v0.85
+	- added BlankTime option to XF4 config file
+	- Andreas' ia64 patches
+
+29/6/2000:	v0.84
+	- reiserfs for ia32 only
+	- fixed /.rpm-cache problems
+
+28/6/2000:	v0.83
+	- [temporary] removed some pcmcia mods to make it build
+
 28/6/2000:	v0.82
 	- workaround in XF4 config file to fix mouse problems
 

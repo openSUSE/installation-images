@@ -258,6 +258,8 @@ a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
 # just to get the cdrom menue in linuxrc
 a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
 
+M /lib/modules/<kernel_ver>/scsi/pas16.o /modules
+
 # to fill up the disk...
 M /lib/modules/<kernel_ver>/cdrom/gscd.o /modules
 M /lib/modules/<kernel_ver>/cdrom/mcdx.o /modules
@@ -346,6 +348,11 @@ a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
 a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
+
+# temporary solution...
+#r /modules/fdomain_cs.o
+#r /modules/qlogic_cs.o
+#r /modules/ftl_cs.o
 
 endif	# !small
 endif

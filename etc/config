@@ -29,6 +29,7 @@ suse_release=`echo $suse_major_release.$suse_minor_release`
 kernel_img=vmlinuz
 kernel_img=`if [ $suse_arch = axp ] ; then echo vmlinux.gz ; else echo $kernel_img ; fi`
 kernel_img=`if [ $suse_arch = ppc ] ; then echo vmlinux ; else echo $kernel_img ; fi`
+kernel_img=`if [ $suse_arch = ia64 ] ; then echo vmlinux ; else echo $kernel_img ; fi`
 
 # kernel rpm name (not needed in autobuild)
 kernel_rpm=k_deflt

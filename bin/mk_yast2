@@ -48,7 +48,7 @@ $extra_size = 500;              # kbyte
 $extra_inodes = 100;
 
 # just make them large enough
-$start_size = 60000;             # kbyte
+$start_size = 90000;             # kbyte
 $start_inodes = 5000;
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -69,13 +69,15 @@ SUSystem "strip_dir $tmpdir";
 SUSystem "ldconfig -r $tmpdir";
 die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
-SUSystem "mkdir $tmpdir/modules";
-SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
-SUSystem "depmod -a -F $tmpdir/System.map -b $tmpdir $ConfigData{kernel_ver}";
-die "$Script: failed to run depmod" unless -f "$tmpdir/lib/modules/$ConfigData{kernel_ver}/modules.dep";
-SUSystem "rm -r $tmpdir/modules";
-SUSystem "rm $tmpdir/System.map";
-SUSystem "ln -snf /modules $tmpdir/lib/modules/default/misc";
+if(-d "$tmpinitrd/modules$ConfigData{kernel_ver}") {
+  SUSystem "mkdir $tmpdir/modules";
+  SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
+  SUSystem "depmod -a -F $tmpdir/System.map -b $tmpdir $ConfigData{kernel_ver}";
+  die "$Script: failed to run depmod" unless -f "$tmpdir/lib/modules/$ConfigData{kernel_ver}/modules.dep";
+  SUSystem "rm -r $tmpdir/modules";
+  SUSystem "rm $tmpdir/System.map";
+  SUSystem "ln -snf /modules $tmpdir/lib/modules/default/misc";
+}
 
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
 
