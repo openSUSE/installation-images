@@ -125,8 +125,13 @@ textutils:
 cron:
   /var
 
+if suse_release < 8.1
 base:
   /bin/sed
+else
+sed:
+  /bin/sed
+endif
 
 portmap:
   /sbin/portmap

@@ -26,8 +26,10 @@ sed:
 tar:
   /bin
 
+if suse_release < 8.1
 base:
   /usr/{,s}bin
+endif
 
 bash:
   /bin

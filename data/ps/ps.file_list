@@ -32,8 +32,15 @@ readline:
   /lib/libreadline.so.4*
   /lib/libhistory.so.4*
 
+if suse_release < 8.1
 base:
   /bin/{grep,sed}
+else
+sed:
+  /bin/sed
+grep:
+  /bin/grep
+endif
 
 sh_utils:
   /bin/{date,echo,false,sleep,stty,true,uname}
