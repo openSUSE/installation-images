@@ -1,3 +1,7 @@
+26/9/2002:	v2.75
+	- yast uses SL theme on SLES
+	- fixed bootlogo handling
+
 25/9/2002:	v2.74
 	- Writing MTU to Devicefile
 	- added missing sambafile to initrd
