@@ -304,10 +304,17 @@ module-init-tools:
  /sbin/{depmod,genksyms,insmod,ksyms,modinfo,modprobe,rmmod}
  /bin/lsmod
 
-ps:
+procps:
   /bin/ps
+  /usr/bin/{free,top,vmstat}
+
+psmisc:
   m /bin/fuser /usr/bin
-  /usr/bin/{free,killall,pstree,socklist,vmstat,top}
+  /usr/bin/killall
+  /usr/bin/pstree
+
+procinfo:
+  /usr/bin/socklist
 
 timezone:
   /usr/share/zoneinfo/{iso3166,zone}.tab

@@ -1,5 +1,6 @@
 15/2/2004:	v5.09
 	- add gdb for the time being
+	- ps was splitted into procinfo, procps and psmisc
 
 13/2/2004:	v5.08
 	- add small initrd images for ppc:
