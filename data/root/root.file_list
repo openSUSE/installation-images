@@ -417,8 +417,10 @@ endif
 
 if with_yast2 ne 'no'
   yast2:
-    /
-    s ../usr/lib/YaST2/bin/fdisk /sbin/fdisk
+    /usr
+    /var
+    s /usr/lib/YaST2/bin/fdisk /sbin/fdisk
+    s /usr/lib/YaST2/bin/YaST2.start /sbin/yast
   yast2-bootloader:
     /
   yast2-core:
@@ -443,7 +445,39 @@ if with_yast2 ne 'no'
     /
   yast2-transfer:
     /
+  yast2-trans-bs:
+    /
+  yast2-trans-cs:
+    /
   yast2-trans-de:
+    /
+  yast2-trans-el_GR:
+    /
+  yast2-trans-es:
+    /
+  yast2-trans-fr:
+    /
+  yast2-trans-hu:
+    /
+  yast2-trans-it:
+    /
+  yast2-trans-ja:
+    /
+  yast2-trans-lt:
+    /
+  yast2-trans-nl:
+    /
+  yast2-trans-pt_BR:
+    /
+  yast2-trans-sk:
+    /
+  yast2-trans-sl_SI:
+    /
+  yast2-trans-sv:
+    /
+  yast2-trans-tr:
+    /
+  yast2-trans-zh_CN:
     /
   yast2-theme-SuSELinux:
     /
