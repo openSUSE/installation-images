@@ -1,12 +1,11 @@
-	- s390: netsetup: use /linuxrc.config instead of /etc/SuSE-release
-	  (bug #40121)
-	- inst_setup_ssh: run with -n if not booted with nosshkey
-
 10/5/2004:	v5.51
 	- add /sbin/hotplug, drop remove events (#39109, #39894)
 	- drop udev.permissions from inst-sys
 	- minor module config fixes
 	- added memtest to boot disk
+	- s390: netsetup: use /linuxrc.config instead of /etc/SuSE-release
+	  (bug #40121)
+	- inst_setup_ssh: run with -n if not booted with nosshkey
 
 8/5/2004:	v5.50
 	- fixed .timestamp creation
