@@ -414,13 +414,21 @@ cyrus-sasl:
 db:
   /usr/lib*/libdb-4*.so  
 
-heimdal-lib:
-  /etc
-  /usr/lib*/libasn1.so.*
-  /usr/lib*/libgssapi.so.*
-  /usr/lib*/libkrb5.so.*
-  /usr/lib*/libroken.so.*
-  /usr/lib*/libkafs.so.*
+if 0
+  heimdal-lib:
+    /etc
+    /usr/lib*/libasn1.so.*
+    /usr/lib*/libgssapi.so.*
+    /usr/lib*/libkrb5.so.*
+    /usr/lib*/libkafs.so.*
+    /usr/lib*/libroken.so.*
+else
+  krb5:
+    /etc
+    /usr/lib*/libkrb5.so.*
+    /usr/lib*/libgssapi_krb5.so.*
+    /usr/lib*/libk5crypto.so.*
+endif
 
 strace:
   /usr/bin/strace

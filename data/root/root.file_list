@@ -342,7 +342,8 @@ if with_yast2 ne 'no'
     /
   yast2-packager:
     /
-    
+  yast2-pkg-bindings:
+    /
   yast2-repair:
     /
   yast2-runlevel:
@@ -508,13 +509,21 @@ openssh: prein
   /usr/bin/scp
   e prein
 
-heimdal-lib:
-  /etc
-  /usr/lib*/libasn1.so.*
-  /usr/lib*/libgssapi.so.*
-  /usr/lib*/libkrb5.so.*
-  /usr/lib*/libkafs.so.*
-  /usr/lib*/libroken.so.*
+if 0
+  heimdal-lib:
+    /etc
+    /usr/lib*/libasn1.so.*
+    /usr/lib*/libgssapi.so.*
+    /usr/lib*/libkrb5.so.*
+    /usr/lib*/libkafs.so.*
+    /usr/lib*/libroken.so.*
+else
+  krb5:
+    /etc
+    /usr/lib*/libkrb5.so.*
+    /usr/lib*/libgssapi_krb5.so.*
+    /usr/lib*/libk5crypto.so.*
+endif
 
 openldap2-client:
   /usr/lib*/liblber-*.so.*

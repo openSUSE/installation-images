@@ -206,11 +206,18 @@ if arch eq 's390' || arch eq 's390x' || with_smb
       m /usr/lib*/libcrypto.so.* /lib
       m /usr/lib*/libssl.so.* /lib
 
-    heimdal-lib:
-      m /usr/lib*/libasn1.so.* /lib
-      m /usr/lib*/libgssapi.so.* /lib
-      m /usr/lib*/libkrb5.so.* /lib
-      m /usr/lib*/libroken.so.* /lib
+    if 0
+      heimdal-lib:
+        m /usr/lib*/libasn1.so.* /lib
+        m /usr/lib*/libgssapi.so.* /lib
+        m /usr/lib*/libkrb5.so.* /lib
+        m /usr/lib*/libroken.so.* /lib
+    else
+      krb5:
+        m /usr/lib*/libkrb5.so.* /lib
+        m /usr/lib*/libgssapi_krb5.so.* /lib
+        m /usr/lib*/libk5crypto.so.* /lib
+    endif
       
     openldap2-client:
       m /usr/lib*/liblber-*.so.* /lib
