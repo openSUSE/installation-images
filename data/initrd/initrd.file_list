@@ -174,5 +174,6 @@ endif # not arch s390
 
 # add modules.pcimap
 e /sbin/depmod -a -b . -F /System.map <kernel_ver>
-e rm -f lib/modules/<kernel_ver>/modules.[^p]*
-
+if !(arch eq 's390' || arch eq 's390x')
+  e rm -f lib/modules/<kernel_ver>/modules.[^p]*
+endif

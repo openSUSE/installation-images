@@ -29,11 +29,13 @@ godown() {
 	    test "$fs" = "/dev/pts" && continue
 	    test "$fs" = "/dev"     && continue
 	    test "$fs" = "/var/shm" && continue
+	    test "$fs" = "/sys"     && continue
 	    test "$type" = "proc"   && umount -t proc   $fs
 	    test "$type" = "devpts" && umount -t devpts $fs
 	    test "$type" = "devfs"  && umount -t devfs  $fs
 	    test "$type" = "shm"    && umount -t shm    $fs
-	    test "$type" = "tmpfs"    && umount -t tmpfs    $fs
+	    test "$type" = "tmpfs"  && umount -t tmpfs  $fs
+	    test "$type" = "sysfs"  && umount -t sysfs  $fs
 	done < $mounts
 	umount -avt noproc,nonfs || UMOUNT_FAILED=true
 	if [ "$UMOUNT_FAILED" = true ]; then

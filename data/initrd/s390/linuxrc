@@ -10,7 +10,7 @@ chmod +x /linuxrc
 function movetotmpfs
 {
     mkdir newroot
-    mount -t tmpfs -onr_inodes=10240 shmfs /newroot
+    mount -n -t tmpfs -onr_inodes=10240 shmfs /newroot
     cp -ax / newroot
     cd newroot
     mv newroot oldroot.old
@@ -19,7 +19,7 @@ function movetotmpfs
 }
 if test -d oldroot.old
 then
-    umount /oldroot.old
+    umount -n /oldroot.old
     freeramdisk /dev/ram0
     mv oldroot.old oldroot
 elif test \! -d oldroot
@@ -50,7 +50,7 @@ mount -t devpts devpts /dev/pts
 #
 #
 #
-[ ! -f /proc/version ] && mount -t proc virtual-proc-filesystem /proc
+[ ! -f /proc/version ] && mount -n -t proc virtual-proc-filesystem /proc
 #
 #	Check the memory. If less than 256 Mb issue a warning.
 #

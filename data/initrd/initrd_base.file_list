@@ -2,6 +2,9 @@ d bin dev etc mnt proc sys tmp
 d var/run var/spool var/lock var/tmp var/log/YaST2 var/adm/mount
 d var/lib/YaST var/lib/dhcpcd var/lib/hardware
 
+d etc/sysconfig
+d etc/sysconfig/hardware
+
 d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11 var/lib/xkb
 s /usr/X11R6/lib/X11 var/X11R6/lib
 
@@ -58,18 +61,12 @@ if arch eq 's390' || arch eq 's390x'
   glibc:
     /etc/ld.so.conf
     /etc/rpc
-    /lib*/ld*.so*
-    /lib*/ld[-.]*.so
-    /lib*/lib{c,m}.so.*
-    /lib*/libcrypt.so.*
-    /lib*/libdl.so.*
-    /lib*/libnsl.so.*
-    /lib*/libnss_dns.so.*
-    /lib*/libnss_files.so.*
+    /lib*/ld*
+    /lib*/lib{c,m}.so.6*
+    /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
+    /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
+    /lib*/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt*.so.1,libutil.so.1*}
     /lib*/libpthread.so.*
-    /lib*/libresolv.so.*
-    /lib*/librt.so.*
-    /lib*/libutil.so.*
 
   sed:
     /bin/sed
@@ -133,6 +130,7 @@ if arch eq 's390' || arch eq 's390x'
   jfsutils:
     /sbin/fsck.jfs
   coreutils:
+    /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename}
     /bin/chgrp
     /bin/chmod
     /bin/chown
@@ -154,19 +152,11 @@ if arch eq 's390' || arch eq 's390x'
     /usr/bin/cut
     /usr/bin/head
     /usr/bin/tail
-    /bin/uname
-    /bin/sleep
-    /bin/date
-    /bin/stty
     /usr/bin/expr
     /usr/bin/chroot
   module-init-tools:
-    /sbin/insmod{,.old}
-    /sbin/rmmod{,.old}
-    /bin/lsmod{,.old}
-    /sbin/modprobe{,.old}
-    /sbin/ksyms
-    /sbin/kallsyms
+    /sbin/{depmod,genksyms,insmod,ksyms,modinfo,modprobe,rmmod}
+    /bin/lsmod
 # lukemftp is not in neededforbuild, it's just nice to have, not needed:
 #  lukemftp:
 #    /usr/bin/ftp
@@ -301,6 +291,8 @@ if arch eq 's390' || arch eq 's390x'
 
   x s390/bin/netsetup    /bin/netsetup
   x s390/check           /check
+  x s390/etc/passwd      /etc/passwd
+  x s390/etc/group       /etc/group
   x s390/etc/motd        /etc/motd
   x s390/etc/syslog.conf /etc/syslog.conf
   x s390/etc/rc.config   /etc/rc.config

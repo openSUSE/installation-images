@@ -1,3 +1,14 @@
+	- s390: do not delete modules.dep and friends
+	- add /etc/sysconfig, /etc/sysconfig/hardware to initrd
+	- s390: add missing libnss*, basename, modprobe to initrd
+	- s390: add missing /etc/passwd, /etc/group to initrd
+	- s390: mount/unmount with -n in linuxrc
+	- s390: unmount sysfs in linuxrc.finish
+	- s390: netsetup: fix memory detection
+	- s390: netsetup: don't show obsolete /proc/chandev options
+	- s390: ditch LCS license
+	- s390: netsetup: fix qeth, iucv setup
+	- s390: netsetup: minor fixes
 	- add /lib/modules/<version>/extras to kernel module search list
 	  needed for ibmsis
 10/3/2004:	v5.25
