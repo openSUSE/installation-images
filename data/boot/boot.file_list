@@ -2,18 +2,22 @@ if arch eq 'ia32' || arch eq 'x86_64'
 
   x message /
   if boot eq 'small'
-    x syslinux-small.cfg /syslinux.cfg
+    if hp1
+      x syslinux.cfg.hp1 /syslinux.cfg
+    else
+      x syslinux-small.cfg /syslinux.cfg
+    endif
     A gen/initrdsize /syslinux.cfg
   else
     x syslinux.cfg /
   endif
 
   <kernel_rpm>:
-    m /boot/<kernel_img> /linux
+    a /boot/<kernel_img>-<kernel_ver> /linux
 
 if use_k_inst
   k_inst:
-    m /boot/vminst /linux
+    a /boot/vminst /linux
 endif
 
   if demo eq 'eval'
@@ -24,13 +28,13 @@ endif
     endif
   endif
 
-  if (bootlogo eq 'no' || boot eq 'small') && bootlogo ne 'yes'
+  if bootlogo eq 'no'
     R s/\ngfxboot.*?\n/\n/s /syslinux.cfg
   else
-    e cp /<theme>.boot bootlogo
+    e cp /<splash_theme>.boot bootlogo
   endif
 
-  if (memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval'
+  if arch eq 'x86_64' || ((memtest eq 'no' || boot eq 'small') && memtest ne 'yes' && demo ne 'eval')
     R s/\n# memory.*memtest\n//s /syslinux.cfg
   else
     memtest86:
@@ -41,7 +45,7 @@ endif
     R s/\n# apic.*apic\n//s /syslinux.cfg
   endif
 
-  R s/product_name/<product>/ /message
+  R s/product_name/<product_name>/ /message
 
   if initrd_name
     R s/\binitrd=initrd\b/initrd=$ENV{'initrd_name'}/ /syslinux.cfg
@@ -53,7 +57,7 @@ endif		# arch eq 'ia32'
 
 if arch eq 'ia64'
   d /efi/boot
-  m /boot/<kernel_img> /efi/boot/linux
+  a /boot/<kernel_img>-<kernel_ver> /efi/boot/linux
   elilo:
     if suse_release > 8.0
       m /boot/efi/SuSE/elilo.efi /efi/boot/bootia64.efi
@@ -65,6 +69,6 @@ if arch eq 'ia64'
 endif
 
 if arch eq 'alpha'
-  m /boot/<kernel_img> /vmlinux.gz
+  a /boot/<kernel_img>-<kernel_ver> /vmlinux.gz
 endif
 

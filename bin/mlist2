@@ -11,6 +11,7 @@ use Conv2Image;
 
 sub lsplit;
 sub add_quotes;
+sub real_name;
 
 die "usage: $Script\n" if @ARGV;
 
@@ -64,21 +65,38 @@ while(<F>) {
   if(/^\[(.+)\]/) {
     $sect = $1;
     push @sect, $sect unless exists $sect{$sect};
-    $sect{$sect}{'tag'} = undef;
+    $sect{$sect}{tag} = undef;
     next;
   }
   if(/MoreModules=(.*)/i) {
-    $sect{$sect}{'MoreModules'} = $1;
+    $tmp = $1;
+    if($tmp =~ /^([^,]+),([^,]+)$/) {
+      $sect{$sect}{MoreModules} = $1;
+      $sect{$sect}{MoreModulesLxrc} = $2;
+    }
+    else {
+      $sect{$sect}{MoreModules} =
+      $sect{$sect}{MoreModulesLxrc} = $tmp;
+    }
+    $sect{$sect}{MoreModules} = $1;
     next;
   }
 
   if(/ModuleClass=(.*)/i) {
-    $sect{$sect}{'ModuleClass'} = $1;
+    $sect{$sect}{ModuleClass} = $1;
     next;
   }
 
   if(/ModDisk=(.*)/i) {
-    $sect{$sect}{'ModDisk'} = $1;
+    $tmp = $1;
+    if($tmp =~ /^([^,]+),([^,]+)$/) {
+      $sect{$sect}{ModDisk} = $1;
+      $sect{$sect}{ModDiskNext} = $2;
+    }
+    else {
+      $sect{$sect}{ModDisk} =
+      $sect{$sect}{ModDiskNext} = $tmp;
+    }
     next;
   }
 
@@ -160,31 +178,32 @@ for (@sect) {
 #  next if /notuseful/;
 
   $s = $_;
-  $s =~ s/\s*//g;
-  $s = $1 if exists($sect{$_}{'MoreModules'}) && $sect{$_}{'MoreModules'} =~ /^(\S+)-mod/;
-  if(exists($sect{$_}{'MoreModules'}) && exists($sect{$_}{'ModDisk'})) {
-    $moddisk_i{$sect{$_}{'ModDisk'}} .= " $sect{$_}{'MoreModules'}";
+  $s =~ s/\s+//g;
+  $s = $1 if exists($sect{$_}{MoreModules}) && $sect{$_}{MoreModules} =~ /^(\S+)-modules/;
+  if(exists($sect{$_}{MoreModules}) && exists($sect{$_}{ModDisk})) {
+    $moddisk_i{$sect{$_}{ModDisk}} .= " $sect{$_}{MoreModules}";
   }
 
-  $s = $sect{$_}{'ModuleClass'} if exists $sect{$_}{'ModuleClass'};
-  $moddisk_l{$sect{$_}{'ModDisk'}} .= " $s" if exists $sect{$_}{'ModDisk'};
+  $s = $sect{$_}{ModuleClass} if exists $sect{$_}{ModuleClass};
+  $moddisk_l{$sect{$_}{ModDisk}} .= " $s" if exists $sect{$_}{ModDisk};
 
   # to make it possible to put something on the disk that wasn't created by mk_modules
-  if(exists $sect{$_}{'ModDisk'}) {
+  # e.g. initrd
+  if(exists $sect{$_}{ModDisk}) {
     if(
-      !exists($sect{$_}{'MoreModules'}) ||
-      !exists($sect{$_}{'ModuleClass'}) ||
-      "$sect{$_}{'ModuleClass'}-mod" eq $sect{$_}{'MoreModules'}
+      !exists($sect{$_}{MoreModules}) ||
+      !exists($sect{$_}{ModuleClass}) ||
+      "$sect{$_}{ModuleClass}-modules" eq $sect{$_}{MoreModules}	# ???
     ) {
-      $moddisk_c{$sect{$_}{'ModDisk'}} .= " $s";
+      $moddisk_c{$sect{$_}{ModDisk}} .= " $s";
     }
   }
 
   open W, ">${dst}config.$s";
-  print W "[$_]\n";
-  print W "MoreModules=$sect{$_}{'MoreModules'}\n" if exists $sect{$_}{'MoreModules'};
-  print W "ModDisk=$sect{$_}{'ModDisk'}\n" if exists $sect{$_}{'ModDisk'};
-  print W "\n" if exists($sect{$_}{'MoreModules'}) || exists($sect{$_}{'ModDisk'});
+  print W "[${\real_name($_)}]\n";
+  print W "MoreModules=${\real_name($sect{$_}{MoreModulesLxrc})}\n" if exists $sect{$_}{MoreModulesLxrc};
+  print W "ModDisk=$sect{$_}{ModDiskNext}\n" if exists $sect{$_}{ModDiskNext};
+  print W "\n" if exists($sect{$_}{MoreModules}) || exists($sect{$_}{ModDiskNext});
 
   for $m (@{$sect{$_}{'m'}}) {
     if($$m[1] !~ /^--/) {
@@ -197,9 +216,9 @@ for (@sect) {
   close W;
 
   open W, ">${dst}shortconfig.$s";
-  print W "[$_]\n";
-  print W "MoreModules=$sect{$_}{'MoreModules'}\n" if exists $sect{$_}{'MoreModules'};
-  print W "ModDisk=$sect{$_}{'ModDisk'}\n" if exists $sect{$_}{'ModDisk'};
+  print W "[${\real_name($_)}]\n";
+  print W "MoreModules=${\real_name($sect{$_}{MoreModulesLxrc})}\n" if exists $sect{$_}{MoreModulesLxrc};
+  print W "ModDisk=$sect{$_}{ModDiskNext}\n" if exists $sect{$_}{ModDiskNext};
   print W "\n\n";
   close W;
 
@@ -216,7 +235,7 @@ for (@sect) {
   close W;
 
   open W, ">${dst}list.$s";
-  print W ";\n; $_ modules\n;\n";
+  print W ";\n; ${\real_name($_)} modules\n;\n";
   for $m (@{$sect{$_}{'m'}}) {
     next if $sect{$_}{'r'}{$$m[0]};
     $d = $$m[1];
@@ -292,4 +311,13 @@ sub add_quotes
   return @i
 }
 
+
+sub real_name
+{
+  local $_;
+
+  $_ = shift;
+  s/\@[^@]+?\b//;
+  return $_;
+}
 
