@@ -64,10 +64,6 @@ then
 	fi
 fi
 #
-#	if IP_INTERFACE is nonzero we assume AUTOINSTALL
-#
-[ -n "$IP_INTERFACE" ] && AUTOINSTALL=yes
-#
 #	Konfiguring the network
 #
 . /bin/netsetup

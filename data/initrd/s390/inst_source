@@ -179,7 +179,7 @@ do
 		3|SSH) INST_SCREEN=SSH
 		   break
 		;;
-		*)
+		*) INST_SCREEN=nothing
 		;;
 	esac
 done
@@ -251,7 +251,7 @@ do
 	[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || read FTPUSER
 #	[ -z "$FTPUSER" ] && continue
 	echo -en $FTPPASSWORDTXT
-	[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || rread FTPPASSWORD
+	[ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ] || read FTPPASSWORD
 #	[ -z "$FTPPASSWORD" ] && continue
 	eval echo -en $FTP_ASK_VALID
 	ANSW=yes
@@ -340,6 +340,10 @@ else
 	NETSETUPFILE="/etc/netsetup.inf"
 fi
 #
+#	if INST_INFO is not set, turn off AUTOINSTALL
+#
+[ "$INST_INFO" = "nothing" ] && AUTOINSTALL=no
+#
 #
 #
 NO_ERROR=yes
@@ -385,6 +389,8 @@ NO_ERROR=yes
 #	Filesystem and files are ready
 #	Ask the user for VNC or X-Windows
 #
+if [ "$INST_INFO" != "ABORT" ]
+then
 	while :
 	do
 #
@@ -420,9 +426,6 @@ NO_ERROR=yes
 #
 #
 #
-if [ "$INST_INFO" != "ABORT" ]
-then
-#
 	write_info_file
 #
 #	kill portmap (#18461)
@@ -445,5 +448,7 @@ done
 $CONDOM /bin/linuxrc
 #
 	[ ! -z "$CONDOM" ] && set
+#
+#	Endif !ABORT
 fi
 :

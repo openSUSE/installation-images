@@ -10,6 +10,7 @@ DEVICEDIR=$ROOT/etc/sysconfig/network/
 ROUTINGFILE=$ROOT/etc/sysconfig/network/routes
 HOSTFILE=$ROOT/etc/HOSTNAME
 RESFILE=$ROOT/etc/resolv.conf
+DOMFILE=$ROOT/etc/defaultdomain
 CONFIGFILE=$ROOT/etc/sysconfig/network/config
 CONFIGFILETMP=$ROOT/etc/sysconfig/network/config.tmp
 MODCONFFILE=$ROOT/etc/modules.conf
@@ -104,6 +105,10 @@ then
 	NAMESERVER=`grep Nameserver: $INSTALLINF | uniq | sed -e 's/Nameserver: \\(.*\\)/\\1/'`
 	[ -n "$DOMAIN" ] && echo "domain $DOMAIN" >> $RESFILE
 	[ -n "$NAMESERVER" ] && echo "nameserver $NAMESERVER" >> $RESFILE
+#
+#	Create /etc/defaultdomain
+#
+	[ -n "$DOMAIN" ] && echo "$DOMAIN" >> $DOMFILE
 	WAIT_FOR_INTERFACES=`grep ConnectWait: $INSTALLINF | uniq | sed -e 's/ConnectWait: \\(.*\\)/\\1/'`
 	if [ -n "$WAIT_FOR_INTERFACES" ]
 	then
