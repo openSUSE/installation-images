@@ -75,7 +75,7 @@ bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
 	--output $CD1/boot/vmlinux-pmac64-$k_pmac64_32bit
 #
 ln -sv boot/install-pmac-$k_deflt       $CD1/installpmac
-ln -sv boot/vmlinux-pmac64-$k_pmac64_32bit $CD1/installpmac64
+ln -sv boot/install-pmac64-$k_pmac64_32bit $CD1/installpmac64
 #
 cat > $CD1/ppc/bootinfo.txt <<EOF
 <chrp-boot>

@@ -1,6 +1,7 @@
 	- autoload loop.ko and unix.ko, if available
 	- add nv_drv.o to inst-sys for ppc (#39767)
 	- add vga_drv.o to inst-sys only for i386, x86_64 and ia64 (#39767)
+	- use real install file for pmac64
 
 30/4/2004:	v5.47
 	- put boot files for ppc on CD1
