@@ -1,3 +1,7 @@
+24/6/2004:	v5.72
+	- ia64: XF86Config changes (#42237)
+	- ia64: add all XFree86 drivers (#42237)
+
 23/6/2004:	v5.71
 	- added SuSE-NLD theme
 

@@ -422,6 +422,9 @@ if with_yast2 ne 'no'
   if arch eq 'ia32' || arch eq 'ia64' || arch eq 'x86_64'
     /usr/X11R6/lib*/modules/drivers/{vesa,vga}_drv.o
   endif
+  if arch eq 'ia64'
+    /usr/X11R6/lib*/modules/drivers/*_drv.o
+  endif
   if arch eq 'ia32'
     /usr/X11R6/lib*/modules/drivers/vmware_drv.o
   endif
@@ -487,7 +490,11 @@ if with_yast2 ne 'no'
 
     /usr/X11R6/lib/X11/fonts/misc/fonts.scale
 
-  x /usr/X11R6/lib/X11/XF86Config_4 /usr/X11R6/lib/X11
+  if arch eq 'ia64'
+    x /usr/X11R6/lib/X11/XF86Config_4.ia64 /usr/X11R6/lib/X11/XF86Config_4
+  else
+    x /usr/X11R6/lib/X11/XF86Config_4 /usr/X11R6/lib/X11
+  endif
 
   /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
 
