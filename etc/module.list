@@ -59,5 +59,6 @@ kernel/net/packet/
 kernel/lib/zlib_deflate/
 kernel/drivers/i2c/i2c-core.ko
 kernel/drivers/i2c/algos/i2c-algo-bit.ko
-extra/ibmsis.ko
 kernel/arch/ia64/sn/kernel
+extra/ibmsis.ko
+extra/megaide.ko

@@ -1,7 +1,9 @@
+21/5/2004:	v5.56
 	- s390: change memory requirements according to test results
 	- update comment for ibmveth
 	- fixed typo in LIESMICH
 	- applied create_interface patch from #39401#c5
+	- added megaide (#39570)
 
 16/5/2004:	v5.55
 	- add pcnet32 and acenic for chrp, fix typo in yaboot.conf
