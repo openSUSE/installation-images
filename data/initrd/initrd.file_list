@@ -26,11 +26,20 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
     include gen/module.files.firewire
   endif
 
+  if hp1
+    include module.files.hp1
+  endif
+
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
   A gen/module.shortconfig.scsi modules/module.config
   A gen/module.shortconfig.cdrom modules/module.config
-  A gen/module.shortconfig.net modules/module.config
+
+  if hp1
+    A module.config.hp1 modules/module.config
+  else
+    A gen/module.shortconfig.net modules/module.config
+  endif
   A gen/module.shortconfig.pcmcia modules/module.config
   if nousb
     A gen/module.shortconfig.usb modules/module.config
@@ -39,7 +48,9 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
     A gen/module.config.usb modules/module.config
     A gen/module.config.firewire modules/module.config
   endif
-  A gen/module.shortconfig.fs modules/module.config
+  if !hp1
+    A gen/module.shortconfig.fs modules/module.config
+  endif
   A gen/module.config.other modules/module.config
 
 elsif arch eq 'ia32' && initrd eq 'medium'
