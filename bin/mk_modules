@@ -32,7 +32,7 @@ $mdisk = "${BasePath}tmp/module_disks_create";
 
 # leave that much space
 $extra_size = 10;		# kbyte
-$extra_inodes = 10;
+$extra_inodes = 100;
 
 # just make them large enough
 $start_size = 5000;		# kbyte
