@@ -11,7 +11,7 @@ ifdef initrd
 # make linuxrc automatically call for modules disk
 t etc/need_modules_disk
 
-t modules/{MORE,NEEDMOD,NET,SCSI}
+t modules/{MORE,NEEDMOD}
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 
@@ -152,6 +152,9 @@ a /lib/modules/<kernel_ver>/misc/parport_probe.o /
 a /lib/modules/<kernel_ver>/misc/pcd.o /
 a /lib/modules/<kernel_ver>/misc/serial.o /
 
+# needed by pcmcia
+a /lib/modules/<kernel_ver>/net/8390.o /
+
 # pcmcia/core
 a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /
 a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /
@@ -277,6 +280,9 @@ ifdef other2
 t {MORE,NEEDMOD,OTHER}
 
 a /lib/modules/<kernel_ver>/cdrom/cm206.o /
+
+# needed by pcmcia
+a /lib/modules/<kernel_ver>/net/8390.o /
 
 # pcmcia/core
 a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /

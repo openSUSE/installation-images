@@ -5,7 +5,7 @@ include initrd_base.file_list
 t etc/need_modules_disk
 
 # the modules
-t modules/{MORE,NEEDMOD,NET,SCSI}
+t modules/{MORE,NEEDMOD}
 
 <kernel_rpm>:
 

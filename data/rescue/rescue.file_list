@@ -21,7 +21,6 @@ r /etc/{csh*,default*,mailcap,mime.types,permissions*}
 r /etc/{rc.d.README,runlevel.fallback,zshrc,cron.daily}
   /bin
   /sbin
-r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
 r /etc/init.d/rc?.d/*kerneld
 r /etc/init.d/rc?.d/*cron
 r /etc/init.d/rc?.d/*pcnfsd
@@ -33,6 +32,7 @@ r /usr/bin/ChangeSymlinks
   /lib/YaST/SuSEconfig.functions
   /var/adm/fillup-templates
 e postin
+# r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
 r /var/adm/fillup-templates
 t /etc/fstab
 R s/^(FQHOSTNAME=).*/$1\"Rescue\"/ /etc/rc.config

@@ -1,3 +1,7 @@
+15/1/2001:	v1.31
+	- fixed rescue system (reboot now works)
+	- make scsi/net module loading work in linuxrc
+
 14/1/2001:	v1.30
 	- more module list fixes
 	- create /etc/need_modules_disk on floppy images
