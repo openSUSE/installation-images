@@ -46,9 +46,18 @@ kernel/fs/reiserfs/
 kernel/fs/smbfs/
 kernel/fs/vfat/
 kernel/fs/xfs
-pcmcia-external/
--/pcmcia/
--pcmcia-external/net/8390.o
+
+# external pcmcia
+# see data/initrd/initrd_base.list
+#pcmcia-external/
+#-/pcmcia/
+#-pcmcia-external/net/8390.o
+
+# kernel pcmcia
+# see data/initrd/initrd_base.list
+-pcmcia-external/
+/pcmcia/
+
 -kernel/drivers/parport/parport_cs.o
 kernel/net/packet/
 # for pcilynx

@@ -220,10 +220,9 @@ r /lib/modules
 x create_locale /create_locale
 E /create_locale
 
-# create device tree
-E echo "creating devices..."
-E cd /initrddevs; /makedevs.floppy >/dev/null
-
-# compress device tree
+# create & compress device tree
 x compdev /compdev
-E find /initrddevs/dev | ./compdev /initrddevs/dev >/devz
+# E echo "creating devices..."
+# E cd /initrddevs; /makedevs.floppy >/dev/null
+# E find /initrddevs/dev | ./compdev /initrddevs/dev >/devz
+E find /dev | ./compdev /dev >/devz

@@ -8,7 +8,7 @@ unset SSH_FAILED
 exec 2>&1
 stty sane
 #
-echo -en \\033c
+# echo -en \\033c
 #
 # linuxrc passes the root directory of the freshly mounted instsys in
 # the environment variable INSTSYS.

@@ -601,6 +601,9 @@ else
   e cp -a /initrddevs/dev .
 endif
 
+# see etc/module.list
+e echo "KernelPCMCIA:	1" >>linuxrc.config
+
 e echo "UseUSBSCSI:	1" >>linuxrc.config
 e echo "Product:	<product_name>" >>linuxrc.config
 e echo "UpdateDir:	<update_dir>" >>linuxrc.config
