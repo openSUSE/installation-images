@@ -1,3 +1,6 @@
+26/5/2004:	v5.60
+	- ensure passwords do not expire; added passwd (#41180)
+
 25/5/2004:	v5.59
 	- some modules were added twice to initrd
 

@@ -940,6 +940,7 @@ endif
 pwdutils:
   /etc/pam.d/shadow
   /usr/sbin/chpasswd
+  /usr/bin/passwd
 c 644 0 0 /etc/shadow
 
 gdbm:
@@ -1036,6 +1037,12 @@ r /sbin/insserv
 r /dev
 
 E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
+
+# make passwords not expire
+e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
+
+# copy empty dictionary
+e cp -a /usr/lib/cracklib_dict.* usr/lib
 
 # x usr/bin/conservative_lndir usr/bin
 if arch eq 'ppc'
