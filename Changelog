@@ -1,3 +1,5 @@
+	- .bash_login: exit early on system console
+
 4/3/2004:	v5.19
 	- libkafs for s390
 

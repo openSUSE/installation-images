@@ -13,6 +13,8 @@ alias ls-l='ls -l'
 alias l='ls -lFa'
 alias o='less'
 
+[ -z "$INSTSYS" ] || exit 0
+
 [ -x /bin/initviocons ] && /bin/initviocons
 
 echo
