@@ -5,7 +5,7 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root
 
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue \
         root liveeval modules html clean distdir install install_xx rdemo brescue \
-	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd
+	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd rootfonts
 
 all: bootdisk moduledisks bootcd2 bootcd rescue root
 	@rm -rf images/cd[12]
@@ -31,6 +31,15 @@ dirs:
 
 initrd: dirs base
 	initramfs=$${initramfs:-1} mkdevs=$${mkdevs:-1} YAST_IS_RUNNING=1 bin/mk_initrd
+
+zeninitrd: dirs base
+	mkdevs=$${mkdevs:-1} YAST_IS_RUNNING=1 theme=Zen filelist=zeninitrd bin/mk_initrd
+
+zenboot: zeninitrd mboot
+	theme=Zen initrd=large boot=isolinux memtest=no bin/mk_boot
+
+zenroot: dirs base
+	YAST_IS_RUNNING=1 theme=Zen use_cramfs= uncompressed_root=1 filelist=zenroot bin/mk_root
 
 plain_initrd: dirs
 	YAST_IS_RUNNING=1 bin/mk_initrd
@@ -71,6 +80,9 @@ root: dirs base
 	# just for now
 	root_i18n=1 root_gfx=1 \
 	YAST_IS_RUNNING=1 bin/mk_root
+
+rootfonts: dirs base
+	use_cramfs=0 nolibs=1 filelist=fonts image_name=root.fonts bin/mk_root
 
 liveeval: dirs base
 	bin/mk_liveeval

@@ -1,3 +1,7 @@
+4/3/2005:	v6.36
+	- added Zen stuff from 9.2
+	- build additional root image for asian fonts
+
 28/2/2005:	v6.35
 	- added punjabi
 	- initrd: dynamic linker was missing on some archs

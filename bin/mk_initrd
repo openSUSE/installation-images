@@ -102,7 +102,10 @@ if($ENV{'keepinitrd'} != 1) {
 }
 
 # on S/390, the initrd contains shared objects
-if ($arch eq 's390' || $arch eq 's390x') {
+if ($arch eq 's390' || $arch eq 's390x' || $ENV{'theme'} eq 'Zen') {
+    print "fix permissions of directories...\n";
+    SUSystem "fix_perms $tmpdir";
+
     print "updating ld.so.cache...\n";
     SUSystem "ldconfig -r $tmpdir";
     die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";

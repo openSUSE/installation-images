@@ -652,6 +652,10 @@ sysconfig:
   /sbin/getcfg*
   /lib*/libgetconfig.so*
 
+pciutils:
+  /sbin/lspci
+  /usr/share/pci.ids
+
 checkmedia:
   /usr/bin
 

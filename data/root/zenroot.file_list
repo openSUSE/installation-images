@@ -1,0 +1,455 @@
+
+#
+# the 'root' system
+#
+
+d bin dev etc lib mnt root sbin tmp usr var
+c 1777 0 0 tmp
+
+# add some /etc files
+x /etc/* /etc
+r /etc/ssh/CVS
+r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
+r /etc/hotplug
+r /etc/inst_setup
+r /etc/inst_setup_ssh
+r /etc/create_interface
+r /etc/nsswitch.conf
+r /etc/syslog.conf
+R s/product_name/<product_name>/ /etc/motd
+R s/product_name/<product_name>/ /etc/issue
+
+fillup:
+  /bin
+
+insserv:
+  /etc
+  /sbin
+
+aaa_base: prein,postin
+e prein
+  /etc/init.d
+  /etc/inputrc
+  /etc/rc.status
+  /usr/bin/old
+  /root/.gnupg/suse_build_key
+  /root/.gnupg/suse_build_key
+  /var/adm/fillup-templates
+e postin
+r /var/adm/fillup-templates
+
+tar:
+  /bin/tar
+
+sed:
+  /bin/sed
+
+#samba
+libacl:
+  /lib*
+
+#samba
+libattr:
+  /lib*
+
+bash:
+  /bin/bash
+s bash /bin/sh
+s bash /bin/ash
+
+readline:
+  /lib*/libreadline.so.*
+  /lib*/libhistory.so.*
+
+coreutils:
+  /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
+  /usr/bin/du
+  /bin/touch
+  /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename}
+  /usr/bin/{expr,tee,dirname,chroot,test,tty}
+  /bin/cat
+  /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc,od}
+  /bin/sort
+  /bin/kill
+  /usr/bin/readlink
+
+
+gzip:
+  bin/g{un,}zip
+
+joe:
+  /usr/bin/joe
+  /etc/joe/joerc
+
+hwinfo:
+  /lib*
+  /sbin
+  /usr/sbin
+
+udev:
+  /etc/udev
+  /sbin/udev
+  /sbin/raiddetect
+  /lib/klibc
+  /sbin/udevstart
+  m /usr/bin/udevinfo /sbin
+  /lib*/libsysfs.so*
+
+dmraid:
+  /sbin
+
+mktemp:
+  /bin/mktemp
+
+iputils:
+  /bin/ping
+
+<kernel_rpm>:
+  m /boot/System.map-* /System.map
+
+  include ../initrd/gen/module.files.cd1-instsys
+
+pcmcia:
+  /sbin/cardmgr
+  /sbin/cardctl
+  c 755 0 0 /sbin/cardctl
+  /sbin/dump_cis
+
+ncurses:
+  /lib*/libncurses.so.5*
+
+terminfo:
+  /usr/share/terminfo/i/ibm3151
+
+popt:
+  /usr/lib*/libpopt.so*
+
+tcpd:
+  /lib*/libwrap.so*
+
+libgcc:
+  /lib*
+
+glibc:
+  /sbin/ldconfig
+  /lib*/ld*
+  /lib*/lib{c,m}.so.6*
+  /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
+  /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
+  /lib*/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt*.so.1,libutil.so.1*}
+  /usr/sbin/rpcinfo
+  /usr/bin
+  /etc/rpc
+r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
+r /usr/sbin/{nscd,nscd_nischeck,utmpd}
+  /lib*/libpthread.so.0
+
+
+glibc-locale:
+  /usr/lib*/gconv/ISO8859*
+  /usr/lib*/gconv/KOI*
+  /usr/lib*/gconv/UNICODE*
+  /usr/lib*/gconv/gconv-modules*
+
+  # built in base system
+  d usr/lib/locale
+  e cp /tmp/usr/lib/locale/locale-archive usr/lib/locale
+
+
+hdparm:
+  /sbin/hdparm
+
+
+e2fsprogs:
+  /sbin
+  /lib*
+
+
+file:
+  m /usr/share/misc/magic /etc/magic
+  /usr/bin/file
+
+
+lilo:
+  /sbin/{activate,lilo}
+
+
+raidtools:
+  /sbin/*
+
+
+dosfstools:
+  /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
+
+
+net-tools:
+  /bin/{domain,host}name
+  /sbin/{ifconfig,route}
+  /sbin/plipconfig
+
+
+portmap:
+  /sbin/portmap
+
+
+util-linux:
+  /sbin/{mkfs.minix,fsck.minix,swapoff}
+
+d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
+d /var/lock/subsys
+d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
+
+d /var/X11R6/{bin,xkb/compiled,app-defaults}
+d /var/lib/xkb
+
+s ../lock /var/spool/locks
+
+t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
+t /var/log/news/news.{crit,err,notice}
+
+c 1777 0 0 /var/tmp
+
+d /usr/{bin,lib,lib64,libexec,sbin,share}
+
+s ../var/spool /usr/spool
+s ../var/tmp /usr/tmp
+
+
+grep:
+  /bin/{,e,f}grep
+
+
+diffutils:
+  /usr/bin/{cmp,diff}
+
+
+findutils:
+  /usr/bin/{find,xargs}
+
+
+less:
+  /etc/lesskey
+  /usr/bin/less
+
+
+module-init-tools:
+ /sbin/{depmod,modinfo,modprobe,rmmod}
+ /bin/lsmod
+
+
+procps:
+  /bin/ps
+  /usr/bin/{free,top,vmstat}
+
+
+psmisc:
+  m /bin/fuser /usr/bin
+  /usr/bin/killall
+  /usr/bin/pstree
+
+
+procinfo:
+  /usr/bin/socklist
+
+
+strace:
+  /usr/bin/strace
+
+
+cpio:
+  /usr/bin/mt
+  /bin/cpio
+
+c 0755 0 0 /usr/bin
+c 0755 0 0 /usr/lib*
+c 0755 0 0 /usr/sbin
+c 0755 0 0 /usr/share
+
+x /etc/ld.so.conf /etc
+
+zlib:
+  /lib*/libz.so.1*
+
+c 0755 0 0 /usr
+
+libstdc++:
+  /usr/lib*/libstdc++*.so*
+
+eject:
+  /bin/eject
+  c 755 0 0 /bin/eject
+
+# remove these:
+r root mnt tmp usr/libexec
+
+netcfg:
+  /etc/{services,protocols}
+
+lvm2:
+  /sbin/lv*  
+  /sbin/pv* 
+  /sbin/vg*
+
+device-mapper:
+  /lib*
+  /sbin/devmap_mknod.sh
+  /sbin/dmsetup
+
+reiserfs:
+  /sbin
+
+gawk:
+  /bin
+
+initviocons:
+  /bin/initviocons
+  /usr/bin/termprobes
+
+syslogd:
+  /sbin/klogd
+  m /sbin/syslogd /sbin/syslogd.bin
+  x etc/syslogd /sbin/syslogd
+
+ r /lib*/security/pam_userdb.so
+
+ x etc/hotplug /sbin/
+ c 755 0 0 /sbin/hotplug
+ x etc/inst_setup_ssh /sbin/
+ c 755 0 0 /sbin/inst_setup_ssh
+ x etc/ssh /etc
+ c 644 0 0 /etc/ssh/*
+ d /root
+ x root/.bash_history /root
+ x root/.bash_login /root
+ x root/.vimrc /root
+
+parted:
+  /usr/sbin
+  /usr/lib*
+
+hex:
+  /usr/bin/hex
+
+sock:
+  /usr/bin/sock
+
+iproute2:
+  /sbin/ip
+
+libselinux:
+  /lib*/libselinux.so*
+
+sysconfig:
+  /sbin/getcfg*
+  /lib*/libgetconfig.so*
+
+
+d etc/samba
+e echo "; just to make smbmount happy" >etc/samba/smb.conf
+
+smbmount-diet:
+  m /usr/bin/smbmount /bin/smbmount
+  s /bin/smbmount /sbin/mount.smbfs
+  # taken from linuxrc
+  s /lbin/smbmnt /bin/smbmnt
+
+openssl:
+  m /usr/lib*/libcrypto.so.* /lib
+  m /usr/lib*/libssl.so.* /lib
+
+heimdal-lib:
+  m /usr/lib*/libasn1.so.* /lib
+  m /usr/lib*/libgssapi.so.* /lib
+  m /usr/lib*/libkrb5.so.* /lib
+  m /usr/lib*/libroken.so.* /lib
+  
+openldap2-client:
+  m /usr/lib*/liblber-*.so.* /lib
+  m /usr/lib*/libldap-*.so.* /lib
+
+e2fsprogs:
+  m /lib*/libcom_err.so.* /lib
+
+db:
+  m /usr/lib*/libdb-4.2.so /lib
+
+cyrus-sasl:
+  m /usr/lib*/libsasl2.so.* /lib
+
+ftp:
+  /usr/bin/ftp
+
+tftp:
+  /usr/bin/tftp
+
+slang:
+  /usr/lib*/libslang-utf8.so.*
+
+dos2unix:
+  /usr/bin/dos2unix
+
+ncpfs:
+  /sbin
+  /usr/bin
+  /usr/sbin
+  /usr/lib*
+
+r /usr/X11R6
+
+x etc/inst_setup /sbin/inst_setup
+x etc/create_interface /sbin/create_interface
+x etc/adddir /sbin/adddir
+c 755 0 0 /sbin/inst_setup
+c 755 0 0 /sbin/create_interface
+c 755 0 0 /sbin/adddir
+
+# run depmod
+E /sbin/depmod -a -F /System.map <kernel_ver>
+
+# final clean up
+
+r /etc/X11/xserver/C
+r /usr/share/doc/packages/*
+
+# r /modules
+r /System.map
+r /sbin/insserv
+
+# some scripts write to /dev/null...
+r /dev
+
+E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
+
+# make passwords not expire
+e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
+
+# copy empty dictionary
+e cp -a /usr/lib/cracklib_dict.* usr/lib
+
+# Novell stuff
+#Zenworks:
+
+if 0
+  F /code/cobalt/imaging/bootimages/bootdisk libtvision.so.0.0.8 /usr/lib
+  s /usr/lib/libtvision.so.0.8 /usr/lib/libtvision.so.0
+  s /usr/lib/libtvision.so.0 /usr/lib/libtvision.so
+  F /code/cobalt/imaging/bootimages/bootdisk libhwresolve.so.2.2 /usr/lib
+  s /usr/lib/libhwresolve.so.2.2 /usr/lib/libhwresolve.so.2
+  s /usr/lib/libhwresolve.so.2 /usr/lib/libhwresolve.so
+  F /code/cobalt/imaging/bootimages/bootdisk libnewt.so.0.50.17 /usr/lib
+  s /usr/lib/libnewt.so.0.50.17 /usr/lib/libnewt.so.0.50
+  s /usr/lib/libnewt.so.0.50 /usr/lib/libnewt.so
+  F /code/cobalt/imaging/bootimages/bootdisk libslang.so.1* /usr/lib
+  F /code/cobalt/imaging/bootimages/bootdisk libgpm.so.1* /usr/lib
+  F /code/cobalt/imaging/bootimages/bootdisk crlf /bin
+  F /code/cobalt/imaging/bootimages/bootdisk active /bin
+  F /code/cobalt/imaging/bootimages/bootdisk zdisk /bin
+  F /code/cobalt/imaging/bootimages/bootdisk img /bin
+  F /code/cobalt/imaging/bootimages/bootdisk zisedit /bin
+  s /bin/zisedit /bin/zisview
+  F /code/cobalt/imaging/bootimages/bootdisk zpartload /bin
+  F /code/cobalt/imaging/bootimages/bootdisk .inputrc /bin
+  F /code/cobalt/imaging/bootimages/bootdisk bashrc /bin
+  F /code/cobalt/imaging/bootimages/bootdisk/seconddisk/bin *.s /bin
+endif
+

@@ -37,6 +37,15 @@ o root
   - don't rebuild everything, just recreate (copy the cached tree and compress) the
     last image (useful to speed up testing)
 
+  filelist=foo
+  - build using foo.file_list
+
+  nolibs=1
+  - no ldconfig check
+
+  image_name=foo
+  - name the image 'foo'
+
 
 o rescue
 
