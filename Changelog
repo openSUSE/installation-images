@@ -1,3 +1,6 @@
+24/1/2005:	v6.22
+	- improved mkbootdisk script
+
 11/1/2005:	v6.21
 	- added libmagic
 	- strip X.org modules
