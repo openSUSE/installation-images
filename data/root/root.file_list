@@ -447,6 +447,8 @@ if with_yast2 ne 'no'
     /
   yast2-xml:
     /
+  autoyast2-installation:
+    /
 endif
 
 
