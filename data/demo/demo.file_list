@@ -17,7 +17,11 @@ c 0711 0 0 /root
   /etc/modules.conf
   /etc/ld.so.conf
   /sbin/mk_initrd
+if suse_release >= 7.1
+  /etc/init.d
+else
   /sbin/init.d
+endif
   /etc/SuSE-release
 if suse_major != 6
     /etc/rc.status
@@ -39,12 +43,20 @@ elsif suse_release == 7.0
 endif
 
 aaa_dir:
+if suse_release >= 7.1
+  /etc/init.d
+else
   /sbin/init.d
+endif
   /etc/{news,ppp,rc.config.d}
   /var
 
 kbd:
+if suse_release >= 7.1
+  /etc/init.d
+else
   /sbin/init.d
+endif
 
 xsvga:
   /dev/agpgarti810

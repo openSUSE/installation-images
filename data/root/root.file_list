@@ -445,9 +445,9 @@ if arch ne 'alpha'
   xf86:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
   if suse_release >= 7.1
-    /etc/X11/xkb
+      /etc/X11/xkb
     s /etc/X11/xkb /usr/X11R6/lib/X11
-    /usr/X11R6/bin/xkbcomp
+      /usr/X11R6/bin/xkbcomp
   else
     /usr/X11R6/lib/X11/xkb
   endif
