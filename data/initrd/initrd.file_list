@@ -197,54 +197,26 @@ endif		# arch eq 'ia32'
 
 if arch eq 'ppc'
 
-  a /lib/modules/<kernel_ver>/*/ide-tape.o /modules
-  a /lib/modules/<kernel_ver>/*/nbd.o /modules
-  a /lib/modules/<kernel_ver>/*/binfmt_misc.o /modules
-  a /lib/modules/<kernel_ver>/*/fat.o /modules
-  a /lib/modules/<kernel_ver>/*/msdos.o /modules
-  a /lib/modules/<kernel_ver>/*/ncpfs.o /modules
-  a /lib/modules/<kernel_ver>/*/smbfs.o /modules
-  a /lib/modules/<kernel_ver>/*/sysv.o /modules
-  a /lib/modules/<kernel_ver>/*/udf.o /modules
-  a /lib/modules/<kernel_ver>/*/ufs.o /modules
-  a /lib/modules/<kernel_ver>/*/vfat.o /modules
-  a /lib/modules/<kernel_ver>/*/ip_masq_autofw.o /modules
-  a /lib/modules/<kernel_ver>/*/ip_masq_ftp.o /modules
-  a /lib/modules/<kernel_ver>/*/ipv6.o /modules
-  a /lib/modules/<kernel_ver>/*/ipx.o /modules
-  a /lib/modules/<kernel_ver>/*/rose.o /modules
-  a /lib/modules/<kernel_ver>/*/sc.o /modules
-  a /lib/modules/<kernel_ver>/*/3c59x.o /modules
-  a /lib/modules/<kernel_ver>/*/3c90x.o /modules
-  a /lib/modules/<kernel_ver>/*/8390.o /modules
-  a /lib/modules/<kernel_ver>/*/arc-rimi.o /modules
-  a /lib/modules/<kernel_ver>/*/arcnet.o /modules
-  a /lib/modules/<kernel_ver>/*/arlan-proc.o /modules
-  a /lib/modules/<kernel_ver>/*/arlan.o /modules
-  a /lib/modules/<kernel_ver>/*/bonding.o /modules
-  a /lib/modules/<kernel_ver>/*/bpqether.o /modules
-  a /lib/modules/<kernel_ver>/*/bsd_comp.o /modules
-  a /lib/modules/<kernel_ver>/*/com20020.o /modules
-  a /lib/modules/<kernel_ver>/*/eepro100.o /modules
-  a /lib/modules/<kernel_ver>/*/lance.o /modules
-  a /lib/modules/<kernel_ver>/*/ne2k-pci.o /modules
-  a /lib/modules/<kernel_ver>/*/old_tulip.o /modules
-  a /lib/modules/<kernel_ver>/*/olympic.o /modules
-  a /lib/modules/<kernel_ver>/*/rcpci.o /modules
-  a /lib/modules/<kernel_ver>/*/rl100a.o /modules
-  a /lib/modules/<kernel_ver>/*/rtl8139.o /modules
-  a /lib/modules/<kernel_ver>/*/sb1000.o /modules
-  a /lib/modules/<kernel_ver>/*/scc.o /modules
-  a /lib/modules/<kernel_ver>/*/tlan.o /modules
-  a /lib/modules/<kernel_ver>/*/tulip.o /modules
-  a /lib/modules/<kernel_ver>/*/via-rhine.o /modules
-  a /lib/modules/<kernel_ver>/*/ide-scsi.o /modules
-  a /lib/modules/<kernel_ver>/*/scsi_debug.o /modules
-  a /lib/modules/<kernel_ver>/*/sg.o /modules
-  a /lib/modules/<kernel_ver>/*/st.o /modules
-  a /lib/modules/<kernel_ver>/*/hid.o /modules
-  a /lib/modules/<kernel_ver>/*/usb-storage.o /modules
-  a /lib/modules/<kernel_ver>/*/usbserial.o /modules
+  f /lib/modules/ 8139too.o /modules
+  f /lib/modules/ tulip.o /modules
+  f /lib/modules/ via-rhine.o /modules
+  f /lib/modules/ skfp.o /modules
+  f /lib/modules/ rtl8129.o /modules
+  f /lib/modules/ ne2k-pci.o /modules
+  f /lib/modules/ olympic.o /modules
+  f /lib/modules/ lanstreamer.o /modules
+  f /lib/modules/ de4x5.o /modules
+  f /lib/modules/ gmac.o /modules
+  f /lib/modules/ bmac.o /modules
+  f /lib/modules/ mace.o /modules
+  f /lib/modules/ pcnet32.o /modules
+  f /lib/modules/ 8390.o /modules
+
+  f /lib/modules/ isa-pnp.o /modules
+
+  f /lib/modules/ aic7xxx.o /modules
+  f /lib/modules/ st.o /modules
+  f /lib/modules/ sym53c8xx.o /modules
 
 endif	# arch eq 'ppc'
 

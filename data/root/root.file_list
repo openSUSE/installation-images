@@ -695,12 +695,28 @@ if arch eq 'ppc'
   fbset:
     /etc/fb.modes
     /usr/sbin/fbset
+  hfsutils:
+    /usr/bin/hattrib
+    /usr/bin/hcd
+    /usr/bin/hcopy
+    /usr/bin/hdel
+    /usr/bin/hdir
+    /usr/bin/hformat
+    /usr/bin/hls
+    /usr/bin/hmkdir
+    /usr/bin/hmount
+    /usr/bin/hpwd
+    /usr/bin/hrename
+    /usr/bin/hrmdir
+    /usr/bin/humount
+    /usr/bin/hvol
+
 endif
 
 x /usr/bin/setclock /usr/bin
 
 <kernel_rpm>:
-m /boot/System.map-<kernel_ver> /System.map
+m /boot/System.map-* /System.map
 
 if arch eq 'ia32'
   xfiregl1:
