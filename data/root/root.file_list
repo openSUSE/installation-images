@@ -357,7 +357,7 @@ if with_yast2 ne 'no'
   xshared:
     /usr/X11R6/lib*/lib{X11,Xext}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
-    /usr/X11R6/lib*/lib{Xmu,Xi,Xt,Xft,Xrender,Xpm}.so*
+    /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xft,Xrender,Xpm}.so*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
 
