@@ -8,7 +8,7 @@ cd /
 preserve=`echo /sbin/{init,live-setup} /bin/bash\
   /lib/lib{c.so.6,dl.so.2,ncurses.so.5.0,history.so.4.0,readline.so.4.0}\
   /lib/ld-2.1.3.so\
-  /etc/{.SuSEfiles,SuSElive,mtab}`
+  /etc/{.SuSEfiles,mtab} /tmp`
 
 echo -n "Integrating Live CD"
 
@@ -22,6 +22,8 @@ cp -af /S.u.S.E./etc/rc.config /etc
 cp -af /S.u.S.E./var/X11R6/sax/config/saxrc /var/X11R6/sax/config
 cp -af /S.u.S.E./opt/kde/share/config/* /opt/kde/share/config
 
+rm -f /etc/conf.modules
+
 perl -pi -e 's/^(FQHOSTNAME=).*/$1\"suse\"/' /etc/rc.config
 
 if [ -f /etc/install.inf ]; then
@@ -30,25 +32,33 @@ fi
 
 part=
 if [ "$Disks" ]; then
+  mount -n -t proc proc /proc
   /sbin/find_config $Disks >/etc/SuSElive
+  umount -n /proc
  . /etc/SuSElive
 fi
 
+newhome=
+nonewuser=
 error=
 if [ "$part" ]; then
   i=
   [ "$dosdrive" ] && i="$dosdrive, "
 
   echo
-  echo "Using suselive.640 on $part ($i$fstype, $partsize MB) to store data."
+  echo "Using "\""suselive.640"\"" on $part ($i$fstype, $partsize MB) to store data"
 
   mkdir /host || error=20
   mount $part /host || error=21
   if [ "$error" = "" -a "$suseimg" -a -f /host/$suseimg -a "$live" != "new" ] ; then
     echo "Updating filesystem."
+    cp -a /etc/SuSElive /tmp
     chattr +i $preserve
     tar -zxpf /host/$suseimg 2>/dev/null
     chattr -i $preserve
+    nonewuser=1
+    grep -q -s "part=$part" /etc/SuSElive || cp -a /tmp/SuSElive /etc
+    rm -f /tmp/SuSElive
     if [ -f /etc/.SuSErmlist ] ; then
       rm -rf `cat /etc/.SuSErmlist`
     fi
@@ -56,6 +66,24 @@ if [ "$part" ]; then
   else
     suseimg=suselive.640
     perl -pi -e 's/^(suseimg=).*/$1suselive.640/' /etc/SuSElive
+  fi
+
+  if [ ! "$error" ] ; then
+    [ ! "$suseswap" ] && suseswap=suselive.swp
+    [ ! "$susehome" ] && susehome=suselive.usr
+    if [ "$swapsize" -a ! -f "/host/$suseswap" ] ; then
+      echo "Creating swap file "\""suselive.swp"\"" ($swapsize MB)"
+      dd if=/dev/zero of="/host/$suseswap" bs=1M count=$swapsize 2>/dev/null
+      perl -pi -e 's/^(suseswap=).*/$1suselive.swp/' /etc/SuSElive
+    fi
+    if [ "$homesize" -a ! -f "/host/$susehome" ] ; then
+      echo "Creating user data file "\""suselive.usr"\"" ($homesize MB)"
+      dd if=/dev/zero of="/host/$susehome" bs=1M count=$homesize 2>/dev/null
+      mke2fs -q -F -b 1024 -m 0 "/host/$susehome" 2>/dev/null
+      tune2fs -i 0 "/host/$susehome" 2>/dev/null >/dev/null
+      perl -pi -e 's/^(susehome=).*/$1suselive.usr/' /etc/SuSElive
+      newhome=1
+    fi
   fi
 else
   echo "Found no usable partition. Your data will not be saved to disk."
@@ -67,14 +95,37 @@ if [ "$error" ] ; then
 fi
 . /etc/SuSElive
 
-#if [ "$suseswap" ] ; then
-#  echo "activating swap space"
-#  mkswap /host/$suseswap
-#  swapon /host/$suseswap
-#fi
+if [ "$suseswap" ] ; then
+  echo "Activating swap space"
+  mkswap /host/$suseswap >/dev/null
+  swapon /host/$suseswap
+fi
 
-umount /host
-rmdir /host
+if [ "$susehome" ] ; then
+  echo "Activating /home"
+  grep -q -s "^/host/$susehome" /etc/fstab || {
+    echo "/host/$susehome /home ext2 defaults,loop=/dev/loop1 1 2" >>/etc/fstab
+  }
+fi
+
+if [ ! "$nonewuser" ] ; then
+  # iamwP/xQU2BbU
+  echo "suse::0:0:10000::::" >>/etc/shadow
+  echo "suse:x:815:100:SuSE Liveeval User:/home/suse:/bin/bash" >>/etc/passwd
+fi
+
+if [ "$newhome" ] ; then
+  mount /home && {
+    if [ ! -d /home/suse ] ; then
+      cp -pR /etc/skel /home/suse
+      chown -R 815.100 /home/suse
+    fi
+  }
+  umount /home
+fi
+
+umount /host 2>/dev/null
+rmdir /host 2>/dev/null
 
 umount /S.u.S.E.
 

@@ -1,10 +1,13 @@
 #! /usr/bin/perl
 
+sub calc_sizes;
+
 @good_ids{( 1, 4, 6, 0xb, 0xc, 0xe, 0x11, 0x14, 0x16, 0x1b, 0x1c, 0x1e, 0x83 )} = ();
 @dos_ids{( 1, 4, 6, 0xb, 0xc, 0xe )} = ();
-$minsize = 10000;
+$minsize = 100;		# *NOT* below ca. 30
 $img = "suselive.640";
 $swap = "suselive.swp";
+$home = "suselive.usr";
 
 exit unless $ARGV[0] =~ /^\//;
 
@@ -56,8 +59,9 @@ for $j (@xx) {
   if(!$i) {
     @x = `df -Pk $parts[$j]`;
     if($x[-1] =~ /^\/\S+\s+(\d+)\s+\d+\s+(\d+)\s+/) {
-#      print "$parts[$j] $2\n";
-      if((-f("/mnt/$img") || $2 >= $minsize) && !(-f("/mnt/$img") && -s("/mnt/$img") <= 1)) {
+        $part_free = $2 >> 10;
+#      print "$parts[$j] $part_free\n";
+      if((-f("/mnt/$img") || $part_free >= $minsize) && !(-f("/mnt/$img") && -s("/mnt/$img") <= 1)) {
         $found = $parts[$j];
         push @cfg, "part=$found\n";
         $t = sprintf "%d", $1 >> 10;
@@ -67,7 +71,16 @@ for $j (@xx) {
         $t = -f "/mnt/$img" ? $img : "";
         push @cfg, "suseimg=$t\n";
         $t = -f "/mnt/$swap" ? $swap : "";
+        $swap_size = undef;
+        $swap_size = (-s "/mnt/$swap") >> 20 if $t;
         push @cfg, "suseswap=$t\n";
+        $t = -f "/mnt/$home" ? $home : "";
+        $home_size = undef;
+        $home_size = (-s "/mnt/$home") >> 20 if $t;
+        push @cfg, "susehome=$t\n";
+        ( $swap_size, $home_size ) = calc_sizes $part_free, $swap_size, $home_size;
+        push @cfg, "swapsize=$swap_size\n";
+        push @cfg, "homesize=$home_size\n";
       }
     }
   }
@@ -76,4 +89,62 @@ for $j (@xx) {
 }
 
 if($found) { print @cfg }
+
+
+sub calc_sizes
+{
+  my ($part_free, $swap_size, $mem_size, $home_size);
+  my ($t1, $t2, $scale);
+  local $_;
+
+  ( $part_free, $old_swap, $old_home ) = @_;
+
+  if(defined($old_swap) && defined($old_home)) {
+    return ( $old_swap, $old_home);
+  }
+
+  if(defined $old_swap) {
+    $swap_size = $old_swap;
+  }
+  else {
+    open P, "/proc/meminfo";
+    $_ = (<P>)[1];
+    close P;
+    $mem_size = $1 >> 20 if /^Mem:\s+(\d+)/;
+    $swap_size = 140 - $mem_size if $mem_size < 140;	# 100!
+  }
+
+  if(defined $old_home) {
+    $home_size = $old_home;
+  }
+  else {
+    $home_size = 100;
+    $home_size = int($part_free / 2) if $part_free < 200;
+  }
+
+  if(defined $old_swap) {
+    if($home_size < 10) { undef $home_size }
+    return ( $swap_size, $home_size )
+  }
+
+  if(defined $old_home) {
+    if($swap_size > $part_free - 20) {
+      $swap_size = $part_free - 20;
+    }
+    if($swap_size < 10) { undef $swap_size }
+    if($swap_size < $mem_size / 4) { undef $swap_size }
+    return ( $swap_size, $home_size )
+  }
+
+  if($home_size + $swap_size > $part_free - 20) {
+    $scale = ($home_size + $swap_size) / ($part_free - 20);
+    $home_size = int($home_size / $scale);
+    $swap_size = int($swap_size / $scale);
+    if($home_size < 10) { undef $home_size }
+    if($swap_size < 10) { undef $swap_size }
+    if($swap_size < $mem_size / 4) { undef $swap_size }
+  }
+
+  return ( $swap_size, $home_size )
+}
 
