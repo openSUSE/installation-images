@@ -6,6 +6,7 @@
 	- no kdebase3-Home yet
 	- amd64 has a floppy module
 	- ia64: no fpswa_check_version
+	- s390: new netsetup
 
 8/3/2004:	v5.22
 	- added udp-receiver

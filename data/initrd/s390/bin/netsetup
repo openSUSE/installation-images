@@ -795,21 +795,22 @@ function check_qeth_channels () {
     for channel in read write data
     do
 	eval devno=\$${channel}
-        devno=${devno#0x}
+	lcssid=${devno%.*}
+	devid=${devno#?.?.}
         [ $channel != read ] && echo -n ,
-	if [ "$devno" != "${devno//[^0-9a-fA-F]/}" ]; then
-           echo -n "[0x$devno]"
+	if [ "$devid" != "${devid//[^0-9a-fA-F.]/}" ]; then
+           echo -n "[$devno]"
 	   err "$channel channel address $devno contains non-hex characters, please check."
 	   return 1
 	fi
-	devno=`printf %d 0x${devno}`
-	if [ ${devno} -lt 0 -o ${devno} -gt 65535 ]; then
-           printf '[0x%04x]' "$devno"
-	   err "$channel channel address ${devno#0x} must be between 0 and 0xffff"
+	devid=`printf %d 0x${devid}`
+	if [ ${devid} -lt 0 -o ${devid} -gt 65535 ]; then
+           printf '[0x%04x]' "$devid"
+	   err "$channel channel address ${devid#0x} must be between 0 and 0xffff"
 	   return 1
 	fi
-	devno=`printf %04x ${devno}`
-        CHPIDs=`sed -n "s/^${devno} \([0-9a-f]*\) */\1/p" chandet.qeth`
+	devid=`printf %04x ${devid}`
+        CHPIDs=`sed -n "s/^${devid} \([0-9a-f]*\) */\1/p" chandet.qeth`
 	if [ -z "$CHPIDs" ]; then
 	   err "$channel channel address ${devno} not found, please check."
 	   return 1
@@ -818,22 +819,24 @@ function check_qeth_channels () {
 	   err "$channel channel is CHPID ${CHPIDs//00/} while ${last_channel} channel is CHPID ${last_CHPIDs//00/}."
 	   return 1
 	fi
-        eval ${channel}=0x${devno}
+        eval ${channel}=${devid}
 	if [ "$NETSELECT" = qeth -o "$NETSELECT" = qeth-tr ]; then
-	  if [ $channel = read  -a $(($read & 1)) -eq 1 ]; then
+	  if [ $channel = read ] && [ $((0x$read & 1)) -eq 1 ]; then
 		err "read channel address is odd, must be even!(incremented)"
-		read="$(($read + 1))"
+		read="$((0x$read + 1))"
+		devid=`printf %04x ${read}`
 		err=1
 	  fi
-	  if [ $channel = write -a $(($read + 1)) -ne $(($write)) ]; then
+	  if [ $channel = write ] && [ $((0x$read + 1)) -ne $((0x$write)) ]; then
 		err "write channel address must be the read channel address plus 1(corrected)"
-		write="$(($read + 1))"
+		write="$((0x$read + 1))"
+		devid=`printf %04x ${write}`
 		err=1
 	  fi
 	fi
         last_channel=${channel}
         last_CHIPDs=${CHPIDs}
-	echo -n "0x$devno"
+	echo -n "${lcssid}.${devid}"
     done
     #echo -n "${read},${write},${data}"
     [ "${rest}" ] && echo ",${rest}"
@@ -972,10 +975,18 @@ function load_LCS () {
 # load the qeth driver
 #
 function load_QETH () {
-  if ! grep qdio /proc/modules; then
-    echo "Loading qdio..."
-    execcmd "/sbin/insmod qdio"
+  if [ ! -d /sys/bus/ccw/drivers/qeth ]; then
+    echo "Loading qeth..."
+    execcmd "/sbin/modprobe qeth_mod"
   fi
+
+  if [ ! -d /sys/bus/ccw/drivers/qeth ]; then
+      echo -e "\nqeth module not loaded, module problem.\n"
+      yes_no "Do you want to retry the qeth-setup (Yes/No) ? "
+      NO_ERROR=no
+      return 1
+  fi
+
   if [ "$NETSELECT" = hsi ]; then
     CUTYPE=05
     NETTYPE=Hipersocket
@@ -984,17 +995,16 @@ function load_QETH () {
     NETTYPE='OSA Express, Gigabit Ethernet or High Speed Token Ring'
   fi
   
+  echo -n "Detecting available channels ... "
   rm -f chandet.qeth
-  for i in /sys/bus/ccw/devices/*
+  for i in /sys/bus/ccw/drivers/qeth/*
   do
-    if grep -q "^173[12]/$CUTYPE" $i/cutype
-    then
-	dn=`basename $i|sed "s,^[0-9].[0-9].,,"`
-	chp=`cat $i/../chpids|sed "s, ,,g"`
-	echo "$dn $chp" >>chandet.qeth
-    fi
+    dn=`basename $i|sed "s,^[0-9].[0-9].,,"`
+    chp=`cat $i/../chpids|sed "s, ,,g"`
+    echo "$dn $chp" >>chandet.qeth
   done
-  
+  echo "done"
+
   NUMCHANS=`wc -l <chandet.qeth`
   echo $NUMCHANS "$NETTYPE Channels were detected."
   if [ $NUMCHANS -lt 3 ]; then
@@ -1170,8 +1180,9 @@ function load_QETH () {
        DEVNOS=`echo "$ANSW"|check_qeth_channels` && break
        NO_ERROR=no
      done
-     CHAN=""
-     [ "$DEVNOS" != auto ] && CHAN="qeth,$DEVNOS"
+     CCW_CHAN_IDS=""
+     [ "$DEVNOS" != auto ] && CCW_CHAN_IDS="`echo $DEVNOS | sed -e 's@,@ @g'`"
+     [ "$CCW_CHAN_IDS" ] && CCWGROUP_ID=${DEVNOS%%,*}
      if [ "$NETSELECT" = qeth -o "$NETSELECT" = qeth-tr -a "${DEVNOS/*,portname:*/}" ]; then
 	NO_ERROR="yes"
         while true; do
@@ -1197,26 +1208,89 @@ function load_QETH () {
 	    NO_ERROR=no
         done
      fi
-     PARM="qeth_options=$DEVNOS"
      [ "$PORTNAME" ] && CHAN="$CHAN,$PORTNAME"
-     if ! grep -q qeth /proc/modules; then
-  	execcmd "/sbin/modprobe qeth_mod"
+
+     if [ -z "$DEBUG" ]; then
+	 rm -f /hotplug.msg
+	 echo "$DEVNOS" > /sys/bus/ccwgroup/drivers/qeth/group
+
+	 # Wait for CCWGROUP event
+	 for i in 2 1 2 3 4 5 6 7 8 9; do
+	     sleep $i
+	     if [ -s /hotplug.msg ]; then
+		 if grep -q "ccwgroup" /hotplug.msg; then
+		     dp=`grep ^DEVPATH= /hotplug.msg|sed s,DEVPATH=,,`
+		     echo "Device $CCWGROUP_ID configured"
+		     break
+		 fi
+	     fi
+	 done
+	 rm -f /hotplug.msg
+     
+	 if [ "$dp" ]; then
+	     if test "$PORTNAME"; then
+		 echo "$PORTNAME" >/sys/$dp/portname
+	     fi
+     
+	     echo 1 >/sys/$dp/online
+	 else
+	     echo "Device $CCWGROUP_ID could not be configured"
+	     NO_ERROR="no"
+	     return 1
+	 fi
+
+	 hwcfg_file="/etc/sysconfig/hardware/hwcfg-qeth-bus-ccw-${CCWGROUP_ID}"
+     else
+	 hwcfg_file="hwcfg-qeth-bus-ccw-${CCWGROUP_ID}"
      fi
-     
-     if grep qeth /proc/modules; then
-	rm -f /hotplug.msg
-	echo "$DEVNOS" >/sys/bus/ccwgroup/drivers/qeth/group
-	usleep 500000
-     
-	dp=`grep ^DEVPATH= /hotplug.msg|sed s,DEVPATH=,,`
-     
-	if test "$PORTNAME"
-	then
-	    echo "$PORTNAME" >/sys/$dp/portname
-	fi
-     
-	echo 1 >/sys/$dp/online
-     
+
+     # Write hwcfg file
+     cat > $hwcfg_file <<EOF
+#!/bin/sh
+#
+# hwcfg-qeth-bus-ccw-${CCWGROUP_ID}
+#
+# Hardware configuration for a qeth device at ${CCWGROUP_ID}
+# Automatically generated by netsetup
+#
+
+STARTMODE="auto"
+MODULE="qeth_mod"
+MODULE_OPTIONS=""
+MODULE_UNLOAD="yes"
+
+# Scripts to be called for the various events.
+SCRIPTUP="hwup-ccw"
+SCRIPTUP_ccw="hwup-ccw"
+SCRIPTUP_ccwgroup="hwup-qeth"
+SCRIPTDOWN="hwdown-ccw"
+
+# CCW_CHAN_IDS sets the channel IDs for this device
+# The first ID will be used as the group ID
+CCW_CHAN_IDS="${CCW_CHAN_IDS}"
+
+# CCW_CHAN_NUM set the number of channels for this device
+# Always 3 for an qeth device
+CCW_CHAN_NUM=3
+
+EOF
+
+     # Write the portname if set
+     if [ "$PORTNAME" ]; then
+	 cat >> $hwcfg_file <<EOF
+# CCW_CHAN_MODE sets the port name for an OSA-Express device
+CCW_CHAN_MODE="$PORTNAME"
+
+EOF
+     else
+	 cat >> $hwcfg_file <<EOF
+# CCW_CHAN_MODE sets the port name for an OSA-Express device
+# CCW_CHAN_MODE=""
+
+EOF
+     fi
+
+     if [ -z "$DEBUG" ]; then
 	for i in 2 1 2 3 4 5 6 7 8 9; do
 	 sleep $i
          if [ -s /hotplug.msg ]; then
@@ -1238,12 +1312,13 @@ function load_QETH () {
          echo -e "\n$IP_DEV not available, check device addresses/cards.\n"
 	fi
      else
-	echo -e "\nqeth module not loaded, module problem.\n"
+	 ANSW="yes"
+	 break
      fi
      yes_no "Do you want to retry the qeth-setup (Yes/No) ? "
      NO_ERROR=no
   done
-  if [ "$ANSW" = "yes" ]; then
+  if [ "$ANSW" = "yes" -o "$ANSW" = "Yes" ]; then
      echo "$IP_DEV is available, continuing with network setup."
   else
      return 1
@@ -1254,11 +1329,17 @@ function load_QETH () {
 # load the ctc driver
 #
 function load_CTC () {
-  if ! grep -q cu3088 /proc/modules ; then
-    echo "Loading cu3088 module:"
-    execcmd "/sbin/modprobe cu3088"
+  if [ ! -d /sys/bus/ccwgroup/drivers/ctc ] ; then
+      echo "Loading CTC module:"
+      execcmd "/sbin/modprobe ctc"
   fi
   
+  if [ ! -d /sys/bus/ccwgroup/drivers/ctc ] ; then
+      echo -e "ctc module not loaded, module problem.\n"
+      NO_ERROR=no
+      return 1
+  fi
+
   if [ "$NETSELECT" = escon ]; then
     NETTYPE=ESCON
     OTHERTYPE=CTC
@@ -1314,51 +1395,85 @@ function load_CTC () {
 	grep "^$DEVNO2 " ctc_detected >ctc_DEVNO2
 	[ -s ctc_DEVNO2 ] || echo "Warning: $DEVNO2 is not a detected $NETTYPE channel"
         ask_select_protocol
-
-	if grep -q ctc /proc/modules; then
-	    if [ -d /proc/net/ctc ]; then
-		echo "Stopping ctc driver..."
-		# FIXME: no longer available in 2.6
-		ls -A /proc/net/ctc >ctc_devs
-		if [ -s ctc_devs ]; then
-		    for dev in `cat ctc_devs`; do
-			echo "Shutting $dev down..."
-			execcmd "ifconfig $dev down"
-		    done
-		fi
-	    fi
-	    execcmd "/sbin/rmmod ctc"
-	fi
-	echo "Starting ctc driver:"
-	execcmd "/sbin/modprobe ctc"
 	
 	echo "$DEVNO,$DEVNO2" >/sys/bus/ccwgroup/drivers/ctc/group
 	echo "$PROTOCOL" >/sys/devices/cu3088/$DEVNO/protocol
-	CHAN="ctc,$DEVNO,$DEVNO2,$PROTOCOL"
+
+	# Write hwcfg file
+
 	rm -f /hotplug.msg
 	echo 1 >/sys/devices/cu3088/$DEVNO/online
 	
-        if grep ctc /proc/modules; then
-          for i in 1 2 3 4 5 6 7; do
+	for i in 1 2 3 4 5 6 7; do
 	    sleep $i
             if [ -s /hotplug.msg ]; then
-	      if head -n 1 /hotplug.msg| grep -q '^net'; then
-	        IP_DEV=`grep "^INTERFACE=" /hotplug.msg | sed "s,INTERFACE=,,"`
-                echo "$IP_DEV detected."
-                break
-              fi
+		if head -n 1 /hotplug.msg| grep -q '^net'; then
+		    IP_DEV=`grep "^INTERFACE=" /hotplug.msg | sed "s,INTERFACE=,,"`
+		    echo "$IP_DEV detected."
+		    break
+		fi
             fi
-          done
-          execcmd "/sbin/ifconfig $IP_DEV" >/dev/null
-          if [ $EXIT_CODE -eq 0 ]; then
+	done
+
+	execcmd "/sbin/ifconfig $IP_DEV" >/dev/null
+	if [ $EXIT_CODE -eq 0 ]; then
             ANSW="yes"
+	    # Write hwcfg file
+	    hwcfg_file="/etc/sysconfig/hardware/hwcfg-ctc-bus-ccw-${DEVNO}"
+	    cat > $hwcfg_file <<EOF
+#!/bin/sh
+#
+# hwcfg-ctc
+#
+# Hardware configuration for a ctc device at $DEVNO
+# Automatically generated by $0
+#
+
+STARTMODE="auto"
+MODULE="ctc"
+MODULE_OPTIONS=""
+MODULE_UNLOAD="yes"
+
+# Scripts to be called for the various events.
+SCRIPTUP="hwup-ccw"
+SCRIPTUP_ccw="hwup-ccw"
+SCRIPTUP_ccwgroup="hwup-ctc"
+SCRIPTDOWN="hwdown-ccw"
+
+# CCW_CHAN_IDS sets the channel IDs for this device
+# The first ID will be used as the group ID
+CCW_CHAN_IDS="$DEVNO $DEVNO2"
+
+# CCW_CHAN_NUM set the number of channels for this device
+# Always 2 for a CTC device
+CCW_CHAN_NUM=2
+
+EOF
+	    if [ "$PROTOCOL" -ne "0" ]; then
+		cat >> $hwcfg_file <<EOF
+# CCW_CHAN_MODE sets the protocol for CTC / ESCON
+# 0 for compability mode (default)
+# 1 for extended mode
+# 2 for CTC-based tty
+# 3 for compability mode with OS/390 and z/OS
+CCW_CHAN_MODE="$PROTOCOL"
+
+EOF
+	    else
+		cat >> $hwcfg_file <<EOF
+# CCW_CHAN_MODE sets the protocol for CTC / ESCON
+# 0 for compability mode (default)
+# 1 for extended mode
+# 2 for CTC-based tty
+# 3 for compability mode with OS/390 and z/OS
+# CCW_CHAN_MODE="$PROTOCOL"
+
+EOF
+	    fi
             break
-          else
+	else
             echo -e "\n$IP_DEV not available, check device addresses.\n"
-          fi
-        else
-          echo -e "\nctc module not loaded, module problem.\n"
-        fi
+	fi
         yes_no "Do you want to retry to configure $IP_DEV (Yes/No) ? "
 	NO_ERROR=no
   done
@@ -1416,6 +1531,25 @@ function load_IUCV () {
   done
   if [ "$ANSW" = "yes" ]; then
      echo "$IP_DEV seems to exist, continuing with network setup."
+     hwcfg_file="/etc/sysconfig/hardware/hwcfg-iucv-id-${PEER}"
+     cat > $hwcfg_file <<EOF
+#!/bin/bash
+#
+# hwcfg-iucv
+#
+# Hardware configuration for an iucv device with link partner '$PEER'
+# Automatically generated by $0
+#
+
+STARTMODE="auto"
+MODULE="netiucv"
+MODULE_OPTIONS=""
+MODULE_UNLOAD="yes"
+
+# Scripts to be called for the various events.
+SCRIPTUP="hwup-iucv"
+
+EOF
   else
      false
   fi
@@ -1514,7 +1648,7 @@ fi
 #
 echo "\
 =                                                                   =
-==-    Welcome to SuSE Linux Enterprise Server 8 for zSeries      -==
+==-    Welcome to SuSE Linux Enterprise Server 9 for zSeries      -==
 =                                                                   ="
 [ "$DEBUG" = "yes" ] && echo -e "\n- Running in DEBUG mode. -\n"
 EXIT_SCRIPT=0
@@ -1688,3 +1822,4 @@ done
 [ "$LINUXRC_RECORD" ] && echo "LINUXRC_READ=\"$LINUXRC_READ\""
 check_memory
 check_memory >> /etc/motd
+
