@@ -1,3 +1,6 @@
+25/2/2002:	v1.122
+	- move ssh startup to separate file
+
 18/2/2002:	v1.121
 	- drop firewire modules
 	- clear /module dir before starting yast2 if we don't have much memory

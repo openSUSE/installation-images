@@ -722,6 +722,8 @@ if pre_release
 
    r /lib/security/pam_userdb.so
 
+   x etc/inst_setup_ssh /sbin/
+   c 755 /sbin/inst_setup_ssh
    x etc/ssh /etc
    c 644 0 0 /etc/ssh/*
    d /root

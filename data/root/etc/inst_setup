@@ -86,52 +86,11 @@ case "$arch" in
 	test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
 	;;
     *)
-	if [ -x /usr/sbin/sshd ] && \
+	if [ -x /sbin/inst_setup_ssh ] && \
           grep -vq ' nossh' /proc/cmdline && \
           grep -qE 'InstMode:[[:space:]]*(nfs|http|ftp|tftp|smb)' /etc/install.inf ; then
-	    SSH_FAILED=
-	    echo 'sshd found, prepare remote login'
-	    rm -rf /etc/ssh /root /etc/shadow
-	    mkdir -p /root
-	    cp -a $INSTSYS/root/.bash_login /root
-	    cp -a $INSTSYS/root/.vimrc /root
-	    cp -a $INSTSYS/etc/shadow /etc
-	    cp -a $INSTSYS/etc/ssh /etc
-            chmod -R og-rxw  /etc/ssh /root /etc/shadow 2>/dev/null
-	    chown -R 0.0  /etc/ssh /root /etc/shadow 2>/dev/null
-	    # echo "nameserver 10.10.0.1" > /etc/resolv.conf
-	    # echo "nameserver 10.10.11.1" >> /etc/resolv.conf
-	    # echo "search suse.de" >> /etc/resolv.conf
-	    mkdir -p /dev/pts
-	    mkdir -p /dev/shm
-	    grep -q devpts /proc/mounts || \
-                mount -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
-	    /usr/sbin/sshd || {
-	        export SSH_FAILED=true
-	        echo 'sshd did NOT start!'
-	    }
-	    if [ ! "$SSH_FAILED" ] ; then
-	        echo
-	        echo /sbin/ifconfig `grep eth /proc/net/dev | cut -f 1 -d : `
-	        for i in  `grep eth /proc/net/dev | cut -f 1 -d : ` ; do
-		    /sbin/ifconfig $i | grep UP > /dev/null 2>&1 && /sbin/ifconfig $i | head -n 2
-	        done
-                cat <<EOF
-
-      ***  sshd has been started  ***
-
-  This is only done during beta tests.
-  It is NOT a feature of the final release.
-
-  If you don't want sshd to be started, use
-  the 'nosshd' option at the boot prompt.
-
-  Press return to contiunue...
-EOF
-	        read
-	    fi
-	    # export Y2DEBUG=1
-        fi
+	. /sbin/inst_setup_ssh
+	fi
         ;;
 esac
 
@@ -156,6 +115,8 @@ fi
 # start shell, useful on iSeries or via serial console
 grep -qwi start_shell /proc/cmdline && { echo ; echo "ATTENTION" ; echo "Starting shell... (use 'exit' to proceed)" ; bash ; }
 
+# stop vnc
+killall Xvnc 2>/dev/null >/dev/null
 # stop sshd
 killall sshd 2>/dev/null >/dev/null
 
