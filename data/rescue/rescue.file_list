@@ -285,7 +285,8 @@ hwinfo:
   /usr/{sbin,lib}
 
 parted:
-  /usr/{lib,sbin}
+  /usr/lib
+  /sbin
 
 gawk:
   /bin
