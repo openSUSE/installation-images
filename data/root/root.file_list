@@ -144,7 +144,7 @@ endif
 r /usr/bin/db_*
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
-m /lib*/libpthread.so.0 /usr/lib
+  /lib*/libpthread.so.0
 
 glibc-locale:
   /usr/lib*/locale
@@ -508,7 +508,8 @@ netcfg:
 if with_yast2 ne 'no' && arch ne 's390' && arch ne 's390x'
   saxtools:
     /usr/X11R6/bin
-    /usr/X11R6/lib/sax
+  saxident:
+    /
 endif
 
 if arch eq 'ppc' || arch eq 'sparc' || arch eq 'sparc64'

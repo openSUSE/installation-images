@@ -360,10 +360,9 @@ x etc/host.conf etc
 
 devs:
   if arch eq 's390' || arch eq 's390x' || arch eq 'ppc' || arch eq 'ppc64'
-    m /usr/share/doc/packages/devs/makedevs.floppy /
-  else
-    /dev/sg*
     m /usr/share/doc/packages/devs/makedevs /makedevs.floppy
+  else
+    m /usr/share/doc/packages/devs/makedevs.floppy /
   endif
 
 c 0755 0 0 makedevs.floppy
