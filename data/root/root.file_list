@@ -10,6 +10,7 @@ c 1777 0 0 tmp
 x /etc/* /etc
 r /etc/ssh/CVS
 r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
+r /etc/hotplug
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
@@ -124,7 +125,8 @@ hwinfo:
   /usr/sbin
 
 udev:
-  /etc
+  /etc/udev/udev.conf
+  /etc/udev/udev.rules
   /sbin/udev
   /sbin/raiddetect
 #  /sbin/udev.*.sh
@@ -212,6 +214,7 @@ glibc:
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
   /lib*/libpthread.so.0
+  /lib*/libthread_db*
 
 glibc-locale:
   /usr/lib*/gconv/ISO8859*
@@ -267,7 +270,7 @@ if arch eq 's390' || arch eq 's390x'
   s390-tools: postin
     /sbin/zipl
     /lib*
-    /etc/zipl.conf.sample
+    /etc
     /sbin/dasdfmt
     /sbin/fdasd
     /sbin/zgetdump
@@ -309,9 +312,6 @@ util-linux:
 
 gdb:
   /usr/bin/gdb
-
-glibc:
-  /lib*/libthread_db*
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
@@ -408,9 +408,12 @@ if with_yast2 ne 'no'
   XFree86-server:
     /usr/X11R6/bin/XFree86
     /usr/X11R6/lib*/modules/codeconv
-    /usr/X11R6/lib*/modules/drivers/{vga,fbdev}_drv.o
+    /usr/X11R6/lib*/modules/drivers/fbdev_drv.o
+  if arch eq 'ppc' || arch eq 'ppc64'
+    /usr/X11R6/lib*/modules/drivers/nv_drv.o
+  endif
   if arch eq 'ia32' || arch eq 'ia64' || arch eq 'x86_64'
-    /usr/X11R6/lib*/modules/drivers/vesa_drv.o
+    /usr/X11R6/lib*/modules/drivers/{vesa,vga}_drv.o
   endif
   if arch eq 'ia32'
     /usr/X11R6/lib*/modules/drivers/vmware_drv.o
@@ -425,8 +428,10 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib*/modules/lib*.a
   endif
 
-  XFree86-server-glx:
-    /usr/X11R6/lib*/modules/extensions/lib{glx,GLcore}.a
+  if arch ne 's390' && arch ne 's390x'
+    XFree86-server-glx:
+      /usr/X11R6/lib*/modules/extensions/lib{glx,GLcore}.a
+  endif
 
   XFree86-libs:
     /usr/X11R6/lib*/lib{X11,Xext}.so*
@@ -496,8 +501,7 @@ if with_yast2 ne 'no'
 #    these libs are needed for 32-Bit vnc
 
     glibc-32bit:
-      /lib/ld.so.1
-      /lib/ld-2.2.5.so
+      /lib/ld*.so
       /lib/libc.so.6
       /lib/libdl.so.2
       /lib/libm.so.6
@@ -650,7 +654,7 @@ endif
     /usr/bin
 
   if with_suse_font ne 'no'
-    desktop-data-SuSE:
+    desktop-data-SLES:
       /usr/X11R6/lib/X11/fonts/truetype/SUSESans*.ttf
   else
     ghostscript-fonts-std:
@@ -810,6 +814,7 @@ endif
 sysvinit:
   /sbin/checkproc
   /sbin/showconsole
+  c 755 0 0 /sbin/showconsole
   /sbin/setconsole
 
 syslogd:
@@ -873,6 +878,8 @@ vim:
 
  r /lib*/security/pam_userdb.so
 
+ x etc/hotplug /sbin/
+ c 755 0 0 /sbin/hotplug
  x etc/inst_setup_ssh /sbin/
  c 755 0 0 /sbin/inst_setup_ssh
  x etc/ssh /etc
@@ -1025,6 +1032,8 @@ r /sbin/insserv
 
 # some scripts write to /dev/null...
 r /dev
+
+E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 
 # x usr/bin/conservative_lndir usr/bin
 if arch eq 'ppc'

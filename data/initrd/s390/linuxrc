@@ -52,7 +52,7 @@ mount -t devpts devpts /dev/pts
 #
 [ ! -f /proc/version ] && mount -n -t proc virtual-proc-filesystem /proc
 #
-#	Konfiguring the network
+#	Configuring the network
 #
 . /bin/netsetup
 #
