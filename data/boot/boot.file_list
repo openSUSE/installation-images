@@ -1,5 +1,17 @@
+ifarch ix86
+
 <kernel_rpm>:
 m /boot/<kernel_img> /linux
 
 x message /
 x syslinux.cfg /
+
+endif
+
+
+ifarch alpha
+
+<kernel_rpm>:
+m /boot/<kernel_img> /vmlinux.gz
+
+endif

@@ -1,2 +1,0 @@
-<kernel_rpm>:
-m /boot/<kernel_img> /vmlinux.gz

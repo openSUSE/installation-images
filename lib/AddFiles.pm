@@ -5,7 +5,7 @@
 #   use AddFiles;
 #
 #   exported functions:
-#     AddFiles(dir, file_list, ext_dir);
+#     AddFiles(dir, file_list, ext_dir, tag);
 
 =head1 AddFiles
 
@@ -16,7 +16,7 @@ rpms. It exports the following symbols:
 
 =item *
 
-C<AddFiles(dir, file_list, ext_dir)>
+C<AddFiles(dir, file_list, ext_dir, tag)>
 
 =back
 
@@ -30,7 +30,7 @@ use AddFiles;
 
 =item *
 
-C<AddFiles(dir, file_list, ext_dir)>
+C<AddFiles(dir, file_list, ext_dir, tag)>
 
 C<AddFiles> extracts the files in C<file_list> and puts them into C<dir>.
 Files that are not to be taken from rpms are copied from C<ext_dir>.
@@ -60,10 +60,10 @@ use ReadConfig;
 sub AddFiles
 {
   local $_;
-  my ($dir, $file_list, $ext_dir);
+  my ($dir, $file_list, $ext_dir, $arch, $if_val, $tag);
   my ($rpms, $tdir, $p, $r, $d, $u, $g, $files);
 
-  ($dir, $file_list, $ext_dir) = @_;
+  ($dir, $file_list, $ext_dir, $tag) = @_;
 
   if(!$AutoBuild) {
     $rpms = "$ConfigData{SuSE_base}/suse";
@@ -85,12 +85,35 @@ sub AddFiles
 
   die "$Script: no such file list: $file_list" unless open F, $file_list;
 
+  $arch = `uname -m`; chomp $arch;
+  $arch = "ix86" if $arch =~ /^i\d86$/;
+
+  $tag = "" unless defined $tag;
+
+  $if_val = 0;
+
   while(<F>) {
     chomp;
     next if /^(\s*|\s*#.*)$/;
+
+#    printf ".<%x>%s\n", $if_val, $_;
+
+    if(/^endif/) { $if_val >>= 1; next }
+
+    if(/^else/) { $if_val ^= 1; next }
+
+    if(/^ifarch\s+(\S+)/) { $if_val <<= 1; $if_val |= 1 if $1 ne $arch; next }
+    if(/^ifdef\s+(\S+)/) { $if_val <<= 1; $if_val |= 1 if $1 ne $tag; next }
+    if(/^ifndef\s+(\S+)/) { $if_val <<= 1; $if_val |= 1 if $1 eq $tag; next }
+
+    next if $if_val;
+
     s/<kernel_ver>/$ConfigData{kernel_ver}/g;
     s/<kernel_rpm>/$ConfigData{kernel_rpm}/g;
     s/<kernel_img>/$ConfigData{kernel_img}/g;
+
+#    printf "*<%x>%s\n", $if_val, $_;
+
     if(/^(\S+):\s*$/) {
       $p = $1;
       if($AutoBuild) {
@@ -158,8 +181,8 @@ sub AddFiles
         die "$Script: failed to move $1 to $2";
     }
     elsif(/^a\s+(\S+)\s+(\S+)$/) {
-      SUSystem "cp -a $tdir/$1 $dir/$2" and
-        print STDERR "$Script: $1 not copied to $2 (ignored)";
+      SUSystem "sh -c \"cp -a $tdir/$1 $dir/$2\"" and
+        print STDERR "$Script: $1 not copied to $2 (ignored)\n";
     }
     elsif(/^x\s+(\S+)\s+(\S+)$/) {
       SUSystem "cp -dR $ext_dir/$1 $dir/$2" and
@@ -202,3 +225,4 @@ sub AddFiles
   return 1;
 }
 
+1;

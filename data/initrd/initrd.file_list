@@ -4,8 +4,7 @@ d var/run var/adm/mount var/lib/YaST var/spool var/lock var/log var/tmp
 d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults
 s /usr/X11R6/lib/X11 var/X11R6/lib
 
-d linux/modules
-s linux/modules modules
+d modules
 
 t var/run/utmp
 
@@ -39,6 +38,7 @@ g /usr/lib/kbd/consolefonts/lat7-16.psfu.gz consolefonts/lat7-16.psfu
 
 d keytables/include
 
+ifarch ix86
 g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz keytables/Pl02.map
 g /usr/lib/kbd/keymaps/i386/qwerty/br-abnt2.map.gz keytables/br-abnt2.map
 g /usr/lib/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz keytables/cz-us-qwertz.map
@@ -47,24 +47,40 @@ g /usr/lib/kbd/keymaps/i386/qwerty/dk.map.gz keytables/dk.map
 g /usr/lib/kbd/keymaps/i386/qwerty/es.map.gz keytables/es.map
 g /usr/lib/kbd/keymaps/i386/qwerty/fi.map.gz keytables/fi.map
 g /usr/lib/kbd/keymaps/i386/azerty/fr-latin1.map.gz keytables/fr-latin1.map
-
 g /usr/lib/kbd/keymaps/i386/qwerty/gr.map.gz keytables/gr.map
 g /usr/lib/kbd/keymaps/i386/qwertz/hu.map.gz keytables/hu.map
 g /usr/lib/kbd/keymaps/i386/qwerty/it.map.gz keytables/it.map
 g /usr/lib/kbd/keymaps/i386/qwerty/nl.map.gz keytables/nl.map
 g /usr/lib/kbd/keymaps/i386/qwerty/no-latin1.map.gz keytables/no-latin1.map
-# there is no pt2 map
-g /usr/lib/kbd/keymaps/i386/qwerty/pt-latin1.map.gz keytables/pt2.map
+g /usr/lib/kbd/keymaps/i386/qwerty/pt-latin1.map.gz keytables/pt-latin1.map
 g /usr/lib/kbd/keymaps/i386/qwerty/ru1.map.gz keytables/ru1.map
 g /usr/lib/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz keytables/sk-qwerty.map
 g /usr/lib/kbd/keymaps/i386/qwerty/uk.map.gz keytables/uk.map
 g /usr/lib/kbd/keymaps/i386/qwerty/us.map.gz keytables/us.map
 
 g /usr/lib/kbd/keymaps/i386/qwertz/de-latin1.map.gz keytables/de-latin1.map
-
 m /usr/lib/kbd/keymaps/i386/include/{azerty-layout,linux-keys-bare,linux-keys-extd,linux-with-alt-and-altgr,linux-with-two-alt-keys,qwerty-layout,qwertz-layout}.inc keytables/include
-
 g /usr/lib/kbd/keymaps/i386/include/euro.map.gz keytables/include/euro.map
+endif
+
+ifarch ppc
+g /usr/lib/kbd/keymaps/ppc/mac-de-latin1-nodeadkeys.map.gz keytables/mac-de-latin1-nodeadkeys.map
+g /usr/lib/kbd/keymaps/ppc/mac-fr2-ext.map.gz keytables/mac-fr2-ext.map
+g /usr/lib/kbd/keymaps/ppc/mac-us-ext.map.gz keytables/mac-us-ext.map
+g /usr/lib/kbd/keymaps/ppc/mac-us-std.map.gz keytables/mac-us-std.map
+endif
+
+ifarch sparc
+g /usr/lib/kbd/keymaps/sun/sunkeymap.map.gz keytables/sunkeymap.map
+g /usr/lib/kbd/keymaps/sun/sun-pl-altgraph.map.gz keytables/sun-pl-altgraph.map
+g /usr/lib/kbd/keymaps/sun/sun-pl.map.gz keytables/sun-pl.map
+g /usr/lib/kbd/keymaps/sun/sunt4-es.map.gz keytables/sunt4-es.map
+g /usr/lib/kbd/keymaps/sun/sunt5-de-latin1.map.gz keytables/sunt5-de-latin1.map
+g /usr/lib/kbd/keymaps/sun/sunt5-es.map.gz keytables/sunt5-es.map
+g /usr/lib/kbd/keymaps/sun/sunt5-fi-latin1.map.gz keytables/sunt5-fi-latin1.map
+g /usr/lib/kbd/keymaps/sun/sunt5-fr-latin1.map.gz keytables/sunt5-fr-latin1.map
+g /usr/lib/kbd/keymaps/sun/sunt5-ru.map.gz keytables/sunt5-ru.map
+endif
 
 pcmcia:
 d etc/pcmcia/cis
@@ -81,52 +97,73 @@ x etc/pcmcia/fixed etc/pcmcia
 # devs:
 #   .
 
-kernmod:
-t /linux/modules/{MORE,NEEDMOD,NET,SCSI}
-a /lib/modules/<kernel_ver>/block/DAC960.o /linux/modules
-a /lib/modules/<kernel_ver>/block/cpqarray.o /linux/modules
+k_deflt:
+t modules/{MORE,NEEDMOD,NET,SCSI}
 
-a /lib/modules/<kernel_ver>/scsi/BusLogic.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/a100u2w.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/atp870u.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/eata.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/fdomain.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/gdth.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/initio.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/ips.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/megaraid.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/qlogicisp.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/dc395x_trm.o /linux/modules
-a /lib/modules/<kernel_ver>/scsi/tmscsim.o /linux/modules
+ifdef 2.88
+a /lib/modules/<kernel_ver>/block/*.o /modules
+a /lib/modules/<kernel_ver>/net/*.o /modules
+a /lib/modules/<kernel_ver>/scsi/*.o /modules
 
-a /lib/modules/<kernel_ver>/net/3c59x.o /linux/modules
-a /lib/modules/<kernel_ver>/net/de4x5.o /linux/modules
-a /lib/modules/<kernel_ver>/net/eepro100.o /linux/modules
-a /lib/modules/<kernel_ver>/net/epic100.o /linux/modules
-a /lib/modules/<kernel_ver>/net/ne2k-pci.o /linux/modules
-# a /lib/modules/<kernel_ver>/net/rtl8139.o /linux/modules
-a /lib/modules/<kernel_ver>/net/tlan.o /linux/modules
-a /lib/modules/<kernel_ver>/net/lance.o /linux/modules
-a /lib/modules/<kernel_ver>/net/tulip.o /linux/modules
+a /lib/modules/<kernel_ver>/misc/nvram.o /modules
+a /lib/modules/<kernel_ver>/misc/serial.o /modules
 
-a /lib/modules/<kernel_ver>/misc/nvram.o /linux/modules
-a /lib/modules/<kernel_ver>/misc/serial.o /linux/modules
+a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
+a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
+a /lib/modules/<kernel_ver>/misc/usb-ohci-hcd.o /modules
+a /lib/modules/<kernel_ver>/misc/input.o /modules
+a /lib/modules/<kernel_ver>/misc/hid.o /modules
+a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
+a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
 
-# a /lib/modules/<kernel_ver>/net/3c515.o /linux/modules
-# a /lib/modules/<kernel_ver>/net/8390.o /linux/modules
-# a /lib/modules/<kernel_ver>/net/at1700.o /linux/modules
-# a /lib/modules/<kernel_ver>/net/ne.o /linux/modules
-# a /lib/modules/<kernel_ver>/net/smc-ultra.o /linux/modules
-# a /lib/modules/<kernel_ver>/scsi/aha1542.o /linux/modules
-# a /lib/modules/<kernel_ver>/scsi/aha152x.o /linux/modules
-# a /lib/modules/<kernel_ver>/scsi/aha1740.o /linux/modules
-# a /lib/modules/<kernel_ver>/scsi/dtc.o /linux/modules
-# a /lib/modules/<kernel_ver>/scsi/psi240i.o /linux/modules
-# a /lib/modules/<kernel_ver>/scsi/seagate.o /linux/modules
-# a /lib/modules/<kernel_ver>/scsi/t128.o /linux/modules
-# a /lib/modules/<kernel_ver>/scsi/u14-34f.o /linux/modules
+else	# 2.88
+
+### a /lib/modules/<kernel_ver>/block/DAC960.o /modules
+### a /lib/modules/<kernel_ver>/block/cpqarray.o /modules
+
+### a /lib/modules/<kernel_ver>/scsi/BusLogic.o /modules
+### a /lib/modules/<kernel_ver>/scsi/a100u2w.o /modules
+a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
+### a /lib/modules/<kernel_ver>/scsi/atp870u.o /modules
+### a /lib/modules/<kernel_ver>/scsi/eata.o /modules
+### a /lib/modules/<kernel_ver>/scsi/fdomain.o /modules
+### a /lib/modules/<kernel_ver>/scsi/gdth.o /modules
+### a /lib/modules/<kernel_ver>/scsi/initio.o /modules
+### a /lib/modules/<kernel_ver>/scsi/ips.o /modules
+### a /lib/modules/<kernel_ver>/scsi/megaraid.o /modules
+a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
+### a /lib/modules/<kernel_ver>/scsi/qlogicisp.o /modules
+### a /lib/modules/<kernel_ver>/scsi/dc395x_trm.o /modules
+### a /lib/modules/<kernel_ver>/scsi/tmscsim.o /modules
+
+a /lib/modules/<kernel_ver>/net/3c59x.o /modules
+a /lib/modules/<kernel_ver>/net/de4x5.o /modules
+### a /lib/modules/<kernel_ver>/net/eepro100.o /modules
+# a /lib/modules/<kernel_ver>/net/epic100.o /modules
+### a /lib/modules/<kernel_ver>/net/ne2k-pci.o /modules
+# a /lib/modules/<kernel_ver>/net/rtl8139.o /modules
+### a /lib/modules/<kernel_ver>/net/tlan.o /modules
+# a /lib/modules/<kernel_ver>/net/lance.o /modules
+a /lib/modules/<kernel_ver>/net/pcnet32.o /modules
+a /lib/modules/<kernel_ver>/net/tulip.o /modules
+
+a /lib/modules/<kernel_ver>/misc/nvram.o /modules
+a /lib/modules/<kernel_ver>/misc/serial.o /modules
+
+# a /lib/modules/<kernel_ver>/net/3c515.o /modules
+a /lib/modules/<kernel_ver>/net/8390.o /modules
+# a /lib/modules/<kernel_ver>/net/at1700.o /modules
+# a /lib/modules/<kernel_ver>/net/ne.o /modules
+# a /lib/modules/<kernel_ver>/net/smc-ultra.o /modules
+# a /lib/modules/<kernel_ver>/scsi/aha1542.o /modules
+# a /lib/modules/<kernel_ver>/scsi/aha152x.o /modules
+# a /lib/modules/<kernel_ver>/scsi/aha1740.o /modules
+# a /lib/modules/<kernel_ver>/scsi/dtc.o /modules
+# a /lib/modules/<kernel_ver>/scsi/psi240i.o /modules
+# a /lib/modules/<kernel_ver>/scsi/seagate.o /modules
+# a /lib/modules/<kernel_ver>/scsi/t128.o /modules
+# a /lib/modules/<kernel_ver>/scsi/u14-34f.o /modules
+endif	# 2.88
 
 x etc/host.conf etc
 

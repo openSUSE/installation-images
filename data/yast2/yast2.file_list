@@ -319,7 +319,7 @@ libjpeg:
 qtlib2:
   /usr/lib/*
 
-/work/users/kettner/y2rpms/y2base.rpm:
+y2base:
   /bin/y2bignfat
   /lib/YaST2
   /usr/sbin/linuxrc
@@ -344,6 +344,6 @@ isax:
 # created in aaa_base's postinstall
 X /etc/{passwd,group,shadow,nsswitch.conf,protocols} /etc
 
-/usr/src/packages/RPMS/i386/smp.rpm:
+smp:
   /usr/sbin/smp
 

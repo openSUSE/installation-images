@@ -29,6 +29,6 @@ $srcdir = "${DataPath}boot";
 # now we really start...
 
 # copy the kernel
-AddFiles ${ImagePath}, "${srcdir}/boot.file_list.axp", $srcdir or
+AddFiles ${ImagePath}, "${srcdir}/boot.file_list", $srcdir or
   die "$Script: failed to copy kernel image";
 

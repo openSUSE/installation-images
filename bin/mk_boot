@@ -92,9 +92,9 @@ SUSystem "mount -oloop -t msdos $image /mnt" and
 AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
   die "$Script: failed to setup boot image";
 
-# add yast2rc
-SUSystem "cp ${CfgPath}yast2rc /mnt" and
-  die "$Script: failed to copy yast2rc";
+# add info
+SUSystem "cp ${CfgPath}info /mnt" and
+  die "$Script: failed to copy info";
 
 #SUSystem "cp $kernel /mnt/linux" and
 #  die "$Script: could not add the kernel image";

@@ -1,0 +1,10 @@
+Language:	german
+Keytable:	de-lat1-nd
+Display:	Color
+
+IP:		10.10.0.50
+Netmask:	255.255.0.0
+Gateway:	10.10.0.8
+Nameserver:	10.10.0.1
+Server:		10.10.0.136
+Serverdir:	/dist/6.3-i386

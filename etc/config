@@ -6,7 +6,7 @@
 # No continuation lines (using '\' at line breaks)!!!
 
 SuSE_major_release=6
-SuSE_minor_release=3
+SuSE_minor_release=4
 
 # location of various other stuff within the CVS tree
 
@@ -17,13 +17,13 @@ syslinux=/usr/sbin/syslinux
 linuxrc=/usr/sbin/linuxrc
 
 # the SuSE distribution (we get our rpm's from there (unless we are in autobuild))
-SuSE_base=/work/CDs/full-6.3-i386
+SuSE_base=/work/CDs/full-i386
 
 # kernel version (needed to locate the module directory)
-kernel_ver=`if [ -x /bin/uname.bin ] ; then uname -r ; else rpm -qlp /work/CDs/full-i386/suse/*/kernmod.rpm 2>/dev/null | head -1 | cut -d / -f 4 ; fi`
+kernel_ver=`if [ -x /bin/uname.bin ] ; then uname -r ; else rpm -qlp /work/CDs/full-i386/suse/images/k_deflt.rpm 2>/dev/null | grep modules | head -1 | cut -d / -f 4 ; fi`
 
 # kernel rpm name
-kernel_rpm=`if [ \`uname -m\` = alpha ] ; then echo k_alpha ; else echo k_pentiu ; fi`
+kernel_rpm=`if [ \`uname -m\` = alpha ] ; then echo k_deflt ; else echo k_deflt ; fi`
 
 # kernel img name
 kernel_img=`if [ \`uname -m\` = alpha ] ; then echo vmlinux.gz ; else echo vmlinuz ; fi`

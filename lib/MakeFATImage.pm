@@ -24,7 +24,7 @@ systems. It exports the following symbols:
 
 =item *
 
-C<MakeFATImage(file_name, label, cluster_size)>
+C<MakeFATImage(file_name, label, cluster_size, sec_p_track)>
 
 =back
 
@@ -38,7 +38,7 @@ use MakeFATImage;
 
 =item *
 
-C<MakeFATImage(file_name, label, cluster_size)>
+C<MakeFATImage(file_name, label, cluster_size, sec_p_track)>
 
 C<MakeFATImage> creates an empty DOS FAT file system image in C<file_name>. 
 The C<label> must not exceed 11 chars. C<cluster_size> is given in numbers
@@ -129,7 +129,7 @@ sub MakeFATImage
     $clusters, $rootsecs, $sec_p_track, $bs, $fs, $rs, $zs, $i, $j, @i
   );
 
-  ( $file_name, $id11, $secs_p_cluster ) = @_;
+  ( $file_name, $id11, $secs_p_cluster, $sec_p_track ) = @_;
 
   if(length($id11) > 11) {
     print STDERR "$Script: WARNING: volume label \"$id11\" too long\n";
@@ -138,7 +138,7 @@ sub MakeFATImage
 
   $id8 = "SUSE";		# will be overwritten by syslinux anyway
   $fats = 1;
-  $sec_p_track = 18;
+  $sec_p_track = 18 unless $sec_p_track;
   $heads = 2;
   $tracks = 80;
   $root_ents = 16;
