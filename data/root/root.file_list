@@ -335,7 +335,7 @@ modutils:
 ps:
   /bin/ps
   m /bin/fuser /usr/bin
-  /usr/bin/{free,killall,pstree,socklist,vmstat}
+  /usr/bin/{free,killall,pstree,socklist,vmstat,top}
 
 timezone:
   /usr/share/zoneinfo/{iso3166,zone}.tab
