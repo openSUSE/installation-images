@@ -19,8 +19,8 @@ suse_arch=`if [ $suse_arch = sparc64 ] ; then echo sparc ; else echo $suse_arch 
 suse_release="$suserelease"
 suse_release=`if [ "$in_abuild" ] ; then grep VERSION /etc/SuSE-release | cut -d " " -f 3 ; else echo "$suse_release" ; fi`
 suse_release=`if [ "$suse_release" ] ; then echo "$suse_release-" ; else echo "$suse_release" ; fi`
-suse_base="/work/CDs/full-$suse_release$suse_arch"
-suse_release=`( mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $suse_base/suse/a1/aaa_base.rpm | cpio -id --quiet etc/SuSE-release ; grep VERSION etc/SuSE-release | cut -d " " -f 3 ; rm -r /tmp/r$$ )`
+suse_base=`if [ "$in_abuild" ] ; then echo "autobuild" ; else echo "/work/CDs/full-$suse_release$suse_arch" ; fi`
+suse_release=`if [ "$in_abuild" ] ; then grep VERSION /etc/SuSE-release | cut -d " " -f 3 ; else ( mkdir /tmp/r$$; cd /tmp/r$$; rpm2cpio $suse_base/suse/a1/aaa_base.rpm | cpio -id --quiet etc/SuSE-release ; grep VERSION etc/SuSE-release | cut -d " " -f 3 ; rm -r /tmp/r$$ ) ; fi`
 suse_major_release=`echo "$suse_release" | cut -c 1`
 suse_minor_release=`echo "$suse_release" | cut -c 3`
 suse_release=`echo $suse_major_release.$suse_minor_release`
