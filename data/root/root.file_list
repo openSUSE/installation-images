@@ -258,7 +258,7 @@ util-linux:
   endif
   if arch eq 'ppc'
     /etc/filesystems
-    /sbin/{clock,nvsetenv}
+    /sbin/nvsetenv
   endif
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
