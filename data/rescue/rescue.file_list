@@ -398,6 +398,9 @@ endif
   /usr/{bin,sbin}
 e postin
 
+mingetty:
+  /sbin
+
 vim:
   /etc
   /bin/vi{,m}
