@@ -1,11 +1,14 @@
-27/8/2002:	v2.47
-	- ssh needs libgssapi now
+27/8/2002:	v2.48
 	- preserve installer name and use it in .bash_profile
 	  move yast2 debugging from inst_setup_ssh to inst_setup
 	  make the start_shell code multiline
 	  allow ssh installations everywhere, relies on YaST2.start support
 	  return to linuxrc if /tmp/YaST2_keep_sshd_running is not present
 	  add PATH to .bash_profile and print installer name
+	- apic is back
+
+27/8/2002:	v2.47
+	- ssh needs libgssapi now
 
 26/8/2002:	v2.46
 	- remove /etc/inst_setup_ssh and /etc/create_interface in inst-sys
