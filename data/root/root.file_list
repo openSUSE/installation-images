@@ -15,7 +15,7 @@ aaa_base: prein,postin
 e prein
   /etc/init.d
   /bin/fillup
-  /etc/{modules.conf,insserv.conf}
+  /etc/{modules.conf,insserv.conf,inputrc}
   /sbin/mk_initrd
   /sbin/get_kernel_version
   /sbin/hwclock_wrapper

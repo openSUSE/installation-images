@@ -3,6 +3,7 @@
 	- ppc needs md.o
 	- ia64 doesn't have jfs.o
 	- dropped xfbdev, it's never used
+	- added /etc/inputrc (#12937)
 
 9/3/2002:	v1.128
 	- added yast2-trans-inst-proposal
