@@ -689,6 +689,9 @@ IP: $IP_ADDR"
 #
 function run_services () {
   echo "Network Setup finished, running inetd..."
+  echo pts/0 >> /etc/securetty
+  echo pts/1 >> /etc/securetty
+  echo pts/2 >> /etc/securetty
   execcmd "/usr/sbin/inetd &"
   execcmd "/sbin/portmap &"
   echo

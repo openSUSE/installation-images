@@ -395,16 +395,25 @@ if with_yast2 ne 'no'
   /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
 
 
-if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
-  R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
-endif
+  if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
+    R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
+  endif
 
   xf86tools:
     /usr/X11R6/lib/X11/XftConfig
 
   libusb:
     /usr/lib*/libusb*.so.*
+  if arch eq 's390x'
+#    these libs are needed for 32-Bit vnc
 
+    glibc-32bit:
+      /lib/ld.so.1
+      /lib/ld-2.2.5.so
+      /lib/libc.so.6
+      /lib/libdl.so.2
+      /lib/libm.so.6
+  endif
   vnc:
     /usr/X11R6/bin/Xvnc
     /usr/X11R6/bin/vncpasswd.arg

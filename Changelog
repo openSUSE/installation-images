@@ -1,3 +1,9 @@
+15/10/2002:	v2.83
+	- fixing PAM error-messages (only s390/s390x) #18456, #20121, #20893
+	- check valid VNC-password length (only s390/s390x) #20884
+	- fixing segfaulting VNC on s390x (only s390x) #20403
+	- enabling telnet for installation (only s390/s390x) #20708, #20790, 20789
+	- fixing generation of /etc/resolv.conf (s390/s390x/all arch for installation via VNC, SSH) #20697, #19738
 14/10/2002:	v2.82
 	- make sure crypto module is present in inst-sys (#20606)
 

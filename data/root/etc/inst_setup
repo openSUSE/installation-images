@@ -156,8 +156,12 @@ test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
 # stop vnc
 killall Xvnc 2>/dev/null >/dev/null
 # stop sshd
-killall sshd 2>/dev/null >/dev/null
-
+# TODO FOR DEBUG killall sshd 2>/dev/null >/dev/null
+#
+# echo Installation stopped. Please Press return to continue
+# 
+# read muell
+# 
 umount devpts 2>/dev/null
 
 for file in $FILES_TO_RESTORE

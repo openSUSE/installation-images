@@ -102,11 +102,8 @@ then
 #
 	DOMAIN=`grep Domain: $INSTALLINF | uniq | sed -e 's/Domain: \\(.*\\)/\\1/'`
 	NAMESERVER=`grep Nameserver: $INSTALLINF | uniq | sed -e 's/Nameserver: \\(.*\\)/\\1/'`
-	if [ -n "$DOMAIN" -a -n "$NAMESERVER" ]
-	then
-		echo "domain $DOMAIN" >> $RESFILE
-		echo "nameserver $NAMESERVER" >> $RESFILE
-	fi
+	[ -n "$DOMAIN" ] && echo "domain $DOMAIN" >> $RESFILE
+	[ -n "$NAMESERVER" ] && echo "nameserver $NAMESERVER" >> $RESFILE
 	WAIT_FOR_INTERFACES=`grep ConnectWait: $INSTALLINF | uniq | sed -e 's/ConnectWait: \\(.*\\)/\\1/'`
 	if [ -n "$WAIT_FOR_INTERFACES" ]
 	then

@@ -34,7 +34,8 @@ SMBPASSWORDTXT="Please enter the password for the SMB-Access (for guest just pre
 WORKDOMAINTXT="Please enter the Domain (for no domain just press enter): "
 FTP_ASK_VALID="Is the following correct?\\\n\\\n    FTP User:  \$FTPUSER\\\n    FTP Password:           \$FTPPASSWORD\\\n\\\nYes/No: "
 SMB_ASK_VALID="Is the following correct?\\\n\\\n    SMB User:  \$FTPUSER\\\n    SMB Password:           \$FTPPASSWORD\\\n    Domain:   \$WORKDOMAIN\\\n\\\nYes/No: "
-VNC_PASSWORD="Please enter the Password for VNC-Access: "
+VNC_PASSWORD="Please enter the Password for VNC-Access (6 to 8 characters): "
+VNC_PASSWORD_ERROR="Passwort is too short. Please enter a new one.\n"
 #
 # checks an IP to have numbers only between 0 and 255:
 #
@@ -160,8 +161,13 @@ do
 		   break
 		;;
 		2) INST_SCREEN=VNC
-		   echo -en $VNC_PASSWORD
-		   read VNCPW
+		   while :
+		   do
+			   echo -en $VNC_PASSWORD
+			   read VNCPW
+			   [ ${#VNCPW} -gt 5 ] && break
+			   echo -en $VNC_PASSWORD_ERROR
+		   done
 		   break
 		;;
 		3) INST_SCREEN=SSH
