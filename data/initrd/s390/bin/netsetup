@@ -117,13 +117,15 @@ function check_memory () {
 # execcmd executes a command or displays it in debug mode
 #
 function execcmd () {
-	CMD="$*"
-	if [ "$LINUXRC_DEBUG" = "yes" || "$VERBOSE" = "yes" ]; then
-		echo "--> "$CMD
-	else
-		eval $CMD
+	if [ "$LINUXRC_DEBUG" = "yes" -o "$VERBOSE" != "" ]
+	then
+		echo "--> $*"
 	fi
-	EXIT_CODE=$?
+	if [ "$LINUXRC_DEBUG" != "yes" ]
+	then
+		eval "$*"
+	fi
+	return $?
 }
 
 #
@@ -286,13 +288,13 @@ EOF
 }
 
 function set_IP_DEV {
-  if [ "$NETSELECT" = "tr" ]    ; then IP_DEV=tr0    ; fi
-  if [ "$NETSELECT" = "eth" ]   ; then IP_DEV=eth0   ; fi
-  if [ "$NETSELECT" = "geth" ]  ; then IP_DEV=eth0   ; fi
-  if [ "$NETSELECT" = "ctc" ]   ; then IP_DEV=ctc0   ; fi
-  if [ "$NETSELECT" = "escon" ] ; then IP_DEV=escon0 ; fi
-  if [ "$NETSELECT" = "iucv" ]  ; then IP_DEV=iucv0  ; fi
-  if [ "$NETSELECT" = "c7000" ] ; then IP_DEV=ci0    ; fi
+  if [ "$NETSELECT" = "tr" ]    ; then export IP_DEV=tr0    ; fi
+  if [ "$NETSELECT" = "eth" ]   ; then export IP_DEV=eth0   ; fi
+  if [ "$NETSELECT" = "geth" ]  ; then export IP_DEV=eth0   ; fi
+  if [ "$NETSELECT" = "ctc" ]   ; then export IP_DEV=ctc0   ; fi
+  if [ "$NETSELECT" = "escon" ] ; then export IP_DEV=escon0 ; fi
+  if [ "$NETSELECT" = "iucv" ]  ; then export IP_DEV=iucv0  ; fi
+  if [ "$NETSELECT" = "c7000" ] ; then export IP_DEV=ci0    ; fi
 }
 
 #
@@ -412,7 +414,7 @@ function activate_config() {
 	VERBOSE=1 execcmd "/sbin/ifconfig $IP_DEV"
         sleep 1
 	VERBOSE=1 execcmd "ping -n -c 3 -w 1 $IP_ADDR"
-	if [ $EXIT_CODE -gt 0 ]; then
+	if [ $? -gt 0 ]; then
 	    echo "Warning: Could not ping my IP address!"
 	else
 	    case "$NETSELECT" in
@@ -426,7 +428,7 @@ function activate_config() {
 		    if [ "$IP_GATEWAY" ]; then
 			echo "Trying to ping the IP address of the Gateway:"
 			execcmd "ping -n -c $NTRY -w 1 $IP_GATEWAY" 
-			if [ $EXIT_CODE -eq 0 ]; then
+			if [ $? -eq 0 ]; then
 			    echo "Gateway seems to respond to our pings, continuing."
 			    break
 			else
@@ -439,7 +441,7 @@ function activate_config() {
                         if [ "$NETSELECT" != iucv ]; then
 			    for i in 6 3 4 5 4 4 3 2
 			    do
-				if dmesg | tail | grep -q "$IP_DEV: connected with remote side"; then
+				if dmesg | grep -q "$IP_DEV: connected with remote side"; then
 					break
 				fi
 				echo "Waiting $i seconds for connection with remote side."
@@ -448,7 +450,7 @@ function activate_config() {
 			fi
 			echo "Trying to ping the IP address of the peer:"
 			execcmd "ping -n -c 3 -w 1 $IP_PEER"
-			if [ $EXIT_CODE -eq 0 ]; then
+			if [ $? -eq 0 ]; then
 			    echo "Peer seems to respond to our pings, continuing."
 			    break
 			else
@@ -460,7 +462,7 @@ function activate_config() {
 		    echo "Something went wrong with $NETSELECT..."
 	    esac
 	fi
-	readln "Do you want to retry the ifconfig (y/n)? "
+	readln "Do you want to retry the ifconfig (y/n)? " ANSW
     done
     if test $IP_GATEWAY ; then
       execcmd "route add default gw $IP_GATEWAY"
@@ -468,7 +470,7 @@ function activate_config() {
     if [ "$IP_DNS" ]; then
 	echo "Trying to ping the IP address of the DNS Server:"
 	execcmd "ping -c 3 -w 1 $IP_DNS"
-	if [ $EXIT_CODE -gt 0 ]; then
+	if [ $? -gt 0 ]; then
 	    echo "Warning: The DNS address $IP_DNS did not ping."
 	    echo "Diagnostics:"
 	    echo "tracepath to the DNS IP $IP_DNS:"
@@ -651,7 +653,7 @@ function load_LCS_chandev () {
      fi
      if grep lcs /proc/modules; then
        execcmd "/sbin/ifconfig $IP_DEV"
-       if [ $EXIT_CODE -eq 0 ]; then
+       if [ $? -eq 0 ]; then
          ANSW="yes"
          break
        else
@@ -705,7 +707,7 @@ function load_LCS () {
         VERBOSE=1 execcmd "/sbin/insmod lcs $PARM"
         if grep lcs /proc/modules; then
           execcmd "/sbin/ifconfig $IP_DEV"
-          if [ $EXIT_CODE -eq 0 ]; then
+          if [ $? -eq 0 ]; then
             if [ "$PARM" = "" ]; then
 		echo "Ensure that the device you want to use is detected as $IP_DEV"
 		echo "(check the lines beginning with \"lcs:\")."
@@ -760,7 +762,7 @@ function load_GETH () {
      VERBOSE=1 execcmd "/sbin/insmod qeth $PARM"
      if grep qeth /proc/modules; then
        execcmd "/sbin/ifconfig $IP_DEV"
-       if [ $EXIT_CODE -eq 0 ]; then
+       if [ $? -eq 0 ]; then
          ANSW="yes"
          break
        else
@@ -798,7 +800,7 @@ function load_GETH_chandev () {
      echo "For autodetection enter auto or enter the device addresses for"
      readln "the qeth module, e.g. '0xf800,0xf801,0xf802' ($DEVNO): "
      if [ $ANSW -a "$ANSW" != auto ]; then
-        CHAN="noauto;q$IP_DEV,$ANSW"
+        export CHAN="noauto;q$IP_DEV,$ANSW"
 	echo "$CHAN" > /proc/chandev
      fi
      PARM="qeth_options=$ANSW"
@@ -809,7 +811,7 @@ function load_GETH_chandev () {
      fi
      if grep qeth /proc/modules; then
        execcmd "/sbin/ifconfig $IP_DEV"
-       if [ $EXIT_CODE -eq 0 ]; then
+       if [ $? -eq 0 ]; then
          ANSW="yes"
          break
        else
@@ -852,7 +854,7 @@ function load_CTC_chandev () {
   	execcmd "/sbin/insmod ctc"
     fi
     execcmd "/sbin/ifconfig $IP_DEV"
-    if [ $EXIT_CODE -eq 0 ]; then
+    if [ $? -eq 0 ]; then
       return
     else
       echo "Did not work, enter device addresses.\n"
@@ -879,7 +881,7 @@ function load_CTC_chandev () {
 	fi
         if grep ctc /proc/modules; then
           execcmd "/sbin/ifconfig $IP_DEV"
-          if [ $EXIT_CODE -eq 0 ]; then
+          if [ $? -eq 0 ]; then
             ANSW="yes"
             break
           else
@@ -930,7 +932,7 @@ function load_CTC () {
         VERBOSE=1 execcmd "/sbin/insmod ctc $PARM"
         if grep ctc /proc/modules; then
           execcmd "/sbin/ifconfig $IP_DEV"
-          if [ $EXIT_CODE -eq 0 ]; then
+          if [ $? -eq 0 ]; then
             ANSW="yes"
             break
           else
@@ -980,7 +982,7 @@ function load_IUCV () {
     if grep netiucv /proc/modules; then
       echo "netiucv module is loaded, checking interface $IP_DEV."
       execcmd "/sbin/ifconfig $IP_DEV"
-      if [ $EXIT_CODE -eq 0 ]; then
+      if [ $? -eq 0 ]; then
         ANSW="yes"
         break
       else
@@ -1055,7 +1057,7 @@ function load_C7000 () {
         if grep c7000 /proc/modules; then
           echo "c7000 module is loaded, checking interface $IP_DEV."
           execcmd "/sbin/ifconfig $IP_DEV"
-          if [ $EXIT_CODE -eq 0 ]; then
+          if [ $? -eq 0 ]; then
             ANSW="yes"
             break
           else
