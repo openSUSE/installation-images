@@ -1,3 +1,6 @@
+18/10/2002:	v2.84
+	- really added OpenXchange theme
+
 15/10/2002:	v2.83
 	- fixing PAM error-messages (only s390/s390x) #18456, #20121, #20893
 	- check valid VNC-password length (only s390/s390x) #20884
