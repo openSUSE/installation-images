@@ -1,0 +1,11 @@
+How to add new themes to installation-images
+============================================
+
+1. Add a new branch to the switch()-like statement in lib/ReadConfig.pm
+   (search for 'theme').
+
+2. If there is a new bootsplash-theme-* package:
+
+   - add the bootsplash-theme-* package to data/base/base.file_list
+   - at the end of data/base/base.file_list, create the boot splash
+
