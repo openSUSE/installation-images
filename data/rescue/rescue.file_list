@@ -493,6 +493,9 @@ udev:
   /usr/bin
   /sbin  
 
+wireless-tools:
+  /usr/lib*/libiw.so.*
+
 dmraid:
   /sbin
 

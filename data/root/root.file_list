@@ -95,6 +95,9 @@ udev:
   m /usr/bin/udevinfo /sbin
   /lib*/libsysfs.so*
 
+wireless-tools:
+  /usr/lib*/libiw.so.*
+
 dmraid:
   /sbin
 
