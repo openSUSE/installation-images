@@ -176,7 +176,6 @@ if arch eq 's390' || arch eq 's390x'
     /usr/bin/expr
     /usr/bin/chroot
   module-init-tools:
-    /etc/modprobe.conf{,.local}
     /sbin/insmod{,.old}
     /sbin/rmmod{,.old}
     /bin/lsmod{,.old}

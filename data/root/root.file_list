@@ -306,6 +306,7 @@ less:
   /usr/bin/less
 
 module-init-tools:
+ /etc/modprobe.conf{,.local}
  /sbin/{depmod,genksyms,insmod,ksyms,modinfo,modprobe,rmmod}
  /bin/lsmod
 
