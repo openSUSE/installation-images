@@ -1,3 +1,6 @@
+30/6/2004:	v5.74
+	- added barrier=off to failsafe (#42526)
+
 29/6/2004:	v5.73
 	- s390: netsetup: fixed autocorrection of qeth channels (bug #42538)
 	- no memory check for NLD (#42310)
