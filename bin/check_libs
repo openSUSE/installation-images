@@ -25,7 +25,7 @@ for $f (`find . -type f`) {
 
 for (`file @type_f`)
 {
-  if(/(.*):\s+ELF\s.*\s(shared\s+object|executable)/) {
+  if(/(.*):.*?\s+ELF\s.*\s(shared\s+object|executable)/) {
       push @ELF,$1;
   }
 }
