@@ -1,6 +1,7 @@
 	- inittab can only handle 4 chars as 'id' field, but a console
 	  device name can be longer than that. Use /dev/console and 'cons'
 	  instead. Also handle TERM= passed on cmdline properly (#73814)
+	- add missing initviocons binary to help with terminal detection
 
 19/3/2005:	v6.42
 	- handle fully modular nls and cd drivers

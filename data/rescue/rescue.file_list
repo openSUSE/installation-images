@@ -486,6 +486,10 @@ hwinfo:
   /sbin
   /usr/sbin
 
+initviocons:
+  /bin/initviocons
+  /usr/bin/termprobes
+
 udev:
   /lib/klibc
   /etc
