@@ -1,0 +1,290 @@
+#!/bin/sh
+#
+#	Ask the user for the installation-Source
+#
+SOURCE=nothing
+IP_SOURCE=1.2.3.4
+IP_SERVER_SOURCE=1.2.3.4
+DIR_SOURCE=empty
+ANSW=empty
+#
+#
+#
+# to preserve the script from doing anything real, call it with
+# CONDOM=echo
+: ${CONDOM=}
+#
+#
+#
+SOURCE_TXT1="Please specify the installation Source:\n\n
+
+\t1) NFS\n
+\t2) SAMBA\n
+\t3) FTP\n
+\t0) Abort\n\n
+
+Choice: "
+IP_TXT1="Please enter the IP-Number of the host providing the installation media: "
+IP_SERVER_TXT1="Please enter the IP-Number of the host running the X-Server: "
+IP_ERROR1="\nHost is not reponding. please enter a new number\n"
+DIR_TXT1="Please enter the directory of the installation media; "
+ASK_VALID="Is the following corret?\\\\n\\\\n\\\\tInstallation Source:\\\\t\$SOURCE\\\\n\\\\tIP-Address:\\\\t\\\\t\$IP_SOURCE\\\\n\\\\tDirectory:\\\\t\\\\t\$DIR_SOURCE\\\\n\\\\nYes/No: "
+SCREEN_TXT1="Which terminal do want to use?\n\n\t1) X-Window\n\t2) VNC (VNC-Client or Java enabled Browser)\n\t3) ssh\n\tChoice: "
+MOUNT_ERR="CD not mounted. Please check parameters."
+MOUNT_ERR2="Root-disk not mounted. Please check parameters."
+#
+# checks an IP to have numbers only between 0 and 255:
+#
+# example:
+# if echo $IP_ADDR | check_ip; then ...
+#
+function check_ip()
+{
+        IFS=". " read ip1 ip2 ip3 ip4 rest
+        for i in ip1 ip2 ip3 ip4
+        do
+                eval x=\$$i
+		[ "$x" = "" ] && return 1
+                if [ "$x" -lt 0 -o "$x" -gt 255 ]; then
+                        echo "$x: Value must be between 0 and 255"
+                        return 1
+                fi
+        done
+        return 0
+}
+#
+#
+#
+ask_source()
+{
+
+while :
+do
+   echo -en $SOURCE_TXT1
+   read source
+   case $source in
+	1) SOURCE=nfs ; break ;;
+	2) SOURCE=SAMBA ; break ;;
+	3) SOURCE=ftp ; break ;;
+	0) SOURCE=ABORT ; break ;;
+	*) ;;
+   esac
+done
+
+} # ask_source
+#
+#
+# yes_no reads either a yes or a no into $ANSW
+#
+function yes_no () {
+  while :; do
+    read ANSW
+    case "$ANSW" in
+      [yY] | [yY][eE][sS]) ANSW=yes
+                     break;;
+      [nN] | [nN][oO])  ANSW=no
+                     break;;
+    esac
+  done
+}
+
+ask_ip()
+{
+while :
+do
+	echo -en $IP_TXT1
+	read ip
+	[ "$ip" = "" ] && continue
+	if echo $ip | check_ip
+	then
+		IP_SOURCE=$ip
+		$CONDOM ping -n -c 3 $IP_SOURCE
+		[ $? -eq 0 ] && break
+		echo -en $IP_ERROR1
+	fi
+done
+} # ask_ip
+
+ask_ip_server()
+{
+while :
+do
+	echo -en $IP_SERVER_TXT1
+	read ip
+	[ "$ip" = "" ] && continue
+	if echo $ip | check_ip
+	then
+		IP_SERVER_SOURCE=$ip
+		$CONDOM ping -n -c 3 $IP_SERVER_SOURCE
+		[ $? -eq 0 ] && break
+		echo -en $IP_ERROR1
+	fi
+done
+} # ask_ip_server
+#
+#
+#
+ask_dir()
+{
+while :
+do
+	echo -en $DIR_TXT1
+	read DIR_SOURCE
+	[ -n "$DIR_SOURCE" ] && break
+done
+} # ask_dir
+#
+#
+#
+ask_screen()
+{
+while :
+do
+	echo -en $SCREEN_TXT1
+	read SCREEN_SOURCE
+	case $SCREEN_SOURCE in
+		1) SCREEN_SOURCE=X
+		   break
+		;;
+		2) SCREEN_SOURCE=VNC
+		   break
+		;;
+		3) SCREEN_SOURCE=SSH
+		   break
+		;;
+		*)
+		;;
+	esac
+done
+} # ask_screen
+#
+#
+#
+nfs_install()
+{
+#
+#	Mount filesystems and start yast
+#
+$CONDOM mount -t nfs $IP_SOURCE:$DIR_SOURCE /var/adm/mount
+if [ -f /var/adm/mount/images/root -o ! -z "$CONDOM" ]
+then
+	$CONDOM mount -t ext2 /var/adm/mount/images/root /var/adm/mnt -o loop
+else
+	echo $MOUNT_ERR2
+	return 0
+fi
+return 1
+}
+#
+#
+#
+write_info_file()
+{
+#	SetupNetIf: 0 prevents linuxrc from configuring the interface
+	echo -en "Language: en_US\nKeytable: us\nSetupNetIf: 0\nTextmode: 0\nManual: 0\n" > $INFOFILENAME
+	grep "^IP:"  $NETSETUPFILE >> $INFOFILENAME
+	grep "^Gateway:"  $NETSETUPFILE >> $INFOFILENAME
+	grep "^Nameserver:"  $NETSETUPFILE >> $INFOFILENAME
+	grep "^Netmask:"  $NETSETUPFILE >> $INFOFILENAME
+	echo "Server: $IP_SOURCE" >> $INFOFILENAME
+	echo "Serverdir: $DIR_SOURCE" >> $INFOFILENAME
+	echo "Instmode: $SOURCE" >> $INFOFILENAME
+} # write_info_file
+#
+#	MAIN
+#
+if [ ! -z "$CONDOM" ]
+then
+	INFOFILENAME="./info.txt"
+	NETSETUPFILE="./netsetup.inf"
+else
+	INFOFILENAME="/info"
+	NETSETUPFILE="/etc/netsetup.inf"
+fi
+#
+#
+#
+while :
+do
+	ask_source
+	echo
+	echo $SOURCE
+
+	ask_ip
+	echo
+	echo $IP_SOURCE
+
+	ask_dir
+	echo
+	echo $DIR_SOURCE
+
+	eval echo -en $ASK_VALID
+	yes_no
+	[ "$ANSW" = "no" ] && continue
+#
+#	Parameters are valid
+#	Get the source
+#
+	case $SOURCE in
+		nfs)
+			nfs_install
+		;;
+		SAMBA)
+		;;
+		ftp)
+		;;
+		*)
+		;;
+	esac
+#
+#	Check for some critical files
+#	if they are there leave the loop
+#
+	[ -d /var/adm/mount/suse -o ! -z "$CONDOM" ] && break
+	echo $MOUNT_ERR
+done
+#
+#	Filesytem and files are ready
+#	Ask the user for VNC or X-Windows
+#
+while :
+do
+#
+#	Ask what to use: X, VNC or ssh
+#
+	ask_screen
+	echo
+	if [ "$SCREEN_SOURCE" = "X" ]
+	then
+#		We use X-Windows. Ask for IP-Number of Server
+		ask_ip_server
+		echo
+	fi
+	export INSTSYS=/var/adm/mnt
+	case $SCREEN_SOURCE in
+		X)
+			export DISPLAY=$IP_SERVER_SOURCE:0.0
+			break
+		;;
+		VNC)
+			export VNC=1
+			break
+		;;
+		SSH)
+			break
+		;;
+		*)
+		;;
+	esac
+done
+
+if [ "$SCREEN_SOURCE" != "SSH" ] 
+then
+	write_info_file
+	/bin/linuxrc
+fi
+#
+if [ ! -z "$CONDOM" ]
+then
+	set
+fi
