@@ -603,8 +603,8 @@ if with_gdb
 
 endif
 
-if product
-  e echo "Product:	<product>" >>linuxrc.config
+if productname
+  e echo "Product:	<productname>" >>linuxrc.config
 endif
 
 if product eq 'UnitedLinux'

@@ -12,8 +12,8 @@ r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
-R s/product_name/<product>/ /etc/motd
-R s/product_name/<product>/ /etc/issue
+R s/product_name/<productname>/ /etc/motd
+R s/product_name/<productname>/ /etc/issue
 
 fillup:
   /bin
