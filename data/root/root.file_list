@@ -149,7 +149,6 @@ glibc-locale:
   /usr/lib*/gconv/UNICODE*
   /usr/lib*/gconv/gconv-modules*
 
-if !(arch eq 's390' || arch eq 's390x')
 kbd:
   /usr/share/kbd
   /bin/loadkeys
@@ -157,13 +156,13 @@ kbd:
   /bin/{chvt,loadkeys}
   /usr/bin/{chvt,loadkeys}
 
-
 # temporary fix for yast's setfont problems
 m /usr/bin/setfont /usr/bin/setfont.bin
 x /usr/bin/setfont /usr/bin
 
-hdparm:
-  /sbin/hdparm
+if !(arch eq 's390' || arch eq 's390x')
+  hdparm:
+    /sbin/hdparm
 endif
 
 e2fsprogs:
