@@ -10,6 +10,7 @@ use AddFiles;
 use Conv2Image;
 
 sub check_deps;
+sub sort_deps;
 
 die "usage: $Script\n" if @ARGV;
 
@@ -102,12 +103,14 @@ for (@ml) {
 
 while(check_deps) {}
 
+sort_deps;
+
 open W1, ">$deps";
 open W2, ">$list";
 for (sort { "$path{$a} $a" cmp "$path{$b} $b" } keys %ml) {
   print W2 "$path{$_}: $_\n";
   if($ml{$_}) {
-    print W1 "$_: ", join(' ', reverse(split(' ', $ml{$_}))), "\n"
+    print W1 "$_: ", $ml{$_}, "\n"
   }
   else {
     print W1 "$_:\n"
@@ -134,5 +137,20 @@ sub check_deps
   }
 
   return $cnt;
+}
+
+
+sub sort_deps
+{
+  local $_;
+  my ($m);
+
+  for $m (keys %ml) {
+    $ml2{$m}{$_} = 10 for split ' ', $ml{$m};
+  }
+
+  for $m (keys %ml) {
+    $ml{$m} = join(' ', (sort { ($ml2{$a}{$b} - $ml2{$b}{$a}) + ($a cmp $b) }  split(' ', $ml{$m})));
+  }
 }
 
