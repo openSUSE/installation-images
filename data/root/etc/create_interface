@@ -5,7 +5,7 @@
 # Olaf Hering <olh@suse.de>
 # Michal Svec <msvec@suse.cz>
 #
-# $Id: create_interface,v 1.8 2003/08/01 10:17:01 msvec Exp $
+# $Id: create_interface,v 1.9 2003/09/14 12:40:13 snwint Exp $
 
 ROOT=$1
 INSTALLINF=/etc/install.inf
@@ -15,6 +15,8 @@ ROUTINGFILE=$ROOT/etc/sysconfig/network/routes
 HOSTFILE=$ROOT/etc/HOSTNAME
 RESFILE=$ROOT/etc/resolv.conf
 DOMFILE=$ROOT/etc/defaultdomain
+DHCPFILE=$ROOT/etc/sysconfig/network/dhcp
+DHCPFILETMP=$ROOT/etc/sysconfig/network/dhcp.tmp
 CONFIGFILE=$ROOT/etc/sysconfig/network/config
 CONFIGFILETMP=$ROOT/etc/sysconfig/network/config.tmp
 MODCONFFILE=$ROOT/etc/modules.conf
@@ -78,7 +80,12 @@ then
 
 	# Choose correct boot protocol (#23708)
 	BOOTPROTO="dhcp"
-	grep -q 'NetConfig:.*static' $INSTALLINF && BOOTPROTO="static"
+	if grep -q 'NetConfig:.*static' $INSTALLINF; then
+		BOOTPROTO="static"
+	else
+		sed "s/^DHCLIENT_SET_HOSTNAME=.*/DHCLIENT_SET_HOSTNAME=\"yes\"/" < $DHCPFILE > $DHCPFILETMP
+		[ $? -eq 0 ] && mv $DHCPFILETMP $DHCPFILE
+	fi
 	echo "BOOTPROTO=\"$BOOTPROTO\"" > $DEVICEFILE
 
 	# Include UNIQUE number (#25739)
