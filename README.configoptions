@@ -83,6 +83,9 @@ o initrd
   extramod=<module>
   - add <module> to initrd; only _one_ module allowed (useful for testing only)
 
+  usbscsi=1
+  - enable new linuxrc usb vs. scsi device ordering code
+
 
 o boot
 
@@ -109,6 +112,9 @@ o boot
 
   use_k_inst=1
   - use kernel image from k_inst for booting
+
+  fastboot=1
+  - don't use syslinux' '-s' option for floppies
 
 
 o modules
