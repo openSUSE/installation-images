@@ -124,6 +124,7 @@ function start_braille {
   fi
 }
 
+
 function kill_and_wait {
   killall -0 $1 2>/dev/null && {
     killall $1 2>/dev/null
@@ -134,18 +135,111 @@ function kill_and_wait {
 }
 
 
+function add_livecd {
+
+  mk_links .
+  link_dir bin etc lib sbin var boot srv
+
+  link_dir sbin/conf.d
+
+  link_dir etc/init.d
+  link_dir etc/httpd
+  link_dir etc/X11
+  link_dir etc/init.d/rc[S0-6].d
+  link_dir etc/init.d/boot.d
+  link_dir etc/ssh
+  link_dir etc/susehelp.d
+
+  link_dir opt opt/kde3 opt/kde3/share
+  link_dir etc/opt etc/opt/kde3 etc/opt/kde3/share etc/opt/kde3/share/config
+
+  link_dir usr usr/lib usr/X11R6 usr/X11R6/bin
+  link_dir usr/X11R6/lib usr/X11R6/lib/modules usr/X11R6/lib/modules/extensions
+
+  add_to_root bin/basename
+
+  add_to_root sbin/init
+  add_to_root sbin/ifup-dhcp
+
+  add_to_root etc/pcmcia etc/pam.d etc/rc.config etc/sysconfig
+  add_to_root etc/security etc/default
+  add_to_root etc/SuSEconfig
+  add_to_root etc/init.d/{boot,halt}.local
+  add_to_root etc/{passwd,group,shadow,gshadow,nsswitch.conf,wvdial.conf,rc.dialout}
+  add_to_root etc/httpd/httpd.conf
+  add_to_root etc/ppp etc/isdn etc/vbox
+  add_to_root etc/suse-blinux.conf
+  add_to_root etc/{a2ps-site.cfg,pppoed.conf}
+  add_to_root etc/usbmgr
+  add_to_root etc/{host.conf,nntpserver,HOSTNAME}
+  add_to_root etc/{lpdfilter,printcap,lpd.conf,lpd.perms}
+
+  add_to_root opt/kde3/share/config
+  add_to_root etc/opt/kde3/share/config/kdm
+
+  cp /usr/bin/lsof /bin
+
+  for i in `( cd /S.u.S.E./var && echo * )` ; do
+    if [ -d /S.u.S.E./var/$i ] ; then
+      if [ "$i" != X11R6 -a "$i" != adm -a "$i" != cache -a "$i" != lib ] ; then
+        rm -rf /var/$i
+        add_to_root var/$i
+      fi
+    fi
+  done
+
+  link_dir --recursive 1 var/cache
+  rm -f /var/cache/*/*
+
+  link_dir --recursive var/{X11R6,adm,lib}
+
+  add_to_root var/X11R6/sax/config/saxrc
+
+  rm -f var/X11R6/lib ; mkdir /var/X11R6/lib
+  add_to_root var/X11R6/lib/{sax,xfine}
+  add_to_root var/cache/sax
+
+  add_to_root var/lib/{dhcp,majordomo,news,nfs,pcmcia,support,wvdial}
+
+  # kdm needs it
+  ln -snf ../../../etc/X11/xdm /var/X11R6/lib/xdm
+
+  touch /var/run/utmp
+}
+
+
 shopt -s expand_aliases
 alias deb_stop='[ "$debug" ] && echo $LINENO && ( unset LANG ; PS1="\w>" /bin/bash ) ; [ "$debug" -a -f /rc ] && . /rc ; [ "$debug" ] && rm -f /rc'
 
-preserve=`echo /sbin/live-setup /bin/bash \
-  /lib/lib* \
-  /etc/{.SuSEfiles,mtab} /tmp`
+preserve=
+for i in /sbin/live-setup /bin/bash /lib/lib* /etc/{.SuSEfiles,mtab} /tmp ; do
+  [ -e "$i" ] && preserve="$preserve $i"
+done
 
-#  /lib/lib{c.so.6,dl.so.2,ncurses.so.5.2,history.so.4.1,readline.so.4.1} /lib/ld-2.2.so
+if [ "$1" = "--link-livecd" ] ; then
+  mv $0 /sbin/live-setup
+  mv /etc/fstab /etc/fstab.tmp
+  add_livecd
+  mv /etc/fstab.tmp /etc/fstab
+  rm -f $0
+  mv /sbin/live-setup $0
+  rm -f /etc/mtab
+  add_to_root etc/liveeval-id
+  exit
+fi
 
 exec 0<> /dev/tty1 1>&0 2>&0
 
-echo -en "\033cIntegrating Live CD"
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/S.u.S.E./bin:/S.u.S.E./usr/bin
+
+[ ! "$Language" -a -f /lang ] && Language=`cat /lang`
+rm -f /lang
+[ "$Language" ] && LANG=$Language
+[ -d /.livecd/locale ] && export TEXTDOMAINDIR=/.livecd/locale
+TEXTDOMAIN=livecd
+export TEXTDOMAIN Language LANG LANGUAGE
+
+echo -en "\033c"
 
 braille_running=
 
@@ -155,6 +249,7 @@ new=
 clean=
 startshell=
 stop=
+yaststop=
 x=",$live,"
 [ "$x" != "${x/,nodisk,}" ] && nodisk=1
 [ "$x" != "${x/,debug,}" ] && debug=1 startshell=1
@@ -162,6 +257,7 @@ x=",$live,"
 [ "$x" != "${x/,new,}" ] && new=1
 [ "$x" != "${x/,clean,}" ] && clean=1 new=1
 [ "$x" != "${x/,stop,}" ] && stop=1
+[ "$x" != "${x/,yast,}" ] && yaststop=1 startshell=1
 [ "$x" != "${x/,xxx,}" ] && xxx=1
 
 if [ "$debug" ] ; then
@@ -186,8 +282,8 @@ rmdir /initrd 2>/dev/null
 # move us out of the way...
 mv $0 /sbin/live-setup
 
-if [ -f /S.u.S.E./suse/images/susee ] ; then
-  suseloop=suse/images/susee
+if [ -f /S.u.S.E./boot/susee ] ; then
+  suseloop=boot/susee
   sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
   mv /tmp/fstab /etc/fstab
   mkdir /.SuSE
@@ -221,118 +317,23 @@ if [ -f /S.u.S.E./suse/images/susee ] ; then
   chmod +x /sbin/live-shutdown
 fi
 
-if [ -f /S.u.S.E./suse/images/susec ] ; then
-  susecloop=suse/images/susec
-  sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
-  mv /tmp/fstab /etc/fstab
-  mkdir /.SuSE
-  umount /S.u.S.E.
-  mount /.SuSE
-  insmod /lib/cloop.o </.SuSE/$susecloop
-  echo "/dev/cloop /S.u.S.E. iso9660 defaults,ro 0 0" >>/etc/fstab
-  mount /S.u.S.E.
-  fstype=`grep '/\.SuSE' /etc/mtab | head -1 | cut -d \  -f 3`
-  if [ "$fstype" ] ; then
-    sed -e "s/\.SuSE auto/.SuSE $fstype/" \
-        -e "s/\.SuSE iso9660/.SuSE $fstype/" /etc/fstab >/tmp/fstab
-    mv /tmp/fstab /etc/fstab
-  fi
-
-  sed -e '/^# mount Live CD/ a \' \
-    -e 'mount -v /.SuSE\' -e "insmod /lib/cloop.o </.SuSE/$susecloop" \
-    /etc/init.d/boot >/tmp/boot
-  mv /tmp/boot /etc/init.d/boot
-  chmod 744 /etc/init.d/boot
-
-  sed -e '/Unmounting/ a \' \
-    -e 'umount -v /dev/cloop\' \
-    -e 'rmmod cloop' \
-    /etc/init.d/halt >/tmp/halt
-  mv /tmp/halt /etc/init.d/halt
-  chmod 744 /etc/init.d/halt
-
-  sed -e '/^  # mount Live CD/ a \' \
-      -e '  [ ! -f /.SuSE/'"$susecloop"' ] && mount -n /.SuSE\' \
-      -e "  insmod /lib/cloop.o </.SuSE/$susecloop 2>/dev/null" \
-      -e '/^# umount Live CD/ i \' -e 'rmmod cloop\' -e 'umount -n /.SuSE' \
-      /sbin/live-shutdown >/tmp/live-shutdown
-  mv /tmp/live-shutdown /sbin/live-shutdown
-  chmod +x /sbin/live-shutdown
-fi
-
 umount /proc
 
-deb_stop
-
-mk_links .
-link_dir bin etc lib sbin var boot
-
-link_dir sbin/conf.d
-
-link_dir etc/init.d
-link_dir etc/httpd
-link_dir etc/X11
-link_dir etc/init.d/rc[S0-6].d
-link_dir etc/init.d/boot.d
-link_dir etc/ssh
-link_dir etc/susehelp.d
-
-link_dir opt opt/kde3 opt/kde3/share
-link_dir etc/opt etc/opt/kde3 etc/opt/kde3/share etc/opt/kde3/share/config
-
-link_dir usr usr/lib usr/X11R6 usr/X11R6/bin
-link_dir usr/X11R6/lib usr/X11R6/lib/modules usr/X11R6/lib/modules/extensions
-
-add_to_root bin/basename
-
-add_to_root sbin/init
-add_to_root sbin/ifup-dhcp
-
-add_to_root etc/pcmcia etc/pam.d etc/rc.config etc/sysconfig
-add_to_root etc/security etc/default
-add_to_root etc/SuSEconfig
-add_to_root etc/init.d/{boot,halt}.local
-add_to_root etc/{passwd,group,shadow,gshadow,nsswitch.conf,wvdial.conf,rc.dialout}
-add_to_root etc/httpd/httpd.conf
-add_to_root etc/ppp etc/isdn etc/vbox
-add_to_root etc/suse-blinux.conf
-add_to_root etc/{a2ps-site.cfg,pppoed.conf}
-add_to_root etc/usbmgr
-add_to_root etc/{host.conf,nntpserver,HOSTNAME}
-add_to_root etc/{lpdfilter,printcap,lpd.conf,lpd.perms}
-
-add_to_root opt/kde3/share/config
-add_to_root etc/opt/kde3/share/config/kdm
-
-cp /usr/bin/lsof /bin
+gettext -n "Integrating SuSE Linux 8.1 LiveEval CD"
 
 deb_stop
 
-for i in `( cd /S.u.S.E./var && echo * )` ; do
-  if [ -d /S.u.S.E./var/$i ] ; then
-    if [ "$i" != X11R6 -a "$i" != adm -a "$i" != cache -a "$i" != lib ] ; then
-      rm -rf /var/$i
-      add_to_root var/$i
-    fi
-  fi
-done
+id1=
+id2=
+[ -f /S.u.S.E./etc/liveeval-id ] && id1=`cat /S.u.S.E./etc/liveeval-id`
+[ -f /etc/liveeval-id ] && id2=`cat /etc/liveeval-id`
 
-link_dir --recursive 1 var/cache
-rm -f /var/cache/*/*
-
-link_dir --recursive var/{X11R6,adm,lib}
-
-add_to_root var/X11R6/sax/config/saxrc
-
-rm -f var/X11R6/lib ; mkdir /var/X11R6/lib
-add_to_root var/X11R6/lib/{sax,xfine}
-
-add_to_root var/lib/{dhcp,majordomo,news,nfs,pcmcia,support,wvdial}
-
-# kdm needs it
-ln -snf ../../../etc/X11/xdm /var/X11R6/lib/xdm
-
-touch /var/run/utmp
+if [ "$id2" = "" -o "$id2" != "$id1" ] ; then
+  add_livecd
+else
+  add_to_root sbin/init
+fi
+rm -f /etc/liveeval-id
 
 deb_stop
 
@@ -345,15 +346,12 @@ perl -pi -e 's/^(SUSEWM_UPDATE=).*/$1\"no\"/' /etc/sysconfig/windowmanager
 rm -f /sbin/conf.d/SuSEconfig.{perl,groff,alsa}
 
 if [ -f /etc/install.inf ] ; then
-  # localization tag - do not remove #
   perl -pi -e 's/^(Sourcemounted:).*/$1 1/' /etc/install.inf
   eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
-  [ ! "$LANG" -a -f /lang ] && export LANG=`cat /lang`
+  Language=$Locale
 fi
-rm -f /lang
 
 if [ "$Language" ] ; then
-#  perl -pi -e 's/^(LANGUAGE=).*/$1\"'"$Language"'\"/' /etc/rc.config
   perl -pi -e 'if(/unset LANG/) { $_ = "    export LANG=\"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/profile
   perl -pi -e 'if(/unsetenv LANG/) { $_ = "    setenv LANG \"'"$Language"'\"\n" if $a++ }' /etc/SuSEconfig/csh.cshrc
 fi
@@ -361,10 +359,6 @@ fi
 if [ "$Keytable" ] ; then
   perl -pi -e 's/^(KEYTABLE=).*/$1\"'"$Keytable"'\"/' /etc/sysconfig/keyboard
 fi
-
-#if [ "$Nameserver" ] ; then
-#  echo "nameserver $Nameserver" >>/etc/resolv.conf
-#fi
 
 part=
 touch /etc/SuSElive
@@ -387,15 +381,17 @@ if [ "$part" ]; then
   [ "$dosdrive" ] && i="$dosdrive, "
 
   echo
-  echo "Using "\""suselive.800"\"" on $part ($i$fstype, $partsize MB) to store data"
+  printf "`gettext 'Using "suselive.810" on %s (%s, %s MB) to store data'`" "$part" "$i$fstype" "$partsize"
+  echo
 
   mkdir /host || error=20
   mount $part /host || error=21
   if [ "$error" = "" -a "$suseimg" -a -f /host/$suseimg -a "$new" != 1 ] ; then
-    echo "Updating filesystem."
+    gettext -s "Updating filesystem"
     cp -a /etc/SuSElive /tmp
     chattr +i $preserve
     rm -rf /usr/X11R6
+    rm -rf /etc/* 2>/dev/null
     tar -zxpf /host/$suseimg 2>/dev/null
     chattr -i $preserve
     [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
@@ -410,8 +406,8 @@ if [ "$part" ]; then
     fi
     rm -f /etc/.SuSErmlist
   else
-    suseimg=suselive.800
-    perl -pi -e 's/^(suseimg=).*/$1suselive.800/' /etc/SuSElive
+    suseimg=suselive.810
+    perl -pi -e 's/^(suseimg=).*/$1suselive.810/' /etc/SuSElive
     if [ "$clean" ] ; then
       rm -f "/host/$suseswap" "/host/$susehome" 2>/dev/null
     fi
@@ -421,12 +417,14 @@ if [ "$part" ]; then
     [ ! "$suseswap" ] && suseswap=suselive.swp
     [ ! "$susehome" ] && susehome=suselive.usr
     if [ "$swapsize" -a ! -f "/host/$suseswap" ] ; then
-      echo "Creating swap file "\""suselive.swp"\"" ($swapsize MB)"
+      printf "`gettext 'Creating swap file "suselive.swp" (%s MB)'`" "$swapsize"
+      echo
       dd if=/dev/zero of="/host/$suseswap" bs=1M count=$swapsize 2>/dev/null
       perl -pi -e 's/^(suseswap=).*/$1suselive.swp/' /etc/SuSElive
     fi
     if [ "$homesize" -a ! -f "/host/$susehome" ] ; then
-      echo "Creating user data file "\""suselive.usr"\"" ($homesize MB)"
+      printf "`gettext 'Creating user data file "suselive.usr" (%s MB)'`" "$homesize"
+      echo
       dd if=/dev/zero of="/host/$susehome" bs=1M count=$homesize 2>/dev/null
       mke2fs -q -F -b 1024 -m 0 "/host/$susehome" 2>/dev/null
       tune2fs -i 0 "/host/$susehome" 2>/dev/null >/dev/null
@@ -437,7 +435,8 @@ if [ "$part" ]; then
 else
   if [ ! "$nodisk" ] ; then
     echo
-    echo -e "\aFound no usable partition. Your data will NOT be saved to disk."
+    echo -en "\a"
+    gettext -s -e "Found no usable partition. Your data will NOT be saved to disk."
     sleep 10
     error=99
   fi
@@ -452,14 +451,14 @@ fi
 
 if [ ! "$updated" ] ; then
   if [ "$suseswap" ] ; then
-    echo "Activating swap space"
+    gettext -s "Activating swap space"
     grep -q -s "$suseswap" /etc/fstab || {
       echo "/host/$suseswap swap swap defaults 0 0" >>/etc/fstab
     }
   fi
 
   if [ "$susehome" ] ; then
-    echo "Activating /home"
+    gettext -s "Activating /home"
     grep -q -s "$susehome" /etc/fstab || {
       echo "/host/$susehome /home ext2 defaults,loop=/dev/loop1 0 0" >>/etc/fstab
     }
@@ -498,11 +497,25 @@ if [ ! "$nodisk" ] ; then
 
     [ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
 
+    # yast likes to call it, so take it away
+    mv /sbin/depmod /sbin/depmod.tmp
+    ln -snf /bin/true /sbin/depmod
+
+    [ "$yaststop" ] && debug=1
+
     deb_stop
+
+    LANGUAGE=$Language
+    [ "$LANGUAGE" ] || LANGUAGE=en_US
 
     /usr/lib/YaST2/bin/YaST2.start
 
-    unset LANG
+    [ "$?" = 0 ] || yasterror=1
+
+    rm -f /sbin/depmod
+    mv /sbin/depmod.tmp /sbin/depmod
+
+    # unset LANG
 
     if [ ! \( "$debug" -o "$xxx" -o "$stop" \) ] ; then
       echo -en \\033c
@@ -527,15 +540,26 @@ if [ ! "$nodisk" ] ; then
 
     umount /var/adm/mount 2>/dev/null
 
+    [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
+
+    hwscan --storage
+    perl -pi -e 's/^Configured=new/Configured=no/' /var/lib/hardware/unique-keys/*
+
     if [ -f /etc/install.inf ] ; then
       eval $(grep ': ' /etc/install.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
     fi
+
+    if [ -f /etc/yast.inf ] ; then
+      eval $(grep 'Aborted.*: ' /etc/yast.inf | sed -e 's/"/"\\""/g' -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /')
+    fi
+
+    [ "$yasterror" ] && Aborted=1
+
     [ "$xxx" ] && debug=1
     deb_stop
     # rm -rf /var/lib/YaST2
     rm -f /var/lib/YaST2/runme_at_boot
     rm -f /mnt ; mkdir /mnt
-    [ -d "$mods" ] && touch -r "$mods/modules.dep" /etc/modules.conf
     cmp -s /etc/fstab /tmp/fstab.save || {
       perl -ne 'print unless /^\s*proc\s+\/proc\s+proc/' /etc/fstab >>/tmp/fstab.save
       mv /tmp/fstab.save /etc/fstab
@@ -556,7 +580,7 @@ if [ ! "$nodisk" ] ; then
     swapoff -a 2>/dev/null
     umount /host 2>/dev/null
     rmdir /host 2>/dev/null
-    if [ "$part" ] ; then
+    if [ "$part" -a ! "$Aborted" ] ; then
       fix_fstab $part </etc/fstab >/etc/fstab_
       mv /etc/fstab_ /etc/fstab
       sed -e '/^# mount config partition/ a \' -e "mount $part" /etc/init.d/boot >/etc/tmp_boot
@@ -569,28 +593,55 @@ if [ ! "$nodisk" ] ; then
     fi
 
     if [ "$part" ] ; then
-      # write initial config file
-      i=
-      [ "$dosdrive" ] && i="$dosdrive, "
-      echo
-      echo "Writing info to $suseimg on $part ($i$fstype, $partsize MB)"
 
       mount -n $part /mnt || error=21
 
-      tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
+      if [ "$Aborted" ] ; then
 
-      if [ ! -f /mnt/suselive.txt ] ; then
-        echo -e "$suseimg contains data for your SuSE Linux 8.0 Evaluation CD.\r" >/mnt/suselive.txt
-        echo -e "suselive.swp (if it exists) is the swap file.\r" >>/mnt/suselive.txt
-        echo -e "suselive.usr (if it exists) is an ext2 file system with the user's home dir.\r" >>/mnt/suselive.txt
-      fi
+        [ -f /mnt/$susehome ] && rm -f /mnt/$susehome
+        [ -f /mnt/$suseswap ] && rm -f /mnt/$suseswap
 
-      if [ "$error" ] ; then
-        echo "An error occurred while writing $suseimg."
-        echo "Sorry, your Live CD changes might get lost. :-("
+      else
+
+        # write initial config file
+        i=
+        [ "$dosdrive" ] && i="$dosdrive, "
+        echo
+        printf "`gettext 'Writing info to %s on %s (%s, %s MB)'`" "$suseimg" "$part" "$i$fstype" "$partsize"
+        echo
+
+        tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
+
+        if [ ! -f /mnt/suselive.txt ] ; then
+          printf "`gettext '%s contains data for your SuSE Linux 8.1 LiveEval CD.'`" "$suseimg" >/mnt/suselive.txt
+          echo -e "\n\r" >>/mnt/suselive.txt
+          gettext -s "suselive.swp (if it exists) is the swap file." >>/mnt/suselive.txt
+          echo -e "\r" >>/mnt/suselive.txt
+          gettext -s "suselive.usr (if it exists) is an ext2 file system with the user's home dir." >>/mnt/suselive.txt
+          echo -e "\r" >>/mnt/suselive.txt
+        fi
+
+        if [ "$error" ] ; then
+          printf "`gettext 'An error occurred while writing %s.'`" "$suseimg"
+          echo
+          gettext -s "Sorry, your LiveEval CD changes might be lost. :-("
+        fi
+
       fi
 
       umount -n /mnt
+
+      if [ "$Aborted" ] ; then
+
+        gettext -e -s "SuSE Linux 8.1 LiveEval has not been configured.\nPress enter to reboot."
+
+        read
+
+        deb_stop
+
+        reboot -f
+
+      fi
 
       mount $part
     fi
@@ -633,7 +684,7 @@ mount -n /proc 2>/dev/null
 
 # wait for some stupid SuSEconfig script to finish
 killall -0 susedig.sh 2>/dev/null && {
-  echo "Waiting for SuSEconfig to finish..."
+  gettext -s "Waiting for SuSEconfig to finish..."
 }
 while killall -0 susedig.sh 2>/dev/null ; do
   sleep 1
@@ -641,6 +692,17 @@ done
 
 # remove pcmcia modules
 rmmod `perl -ne 'print "$2 $1" if /^(pcmcia_core)\s.*\[(.*)\]/' /proc/modules` >/dev/null 2>&1
+
+# unload all usb things
+for i in \
+  sbp2 ohci1394 ieee1394 \
+  usb-storage keybdev mousedev hid input \
+  usb-uhci uhci usb-ohci ehci-hcd usbcore \
+  ; do
+  rmmod $i 2>/dev/null
+done
+
+unset LANG LANGUAGE TEXTDOMAINDIR TEXTDOMAIN
 
 umount -n /proc
 
@@ -663,19 +725,17 @@ if [ "$umount" != no ] ; then
     umount /.SuSE
   fi
 
-  if [ "$susecloop" ] ; then
-    rmmod cloop
-    umount /.SuSE
-  fi
 else
-  echo "/S.u.S.E not unmounted"
+  gettext -s "/S.u.S.E not unmounted"
 fi
 
 deb_stop
 
-echo -e "\033[71G\033[32mdone\033[m"
-
-unset LANG LANGUAGE
+if [ -z "$COLUMNS" ] ; then
+  eval `stty size 2>/dev/null | (read L C; echo COLUMNS=${C:-80})`
+fi
+[ "$COLUMNS" = 0 -o "$COLUMNS" = "" ] && COLUMNS=80
+echo -e "\015\033[${COLUMNS}C\033[10D\033[1;32mdone\033[m"
 
 [ "$debug" ] ||  rm -f /sbin/{find_config,fix_fstab}
 if [ "$nodisk" ] ; then

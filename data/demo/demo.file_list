@@ -2,8 +2,7 @@ d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var initrd media
 c 1777 0 0 tmp
 
 devs:
-  m /usr/share/doc/packages/devs/makedevs /
-c 0755 0 0 makedevs
+  /dev
 
 # s /S.u.S.E./{boot,opt,usr} /
 
@@ -15,40 +14,23 @@ c 0711 0 0 /root
   /sbin/mk_initrd
   /etc/init.d
   /etc/rc.status
-  /etc/ppp
-  /etc/{hushlogins,inittab,motd}
+  /etc/{hushlogins,inittab}
   /etc/netgroup
   /etc/{profile.dos,shells}
 # aaa_base's preinstall
   /sbin/SuSEconfig
-if suse_release == 7.2
-  p /sbin/SuSEconfig.patch
-endif
 
-if suse_release == 7.2
-  p /sbin/boot.patch_72
-  p /sbin/halt.patch_72
-endif
-
-if suse_release == 7.3
-  p /sbin/boot.patch_73
-  p /sbin/halt.patch_73
-endif
-
-if suse_release == 8.0
-  p /sbin/boot.patch_80
-  p /sbin/halt.patch_80
+if suse_release == 8.1
+  p /sbin/boot.patch_81
+  p /sbin/halt.patch_81
 endif
 
 aaa_version:
   /etc/SuSE-release
   /etc/issue{,.net}
+  /etc/motd
 
-if suse_release >= 8.1
 filesystem:
-else
-aaa_dir:
-endif
   /etc/init.d
   /etc/{news,ppp,sysconfig}
   /var
@@ -57,28 +39,23 @@ kbd:
   /etc/init.d
 
 ncurses:
-  /lib/libncurses.so.5*
-
-if suse_release >= 7.3 && (arch eq 'alpha' || suse_xrelease eq 'beta')
-  libgcc:
-    /lib
-endif
+  /lib*/libncurses.so.5*
 
 glibc:
-  /lib/libutil.so.1
+  /lib*/libutil.so.1
   # to make chown work
-  /lib/libnss_compat.so.2
-  /lib/libnsl.so.1
-  /lib/ld-2.*.so
+  /lib*/libnss_compat.so.2
+  /lib*/libnsl.so.1
+  /lib*/ld-2.*.so
 if arch eq 'ppc'
-  /lib/ld.so.1
+  /lib*/ld.so.1
 elsif arch eq 'ia64'
-  /lib/ld-linux-ia64.so.2
+  /lib*/ld-linux-ia64.so.2
 else
-  /lib/ld-linux.so.2
+  /lib*/ld-linux.so.2
 endif
-  /lib/libcrypt.so.1
-  /lib/{libc.so.6,libdl.so.2}
+  /lib*/libcrypt.so.1
+  /lib*/{libc.so.6,libdl.so.2}
   /etc/nscd.conf
 
 bash:
@@ -86,15 +63,22 @@ bash:
 s bash /bin/sh
 
 readline:
-  /lib/libreadline.so.4*
-  /lib/libhistory.so.4*
+  /lib*/libreadline.so.4*
+  /lib*/libhistory.so.4*
 
 sh-utils:
-/bin/{date,echo,false,sleep,stty,true,uname}
+  /bin/{date,echo,false,sleep,stty,true,uname}
+  m /usr/bin/printf /bin
 
 util-linux:
   /bin/{kill,mount,umount}
   /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,clock,hwclock,losetup,pivot_root}
+
+acl:
+  /lib*
+
+attr:
+  /lib*
 
 fileutils:
   /bin/{rm,rmdir,sync,chmod,chown,mv,mkdir,dd,touch}
@@ -109,8 +93,8 @@ sysvinit:
 
 e2fsprogs:
   /sbin/{e2fsck,e2label,fsck,fsck.ext2}
-  /lib
-r /lib/libss.so*
+  /lib*
+r /lib*/libss.so*
 
 netcfg:
   /etc/{hosts,inetd.conf,networks}
@@ -125,24 +109,17 @@ textutils:
 cron:
   /var
 
-if suse_release < 8.1
-base:
-  /bin/sed
-else
 sed:
   /bin/sed
-endif
 
 portmap:
   /sbin/portmap
 
-yast2-base:
+yast2-core:
   m /usr/lib/YaST2/bin/startshell /sbin
 
-if special eq 'cloop'
-  X /tmp/cloop.o /lib
-  b 240 0 /dev/cloop
-endif
+gettext:
+  m /usr/bin/gettext /bin
 
 x /sbin/loopc-<kernel_ver>.o /lib/loopc.o
 b 240 0 /dev/loopc0
@@ -150,8 +127,8 @@ b 240 1 /dev/loopc1
 b 240 2 /dev/loopc2
 b 240 3 /dev/loopc3
 
-libz:
-  /lib/libz.so.1*
+zlib:
+  /lib*/libz.so.1*
 
 modutils:
   /sbin/{insmod,rmmod}
@@ -164,28 +141,21 @@ x /etc/syslog.conf /etc
 
 x /sbin/init /sbin
 d etc/X11
-if demo eq 'eval' || demo eq ''
-  x /sbin/{live-shutdown,find_config,fix_fstab,letool} /sbin
-  x /etc/XF86Config_3 /etc/XF86Config
-  x /etc/XF86Config_4 /etc/X11/XF86Config
-endif
 
-if lang eq 'cs_CZ'
-  x /sbin/init_cz /sbin/init
-  x /sbin/live-shutdown_cz /sbin/live-shutdown
-endif
+x /sbin/{live-shutdown,find_config,fix_fstab,letool} /sbin
+x /etc/XF86Config_3 /etc/XF86Config
+x /etc/XF86Config_4 /etc/X11/XF86Config
 
-if suse_release == 7.3
-  x sbin/pcmcia.postin /sbin
-endif
+d .livecd
+x locale .livecd/locale
 
 r /etc/init.d/xdm
 r /etc/httpd
 r /lib/modules
 r /var
 
-if lang ne ''
-  R s/^\s*# localization tag - do not remove #/  echo \"Locale: <lang>\" >>\/etc\/install.inf/ /sbin/init
+if lang
+  E echo <lang> >/lang
 endif
 
 # write a basic fstab

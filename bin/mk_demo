@@ -32,7 +32,14 @@ $start_inodes = 10000;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
-$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+$debug = exists($ENV{debug}) ? $ENV{debug} : "";
+$livecd = exists($ENV{livecd}) ? $ENV{livecd} : "";
+$livecd = "" if $livecd && (!-d($livecd) || !-f("$livecd/etc/liveeval-id"));
+
+if($livecd) {
+  $start_inodes = 16000;
+  $extra_inodes = 3000;
+}
 
 # clean up
 if(-d($tmpdir)) {
@@ -42,16 +49,9 @@ if(-d($tmpdir)) {
 AddFiles $tmpdir, "${srcdir}/demo.file_list", $srcdir or
   die "$Script: failed to setup live-cd image";
 
-SUSystem "sh -c 'cd $tmpdir; ./makedevs >/dev/null'" and
-  die "$Script: could not create all devices";
-SUSystem "rm $tmpdir/makedevs";
-
 # strip everything
 SUSystem "fix_perms $tmpdir";
 SUSystem "strip_dir $tmpdir";
-
-# SUSystem "ldconfig -r $tmpdir";
-# die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
 if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
   SUSystem "check_libs $tmpdir" and
@@ -64,6 +64,19 @@ else {
 
 SUSystem "bin/file_list $tmpdir";
 die "failed to make file list" unless -s "$tmpdir/etc/.SuSEfiles";
+
+if($livecd) {
+  print "creating links to live cd\n";
+
+  SUSystem "mount --bind $livecd $tmpdir/S.u.S.E." and
+    die "failed to mount \"$livecd\"\n";
+
+  SUSystem "chroot $tmpdir /sbin/init --link-livecd" and
+    die "failed integrate livecd\n";
+
+  SUSystem "umount $tmpdir/S.u.S.E." and
+    die "failed to umount \"$livecd\"\n";
+}
 
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
 $i = CompressImage $image;

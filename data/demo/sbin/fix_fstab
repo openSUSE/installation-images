@@ -35,6 +35,7 @@ for (@f, @g) {
 for (@f, @g) {
   next unless $_;
   @i = split;
-  printf "%s\t%s\t%s\t%s %s %s\n", @i;
+  printf "%s\t%s\t%s\t%s %s %s\n", @i unless exists $entry{$i[0]};
+  $entry{$i[0]} = 1;
 }
 

@@ -145,6 +145,8 @@ preserve=`echo /sbin/live-setup /bin/bash \
 
 exec 0<> /dev/tty1 1>&0 2>&0
 
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/S.u.S.E./bin:/S.u.S.E./usr/bin
+
 echo -en "\033cIntegruji Live CD"
 
 braille_running=
@@ -155,6 +157,7 @@ new=
 clean=
 startshell=
 stop=
+yaststop=
 x=",$live,"
 [ "$x" != "${x/,nodisk,}" ] && nodisk=1
 [ "$x" != "${x/,debug,}" ] && debug=1 startshell=1
@@ -162,6 +165,7 @@ x=",$live,"
 [ "$x" != "${x/,new,}" ] && new=1
 [ "$x" != "${x/,clean,}" ] && clean=1 new=1
 [ "$x" != "${x/,stop,}" ] && stop=1
+[ "$x" != "${x/,yast,}" ] && yaststop=1 startshell=1
 [ "$x" != "${x/,xxx,}" ] && xxx=1
 
 if [ "$debug" ] ; then
@@ -186,8 +190,8 @@ rmdir /initrd 2>/dev/null
 # move us out of the way...
 mv $0 /sbin/live-setup
 
-if [ -f /S.u.S.E./suse/images/susee ] ; then
-  suseloop=suse/images/susee
+if [ -f /S.u.S.E./boot/susee ] ; then
+  suseloop=boot/susee
   sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
   mv /tmp/fstab /etc/fstab
   mkdir /.SuSE
@@ -216,45 +220,6 @@ if [ -f /S.u.S.E./suse/images/susee ] ; then
 
   sed -e '/^  # mount Live CD/ a \' -e '  [ ! -f /.SuSE/'"$suseloop"' ] && mount -n /.SuSE' \
       -e '/^# umount Live CD/ i \' -e 'losetup -d /dev/loopc0\' -e 'umount -n /.SuSE' \
-      /sbin/live-shutdown >/tmp/live-shutdown
-  mv /tmp/live-shutdown /sbin/live-shutdown
-  chmod +x /sbin/live-shutdown
-fi
-
-if [ -f /S.u.S.E./suse/images/susec ] ; then
-  susecloop=suse/images/susec
-  sed -e 's/S.u.S.E./.SuSE/' /etc/fstab >/tmp/fstab
-  mv /tmp/fstab /etc/fstab
-  mkdir /.SuSE
-  umount /S.u.S.E.
-  mount /.SuSE
-  insmod /lib/cloop.o </.SuSE/$susecloop
-  echo "/dev/cloop /S.u.S.E. iso9660 defaults,ro 0 0" >>/etc/fstab
-  mount /S.u.S.E.
-  fstype=`grep '/\.SuSE' /etc/mtab | head -1 | cut -d \  -f 3`
-  if [ "$fstype" ] ; then
-    sed -e "s/\.SuSE auto/.SuSE $fstype/" \
-        -e "s/\.SuSE iso9660/.SuSE $fstype/" /etc/fstab >/tmp/fstab
-    mv /tmp/fstab /etc/fstab
-  fi
-
-  sed -e '/^# mount Live CD/ a \' \
-    -e 'mount -v /.SuSE\' -e "insmod /lib/cloop.o </.SuSE/$susecloop" \
-    /etc/init.d/boot >/tmp/boot
-  mv /tmp/boot /etc/init.d/boot
-  chmod 744 /etc/init.d/boot
-
-  sed -e '/Unmounting/ a \' \
-    -e 'umount -v /dev/cloop\' \
-    -e 'rmmod cloop' \
-    /etc/init.d/halt >/tmp/halt
-  mv /tmp/halt /etc/init.d/halt
-  chmod 744 /etc/init.d/halt
-
-  sed -e '/^  # mount Live CD/ a \' \
-      -e '  [ ! -f /.SuSE/'"$susecloop"' ] && mount -n /.SuSE\' \
-      -e "  insmod /lib/cloop.o </.SuSE/$susecloop 2>/dev/null" \
-      -e '/^# umount Live CD/ i \' -e 'rmmod cloop\' -e 'umount -n /.SuSE' \
       /sbin/live-shutdown >/tmp/live-shutdown
   mv /tmp/live-shutdown /sbin/live-shutdown
   chmod +x /sbin/live-shutdown
@@ -326,6 +291,7 @@ add_to_root var/X11R6/sax/config/saxrc
 
 rm -f var/X11R6/lib ; mkdir /var/X11R6/lib
 add_to_root var/X11R6/lib/{sax,xfine}
+add_to_root var/cache/sax
 
 add_to_root var/lib/{dhcp,majordomo,news,nfs,pcmcia,support,wvdial}
 
@@ -387,7 +353,7 @@ if [ "$part" ]; then
   [ "$dosdrive" ] && i="$dosdrive, "
 
   echo
-  echo "Pou¾ívám "\""suselive.800"\"" na $part ($i$fstype, $partsize MB) k ukládání dat."
+  echo "Pou¾ívám "\""suselive.810"\"" na $part ($i$fstype, $partsize MB) k ukládání dat."
 
   mkdir /host || error=20
   mount $part /host || error=21
@@ -410,8 +376,8 @@ if [ "$part" ]; then
     fi
     rm -f /etc/.SuSErmlist
   else
-    suseimg=suselive.800
-    perl -pi -e 's/^(suseimg=).*/$1suselive.800/' /etc/SuSElive
+    suseimg=suselive.810
+    perl -pi -e 's/^(suseimg=).*/$1suselive.810/' /etc/SuSElive
     if [ "$clean" ] ; then
       rm -f "/host/$suseswap" "/host/$susehome" 2>/dev/null
     fi
@@ -498,6 +464,8 @@ if [ ! "$nodisk" ] ; then
 
     [ -d /initrd ] && umount /initrd 2>/dev/null && rmdir /initrd 2>/dev/null
 
+    [ "$yaststop" ] && debug=1
+
     deb_stop
 
     /usr/lib/YaST2/bin/YaST2.start
@@ -580,7 +548,7 @@ if [ ! "$nodisk" ] ; then
       tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
 
       if [ ! -f /mnt/suselive.txt ] ; then
-        echo -e "$suseimg obsahuje data va¹eho SuSE Linux 8.0 Evaluation CD.\r" >/mnt/suselive.txt
+        echo -e "$suseimg obsahuje data va¹eho SuSE Linux 8.1 Evaluation CD.\r" >/mnt/suselive.txt
         echo -e "suselive.swp (existuje-li) je odkládací soubor.\r" >>/mnt/suselive.txt
         echo -e "suselive.usr (existuje-li) je souborový systém ext2 s domovským adresáøem u¾ivatele.\r" >>/mnt/suselive.txt
       fi

@@ -12,6 +12,14 @@ if [ ! -d /S.u.S.E./etc ] ; then
   mount -n /S.u.S.E.
 fi
 
+[ -d /.livecd/locale ] && export TEXTDOMAINDIR=/.livecd/locale
+export TEXTDOMAIN=livecd
+if [ -f /etc/sysconfig/language ] ; then
+  . /etc/sysconfig/language
+fi
+
+LANG=$RC_LANG gettext -n -s "Saving LiveEval CD changes"
+
 if [ -f /etc/install.inf ]; then
   eval `grep ': ' /etc/install.inf | sed -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /'`
 fi
@@ -28,7 +36,8 @@ if [ "$part" -a "$suseimg" ]; then
   i=
   [ "$dosdrive" ] && i="$dosdrive, "
   echo
-  echo "Writing info to $suseimg on $part ($i$fstype, $partsize MB)"
+  printf "`LANG=$RC_LANG gettext 'Writing info to %s on %s (%s, %s MB)'`" "$suseimg" "$part" "$i$fstype" "$partsize"
+  echo
 
   mount -n $part /mnt || error=21
 
@@ -46,15 +55,10 @@ if [ "$part" -a "$suseimg" ]; then
     tar --exclude /dev/console -zclf /mnt/$suseimg / 2>/dev/null || error=1
   fi
 
-  if [ ! -f /mnt/suselive.txt ] ; then
-    echo -e "$suseimg contains data for your SuSE Linux 8.0 Evaluation CD.\r" >/mnt/suselive.txt
-    echo -e "suselive.swp (if it exists) is the swap file.\r" >>/mnt/suselive.txt
-    echo -e "suselive.usr (if it exists) is an ext2 file system with the user's home dir.\r" >>/mnt/suselive.txt
-  fi
-
   if [ "$error" ] ; then
-    echo "An error occurred while writing $suseimg."
-    echo "Sorry, your latest Live CD changes might be lost. :-("
+    printf "`LANG=$RC_LANG gettext 'An error occurred while writing %s.'`" "$suseimg"
+    echo
+    LANG=$RC_LANG gettext -s "Sorry, your LiveEval CD changes might be lost. :-("
   fi
 
   umount -n /mnt
