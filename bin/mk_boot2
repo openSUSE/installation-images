@@ -78,7 +78,8 @@ die "$Script: failed to create DOS disk image \"$image\"\n" unless defined $bloc
 printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $blocks, $block_size, $blocks * $block_size;
 
 # make it bootable and add syslinux
-SUSystem "$syslx $image" and
+$xx = $ENV{'demo'} eq 'yes' ? '-s' : '';
+SUSystem "$syslx $xx $image" and
   die "$Script: syslinux failed";
 
 # umount it first, just in case

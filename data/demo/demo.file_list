@@ -5,7 +5,7 @@ devs:
 m /usr/doc/packages/devs/makedevs /
 c 0755 0 0 makedevs
 
-s /S.u.S.E./{boot,opt,usr} /
+# s /S.u.S.E./{boot,opt,usr} /
 
 aaa_base:
   /root
@@ -23,7 +23,11 @@ c 0711 0 0 /root
 # aaa_base's preinstall
 X /sbin/init.d/{boot,halt}.local /sbin/init.d
 X /etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
-p /sbin/boot.patch
+ifnabuild
+# fake so we don't use local files
+x /etc/{passwd,group,shadow,gshadow,nsswitch.conf} /etc
+endif
+p /sbin/halt.patch
 
 # no idea where those are from
 X /etc/SuSEconfig /etc
@@ -34,22 +38,26 @@ aaa_dir:
   /etc/{news,ppp,rc.config.d}
   /var
 
-<kernel_rpm>:
-ifnarch ppc
-  /lib/modules/<kernel_ver>/misc/serial.o
-  /lib/modules/<kernel_ver>/misc/lp.o
-endif
+xsvga:
+  /dev/agpgarti810
+#  /lib/modules/2.2.14/misc/agpgarti810.o
+
+#<kernel_rpm>:
+#ifnarch ppc
+#  /lib/modules/<kernel_ver>/misc/serial.o
+#  /lib/modules/<kernel_ver>/misc/lp.o
+#endif
 
 # add link to initrd modules
 # check mk_demo before you're going to change this!!!
-d /lib/modules/default
-s ../../../modules /lib/modules/default/misc
+#d /lib/modules/default
+#s ../../../modules /lib/modules/default/misc
 
-ifarch ppc sparc sparc64
-d /lib/modules/<kernel_ver>/misc
-endif
-c 0755 0 0 /lib/modules/<kernel_ver>
-c 0755 0 0 /lib/modules/<kernel_ver>/misc
+#ifarch ppc sparc sparc64
+#d /lib/modules/<kernel_ver>/misc
+#endif
+#c 0755 0 0 /lib/modules/<kernel_ver>
+#c 0755 0 0 /lib/modules/<kernel_ver>/misc
 
 ncurses:
   /lib/libncurses.so.5{,.0}
@@ -61,7 +69,8 @@ ifarch ppc
 else
   /lib/ld-linux.so.2
 endif
-  /lib/{libc.so.6,libcrypt.so.1,libdb.so.2,libdb.so.3,libdl.so.2,libm.so.6,librt.so.1,libutil.so.1}
+  /lib/{libcrypt.so.1,libdb.so.2,libdb.so.3}
+  /lib/{libc.so.6,libdl.so.2,libm.so.6,librt.so.1,libutil.so.1}
   /etc/nscd.conf
 
 bash:
@@ -78,13 +87,13 @@ endif
 
 util:
   /bin/{kill,mount,umount}
-  /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon}
+  /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,clock,hwclock}
 
 fileutil:
   /bin/{rm,rmdir,sync,chmod,chown}
 
-shadow:
-  /bin/login
+#shadow:
+#  /bin/login
 
 #nkitb:
 ## identd scripts; what for???
@@ -92,8 +101,8 @@ shadow:
 
 pam:
   /etc
-  /sbin/{pam_filter,unix_chkpwd}
-  /lib
+#  /sbin/{pam_filter,unix_chkpwd}
+#  /lib
 
 sysvinit:
   /sbin/{checkproc,halt,init,killall5,killproc,mingetty,pidof,poweroff}
@@ -130,7 +139,7 @@ c 0755 9 13 /var/log/news
 c 0640 0 13 /var/log/news/news.{crit,err,notice}
 
 d /var/adm/live
-t /var/adm/live/{gpm,i4l,sax,xf86}
+t /var/adm/live/{gpm,i4l,sax,xf86,kbase}
 c 0755 0 0 /var/adm/live
 
 d /var/lib/apsfilter
@@ -139,6 +148,7 @@ c 0755 0 0 /var/lib/apsfilter
 x /var/lib/news/{mailname,whoami} /var/lib/news
 
 d /var/X11R6/{bin,sax/config,sax/tmp,xkb/compiled}
+d /opt/kde/share/config
 
-x /sbin/{live-setup,mk_links} /sbin
+x /sbin/{live-setup,live-shutdown,mk_links,find_config} /sbin
 

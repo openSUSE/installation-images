@@ -1,14 +1,84 @@
 #! /bin/sh
 
-PATH=$PATH:/S.u.S.E./bin
+[ -e /etc/.SuSEok ] && exit 0
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/S.u.S.E./bin
 cd /
+
+preserve=`echo /sbin/{init,live-setup} /bin/bash\
+  /lib/lib{c.so.6,dl.so.2,ncurses.so.5.0,history.so.4.0,readline.so.4.0}\
+  /lib/ld-2.1.3.so\
+  /etc/{.SuSEfiles,SuSElive,mtab}`
+
+echo -n "Integrating Live CD"
 
 mount /S.u.S.E.
 
-/sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter
+/sbin/mk_links . bin etc lib sbin var/X11R6/sax var/X11R6/sax/config var/lib/apsfilter\
+  opt opt/kde opt/kde/share
 
 cp -af /S.u.S.E./etc/pam.d/* /etc/pam.d
 cp -af /S.u.S.E./etc/rc.config /etc
+cp -af /S.u.S.E./var/X11R6/sax/config/saxrc /var/X11R6/sax/config
+cp -af /S.u.S.E./opt/kde/share/config/* /opt/kde/share/config
+
+perl -pi -e 's/^(FQHOSTNAME=).*/$1\"suse\"/' /etc/rc.config
+
+if [ -f /etc/install.inf ]; then
+  eval `grep ': ' /etc/install.inf | sed -e 's/:  */="/' -e 's/$/"/' -e 's/^/export /'`
+fi
+
+part=
+if [ "$Disks" ]; then
+  /sbin/find_config $Disks >/etc/SuSElive
+ . /etc/SuSElive
+fi
+
+error=
+if [ "$part" ]; then
+  i=
+  [ "$dosdrive" ] && i="$dosdrive, "
+
+  echo
+  echo "Using suselive.640 on $part ($i$fstype, $partsize MB) to store data."
+
+  mkdir /host || error=20
+  mount $part /host || error=21
+  if [ "$error" = "" -a "$suseimg" -a -f /host/$suseimg -a "$live" != "new" ] ; then
+    echo "Updating filesystem."
+    chattr +i $preserve
+    tar -zxpf /host/$suseimg 2>/dev/null
+    chattr -i $preserve
+    if [ -f /etc/.SuSErmlist ] ; then
+      rm -rf `cat /etc/.SuSErmlist`
+    fi
+    rm -f /etc/.SuSErmlist
+  else
+    suseimg=suselive.640
+    perl -pi -e 's/^(suseimg=).*/$1suselive.640/' /etc/SuSElive
+  fi
+else
+  echo "Found no usable partition. Your data will not be saved to disk."
+  error=99
+fi
+
+if [ "$error" ] ; then
+  perl -pi -e 's/^(suseimg=).*/$1/; s/^(suseswap=).*/$1/' /etc/SuSElive
+fi
+. /etc/SuSElive
+
+#if [ "$suseswap" ] ; then
+#  echo "activating swap space"
+#  mkswap /host/$suseswap
+#  swapon /host/$suseswap
+#fi
+
+umount /host
+rmdir /host
 
 umount /S.u.S.E.
 
+echo -e "\033[71G\033[32mdone\033[m"
+
+rm -f /sbin/{find_config,mk_links}
+rm -f /sbin/live-setup ; exec /sbin/init

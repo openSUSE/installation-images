@@ -1,0 +1,79 @@
+#! /usr/bin/perl
+
+@good_ids{( 1, 4, 6, 0xb, 0xc, 0xe, 0x11, 0x14, 0x16, 0x1b, 0x1c, 0x1e, 0x83 )} = ();
+@dos_ids{( 1, 4, 6, 0xb, 0xc, 0xe )} = ();
+$minsize = 10000;
+$img = "suselive.640";
+$swap = "suselive.swp";
+
+exit unless $ARGV[0] =~ /^\//;
+
+for (`LANG= fdisk -l $ARGV[0] 2>/dev/null`) {
+  chomp;
+  if(/^(\/\S+)(\s|\*)+(\d+)\s+(\d+)\s+(\d+)(\s|\+)+(\d+)\s+(.+)/) {
+    if($5 >= $minsize) {
+      $id = hex $7;
+      if(exists $good_ids{$id}) {
+#        printf "%s %9d 0x%02x <%s>\n", $1, $5, $id, $8;
+        push @parts, $1;
+        push @fsid, $id;
+        push @fstypes, $8;
+      }
+    }
+  }
+}
+
+undef $is_c;
+for ($i = 0; $i < @parts; $i++) {
+  if($parts[$i] =~ /(\d+)$/ && $1 >= 1 && $1 <= 4 && exists($dos_ids{$fsid[$i]})) {
+    $is_c = $i; last
+  }
+}
+
+# first C:
+if(defined $is_c) {
+#  print "C: $parts[$is_c]\n";
+  push @xx, $is_c; $xx{$is_c} = 1;
+}
+
+# then all other DOS partitions
+for ($i = 0; $i < @parts; $i++) {
+  if(exists($dos_ids{$fsid[$i]}) && !$xx{$i}) {
+    push @xx, $i; $xx{$i} = 1;
+  }
+}
+
+# then the rest
+for ($i = 0; $i < @parts; $i++) {
+  if(!$xx{$i}) { push @xx, $i; $xx{$i} = 1; }
+}
+
+# for (@xx) { print "$parts[$_] $fstypes[$_]\n" }
+
+$found = "";
+for $j (@xx) {
+  $i = system "mount $parts[$j] /mnt 2>/dev/null";
+  if(!$i) {
+    @x = `df -Pk $parts[$j]`;
+    if($x[-1] =~ /^\/\S+\s+(\d+)\s+\d+\s+(\d+)\s+/) {
+#      print "$parts[$j] $2\n";
+      if((-f("/mnt/$img") || $2 >= $minsize) && !(-f("/mnt/$img") && -s("/mnt/$img") <= 1)) {
+        $found = $parts[$j];
+        push @cfg, "part=$found\n";
+        $t = sprintf "%d", $1 >> 10;
+        push @cfg, "partsize=$t\n";
+        push @cfg, "fstype=\"$fstypes[$j]\"\n";
+        push @cfg, "dosdrive=C:\n" if defined($is_c) && $j == $is_c;
+        $t = -f "/mnt/$img" ? $img : "";
+        push @cfg, "suseimg=$t\n";
+        $t = -f "/mnt/$swap" ? $swap : "";
+        push @cfg, "suseswap=$t\n";
+      }
+    }
+  }
+  system "umount /mnt 2>/dev/null";
+  last if $found;
+}
+
+if($found) { print @cfg }
+

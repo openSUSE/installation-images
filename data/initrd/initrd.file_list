@@ -7,6 +7,12 @@ s /usr/X11R6/lib/X11 var/X11R6/lib
 d modules
 d dev/usb
 
+# agpgarti810 device
+ifarch ix86
+xsvga:
+  /dev/agpgarti810
+endif
+
 t var/run/utmp
 
 c 1777 0 0 tmp

@@ -50,12 +50,15 @@ SUSystem "strip_dir $tmpdir";
 # SUSystem "ldconfig -r $tmpdir";
 # die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
-SUSystem "mkdir $tmpdir/modules";
-SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
-SUSystem "depmod -a -F /boot/System.map-$ConfigData{kernel_ver} -b $tmpdir $ConfigData{kernel_ver}";
-die "$Script: failed to run depmod" unless -f "$tmpdir/lib/modules/$ConfigData{kernel_ver}/modules.dep";
-SUSystem "rm -r $tmpdir/modules";
-SUSystem "ln -snf /modules $tmpdir/lib/modules/default/misc";
+#SUSystem "mkdir $tmpdir/modules";
+#SUSystem "ln $tmpinitrd/modules/*.o $tmpdir/modules";
+#SUSystem "depmod -a -F /boot/System.map-$ConfigData{kernel_ver} -b $tmpdir $ConfigData{kernel_ver}";
+#die "$Script: failed to run depmod" unless -f "$tmpdir/lib/modules/$ConfigData{kernel_ver}/modules.dep";
+#SUSystem "rm -r $tmpdir/modules";
+#SUSystem "ln -snf /modules $tmpdir/lib/modules/default/misc";
+
+SUSystem "bin/file_list $tmpdir";
+die "failed to make file list" unless -s "$tmpdir/etc/.SuSEfiles";
 
 Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
 

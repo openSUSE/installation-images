@@ -16,7 +16,7 @@ suse_arch=`if [ $suse_arch = alpha ] ; then echo axp ; else echo $suse_arch ; fi
 suse_arch=`if [ $suse_arch = sparc64 ] ; then echo sparc ; else echo $suse_arch ; fi`
 
 # the SuSE distribution (we get our rpm's from there - unless we are in autobuild)
-SuSE_base=/work/CDs/full-$suse_arch
+SuSE_base=/work/CDs/full-6.4-$suse_arch
 
 # check if we are in autobuild
 in_abuild=`if [ -x /bin/uname.bin ] ; then echo yes ; fi`

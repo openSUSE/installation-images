@@ -324,6 +324,9 @@ gppshare:
 libjpeg:
   /usr/lib/libjpeg.so{,.62,.62.0.0}
 
+eject:
+  /usr/bin/eject
+
 qtlib2:
   /usr/lib/*
 
@@ -401,5 +404,6 @@ endif
 ifarch ppc
 pdisk:
   /sbin/pdisk
+yaboot:
+  /var/lib/yaboot
 endif
-
