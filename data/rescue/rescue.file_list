@@ -54,7 +54,7 @@ readline:
 if arch ne 's390'
 bdflush:
   /sbin
-fi
+endif
 
 cpio:
   /bin
@@ -289,7 +289,9 @@ if arch ne 'sparc'
 
     f / linear.o
     f / lvm-mod.o
-    f / md.o
+    if suse_release == 7.2
+      f / md.o
+    endif
     f / raid0.o
     f / raid1.o
     f / raid5.o
