@@ -2,6 +2,9 @@
 	- added module info for qla2100
 	- olh: some rescue system module changes
 
+17/3/2003:	v3.27
+	- added symlinks for samba (#25411)
+
 13/3/2003:	v3.26
 	- updated list of yast2 translation packages (#25157)
 

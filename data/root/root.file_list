@@ -805,6 +805,11 @@ mdadm:
 sock:
   /usr/bin/sock
 
+if arch ne 's390' && arch ne 's390x'
+  s /.bin/smbmount /sbin/mount.smbfs
+  s /.bin/smbmnt /bin/smbmnt
+endif
+
 shadow:
   /etc/pam.d/shadow
   /usr/sbin/chpasswd
