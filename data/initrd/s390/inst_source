@@ -27,9 +27,10 @@ SCREEN_TXT1="Which terminal do want to use?\n\n    1) X-Window\n    2) VNC (VNC-
 MOUNT_ERR="CD not mounted. Please check parameters."
 MOUNT_ERR2="Root-disk not mounted. Please check parameters."
 ENTER_YES_NO="Please enter yes or no."
-FTPUSER="Please enter the username for the FTP-access: "
-FTPPASSWORD="Please enter the password for the FTP-Access: "
+FTPUSERTXT="Please enter the username for the FTP-access: "
+FTPPASSWORDTXT="Please enter the password for the FTP-Access: "
 FTP_ASK_VALID="Is the following correct?\\\n\\\n    FTP User:  \$FTPUSER\\\n    FTP Password:           \$FTPPASSWORD\\\n\\\nYes/No: "
+VNC_PASSWORD="Please enter the Password for VNC-Access: "
 #
 # checks an IP to have numbers only between 0 and 255:
 #
@@ -150,6 +151,8 @@ do
 		   break
 		;;
 		2) INST_SCREEN=VNC
+		   echo -en $VNC_PASSWORD
+		   read VNCPW
 		   break
 		;;
 		3) INST_SCREEN=SSH
@@ -201,10 +204,10 @@ ftp_install()
 {
 while :
 do
-	echo -en $FTPUSER
+	echo -en $FTPUSERTXT
 	read FTPUSER
 	[ -z "$FTPUSER" ] && continue
-	echo -en $FTPPASSWORD
+	echo -en $FTPPASSWORDTXT
 	read FTPPASSWORD
 	[ -z "$FTPPASSWORD" ] && continue
 	eval echo -en $FTP_ASK_VALID
@@ -238,6 +241,7 @@ write_info_file()
 		;;
 		VNC)
 			echo "VNC: 1" >> $INFOFILENAME
+			echo "VNCPassword: $VNCPW" >> $INFOFILENAME
 		;;
 		SSH)
 		;;
