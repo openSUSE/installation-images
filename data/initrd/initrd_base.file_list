@@ -145,7 +145,7 @@ else	# ! suse_release < 7.1
 #  m /usr/lib/kbd/unimaps/lat{1,1u,2,2u}.uni kbd/unimaps
 
   d kbd/keymaps/include
-  m usr/lib/kbd/keymaps/include/compose.{latin{,1,2,3,4},add,8859_{7,8}} kbd/keymaps/include
+  m usr/lib/kbd/keymaps/include/* kbd/keymaps/include
 
   if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ia64'
     g /usr/lib/kbd/keymaps/i386/qwerty/Pl02.map.gz kbd/keymaps/Pl02.map

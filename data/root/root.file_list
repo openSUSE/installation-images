@@ -7,6 +7,7 @@ c 1777 0 0 tmp
 
 aaa_base: prein,postin
 e prein
+  /etc/init.d
   /bin/fillup
   /etc/{modules.conf,insserv.conf}
   /sbin/mk_initrd
@@ -524,7 +525,7 @@ libpng:
   /usr/lib/libpng.so.2*
 
 libz:
-  /usr/lib/libz.so.1*
+  /lib/libz.so.1*
 
 c 0755 0 0 /usr
 if arch ne 'alpha'
@@ -691,5 +692,5 @@ syslogd:
 
 # final clean up
 r /sbin/insserv
-r /sbin/init.d
+r /etc/init.d
 
