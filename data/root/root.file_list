@@ -1049,7 +1049,4 @@ e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 e cp -a /usr/lib/cracklib_dict.* usr/lib
 
 # x usr/bin/conservative_lndir usr/bin
-if arch eq 'ppc'
-x usr/bin/ppc_post_install.sh usr/bin
-endif
 

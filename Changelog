@@ -1,3 +1,5 @@
+	- remove usr/bin/ppc_post_install.sh, it was yast1 code
+
 28/5/2004:	v5.62
 	- minor module config & driver update fixes
 	- write yast mem limit only once to linuxrc.config; lowered it a bit
