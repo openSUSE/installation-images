@@ -556,6 +556,12 @@ if with_yast2 ne 'no'
       /
     yast2-instsys:
       /
+    y2d_inst-keyboard:
+      /
+    y2d_inst-mouse:
+      /
+    y2d_inst-timezone:
+      /
     yast2-agent-any:
       /
     yast2-agent-fdisk:
