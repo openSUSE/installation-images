@@ -36,8 +36,8 @@ bash:
 s bash /bin/sh
 
 readline:
-  /lib/libreadline.so.4*
-  /lib/libhistory.so.4*
+  /lib*/libreadline.so.4*
+  /lib*/libhistory.so.4*
 
 ash:
   /bin/ash.static
@@ -55,7 +55,7 @@ joe:
   /etc/joerc
 
 hwinfo:
-  /usr/lib
+  /usr/lib*
   /usr/sbin
 
 mktemp:
@@ -107,8 +107,8 @@ if !(arch eq 'sparc' || arch eq 'sparc64' || arch eq 'ia64' || arch eq 's390' ||
 endif
 
 ncurses:
-  /lib/libncurses.so.5*
-  /usr/lib/libpanel.so.5*
+  /lib*/libncurses.so.5*
+  /usr/lib*/libpanel.so.5*
   /usr/share/terminfo
 s ../share/terminfo /usr/lib/terminfo
 
@@ -118,36 +118,34 @@ if arch eq 'alpha' || suse_xrelease eq 'beta'
 endif
 
 popt:
-  /usr/lib/libpopt.so*
+  /usr/lib*/libpopt.so*
 
 glibc:
   /sbin/ldconfig
-  /lib/ld-2.*.so
+  /lib*/ld-2.*.so
 if arch eq 'ppc' || arch eq 's390' || arch eq 's390x' || arch eq 'mips'
-  /lib/ld.so.1
-elsif arch eq 'ia64'
-  /lib/ld-linux-ia64.so.2
+  /lib*/ld.so.1
 else 
-  /lib/ld-linux.so.2
+  /lib*/ld-linux*.so.2
 endif
-  /lib/lib{c,m}.so.6*
-  /lib/{libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libnsl.so.1*}
-  /lib/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
-  /lib/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt.so.1,libutil.so.1*}
+  /lib*/lib{c,m}.so.6*
+  /lib*/{libcrypt.so.1*,libdb.so.2*,libdb.so.3,libdl.so.2*,libnsl.so.1*}
+  /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
+  /lib*/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt.so.1,libutil.so.1*}
   /usr/sbin/rpcinfo
   /usr/bin
   /etc/rpc
 r /usr/bin/db_*
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
-m /lib/libpthread.so.0 /usr/lib
+m /lib*/libpthread.so.0 /usr/lib
 
 glibc-locale:
-  /usr/lib/locale
-  /usr/lib/gconv/ISO8859*
-  /usr/lib/gconv/KOI*
-  /usr/lib/gconv/UNICODE*
-  /usr/lib/gconv/gconv-modules*
+  /usr/lib*/locale
+  /usr/lib*/gconv/ISO8859*
+  /usr/lib*/gconv/KOI*
+  /usr/lib*/gconv/UNICODE*
+  /usr/lib*/gconv/gconv-modules*
 
 if !(arch eq 's390' || arch eq 's390x')
 kbd:
@@ -168,7 +166,7 @@ endif
 
 e2fsprogs:
   /sbin
-  /lib
+  /lib*
 
 file:
   /usr/bin/file
@@ -286,7 +284,7 @@ timezone:
 strace:
   /usr/bin/strace
 
-if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'alpha' || arch eq 's390' || arch eq 's390x')
+if !(arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'alpha' || arch eq 's390' || arch eq 's390x')
   ltrace:
     /usr/bin/ltrace
     /etc/ltrace.conf
@@ -302,7 +300,7 @@ textutils:
   /bin/sort
 
 freetype2:
-  /usr/lib
+  /usr/lib*
 
 c 0755 0 0 /usr/bin
 c 0755 0 0 /usr/lib
@@ -337,31 +335,31 @@ if with_yast2 ne 'no'
     /usr/X11R6/bin/XFree86
 
   xmodules:
-    /usr/X11R6/lib/modules/codeconv
-    /usr/X11R6/lib/modules/drivers
+    /usr/X11R6/lib*/modules/codeconv
+    /usr/X11R6/lib*/modules/drivers
   # video4linux stuff
-  r /usr/X11R6/lib/modules/drivers/linux
-    /usr/X11R6/lib/modules/extensions/lib{dbe,extmod}.a
-  if arch ne 'ia64'
-    /usr/X11R6/lib/modules/extensions/libdri.a
+  r /usr/X11R6/lib*/modules/drivers/linux
+    /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.a
+  if arch ne 'ia64' && arch ne 'x86_64'
+    /usr/X11R6/lib*/modules/extensions/libdri.a
   endif
-    /usr/X11R6/lib/modules/fonts/libbitmap.a
-    /usr/X11R6/lib/modules/input
-    /usr/X11R6/lib/modules/linux
+    /usr/X11R6/lib*/modules/fonts/libbitmap.a
+    /usr/X11R6/lib*/modules/input
+    /usr/X11R6/lib*/modules/linux
   if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc'
-      /usr/X11R6/lib/modules/*.uc
+      /usr/X11R6/lib*/modules/*.uc
   endif
-    /usr/X11R6/lib/modules/lib*.a
+    /usr/X11R6/lib*/modules/lib*.a
   endif
 
   xshared:
-    /usr/X11R6/lib/lib{X11,Xext}.so*
-    /usr/X11R6/lib/lib{SM,ICE}.so*
-    /usr/X11R6/lib/lib{Xmu,Xi,Xt,Xft,Xrender,Xpm}.so*
-  d /usr/X11R6/lib/{X11,modules}
+    /usr/X11R6/lib*/lib{X11,Xext}.so*
+    /usr/X11R6/lib*/lib{SM,ICE}.so*
+    /usr/X11R6/lib*/lib{Xmu,Xi,Xt,Xft,Xrender,Xpm}.so*
+  d /usr/X11R6/lib*/{X11,modules}
 
  XFree86-compat-libs:
-   /usr/X11R6/lib/lib{Xxf86misc,Xxf86vm}.so*
+   /usr/X11R6/lib*/lib{Xxf86misc,Xxf86vm}.so*
 
   mesasoft:
     /
@@ -369,7 +367,7 @@ if with_yast2 ne 'no'
     r /usr/X11R6/bin/switch2mesasoft
 
   mesaglu:
-    /usr/lib
+    /usr/lib*
 
   xf86:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
@@ -393,7 +391,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib/X11/XftConfig
 
   libusb:
-    /usr/lib/libusb*.so.*
+    /usr/lib*/libusb*.so.*
 
   xpenguins:
     /usr/bin
@@ -407,7 +405,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/bin/vncpasswd.arg
 
   libxml2:
-    /usr/lib/libxml2.so*
+    /usr/lib*/libxml2.so*
 
 endif
 
@@ -470,9 +468,7 @@ if with_yast2 ne 'no'
     /
   yast2-module-autoinst:
     /
-  yast2-ui-ncurses:
-    /
-  yast2-ui-qt:
+  yast2-storage:
     /
   yast2-trans-autoinst:
     /
@@ -500,6 +496,10 @@ if with_yast2 ne 'no'
     /
   yast2-trans-wizard:
     /
+  yast2-ui-ncurses:
+    /
+  yast2-ui-qt:
+    /
   libpkg:
     /
   libycp:
@@ -520,10 +520,10 @@ endif
 
 
 libpng:
-  /usr/lib/libpng.so*
+  /usr/lib*/libpng.so*
 
 libz:
-  /lib/libz.so.1*
+  /lib*/libz.so.1*
 
 c 0755 0 0 /usr
 if with_yast2 ne 'no'
@@ -533,22 +533,22 @@ if with_yast2 ne 'no'
 endif
 
 libgcc:
-  /lib/libgcc_s.so.*
+  /lib*/libgcc_s.so.*
 
 libstdc++:
-  /usr/lib/libstdc++*.so*
+  /usr/lib*/libstdc++*.so*
 
 libjpeg:
-  /usr/lib/libjpeg.so*
+  /usr/lib*/libjpeg.so*
 
 eject:
   /bin/eject
 
 libmng:
-  /usr/lib/libmng.so*
+  /usr/lib*/libmng.so*
 
 liblcms:
-  /usr/lib/liblcms.so*
+  /usr/lib*/liblcms.so*
 
 if with_yast2 ne 'no'
   qt3:
@@ -556,8 +556,8 @@ if with_yast2 ne 'no'
     /usr/lib/qt-*/etc/settings/qtrc
     /usr/lib/qt3
 #  qt3-non-mt:
-    /usr/lib/libqt*.so.3
-    /usr/lib/qt-*/lib/libqt*.so*
+    /usr/lib*/libqt*.so.3
+    /usr/lib*/qt-*/lib*/libqt*.so*
     e echo -e "[General]\nenableXft=false\nuseXft=false" >/etc/X11/qtrc
 endif
 
@@ -672,17 +672,20 @@ if pre_release
 
   pam:
     /etc/pam.d/other
-    /lib/security
-    /lib/libpam.so.*
+    /lib*/security
+    /lib*/libpam.so.*
 
   pam-modules:
-    /{etc,lib,sbin}
+    /{etc,lib*,sbin}
 
   libxcrypt:
-    /lib/libxcrypt.so.*
+    /lib*/libxcrypt.so.*
 
   cracklib:
-    /usr/lib/libcrack.so*
+    /usr/lib*/libcrack.so*
+
+  gdbm:
+    /usr/lib*/libgdbm.so*
 
   vim:
     /bin/vim
@@ -704,7 +707,7 @@ endif
 
 parted:
   /usr/sbin
-  /usr/lib
+  /usr/lib*
 
 jfsutils:
   /sbin/{fsck.jfs,mkfs.jfs}
@@ -718,7 +721,7 @@ wget:
   /usr/bin
 
 openssl:
-  /usr/lib
+  /usr/lib*
   /usr/share/ssl
 
 timezone:

@@ -71,9 +71,11 @@ $initrdondisk = $ENV{'initrd_name'} if $ENV{'initrd_name'};
 $mboot_file = "${BasePath}src/mboot/mboot";
 
 $arch = $ConfigData{suse_arch};
-$fstype = $arch eq 'i386' ? 'msdos' : 'vfat';
+$ia32_like = $arch eq 'i386' || $arch eq 'x86_64';
 
-if($arch eq 'i386') {
+$fstype = $ia32_like ? 'msdos' : 'vfat';
+
+if($ia32_like) {
   if($ENV{'syslinux'}) {
     $syslx = $ENV{'syslinux'};
   } else {
@@ -153,7 +155,7 @@ die "$Script: failed to create FAT disk image \"$image\"\n" unless defined $bloc
 printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $blocks, $block_size, $blocks * $block_size;
 
 # make it bootable and add syslinux
-if($arch eq 'i386') {
+if($ia32_like) {
   $xx = "-s" if $ENV{'boot'} eq 'small';
   SUSystem "$syslx $xx $image" and
     die "$Script: syslinux failed";
@@ -170,7 +172,7 @@ SUSystem "mount -oloop -t $fstype $image /mnt" and
 AddFiles "/mnt", "${srcdir}/boot.file_list", $srcdir or
   die "$Script: failed to setup boot image";
 
-if($arch eq 'i386') {
+if($ia32_like) {
   SUSystem "umount /mnt" and
     die "$Script: umount failed";
 
@@ -222,7 +224,7 @@ if($arch eq 'i386') {
       printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $blocks, $block_size, $blocks * $block_size;
 
       # make it bootable and add syslinux
-      if($arch eq 'i386') {
+      if($ia32_like) {
         $xx = "-s" if $ENV{'boot'} eq 'small';
         SUSystem "$syslx $xx $image" and
           die "$Script: syslinux failed";

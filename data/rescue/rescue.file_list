@@ -46,20 +46,20 @@ bash:
   /bin
 
 readline:
-  /lib
+  /lib*
 
 cpio:
   /bin
   /usr/bin
 
 cracklib:
-  /usr/lib
+  /usr/lib*
 
 libxcrypt:
-  /lib
+  /lib*
 
 db:
-  /usr/lib/libdb-4.*
+  /usr/lib*/libdb-4.*
 
 diffutils:
   /usr/bin
@@ -71,7 +71,7 @@ hdparm:
   /sbin
 
 e2fsprogs:
-  /{lib,sbin}
+  /{lib*,sbin}
   /usr/{,s}bin
 
 fileutils:
@@ -81,24 +81,22 @@ fileutils:
 findutils:
   /usr/bin/{find,xargs}
 
-if suse_release >= 7.3 && (arch eq 'alpha' || suse_xrelease eq 'beta')
+if arch eq 'alpha' || suse_xrelease eq 'beta'
   libgcc:
     /lib
 endif
 
-if suse_release >= 7.4
-  popt:
-    /usr/lib/libpopt.so*
-endif
+popt:
+  /usr/lib*/libpopt.so*
 
 glibc:
   /etc/nscd.conf
-  /{lib,sbin}
+  /{lib*,sbin}
 r /lib/libdb.so.*
 r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
   /usr/{,s}bin
 r /usr/bin/{db*,glibcbug,localedef,rpcgen}
-  /usr/lib/pt_chown
+  /usr/lib*/pt_chown
 
 gpart:
   /usr/bin
@@ -134,10 +132,10 @@ t /usr/bin/lessclose.sh
 c 0755 0 0 /usr/bin/lessclose.sh
 
 libz:
-  /lib/libz.so*
+  /lib*/libz.so*
 
 bzip:
-  /usr/lib/libbz2.so*	
+  /usr/lib*/libbz2.so*	
 
 if arch eq 'ia32' || arch eq 'ppc'
   lilo:
@@ -169,7 +167,7 @@ modutils:
   /sbin/{insmod,modprobe,rmmod,lsmod,ksyms,depmod}
 
 ncurses: postin
-  /lib/libncurses.so.5*
+  /lib*/libncurses.so.5*
   /usr/share/terminfo/d/dumb
   /usr/share/terminfo/l
   /usr/share/terminfo/v/vt10[02]
@@ -212,10 +210,10 @@ rsh:
   /usr/bin
 
 pam:
-  /{etc,lib,sbin}
+  /{etc,lib*,sbin}
 
 pam-modules: postin
-  /{etc,lib,sbin}
+  /{etc,lib*,sbin}
 e postin
 
 pciutils:
@@ -240,7 +238,7 @@ jfsutils:
   /sbin
 
 xfsprogs:
-  /lib
+  /lib*
   /sbin
   /usr/sbin
 
@@ -249,11 +247,11 @@ xfsdump:
   /usr/sbin
 
 attr:
-  /lib
+  /lib*
   /usr/bin
 
 dmapi:
-  /lib
+  /lib*
 
 rpm:
   /bin
@@ -283,26 +281,26 @@ shadow:
   /usr/sbin/pwunconv
 
 openldap2-client:
-  /usr/lib/liblber.so.*
-  /usr/lib/libldap.so.*
+  /usr/lib*/liblber.so.*
+  /usr/lib*/libldap.so.*
 
 openssl:
-  /usr/lib/libcrypto.so.*
-  /usr/lib/libssl.so.*
+  /usr/lib*/libcrypto.so.*
+  /usr/lib*/libssl.so.*
 
 cyrus-sasl:
-  /usr/lib/libsasl.so.*
+  /usr/lib*/libsasl.so.*
 
 db:
-  /usr/lib/libdb-4*.so  
+  /usr/lib*/libdb-4*.so  
 
 heimdal-lib:
   /etc
-  /usr/lib/libasn1.so.*
-  /usr/lib/libcom_err.so.*
-  /usr/lib/libgssapi.so.*
-  /usr/lib/libkrb5.so.*
-  /usr/lib/libroken.so.*
+  /usr/lib*/libasn1.so.*
+  /usr/lib*/libcom_err.so.*
+  /usr/lib*/libgssapi.so.*
+  /usr/lib*/libkrb5.so.*
+  /usr/lib*/libroken.so.*
 
 strace:
   /usr/bin/strace
@@ -343,13 +341,13 @@ vim:
   /usr/bin/vi{,m}
 
 gdbm:
-  /usr/lib/libgdbm.so.2*
+  /usr/lib*/libgdbm.so.2*
 
 hwinfo:
-  /usr/{sbin,lib}
+  /usr/{sbin,lib*}
 
 parted:
-  /usr/lib
+  /usr/lib*
   /usr/sbin
 
 gawk:

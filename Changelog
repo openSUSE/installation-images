@@ -1,3 +1,8 @@
+28/5/2002:	v2.2
+	- added yast2-storage
+	- lib64 fixes
+	- make it work on x86_64
+
 27/5/2002:	v2.1
 	- yast2 wants qt3-mt now
 	- unified module handling for all archs (except s390*)

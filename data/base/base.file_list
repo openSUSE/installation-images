@@ -22,7 +22,7 @@ base:
 bash:
   /bin
 readline:
-  /lib
+  /lib*
 
 fileutils:
   /bin
@@ -34,19 +34,19 @@ findutils:
 diffutils:
   /usr/bin
 
-if suse_release >= 7.3 && (arch eq 'alpha' || suse_xrelease eq 'beta')
+if arch eq 'alpha' || suse_xrelease eq 'beta'
   libgcc:
     /lib
 endif
 
 glibc:
   /etc/nscd.conf
-  /{lib,sbin}
-r /lib/libdb.so.*
-r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
+  /{lib*,sbin}
+r /lib*/libdb.so.*
+r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
   /usr/{,s}bin
 r /usr/bin/{db*,glibcbug,localedef,rpcgen}
-  /usr/lib/pt_chown
+  /usr/lib*/pt_chown
 
 mktemp:
   /bin/mktemp
@@ -83,15 +83,15 @@ endif
   /usr/bin
 
 ncurses:
-  /lib/libncurses.so.5*
+  /lib*/libncurses.so.5*
   /usr/share/terminfo/d/dumb
   /usr/share/terminfo/l
   /usr/share/terminfo/v/vt10[02]
 
 libz:
-  /lib/libz.so*
+  /lib*/libz.so*
 
-if arch eq 'ia32'
+if arch eq 'ia32' || arch eq 'x86_64'
   syslinux:
     /usr/sbin/syslinux
     /usr/share/syslinux/isolinux*
@@ -101,7 +101,7 @@ xf86:
   m /usr/X11R6/bin/mkfontdir /usr/bin
 
 xshared:
-  /usr/X11R6/lib/libXfont.so*
+  /usr/X11R6/lib*/libXfont.so*
 
 gawk:
   /bin
@@ -145,10 +145,10 @@ perl:
   /usr/{bin,lib}
 
 db:
-  /usr/lib/libdb-4*.so
+  /usr/lib*/libdb-4*.so
 
 gdbm:
-  /usr/lib/libgdbm.so.*
+  /usr/lib*/libgdbm.so.*
 
 # run depmod
 e /sbin/depmod -a -F /System.map <kernel_ver>
