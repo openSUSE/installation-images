@@ -2,6 +2,7 @@
 	- put boot files for ppc on CD1
 	- autoload floppy driver (to give amd64 a chance to use driver
 	  update floppies)
+	- added megaraid_mm
 
 29/4/2004:	v5.46
 	- enable memtest for x86_64
