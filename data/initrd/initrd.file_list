@@ -111,8 +111,6 @@ t modules/{MORE,NET,SCSI,OTHER}
 
 <kernel_rpm>:
 
-# no mods on ppc, according to Olaf!
-
 ifarch ix86 alpha
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
 a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
@@ -122,6 +120,71 @@ a /lib/modules/<kernel_ver>/misc/input.o /modules
 a /lib/modules/<kernel_ver>/misc/hid.o /modules
 a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
 a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
+endif
+
+ifarch ppc
+a /lib/modules/<kernel_ver>/misc/parport.o /modules
+a /lib/modules/<kernel_ver>/misc/paride.o /modules
+a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
+a /lib/modules/<kernel_ver>/misc/parport_probe.o /modules
+
+a /lib/modules/<kernel_ver>/net/*.o /modules
+a /lib/modules/<kernel_ver>/scsi/*.o /modules
+
+# scsi
+r /modules/ide-scsi.o
+r /modules/scsi_debug.o
+r /modules/sg.o
+r /modules/qlogicfc.o
+r /modules/gdth.o
+r /modules/53c7,8xx.o
+r /moduels/ncr53c8xx.o
+r /modules/dc395x_trm.o
+r /modules/BusLogic.o
+r /modules/tmscsim.o
+r /modules/qlogicisp.o
+r /modules/dpt_i2o.o
+r /modules/eata_dma.o
+r /modules/eata.o
+r /modules/g_NCR5380.o
+r /modules/NCR53c406a.o
+r /modules/sym53c416.o
+
+# net
+r /modules/soundmodem.o
+r /modules/wanpipe.o
+r /modules/{pppox,ppp,ppp_deflate}.o
+r /modules/slip.o
+r /modules/{irda,irda_deflate}.o
+r /modules/syncppp.o
+r /modules/sktr.o
+
+r /modules/comx-hw-comx.o
+r /modules/comx-hw-locomx.o
+r /modules/comx-hw-mixcom.o
+r /modules/comx-proto-fr.o
+r /modules/comx-proto-lapb.o
+r /modules/comx-proto-ppp.o
+r /modules/comx.o
+r /modules/6pack.o
+r /modules/baycom_epp.o
+r /modules/baycom_par.o
+r /modules/bpqether.o
+r /modules/baycom_ser_fdx.o
+r /modules/baycom_ser_hdx.o
+r /modules/dlci.o
+r /modules/dmascc.o
+r /modules/hdlcdrv.o
+r /modules/ipddp.o
+r /modules/lapbether.o
+r /modules/mkiss.o
+r /modules/scc.o
+r /modules/sdla.o
+r /modules/sdladrv.o
+r /modules/x25_asy.o
+r /modules/yam.o
+r /modules/tulip.o
+r /modules/acenic.o
 endif
 
 ifarch alpha
