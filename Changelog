@@ -1,3 +1,6 @@
+25/9/2001:	v1.100
+	- add 'enableapic' to default boot entry
+
 24/9/2001:	v1.99
 	- remove 'rw' kernel parameter, this caused a fs check
 	  in some cases
