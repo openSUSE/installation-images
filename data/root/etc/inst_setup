@@ -42,6 +42,8 @@ done
 
 # effectively makes the kernel module dir tree writable
 /lbin/lndir $INSTSYS/lib/modules /lib/modules
+# make depmod happy if the running kernel doesnt match
+mkdir -p /lib/modules/`uname -r`
 
 echo "integrating the shared objects of the installation system..."
 ldconfig
