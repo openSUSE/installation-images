@@ -155,7 +155,7 @@ gzip:
 
 joe:
   /usr/bin/{joe,jmacs}
-  /etc/{joerc,jmacsrc}
+  /etc/joe/{joerc,jmacsrc}
 
 less:
   /etc
@@ -398,8 +398,8 @@ pwdutils:
   /usr/sbin/pwunconv
 
 openldap2-client:
-  /usr/lib*/liblber.so.*
-  /usr/lib*/libldap.so.*
+  /usr/lib*/liblber-*.so.*
+  /usr/lib*/libldap-*.so.*
 
 openssl:
   /usr/lib*/libcrypto.so.*

@@ -14,7 +14,6 @@ r /etc/hotplug
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
-r /etc/fvwmrc
 R s/product_name/<product_name>/ /etc/motd
 R s/product_name/<product_name>/ /etc/issue
 
@@ -118,7 +117,7 @@ gzip:
 
 joe:
   /usr/bin/joe
-  /etc/joerc
+  /etc/joe/joerc
 
 hwinfo:
   /usr/lib*
@@ -415,7 +414,6 @@ if with_yast2 ne 'no'
   xorg-x11-server:
     /usr/X11R6/bin/Xorg
     s Xorg /usr/X11R6/bin/XFree86
-    /usr/X11R6/lib*/modules/codeconv
     /usr/X11R6/lib*/modules/drivers/fbdev_drv.o
   if arch eq 'ppc' || arch eq 'ppc64'
     /usr/X11R6/lib*/modules/drivers/nv_drv.o
@@ -445,17 +443,12 @@ if with_yast2 ne 'no'
   endif
 
   xorg-x11-libs:
-    /usr/X11R6/lib*/lib{X11,Xext}.so*
+    /usr/X11R6/lib*/libX{11,ext,mu,muu,i,t,render,pm,randr,cursor,p,tst,inerama,xf86vm}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
-    /usr/X11R6/lib*/lib{Xmu,Xmuu,Xi,Xt,Xrender,Xpm,Xrandr,Xcursor}.so*
     /usr/X11R6/lib*/libXft.so.2*
     /usr/X11R6/lib*/libxkbfile.so.*
-    /usr/X11R6/lib*/libXxf86vm.so.*
-    /usr/X11R6/lib*/libXtst.so.*
-    /usr/X11R6/lib*/libXinerama.so.*
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
-    /usr/X11R6/lib*/libXxf86vm.so.*
 
   expat:
     /usr/lib*/libexpat.so*
@@ -751,11 +744,11 @@ netcfg:
 
 if with_yast2 ne 'no' && arch ne 's390' && arch ne 's390x'
   sax2:
-     /usr/X11R6/share/fvwm/fvwmrc.yast2
-  saxtools:
+     /usr/X11R6/lib*/sax/api/data/fvwmrc.yast2
+  sax2-tools:
      /usr/X11R6/bin
    r /usr/X11R6/bin/xkbset
-  saxident:
+  sax2-ident:
     /
 endif
 
@@ -859,8 +852,8 @@ heimdal-lib:
   /usr/lib*/libroken.so.*
 
 openldap2-client:
-  /usr/lib*/liblber.so.*
-  /usr/lib*/libldap.so.*
+  /usr/lib*/liblber-*.so.*
+  /usr/lib*/libldap-*.so.*
 
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*
@@ -963,7 +956,7 @@ gdbm:
   /usr/lib*/libgdbm.so.*
   /usr/lib*/libgdbm_compat.so.*
 
-xf86tools:
+fonts-config:
   /usr/sbin/fonts-config
 
 udpcast:

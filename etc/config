@@ -1,8 +1,9 @@
 ; versions
 [Version]
-default	= 9.1
-beta	= 9.1,beta
-debug   = 9.1,debug
+default	= 9.2
+beta	= 9.2,beta
+debug   = 9.2,debug
+9.2	= 9.2
 9.1	= 9.1
 sles9   = 9.1
 9.0	= 9.0
@@ -42,34 +43,17 @@ floppy	=
 yast	= SuSELinux
 splash	= SuSE
 product	= SUSE Linux
-version = 9.1
+version = 9.2
 update	= /linux/suse/<arch>-<rel>
 image	= 160
 
 
 [Theme Home]
-yast	= SuSELinux
-splash	= SuSE-Home
-product	= SUSE Linux
-version = 9.1
-update	= /linux/suse/<arch>-<rel>
-image	= 160
-
-
-[Theme SuSE-SLES]
-yast	= SuSELinux
-splash	= SuSE-SLES
-product	= SUSE LINUX Enterprise Server 9
-update	= /linux/suse/<arch>-<sles>
-memory	= 256
-image	= 160
-
-
-[Theme SuSE-NLD]
-yast	= SuSELinux
-splash	= SuSE-NLD
-product	= Novell Linux Desktop 9
-update	= /linux/suse/<arch>-<sles>
-image	= 160
+yast    = SuSELinux
+splash  = SuSE-Home
+product = SUSE Linux
+version = 9.2
+update  = /linux/suse/<arch>-<rel>
+image   = 160
 
 
