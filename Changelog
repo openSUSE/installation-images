@@ -1,3 +1,6 @@
+3/4/2004:	v5.38
+	- adjusted YaST memory limits (#34537)
+
 3/4/2004:	v5.37
 	- added dm-* modules (#37289)
 	- added iprutils for ppc to rescue
