@@ -1,6 +1,7 @@
 24/4/2001:	v1.59
 	- more mods & utils in rescue system
 	- re-added some tools formerly in nkitb
+	- no memtest on boot floppy
 
 24/4/2001:	v1.58
 	- added loop_fish2.o to inst-sys
