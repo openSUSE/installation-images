@@ -1,3 +1,10 @@
+18/4/2001:	v1.54
+	- integrated latest ia64 changes (by schwab)
+	- kkaempf: add y2d* packages
+
+8/4/2001:	v1.53
+	- new boot logo
+
 6/4/2001:	v1.52
 	- added lvm mods
 	- boot floppy didn't ask for modules disk

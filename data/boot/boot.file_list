@@ -25,22 +25,30 @@ if arch eq 'ia32'
   else
     x message /
     x syslinux.cfg /
-    x suselogo /
-    if memtest eq 'no'
+
+    # keep the picture for now
+    if 1 || boot ne 'small'
+      x suselogo /
+    else
+      R s/.*gfxboot.*//s /syslinux.cfg
+    endif
+
+    if memtest eq 'no' || boot eq 'small'
       R s/.*mem.*test.*//s /syslinux.cfg
     else
       lilo:
         m /boot/memtest.bin /memtest
     endif
+
   endif
   R s/x\.y/<suse_release>/ /message
 endif		# arch eq 'ia32'
 
 if arch eq 'ia64'
-  m /boot/<kernel_img> /
-  eli:
-    m /boot/eli.efi /
-  x eli.cfg /
+  m /boot/<kernel_img> /linux
+  gnu-efi:
+    m /boot/elilo.efi /
+  x elilo.conf /
   x startup.nsh /
 endif
 

@@ -1,2 +1,2 @@
 echo -off
-echo Type `eli' to start installation.
+echo Type `elilo' to start installation.

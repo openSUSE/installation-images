@@ -288,14 +288,12 @@ if arch eq 'ia32' || arch eq 'ppc'
     /sbin/activate
 endif
 
-if arch ne 'ia64'
-  if suse_release >= 7.1
-    raidtools:
-  else
-    mdutils:
-  endif
-    /sbin/*
+if suse_release >= 7.1
+  raidtools:
+else
+  mdutils:
 endif
+  /sbin/*
 
 if suse_major == 6
   mkdosfs:
