@@ -1,5 +1,6 @@
 25/2/2002:	v1.122
 	- move ssh startup to separate file
+	- add vnc and required font files
 
 18/2/2002:	v1.121
 	- drop firewire modules

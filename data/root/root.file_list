@@ -409,6 +409,14 @@ if with_yast2 ne 'no'
       /usr/bin
       /usr/share/xpenguins/themes/Penguins
 
+    xf86:
+      /usr/X11R6/lib/X11/fonts/misc/{cursor.pcf.gz,encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
+
+    vnc:
+      /usr/X11R6/bin/Xvnc
+      /usr/X11R6/bin/vncpasswd.arg
+
+
   endif
 endif
 
