@@ -5,7 +5,7 @@
 # Olaf Hering <olh@suse.de>
 # Michal Svec <msvec@suse.cz>
 #
-# $Id: create_interface,v 1.9 2003/09/14 12:40:13 snwint Exp $
+# $Id: create_interface,v 1.10 2003/09/23 12:29:54 snwint Exp $
 
 ROOT=$1
 INSTALLINF=/etc/install.inf
@@ -109,9 +109,9 @@ then
 #
 	NWMASK=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
 	[ -n "$NWMASK" ] && echo "NETMASK=\"$NWMASK\"" >> $DEVICEFILE
-	NW=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
+	NW=`grep Network: $INSTALLINF | uniq | sed -e 's/Network: \\(.*\\)/\\1/'`
 	[ -n "$NW" ] && echo "NETWORK=\"$NW\"" >> $DEVICEFILE
-	NWBROADCAST=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
+	NWBROADCAST=`grep Broadcast: $INSTALLINF | uniq | sed -e 's/Broadcast: \\(.*\\)/\\1/'`
 	[ -n "$NWBROADCAST" ] && echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
 
 #	
@@ -131,13 +131,13 @@ then
 #
 	DOMAIN=`grep Domain: $INSTALLINF | uniq | sed -e 's/Domain: \\(.*\\)/\\1/'`
 	NAMESERVER=`grep Nameserver: $INSTALLINF | uniq | sed -e 's/Nameserver: \\(.*\\)/\\1/'`
-	[ -n "$DOMAIN" ] && echo "domain $DOMAIN" >> $RESFILE
-	[ -n "$NAMESERVER" ] && echo "nameserver $NAMESERVER" >> $RESFILE
+	[ -n "$DOMAIN" -a ! -f "$RESFILE" ] && echo "domain $DOMAIN" >> $RESFILE
+	[ -n "$NAMESERVER" -a ! -f "$RESFILE" ] && echo "nameserver $NAMESERVER" >> $RESFILE
 
 #
 #	Create /etc/defaultdomain
 #
-	[ -n "$DOMAIN" ] && echo "$DOMAIN" >> $DOMFILE
+	[ -n "$DOMAIN" -a ! -f "$DOMFILE" ] && echo "$DOMAIN" >> $DOMFILE
 	WAIT_FOR_INTERFACES=`grep ConnectWait: $INSTALLINF | uniq | sed -e 's/ConnectWait: \\(.*\\)/\\1/'`
 	if [ -n "$WAIT_FOR_INTERFACES" ]
 	then

@@ -1,3 +1,7 @@
+23/9/2003:	v4.29
+	- fixed cut-and-paste-programming error in create_interface (#31455)
+	- do not touch resolv.conf and defaultdomain on update (#30672)
+
 19/9/2003:	v4.28
 	- keep module list sorted
 
