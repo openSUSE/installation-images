@@ -1,3 +1,5 @@
+	- s390: new hardware configuration format for install.inf
+
 17/2/2004:	v5.11
 	- anounce VNC sessions via SLP 
 
