@@ -43,6 +43,7 @@ die "usage: $Script\n" if @ARGV;
 
 $srcdir = "${DataPath}initrd";
 $tmpdir = "${BasePath}tmp/initrd";
+$tmpdir_root = "${BasePath}tmp/root";
 $moddir = "${BasePath}tmp/initrd/modules";
 $modlist = "${BasePath}tmp/initrd.modlist";
 $tmpdirx = "${BasePath}tmp/.initrd";
@@ -83,16 +84,18 @@ if($ENV{'keepinitrd'} != 1) {
   AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir, $ENV{'initrd'}, "${BasePath}tmp/initrd.opt_mods" or
     die "$Script: failed to setup initrd image";
 
+  print "creating devices...\n";
   SUSystem "sh -c 'cd $tmpdir; ./makedevs.floppy >/dev/null'" and
     die "$Script: could not create all devices";
   SUSystem "rm $tmpdir/makedevs.floppy";
 
-  # strip everything
+  print "stripping object files...\n";
   SUSystem "strip_dir $tmpdir";
 }
 
-# on S/390, the contains shared objects
+# on S/390, the initrd contains shared objects
 if ($arch eq 's390' || $arch eq 's390x') {
+    print "updating ld.so.cache...\n";
     SUSystem "ldconfig -r $tmpdir";
     die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
@@ -121,9 +124,17 @@ close F;
 # create the image
 # alternatively, check if ENV{initrd} eq 'small'
 $fstype = $arch eq 'i386' ? 'minix' : 'ext2';
+
+# add an inode for each symlink that will be added from the initrd to
+# the instsys.  this nice idea creates an unwanted dependency between
+# mk_root and mk_initrd:
+#$extra_inodes += `CONDOM=echo $tmpdir_root/usr/bin/conservative_lndir $tmpdir_root $tmpdir | grep "^ln" | wc --lines`;
+# thus we hardcode 800 additional inodes:
+$extra_inodes += 800; 
 Conv2Image $image, $tmpdir, $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
 
 # compress it
+print "compressing the image...\n";
 system "gzip -f -9 $image" and die "$Script: gzip failed";
 rename "${image}.gz", "$image";
 
