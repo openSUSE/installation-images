@@ -1,6 +1,7 @@
 24/2/2003:	v3.14
 	- updated module config
 	- added alias file to locale database (#23348)
+	- added .old modutils to rescue system (#24017)
 
 17/2/2003:	v3.13
 	- libresmgr moved to /lib

@@ -216,8 +216,8 @@ mktemp:
   /bin/mktemp
 
 modutils:
-  /sbin/{insmod,modprobe,rmmod,lsmod,ksyms,depmod}
-  /sbin/depmod.old
+  /sbin/{insmod,modprobe,rmmod,lsmod,depmod,ksyms}
+  /sbin/{insmod,modprobe,rmmod,lsmod,depmod}.old
 
 ncurses:
   /lib*/libncurses.so.5*
@@ -440,8 +440,8 @@ if arch ne 'sparc'
     f / hpfs.o
     f / loop_fish2.o
     f / xfs.o
-    f / xfs_support.o
-    f / xfs_dmapi.o
+#    f / xfs_support.o
+#    f / xfs_dmapi.o
 if arch eq 'alpha'
     m /boot/System.map-* /System.map
 else
