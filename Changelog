@@ -1,3 +1,4 @@
+	- s390: netsetup: accept spaces in QETH channel list (bug #37058)
 	- add ipr to iseries initrd
 	- add more dm-* modules to ppc initrds
 	- added getcfg & create_interface (#35624)

@@ -1040,6 +1040,7 @@ function load_QETH () {
 			DEVNOS="0.0.$READ_DEVNO,0.0.$WRITE_DEVNO,0.0.$DATA_DEVNO"
 		fi
 		readln "($DEVNOS): "
+		ANSW="`echo "$ANSW"|sed "s, ,,g"`"
 		[ -z "$ANSW" ] && ANSW="$DEVNOS"
 	fi
        DEVNOS=`echo "$ANSW"|check_qeth_channels` && break
