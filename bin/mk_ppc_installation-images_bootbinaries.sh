@@ -10,8 +10,6 @@ fi
 . /.buildenv
 CD1=$targetdir/CD1
 CD2=$targetdir/CD2
-k_deflt=`rpm -qf --qf %{VERSION} /boot/vmlinux-*-default`
-k_pmac64=`rpm -qf --qf %{VERSION} /boot/vmlinux-*-pmac64`
 #
 mkdir -pv $CD1/ppc/netboot
 mkdir -pv $CD1/ppc/chrp
@@ -27,10 +25,9 @@ cp -pfv /lib/lilo/chrp/yaboot.chrp $CD1/
 cp -pfv /lib/lilo/pmac/yaboot $CD1/suseboot/
 cp -pfv /boot/vmlinux-*-default $CD1/vmlinux32
 cp -pfv $bdir/initrd-kernel-default-ppc $CD1/initrd32
-cp -pfv /boot/vmlinux-*-pmac64 $CD1/vmlinux64
-cp -pfv $bdir/initrd-kernel-pmac64 $CD1/initrd64
+cp -pfv /boot/vmlinux-*-ppc64 $CD1/vmlinux64
+cp -pfv $bdir/initrd-kernel-ppc64 $CD1/initrd64
 cp -pfv $bdir/initrd-kernel-iseries64 $CD1/boot
-cp -pfv $bdir/initrd-kernel-pseries64 $CD1/boot
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
 	cp -pfv /lib/lilo/chrp/mkzimage_cmdline $CD1/ppc/netboot
@@ -39,8 +36,8 @@ fi
 #
 bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
 	/var/tmp/chrpinitrd.$$ \
-	/boot/vmlinux-*-pseries64 \
-	$bdir/initrd-kernel-pseries64 \
+	/boot/vmlinux-*-ppc64 \
+	$bdir/initrd-kernel-ppc64 \
 	$CD1/install
 #
 /lib/lilo/iseries/iseries-addRamDisk \
@@ -57,32 +54,21 @@ bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
 /lib/lilo/pmac/oldworld_coff/make_zimage_pmac_oldworld_coff.sh \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc32_pmac_coff \
-	--output $CD1/boot/install-pmaccoff-$k_deflt
+	--output $CD1/boot/install-pmaccoff
 #
 /lib/lilo/pmac/oldworld_coff/make_zimage_pmac_oldworld_coff.sh \
 	--vmlinux /boot/vmlinux-*-default \
-	--output $CD1/boot/vmlinux-pmaccoff-$k_deflt
+	--output $CD1/boot/vmlinux-pmaccoff
 #
 /lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
-	--output $CD1/boot/install-pmac-$k_deflt
+	--output $CD1/installpmac
 #
 /lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
-	--vmlinux /boot/vmlinux-*-default \
-	--output $CD1/boot/vmlinux-pmac-$k_deflt
-#
-/lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
-	--vmlinux /boot/vmlinux-*-pmac64 \
-	--initrd $bdir/initrd-kernel-pmac64 \
-	--output $CD1/boot/install-pmac64-$k_pmac64
-#
-/lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
-	--vmlinux /boot/vmlinux-*-pmac64 \
-	--output $CD1/boot/vmlinux-pmac64-$k_pmac64
-#
-ln -sv boot/install-pmac-$k_deflt       $CD1/installpmac
-ln -sv boot/install-pmac64-$k_pmac64	$CD1/installpmac64
+	--vmlinux /boot/vmlinux-*-ppc64 \
+	--initrd $bdir/initrd-kernel-ppc64 \
+	--output $CD1/installpmac64
 #
 cat > $CD1/ppc/bootinfo.txt <<EOF
 <chrp-boot>
@@ -101,8 +87,6 @@ cat > $CD1/yaboot.txt <<EOF
   Use  "install"     to boot the pSeries 64bit kernel
   Use  "install32"   to boot the 32bit RS/6000 kernel
 
-  You can pass the option "noinitrd"  to skip the installer.
-  Example: install noinitrd root=/dev/sda4
 
 EOF
 cat $CD1/yaboot.txt
@@ -111,7 +95,7 @@ cat > $CD1/etc/yaboot.conf <<EOF
 message=yaboot.txt
 image=install
   label=install
-#  append="quiet ide0=noautotune       "
+  append="quiet                       "
 image=cdrom:1,\\vmlinux32
   label=install32
   initrd=cdrom:1,\\initrd32
