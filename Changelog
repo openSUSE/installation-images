@@ -1,3 +1,4 @@
+	- s390: netsetup: add "NetConfig: static" to install.inf (bug #36252)
 	- s390: (lukem)ftp _is_ needed
 
 17/3/2004:	v5.28
