@@ -584,21 +584,21 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
 
     $i = $ConfigData{buildroot} ? "-r $ConfigData{buildroot}" : "";
 
-    my $kn = `rpm $i -qf /boot/$ConfigData{kernel_img} | head -1 | cut -d- -f1` if -f "$ConfigData{buildroot}/boot/$ConfigData{kernel_img}";
+    my $kn = `rpm $i -qf /boot/$ConfigData{kernel_img} | head -n 1 | cut -d- -f1` if -f "$ConfigData{buildroot}/boot/$ConfigData{kernel_img}";
     chomp $kn if $kn;
 
     $ConfigData{kernel_rpm} = $kn if !$ENV{kernel} && $kn;
 
     die "oops: unable to determine kernel rpm (looking for /boot/$ConfigData{kernel_img})" unless $ConfigData{kernel_rpm};
 
-    $kv = `rpm $i -ql $ConfigData{kernel_rpm} 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
+    $kv = `rpm $i -ql $ConfigData{kernel_rpm} 2>/dev/null | grep modules | head -n 1 | cut -d / -f 4`;
   }
   else {
     $kv = RPMFileName $ConfigData{kernel_rpm};
 
     $ConfigData{kernel_img} = KernelImg $ConfigData{kernel_img}, (`rpm -qlp $kv 2>/dev/null | grep /boot`);
 
-    $kv = `rpm -qlp $kv 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
+    $kv = `rpm -qlp $kv 2>/dev/null | grep modules | head -n 1 | cut -d / -f 4`;
   }
   chomp $kv;
 

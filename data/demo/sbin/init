@@ -341,7 +341,7 @@ if [ $0 = /sbin/init ] ; then
       echo "/.SuSE/$suseloop /S.u.S.E. ext2 defaults,ro,loop=/dev/loopc0 0 0" >>/etc/fstab
     fi
     mount /S.u.S.E.
-    fstype=`grep '/\.SuSE' /etc/mtab | head -1 | cut -d \  -f 3`
+    fstype=`grep '/\.SuSE' /etc/mtab | head -n 1 | cut -d \  -f 3`
     if [ "$fstype" ] ; then
       sed -e "s/\.SuSE auto/.SuSE $fstype/" \
           -e "s/\.SuSE iso9660/.SuSE $fstype/" /etc/fstab >/tmp/fstab

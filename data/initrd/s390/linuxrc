@@ -54,7 +54,7 @@ mount -t devpts devpts /dev/pts
 #
 #	Check the memory. If less than 256 Mb issue a warning.
 #
-set -- `cat /proc/meminfo | head -2 | tail -1`
+set -- `cat /proc/meminfo | head -n 2 | tail -n 1`
 if [ ${#2} -lt 10 ]
 then
 	let MEM="$2/1024/1024"

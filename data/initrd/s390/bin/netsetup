@@ -95,7 +95,7 @@ function yes_no () {
 # Check memory and issue a waring if we do not have a certain amount
 #
 function check_memory () {
-	set -- `cat /proc/meminfo | head -2 | tail -1`
+	set -- `cat /proc/meminfo | head -n 2 | tail -n 1`
 	# 1GB of memory is enough and bash cannot use nums >2^31 (signed int)
 	[ ${#2} -gt 9 ] && return
 	let MEM="$2/1024/1024"
@@ -866,7 +866,7 @@ function load_LCS_chandev () {
   fi
   echo "First 16 possible OSA / OSA-2 channel devices detected:"
   echo "chan_type is a bitfield of: CTC=1 ESCON=2 LCS=0x4"
-  sort -k 2 lcs_detected | head -18 | sed 's/^0x//;s/^/ /;s/0x/  /g'
+  sort -k 2 lcs_detected | head -n 18 | sed 's/^0x//;s/^/ /;s/0x/  /g'
   echo 
   echo "We recommend to only use LCS autoprobing if Linux can see only two channel"
   echo "devices and you are sure that the relative adapter number 0 is not used"
@@ -875,7 +875,7 @@ function load_LCS_chandev () {
   echo "device number will be one greater. For autoprobing enter \"auto\"."
   AUTO_DEVNO="$DEVNO"
   [ -z "$DEVNO" -o "$DEVNO" = auto ] &&
-	DEVNO=`sed -n 's/^\(0x...[02468ace]\).*/\1/p' lcs_detected | head -1`
+	DEVNO=`sed -n 's/^\(0x...[02468ace]\).*/\1/p' lcs_detected | head -n 1`
   ANSW="yes"
   NO_ERROR="yes"
   while [ "$ANSW" = "yes" ]; do
@@ -1071,7 +1071,7 @@ function load_QETH () {
   fi
   echo "First $NETTYPE Channels that were detected:"
   echo "Device Addresses CHPID(s)"
-  sed 's/^\(....\)/            \1/;s/0* *$//g' chandet.qeth|head -20
+  sed 's/^\(....\)/            \1/;s/0* *$//g' chandet.qeth|head -n 20
 
   if [ "$DEVNO" != auto -a "$DEVNO" != "${DEVNO//[^0-9a-fA-F]/}" ]; then
     echo "Device address $DEVNO contains non-hexadecimal characters, ignoring it."
@@ -1128,7 +1128,7 @@ function load_QETH () {
         DEVNO1=$DEVNO
         DEVNO=auto
       else
-        DEVNO1=`sed -n 's/^\(....\) .*/\1/p' qeth_read_chans | head -1`
+        DEVNO1=`sed -n 's/^\(....\) .*/\1/p' qeth_read_chans | head -n 1`
       fi
       DEVNO2=`printf %04x $(( 0x$DEVNO1 + 1 ))`
       if grep -q "^${DEVNO2} " chandet.qeth; then
@@ -1139,7 +1139,7 @@ function load_QETH () {
           DEVNO=$DEVNO1
           break
         fi
-	DEVNO3=`sed -n 's/^\(....\) .*/\1/p' qeth_data_chans | head -1`
+	DEVNO3=`sed -n 's/^\(....\) .*/\1/p' qeth_data_chans | head -n 1`
 	if [ "$DEVNO3" ]; then
           DEVNO=$DEVNO1
 	  break
@@ -1165,14 +1165,14 @@ function load_QETH () {
         DEVNO1=$DEVNO
         DEVNO=auto
       else
-        DEVNO1=`sed -n 's/^\(....\) .*/\1/p' chandet.hsi | head -1`
+        DEVNO1=`sed -n 's/^\(....\) .*/\1/p' chandet.hsi | head -n 1`
       fi
       CHPIDlist=`sed -n "s/^${DEVNO1} \([0-9a-f]*\) */\1/p" chandet.hsi`
       if [ "$DEVNO2" != auto ]; then
 	grep -q -e "^${DEVNO2} ${CHPIDlist}" chandet.hsi || DEVNO2=auto
       fi
       if [ "$DEVNO2" = auto ]; then
-        DEVNO2=`grep "${CHPIDlist}" chandet.hsi | grep -v "^${DEVNO1} "|head -1|sed -n 's/^\(....\) .*/\1/p'`
+        DEVNO2=`grep "${CHPIDlist}" chandet.hsi | grep -v "^${DEVNO1} "|head -n 1|sed -n 's/^\(....\) .*/\1/p'`
       fi
       if [ -z ${DEVNO2} ]; then
 	mv chandet.hsi chandet.hsi.old
@@ -1184,7 +1184,7 @@ function load_QETH () {
       fi
       if [ "$DEVNO3" = auto ]; then
         DEVNO3=`grep "${CHPIDlist}" chandet.hsi |
-		grep -v -e "^${DEVNO1} " -e "^${DEVNO2} "|head -1 |sed -n 's/^\(....\) .*/\1/p'`
+		grep -v -e "^${DEVNO1} " -e "^${DEVNO2} "|head -n 1 |sed -n 's/^\(....\) .*/\1/p'`
       fi
       if [ -z ${DEVNO3} ]; then
 	mv chandet.hsi chandet.hsi.old
@@ -1329,12 +1329,12 @@ function load_CTC_chandev () {
   fi
   echo "List of first 10 $NETTYPE Channels that were detected:"
   echo "Dev. Channel type  CHPIDS"
-  head -10 ctc_detected
+  head -n 10 ctc_detected
   ANSW="yes"
   NO_ERROR=yes
   while [ "$ANSW" = "yes" ]; do
 	[ -z "$DEVNO" -o "$DEVNO" = auto ] &&
-           DEVNO=`cut -d' ' -f 1 ctc_detected | head -1`
+           DEVNO=`cut -d' ' -f 1 ctc_detected | head -n 1`
         LAST_DEVNO="$DEVNO"
 	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
 	then
@@ -1350,7 +1350,7 @@ function load_CTC_chandev () {
 	grep "^$DEVNO " ctc_detected >ctc_DEVNO
 	[ -s ctc_DEVNO ] || echo "Warning: $DEVNO is not a detected $NETTYPE channel"
 	[ "$LAST_DEVNO" = "$DEVNO" ] || DEVNO2=`echo | sed -n "1,/$DEVNO /d;s/^\(....\).*/\1/p;q" - ctc_detected`
-	[ -z "$DEVNO2" -o "$DEVNO2" = auto ] && DEVNO2=`cut -d' ' -f 1 ctc_detected | head -2|tail -1`
+	[ -z "$DEVNO2" -o "$DEVNO2" = auto ] && DEVNO2=`cut -d' ' -f 1 ctc_detected | head -n 2|tail -n 1`
 	if [ "$AUTOINSTALL" = "yes" -a "$NO_ERROR" = "yes" ]
 	then
 		echo "Device address for write channel ($DEVNO2): $WRITE_DEVNO"
