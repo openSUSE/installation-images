@@ -481,6 +481,9 @@ if with_yast2 ne 'no'
     /
   yast2-qt:
     /
+    r /usr/X11R6/lib/X11/fonts/uni/newunifont[BI]*.pcf.gz
+    r /usr/X11R6/lib/X11/fonts/uni/unifont.pcf.gz
+    
   yast2-repair:
     /
   yast2-storage:
@@ -559,6 +562,7 @@ if with_yast2 ne 'no'
       /usr/X11R6/lib/X11/fonts/URW
       /usr/share/ghostscript/fonts/fonts.scale
       /usr/share/ghostscript/fonts/n019003l.pfb
+      /usr/share/ghostscript/fonts/n019063l.pfb
       /usr/share/ghostscript/fonts/n019004l.pfb
       /usr/share/ghostscript/fonts/n019024l.pfb
   endif
@@ -846,19 +850,30 @@ ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
 
+freefont:
+  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
+
 if with_yast2 ne 'no'
   if with_vera_font ne 'no'
-    e mkfontscale usr/X11R6/lib/X11/fonts/truetype
-    e mkfontdir usr/X11R6/lib/X11/fonts/truetype
-    e fc-cache usr/X11R6/lib/X11/fonts/truetype
+    # e mkfontscale usr/X11R6/lib/X11/fonts/truetype
+    # e mkfontdir usr/X11R6/lib/X11/fonts/truetype
+    # e fc-cache usr/X11R6/lib/X11/fonts/truetype
   else
     e mkfontscale usr/share/ghostscript/fonts
     e mkfontdir usr/share/ghostscript/fonts
     e fc-cache usr/share/ghostscript/fonts
   endif
+
+  e mkfontscale usr/X11R6/lib/X11/fonts/truetype
+  e mkfontdir usr/X11R6/lib/X11/fonts/truetype
+  e fc-cache usr/X11R6/lib/X11/fonts/truetype
+
+  e mkfontscale usr/X11R6/lib/X11/fonts/misc
   e mkfontdir usr/X11R6/lib/X11/fonts/misc
-  e mkfontdir usr/X11R6/lib/X11/fonts/uni
+  e fc-cache usr/X11R6/lib/X11/fonts/misc
+
   e mkfontscale usr/X11R6/lib/X11/fonts/uni
+  e mkfontdir usr/X11R6/lib/X11/fonts/uni
   e fc-cache usr/X11R6/lib/X11/fonts/uni
 
   e touch usr/X11R6/lib/X11/fonts/*/*

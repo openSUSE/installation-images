@@ -169,6 +169,7 @@ Section "Device"
   #BusID		"98:76:54"
   # vga_options
   Option	"KGAUniversal"
+  Option	"VGAClocks"
 EndSection
 
 Section "ServerLayout"
