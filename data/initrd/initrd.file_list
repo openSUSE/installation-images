@@ -15,6 +15,7 @@ else
   endif
 endif
 
+if !(arch eq 's390' || arch eq 's390x')
 <kernel_rpm>:
 
 # we support 3 different initrd sizes: 'small', '', 'large'
@@ -391,3 +392,4 @@ ifarch ia64
 
 endif
 
+endif # not arch s390

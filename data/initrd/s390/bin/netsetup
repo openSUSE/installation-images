@@ -431,8 +431,8 @@ function activate_config() {
 	if [ $EXIT_CODE -gt 0 ]; then
 	    echo "Warning: The DNS address $IP_DNS did not ping."
 	    echo "Diagnostics:"
-	    echo "traceroute to the DNS IP with max ttl 10, waittime 1, one probe per hop:"
-	    execcmd "traceroute -m 10 -n -w 1 -q 1 $IP_DNS"
+	    echo "tracepath to the DNS IP $IP_DNS:"
+	    execcmd "tracepath $IP_DNS"
 	    echo "Flaky DNS will cause delays when logging in and during"
 	    echo "Installation. To disable DNS enter: \"nodns\"."
 	fi
@@ -1072,7 +1072,7 @@ fi
 
 # set debug to yes/no
 #set -vx
-DEBUG=yes
+: ${DEBUG=no}
 
 if [ "$DEBUG" = "no" ]
 then INSTALLINF="/etc/install.inf"

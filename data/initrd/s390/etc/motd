@@ -1,0 +1,22 @@
+  
+  >>> >>> >>> SuSE Linux Enterprise Server 7 for S/390 and zSeries <<< <<< <<<
+
+             Choose the device numbers you want to use for Linux 
+                !!!    BE CAREFUL WHEN SELECTING DASDs -   !!!
+                !!! YOU MAY DESTROY DATA ON SHARED DEVICES !!!
+
+    1. Enter 'insmod dasd dasd=<list of devices>'
+       Remember to separate devices by commas (<dev_no>,<dev_no>),
+       syntax for ranges is <from_dev_no>-<to_dev_no>
+       like 
+              'insmod dasd dasd=FD00-FD0F,FD40,FD42,FD80-FD86'
+
+       Note: When updating, you have to load the dasd driver with the
+       same DASD order as in the installed system  - see documentation
+       for further information.
+
+    2. Start installation or update with  'YaST'.
+
+       In case your function keys don't work, you can emulate them with
+       Ctrl-F Number, e.g. for F1: Ctrl-F and then '1'.
+
