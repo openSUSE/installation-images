@@ -1,3 +1,6 @@
+21/10/2003:	v2.116
+	- ignore qla2x00-60500 modules
+
 13/10/2003:	v2.115
 	- added README for special iLO disks
 
