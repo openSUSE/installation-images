@@ -86,7 +86,10 @@ modules: dirs base
 	bootsplash=modules1 bin/mk_mod_disk
 
 moduledisks:
-	@for i in 1 2 3 4; do modules=$$i make modules; done
+	modules=1 make modules
+	modules=2 make modules
+	modules=3 make modules
+	modules=4 make modules
 
 mboot:
 	make -C src/mboot
