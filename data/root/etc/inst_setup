@@ -3,8 +3,11 @@ echo
 yast="$1"
 shift
 
+#grep eth /proc/net/dev >/dev/null  2>&1 ; if [ "$?" = 0 -a -x /usr/sbin/sshd ] ; then echo blah ; fi
+grep eth /proc/net/dev >/dev/null  2>&1 
+
 # start sshd 
-if [ -x /usr/sbin/sshd ] ; then
+if [ "$?" = 0 -a -x /usr/sbin/sshd ] ; then
 	SSH_FAILED=
 	echo running $0 $*
 	echo /usr/sbin/sshd found, prepare remote login
@@ -36,10 +39,10 @@ if [ -x /usr/sbin/sshd ] ; then
 	echo
 	for i in 5 4 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
 	echo
-	echo mach bunt...
+	echo -n " mach bunt... "
 	echo press return
 	read i
-	for i in 5 4 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
+	for i in 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
 	echo
 fi
 
