@@ -1,5 +1,7 @@
 #! /usr/bin/perl
 
+sub build_archive;
+
 # make all locales links to en_US, cs_CZ or ru_RU
 # according to the needed iso...
 
@@ -12,17 +14,7 @@
 
 die "no locale archive\n" unless -f "/usr/lib/locale/locale-archive";
 
-system "mkdir -p /tmp/usr/lib/locale";
-system "rm -f /tmp/usr/lib/locale/locale-archive";
-
-for (@real_locales) {
-  @l = split /\//;
-  die "oops, wrong locale data" unless @l == 2;
-  $l = $l[0];
-  $l =~ s/\..*$//;
-  print "localedef --prefix=/tmp -c -i $l -f $l[1] $l[0]\n";
-  die "oops, locale build failed" if system "localedef --prefix=/tmp -c -i $l -f $l[1] $l[0]";
-}
+build_archive 0;
 
 chomp(@l = `localedef --prefix=/tmp --list-archive`);
 @real_locales{@l} = ();
@@ -55,4 +47,29 @@ for (sort keys %all_locales) {
 open F, ">/tmp/locale.alias";
 print F @aliases;
 close F;
+
+build_archive 1;
+
+
+sub build_archive
+{
+  my ($with_aliases, $localedef);
+
+  $with_aliases = shift;
+
+  $localedef = "localedef";
+  $localedef .= " --alias-file=/tmp/locale.alias" if $with_aliases;
+
+  system "mkdir -p /tmp/usr/lib/locale";
+  system "rm -f /tmp/usr/lib/locale/locale-archive";
+
+  for (@real_locales) {
+    @l = split /\//;
+    die "oops, wrong locale data" unless @l == 2;
+    $l = $l[0];
+    $l =~ s/\..*$//;
+    print "$localedef --prefix=/tmp -c -i $l -f $l[1] $l[0]\n";
+    die "oops, locale build failed" if system "$localedef --prefix=/tmp -c -i $l -f $l[1] $l[0]";
+  }
+}
 

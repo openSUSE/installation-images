@@ -1,3 +1,7 @@
+24/2/2003:	v3.14
+	- updated module config
+	- added alias file to locale database (#23348)
+
 17/2/2003:	v3.13
 	- libresmgr moved to /lib
 	- new splash code: (splash files are no longer added to initrd,

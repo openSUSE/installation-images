@@ -168,8 +168,7 @@ glibc-locale:
   /usr/lib*/gconv/gconv-modules*
 
   # built in base system
-  d usr/lib/locale usr/share/locale
-  e cp /tmp/locale.alias usr/share/locale
+  d usr/lib/locale
   e cp /tmp/usr/lib/locale/locale-archive usr/lib/locale
 
 if !(arch eq 's390' || arch eq 's390x')
