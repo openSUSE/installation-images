@@ -52,6 +52,13 @@ sub Conv2Image
     return;
   }
 
+  if($fs eq 'cpio') {
+    SUSystem "rm -f $image";
+    system "touch $image";	# just to ensure the image gets the correct owner
+    SUSystem "sh -c '( cd $dir ; find . | cpio --quiet -o -H newc ) >$image'" and die "$Script: cpio failed";
+    return;
+  }
+
   if($fs eq 'minix' && !-x('/sbin/mkfs.minix')) {
     $fs = 'ext2';
     print STDERR "WARNING: no support for minix fs; using ext2!\n"

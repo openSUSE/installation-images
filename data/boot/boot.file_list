@@ -25,7 +25,11 @@ if arch eq 'ia32' || arch eq 'x86_64'
     if boot eq 'medium'
       e cp /<splash_theme>/floppy/*.spl . || true
     else
-      e cp /<splash_theme>/*.spl .
+      if initramfs
+        e cp /<splash_theme>/gz/*.spl .
+      else
+        e cp /<splash_theme>/*.spl .
+      endif
     endif
   endif
 

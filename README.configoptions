@@ -57,7 +57,10 @@ o base
 o initrd
 
   initrd_fs=<fstype>
-  - use fstype for initrd (default: minix or ext2, depending on arch)
+  - use fstype for initrd (default: ext2)
+
+  initramfs=1
+  - build initramfs
 
   linuxrc=<absolute_filename>
   - use the specified linuxrc (taken from the running system!)

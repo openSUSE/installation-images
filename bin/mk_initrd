@@ -134,8 +134,7 @@ if($ENV{initrd_fs}) {
   $fstype = $ENV{initrd_fs};
 }
 else {
-#  $fstype = $arch eq 'i386' || $arch eq 'x86_64' ? 'minix' : 'ext2';
-  $fstype = 'ext2';
+  $fstype = $ENV{initramfs} ? 'cpio' : 'ext2';
 }
 
 # add an inode for each symlink that will be added from the initrd to

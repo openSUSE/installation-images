@@ -1,3 +1,5 @@
+	- prepare for initramfs
+
 17/2/2005:	v6.32
 	- use cifs instead of samba
 	- add some libs to initrd, as linuxrc is no longer statically linked

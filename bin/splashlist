@@ -40,6 +40,7 @@ for (sort keys %st) {
   print W
     "  d /$_\n" .
     "  d /$_/floppy\n" .
+    "  d /$_/gz\n" .
     "if arch eq 'ia32' || arch eq 'x86_64'\n" .
     "    E make -C /usr/share/gfxboot/themes/$_\n" .
     "    E cp /usr/share/gfxboot/themes/$_/install/bootlogo /$_\n" .
@@ -55,7 +56,8 @@ for (sort keys %st) {
 
   for $res (split /\s|,/, $ConfigData{ini}{Splash}{cdrom}) {
     $res2 = sprintf "%04u%04u", split(/x/, $res);
-    print W "  E splash.bin -s${full_splash} -f /etc/bootsplash/themes/$_/config/bootsplash-${res}.cfg >/$_/${res2}.spl\n";
+    print W "  E splash -s${full_splash} -f /etc/bootsplash/themes/$_/config/bootsplash-${res}.cfg >/$_/${res2}.spl\n";
+    print W "  E splash -s${full_splash} -c -f /etc/bootsplash/themes/$_/config/bootsplash-${res}.cfg | gzip -9c >/$_/gz/${res2}.spl\n";
     print W "  l /$_/${res2}.spl /$_/floppy\n" if exists $fl_spl{$res};
   }
   print W "\n";

@@ -34,6 +34,11 @@ glibc:
       m /usr/sbin/linuxrc /linuxrc
     endif
 
+  if initramfs
+    l linuxrc init
+    r linuxrc
+  endif
+
   x etc/syslog.conf etc
 
   module-init-tools:
