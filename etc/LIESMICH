@@ -1,12 +1,5 @@
-
-
-
-!!!  Sie benötigen zusätzlich zur Bootdiskette auch Moduldiskette 1.  !!!
-
-
-
-Eine kurze Beschreibung der Disketten
--------------------------------------
+Bootdiskette erstellen
+----------------------
 
 Sämtliche Kernel sind modularisiert. Das bedeutet, daß fast alle Treiber als
 Module nachgeladen werden.
@@ -14,30 +7,71 @@ Module nachgeladen werden.
 Sie können eine neue Boot-/Installations-Diskette erstellen, wenn Sie Zugang
 zu einem laufenden Linux- oder DOS-System haben.
 
-Wählen Sie entspechend der Liste weiter unten das geeignete Image aus.
-
-Benutzen Sie unter DOS das Programm CD1:/dosutils/rawrite/rawrite.exe, um das
-Image auf eine formatierte 1.44MB-Diskette zu schreiben.
+Benutzen Sie unter DOS das Programm CD1:/dosutils/rawrite/rawrite.exe, um
+das Image auf eine formatierte 1.44MB-Diskette zu schreiben. Für Windows
+gibt es entspechend CD1:/dosutils/rawwritewin/rawwritewin.exe.
 
 Unter Linux gehen Sie bitte so vor:
 
-  cd /whereCD1isMounted/disks
-  dd if=./myBestBootImageAccordingToReadme of=/dev/fd0u1440
+  cd /where_CD1_is_mounted/boot
+  dd if=bootdisk of=/dev/fd0u1440
 
-----------------------------------------------------------------------------
-bootdisk:  Standard Bootdiskette
+Zusätzlich zur Bootdiskette benötigen Sie auch Moduldiskette 1!
 
-i386:      Bootdiskette für i386 und ältere Cyrix-Prozessoren.
 
-rescue:    Rettungssystem
 
-Auf die Bootdiskette passen nur wenige Module. Daher gibt es drei
+Moduldiskette erstellen
+-----------------------
+
+Auf die Bootdiskette passen nur wenige Module. Daher gibt es vier
 Moduldisketten. Wenn Sie "Ihren" Treiber nicht auf der normalen Bootdiskette
 finden, legen Sie nach dem Start von linuxrc die entsprechende Moduldiskette
 ein.
 
-modules1:  USB- und Dateisystem-Module.
+Wählen Sie entspechend der Liste weiter unten das geeignete Image aus.
 
-modules2:  SCSI/RAID/EIDE-Module und alte (nicht-ATAPI) CDROM-Treiber.
+Unter Windows/DOS gehen Sie bitte wie in "Bootdiskette erstellen"
+beschrieben vor. Unter Linux gehen Sie bitte so vor:
 
-modules3:  Netzwerk-, PCMCIA- und FireWire-Module.
+  cd /where_CD1_is_mounted/boot
+  dd if=modules1 of=/dev/fd0u1440
+
+Natürlich müssen Sie statt "modules1" den Namen der Moduldiskette nehmen,
+die Sie erstellen wollen.
+
+modules1:  USB- und FireWire-Module.
+
+modules2:  IDE/RAID/SCSI-Module.
+
+modules3:  Netzwerkmodule.
+
+modules4:  PCMCIA- und Dateisystem-Module und alte (nicht-ATAPI) CDROM-Treiber.
+
+In modules[1234].txt finden Sie eine ausführliche Liste.
+
+
+
+Rettungsdiskette erstellen
+--------------------------
+
+Es befindet sich bereits ein Rettungssystem auf dieser CD. Für den Fall, daß
+Ihr Computer nicht auf das CD-Laufwerk zugreifen kann oder das
+Rettungssystem zu groß ist, können Sie eine Rettungsdiskette erstellen.
+
+Unter Windows/DOS gehen Sie bitte wie in "Bootdiskette erstellen"
+beschrieben vor. Unter Linux gehen Sie bitte so vor:
+
+  cd /where_CD1_is_mounted/boot
+  dd if=rescuefloppy of=/dev/fd0u1440
+
+
+
+Was bedeuten die anderen Dateien in diesem Verzeichnis?
+-------------------------------------------------------
+
+rescue:    (Großes) Rettungssystem.
+
+root:      Installationssystem.
+
+loader:    Vom Bootmanager benötigte Dateien.
+
