@@ -1,3 +1,5 @@
+	- add ibmvscsis vscsi server for pseries
+
 16/4/2004:	v5.41
 	- Fixed netsetup to not sleep for qeth deviced (#38816).
 	  Using correct path for statistics in netsetup.
