@@ -569,8 +569,9 @@ for (@f) {
 
   $ENV{theme} = "SuSE" unless $ENV{theme};
   $ENV{product} = $prod unless $ENV{product};
+  $ENV{productname} = $ENV{theme} eq 'UnitedLinux' ? 'UnitedLinux' : 'SuSE Linux';
 
-  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base pre_release theme product) ) {
+  for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base pre_release theme product productname) ) {
     $ConfigData{$_} = $ENV{$_}
   }
 
