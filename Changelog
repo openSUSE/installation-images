@@ -2,6 +2,7 @@
 	- creating kernel modules 'updated' link (#44740)
 	- removed /sbin/quick_* (#45106)
 	- use linuxrc specific fonts
+	- syslinux has moved
 
 2/9/2004:	v6.8
 	- handle sparse files (#44603)

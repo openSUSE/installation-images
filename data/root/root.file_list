@@ -392,7 +392,7 @@ r root mnt tmp usr/libexec
 
 if arch eq 'ia32'
   syslinux:
-    /usr/sbin/syslinux
+    /usr/bin/syslinux
 endif
 
 netcfg:

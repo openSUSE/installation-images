@@ -131,7 +131,7 @@ zlib:
 
 if arch eq 'ia32' || arch eq 'x86_64'
   syslinux:
-    /usr/sbin/syslinux
+    /usr/bin/syslinux
     /usr/share/syslinux/isolinux*
 endif
 

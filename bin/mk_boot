@@ -61,7 +61,7 @@ if($ia32_like) {
   if($ENV{'syslinux'}) {
     $syslx = $ENV{'syslinux'};
   } else {
-    $syslx = "${BasePath}tmp/base/usr/sbin/syslinux"
+    $syslx = "${BasePath}tmp/base/usr/bin/syslinux"
   }
   die "$Script: where is syslinux?" unless -x $syslx;
 
