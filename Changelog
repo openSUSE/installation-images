@@ -1,4 +1,6 @@
+16/12/2003:	v5.01
 	- switch ADB keyboards to linuxkeycodes
+	- new boot disk layout
 
 18/11/2003:	v5.00
 	- moved to kernel 2.6
