@@ -349,6 +349,7 @@ if arch eq 's390' || arch eq 's390x'
   x s390/linuxrc         /linuxrc
   x s390/linuxrc.finish  /linuxrc.finish
   x s390/linuxrc.init    /linuxrc.init
+  x s390/linuxrc.config  /linuxrc.config
   x s390/sbin/halt       /sbin/halt
   x s390/sbin/nodns      /sbin/nodns
   x s390/sbin/start_yast /sbin/yast
