@@ -1,5 +1,6 @@
 11/7/2002:	v2.16
 	- added saxident
+	- corrected some devs package confusion
 
 10/7/2002:	v2.15
 	- avoid mixing 32/64 bit pthread libs
