@@ -33,11 +33,13 @@ kernel/drivers/char/agp/
 kernel/drivers/message/fusion
 kernel/drivers/message/i2o
 kernel/fs/ext3/
+kernel/fs/fat/
 kernel/fs/hpfs/
 kernel/fs/jbd/
 kernel/fs/jfs/
 kernel/fs/reiserfs/
 kernel/fs/smbfs/
+kernel/fs/vfat/
 pcmcia-external/
 -/pcmcia/
 -pcmcia-external/net/8390.o

@@ -547,7 +547,7 @@ if with_yast2 ne 'no'
       /usr/lib/libqt*.so.3
       /usr/lib/qt-3.*/lib/libqt*.so*
       d /usr/lib/qt3/etc/settings
-      e echo -e "[General]\nenableXft=false\nuseXft=false" >/usr/lib/qt3/etc/settings/qtrc
+#      e echo -e "[General]\nenableXft=false\nuseXft=false" >/usr/lib/qt3/etc/settings/qtrc
   else
     qt:
       /usr/lib/libqt.so.2

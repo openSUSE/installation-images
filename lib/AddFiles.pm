@@ -68,7 +68,7 @@ sub AddFiles
   my ($inc_file, $inc_it, $debug, $ifmsg, $ignore);
   my ($old_warn, $ver, $i, $cache_dir);
   my (@scripts, $s, @s, %script, $use_cache);
-  my (@packs);
+  my (@packs, $sl);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
@@ -268,18 +268,15 @@ sub AddFiles
       }
       $ver .= '*' if defined($rc) && $rc eq $r;
 
-      if($debug =~ /\bscripts\b/) {
-        my ($sl);
+      undef $sl;
 
-        for $s ( 'prein', 'postin' ) {
-          @s = `rpm --queryformat '%{\U$s\E}' -qp $r 2>/dev/null`;
-          if(!(@s == 0 || $s[0] =~ /^\(none\)\s*$/)) {
-            $sl .= "," if $sl;
-            $sl .= $s;
-          }
-        }
-        $ver .= " \{$sl\}" if $sl;
+      @s = `rpm -qp --qf '%|PREIN?{PREIN\n}:{}|%|POSTIN?{POSTIN\n}:{}|%|PREUN?{PREUN\n}:{}|%|POSTUN?{POSTUN\n}:{}|' $r 2>/dev/null`;
+      for $s (@s) {
+        chomp $s;
+        $sl .= "," if $sl;
+        $sl .= "\L$s";
       }
+      $ver .= " \{$sl\}" if $sl;
 
       print "adding package $p$ver\n" if $debug =~ /\bpkg\b/;
 
@@ -491,11 +488,11 @@ sub AddFiles
         print "running \"$cmd\" script\n" if $debug =~ /\bpkg\b/;
 #        SUSystem "sh -c 'cd $dir; sh install/inst.sh'"
         if($xdir eq 'base') {
-          $r = SUSystem "chroot $dir /bin/sh -c 'sh install/inst.sh'";
+          $r = SUSystem "chroot $dir /bin/sh -c 'sh install/inst.sh 1'";
         }
         else {
           SUSystem "mv $dir $basedir/base/xxxx" and die "oops";
-          $r = SUSystem "chroot $basedir/base /bin/sh -c 'cd xxxx ; sh install/inst.sh'";
+          $r = SUSystem "chroot $basedir/base /bin/sh -c 'cd xxxx ; sh install/inst.sh 1'";
           SUSystem "mv $basedir/base/xxxx $dir" and die "oops";
         }
 

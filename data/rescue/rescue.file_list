@@ -33,9 +33,9 @@ r /usr/bin/ChangeSymlinks
   /var/adm/fillup-templates
 e postin
 # r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
-r /var/adm/fillup-templates
 t /etc/fstab
-R s/^(FQHOSTNAME=).*/$1\"Rescue\"/ /etc/rc.config
+# R s/^(FQHOSTNAME=).*/$1\"Rescue\"/ /etc/rc.config
+E echo Rescue.local >etc/HOSTNAME
 
 grep:
   /bin
@@ -58,7 +58,7 @@ cracklib:
   /usr/lib
 
 db:
-  /usr/lib/libdb-3*
+  /usr/lib/libdb-4.*
 
 diffutils:
   /usr/bin
@@ -149,12 +149,16 @@ if arch eq 'ia64'
     /usr/sbin
 endif
 
-lvm:
+lvm: postin
+  /etc
   /lib
   /sbin
+e postin
 
-raidtools:
+raidtools: postin
+  /etc
   /sbin
+e postin
 
 mktemp:
   /bin/mktemp
@@ -162,12 +166,13 @@ mktemp:
 modutils:
   /sbin/{insmod,modprobe,rmmod,lsmod,ksyms,depmod}
 
-ncurses:
+ncurses: postin
   /lib/libncurses.so.5*
   /usr/share/terminfo/d/dumb
   /usr/share/terminfo/l
   /usr/share/terminfo/v/vt10[02]
   /usr/bin/{clear,tset,reset}
+e postin
 
 net-tools:
   /{,s}bin
@@ -206,6 +211,10 @@ rsh:
 pam:
   /{etc,lib,sbin}
 
+pam-modules: postin
+  /{etc,lib,sbin}
+e postin
+
 pciutils:
   /sbin
 
@@ -215,9 +224,11 @@ portmap: postin
   /usr/sbin
 e postin
 
-ps:
+ps: postin
+  /etc
   /{,s}bin
   /usr/bin
+e postin
 
 reiserfs:
   /sbin
@@ -231,12 +242,15 @@ rpm:
   /{usr,var}/lib/rpm
 r /usr/lib/rpm/rpm{get,put}text
 
-rsync:
+rsync: postin
   /etc
   /usr/{,s}bin
+e postin
 
-setserial:
+setserial: postin
+  /etc
   /bin/setserial
+e postin
 
 sh-utils:
   /{etc,bin}
@@ -295,11 +309,12 @@ textutils:
 traceroute:
   /usr/sbin/traceroute
 
-util-linux:
+util-linux: postin
+  /etc
   /bin/{dmesg,kill,mount,umount,guessfstype}
-  /etc/filesystems
   /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,hwclock,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
   /usr/{bin,sbin}
+e postin
 
 vim:
   /etc
@@ -317,6 +332,9 @@ parted:
   /sbin
 
 gawk:
+  /bin
+
+ddrescue:
   /bin
 
 if arch ne 'sparc'
@@ -358,4 +376,6 @@ e echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
 e echo "proc /proc proc defaults 0 0" >>/etc/fstab
 e echo "devpts /dev/pts devpts defaults 0 0" >>/etc/fstab
 e /sbin/SuSEconfig --force --norestarts
+
+r /var/adm/fillup-templates
 

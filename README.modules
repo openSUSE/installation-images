@@ -1,0 +1,10 @@
+Look at
+
+  etc/module.list
+
+for a list of directories/files that contain/are possibly useful modules.
+
+The detailed config is in
+
+  etc/module.config
+

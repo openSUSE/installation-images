@@ -21,6 +21,7 @@ die "usage: $Script\n" if @ARGV;
 $srcdir = "${ImagePath}";
 $image = "${ImagePath}modules$ENV{modules}";
 $gen = "${DataPath}initrd/gen/module.";
+$mdisk = "${BasePath}tmp/module_disks";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
@@ -28,12 +29,9 @@ $gen = "${DataPath}initrd/gen/module.";
 $disk = 1;
 $disk = $ENV{modules} + 0 if exists $ENV{modules};
 
-if($disk == 2) {
-  @modimages = qw ( net pcmcia cdrom firewire );
-}
-else {
-  @modimages = qw ( scsi fs );
-}
+open F, $mdisk;
+while(<F>) { @modimages = split ' ', $1 if /^$disk:\s*(.+?)\s*$/ }
+close F;
 
 ($i1, $i2) = split /\./, $ConfigData{suse_release};      
 
@@ -54,6 +52,7 @@ SUSystem "mount -oloop -t vfat $image /mnt" and
   die "$Script: mount failed";
 
 SUSystem "cp ${DataPath}initrd/module.help /mnt/module.config";
+unlink "$image.txt";
 for (@modimages) {
   SUSystem "sh -c 'cat ${gen}config.$_ >>/mnt/module.config'";
   system "sh -c 'cat ${gen}list.$_ >>$image.txt'";

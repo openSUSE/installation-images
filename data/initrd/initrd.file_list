@@ -21,7 +21,7 @@ if arch eq 'ia32'
   if initrd eq 'small'
 
     include gen/module.files.autoload
-    include gen/module.files.usb
+#    include gen/module.files.usb
 
     # note: order _does_ matter
     A gen/module.config.autoload modules/module.config
@@ -29,7 +29,7 @@ if arch eq 'ia32'
     A gen/module.shortconfig.cdrom modules/module.config
     A gen/module.shortconfig.net modules/module.config
     A gen/module.shortconfig.pcmcia modules/module.config
-    A gen/module.config.usb modules/module.config
+    A gen/module.shortconfig.usb modules/module.config
     A gen/module.shortconfig.firewire modules/module.config
     A gen/module.shortconfig.fs modules/module.config
     A gen/module.config.other modules/module.config

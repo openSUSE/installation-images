@@ -20,6 +20,7 @@ die "usage: $Script\n" if @ARGV;
 $cfg = "${CfgPath}module.config";
 $deps = "${BasePath}tmp/module_deps";
 $fnames = "${BasePath}tmp/module_list";
+$mdisk = "${BasePath}tmp/module_disks";
 $dst = "${DataPath}initrd/gen/module.";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -67,10 +68,17 @@ while(<F>) {
     next;
   }
 
+  if(/ModDisk=(.*)/i) {
+    $sect{$sect}{'ModDisk'} = $1;
+    next;
+  }
+
   @l = lsplit $_;
+  $r = $l[0] =~ s/^-// ? 1 : 0;
   if(defined $fname{$l[0]}) {
     $all{$l[0]} = 1;
     push @{$sect{$sect}{'m'}}, [ @l ];
+    $sect{$sect}{'r'}{$l[0]} = 1 if $r;
   }
   else {
     print STDERR "warning: no such module: $l[0]\n"
@@ -119,7 +127,7 @@ for (@sect) {
       $sect{$_}{'a'}{$k} = 1;
       if(!$all{$k}) {
         $err = 10;
-        print STDERR "warning: no config for \"$k\" (needed by $mod)\n";
+        print STDERR "error: no config for \"$k\" (needed by $mod)\n";
       }
     }
 
@@ -132,7 +140,7 @@ for (@sect) {
 for (sort { $fname{$a} cmp $fname{$b} } keys %fname) {
   if(!$all{$_}) {
     $err = 11;
-    print STDERR "warning: nothing known about \"$fname{$_}\"\n";
+    print STDERR "error: nothing known about \"$fname{$_}\"\n";
   }
 }
 
@@ -144,11 +152,16 @@ for (@sect) {
 
   $s = $_;
   $s =~ s/\s*//g;
-  $s = $1 if exists($sect{$_}{MoreModules}) && $sect{$_}{MoreModules} =~ /^(\S+)-mod/;
+  $s = $1 if exists($sect{$_}{'MoreModules'}) && $sect{$_}{'MoreModules'} =~ /^(\S+)-mod/;
+
+  $moddisk{$sect{$_}{'ModDisk'}} .= " $s" if exists $sect{$_}{'ModDisk'};
 
   open W, ">${dst}config.$s";
   print W "[$_]\n";
-  print W "MoreModules=$sect{$_}{MoreModules}\n\n" if exists $sect{$_}{MoreModules};
+  print W "MoreModules=$sect{$_}{'MoreModules'}\n" if exists $sect{$_}{'MoreModules'};
+  print W "ModDisk=$sect{$_}{'ModDisk'}\n" if exists $sect{$_}{'ModDisk'};
+  print W "\n" if exists($sect{$_}{'MoreModules'}) || exists($sect{$_}{'ModDisk'});
+
   for $m (@{$sect{$_}{'m'}}) {
     if($$m[1] !~ /^--/) {
       $l = join ',', add_quotes(@$m);
@@ -161,12 +174,14 @@ for (@sect) {
 
   open W, ">${dst}shortconfig.$s";
   print W "[$_]\n";
-  print W "MoreModules=$sect{$_}{MoreModules}\n" if exists $sect{$_}{MoreModules};
+  print W "MoreModules=$sect{$_}{'MoreModules'}\n" if exists $sect{$_}{'MoreModules'};
+  print W "ModDisk=$sect{$_}{'ModDisk'}\n" if exists $sect{$_}{'ModDisk'};
   print W "\n\n";
   close W;
 
   open W, ">${dst}files.$s";
   for $f (sort { $fname{$a} cmp $fname{$b} } keys %{$sect{$_}{'a'}}) {
+    next if $sect{$_}{'r'}{$f};
     if($_ eq 'cd1') {
       print W "  /lib/modules/<kernel_ver>/$fname{$f}\n";
     }
@@ -179,6 +194,7 @@ for (@sect) {
   open W, ">${dst}list.$s";
   print W ";\n; $_ modules\n;\n";
   for $m (@{$sect{$_}{'m'}}) {
+    next if $sect{$_}{'r'}{$$m[0]};
     $d = $$m[1];
     $d =~ s/^--//;
     if($d) {
@@ -188,6 +204,16 @@ for (@sect) {
   print W "\n";
   close W;
 }
+
+
+open W, ">$mdisk";
+
+for (sort keys %moddisk) {
+  print W "$_:$moddisk{$_}\n"
+}
+
+close W;
+
 
 exit $err;
 
