@@ -68,7 +68,15 @@ SUSystem "mount -oloop -t vfat $image /mnt" and
 SUSystem "cp ${DataPath}initrd/module.help /mnt/module.config";
 unlink "$image.txt";
 for (@modimages_i) {
-  SUSystem "cp  $srcdir/$_ /mnt" and die "$Script: could not add $_";
+  $s = $_;
+  $s =~ s/\@[^@]+?\b//;
+  if(SUSystem "cp  $srcdir/$_ /mnt/$s") {
+    print "--\n";
+    system "du $srcdir/$_";
+    system "df -Pk /mnt | grep -v Filesystem";
+    print "--\n";
+    die "$Script: could not add $_";
+  }
 }
 
 for (@modimages_l) {
