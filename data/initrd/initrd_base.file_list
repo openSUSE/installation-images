@@ -377,7 +377,7 @@ x etc/host.conf etc
 
 devs:
   if arch eq 'ppc' || arch eq 'ppc64'
-    m /usr/share/doc/packages/devs/makedevs /makedevs.floppy
+    m /usr/share/doc/packages/devs/makedevs.floppy /
   else
     if arch eq 's390' || arch eq 's390x'
     	/dev/dasd*

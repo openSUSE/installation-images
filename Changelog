@@ -2,6 +2,7 @@
 	- added yast2-update
 	- use filesystem instead of aaa_dir in >= 8.1
 	- base is not available anymore, since 8.1
+	- use makedevs.floppy on ppc again, for smaller initrd size
 
 16/7/2002:	v2.19
 	- ihno: latest s390/s390x changes
