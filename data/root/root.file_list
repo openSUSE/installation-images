@@ -49,7 +49,7 @@ joe:
   /usr/bin/joe
   /usr/lib/joerc
 
-libhd:
+hwinfo:
   /usr/sbin/hwinfo
 
 mktemp:
@@ -446,10 +446,12 @@ if arch ne 'alpha'
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
   if suse_release >= 7.1
     /etc/X11/xkb
+    s /etc/X11/xkb /usr/X11R6/lib/X11
+    /usr/X11R6/bin/xkbcomp
   else
     /usr/X11R6/lib/X11/xkb
-    /usr/X11R6/lib/X11/locale
   endif
+  /usr/X11R6/lib/X11/locale
   if suse_major == 6
       /usr/X11R6/lib/X11/nls
       /usr/X11R6/lib/X11/xserver
