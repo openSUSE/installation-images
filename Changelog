@@ -1,3 +1,6 @@
+20/4/2004:	v5.43
+	- added e100-intel
+
 19/4/2004:	v5.42
 	- rescue system: mount /sys (#38933), mount usbfs,
 	  start device-mapper (#38990)
