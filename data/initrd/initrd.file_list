@@ -66,8 +66,8 @@ if arch eq 'ia32'
         endif
       endif
 
-      if special eq 'tulip'
-        f / tulip.o /modules
+      if extramod
+        f / <extramod>.o /modules
       endif
 
       if suse_xrelease eq 'beta'
