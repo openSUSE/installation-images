@@ -303,8 +303,8 @@ show_license () {
 # display_license validates that the license is being read
 #
 function display_license() {
-  if [ "$LICENSE_ACKNOWLEGED" = yes ]; then return; fi
-  if [ "$DEBUG" = "yes" -o "$LINUXRC_RECORD" -o "$LINUXRC_READ" ]; then return; fi
+  [ "$LICENSE_ACKNOWLEGED" = yes ] && return
+  [ "$DEBUG" = "yes" -o "$LINUXRC_RECORD" -o "$LINUXRC_READ" ] && return
   echo "To set up the network, you have to read and confirm the license information"
   echo "of the network device driver provided by IBM."
   yes_no "Do you want to see the license (Yes/No) ? "
@@ -433,9 +433,7 @@ function select_network_device_type() {
     if [ "$NETSELECT" -a "$NETSELECT" != none ]; then
       echo "The selected network device type is $NETSELECT."
       yes_no "Do you want to change it (Yes/No) ?"
-      if [ "$ANSW" = no ]; then
-	return
-      fi
+      [ "$ANSW" = no ] && return
     fi
     check_memory
     while :; do
@@ -1535,9 +1533,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 #
 # We want to save the kernel message ring buffer to a file:
 #
-if [ ! -e /boot.msg ]; then
-	dmesg > /boot.msg
-fi
+[ ! -e /boot.msg ] && dmesg > /boot.msg
 #
 # set debug to yes/no
 #set -vx

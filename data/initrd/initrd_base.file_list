@@ -333,6 +333,7 @@ if arch eq 's390' || arch eq 's390x'
     /usr/bin/strace
 
   x s390/bin/netsetup    /bin/netsetup
+  x s390/check           /check
   x s390/etc/motd        /etc/motd
   x s390/etc/syslog.conf /etc/syslog.conf
   x s390/etc/rc.config   /etc/rc.config
@@ -341,7 +342,6 @@ if arch eq 's390' || arch eq 's390x'
   x s390/etc/inetd.conf  /etc/inetd.conf
   x s390/etc/inittab     /etc/inittab
   x s390/etc/profile     /etc/profile
-  x s390/ihno            /ihno
   x s390/inst_source     /inst_source
   x s390/linuxrc         /linuxrc
   x s390/linuxrc.finish  /linuxrc.finish

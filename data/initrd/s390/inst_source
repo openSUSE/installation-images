@@ -16,27 +16,12 @@ ANSW=empty
 #
 #
 #
-SOURCE_TXT1="Please specify the installation Source:
-
-      1) NFS
-      2) SAMBA
-      3) FTP
-      0) Abort
-
-Choice: "
+SOURCE_TXT1="Please specify the installation Source:\n\n    1) NFS\n    2) SAMBA\n    3) FTP\n    0) Abort\n\nChoice: "
 IP_TXT1="Please enter the IP-Number of the host providing the installation media: "
 IP_SERVER_TXT1="Please enter the IP-Number of the host running the X-Server: "
-IP_ERROR1="
-Host is not reponding. please enter a new number
-"
+IP_ERROR1="\n Host is not reponding. please enter a new number\n"
 DIR_TXT1="Please enter the directory of the installation media: "
-ASK_VALID="Is the following corret?
-
-    Installation Source:  \$SOURCE
-    IP-Address:           \$IP_SOURCE
-    Directory:            \$DIR_SOURCE
-
-    Yes/No: "
+ASK_VALID="Is the following corret?\n\n    Installation Source:  \$SOURCE\n    IP-Address:           \$IP_SOURCE\n    Directory:            \$DIR_SOURCE\n\nYes/No: "
 SCREEN_TXT1="Which terminal do want to use?\n\n    1) X-Window\n    2) VNC (VNC-Client or Java enabled Browser)\n    3) ssh\n    Choice: "
 MOUNT_ERR="CD not mounted. Please check parameters."
 MOUNT_ERR2="Root-disk not mounted. Please check parameters."

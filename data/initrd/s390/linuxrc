@@ -1,6 +1,6 @@
 #!/bin/bash
 echo 'This is SuSE Instsys Version %{version} Rel. %{release}'
-echo 'Build date: Tue Aug  7 14:49:34 CEST 2001'
+echo 'Build date: Thu Jul 25 15:12:53 CEST 2002'
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin
 #
 #
@@ -34,11 +34,17 @@ echo done doing movetotmpfs
 /usr/sbin/useradd -o -g sshd -u 71 -s /bin/false -c "SSH daemon" -d /var/lib/sshd sshd
 #
 #
-DIRS="/mounts /dev/pts /var/empty /var/adm/mnt /var/adm/mount"
+DIRS="/mounts /dev/pts /var/empty /var/adm/mnt /var/adm/mount /var/log/YaST2"
 for i in $DIRS
 do
 	[ ! -d $i ] && mkdir $i
 done
+[ -d /var/log/YaST2 ] && {
+for i in  "y2log y2log-1 y2log-2 y2log-3 y2log-4 y2start.log"
+do
+	touch /var/log/YaST2/$i
+done
+}
 #
 #	Main
 #
