@@ -1,5 +1,8 @@
 22/7/2002:	v2.24
 	- corrected error in /linuxrc and yast_start
+	- add a .bash_history for debug inst-sys
+	- add .yast2 with logconf
+	- add kernel/drivers/iseries to modules.list
 
 22/7/2002:	v2.23
 	- add usr/X11R6/lib64 to ld.so.conf

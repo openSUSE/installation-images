@@ -638,6 +638,8 @@ if pre_release
 if 0
    x root/.ssh /root
 endif
+   x root/.yast2 /root
+   x root/.bash_history /root
    x root/.bash_login /root
    x root/.vimrc /root
 endif

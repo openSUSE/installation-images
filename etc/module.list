@@ -9,6 +9,7 @@ kernel/drivers/i2o/
 kernel/drivers/ide/
 kernel/drivers/ieee1394/
 kernel/drivers/input/
+kernel/drivers/iseries/
 kernel/drivers/md/
 kernel/drivers/net/
 -kernel/drivers/net/aironet
