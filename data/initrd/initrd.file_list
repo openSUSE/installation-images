@@ -67,41 +67,57 @@ if initrd eq 'initrd'
   A gen/module.config.net modules/module.config
 endif
 if initrd eq 'initrd_ppc_pmac_new'
+  include gen/module.files.autoload
   include gen/module.files.ppc_pmac_new
   include gen/module.files.usb
   include gen/module.files.firewire
+  A gen/module.config.autoload modules/module.config
   A gen/module.config.ppc_pmac_new modules/module.config
   A gen/module.config.usb modules/module.config
   A gen/module.config.firewire modules/module.config
 endif
 if initrd eq 'initrd_ppc_pmac_miboot'
+  include gen/module.files.autoload
   include gen/module.files.ppc_pmac_miboot
+  A gen/module.config.autoload modules/module.config
   A gen/module.config.ppc_pmac_miboot modules/module.config
 endif
 if initrd eq 'initrd_ppc_pmac_coff'
+  include gen/module.files.autoload
   include gen/module.files.ppc_pmac_coff
+  A gen/module.config.autoload modules/module.config
   A gen/module.config.ppc_pmac_coff modules/module.config
 endif
 if initrd eq 'initrd_ppc_chrp'
+  include gen/module.files.autoload
   include gen/module.files.ppc_chrp
+  A gen/module.config.autoload modules/module.config
   A gen/module.config.ppc_chrp modules/module.config
 endif
 if initrd eq 'initrd_ppc_prep'
+  include gen/module.files.autoload
   include gen/module.files.ppc_prep
+  A gen/module.config.autoload modules/module.config
   A gen/module.config.ppc_prep modules/module.config
 endif
 if initrd eq 'initrd_ppc_power3'
+  include gen/module.files.autoload
   include gen/module.files.ppc_power3
+  A gen/module.config.autoload modules/module.config
   A gen/module.config.ppc_power3 modules/module.config
 endif
 if initrd eq 'initrd_ppc_pseries64'
+  include gen/module.files.autoload
   include gen/module.files.ppc_pseries64
   include gen/module.files.usb
+  A gen/module.config.autoload modules/module.config
   A gen/module.config.ppc_pseries64 modules/module.config
   A gen/module.config.usb modules/module.config
 endif
 if initrd eq 'initrd_ppc_iseries64'
+  include gen/module.files.autoload
   include gen/module.files.ppc_iseries64
+  A gen/module.config.autoload modules/module.config
   A gen/module.config.ppc_iseries64 modules/module.config
 endif
 
