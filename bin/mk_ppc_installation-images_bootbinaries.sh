@@ -26,8 +26,8 @@ cp -pfv /lib/lilo/chrp/yaboot.chrp $CD1/
 cp -pfv /lib/lilo/pmac/yaboot $CD1/suseboot/
 cp -pfv /boot/vmlinux-*-default $CD1/vmlinux32
 cp -pfv $bdir/initrd-kernel-default-ppc $CD1/initrd32
-cp -pfv /boot/vmlinux-*-pmac64_32bit $CD1/vmlinux64
-cp -pfv $bdir/initrd-kernel-pmac64_32bit $CD1/initrd64
+cp -pfv /boot/vmlinux-*-pmac64 $CD1/vmlinux64
+cp -pfv $bdir/initrd-kernel-pmac64 $CD1/initrd64
 cp -pfv $bdir/initrd-kernel-iseries64 $CD1/boot
 cp -pfv $bdir/initrd-kernel-pseries64 $CD1/boot
 
