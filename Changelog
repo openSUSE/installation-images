@@ -1,3 +1,5 @@
+10/2/2004:	v5.06
+	- added libwrap missing on s390*
 	- rescue: files for lilo on ppc moved to /lib/lilo
 	- remove /sbin/clock on ppc
 
