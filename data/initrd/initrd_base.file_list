@@ -260,8 +260,7 @@ if with_gdb
     m /usr/bin/gdb /bin/gdb
 
   glibc:
-    /lib*/ld-linux*.so.2
-    /lib*/ld-2.*.so
+    /lib*/ld*
     /lib*/libc.so.6*
     /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*,libresolv.so.2*}
     /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
@@ -345,8 +344,7 @@ endif
 
 
 glibc:
-  /lib*/ld-linux*.so.2
-  /lib*/ld-2.*.so
+  /lib*/ld*
   /lib*/libc.so.6*
   /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*,libresolv.so.2*}
   /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}

@@ -1,3 +1,9 @@
+28/2/2005:	v6.35
+	- added punjabi
+	- initrd: dynamic linker was missing on some archs
+	- indic fonts moved
+	- load ahci before ata_piix
+
 21/5/2005:	v6.34
 	- hwinfo needs libiw
 

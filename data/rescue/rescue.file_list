@@ -218,7 +218,7 @@ scsi:
   /usr/sbin
   /usr/lib*/libsgutils.so*
 
-if arch eq 'ia32'
+if arch eq 'ia32' || arch eq 'x86_64'
   grub:
     /usr/{bin,sbin,lib}
 endif
