@@ -1,7 +1,7 @@
 #!/bin/sh
 #
-# determine the installation source to feed background linuxrc and
-# then start yast
+# determine the installation source to feed bin/linuxrc which then
+# starts yast
 #
 inst_source "$@"
 stty sane
