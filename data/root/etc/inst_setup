@@ -133,6 +133,11 @@ test -f /tmp/YaST2_keep_sshd_running && continue
 break
 done
 
+if grep -qi "^VNC:.*1" /etc/install.inf ; then
+	test -x /usr/sbin/slpd  &&  /usr/sbin/slpd
+	/usr/bin/slptool register "service:YaST-installation:vnc://"`hostname`":5910"
+fi
+
 ec=$(cat /tmp/YaST2_ssh_installation_finished)
 rm -f /tmp/YaST2_ssh_installation_finished
 elif [ "$yast" = yast ] ; then
@@ -158,6 +163,8 @@ test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
 #[ $ec -ne 0 ] && echo "An Error happened during installation"
 #ec=0
 
+# stop slpd
+killall slpd 2>/dev/null >/dev/null
 # stop vnc
 killall Xvnc 2>/dev/null >/dev/null
 # stop sshd

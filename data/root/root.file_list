@@ -455,6 +455,11 @@ if with_yast2 ne 'no'
   tightvnc:
     /usr/X11R6/bin/vncpasswd.arg
     /usr/share/vnc/classes
+  openslp:
+    /usr/bin/slptool
+    /usr/lib*/libslp.so.*
+  openslp-server:
+    /usr/sbin/slpd
 
   libxml2:
     /usr/lib*/libxml2.so*
