@@ -16,6 +16,9 @@ o general options
   kernel=<kernel rpm>
   - give kernel package name explicitly
 
+  theme=<theme>
+  - select this theme (default: theme=SuSE)
+
 o root
 
   use_cramfs=1
