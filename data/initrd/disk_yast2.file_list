@@ -1,6 +1,9 @@
 # the basic stuff
 include initrd_base.file_list
 
+# make linuxrc automatically call for modules disk
+t etc/need_modules_disk
+
 # the modules
 t modules/{MORE,NEEDMOD,NET,SCSI}
 

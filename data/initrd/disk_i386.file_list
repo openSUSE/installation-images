@@ -8,6 +8,9 @@ endif
 <kernel_rpm>:
 
 ifdef initrd
+# make linuxrc automatically call for modules disk
+t etc/need_modules_disk
+
 t modules/{MORE,NEEDMOD,NET,SCSI}
 
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
@@ -27,81 +30,67 @@ endif	# initrd
 ifdef net
 t {MORE,NEEDMOD,NET}
 
+a /lib/modules/<kernel_ver>/net/3c59x.o /
+a /lib/modules/<kernel_ver>/net/3c90x.o /
 a /lib/modules/<kernel_ver>/net/de4x5.o /
 a /lib/modules/<kernel_ver>/net/dmfe.o /
 a /lib/modules/<kernel_ver>/net/e100.o /
-a /lib/modules/<kernel_ver>/net/e1000.o /
-a /lib/modules/<kernel_ver>/net/e2100.o /
 a /lib/modules/<kernel_ver>/net/eepro.o /
 a /lib/modules/<kernel_ver>/net/eepro100.o /
 a /lib/modules/<kernel_ver>/net/eexpress.o /
 a /lib/modules/<kernel_ver>/net/epic100.o /
-a /lib/modules/<kernel_ver>/net/es3210.o /
-a /lib/modules/<kernel_ver>/net/eth16i.o /
-a /lib/modules/<kernel_ver>/net/ewrk3.o /
-a /lib/modules/<kernel_ver>/net/hp.o /
-a /lib/modules/<kernel_ver>/net/hp100.o /
-a /lib/modules/<kernel_ver>/net/ibmtr.o /
-a /lib/modules/<kernel_ver>/net/lance.o /
-a /lib/modules/<kernel_ver>/net/lne390.o /
 a /lib/modules/<kernel_ver>/net/ne2k-pci.o /
-a /lib/modules/<kernel_ver>/net/ne3210.o /
-a /lib/modules/<kernel_ver>/net/ni5010.o /
-a /lib/modules/<kernel_ver>/net/ni52.o /
-a /lib/modules/<kernel_ver>/net/ni65.o /
-a /lib/modules/<kernel_ver>/net/old_tulip.o /
-a /lib/modules/<kernel_ver>/net/olympic.o /
 a /lib/modules/<kernel_ver>/net/pcnet32.o /
 a /lib/modules/<kernel_ver>/net/rl100a.o /
 a /lib/modules/<kernel_ver>/net/rrunner.o /
 a /lib/modules/<kernel_ver>/net/rtl8139.o /
-a /lib/modules/<kernel_ver>/net/sis900.o /
-a /lib/modules/<kernel_ver>/net/sk98lin.o /
 a /lib/modules/<kernel_ver>/net/skfp.o /
 a /lib/modules/<kernel_ver>/net/sktr.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra32.o /
-a /lib/modules/<kernel_ver>/net/smc9194.o /
+a /lib/modules/<kernel_ver>/net/tulip.o /
 endif	# net
 
 
 ifdef scsi
 t {MORE,NEEDMOD,SCSI}
 
-a /lib/modules/<kernel_ver>/scsi/BusLogic.o /
 a /lib/modules/<kernel_ver>/block/DAC960.o /
-a /lib/modules/<kernel_ver>/block/cpqarray.o /
 a /lib/modules/<kernel_ver>/block/cciss.o /
+a /lib/modules/<kernel_ver>/block/cpqarray.o /
+
 a /lib/modules/<kernel_ver>/scsi/3w-xxxx.o /
 a /lib/modules/<kernel_ver>/scsi/53c7,8xx.o /
 a /lib/modules/<kernel_ver>/scsi/AM53C974.o /
+a /lib/modules/<kernel_ver>/scsi/BusLogic.o /
 a /lib/modules/<kernel_ver>/scsi/NCR53c406a.o /
 a /lib/modules/<kernel_ver>/scsi/a100u2w.o /
 a /lib/modules/<kernel_ver>/scsi/aacraid.o /
 a /lib/modules/<kernel_ver>/scsi/advansys.o /
 a /lib/modules/<kernel_ver>/scsi/aha152x.o /
+a /lib/modules/<kernel_ver>/scsi/aha1542.o /
 a /lib/modules/<kernel_ver>/scsi/aha1740.o /
+a /lib/modules/<kernel_ver>/scsi/aic7xxx.o /
 a /lib/modules/<kernel_ver>/scsi/atp870u.o /
 a /lib/modules/<kernel_ver>/scsi/cpqfc.o /
 a /lib/modules/<kernel_ver>/scsi/dc395x_trm.o /
 a /lib/modules/<kernel_ver>/scsi/dpt_i2o.o /
 a /lib/modules/<kernel_ver>/scsi/dtc.o /
 a /lib/modules/<kernel_ver>/scsi/eata.o /
-# obsolete according to Configure.help
-# a /lib/modules/<kernel_ver>/scsi/eata_dma.o /
 a /lib/modules/<kernel_ver>/scsi/eata_pio.o /
 a /lib/modules/<kernel_ver>/scsi/fdomain.o /
 a /lib/modules/<kernel_ver>/scsi/g_NCR5380.o /
 a /lib/modules/<kernel_ver>/scsi/gdth.o /
-# a /lib/modules/<kernel_ver>/scsi/imm.o /
+a /lib/modules/<kernel_ver>/scsi/imm.o /
 a /lib/modules/<kernel_ver>/scsi/in2000.o /
 a /lib/modules/<kernel_ver>/scsi/initio.o /
 a /lib/modules/<kernel_ver>/scsi/ips.o /
 a /lib/modules/<kernel_ver>/scsi/megaraid.o /
+a /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /
 a /lib/modules/<kernel_ver>/scsi/pas16.o /
 a /lib/modules/<kernel_ver>/scsi/pci2000.o /
 a /lib/modules/<kernel_ver>/scsi/pci2220i.o /
-# a /lib/modules/<kernel_ver>/scsi/ppa.o /
+a /lib/modules/<kernel_ver>/scsi/ppa.o /
 a /lib/modules/<kernel_ver>/scsi/psi240i.o /
 a /lib/modules/<kernel_ver>/scsi/qlogicfas.o /
 a /lib/modules/<kernel_ver>/scsi/qlogicfc.o /
@@ -121,6 +110,10 @@ a /lib/modules/<kernel_ver>/misc/i2o_core.o /
 a /lib/modules/<kernel_ver>/misc/i2o_config.o /
 a /lib/modules/<kernel_ver>/misc/i2o_block.o /
 a /lib/modules/<kernel_ver>/misc/i2o_scsi.o /
+
+a /lib/modules/<kernel_ver>/misc/parport.o /
+a /lib/modules/<kernel_ver>/misc/parport_pc.o /
+a /lib/modules/<kernel_ver>/misc/parport_probe.o /
 endif	# scsi
 
 
@@ -213,9 +206,11 @@ a /lib/modules/<kernel_ver>/net/3c505.o /
 a /lib/modules/<kernel_ver>/net/3c507.o /
 a /lib/modules/<kernel_ver>/net/3c509.o /
 a /lib/modules/<kernel_ver>/net/3c515.o /
+a /lib/modules/<kernel_ver>/net/3c59x.o /
 a /lib/modules/<kernel_ver>/net/3c90x.o /
 a /lib/modules/<kernel_ver>/net/8139too.o /
 a /lib/modules/<kernel_ver>/net/82596.o /
+a /lib/modules/<kernel_ver>/net/8390.o /
 a /lib/modules/<kernel_ver>/net/ac3200.o /
 a /lib/modules/<kernel_ver>/net/acenic.o /
 a /lib/modules/<kernel_ver>/net/arcnet.o /
@@ -249,6 +244,7 @@ a /lib/modules/<kernel_ver>/net/lanstreamer.o /
 a /lib/modules/<kernel_ver>/net/lne390.o /
 a /lib/modules/<kernel_ver>/net/ne2k-pci.o /
 a /lib/modules/<kernel_ver>/net/ne3210.o /
+a /lib/modules/<kernel_ver>/net/ne.o /
 a /lib/modules/<kernel_ver>/net/ni5010.o /
 a /lib/modules/<kernel_ver>/net/ni52.o /
 a /lib/modules/<kernel_ver>/net/ni65.o /

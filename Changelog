@@ -1,3 +1,8 @@
+14/1/2001:	v1.30
+	- more module list fixes
+	- create /etc/need_modules_disk on floppy images
+          so linuxrc asks for modules disk automatically
+
 14/1/2001:	v1.29
 	- fixed module lists
 	- bootdisk no longer has _any_ scsi/net modules
