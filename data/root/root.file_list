@@ -627,14 +627,11 @@ if arch eq 'ia32'
 
 endif
 
-if arch eq 'ppc' || arch eq 'ppc64'
 sysvinit:
-    /sbin/checkproc
-syslogd:
-    /sbin/klogd
-endif
+  /sbin/checkproc
 
 syslogd:
+  /sbin/klogd
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 

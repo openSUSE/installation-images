@@ -1,3 +1,8 @@
+29/8/2002:	v2.49
+	- do start_shell also with usessh, there is a console anyway
+	- remove the info file for YaST1, not needed anymore
+	- checkproc & klogd for all
+
 27/8/2002:	v2.48
 	- preserve installer name and use it in .bash_profile
 	  move yast2 debugging from inst_setup_ssh to inst_setup
@@ -6,8 +11,6 @@
 	  return to linuxrc if /tmp/YaST2_keep_sshd_running is not present
 	  add PATH to .bash_profile and print installer name
 	- apic is back
-	- do start_shell also with usessh, there is a console anyway
-	- remove the info file for YaST1, not needed anymore
 
 27/8/2002:	v2.47
 	- ssh needs libgssapi now
