@@ -1,3 +1,7 @@
+13/5/2004:	v2.127
+	- s390-tools in root image: remove init script, do not execute
+	  postin (not needed, breaks build)
+
 27/4/2004:	v2.126
 	- added 5th module disk
 
