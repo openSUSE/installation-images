@@ -103,8 +103,11 @@ then
 #
 	DOMAIN=`grep Domain: $INSTALLINF | uniq | sed -e 's/Domain: \\(.*\\)/\\1/'`
 	NAMESERVER=`grep Nameserver: $INSTALLINF | uniq | sed -e 's/Nameserver: \\(.*\\)/\\1/'`
-	[ -n "$DOMAIN" -a ! -f "$RESFILE" ] && echo "domain $DOMAIN" >> $RESFILE
-	[ -n "$NAMESERVER" -a ! -f "$RESFILE" ] && echo "nameserver $NAMESERVER" >> $RESFILE
+	if test ! -f "$RESFILE"
+	then
+		[ -n "$DOMAIN" ] && echo "domain $DOMAIN" >> $RESFILE
+		[ -n "$NAMESERVER" ] && echo "nameserver $NAMESERVER" >> $RESFILE
+	fi
 #
 #	Create /etc/defaultdomain
 #

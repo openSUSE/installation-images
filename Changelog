@@ -1,3 +1,7 @@
+16/01/2004:	v2.120
+	- fixed buglet in create_interface causing nameserver entry to be
+	  omitted (bug #33197)
+
 03/12/2003:	v2.119
 	- fixed permissions of create_interface on s390*
 
