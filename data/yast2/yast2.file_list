@@ -380,3 +380,8 @@ reiserfs:
   /sbin/resize_reiserfs
   /sbin/unpackreiserfs
 
+ifarch ppc
+pdisk:
+  /sbin/pdisk
+endif
+

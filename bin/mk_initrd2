@@ -58,9 +58,6 @@ $extra_inodes = 200;
 $start_size = 7000;		# kbyte
 $start_inodes = 7000;
 
-# $idlist = "$BasePath$ConfigData{idlist}";
-# die "$Script: where is our id list?" unless $ConfigData{idlist} && -f $idlist;
-
 $lxrc = "$BasePath$ConfigData{linuxrc}";
 die "$Script: where is linuxrc?" unless $ConfigData{linuxrc} && -f $lxrc;
 
@@ -87,7 +84,8 @@ SUSystem "cp $lxrc $tmpdir/linuxrc" and
 SUSystem "strip_dir $tmpdir";
 
 # create the image
-Conv2Image $image, $tmpdir, 'minix', $start_size, $start_inodes, $extra_size, $extra_inodes;
+$fstype = $ConfigData{suse_arch} eq 'ppc' ? 'ext2' : 'minix';
+Conv2Image $image, $tmpdir, $fstype, $start_size, $start_inodes, $extra_size, $extra_inodes;
 
 # compress it
 system "gzip -f -9 $image" and
