@@ -40,6 +40,12 @@ fileutils:
   /bin
   /usr/bin
 
+acl:
+  /lib*
+
+attr:
+  /lib*
+
 findutils:
   /usr/bin/{find,xargs}
 
@@ -126,6 +132,9 @@ gawk:
 
 bootsplash:
   /
+
+libmng:
+  /usr/lib*/libmng.so.*
 
 bootsplash-theme-SuSE:
   /

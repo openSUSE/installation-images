@@ -1,6 +1,8 @@
 15/8/2002:	v2.39
 	- inst_source in sync with docu
 	- DASD-Parameter insertet
+	- added acl,attr,libmng libs to base file list
+
 15/8/2002:	v2.38
 	- mousedev module was lost in i386
 	- apic kernel gone
