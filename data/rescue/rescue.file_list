@@ -214,7 +214,6 @@ endif
 
 scsi:
   /bin
-  /dev
   /usr/bin
   /usr/sbin
 
@@ -479,6 +478,9 @@ udev:
   /lib*/libsysfs.so*
   /usr/bin
   /sbin  
+
+dmraid:
+  /sbin
 
 parted:
   /usr/lib*

@@ -255,20 +255,12 @@ if with_yast2 ne 'no'
     /usr/lib/qt3/lib*/libqt*.so*
   r /usr/lib/qt3/plugins/imageformats/libqmng*
 
+  desktop-data-SuSE:
+    /usr/share/desktop-data/qtrc
 
-d /opt/kde3/share/config/SuSE/default
-x etc/qtrc-<theme> /opt/kde3/share/config/SuSE/default/qtrc
+  thinkeramik-style:
+    /usr/lib/qt3/plugins/styles/thinkeramik*so
 
-if theme eq 'Home'
-  kdeartwork3:
-    /opt/kde3/lib*/kde3/plugins/styles/plastik.so
-else
-  thinkeramik:
-    /opt/kde3/lib*/kde3/plugins/styles/thinkeramik.so
-endif
-
-  kdelibs3:
-    /opt/kde3/lib*/libkdefx.so*
 endif
 
 

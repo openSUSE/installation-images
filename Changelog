@@ -1,3 +1,7 @@
+21/9/2004:	v6.12
+	- qt package changes (#44803)
+	- added dmraid
+
 20/9/2004:	v6.11
 	- made cd2 boot image small enough
 
