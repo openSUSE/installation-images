@@ -152,7 +152,7 @@ sub AddFiles
 
     $ifmsg = sprintf " [%x|%x] %s\n", $if_val, $if_taken, $_;
 
-    s/<(kernel_ver|kernel_rpm|kernel_img|suse_release|theme|product)>/$ConfigData{$1}/g;
+    s/<(kernel_ver|kernel_rpm|kernel_img|suse_release|theme|product|product_name|yast_theme|splash_theme|update_dir|load_image)>/$ConfigData{$1}/g;
     for $i (qw( linuxrc lang extramod items )) {
       s/<$i>/$ENV{$i}/g if exists $ENV{$i};
     }
@@ -373,8 +373,8 @@ sub AddFiles
         warn "$Script: failed to move $1 to $2";
     }
     elsif(/^a\s+(\S+)\s+(\S+)$/) {
-      SUSystem "sh -c \"cp -a $tdir/$1 $dir/$2\"" and
-        print "$Script: $1 not copied to $2 (ignored)\n";
+      SUSystem "sh -c \"cp -pLR $tdir/$1 $dir/$2\"" and
+        print "$Script: failed to move $1 to $2\n";
     }
     elsif(/^([fF])\s+(\S+)\s+(\S+)(\s+(\S+))?$/) {
       my ($l, @l, $src, $name, $dst, $start_dir);

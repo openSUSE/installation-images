@@ -1,0 +1,43 @@
+default linux
+
+# default
+label linux
+  kernel linux
+  append initrd=initrd ramdisk_size=65536 acpi=oldboot
+
+# failsafe
+label failsafe
+  kernel linux
+  append initrd=initrd ramdisk_size=65536 ide=nodma apm=off acpi=off
+
+# apic  
+label apic  
+  kernel linux
+  append initrd=initrd ramdisk_size=65536 apic
+
+# manual
+label manual
+  kernel linux
+  append initrd=initrd ramdisk_size=65536 manual=1 acpi=oldboot
+
+# rescue
+label rescue
+  kernel linux
+  append initrd=initrd ramdisk_size=65536 rescue=1 acpi=oldboot
+
+# memory test
+label memtest
+  kernel memtest
+
+# hard disk
+label harddisk
+  kernel linux
+  append SLX=0x202
+
+implicit	0
+gfxboot		bootlogo
+display		message
+prompt		1
+timeout		100
+readinfo	2
+framebuffer	1
