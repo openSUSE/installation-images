@@ -22,6 +22,7 @@ shlibs:
   /lib/ld-2.*.so
   /lib/ld-linux.so.2
   /lib/{libc.so.6,libdl.so.2,libm.so.6}
+  /usr/lib/gconv
 
 bash:
   /bin/bash
@@ -43,17 +44,20 @@ util:
   /sbin/{ctrlaltdel,swapoff,swapon}
 
 fileutil:
-  /bin/{rm,rmdir,sync,chmod,chown,ls}
+  /bin/{rm,rmdir,mkdir,sync,chmod,chown,ls}
 
 ext2fs:
   /sbin/{e2fsck,e2label,fsck,fsck.ext2,mkfs.ext2,mke2fs}
   /lib
 
 taper:
-  /sbin/taper
+  /sbin/{taper,bg_backup,bg_restore}
 
 textutil:
   /bin/cat
+
+termcap:
+  /usr/lib/libtermcap.so.2*
 
 surprise:
   /lib

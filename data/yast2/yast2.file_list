@@ -9,6 +9,7 @@ aaa_base:
   /bin/fillup
   /etc/modules.conf
   /sbin/mk_initrd
+  /sbin/get_kernel_version
 
 base:
   /bin/tar
@@ -83,6 +84,7 @@ ifnarch ppc ia64
   /lib/modules/<kernel_ver>/misc/lp.o
   /lib/modules/<kernel_ver>/misc/parport.o
   /lib/modules/<kernel_ver>/misc/parport_pc.o
+  /lib/modules/<kernel_ver>/misc/parport_probe.o
   /lib/modules/<kernel_ver>/scsi/imm.o
   /lib/modules/<kernel_ver>/scsi/ppa.o
 ifnenv suse_major_release 6
@@ -567,3 +569,5 @@ sbl:
   /etc/suse-blinux.conf
 endif
 
+syslogd:
+  /usr/sbin/syslogd

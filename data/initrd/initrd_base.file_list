@@ -31,6 +31,7 @@ l linuxrc bin/portmap
 l linuxrc etc/nothing
 
 x etc/host.conf etc
+x etc/syslog.conf etc
 
 devs:
 ifenv suse_major_release 6

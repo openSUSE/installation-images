@@ -54,25 +54,26 @@ a /lib/modules/<kernel_ver>/net/depca.o /
 a /lib/modules/<kernel_ver>/net/dgrs.o /
 a /lib/modules/<kernel_ver>/net/dmfe.o /
 a /lib/modules/<kernel_ver>/net/e2100.o /
-a /lib/modules/<kernel_ver>/net/eepro100.o /
 a /lib/modules/<kernel_ver>/net/eepro.o /
+a /lib/modules/<kernel_ver>/net/eepro100.o /
 a /lib/modules/<kernel_ver>/net/eexpress.o /
 a /lib/modules/<kernel_ver>/net/epic100.o /
 a /lib/modules/<kernel_ver>/net/es3210.o /
 a /lib/modules/<kernel_ver>/net/eth16i.o /
 a /lib/modules/<kernel_ver>/net/ewrk3.o /
 a /lib/modules/<kernel_ver>/net/fmv18x.o /
-a /lib/modules/<kernel_ver>/net/hp100.o /
-a /lib/modules/<kernel_ver>/net/hp.o /
 a /lib/modules/<kernel_ver>/net/hp-plus.o /
+a /lib/modules/<kernel_ver>/net/hp.o /
+a /lib/modules/<kernel_ver>/net/hp100.o /
 a /lib/modules/<kernel_ver>/net/ibmtr.o /
 a /lib/modules/<kernel_ver>/net/lance.o /
 a /lib/modules/<kernel_ver>/net/lne390.o /
-a /lib/modules/<kernel_ver>/net/ne3210.o /
 a /lib/modules/<kernel_ver>/net/ne2k-pci.o /
+a /lib/modules/<kernel_ver>/net/ne3210.o /
 a /lib/modules/<kernel_ver>/net/ni5010.o /
 a /lib/modules/<kernel_ver>/net/ni52.o /
 a /lib/modules/<kernel_ver>/net/ni65.o /
+a /lib/modules/<kernel_ver>/net/old_tulip.o /
 a /lib/modules/<kernel_ver>/net/olympic.o /
 a /lib/modules/<kernel_ver>/net/pcnet32.o /
 a /lib/modules/<kernel_ver>/net/plip.o /
@@ -82,11 +83,10 @@ a /lib/modules/<kernel_ver>/net/rtl8139.o /
 a /lib/modules/<kernel_ver>/net/sis900.o /
 a /lib/modules/<kernel_ver>/net/sk98lin.o /
 a /lib/modules/<kernel_ver>/net/sktr.o /
-a /lib/modules/<kernel_ver>/net/smc9194.o /
-a /lib/modules/<kernel_ver>/net/smc-ultra32.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra.o /
+a /lib/modules/<kernel_ver>/net/smc-ultra32.o /
+a /lib/modules/<kernel_ver>/net/smc9194.o /
 a /lib/modules/<kernel_ver>/net/tlan.o /
-a /lib/modules/<kernel_ver>/net/old_tulip.o /
 a /lib/modules/<kernel_ver>/net/via-rhine.o /
 a /lib/modules/<kernel_ver>/net/wd.o /
 a /lib/modules/<kernel_ver>/net/yellowfin.o /
@@ -98,34 +98,30 @@ t {NEEDMOD,SCSI}
 
 a /lib/modules/<kernel_ver>/block/DAC960.o /
 a /lib/modules/<kernel_ver>/block/cpqarray.o /
-a /lib/modules/<kernel_ver>/scsi/a100u2w.o /
-a /lib/modules/<kernel_ver>/scsi/eata.o /
-a /lib/modules/<kernel_ver>/scsi/fdomain.o /
-a /lib/modules/<kernel_ver>/scsi/gdth.o /
-a /lib/modules/<kernel_ver>/scsi/sym53c8xx.o /
-a /lib/modules/<kernel_ver>/scsi/tmscsim.o /
-a /lib/modules/<kernel_ver>/scsi/qlogicisp.o /
-a /lib/modules/<kernel_ver>/scsi/seagate.o /
-a /lib/modules/<kernel_ver>/scsi/megaraid.o /
-
 a /lib/modules/<kernel_ver>/scsi/53c7,8xx.o /
+a /lib/modules/<kernel_ver>/scsi/AM53C974.o /
+a /lib/modules/<kernel_ver>/scsi/NCR53c406a.o /
+a /lib/modules/<kernel_ver>/scsi/a100u2w.o /
+a /lib/modules/<kernel_ver>/scsi/aacraid.o /
 a /lib/modules/<kernel_ver>/scsi/advansys.o /
 a /lib/modules/<kernel_ver>/scsi/aha152x.o /
 a /lib/modules/<kernel_ver>/scsi/aha1740.o /
-a /lib/modules/<kernel_ver>/scsi/AM53C974.o /
 a /lib/modules/<kernel_ver>/scsi/atp870u.o /
 a /lib/modules/<kernel_ver>/scsi/dc395x_trm.o /
 a /lib/modules/<kernel_ver>/scsi/dpt_i2o.o /
 a /lib/modules/<kernel_ver>/scsi/dtc.o /
+a /lib/modules/<kernel_ver>/scsi/eata.o /
 # obsolete according to Configure.help
 # a /lib/modules/<kernel_ver>/scsi/eata_dma.o /
 a /lib/modules/<kernel_ver>/scsi/eata_pio.o /
+a /lib/modules/<kernel_ver>/scsi/fdomain.o /
 a /lib/modules/<kernel_ver>/scsi/g_NCR5380.o /
+a /lib/modules/<kernel_ver>/scsi/gdth.o /
 a /lib/modules/<kernel_ver>/scsi/imm.o /
 a /lib/modules/<kernel_ver>/scsi/in2000.o /
 a /lib/modules/<kernel_ver>/scsi/initio.o /
 a /lib/modules/<kernel_ver>/scsi/ips.o /
-a /lib/modules/<kernel_ver>/scsi/NCR53c406a.o /
+a /lib/modules/<kernel_ver>/scsi/megaraid.o /
 a /lib/modules/<kernel_ver>/scsi/pas16.o /
 a /lib/modules/<kernel_ver>/scsi/pci2000.o /
 a /lib/modules/<kernel_ver>/scsi/pci2220i.o /
@@ -133,9 +129,13 @@ a /lib/modules/<kernel_ver>/scsi/ppa.o /
 a /lib/modules/<kernel_ver>/scsi/psi240i.o /
 a /lib/modules/<kernel_ver>/scsi/qlogicfas.o /
 a /lib/modules/<kernel_ver>/scsi/qlogicfc.o /
+a /lib/modules/<kernel_ver>/scsi/qlogicisp.o /
+a /lib/modules/<kernel_ver>/scsi/seagate.o /
 a /lib/modules/<kernel_ver>/scsi/sim710.o /
 a /lib/modules/<kernel_ver>/scsi/sym53c416.o /
+a /lib/modules/<kernel_ver>/scsi/sym53c8xx.o /
 a /lib/modules/<kernel_ver>/scsi/t128.o /
+a /lib/modules/<kernel_ver>/scsi/tmscsim.o /
 a /lib/modules/<kernel_ver>/scsi/u14-34f.o /
 a /lib/modules/<kernel_ver>/scsi/ultrastor.o /
 a /lib/modules/<kernel_ver>/scsi/wd7000.o /
@@ -153,7 +153,7 @@ a /lib/modules/<kernel_ver>/cdrom/isp16.o /
 a /lib/modules/<kernel_ver>/cdrom/mcd.o /
 a /lib/modules/<kernel_ver>/cdrom/mcdx.o /
 a /lib/modules/<kernel_ver>/cdrom/optcd.o /
-# a /lib/modules/<kernel_ver>/cdrom/sbpcd.o /
+a /lib/modules/<kernel_ver>/cdrom/sbpcd.o /
 a /lib/modules/<kernel_ver>/cdrom/sjcd.o /
 a /lib/modules/<kernel_ver>/cdrom/sonycd535.o /
 a /lib/modules/<kernel_ver>/misc/aten.o /
@@ -177,7 +177,7 @@ a /lib/modules/<kernel_ver>/misc/parport_probe.o /
 a /lib/modules/<kernel_ver>/misc/pcd.o /
 a /lib/modules/<kernel_ver>/misc/serial.o /
 
-#pcmcia/core
+# pcmcia/core
 a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /
 a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /
 a /lib/modules/<kernel_ver>/pcmcia/ds.o /
@@ -201,7 +201,7 @@ a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /
 # pcmcia/tr
 a /lib/modules/<kernel_ver>/pcmcia/ibmtr_cs.o /
 
-#pcmcia/scsi
+# pcmcia/scsi
 a /lib/modules/<kernel_ver>/pcmcia/SYM53C500.o /
 a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /
 a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /
@@ -210,10 +210,10 @@ a /lib/modules/<kernel_ver>/pcmcia/nin_cs.o /
 a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /
 a /lib/modules/<kernel_ver>/pcmcia/sym53c500_cs.o /
 
-#pcmcia/ide
+# pcmcia/ide
 a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /
 
-#pcmcia/other
+# pcmcia/other
 a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /
 endif	# other
 
@@ -232,8 +232,11 @@ a /lib/modules/<kernel_ver>/net/3c90x.o /
 a /lib/modules/<kernel_ver>/net/82596.o /
 a /lib/modules/<kernel_ver>/net/ac3200.o /
 a /lib/modules/<kernel_ver>/net/acenic.o /
+a /lib/modules/<kernel_ver>/net/apricot.o /
 a /lib/modules/<kernel_ver>/net/arcnet.o /
+a /lib/modules/<kernel_ver>/net/arlan.o /
 a /lib/modules/<kernel_ver>/net/at1700.o /
+a /lib/modules/<kernel_ver>/net/atp.o /
 a /lib/modules/<kernel_ver>/net/cs89x0.o /
 a /lib/modules/<kernel_ver>/net/de4x5.o /
 a /lib/modules/<kernel_ver>/net/de600.o /
@@ -242,25 +245,29 @@ a /lib/modules/<kernel_ver>/net/depca.o /
 a /lib/modules/<kernel_ver>/net/dgrs.o /
 a /lib/modules/<kernel_ver>/net/dmfe.o /
 a /lib/modules/<kernel_ver>/net/e2100.o /
-a /lib/modules/<kernel_ver>/net/eepro100.o /
 a /lib/modules/<kernel_ver>/net/eepro.o /
+a /lib/modules/<kernel_ver>/net/eepro100.o /
 a /lib/modules/<kernel_ver>/net/eexpress.o /
 a /lib/modules/<kernel_ver>/net/epic100.o /
 a /lib/modules/<kernel_ver>/net/es3210.o /
 a /lib/modules/<kernel_ver>/net/eth16i.o /
 a /lib/modules/<kernel_ver>/net/ewrk3.o /
 a /lib/modules/<kernel_ver>/net/fmv18x.o /
-a /lib/modules/<kernel_ver>/net/hp100.o /
-a /lib/modules/<kernel_ver>/net/hp.o /
+a /lib/modules/<kernel_ver>/net/hamachi.o /
 a /lib/modules/<kernel_ver>/net/hp-plus.o /
+a /lib/modules/<kernel_ver>/net/hp.o /
+a /lib/modules/<kernel_ver>/net/hp100.o /
 a /lib/modules/<kernel_ver>/net/ibmtr.o /
 a /lib/modules/<kernel_ver>/net/lance.o /
+a /lib/modules/<kernel_ver>/net/lanstreamer.o /
 a /lib/modules/<kernel_ver>/net/lne390.o /
-a /lib/modules/<kernel_ver>/net/ne3210.o /
+a /lib/modules/<kernel_ver>/net/mtok.o /
 a /lib/modules/<kernel_ver>/net/ne2k-pci.o /
+a /lib/modules/<kernel_ver>/net/ne3210.o /
 a /lib/modules/<kernel_ver>/net/ni5010.o /
 a /lib/modules/<kernel_ver>/net/ni52.o /
 a /lib/modules/<kernel_ver>/net/ni65.o /
+a /lib/modules/<kernel_ver>/net/old_tulip.o /
 a /lib/modules/<kernel_ver>/net/olympic.o /
 a /lib/modules/<kernel_ver>/net/pcnet32.o /
 a /lib/modules/<kernel_ver>/net/plip.o /
@@ -269,12 +276,12 @@ a /lib/modules/<kernel_ver>/net/rrunner.o /
 a /lib/modules/<kernel_ver>/net/rtl8139.o /
 a /lib/modules/<kernel_ver>/net/sis900.o /
 a /lib/modules/<kernel_ver>/net/sk98lin.o /
+a /lib/modules/<kernel_ver>/net/skfp.o /
 a /lib/modules/<kernel_ver>/net/sktr.o /
-a /lib/modules/<kernel_ver>/net/smc9194.o /
-a /lib/modules/<kernel_ver>/net/smc-ultra32.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra.o /
+a /lib/modules/<kernel_ver>/net/smc-ultra32.o /
+a /lib/modules/<kernel_ver>/net/smc9194.o /
 a /lib/modules/<kernel_ver>/net/tlan.o /
-a /lib/modules/<kernel_ver>/net/old_tulip.o /
 a /lib/modules/<kernel_ver>/net/via-rhine.o /
 a /lib/modules/<kernel_ver>/net/wd.o /
 a /lib/modules/<kernel_ver>/net/yellowfin.o /
@@ -287,7 +294,7 @@ t {NEEDMOD,OTHER}
 
 a /lib/modules/<kernel_ver>/cdrom/cm206.o /
 
-#pcmcia/core
+# pcmcia/core
 a /lib/modules/<kernel_ver>/pcmcia/pcmcia_core.o /
 a /lib/modules/<kernel_ver>/pcmcia/cb_enabler.o /
 a /lib/modules/<kernel_ver>/pcmcia/ds.o /
@@ -300,6 +307,7 @@ a /lib/modules/<kernel_ver>/pcmcia/3c574_cs.o /
 a /lib/modules/<kernel_ver>/pcmcia/3c575_cb.o /
 a /lib/modules/<kernel_ver>/pcmcia/3c589_cs.o /
 a /lib/modules/<kernel_ver>/pcmcia/cs89x0_cs.o /
+a /lib/modules/<kernel_ver>/pcmcia/eepro100_cb.o /
 a /lib/modules/<kernel_ver>/pcmcia/epic_cb.o /
 a /lib/modules/<kernel_ver>/pcmcia/fmvj18x_cs.o /
 a /lib/modules/<kernel_ver>/pcmcia/nmclan_cs.o /
@@ -311,7 +319,7 @@ a /lib/modules/<kernel_ver>/pcmcia/xirc2ps_cs.o /
 # pcmcia/tr
 a /lib/modules/<kernel_ver>/pcmcia/ibmtr_cs.o /
 
-#pcmcia/scsi
+# pcmcia/scsi
 a /lib/modules/<kernel_ver>/pcmcia/SYM53C500.o /
 a /lib/modules/<kernel_ver>/pcmcia/aha152x_cs.o /
 a /lib/modules/<kernel_ver>/pcmcia/apa1480_cb.o /
@@ -320,10 +328,10 @@ a /lib/modules/<kernel_ver>/pcmcia/nin_cs.o /
 a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /
 a /lib/modules/<kernel_ver>/pcmcia/sym53c500_cs.o /
 
-#pcmcia/ide
+# pcmcia/ide
 a /lib/modules/<kernel_ver>/pcmcia/ide_cs.o /
 
-#pcmcia/other
+# pcmcia/other
 a /lib/modules/<kernel_ver>/pcmcia/ftl_cs.o /
 endif	# other
 

@@ -1,3 +1,12 @@
+15/7/2000:	v0.90
+	- worked on the module lists
+	- introduced the chk_modules script to check the module lists
+
+14/7/2000:	v0.89
+	- added parport_probe.o
+	- added syslogd (started by linuxrc)
+	- added missing get_kernel_version
+
 10/7/2000:	v0.88
 	- removed imm.o & ppa.o from initrd
 	- added partition surprise image
