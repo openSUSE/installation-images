@@ -42,6 +42,7 @@ kernel/fs/jfs/
 kernel/fs/reiserfs/
 kernel/fs/smbfs/
 kernel/fs/vfat/
+kernel/fs/xfs
 pcmcia-external/
 -/pcmcia/
 -pcmcia-external/net/8390.o
