@@ -529,3 +529,8 @@ x /usr/bin/setclock /usr/bin
 k_deflt:
 m /boot/System.map-<kernel_ver> /System.map
 
+ifarch ix86
+xfiregl1:
+  /usr/X11R6/lib/modules/drivers/firegl1_drv.o
+endif
+

@@ -8,6 +8,7 @@ t modules/{MORE,NET,SCSI,OTHER}
 
 ifarch ix86
 a /lib/modules/<kernel_ver>/misc/nvram.o /modules
+ifenv suse_major_release 6
 a /lib/modules/<kernel_ver>/misc/usbcore.o /modules
 a /lib/modules/<kernel_ver>/misc/usb-uhci.o /modules
 a /lib/modules/<kernel_ver>/misc/usb-ohci.o /modules
@@ -15,6 +16,15 @@ a /lib/modules/<kernel_ver>/misc/input.o /modules
 a /lib/modules/<kernel_ver>/misc/hid.o /modules
 a /lib/modules/<kernel_ver>/misc/keybdev.o /modules
 a /lib/modules/<kernel_ver>/misc/mousedev.o /modules
+else
+a /lib/modules/<kernel_ver>/usb/usbcore.o /modules
+a /lib/modules/<kernel_ver>/usb/usb-uhci.o /modules
+a /lib/modules/<kernel_ver>/usb/usb-ohci.o /modules
+a /lib/modules/<kernel_ver>/usb/input.o /modules
+a /lib/modules/<kernel_ver>/usb/hid.o /modules
+a /lib/modules/<kernel_ver>/usb/keybdev.o /modules
+a /lib/modules/<kernel_ver>/usb/mousedev.o /modules
+endif
 endif
 
 ifarch ppc
@@ -209,16 +219,17 @@ ifdef small	# (test) initrd for 1.44MB floppies
 a /lib/modules/<kernel_ver>/net/3c59x.o /modules
 a /lib/modules/<kernel_ver>/net/tulip.o /modules
 
-a /lib/modules/<kernel_ver>/net/8390.o /modules
+# a /lib/modules/<kernel_ver>/net/8390.o /modules
 a /lib/modules/<kernel_ver>/cdrom/isp16.o /modules
-a /lib/modules/<kernel_ver>/misc/parport.o /modules
-a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
-a /lib/modules/<kernel_ver>/misc/serial.o /modules
+# a /lib/modules/<kernel_ver>/misc/parport.o /modules
+# a /lib/modules/<kernel_ver>/misc/parport_pc.o /modules
+# a /lib/modules/<kernel_ver>/misc/serial.o /modules
 
 ifndef blub
 M /lib/modules/<kernel_ver>/scsi/aic7xxx.o /modules
 M /lib/modules/<kernel_ver>/net/dmfe.o /modules
 M /lib/modules/<kernel_ver>/net/via-rhine.o /modules
+M /lib/modules/<kernel_ver>/net/eepro100.o /modules
 M /lib/modules/<kernel_ver>/scsi/ncr53c8xx.o /modules
 M /lib/modules/<kernel_ver>/net/pcnet32.o /modules
 else
