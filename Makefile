@@ -1,11 +1,11 @@
 
 # perl libraries & binaries
 PLIBS	= AddFiles MakeFATImage MakeMinixImage ReadConfig
-PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root mk_root
+PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root  
 
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue\
         root demo modules html clean distdir install install_xx rdemo brescue
-	rescue_cd mboot
+	rescue_cd mboot base
 
 all:
 
@@ -21,7 +21,7 @@ dirs:
 	@[ -d test ] || mkdir test
 	@[ -d tmp ] || mkdir tmp
 
-initrd: dirs
+initrd: dirs base
 	bin/mk_initrd
 
 initrd_test: initrd
@@ -37,30 +37,33 @@ boot_axp: initrd
 install_xx: initrd
 	bin/mk_install_xx
 
-root: dirs initrd
+root: dirs base initrd
 	bin/mk_root
 
-demo: dirs
+demo: dirs base
 	bin/mk_demo
 
-rdemo: dirs
+rdemo: dirs base
 	bin/mk_rdemo
 
-rescue: dirs
+rescue: dirs base
 	bin/mk_rescue
 
-brescue: dirs
+brescue: dirs base
 	bin/mk_brescue
 
 rescue_cd: boot brescue rdemo
 	bin/mk_rescue_cd
 
-modules: dirs
+modules: dirs base
 	bin/mk_modules
 	bin/mk_mod_disk
 
 mboot:
 	make -C src/mboot
+
+base: dirs
+	@[ -d tmp/base ] || bin/mk_base
 
 html:
 	@for i in $(PLIBS); do echo $$i; pod2html --noindex --title=$$i --outfile=doc/$$i.html lib/$$i.pm; done

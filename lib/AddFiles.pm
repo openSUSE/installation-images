@@ -443,9 +443,14 @@ sub AddFiles
       push @mod_list, @ml
     }
     elsif(/^e\s+(.+)$/) {
-      my ($cmd);
+      my ($cmd, $xdir, $basedir, $r);
 
       $cmd = $1;
+      $xdir = $dir;
+      $xdir =~ s#/*$##;
+      $basedir = $1 if $xdir =~ s#(.*)/##;
+
+      die "internal oops" unless $basedir ne "" && $xdir ne "";
 
       if(exists($script{$cmd})) {
         SUSystem "sh -c 'mkdir $dir/install && chmod 777 $dir/install'" and
@@ -455,8 +460,17 @@ sub AddFiles
         close W;
 
         print "running \"$cmd\" script\n" if $debug =~ /\bpkg\b/;
-        SUSystem "sh -c 'cd $dir; sh install/inst.sh'"
-          and warn "$Script: execution of \"$cmd\" script failed";
+#        SUSystem "sh -c 'cd $dir; sh install/inst.sh'"
+        if($xdir eq 'base') {
+          $r = SUSystem "chroot $dir /bin/sh -c 'sh install/inst.sh'";
+        }
+        else {
+          SUSystem "mv $dir $basedir/base/xxxx" and die "oops";
+          $r = SUSystem "chroot $basedir/base /bin/sh -c 'cd xxxx ; sh install/inst.sh'";
+          SUSystem "mv $basedir/base/xxxx $dir" and die "oops";
+        }
+
+        warn "$Script: execution of \"$cmd\" script failed" if $r;
         SUSystem "rm -rf $dir/install";
       }
       else {

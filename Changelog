@@ -1,3 +1,7 @@
+4/4/2001:	v1.51
+	- fixed rescue system
+	- yast2 reworked again
+
 3/4/2001:	v1.50
 	- added graphical boot screen
 	- bootdisk should build

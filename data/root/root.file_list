@@ -14,6 +14,7 @@ e prein
   /sbin/get_kernel_version
   /sbin/insserv
   /usr/bin/old
+  /root
   /var/adm/fillup-templates
 e postin
 r /var/adm/fillup-templates
@@ -116,6 +117,15 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
   endif
 
   if suse_release >= 7.2
+    f / usbcore.o
+    f / usb-uhci.o
+    f / usb-ohci.o
+    f / input.o
+    f / hid.o
+    f / keybdev.o
+    f / mousedev.o
+    f / usb-storage.o
+
     f / reiserfs.o
     f / isa-pnp.o
     f / lp.o
@@ -164,11 +174,6 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
     /lib/modules/<kernel_ver>/misc/agpgart.o
   endif
 endif
-
-# add link to initrd modules
-# check mk_root before you're going to change this!!!
-d /lib/modules/default
-s ../../../modules /lib/modules/default/misc
 
 if !(arch eq 'sparc' || arch eq 'sparc64' || arch eq 'ia64')
   pcmcia:
@@ -558,6 +563,12 @@ if with_yast2 ne 'no'
       /
     yast2-core-scr:
       /
+    yast2-core-clients:
+      /
+    yast2-lib-wizard:
+      /
+    yast2-agent-rcconfig:
+      /
     yast2-ui-qt:
       /
     yast2-ui-ncurses:
@@ -807,6 +818,21 @@ if arch eq 'ppc'
     /usr/lib/libparted.so*
 endif
 
-# final clean up
-r /sbin/insserv
+# add link to initrd modules
+# check mk_root before you're going to change this!!!
+if suse_release >= 7.2
+  d /lib/modules/<kernel_ver>/initrd
+  e /bin/ln -s /modules/*.o /lib/modules/<kernel_ver>/initrd
+else
+  d /lib/modules/default
+  s /modules /lib/modules/default/misc
+endif
 
+# run depmod
+e /sbin/depmod -a -F /System.map <kernel_ver>
+
+# final clean up
+r /modules /System.map
+r /sbin/insserv
+r /root
+ 

@@ -21,6 +21,7 @@ r /etc/{csh*,default*,mailcap,mime.types,permissions*}
 r /etc/{rc.d.README,runlevel.fallback,zshrc,cron.daily}
   /bin
   /sbin
+  /root
 r /etc/init.d/rc?.d/*kerneld
 r /etc/init.d/rc?.d/*cron
 r /etc/init.d/rc?.d/*pcnfsd
@@ -37,11 +38,14 @@ r /var/adm/fillup-templates
 t /etc/fstab
 R s/^(FQHOSTNAME=).*/$1\"Rescue\"/ /etc/rc.config
 
-base:
 if suse_release >= 7.2
-  /bin
+  grep:
+    /bin
+  base:
+    /bin
 else
-  /{,s}bin
+  base:
+    /{,s}bin
 endif
   /usr/{,s}bin
 
@@ -312,6 +316,9 @@ vim:
   /etc
   /bin/vi{,m}
   /usr/bin/vi{,m}
+
+gdbm:
+  /usr/lib/libgdbm.so.2*
 
 # now run SuSEconfig
 e echo "/dev/root / ext2 defaults 0 0" >/etc/fstab
