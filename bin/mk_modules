@@ -54,23 +54,28 @@ $fl = "modules";
 $fl = $ENV{'filelist'} if exists $ENV{'filelist'};
 
 if($disk == 2) {
+  $ENV{'items'} = "net2";
   AddFiles "$tmpdir/net2mod", "${srcdir}/$fl.file_list", $srcdir, "net2" or
     die "$Script: failed to setup modules net image";
   list_modules "net2mod";
 
+  $ENV{'items'} = "other2";
   AddFiles "$tmpdir/other2mo", "${srcdir}/$fl.file_list", $srcdir, "other2" or
     die "$Script: failed to setup modules other image";
   list_modules "other2mo";
 }
 else {
+  $ENV{'items'} = "net";
   AddFiles "$tmpdir/net-mod", "${srcdir}/$fl.file_list", $srcdir, "net" or
     die "$Script: failed to setup modules net image";
   list_modules "net-mod";
 
+  $ENV{'items'} = "other";
   AddFiles "$tmpdir/other-mod", "${srcdir}/$fl.file_list", $srcdir, "other" or
     die "$Script: failed to setup modules other image";
   list_modules "other-mod";
 
+  $ENV{'items'} = "scsi";
   AddFiles "$tmpdir/scsi-mod", "${srcdir}/$fl.file_list", $srcdir, "scsi" or
     die "$Script: failed to setup modules scsi image";
   list_modules "scsi-mod";

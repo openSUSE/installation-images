@@ -307,7 +307,7 @@ if arch eq 'alpha'
   r /modules/sealevel.o
   r /modules/z85230.o
 
-  ifdef small
+  if initrd eq 'small'
     r /modules/arlan.o
     r /modules/arlan-proc.o
     r /modules/dgrs.o
@@ -367,7 +367,7 @@ endif		# arch eq 'alpha'
 
 
 
-if arch eq 'sparc' || arch eq  'sparc64'
+if arch eq 'sparc' || arch eq 'sparc64'
 
   a /lib/modules/<kernel_ver>/fc4/*.o /modules
   a /lib/modules/<kernel_ver>/fs/openpromfs.o /modules
@@ -384,7 +384,7 @@ endif
 
 
 
-ifarch ia64
+if arch eq 'ia64'
 
   a /lib/modules/<kernel_ver>/kernel/drivers/*/*.o /modules
   a /lib/modules/<kernel_ver>/kernel/drivers/*/*/*.o /modules

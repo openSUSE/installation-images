@@ -21,57 +21,52 @@ arch=$(uname -m)
 case "$arch" in
     s390|s390x) ;;
     *)
-	#grep eth /proc/net/dev >/dev/null  2>&1 ; if [ "$?" = 0 -a -x /usr/sbin/sshd ] ; then echo blah ; fi
-	grep eth /proc/net/dev >/dev/null  2>&1 
+	grep -q 'Bootmode:.*Net' /etc/install.inf
 
 	# start sshd 
 	if [ "$?" = 0 -a -x /usr/sbin/sshd ] ; then
 	    SSH_FAILED=
-	    echo running $0 $*
-	    echo /usr/sbin/sshd found, prepare remote login
-	    rm -f /etc/ssh
-	    rm -f /root
-	    rm -f /etc/shadow
+	    echo 'sshd found, prepare remote login'
+	    rm -rf /etc/ssh /root /etc/shadow
 	    mkdir -p /root/.ssh
 	    cp -a $INSTSYS/root/.ssh/* /root/.ssh
 	    cp -a $INSTSYS/root/.bash_login /root
 	    cp -a $INSTSYS/root/.vimrc /root
-	    cp -a $INSTSYS/root/shadow /etc
+	    cp -a $INSTSYS/etc/shadow /etc
 	    cp -a $INSTSYS/etc/ssh /etc
-	    chmod -R og-rxw  /etc/ssh /root /etc/shadow
-	    chown -R 0.0  /etc/ssh /root /etc/shadow
-	    echo "nameserver 10.10.0.1" > /etc/resolv.conf
-	    echo "nameserver 10.10.11.1" >> /etc/resolv.conf
-	    echo "search suse.de" >> /etc/resolv.conf
+            chmod -R og-rxw  /etc/ssh /root /etc/shadow 2>/dev/null
+	    chown -R 0.0  /etc/ssh /root /etc/shadow 2>/dev/null
+	    # echo "nameserver 10.10.0.1" > /etc/resolv.conf
+	    # echo "nameserver 10.10.11.1" >> /etc/resolv.conf
+	    # echo "search suse.de" >> /etc/resolv.conf
 	    mkdir -p /dev/pts
 	    mkdir -p /dev/shm
-	    mount -v -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
+	    # mount -v -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
 	    /usr/sbin/sshd || {
-	    export SSH_FAILED=true
-	    echo SSH_FAILED ... 
+	        export SSH_FAILED=true
+	        echo 'sshd did NOT start!'
 	    }
-	    echo /sbin/ifconfig `grep eth /proc/net/dev | cut -f 1 -d : `
-	    for i in  `grep eth /proc/net/dev | cut -f 1 -d : ` ; do
+	    if [ ! "$SSH_FAILED" ] ; then
+	        echo
+	        echo /sbin/ifconfig `grep eth /proc/net/dev | cut -f 1 -d : `
+	        for i in  `grep eth /proc/net/dev | cut -f 1 -d : ` ; do
 		    /sbin/ifconfig $i | grep UP > /dev/null 2>&1 && /sbin/ifconfig $i | head -n 2
-	    done
-	    if [ "$arch" = ppc ] ; then
-		echo
-		for i in 5 4 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
-		echo
-		echo -n " mach bunt... "
-		echo press return
-		read i
-		for i in 3 2 1 ; do echo -n $i " . "  ; sleep 1 ; done
-		echo
-	    else
-		echo
-		sleep 2
+	        done
+                cat <<xxx
+
+      ***  sshd has been started  ***
+
+  This is only done during beta tests.
+  It is NOT a feature of the final release.
+
+  Press return to continue...
+xxx
+	        read
 	    fi
 	    export Y2DEBUG=1
         fi
         ;;
 esac
-
 
 ec=
 if [ "$yast" = yast1 ] ; then

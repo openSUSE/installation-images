@@ -2,7 +2,7 @@
 
 <kernel_rpm>:
 
-ifdef net
+if items eq 'net'
 t {MORE,NEEDMOD,NET}
 
 f / 3c59x.o /
@@ -12,7 +12,7 @@ f / tulip.o /
 endif	# net
 
 
-ifdef scsi
+if ites eq 'scsi'
 t {MORE,NEEDMOD,SCSI}
 
 f / DAC960.o /
@@ -77,7 +77,7 @@ f / parport_pc.o /
 endif	# scsi
 
 
-ifdef other
+if items eq 'other'
 t {MORE,NEEDMOD,OTHER}
 
 f / cm206.o /
@@ -134,7 +134,7 @@ endif	# other
 
 
 # network mods for 2nd modules disk
-ifdef net2
+if items eq 'net2'
 t {MORE,NEEDMOD,NET}
 
 f / 3c501.o /
@@ -205,7 +205,7 @@ endif	# net
 
 
 # pcmcia mods for 2nd modules disk
-ifdef other2
+if items eq 'other2'
 t {MORE,NEEDMOD,OTHER}
 
 f / reiserfs.o /
