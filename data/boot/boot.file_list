@@ -13,7 +13,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
   endif
 
   <kernel_rpm>:
-    a /boot/<kernel_img> /linux
+    a /boot/<kernel_img>-<kernel_ver> /linux
 
 if use_k_inst
   k_inst:
@@ -69,6 +69,6 @@ if arch eq 'ia64'
 endif
 
 if arch eq 'alpha'
-  a /boot/<kernel_img> /vmlinux.gz
+  a /boot/<kernel_img>-<kernel_ver> /vmlinux.gz
 endif
 
