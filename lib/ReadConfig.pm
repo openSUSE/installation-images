@@ -506,19 +506,19 @@ for (@f) {
   $ConfigData{'use_cache'} = $use_cache;
 
   if($in_abuild) {
-    $ENV{'kernel_img'} = KernelImg $ENV{'kernel_img'}, (`ls /boot/*`);
+    $ENV{kernel_img} = KernelImg $ENV{kernel_img}, (`ls /boot/*`);
     undef $kn;
 
-    $kn = `rpm -qf /boot/$ENV{'kernel_img'} | head -1 | cut -d- -f1` if -f "/boot/$ENV{'kernel_img'}";
-    chomp $kn;
+    $kn = `rpm -qf /boot/$ENV{kernel_img} | head -1 | cut -d- -f1` if -f "/boot/$ENV{kernel_img}";
+    chomp $kn if $kn;
 
-    if($ENV{'kernel'}) {
-      $ENV{'kernel_rpm'} = $ENV{'kernel'};
+    if($ENV{kernel}) {
+      $ENV{kernel_rpm} = $ENV{kernel};
     }
-    else {
-      $ENV{'kernel_rpm'} = $kn;
+    elsif($kn) {
+      $ENV{kernel_rpm} = $kn;
     }
-    die "oops: unable to determine kernel rpm" unless $ENV{'kernel_rpm'};
+    die "oops: unable to determine kernel rpm (looking for /boot/$ENV{kernel_img})" unless $ENV{'kernel_rpm'};
 
     $kv = `rpm -ql $ENV{'kernel_rpm'} 2>/dev/null | grep modules | head -1 | cut -d / -f 4`;
   }

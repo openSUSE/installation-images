@@ -10,6 +10,11 @@ o general options
   debug=ignore
   - ignore noncritical errors
 
+  suserelease=8.0
+  - build for this release
+
+  kernel=<kernel rpm>
+  - give kernel package name explicitly
 
 o root
 
@@ -28,6 +33,9 @@ o rescue
 
 
 o initrd
+
+  initrd_fs=<fstype>
+  - use fstype for initrd (default: minix or ext2, depending on arch)
 
   linuxrc=<absolute_filename>
   - use the specified linuxrc (taken from the running system!)

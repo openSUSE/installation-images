@@ -129,8 +129,12 @@ print F @m1;
 close F;
 
 # create the image
-# alternatively, check if ENV{initrd} eq 'small'
-$fstype = $arch eq 'i386' && !$ENV{'nominix'} ? 'minix' : 'ext2';
+if($ENV{initrd_fs}) {
+  $fstype = $ENV{initrd_fs};
+}
+else {
+  $fstype = $arch eq 'i386' || $arch eq 'x86_64' ? 'minix' : 'ext2';
+}
 
 # add an inode for each symlink that will be added from the initrd to
 # the instsys.  this nice idea creates an unwanted dependency between

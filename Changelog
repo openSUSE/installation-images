@@ -1,3 +1,7 @@
+9/7/2002:	v2.13
+	- ext2 has an upper inode number limit; avoid it building
+	  initrd on x86_64
+
 8/7/2002:	v2.12
 	- set RPM_ARCH for makedevs script
 	- run prein script for openssh package
