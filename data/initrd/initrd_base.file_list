@@ -211,6 +211,7 @@ if arch eq 's390' || arch eq 's390x'
   shadow:
     /usr/sbin/chpasswd
     /bin/login
+    /etc/login.defs
     /etc/pam.d/login
   iputils:
     /bin/ping
@@ -236,6 +237,7 @@ if arch eq 's390' || arch eq 's390x'
   sh-utils:
     /bin/uname
     /bin/sleep
+    /bin/date
     /usr/bin/expr
   util-linux:
     /bin
