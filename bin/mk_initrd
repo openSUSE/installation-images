@@ -55,7 +55,7 @@ $extra_size = 600;		# kbyte
 $extra_inodes = 200;
 
 # just make them large enough
-$start_size = 30000;		# kbyte
+$start_size = 40000;		# kbyte
 $start_inodes = 7000;
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

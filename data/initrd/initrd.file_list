@@ -353,6 +353,7 @@ ifarch ia64
 
   a /lib/modules/<kernel_ver>/kernel/drivers/*/*.o /modules
   a /lib/modules/<kernel_ver>/kernel/drivers/*/*/*.o /modules
+  a /lib/modules/<kernel_ver>/kernel/fs/*/*.o /modules
 
 endif
 

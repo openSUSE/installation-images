@@ -1,3 +1,6 @@
+	- schwab: add filesystem kernel modules to initrd on ia64
+	- schwab: increase initial initrd size
+
 25/7/2001:	v1.71
 	- create correct fonts.dir
 	- various file list fixes
