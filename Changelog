@@ -1,5 +1,5 @@
 28/8/2001:	v1.85
-	- create new modules.dep at the start of the installation
+	- create new modules.dep at start of the installation
 	- use only some files from /usr/lib/gconv
 	- added jbd.o
 	- added fs modules to rescue system
