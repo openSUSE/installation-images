@@ -1,3 +1,7 @@
+10/2/2003:	v3.10
+	- use coreutils package
+	- adapted for new graphics boot code
+
 5/2/2003:	v3.09
 	- new fvwmrc
 

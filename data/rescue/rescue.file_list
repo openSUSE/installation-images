@@ -95,7 +95,8 @@ e2fsprogs:
   /{lib*,sbin}
   /usr/{,s}bin
 
-fileutils:
+coreutils:
+  /etc
   /bin
   /usr/bin
 
@@ -324,11 +325,6 @@ setserial: postin
   /bin/setserial
 e postin
 
-sh-utils:
-  /{etc,bin}
-r /bin/su
-  /usr/bin
-
 shadow:
   /{etc,bin}
   /usr/bin
@@ -377,13 +373,9 @@ endif
   /bin/usleep
 e postin
 
-textutils:
-  /bin
-  /usr/bin
-
 util-linux: postin
   /etc
-  /bin/{dmesg,kill,mount,umount,guessfstype}
+  /bin/{dmesg,mount,umount,guessfstype}
 if arch ne 's390' && arch ne 's390x'
   /sbin/hwclock
 endif

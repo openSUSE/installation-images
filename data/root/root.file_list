@@ -62,10 +62,16 @@ readline:
 ash:
   /bin/ash.static
 
-fileutils:
+coreutils:
   /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
   /usr/bin/du
   /bin/touch
+  /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename}
+  /usr/bin/{expr,tee,dirname,chroot,test,tty}
+  /bin/cat
+  /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc,od}
+  /bin/sort
+  /bin/kill
 
 gzip:
   bin/g{un,}zip
@@ -89,12 +95,8 @@ rpm:
   /usr/lib/rpm/{rpm{popt,rc},macros}
   /usr/lib*/librpm.so*
 
-sh-utils:
-  /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename}
-  /usr/bin/{expr,tee,dirname,chroot,test,tty}
-
 util-linux:
-  /bin/{kill,guessfstype}
+  /bin/guessfstype
   /bin/{u,}mount
   /bin/dmesg
   /sbin/losetup
@@ -311,11 +313,6 @@ cpio:
   /usr/bin/mt
   /bin/cpio
 
-textutils:
-  /bin/cat
-  /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc,od}
-  /bin/sort
-
 freetype2:
   /usr/lib*
 
@@ -478,6 +475,8 @@ if with_yast2 ne 'no'
     /
   yast2-qt:
     /
+  yast2-repair:
+    /
   yast2-storage:
     /
   yast2-transfer:
@@ -540,6 +539,9 @@ if with_yast2 ne 'no'
   yast2-theme-<yast_theme>:
     /
     s <yast_theme> usr/share/YaST2/theme/current
+
+  gpart:
+    /usr/bin
 
 endif
 
@@ -747,7 +749,7 @@ parted:
   /usr/lib*
 
 jfsutils:
-  /sbin/{fsck.jfs,mkfs.jfs}
+  /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump}
 
 xfsprogs:
   /sbin/fsck.xfs
