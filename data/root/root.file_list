@@ -126,6 +126,7 @@ hwinfo:
 udev:
   /etc
   /sbin/udev
+  /sbin/raiddetect
 #  /sbin/udev.*.sh
   /lib/klibc
   /sbin/udevstart

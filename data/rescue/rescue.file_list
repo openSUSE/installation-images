@@ -491,7 +491,6 @@ if arch ne 'sparc'
     f / st.ko
     if arch ne 'ppc'
     f / sg.ko
-#    f / scsi_mod.o
     f / reiserfs.ko
     if arch ne 'ia64'
       f / jfs.ko
@@ -499,7 +498,6 @@ if arch ne 'sparc'
     f / jbd.ko
     f / ext3.ko
     f / hpfs.ko
-#    f / loop_fish2.o
     f / xfs.ko
     f / xfs_quota.ko
     f / xfs_dmapi.ko
@@ -507,11 +505,20 @@ if arch ne 'sparc'
 
 
     f / linear.ko
-#    f / lvm-mod.o
+    f / multipath.ko
     f / raid0.ko
     f / raid1.ko
     f / raid5.ko
+    f / raid6.ko
     f / xor.ko
+    f / dm-crypt.ko
+    f / dm-flakey.ko
+    f / dm-mirror.ko
+    f / dm-mod.ko
+    f / dm-multipath.ko
+    f / dm-snapshot.ko
+    f / dm-zero.ko
+
 if arch eq 'alpha'
     m /boot/System.map-* /System.map
 else
