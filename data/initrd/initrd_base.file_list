@@ -17,31 +17,197 @@ t var/run/utmp
 
 c 1777 0 0 tmp
 
-t linuxrc
-c 0755 0 0 linuxrc
-l linuxrc bin/cardmgr
-l linuxrc bin/insmod
-l linuxrc bin/loadkeys
-l linuxrc bin/probe
-l linuxrc bin/rmmod
-l linuxrc bin/sh
-l linuxrc bin/setfont
-l linuxrc bin/init
-l linuxrc bin/mount
-l linuxrc bin/umount
-l linuxrc bin/cat
-l linuxrc bin/portmap
-l linuxrc etc/nothing
+if arch eq 's390' || arch eq 's390x'
 
-if linuxrc
-  X <linuxrc> /linuxrc
-else
-  linuxrc:
-    if initrd eq 'small'
-      m /usr/sbin/linuxrc_tiny /linuxrc
-    else
-      m /usr/sbin/linuxrc /linuxrc
-    endif
+#  include initrd_s390.file_list
+###################################################################
+  # ???
+
+  # In the ramdisk we need everything to set up the network.  We
+  # additionaly want everything to initialize a local dasd, to fetch
+  # the yast image via ftp and to install from that dasd.
+
+  # there is no need to log in into this ramdisk, because you either
+  # use the HMC or VM, which are both secured by other means.
+
+  X sbin/netsetup sbin/netsetup
+
+  aaa_base:
+    /etc/init.d/network
+    /etc/init.d/route
+    # for ssh key generation?
+    /etc/init.d/random
+  aaa_dir:
+    /
+  # devs: ???
+  glibc:
+    /etc/nscd.conf
+    /etc/rpc
+    /lib/ld-2.2.3.so
+    /lib/ld.so.1
+    /lib/libc.so.6
+    /lib/libcrypt.so.1
+    /lib/libdl.so.2
+    /lib/libm.so.6
+    /lib/libmemusage.so
+    /lib/libnsl.so.1
+    /lib/libnss_compat.so.2
+    /lib/libnss_dns.so.2
+    /lib/libnss_files.so.2
+    /lib/libnss_hesiod.so.2
+    /lib/libnss_nis.so.2
+    /lib/libnss_nisplus.so.2
+    /lib/libpcprofile.so
+    /lib/libpthread.so.0
+    /lib/libresolv.so.2
+    /lib/librt.so.1
+    /lib/libthread_db.so.1
+    /lib/libutil.so.1
+  base:
+    /bin/sed
+    /bin/tar
+    # /usr/sbin/freeramdisk ?
+    # /usr/sbin/ksymoops ?
+  bash:
+    /bin/bash
+    /bin/sh
+  s390-tools:
+    /sbin/fdasd
+    /sbin/dasdfmt
+  smbclnt:
+    /usr/bin/smbmnt
+    /usr/bin/smbmount
+    /sbin/mount.smbfs
+    # /lib/libnss_wins.so?
+  installation-kernel-rdripl:
+    /lib/modules
+  e2fsprogs:
+    /lib/libcom_err.so.2
+    /lib/libcom_err.so.2.0
+    /lib/libe2p.so.2
+    /lib/libe2p.so.2.3
+    /lib/libext2fs.so.2
+    /lib/libext2fs.so.2.4
+    /lib/libss.so.2
+    /lib/libss.so.2.0
+    /lib/libuuid.so.1
+    /lib/libuuid.so.1.2
+    /sbin/badblocks
+    /sbin/debugfs
+    /sbin/dumpe2fs
+    /sbin/e2fsck
+    /sbin/e2label
+    /sbin/fsck
+    /sbin/fsck.ext2
+    /sbin/fsck.ext3
+    /sbin/mke2fs
+    /sbin/mkfs.ext2
+    /sbin/resize2fs
+    /sbin/tune2fs
+    /usr/bin/chattr
+    /usr/bin/lsattr
+    /usr/bin/uuidgen
+  fileutils:
+    /bin/chgrp
+    /bin/chmod
+    /bin/chown
+    /bin/cp
+    /bin/dd
+    /bin/df
+    /bin/ln
+    /bin/ls
+    /bin/mkdir
+    /bin/mknod
+    /bin/mv
+    /bin/rm
+    /bin/rmdir
+    /bin/sync
+    /bin/touch
+  modutils:
+    /sbin/insmod
+    /sbin/rmmod
+    /sbin/lsmod
+    /sbin/modprobe
+    /sbin/ksyms
+    /sbin/kallsyms
+  net-tools:
+    #/bin/dnsdomainname
+    #/bin/domainname
+    #/bin/hostname
+    #/bin/netstat
+    #/sbin/arp
+    /sbin/ifconfig
+    #/sbin/ipmaddr
+    #/sbin/iptunnel
+    #/sbin/mii-tool
+    /sbin/route
+  netcfg:
+    #/etc/diphosts
+    #/etc/exports
+    #/etc/ftpusers
+    #/etc/host.conf
+    #/etc/hosts
+    #/etc/hosts.allow
+    #/etc/hosts.deny
+    #/etc/hosts.equiv
+    #/etc/hosts.lpd
+    #/etc/inetd.conf
+    #/etc/networks
+    #/etc/protocols
+    #/etc/services
+    #/var/adm/setup
+    #/var/adm/setup/setup.netconfig
+  iputils:
+    /bin/ping
+    /bin/ping6
+    /usr/sbin/tracepath
+    /usr/sbin/tracepath6
+  portmap:
+    /etc/init.d/portmap
+    /sbin/portmap
+    /sbin/rcportmap
+    #DEBUG/usr/sbin/pmap_dump
+    #DEBUG/usr/sbin/pmap_set
+  readline:
+    /lib
+  tcpd:
+    /usr/sbin/tcpd
+  #textutils:???
+  #sh-utils:???
+  util-linux:
+    /bin
+    /sbin
+###################################################################
+else # arch is not s390 or s390x
+
+
+
+  t linuxrc
+  c 0755 0 0 linuxrc
+  l linuxrc bin/cardmgr
+  l linuxrc bin/insmod
+  l linuxrc bin/loadkeys
+  l linuxrc bin/probe
+  l linuxrc bin/rmmod
+  l linuxrc bin/sh
+  l linuxrc bin/setfont
+  l linuxrc bin/init
+  l linuxrc bin/mount
+  l linuxrc bin/umount
+  l linuxrc bin/cat
+  l linuxrc bin/portmap
+  l linuxrc etc/nothing
+
+  if linuxrc
+    X <linuxrc> /linuxrc
+  else
+    linuxrc:
+      if initrd eq 'small'
+	m /usr/sbin/linuxrc_tiny /linuxrc
+      else
+	m /usr/sbin/linuxrc /linuxrc
+      endif
+  endif
 endif
 
 x etc/host.conf etc
@@ -50,6 +216,8 @@ x etc/syslog.conf etc
 devs:
   m /usr/share/doc/packages/devs/makedevs.floppy /
 c 0755 0 0 makedevs.floppy
+
+if arch ne 's390' && arch ne 's390x'
 
 kbd:
 
@@ -128,6 +296,8 @@ if arch eq 'sparc' || arch eq 'sparc64'
   g /usr/lib/kbd/keymaps/sun/sunt5-ru.map.gz kbd/keymaps/sunt5-ru.map
   g /usr/lib/kbd/keymaps/sun/sunt5-uk.map.gz kbd/keymaps/sunt5-uk.map
 endif
+
+endif # not on s390
 
 if arch eq 'alpha' || arch eq 'ia32' || arch eq 'ppc'
   pcmcia:

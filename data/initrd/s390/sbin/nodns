@@ -1,0 +1,21 @@
+#!/bin/bash
+echo -n "Disabling DNS: "
+DISABLED=0
+if [ -e /etc/resolv.conf ]
+then
+        mv -vf /etc/resolv.conf /etc/resolv.conf.nodns
+        DISABLED=1
+fi
+if grep -q Nameserver: /etc/install.inf
+then
+        grep -v Nameserver: /etc/install.inf > /etc/install.inf.new
+        mv /etc/install.inf     /etc/install.inf.nodns
+        mv /etc/install.inf.new /etc/install.inf
+        DISABLED=1
+fi
+if [ "$DISABLED" = 1 ]
+then
+        echo "DNS disabled."
+else
+        echo "DNS already disabled"
+fi

@@ -1,0 +1,1245 @@
+#!/bin/bash
+# Copyright (c) 2000 SuSE GmbH Nuernberg, Germany.  All rights reserved.
+#
+# Authors: Joachim Schroeder <Joachim.Schroeder@suse.de>
+#          Bernd Kaindl <Bernd.Kaindl@suse.de>
+#
+# network setup script and linuxrc for s390-suse-linux
+
+if [ "$LINUXRC_RECORD" ]; then
+  LINUXRC_READ=""
+fi
+
+#
+# readln reads a line into $ANSW.
+#
+function readln () {
+  echo -n "$1"
+  if [ -z "$LINUXRC_RECORD" -a "$LINUXRC_READ" ]; then
+    set -- $LINUXRC_READ
+    echo "-> $1"
+    ANSW=$1
+    shift
+    LINUXRC_READ="$@"
+    if [ "$ANSW" = /n -o "$ANSW" = /N ]; then
+      ANSW=""
+    fi
+    sleep 1
+  else
+    IFS='@' read ANSW || exit 1
+    ANSW=`echo $ANSW | sed -e 's/^ *//'`
+    if [ "$LINUXRC_RECORD" ]; then
+      record_answ="$ANSW"
+      [ "$record_answ" ] || record_answ=/n
+      LINUXRC_READ="$LINUXRC_READ $record_answ"
+    fi
+    if [ "$ANSW" = "restart" -o "$ANS" = "RESTART" ]; then
+	echo;echo;echo "-- Restarting linuxrc --";echo;echo
+	if [ "$DEBUG" = "yes" ]; then
+	    . ./linuxrc || exit 1
+	else
+	    . /linuxrc || exit 1
+	fi
+	exit 0
+    fi
+  fi
+}
+
+#
+# yes_no reads either a yes or a no into $ANSW
+#
+function yes_no () {
+  while :; do
+    readln "$1"
+    case "$ANSW" in
+      [yY] | [yY][eE][sS]) ANSW=yes
+                     break;;
+      [nN] | [nN][oO])  ANSW=no
+                     break;;
+    esac
+  done
+}
+
+#
+# Check memory and issue a waring if we do not have a certain amount
+#
+function check_memory () {
+	set -- `cat /proc/meminfo | head -2 | tail -1`
+	let MEM="$2/1024/1024"
+	if [ $MEM -lt 80 ]; then
+	    echo "The kernel has only $MEM MB memory for applications"
+	    echo "80 MB are recommended, especially for updating."
+	fi
+}
+
+#
+# execcmd executes a command or displays it in debug mode
+#
+function execcmd () {
+	CMD="$*"
+	if [ "$DEBUG" = "yes" ]; then
+		echo "--> "$CMD
+	else
+		eval $CMD
+	fi
+	EXIT_CODE=$?
+}
+
+#
+# change_passwd asks for a new root password
+#
+function change_passwd() {
+  echo " "
+  echo "For security reasons you have to set an temporary installation"
+  echo "system password for the user \"root\"."
+  echo "You'll be asked for it only when you telnet into this installation"
+  echo "system to limit the access to it and it will be cleared as soon"
+  echo "as you shut down or reset the installation system"
+  while :; do
+    echo " "
+    readln "Please enter the temporary installation password: "
+    if [ `expr length "$ANSW"` -ge 3 ]; then
+      break;
+    fi
+    echo "Please enter at least 3 characters."
+  done
+  echo "root:$ANSW" | execcmd "/usr/sbin/chpasswd" &&
+    echo "Temporary installation password set."
+}
+
+#
+# show_license shows the LCS license
+#
+show_license () {
+  TOTAL=1
+  FIRST=1
+  SHOWED=0
+  while read LINE
+   do
+     echo "$LINE"
+     (( SHOWED = SHOWED + 1 ))
+     #echo $SHOWED
+     if [ $SHOWED -ge 20 ]; then
+       (( LAST = TOTAL + SHOWED ))
+       echo "(lines $TOTAL to $LAST) press ENTER:"
+       read A < /dev/tty
+       (( TOTAL = TOTAL + SHOWED ))
+       SHOWED=0
+     fi
+   done
+   echo $LINES
+}
+
+#
+# display_license validates that the license is being read
+#
+function display_license() {
+  if [ "$LICENSE_ACKNOWLEGED" = yes ]; then return; fi
+  if [ "$DEBUG" = "yes" -o "$LINUXRC_RECORD" -o "$LINUXRC_READ" ]; then return; fi
+  echo "To set up the network, you have to read and confirm the license information"
+  echo "of the network device driver provided by IBM."
+  yes_no "Do you want to see the license (Yes/No) ? "
+  if [ "$ANSW" = "yes" ]; then
+show_license <<EOF
+-------------------------------------------------------------------------------
+International License Agreement for Non-Warranted Programs
+
+General Terms
+
+     The Program is owned by International Business Machines Corporation or one
+     of its subsidiaries (IBM) or an IBM supplier, and is copyrighted and
+     licensed, not sold.
+
+     The term "Program" means the original program and all whole or partial
+     copies of it. A Program consists of machine-readable instructions, its
+     components, data, audio-visual content (such as images, text, recordings,
+     or pictures), and related licensed materials.
+
+     This Agreement is the complete agreement regarding the use of this Program,
+     and replaces any prior oral or written communications between you and IBM.
+
+     1. License
+
+     Use of the Program
+
+     IBM grants you a nonexclusive license to use the Program.
+
+     You may 1) use the Program to the extent of authorizations you have
+     acquired and 2) make, install and distribute copies to support the level of
+     use authorized, providing you reproduce the copyright notice and any other
+     legends of ownership on each copy, or partial copy, of the Program and that
+     you provide a copy of this International License Agreement for
+     Non-Warranted Programs along with the distribution of each copy or partial
+     copy of the Program.
+
+     You will ensure that anyone who uses the Program does so only in compliance
+     with the terms of this Agreement.
+
+     You may not 1) use, copy, modify, or distribute the Program except as
+     provided in this Agreement; 2) reverse assemble, reverse compile, or
+     otherwise translate the Program except as specifically permitted by law
+     without the possibility of contractual waiver; or 3) sublicense, rent, or
+     lease the Program.
+
+     2. No Warranty
+
+     SUBJECT TO ANY STATUTORY WARRANTIES WHICH CAN NOT BE EXCLUDED, IBM MAKES NO
+     WARRANTIES OR CONDITIONS EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
+     LIMITATION, THE WARRANTY OF NON-INFRINGEMENT AND THE IMPLIED WARRANTIES OF
+     MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, REGARDING THE PROGRAM
+     OR TECHNICAL SUPPORT, IF ANY. IBM MAKES NO WARRANTY REGARDING THE
+     CAPABILITY OF THE PROGRAM TO CORRECTLY PROCESS, PROVIDE AND/OR RECEIVE DATE
+     DATA WITHIN AND BETWEEN THE 20TH AND 21ST CENTURIES.
+
+     The exclusion also applies to any of IBM's subcontractors, suppliers, or
+     program developers (collectively called "Suppliers").
+
+     Manufacturers, suppliers, or publishers of non-IBM Programs may provide
+     their own warranties.
+
+     3. Limitation of Liability
+
+     NEITHER IBM NOR ITS SUPPLIERS WILL BE LIABLE FOR ANY DIRECT OR INDIRECT
+     DAMAGES, INCLUDING WITHOUT LIMITATION, LOST PROFITS, LOST SAVINGS, OR ANY
+     INCIDENTAL, SPECIAL, OR OTHER ECONOMIC CONSEQUENTIAL DAMAGES, EVEN IF IBM
+     IS INFORMED OF THEIR POSSIBILITY. SOME JURISDICTIONS DO NOT ALLOW THE
+     EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE
+     ABOVE EXCLUSION OR LIMITATION MAY NOT APPLY TO YOU.
+
+     4. General
+
+     Nothing in this Agreement affects any statutory rights of consumers that
+     cannot be waived or limited by contract.
+
+     IBM may terminate your license if you fail to comply with the terms of this
+     Agreement. If IBM does so, you must immediately destroy the Program and all
+     copies you made of it.
+
+     You agree to comply with applicable export laws and regulations.
+
+     Neither you nor IBM will bring a legal action under this Agreement more
+     than two years after the cause of action arose unless otherwise provided by
+     local law without the possibility of contractual waiver or limitation.
+
+     Neither you nor IBM is responsible for failure to fulfill any obligations
+     due to causes beyond its control.
+
+     IBM does not provide program services or technical support, unless IBM
+     specifies otherwise.
+------------------------------------------------------------------------------'
+EOF
+    echo
+    yes_no "Do you agree with this license (Yes/No) ? "
+    if [ "$ANSW" = "no" ]; then
+      no_network
+      EXIT_SCRIPT=1
+    else
+      export LICENSE_ACKNOWLEGED=yes
+      echo
+      echo "Ok, now we can set up the network configuration."
+    fi
+  else
+    no_network
+    EXIT_SCRIPT=1
+  fi
+}
+
+function set_IP_DEV {
+  if [ "$NETSELECT" = "tr" ]    ; then IP_DEV=tr0    ; fi
+  if [ "$NETSELECT" = "eth" ]   ; then IP_DEV=eth0   ; fi
+  if [ "$NETSELECT" = "geth" ]  ; then IP_DEV=eth0   ; fi
+  if [ "$NETSELECT" = "ctc" ]   ; then IP_DEV=ctc0   ; fi
+  if [ "$NETSELECT" = "escon" ] ; then IP_DEV=escon0 ; fi
+  if [ "$NETSELECT" = "iucv" ]  ; then IP_DEV=iucv0  ; fi
+  if [ "$NETSELECT" = "c7000" ] ; then IP_DEV=ci0    ; fi
+}
+
+#
+# select_network_device_type lets you choose the network connection
+#
+function select_network_device_type() {
+    if [ "$NETSELECT" ]; then
+      echo "The selected network device type is $NETSELECT."
+      yes_no "Do you want to change it (Yes/No) ?"
+      if [ "$ANSW" = no ]; then
+	return
+      fi
+    fi
+    check_memory
+    while :; do
+      CHAN=""
+      echo
+      echo "Please select the type of your network device:"
+      echo "0) no network"
+      echo "1) OSA Token Ring"
+      echo "2) OSA Ethernet"
+      echo "3) OSA-Gigabit Ethernet or OSA-Express Fast Ethernet"
+      echo "4) Channel To Channel"
+      echo "5) Escon"
+      echo "6) IUCV"
+      # The UTS c7000 driver has not been ported to 2.4 yet:
+      if [ "`uname -r`" = 2.2.19 ]; then
+        echo "7) CLAW (Cisco Mainframe Channel Connection)"
+      fi
+      readln "Enter your choice (1-7): "
+      echo
+      echo
+      case "$ANSW" in
+	0)
+  	  # no network
+	  NETSELECT="none"
+          EXIT_SCRIPT=1
+          no_network
+	  break;;
+        1)
+	  NETSELECT="tr"
+	  set_IP_DEV
+          display_license
+          if [ $EXIT_SCRIPT = 0 ]; then
+	    if load_LCS; then
+	      break
+	    fi
+          fi
+          break;;
+        2)
+	  NETSELECT="eth"
+	  set_IP_DEV
+          display_license
+          if [ $EXIT_SCRIPT = 0 ]; then
+	    if load_LCS; then
+	      break
+	    fi
+          fi
+          break;;
+        3)
+ 	  NETSELECT="geth"
+	  set_IP_DEV
+          display_license
+          if [ $EXIT_SCRIPT = 0 ]; then
+            if load_GETH; then
+              break
+            fi
+          fi;;
+        4)
+	  NETSELECT="ctc"
+	  set_IP_DEV
+          if load_CTC; then
+            break
+          fi;;
+        5)
+	  NETSELECT="escon"
+	  set_IP_DEV
+          if load_ESCON; then
+	    break
+          fi;;
+        6)
+	  NETSELECT="iucv"
+	  set_IP_DEV
+          if load_IUCV; then
+            break
+          fi;;
+        7)
+          NETSELECT="c7000"
+	  set_IP_DEV
+	  if load_C7000; then
+	    break
+	  fi
+          break;;
+      esac
+    done
+}
+
+#
+# activate_config establishes the network connection
+# 
+function activate_config() {
+    execcmd "/bin/hostname ${IP_HOST%%.*}"
+    dns_config
+    ANSW="y"
+    while [ "$ANSW" = "y" ] ; do
+	case "$NETSELECT" in
+	    tr|eth|geth|c7000)
+		echo "ifconfig $IP_DEV $IP_ADDR netmask $IP_NETMASK broadcast $IP_BROADCAST mtu $IP_MTU"
+		execcmd "/sbin/ifconfig $IP_DEV $IP_ADDR netmask $IP_NETMASK broadcast $IP_BROADCAST mtu $IP_MTU"
+		;;
+	    ctc|escon|iucv)
+		echo "ifconfig $IP_DEV $IP_ADDR pointopoint $IP_PEER mtu $IP_MTU"
+		execcmd "/sbin/ifconfig $IP_DEV $IP_ADDR pointopoint $IP_PEER mtu $IP_MTU"
+		;;
+	    *)
+		echo "Something went wrong with $NETSELECT..."
+	esac
+	echo "/sbin/ifconfig $IP_DEV :"
+	execcmd "/sbin/ifconfig $IP_DEV"
+        sleep 1
+	echo "Trying to ping my IP address:"
+	execcmd "ping -n -c 3 -w 1 $IP_ADDR"
+	if [ $EXIT_CODE -gt 0 ]; then
+	    echo "Warning: Could not ping my IP address!"
+	else
+	    case "$NETSELECT" in
+		tr|eth|geth|c7000)
+                    if [ "$NETSELECT" = geth ]; then
+                        echo "Waiting 5 seconds to give the card some time to come up..."
+			sleep 5
+		    fi
+		    if [ "$IP_GATEWAY" ]; then
+			echo "Trying to ping the IP address of the Gateway:"
+			execcmd "ping -n -c 3 -w 1 $IP_GATEWAY" 
+			if [ $EXIT_CODE -eq 0 ]; then
+			    echo "Gateway seems to respond to our pings, continuing."
+			    break
+			else
+			    echo "Warning: The gateway address $IP_GATEWAY did not ping."
+			fi
+		    fi
+		    ;;
+		ctc|escon|iucv)
+		    if [ "$IP_PEER" ]; then
+                        if [ "$NETSELECT" != iucv ]; then
+			    for i in 6 3 4 5 4 4 3 2
+			    do
+				if dmesg | tail | grep -q "$IP_DEV: connected with remote side"; then
+					break
+				fi
+				echo "Waiting $i seconds for connection with remote side."
+				sleep $i
+			    done
+			fi
+			echo "Trying to ping the IP address of the peer:"
+			execcmd "ping -n -c 3 -w 1 $IP_PEER"
+			if [ $EXIT_CODE -eq 0 ]; then
+			    echo "Peer seems to respond to our pings, continuing."
+			    break
+			else
+			    echo "Warning: The peer address $IP_PEER did not ping."
+			fi
+		    fi
+		    ;;
+		*)
+		    echo "Something went wrong with $NETSELECT..."
+	    esac
+	fi
+	readln "Do you want to retry the ifconfig (y/n)? "
+    done
+    if test $IP_GATEWAY ; then
+      execcmd "route add default gw $IP_GATEWAY"
+    fi
+    if [ "$IP_DNS" ]; then
+	echo "Trying to ping the IP address of the DNS Server:"
+	execcmd "ping -c 3 -w 1 $IP_DNS"
+	if [ $EXIT_CODE -gt 0 ]; then
+	    echo "Warning: The DNS address $IP_DNS did not ping."
+	    echo "Diagnostics:"
+	    echo "traceroute to the DNS IP with max ttl 10, waittime 1, one probe per hop:"
+	    execcmd "traceroute -m 10 -n -w 1 -q 1 $IP_DNS"
+	    echo "Flaky DNS will cause delays when logging in and during"
+	    echo "Installation. To disable DNS enter: \"nodns\"."
+	fi
+    fi
+    generate_installinf >$INSTALLINF
+}
+
+generate_installinf () {
+
+# the following lines are not needed in install.inf
+#Display: Color
+#Keytable: de-lat1-nd
+#Bootmode: CD
+#Cdrom: /dev/hda
+#Server:  10.10.0.10
+#Serverdir: /work/CDs/full-i386
+
+    echo "Language: english
+Bootmode: Net
+Sourcemounted: 0
+Netdevice: $IP_DEV
+IP: $IP_ADDR
+MTU: $IP_MTU"
+    case "$NETSELECT" in
+	tr|eth|geth|c7000)
+	    echo "Netmask: $IP_NETMASK"
+	    echo "Broadcast: $IP_BROADCAST"
+	    ;;
+	ctc|escon|iucv)
+	    echo "Pointopoint: $IP_PEER"
+	    ;;
+	*)
+	    echo "Something went wrong with $NETSELECT..." >&2
+    esac
+    if [ "$IP_GATEWAY" ]; then
+	echo "Gateway: $IP_GATEWAY"
+    fi
+    if [ "$CHAN" ]; then
+      echo "options installation_chandev: $CHAN"
+    fi
+    if [ "$NETSELECT" = tr -o "$NETSELECT" = eth ]; then
+      echo "alias $IP_DEV lcs"
+      echo "options lcs $PARM"
+    fi
+    if [ "$NETSELECT" = "geth" ]; then
+      echo "alias $IP_DEV qeth"
+      echo "options qeth $PARM"
+    fi
+    if [ "$NETSELECT" = "ctc" -o "$NETSELECT" = "escon" ]; then
+      echo "alias $IP_DEV ctc"
+      echo "options ctc $PARM"
+    fi
+    if [ "$NETSELECT" = "c7000" ]; then
+      echo "alias $IP_DEV c7000"
+      echo "options c7000 $PARM"
+    fi
+    if [ "$NETSELECT" = "iucv" ]; then
+      echo "alias $IP_DEV netiucv"
+      echo "$IUCV_OPTIONS" |
+	sed "s/iucv=\(.*\)/options netiucv iucv='\`echo \1\`'/g"
+    fi
+    if [ "$IP_HOST" ]; then
+      echo "Machinename: $IP_HOST"
+    fi
+    if [ "$IP_DNS" ]; then
+      echo "Nameserver: $IP_DNS"
+    fi
+    if [ "$NFS_SERVER" ]; then
+      echo "Server: $NFS_SERVER"
+    fi
+    if [ "$NFS_SERVER_DIR" ]; then
+      echo "Serverdir: $NFS_SERVER_DIR"
+    fi
+}
+
+#
+# at the end, run services
+#
+function run_services () {
+  echo "Network Setup finished, running inetd..."
+  execcmd "/usr/sbin/inetd &"
+  execcmd "/sbin/portmap &"
+  execcmd "/etc/rc.d/sshd start &"
+  #/usr/sbin/rpc.mountd -d call &
+  #/usr/sbin/rpc.nfsd -d auth &
+}
+
+#
+# configure name resolving
+#
+function dns_config () {
+  if [ "$DEBUG" = "yes" ]; then echo "-->(Installing /etc/resolv.conf)";return; fi
+  cat > /etc/resolv.conf <<EOF
+#
+# /etc/resolv.conf
+#
+# Automatically generated by SuSE S/390 linuxrc (network setup)
+#
+# PLEASE DO NOT EDIT THIS FILE!
+#
+search $IP_SEARCH
+nameserver $IP_DNS
+EOF
+}
+
+#
+# on failure, quit with this message
+#
+function no_network () {
+  echo
+  echo "*** OK, NETWORK ACCESS WILL _NOT_ BE AVAILABLE. ***"
+  echo
+}
+
+#
+# ask for lcs parameters for OSA devices
+#
+function load_LCS_chandev () {
+  echo "All possible OSA / OSA-2 channel devices detected:"
+  sed -n '1,/^channels detected/d;/^[ =]/p;/^0x.... 0x.... 0x0[4567]/p' \
+	 /proc/chandev >lcs_detected
+  cat lcs_detected
+  if [ `grep '^0x' lcs_detected | wc -l` -lt 2 ]; then
+	echo "Error: Two OSA Adresses need to be detected!"
+	return 1
+  fi
+  echo "We recommend to only use LCS autoprobing if Linux can see only two channel"
+  echo "devices and you are sure that the relative adapter number 0 is not used"
+  echo "by an other LPAR or Virtual Machine. For manual config, you have to enter"
+  echo "the read channel device address(must be an even address). The write channel"
+  echo "device number will be one greater. For autoprobing enter \"auto\"."
+  ANSW="yes"
+  while [ "$ANSW" = "yes" ]; do
+     while true; do
+	readln "Enter the read channel device number, e.g. 'FC20' (${DEVNO#0x}): "
+	if [ -z "$ANSW" -o "$ANSW" = "auto" -o "$ANSW" = "AUTO" -o "$ANSW" = 0 ]; then
+	    break
+	fi
+	if [ "$ANSW" != "${ANSW//[^0-9a-fA-F]/}" ]; then
+            echo "Invalid character detected, allowed hex numbers only consist of 0-9,a-f."
+	    continue
+	fi
+	ANSW=0x$ANSW
+	if [ $(( $ANSW )) -ge 0 -a $(( $ANSW )) -le 65534 ]; then
+	    break
+	fi
+	echo
+	echo "The read channel device number should be a hex number in the range of 0-FFFE."
+     done
+     if [ $ANSW ]; then export DEVNO=$ANSW; fi
+     if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
+	PARM=""
+        CHAN=""
+     else
+	if [ $(($DEVNO & 1)) -eq 1 ]; then
+	    echo "Warning: You entered an odd read channel address, should be even!"
+        fi
+        WRITE_DEVNO=`printf "0x%x\n" $(($DEVNO + 1))`
+        echo
+        echo "Please enter the relative port number on device address ${DEVNO#0x}"
+        readln "Relative port, e.g. '0' ($PORTNO): "
+        if [ $ANSW ]; then export PORTNO=$ANSW; fi
+        PARM="noauto=1 devno_portno_pairs=$DEVNO,$PORTNO"
+	CHAN="noauto;lcs0,$DEVNO,$WRITE_DEVNO,0,$PORTNO"
+	echo "$CHAN" > /proc/chandev
+     fi
+     if grep -q lcs /proc/modules; then
+	echo "reprobe" > /proc/chandev
+     else
+  	execcmd "/sbin/insmod lcs"
+     fi
+     if grep lcs /proc/modules; then
+       execcmd "/sbin/ifconfig $IP_DEV"
+       if [ $EXIT_CODE -eq 0 ]; then
+         ANSW="yes"
+         break
+       else
+         echo -e "\n$IP_DEV not available, check device addresses/cards and cables.\n"
+       fi
+     else
+       echo -e "\nlcs module not loaded,  check device addresses/cards and cables.\n"
+     fi
+     yes_no "Do you want to retry the setup of the lcs module (Yes/No) ? "
+  done
+  if [ "$ANSW" = "yes" ]; then
+     echo "$IP_DEV is available, continuing with network setup."
+  else
+     false
+  fi
+}
+
+#
+# ask for lcs parameters for OSA devices, checks for chandev and calls load_LCS_chandev then
+#
+function load_LCS () {
+  if [ -f /proc/chandev ]; then
+	load_LCS_chandev
+	return
+  fi
+  ANSW="yes"
+  while [ "$ANSW" = "yes" ]; do
+        echo "Please enter the device address of the network device"
+        echo "Ask your system administrator for the correct settings."
+        echo "If there is only _ONE_ OSA network device attached to your machine,"
+        echo "you may type \"auto\" for automatic detection; use this option carefully."
+        readln "Network device address, e.g. 'FC20' ($DEVNO): "
+        if [ $ANSW ]; then export DEVNO=$ANSW; fi
+        if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
+          PARM=""
+        else
+          echo
+          echo "Please enter the relative port number on device address $DEVNO"
+          readln "Relative port, e.g. '0' ($PORTNO): "
+          if [ $ANSW ]; then export PORTNO=$ANSW; fi
+          PARM="noauto=1 devno_portno_pairs=0x$DEVNO,$PORTNO"
+          WRITE_DEVNO=`printf "%0x\n" $(($DEVNO + 1))`
+	  CHAN="noauto;lcs0,0x$DEVNO,0x$WRITE_DEVNO,0,$PORTNO"
+        fi
+        echo
+        if grep lcs /proc/modules; then
+	  echo "Unloading LCS module..."
+          execcmd "/sbin/rmmod lcs"
+        fi
+        echo "Trying to start the LCS module now..."
+        echo "insmod lcs $PARM :"
+        execcmd "/sbin/insmod lcs $PARM"
+        if grep lcs /proc/modules; then
+          execcmd "/sbin/ifconfig $IP_DEV"
+          if [ $EXIT_CODE -eq 0 ]; then
+            if [ "$PARM" = "" ]; then
+		echo "Ensure that the device you want to use is detected as $IP_DEV"
+		echo "(check the lines beginning with \"lcs:\")."
+	    fi
+            ANSW="yes"
+            break
+          else
+            echo -e "\n$IP_DEV not available, check device addresses/cards.\n"
+          fi
+        else
+          echo -e "\nlcs module not loaded, check device addresses/cards.\n"
+        fi
+        yes_no "Do you want to retry the setup of the lcs module (Yes/No) ? "
+  done
+  if [ "$ANSW" = "yes" ]; then
+     echo "$IP_DEV is available, continuing with network setup."
+  else
+     false
+  fi
+}
+
+#
+# load the geth driver
+#
+function load_GETH () {
+  echo "For information about the driver parameters you should read"
+  echo "the manual for the OSA Express Gigabit Ethernet device driver at"
+  echo "http://oss.software.ibm.com/developerworks/opensource/linux390/docu.html"
+  if ! grep qdio /proc/modules; then
+    echo "Loading qdio..."
+    execcmd "/sbin/insmod qdio"
+  fi
+  if [ -f /proc/chandev ]; then
+	load_GETH_chandev
+	return
+  fi
+  ANSW="yes"
+  while [ "$ANSW" = "yes" ]; do
+     if grep qeth /proc/modules; then
+       echo "Unloading qeth..."
+       execcmd "/sbin/rmmod qeth"
+     fi
+     echo "For Gigabit Ethernet Cards, autodetection will use the first 3 addesses"
+     echo "found, even if they are used by an other LPAR. This seems to work"
+     echo "with Gbit Cards and z/VM, but it is not required that it works in every case."
+     echo "For autodetection enter auto or enter the device addresses for"
+     readln "the qeth module, e.g. '0xf800,0xf801,0xf802' ($DEVNO): "
+     if [ $ANSW ]; then export DEVNO=$ANSW; fi
+     PARM="qeth_options=\"$DEVNO\""
+     CHAN="$IP_DEV,$ANSW"
+     echo "Loading qeth:"
+     echo "insmod qeth $PARM :"
+     execcmd "/sbin/insmod qeth $PARM"
+     if grep qeth /proc/modules; then
+       execcmd "/sbin/ifconfig $IP_DEV"
+       if [ $EXIT_CODE -eq 0 ]; then
+         ANSW="yes"
+         break
+       else
+         echo -e "\n$IP_DEV not available, check device addresses/cards.\n"
+       fi
+     else
+       echo -e "\nqeth module not loaded, check device addresses/cards.\n"
+     fi
+     yes_no "Do you want to retry the qeth-setup (Yes/No) ? "
+  done
+  if [ "$ANSW" = "yes" ]; then
+     echo "$IP_DEV is available, continuing with network setup."
+  else
+     false
+  fi
+}
+
+#
+# load the geth driver
+#
+function load_GETH_chandev () {
+  echo "All OSA Express/Gigabit detected:"
+  sed -n '1,/^channels detected/d;/^[ =]/p;/^0x.... 0x.... 0x10/p' \
+	 /proc/chandev >qeth_detected
+  cat qeth_detected
+  if [ `grep '^0x' qeth_detected | wc -l` -lt 3 ]; then
+	echo "Three OSA Adresses need to be detected!"
+	return 1
+  fi
+  echo "For Gigabit Ethernet Cards, autodetection will use the first 3 addesses"
+  echo "found, even if they are used by an other LPAR. This seems to work"
+  echo "with Gbit Cards and z/VM, but it is not required that it works in every case."
+  ANSW="yes"
+  while [ "$ANSW" = "yes" ]; do
+     echo "For autodetection enter auto or enter the device addresses for"
+     readln "the qeth module, e.g. '0xf800,0xf801,0xf802' ($DEVNO): "
+     if [ $ANSW -a "$ANSW" != auto ]; then
+        CHAN="$IP_DEV,$ANSW"
+	echo "$CHAN" > /proc/chandev
+     fi
+     PARM="qeth_options=$ANSW"
+     if grep -q qeth /proc/modules; then
+	echo "reprobe" > /proc/chandev
+     else
+  	execcmd "/sbin/insmod qeth"
+     fi
+     if grep qeth /proc/modules; then
+       execcmd "/sbin/ifconfig $IP_DEV"
+       if [ $EXIT_CODE -eq 0 ]; then
+         ANSW="yes"
+         break
+       else
+         echo -e "\n$IP_DEV not available, check device addresses/cards.\n"
+       fi
+     else
+       echo -e "\nqeth module not loaded, module problem.\n"
+     fi
+     yes_no "Do you want to retry the qeth-setup (Yes/No) ? "
+  done
+  if [ "$ANSW" = "yes" ]; then
+     echo "$IP_DEV is available, continuing with network setup."
+  else
+     false
+  fi
+}
+
+#
+# load the ctc driver
+#
+function load_CTC_chandev () {
+  echo "All possible CTC Channels detected:"
+  sed -n '1,/^channels detected/d;/^[ =]/p;s/ *$//;/^0x.... 0x.... 0x0[123567]/p'\
+	 /proc/chandev >ctc_detected
+  cat ctc_detected
+  if [ `grep '^0x' ctc_detected | wc -l` -lt 2 ]; then
+	echo "Two CTC Channels (one read, one write) need to be detected!"
+	return 1
+  fi
+  yes_no "Do you want to try the first two as read/write in this order (Yes/No) ? "
+  if [ "$ANSW" = "yes" ]; then
+    DEVNOS=$(echo \
+	$(grep '^0x' ctc_detected | cut -d' ' -f 2 | head -2) | sed 's/ /,/')
+    PARM="0,$DEVNOS,$IP_DEV"
+    CHAN="$IP_DEV,$DEVNOS"
+    echo "$CHAN" > /proc/chandev
+    if grep -q ctc /proc/modules; then
+	echo "reprobe" > /proc/chandev
+    else
+  	execcmd "/sbin/insmod ctc"
+    fi
+    execcmd "/sbin/ifconfig $IP_DEV"
+    if [ $EXIT_CODE -eq 0 ]; then
+      return
+    else
+      echo "Did not work, enter device addresses.\n"
+    fi
+  fi
+  ANSW="yes"
+  while [ "$ANSW" = "yes" ]; do
+        readln "Device address for read channel, e.g. '40A' ($DEVNO): "
+	if [ $ANSW ]; then export DEVNO=$ANSW; fi
+        if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
+          PARM=""
+        else
+	  readln "Device address for write channel, e.g. '40B' ($DEVNO2): "
+	  if [ $ANSW ]; then export DEVNO2=$ANSW; fi
+	  echo "The network device name used will be: $IP_DEV"
+          PARM="setup='\"ctc=0,0x$DEVNO,0x$DEVNO2,$IP_DEV\"'"
+          CHAN="$IP_DEV,0x$DEVNO,0x$DEVNO2"
+        fi
+	echo "$CHAN" > /proc/chandev
+	if grep -q ctc /proc/modules; then
+	    echo "reprobe" > /proc/chandev
+	else
+	    execcmd "/sbin/insmod ctc"
+	fi
+        if grep ctc /proc/modules; then
+          execcmd "/sbin/ifconfig $IP_DEV"
+          if [ $EXIT_CODE -eq 0 ]; then
+            ANSW="yes"
+            break
+          else
+            echo -e "\n$IP_DEV not available, check device addresses.\n"
+          fi
+        else
+          echo -e "\nctc module not loaded, module problem.\n"
+        fi
+        yes_no "Do you want to retry to configure $IP_DEV (Yes/No) ? "
+  done
+  if [ "$ANSW" = "yes" ]; then
+     echo "$IP_DEV is available, continuing with network setup."
+  else
+     false
+  fi
+}
+
+#
+# load the ctc driver
+#
+function load_CTC () {
+  if [ -f /proc/chandev ]; then
+	load_CTC_chandev
+	return
+  fi
+  ANSW="yes"
+  while [ "$ANSW" = "yes" ]; do
+        if grep ctc /proc/modules; then
+          echo "Unloading the ctc driver..."
+          execcmd "/sbin/rmmod ctc"
+        fi
+        echo "Please enter the options for the CTC device driver now."
+	echo "Specify which channel addresses Linux should use (recommeded)"
+        echo "or enter 'auto' to autosense all available channel devices,"
+	echo "but be careful if you share channel devices!"
+	echo "ctc options:"
+        readln "Device address for read channel, e.g. '40A' ($DEVNO): "
+	if [ $ANSW ]; then export DEVNO=$ANSW; fi
+        if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
+          PARM=""
+        else
+	  readln "Device address for write channel, e.g. '40B' ($DEVNO2): "
+	  if [ $ANSW ]; then export DEVNO2=$ANSW; fi
+	  echo "The network device name used will be: $IP_DEV"
+          PARM="setup='\"ctc=0,0x$DEVNO,0x$DEVNO2,$IP_DEV\"'"
+        fi
+        echo "Trying to start the ctc module now..."
+        echo "insmod ctc $PARM :"
+        execcmd "/sbin/insmod ctc $PARM"
+        if grep ctc /proc/modules; then
+          execcmd "/sbin/ifconfig $IP_DEV"
+          if [ $EXIT_CODE -eq 0 ]; then
+            ANSW="yes"
+            break
+          else
+            echo -e "\n$IP_DEV not available, check device addresses.\n"
+          fi
+        else
+          echo -e "\nctc module not loaded, check device addresses.\n"
+        fi
+        yes_no "Do you want to retry the load of ctc (Yes/No) ? "
+  done
+  if [ "$ANSW" = "yes" ]; then
+     echo "$IP_DEV is available, continuing with network setup."
+  else
+     false
+  fi
+}
+
+#
+# load the escon driver
+#
+function load_ESCON () {
+  echo "The ESCON network connection is managed by the CTC module."
+  # Not load_CTC must be the last command, this way the exit code of
+  # load_CTC is passed back to the if which checks the exit of load_ESCON
+  load_CTC
+}
+
+#
+# load the iucv driver
+#
+function load_IUCV () {
+  ANSW="yes"
+  while [ "$ANSW" = "yes" ]; do
+    echo "Please enter the options for the IUCV device driver now."
+    echo "Specify the IUCV peer's name or leave blank to use the"
+    echo "default '$PEER', the VM's or VIF's TCP/IP stack itself."
+    echo ""
+    echo "netiucv options:"
+    readln "The name of the peer guest, e.g. 'TCPIP' ($PEER): "
+    if [ "$ANSW" ]; then export PEER=$ANSW; fi
+    if [ "$PEER" ]; then PARM="iucv='$PEER'"; fi
+    if grep netiucv /proc/modules; then
+      echo "Unloading netiucv module..."
+      execcmd "/sbin/rmmod netiucv"
+    fi
+    echo "Trying to start the netiucv module now..."
+    echo "insmod netiucv $PARM :"
+    execcmd "/sbin/insmod netiucv $PARM"
+    if grep netiucv /proc/modules; then
+      echo "netiucv module is loaded, checking interface $IP_DEV."
+      execcmd "/sbin/ifconfig $IP_DEV"
+      if [ $EXIT_CODE -eq 0 ]; then
+        ANSW="yes"
+        break
+      else
+        echo "Error: $IP_DEV is not available, peer guest ok?"
+      fi
+    else
+      echo "Error: The netiucv module is NOT loaded."
+    fi
+    yes_no "Do you want to retry the setup of IUCV (Yes/No) ? "
+  done
+  if [ "$ANSW" = "yes" ]; then
+     echo "$IP_DEV seems to exist, continuing with network setup."
+  else
+     false
+  fi
+}
+
+#
+# load the UTS c7000 driver (Kernel 2.2 only)
+#
+function load_C7000 () {
+  echo "The C7000 driver from UTS is used for Cisco channel attached routers."
+  echo "It is not provided by IBM, in case of problems, please contact SuSE."
+  ANSW="yes"
+  while [ "$ANSW" = "yes" ]; do
+        echo "Please enter the options for the C7000 device driver now."
+        echo "You can let the base address be autodetected by entering 'auto'."
+	echo "If you are not sure what to enter please ask your system administrator."
+	echo ""
+	echo "c7000 options:"
+        readln "Base unit address of the channel attached router, e.g. '336C' ($DEVNO): "
+	if [ $ANSW ]; then export DEVNO=$ANSW; fi
+        if [ "$DEVNO" = "auto" -o "$DEVNO" = "AUTO" ]; then
+          PARM=""
+        else
+          PARM="base0=0x$DEVNO noauto=1"
+	fi
+
+	echo   "Local host name        - claw directive 'host-name' (first string)"
+	readln "default: 'UTS' ($LHOST): "
+	if [ $ANSW ]; then export LHOST=$ANSW; fi
+	if [ $LHOST ]; then PARM="$PARM lhost0=\"$LHOST\""; fi
+
+	echo   "Unit name              - claw directive 'device-name' (second string)"
+	readln "default: 'C7011' ($UHOST): "
+	if [ $ANSW ]; then export UHOST=$ANSW; fi
+	if [ $UHOST ]; then PARM="$PARM uhost0=\"$UHOST\""; fi
+
+	echo   "Local application name - claw directive 'host-app' (third string)"
+	readln "default: 'TCPIP' ($LAPPL): "
+	if [ $ANSW ]; then export LAPPL=$ANSW; fi
+	if [ $LAPPL ]; then PARM="$PARM lappl0=\"$LAPPL\""; fi
+
+	echo   "Unit application name  - claw directive 'device-app' (fourth string)"
+	readln "default: 'TCPIP' ($UAPPL): "
+	if [ $ANSW ]; then export UAPPL=$ANSW; fi
+	if [ $UAPPL ]; then PARM="$PARM uappl0=\"$UAPPL\""; fi
+
+	echo   "Message level - higher numbers will result in additional diagnostic messages"
+	readln "default: '0' ($DBG): "
+	if [ $ANSW ]; then export DBG=$ANSW; fi
+	if [ $DBG ]; then PARM="$PARM dbg=$DBG"; fi
+
+        echo "The network device name used will be: $IP_DEV"
+	if grep c7000 /proc/modules; then
+          echo "Unloading c7000 module..."
+          execcmd "/sbin/rmmod c7000"
+	fi
+        echo "Trying to start the c7000 module now..."
+        echo "insmod c7000 $PARM :"
+        execcmd "/sbin/insmod c7000 $PARM"
+        echo
+        if grep c7000 /proc/modules; then
+          echo "c7000 module is loaded, checking interface $IP_DEV."
+          execcmd "/sbin/ifconfig $IP_DEV"
+          if [ $EXIT_CODE -eq 0 ]; then
+            ANSW="yes"
+            break
+          else
+            echo "Error: $IP_DEV is not available, must be a setup or comm problem."
+          fi
+        else
+          echo "Error: The c7000 module is NOT loaded."
+        fi
+        yes_no "Do you want to retry the setup of c7000 (Yes/No) ? "
+  done
+  if [ "$ANSW" = "yes" ]; then
+     echo "$IP_DEV seems to exist, continuing with network setup."
+  else
+     false
+  fi
+}
+
+#
+# calculates the broadcast address; parameters are IP_ADDR and IP_NETMASK
+#
+function calc_broadcast_enh()
+
+# STDIN: IP NETMASK
+# STDOUT: BROADCAST
+{
+        IFS=". " read ip1 ip2 ip3 ip4  nm1 nm2 nm3 nm4
+        echo $(( ($ip1 & $nm1 | ~$nm1) & 255)).$(( ($ip2 & $nm2 | ~$nm2) & 255)).$(( ($ip3 & $nm3 | ~$nm3) & 255)).$((($ip4 & $nm4 | ~$nm4) & 255))
+}
+
+#
+# MAIN
+#
+
+#
+# If we are not started by init (we are linuxrc), we have to make sure
+# that we have an suitable PATH for us and the user:
+#
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+#
+# Ensure that we have /proc mounted:
+#
+if [ ! -f /proc/version ]; then
+	mount -t proc virtual-proc-filesystem /proc
+fi
+
+#
+# We want to save the kernel message ring buffer to a file:
+#
+if [ ! -e /boot.msg ]; then
+	dmesg > /boot.msg
+fi
+
+# set debug to yes/no
+#set -vx
+DEBUG=yes
+
+if [ "$DEBUG" = "no" ]
+then INSTALLINF="/etc/install.inf"
+else INSTALLINF="./install.inf"
+fi
+
+if [ "$DEBUG" = "no" ]; then
+	if [ -e /linuxrc.init ]; then
+		. /linuxrc.init
+		rm /linuxrc.init
+		#
+		# We use the initenv from the kernel parmfile only in the first run
+		#
+		for i in 1 2 3 4 5 6 7 8 9
+		do
+			eval LINUXRC_READLINE="\$LINUXRC_READ$i"
+			if [ "$LINUXRC_READLINE" ]; then
+				LINUXRC_READ="$LINUXRC_READ $LINUXRC_READLINE"
+			fi
+		done
+		if [ "$LINUXRC_READ" ]; then
+			LINUXRC_READ="`echo $LINUXRC_READ|sed 's/\"//g'`"
+			echo "Found this input script for linuxrc: $LINUXRC_READ"
+		fi
+	fi
+else
+	if [ -e ./linuxrc.init.debug ]; then
+		. ./linuxrc.init.debug
+		rm ./linuxrc.init.debug
+	fi
+#	export -p
+fi
+
+echo "\
+=                                                                           =
+==-    Welcome to SuSE Linux Enterprise Server 7 for S/390 and zSeries    -==
+=                                                                           ="
+if [ "$DEBUG" = "yes" ]; then echo "- Running in DEBUG mode. -"; echo ; fi
+EXIT_SCRIPT=0
+CONFIG_IS_OK=0
+while [ $CONFIG_IS_OK = 0 ]; do
+  select_network_device_type
+  if [ $CONFIG_IS_OK = 1 -o $EXIT_SCRIPT = 1 ]; then
+    break
+  fi
+  echo
+  readln "Please enter your full host name, e.g. 'linux.example.com' ($IP_HOST): "
+  if [ $ANSW ]; then export IP_HOST=$ANSW; fi
+  readln "Please enter your IP address, e.g. '192.168.0.1' ($IP_ADDR): "
+  if [ $ANSW ]; then export IP_ADDR=$ANSW; fi
+  case "$NETSELECT" in
+    tr|eth|geth|c7000)
+	    readln "Please enter the net mask, e.g. '255.255.255.0' ($IP_NETMASK): "
+	    if [ $ANSW ]; then export IP_NETMASK=$ANSW; fi
+	    IP_BROADCAST=$(echo $IP_ADDR $IP_NETMASK | calc_broadcast_enh)
+	    readln "Please enter the broadcast address if different from ($IP_BROADCAST): "
+	    if [ $ANSW ]; then IP_BROADCAST=$ANSW; fi
+	    readln "Please enter the gateway's IP address, e.g. '192.168.0.254' ($IP_GATEWAY): "
+	    if [ $ANSW ]; then export IP_GATEWAY=$ANSW; fi
+	    ;;
+    # peer-to-peer networks
+    ctc|escon|iucv)
+	    readln "Please enter the IP address of your peer, e.g. '192.168.0.254' ($IP_PEER): "
+	    if [ $ANSW ]; then export IP_PEER=$ANSW; fi
+	    export IP_GATEWAY=$IP_PEER
+	    export IP_NETMASK=255.255.255.255
+	    ;;
+    *)
+	    echo "Something went wrong with $NETSELECT..."
+  esac
+  readln "Please enter the IP address of the DNS server or 'none' for no DNS ($IP_DNS): "
+  if [ $ANSW ]; then export IP_DNS=$ANSW; fi
+  if [ "$IP_DNS" = "none" -o "$IP_DNS" = "NONE" ]; then export IP_DNS=""; fi
+  if [ "$IP_DNS" ]; then
+    readln "Please enter the DNS search domain, e.g. 'example.com' ($IP_SEARCH): "
+    if [ $ANSW ]; then export IP_SEARCH=$ANSW; fi
+  else
+    IP_SEARCH=none
+  fi
+  if [ "$IP_SEARCH" = "none" -o "$IP_SEARCH" = "NONE" ]; then export IP_SEARCH=""; fi
+  while true; do
+    if [ "$IP_MTU" = "default" ]; then
+      case "$NETSELECT" in
+	tr|eth)
+	    export IP_MTU=1492
+	    ;;
+	ctc|geth|iucv|c7000)
+	    export IP_MTU=1500
+	    ;;
+        escon)
+	    export IP_MTU=32760
+	    ;;
+	*)
+	    echo "Something went wrong with $NETSELECT..."
+      esac
+    fi
+    echo "Please enter the MTU (Maximum Transfer Unit,"
+    readln "leave blank for default: $IP_MTU): "
+    echo
+    if [ $ANSW ]; then export IP_MTU=$ANSW; fi
+    if [ $(( $IP_MTU + 0 )) -eq 0 ]; then IP_MTU=0; fi
+    case "$NETSELECT" in
+      ctc|escon|iucv)
+        if [ $IP_MTU -ge 576 -a $IP_MTU -le 32768 ]; then
+	  break
+	fi
+	echo "For the CTC/IUCV driver, the MTU must be in the range 576-32768."
+        ;;
+      tr|eth)
+    	if [ $IP_MTU -ge  68 -a $IP_MTU -le 1500 ]; then
+	  break
+	fi
+	echo "For the LCS driver, the MTU must be in the range 68-1500."
+        ;;
+      c7000|geth)
+    	if [ $IP_MTU -ge 576 -a $IP_MTU -le 1500 ]; then
+	  break
+	fi
+	echo "The installation MTU range for qeth/c7000 is 576-1500, set other values later."
+	;;
+    esac
+    IP_MTU=default
+  done
+  echo "Configuration for $IP_DEV will be:"
+  if test $IP_HOST ; then
+    echo "Full host name   : $IP_HOST"
+  fi
+  echo "IP address       : $IP_ADDR"
+  case "$NETSELECT" in
+    tr|eth|geth|c7000)
+	    echo "Net mask         : $IP_NETMASK"
+	    if test $IP_BROADCAST ; then
+		echo "Broadcast address: $IP_BROADCAST"
+	    fi
+	    if test $IP_GATEWAY ; then
+		echo "Gateway address  : $IP_GATEWAY"
+	    fi
+	    ;;
+    ctc|escon|iucv)
+	    echo "Peer IP address  : $IP_PEER"
+	    ;;
+    *)
+	    echo "Something went wrong with $NETSELECT..."
+  esac
+  if test $IP_DNS ; then
+    echo "DNS IP address   : $IP_DNS"
+  fi
+  if test $IP_SEARCH ; then
+    echo "DNS search domain: $IP_SEARCH"
+  fi
+  if test $IP_MTU ; then
+    echo "MTU size         : $IP_MTU"
+  fi
+  yes_no "Is this correct (Yes/No) ? "
+  if [ "$ANSW" = "yes" ]; then
+    change_passwd
+    activate_config
+    dns_config
+    CONFIG_IS_OK=1
+  fi
+done
+if [ $EXIT_SCRIPT = 0 ]; then
+  run_services
+fi
+
+if [ "$LINUXRC_RECORD" ]; then
+  echo "LINUXRC_READ=\"$LINUXRC_READ\""
+fi
+check_memory
+check_memory >> /etc/motd

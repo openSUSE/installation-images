@@ -51,8 +51,10 @@ bash:
 readline:
   /lib
 
+if arch ne 's390'
 bdflush:
   /sbin
+fi
 
 cpio:
   /bin

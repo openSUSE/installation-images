@@ -78,7 +78,7 @@ util-linux:
 <kernel_rpm>:
   m /boot/System.map-* /System.map
 
-if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
+if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 's390' || arch eq 's390x')
 
   f / usbcore.o
   f / usb-uhci.o
@@ -143,7 +143,7 @@ if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc')
 
 endif
 
-if !(arch eq 'sparc' || arch eq 'sparc64' || arch eq 'ia64')
+if !(arch eq 'sparc' || arch eq 'sparc64' || arch eq 'ia64' || arch eq 's390' || arch eq 's390x')
   pcmcia:
     /sbin/cardmgr
     /sbin/cardctl
@@ -164,11 +164,11 @@ endif
 glibc:
   /sbin/ldconfig
   /lib/ld-2.*.so
-if arch eq 'ppc'
+if arch eq 'ppc' || arch eq 's390' || arch eq 's390x'
   /lib/ld.so.1
 elsif arch eq 'ia64'
   /lib/ld-linux-ia64.so.2
-else
+else 
   /lib/ld-linux.so.2
 endif
   /lib/lib{c,m}.so.6*
@@ -184,13 +184,14 @@ r /usr/sbin/{nscd,nscd_nischeck,utmpd}
 r /usr/lib/gconv
 m /lib/libpthread.so.0 /usr/lib
 
+if !(arch eq 's390' || arch eq 's390x')
 kbd:
   /usr/lib/kbd
   /bin/loadkeys
   /usr/bin/{loadunimap,kbd_mode}
   /bin/{chvt,loadkeys}
   /usr/bin/{chvt,loadkeys}
-endif
+
 
 # temporary fix for yast's setfont problems
 m /usr/bin/setfont /usr/bin/setfont.bin
@@ -201,6 +202,7 @@ hdparm:
 
 bdflush:
   /sbin/update
+endif
 
 e2fsprogs:
   /sbin
@@ -219,6 +221,30 @@ if arch eq 'ia64'
     /usr/sbin/efibootmgr
 endif
 
+if arch eq 's390' || arch eq 's390x'
+  s390-tools:
+    /sbin/zipl
+    /lib/libparsecfg.so
+    /lib/libvtoc.so
+    /boot/zipl/diag0
+    /boot/zipl/diag2
+    /boot/zipl/eckd0
+    /boot/zipl/eckd1a
+    /boot/zipl/eckd1b
+    /boot/zipl/eckd2
+    /boot/zipl/eckd2dump
+    /boot/zipl/fba0
+    /boot/zipl/fba2
+    /boot/zipl/tapedump
+    /etc/zipl.conf.sample
+    /sbin/dasdfmt
+    /sbin/fdasd
+    /sbin/zgetdump
+#  s390utils:
+#    /sbin/zilo
+#    /sbin/silo
+endif
+
 raidtools:
   /sbin/*
 
@@ -227,7 +253,10 @@ dosfstools:
 
 net-tools:
   /bin/{domain,host}name
-  /sbin/{ifconfig,route,plipconfig}
+  /sbin/{ifconfig,route}
+  if !(arch eq 's390' || arch eq 's390x')
+    /sbin/plipconfig
+  endif
 
 portmap:
   /sbin/portmap
@@ -240,11 +269,14 @@ s /sbin/umssync /bin/umssync
 endif
 
 util-linux:
-  /sbin/{ctrlaltdel,fsck.minix,hwclock,mkfs,mkfs.minix,mkswap,swapoff,swapon}
-if arch eq 'ppc'
+  /sbin/{mkfs,mkfs.minix,fsck.minix,mkswap,swapoff,swapon}
+  if !(arch eq 's390' || arch eq 's390x')
+    /sbin/{ctrlaltdel,hwclock}
+  endif
+  if arch eq 'ppc'
     /etc/filesystems
     /sbin/{clock,nvsetenv}
-endif
+  endif
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
@@ -292,7 +324,7 @@ timezone:
 strace:
   /usr/bin/strace
 
-if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'alpha')
+if !(arch eq 'ppc' || arch eq 'ia64' || arch eq 'alpha' || arch eq 's390' || arch eq 's390x')
   ltrace:
     /usr/bin/ltrace
     /etc/ltrace.conf
@@ -337,7 +369,12 @@ if with_yast2 ne 'no'
       .
   endif
 
-  if arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ia32'
+  if arch eq 's390' || arch eq 's390x'
+    xextra:
+      .
+  endif
+
+  if arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ia32' && arch ne 's390' && arch ne 's390x'
     xfbdev:
       .
   endif
@@ -350,6 +387,7 @@ if with_yast2 ne 'no'
 
   c 0755 0 0 /dev
 
+  if arch ne 's390' && arch ne 's390x'
   # new XF86 4.0
   xloader:
     /usr/X11R6/bin/XFree86
@@ -370,6 +408,7 @@ if with_yast2 ne 'no'
       /usr/X11R6/lib/modules/*.uc
   endif
     /usr/X11R6/lib/modules/lib*.a
+  endif
 
   xshared:
     /usr/X11R6/lib/lib{X11,Xext}.so*
@@ -526,7 +565,7 @@ endif
 netcfg:
   /etc/{services,protocols}
 
-if with_yast2 ne 'no'
+if with_yast2 ne 'no' && arch ne 's390' && arch ne 's390x'
   saxtools:
     /usr/X11R6/bin
 endif
