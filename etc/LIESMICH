@@ -24,11 +24,13 @@ i386:      Bootdiskette für i386 und ältere Cyrix-Prozessoren.
 
 rescue:    Rettungssystem
 
-Auf die Bootdiskette passen nur wenige Module. Daher gibt es zwei
-Moduldisketten. Wenn Sie "Ihren" Treiber nicht auf der normalen
-Bootdiskette finden, legen Sie nach dem Start von linuxrc die entsprechende
-Moduldiskette ein.
+Auf die Bootdiskette passen nur wenige Module. Daher gibt es drei
+Moduldisketten. Wenn Sie "Ihren" Treiber nicht auf der normalen Bootdiskette
+finden, legen Sie nach dem Start von linuxrc die entsprechende Moduldiskette
+ein.
 
-modules1:  SCSI/RAID/EIDE-Module.
+modules1:  USB- und Dateisystem-Module.
 
-modules2:  Netzwerk-Module, PCMCIA-Module und alte (nicht-ATAPI) CDROM-Treiber.
+modules2:  SCSI/RAID/EIDE-Module und alte (nicht-ATAPI) CDROM-Treiber.
+
+modules3:  Netzwerk-Module und PCMCIA-Module.
