@@ -462,7 +462,9 @@ for (@f) {
     $base = $AutoBuild = "/.rpm-cache/$r"
   }
 
-  $ENV{'pre_release'} = $rf =~ /^\d+\.\d+a\b$/ ? 1 : "";
+  if(!exists($ENV{'pre_release'})) {
+    $ENV{'pre_release'} = $rf =~ /^\d+\.\d+a\b$/ ? 1 : 0;
+  }
 
   for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base suse_major_release suse_minor_release pre_release) ) {
     $ConfigData{$_} = $ENV{$_}
