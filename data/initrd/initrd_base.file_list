@@ -105,11 +105,9 @@ if arch eq 's390' || arch eq 's390x'
   gdbm:
     /usr/lib*/libgdbm.so*
   attr:
-    /lib*/libattr.so.1
-    /lib*/libattr.so.1.0.0
+    /lib*/libattr.so.*
   acl:
-    /lib*/libacl.so.1
-    /lib*/libacl.so.1.0.0
+    /lib*/libacl.so.*
   popt:
     /usr/lib*/libpopt.so.0
     /usr/lib*/libpopt.so.0.0.0
@@ -340,7 +338,6 @@ if arch eq 's390' || arch eq 's390x'
 
   x s390/bin/netsetup    /bin/netsetup
   x s390/check           /check
-  x s390/create_interface /create_interface
   x s390/etc/motd        /etc/motd
   x s390/etc/syslog.conf /etc/syslog.conf
   x s390/etc/rc.config   /etc/rc.config
@@ -359,7 +356,6 @@ if arch eq 's390' || arch eq 's390x'
   x s390/sbin/realchroot /sbin/realchroot
 
   c 0755 0 0 /linuxrc
-  c 0755 0 0 /create_interface
   c 0755 0 0 /inst_source
   c 0755 0 0 /bin/netsetup
   c 0755 0 0 /sbin/halt
@@ -417,6 +413,11 @@ devs:
     endif 
     m /usr/share/doc/packages/devs/makedevs.floppy /
   endif
+
+if arch eq 's390' || arch eq 's390x' || arch eq 'ppc' || arch eq 'ppc64'
+x s390/create_interface /create_interface
+c 0755 0 0 /create_interface
+endif
 
 c 0755 0 0 makedevs.floppy
 

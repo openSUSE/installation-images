@@ -9,6 +9,7 @@ CHANDEVCONF=$ROOT/etc/chandev.conf
 DEVICEDIR=$ROOT/etc/sysconfig/network/
 ROUTINGFILE=$ROOT/etc/sysconfig/network/routes
 # INSTALLINF=netsetup.inf
+# INSTALLINF=install.inf
 # CHANDEVCONF=chandev.conf
 # DEVICEDIR=
 # ROUTINGFILE=routes
@@ -29,12 +30,33 @@ then
 	DEVICEFILE=${DEVICEDIR}ifcfg-$NETDEV
 	echo "BOOTPROTO=\"static\"" > $DEVICEFILE
 	echo "STARTMODE=\"onboot\"" >> $DEVICEFILE
-	IP=`grep IP: $INSTALLINF | uniq | sed -e 's/IP: \\(.*\\)/\\1/'`
+	IP=`grep "^IP:" $INSTALLINF | uniq | sed -e 's/IP: \\(.*\\)/\\1/'`
 	echo "IPADDR=\"$IP\"" >> $DEVICEFILE
+#
+#	Create pointopoint Interfaces
+#
 	PTOP=`grep Pointopoint: $INSTALLINF | uniq | sed -e 's/Pointopoint: \\(.*\\)/\\1/'`
 	if [ ! -z "$PTOP" ]
 	then
 		echo "REMOTE_IPADDR=\"$PTOP\"" >> $DEVICEFILE
+	fi
+#
+#	create broadcast-interface
+#
+	NWMASK=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
+	if [ ! -z "$NWMASK" ]
+	then
+		echo "NETMASK=\"$NWMASK\"" >> $DEVICEFILE
+	fi
+	NW=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
+	if [ ! -z "$NW" ]
+	then
+		echo "NETWORK=\"$NW\"" >> $DEVICEFILE
+	fi
+	NWBROADCAST=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
+	if [ ! -z "$NWBROADCAST" ]
+	then
+		echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
 	fi
 #	
 #	Create routingfile

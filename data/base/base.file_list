@@ -137,14 +137,14 @@ gawk:
 bootsplash:
   /
 
+liblcms:
+  /usr/lib*/liblcms.so*
+
 libmng:
   /usr/lib*/libmng.so*
 
 libjpeg:
   /usr/lib*/libjpeg.so*
-
-liblcms:
-  /usr/lib*/liblcms.so*
 
 bootsplash-theme-SuSE:
   /
