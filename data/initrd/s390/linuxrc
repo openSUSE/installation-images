@@ -1,31 +1,14 @@
 echo 'This is SuSE Instsys Version %{version} Rel. %{release}'
 echo 'Build date: Tue Aug  7 14:49:34 CEST 2001'
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-
-change_to_tmpfs()
-{
 #
-#	move everything to tmpfs
 #
-NEWROOT=/newroot
-echo -e "\nSwitching to tmpfs\n"
-cd /
-[ ! -d $NEWROOT ] && mkdir $NEWROOT
-mount -t shm shmfs $NEWROOT
-ls  | grep -v newroot  | grep -v proc  | while read a
-do 
-	cp -R $a $NEWROOT
+#
+DIRS="/mounts /dev/pts /var/empty /var/adm/mnt /var/adm/mount"
+for i in $DIRS
+do
+	[ ! -d $i ] && mkdir $i
 done
-cd $NEWROOT
-mkdir oldroot
-pivot_root . oldroot
-chroot .
-#
-#	Oeffnen der Devices
-#
-
-echo -e "\nEnd switching to tmpfs.\n"
-} # change_to_tmpfs
 #
 #	Main
 #
@@ -33,13 +16,16 @@ echo -e "\nEnd switching to tmpfs.\n"
 . /bin/netsetup
 mount -t devpts devpts /dev/pts
 
-# if [ ! -d /oldroot ]
-# then
-	# change_to_tmpfs
-# else
-	# umount /oldroot
-	# freeramdisk /dev/ram0
-# fi
+cat /etc/netsetup.inf
+echo Next step 
+read muell
+#
+#	Ask for Installation source & start yast
+#
+. /inst_source
+#
+#
+#
 dmesg > /kernel.msg
 echo "
 You should be able to login via telnet/ssh now.

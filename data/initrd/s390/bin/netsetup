@@ -52,9 +52,7 @@ function readln () {
     ANSW=$1
     shift
     LINUXRC_READ="$@"
-    if [ "$ANSW" = /n -o "$ANSW" = /N ]; then
-      ANSW=""
-    fi
+    [ "$ANSW" = /n -o "$ANSW" = /N ] && ANSW=""
     sleep 1
   else
     IFS='@' read ANSW || exit 1
@@ -235,7 +233,7 @@ function press_return_to_continue () {
 # Ask if the user want to see all detected subchannels:
 #
 function ask_show_subchannels () {
-        yes_no "Do you want to see all detected (non-DASD) subchannels? "
+        yes_no "Do you want to see all detected (non-DASD) subchannels? (yes/no) "
         if [ "$ANSW" = "yes" ]; then
 		show_subchannels | grep -v "^....   ....  3390"
 		press_return_to_continue
@@ -623,6 +621,8 @@ function activate_config() {
     generate_installinf >$INSTALLINF
 }
 #
+#
+#
 generate_installinf () {
 #
 # the following lines are not needed in install.inf
@@ -638,9 +638,7 @@ generate_installinf () {
 Sourcemounted: 0
 Netdevice: $IP_DEV
 IP: $IP_ADDR"
-    if [ $IP_MTU != 0 ]; then
-	echo "MTU: $IP_MTU"
-    fi
+    [ $IP_MTU != 0 ] && echo "MTU: $IP_MTU"
     case "$NETSELECT" in
 	tr|eth|qeth|hsi|c7000)
 	    echo "Netmask: $IP_NETMASK"
@@ -652,36 +650,34 @@ IP: $IP_ADDR"
 	*)
 	    echo "Something went wrong with $NETSELECT..." >&2
     esac
-    if [ "$IP_GATEWAY" ]; then
-	echo "Gateway: $IP_GATEWAY"
-    fi
-    if [ "$CHAN" ]; then
-      echo "options installation_chandev: $CHAN"
-    fi
+    [ "$IP_GATEWAY" ] && echo "Gateway: $IP_GATEWAY"
+    [ "$IP_SEARCH" ] && echo "Domain: $IP_SEARCH"
+    [ "$CHAN" ] && echo "Chandev: $CHAN"
     if [ "$NETSELECT" = tr -o "$NETSELECT" = eth ]; then
-      echo "alias $IP_DEV lcs"
-      echo "options lcs $PARM"
+      echo "Alias $IP_DEV lcs"
+#      echo "Options lcs $PARM"
+      echo "ConnectWait: 3"
     fi
     if [ "$NETSELECT" = "qeth" -o "$NETSELECT" = hsi ]; then
-      echo "alias $IP_DEV qeth"
-      echo "options qeth $PARM"
+      echo "Alias $IP_DEV qeth"
+#      echo "Options qeth $PARM"
+      echo "ConnectWait: 15"
     fi
     if [ "$NETSELECT" = "ctc" -o "$NETSELECT" = "escon" ]; then
-      echo "alias $IP_DEV ctc"
-      echo "options ctc $PARM"
+      echo "Alias $IP_DEV ctc"
+#      echo "Options ctc $PARM"
+      echo "ConnectWait: 30"
     fi
     if [ "$NETSELECT" = "c7000" ]; then
-      echo "alias $IP_DEV c7000"
-      echo "options c7000 $PARM"
+      echo "Alias $IP_DEV c7000"
+      echo "Options c7000 $PARM"
     fi
     if [ "$NETSELECT" = "iucv" ]; then
-      echo "alias $IP_DEV netiucv"
-      echo "$PARM" | sed "s/iucv=\(.*\)/options netiucv iucv='\`echo \1\`'/g"
+      echo "Alias $IP_DEV netiucv"
+      echo "$PARM" | sed "s/iucv=\(.*\)/Options netiucv iucv='\`echo \1\`'/g"
     fi
     [ "$IP_HOST" ]        && echo "Machinename: $IP_HOST"
     [ "$IP_DNS" ]         && echo "Nameserver: $IP_DNS"
-    [ "$NFS_SERVER" ]     && echo "Server: $NFS_SERVER"
-    [ "$NFS_SERVER_DIR" ] && echo "Serverdir: $NFS_SERVER_DIR"
 }
 #
 #
@@ -1529,9 +1525,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 #
 # Ensure that we have /proc mounted:
 #
-if [ ! -f /proc/version ]; then
-	mount -t proc virtual-proc-filesystem /proc
-fi
+[ ! -f /proc/version ] && mount -t proc virtual-proc-filesystem /proc
 #
 #
 # We want to save the kernel message ring buffer to a file:
@@ -1545,8 +1539,10 @@ fi
 : ${DEBUG:=no}
 #
 if [ "$DEBUG" = "no" ]
-then INSTALLINF="/etc/install.inf"
-else INSTALLINF="./install.inf"
+then
+	INSTALLINF="/etc/netsetup.inf"
+else
+	INSTALLINF="./netsetup.inf"
 fi
 #
 if [ "$DEBUG" = "no" ]; then
@@ -1647,8 +1643,8 @@ while [ $CONFIG_IS_OK = 0 ]; do
     echo "Please enter the MTU (Maximum Transfer Unit),"
     readln "leave blank for default: ($IP_MTU): "
     echo
-    if [ $ANSW ]; then export IP_MTU=$ANSW; fi
-    if [ $(( ${IP_MTU//[A-z]*/} + 0 )) -eq 0 ]; then IP_MTU=0; fi
+    [ $ANSW ] && export IP_MTU=$ANSW
+    [ $(( ${IP_MTU//[A-z]*/} + 0 )) -eq 0 ] && IP_MTU=0
     case "$NETSELECT" in
       ctc|escon|iucv)
         if [ $IP_MTU -ge 576 -a $IP_MTU -le 32768 -o $IP_MTU = 0 ]; then
@@ -1675,9 +1671,7 @@ while [ $CONFIG_IS_OK = 0 ]; do
     IP_MTU=default
   done
   echo "Configuration for $IP_DEV will be:"
-  if test $IP_HOST ; then
-    echo "Full host name   : $IP_HOST"
-  fi
+  [ $IP_HOST ] && echo "Full host name   : $IP_HOST"
   echo "IP address       : $IP_ADDR"
   case "$NETSELECT" in
     tr|eth|qeth|hsi|c7000)
@@ -1712,16 +1706,11 @@ while [ $CONFIG_IS_OK = 0 ]; do
   if [ "$ANSW" = "yes" ]; then
     change_passwd
     activate_config
-    dns_config
     CONFIG_IS_OK=1
   fi
 done
-if [ $EXIT_SCRIPT = 0 ]; then
-  run_services
-fi
+[ $EXIT_SCRIPT = 0 ] && run_services
 #
-if [ "$LINUXRC_RECORD" ]; then
-  echo "LINUXRC_READ=\"$LINUXRC_READ\""
-fi
+[ "$LINUXRC_RECORD" ] && echo "LINUXRC_READ=\"$LINUXRC_READ\""
 check_memory
 check_memory >> /etc/motd

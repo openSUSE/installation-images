@@ -184,24 +184,16 @@ if arch eq 'ia64'
 endif
 
 if arch eq 's390' || arch eq 's390x'
-  s390-tools:
+  s390-tools: postin
     /sbin/zipl
     /lib/libparsecfg.so
     /lib/libvtoc.so
-    /boot/zipl/diag0
-    /boot/zipl/diag2
-    /boot/zipl/eckd0
-    /boot/zipl/eckd1a
-    /boot/zipl/eckd1b
-    /boot/zipl/eckd2
-    /boot/zipl/eckd2dump
-    /boot/zipl/fba0
-    /boot/zipl/fba2
-    /boot/zipl/tapedump
+    /boot
     /etc/zipl.conf.sample
     /sbin/dasdfmt
     /sbin/fdasd
     /sbin/zgetdump
+    e postin
 #  s390utils:
 #    /sbin/zilo
 #    /sbin/silo
@@ -405,6 +397,7 @@ if with_yast2 ne 'no'
   vnc:
     /usr/X11R6/bin/Xvnc
     /usr/X11R6/bin/vncpasswd.arg
+    /usr/share/vnc/classes
 
   libxml2:
     /usr/lib*/libxml2.so*

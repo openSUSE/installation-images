@@ -294,6 +294,7 @@ if arch eq 's390' || arch eq 's390x'
     /etc/ssh/ssh_config
     /usr/bin/ssh
     /usr/sbin/sshd
+    /usr/lib/ssh
     /var/adm/fillup-templates/sysconfig.ssh
     /var/empty
     /var/lib/sshd
@@ -320,6 +321,7 @@ if arch eq 's390' || arch eq 's390x'
   x s390/etc/inittab     /etc/inittab
   x s390/etc/profile     /etc/profile
   x s390/ihno            /ihno
+  x s390/inst_source     /inst_source
   x s390/linuxrc         /linuxrc
   x s390/linuxrc.finish  /linuxrc.finish
   x s390/linuxrc.init    /linuxrc.init
@@ -329,6 +331,7 @@ if arch eq 's390' || arch eq 's390x'
   x s390/sbin/realchroot /sbin/realchroot
 
   c 0755 0 0 /linuxrc
+  c 0755 0 0 /inst_source
   c 0755 0 0 /bin/netsetup
   c 0755 0 0 /sbin/halt
   c 0755 0 0 /sbin/nodns
@@ -381,6 +384,7 @@ devs:
   else
     if arch eq 's390' || arch eq 's390x'
     	/dev/dasd*
+	/dev/pts
     endif 
     m /usr/share/doc/packages/devs/makedevs.floppy /
   endif
