@@ -1,3 +1,6 @@
+28/5/2004:	v5.62
+	- minor module config fix
+
 27/5/2004:	v5.61
 	- added multipath-tools (#40640)
 	- changed driver update handling to match the new linuxrc
