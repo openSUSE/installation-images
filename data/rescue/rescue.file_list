@@ -433,6 +433,10 @@ dhcpcd:
   /sbin
   /var
 
+smartmontools:
+  /etc
+  /usr/sbin
+
 if arch ne 'sparc'
   <kernel_rpm>:
     f / st.o
