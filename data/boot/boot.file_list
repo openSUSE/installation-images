@@ -58,11 +58,7 @@ if arch eq 'ia64'
   d /efi/boot
   a /boot/<kernel_img> /efi/boot/linux
   elilo:
-    if suse_release > 8.0
-      m /boot/efi/SuSE/elilo.efi /efi/boot/bootia64.efi
-    else
-      m /boot/elilo.efi /efi/boot/bootia64.efi
-    endif
+    m /usr/lib/elilo/elilo.efi /efi/boot/bootia64.efi
   x elilo.conf /efi/boot/
   x textmenu /efi/boot/
 endif
