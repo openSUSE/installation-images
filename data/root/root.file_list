@@ -868,8 +868,10 @@ r /usr/X11R6/bin/fc-cache
 x /usr/lib/YaST/.Reh /usr/lib/YaST2
 x etc/inst_setup /sbin/inst_setup
 x etc/create_interface /sbin/create_interface
+x etc/adddir /sbin/adddir
 c 755 0 0 /sbin/inst_setup
 c 755 0 0 /sbin/create_interface
+c 755 0 0 /sbin/adddir
 
 # run depmod
 E /sbin/depmod -a -F /System.map <kernel_ver>
