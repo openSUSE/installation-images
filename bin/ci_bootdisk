@@ -32,8 +32,8 @@ mv data/initrd/disk_i386.file_list data/initrd/initrd.file_list
 rm -f data/initrd/disk_*.file_list
 perl -pi -e 's:/usr/sbin/linuxrc:/usr/sbin/linuxrc_mini:g' etc/config 
 perl -pi -e 's/k_deflt/k_i386/g' etc/config
-perl -pi -e 's/^(default\s+)linux/$1manual/' data/boot/syslinux.cfg
-perl -ni -e 'print unless /^framebuffer/' data/boot/syslinux.cfg
+perl -pi -e 's/^(default\s+)linux/$1manual/' data/boot/syslinux.cfg{,.fr}
+perl -ni -e 'print unless /^framebuffer/' data/boot/syslinux.cfg{,.fr}
 cd /tmp
 
 if [ "$1" = test ] ; then

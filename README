@@ -118,7 +118,32 @@ o You can include other files:
 
 o There are several 'if' constructs:
 
-  ifarch/ifnarch, ifdef/ifndef, ifabuild/ifnabuild, ifenv/ifnenv
+  the new
+
+    if/elsif/else/endif construct
+
+  and the old
+
+    ifarch/ifnarch, ifdef/ifndef, ifabuild/ifnabuild, ifenv/ifnenv
+
+  - if <expression>
+
+    <expression> is more or less a valid perl expression except that
+    variables don't have a starting '$' and are implicitly environment
+    variables. The only exceptions to this are 'abuild' and 'arch'.
+
+    example:
+
+    if arch eq 'ppc' && (suse_release != 7.1 || lang eq 'fr')
+    # ...
+    elsif abuild && arch eq 'sparc'
+    # ...
+    else
+    # ...
+    endif 
+
+    # note that 'suse_release' is actually $ENV{'suse_release'}; likewise
+    # 'lang' etc. But 'abuild' and 'arch' are *not* $ENV{...}!
 
   - ifarch/ifnarch <arch>
 

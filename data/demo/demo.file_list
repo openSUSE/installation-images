@@ -2,10 +2,10 @@ d S.u.S.E. bin cdrom dev etc floppy home lib mnt proc sbin tmp var
 c 1777 0 0 tmp
 
 devs:
-ifenv suse_major_release 6
-m /usr/doc/packages/devs/makedevs /
+if suse_major_release == 6
+  m /usr/doc/packages/devs/makedevs /
 else
-m /usr/share/doc/packages/devs/makedevs /
+  m /usr/share/doc/packages/devs/makedevs /
 endif
 c 0755 0 0 makedevs
 
@@ -19,8 +19,8 @@ c 0711 0 0 /root
   /sbin/mk_initrd
   /sbin/init.d
   /etc/SuSE-release
-ifnenv suse_major_release 6
-  /etc/rc.status
+if suse_major_release != 6
+    /etc/rc.status
 endif
   /etc/cron.daily/aaa_base
   /etc/ppp
@@ -28,17 +28,14 @@ endif
   /etc/{hushlogins,inittab,motd,logfiles,netgroup}
   /etc/{profile.dos,shells,zshrc}
 # aaa_base's preinstall
-ifnabuild
-# fake so we don't use local files
-endif
   /sbin/SuSEconfig
 p /sbin/SuSEconfig.patch
-ifenv suse_major_release 6
-p /sbin/boot.patch_64
-p /sbin/halt.patch_64
+if suse_major_release == 6
+  p /sbin/boot.patch_64
+  p /sbin/halt.patch_64
 else
-p /sbin/boot.patch_70
-p /sbin/halt.patch_70
+  p /sbin/boot.patch_70
+  p /sbin/halt.patch_70
 endif
 
 aaa_dir:
@@ -75,10 +72,10 @@ ncurses:
 
 shlibs:
   /lib/ld-2.*.so
-ifarch ppc
-  /lib/ld.so.1
+if arch eq 'ppc'
+    /lib/ld.so.1
 else
-  /lib/ld-linux.so.2
+    /lib/ld-linux.so.2
 endif
   /lib/{libcrypt.so.1,libdb.so.2,libdb.so.3}
   /lib/{libc.so.6,libdl.so.2,libm.so.6,librt.so.1,libutil.so.1}
@@ -92,8 +89,8 @@ s bash /bin/sh
 
 sh_utils:
   /bin/{date,echo,false,sleep,stty,true,uname}
-ifabuild
-X /bin/uname.bin bin/uname
+if abuild
+  X /bin/uname.bin bin/uname
 endif
 
 util:
@@ -181,16 +178,15 @@ d /etc/{pcmcia,httpd,isdn,vbox}
 d /var/lib/xkb
 
 x /sbin/{live-setup,mk_links} /sbin
-ifenv demo eval
-x /sbin/{live-shutdown,find_config,fix_fstab} /sbin
-ifenv suse_major_release 6
-x /etc/XF86Config /etc
+if demo eq 'eval'
+  x /sbin/{live-shutdown,find_config,fix_fstab} /sbin
+  if suse_major_release == 6
+    x /etc/XF86Config /etc
+  else
+    d etc/X11
+    x /etc/XF86Config_3 /etc/XF86Config
+    x /etc/XF86Config_4 /etc/X11/XF86Config
+  endif
 else
-d etc/X11
-x /etc/XF86Config_3 /etc/XF86Config
-x /etc/XF86Config_4 /etc/X11/XF86Config
-endif
-else
-d etc/X11
-endif
+  d etc/X11
 endif

@@ -1,34 +1,25 @@
-ifarch ix86
-
 <kernel_rpm>:
-m /boot/<kernel_img> /linux
 
-ifenv demo eval
-x message-eval /message
-x syslinux-eval.cfg /syslinux.cfg
-else
-ifenv demo live
-x message-live /message
-x syslinux-live.cfg /syslinux.cfg
-else
-ifenv demo ps
-x message-ps /message
-x syslinux-ps.cfg /syslinux.cfg
-else
-ifenv lang fr
-x message.fr /message
-x syslinux.cfg.fr /syslinux.cfg
-else
-x message /
-x syslinux.cfg /
-endif
-endif
-endif
-endif
+if arch eq 'ix86'
+  m /boot/<kernel_img> /linux
+  if demo eq 'eval'
+    x message-eval /message
+    x syslinux-eval.cfg /syslinux.cfg
+  elsif demo eq 'live'
+    x message-live /message
+    x syslinux-live.cfg /syslinux.cfg
+  elsif demo eq 'ps'
+    x message-ps /message
+    x syslinux-ps.cfg /syslinux.cfg
+  elsif lang eq 'fr'
+    x message.fr /message
+    x syslinux.cfg.fr /syslinux.cfg
+  else
+    x message /
+    x syslinux.cfg /
+  endif
+endif		# arch eq 'ix86'
 
-ifarch alpha
-
-<kernel_rpm>:
-m /boot/<kernel_img> /vmlinux.gz
-
+if arch eq 'alpha'
+  m /boot/<kernel_img> /vmlinux.gz
 endif

@@ -35,8 +35,8 @@ base:
 
 sh_utils:
   /bin/{date,echo,false,sleep,stty,true,uname}
-ifabuild
-X /bin/uname.bin bin/uname
+if abuild
+  X /bin/uname.bin bin/uname
 endif
 
 util:

@@ -63,9 +63,12 @@ sub AddFiles
   my ($dir, $file_list, $ext_dir, $arch, $if_val, $tag);
   my ($rpms, $tdir, $tfile, $p, $r, $d, $u, $g, $files);
   my ($mod_list, @mod_list, %mod_list);
-  my ($inc_file, $inc_it);
+  my ($inc_file, $inc_it, $debug);
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
+
+  $debug = "";
+  $debug = $ENV{'debug'} if exists $ENV{'debug'};
 
   if(!$AutoBuild) {
     $rpms = "$ConfigData{suse_base}/suse";
@@ -107,7 +110,11 @@ sub AddFiles
     chomp;
     next if /^(\s*|\s*#.*)$/;
 
-#    printf ".<%x>%s\n", $if_val, $_;
+    s/^\s*//;
+
+    if($debug =~ /\bif\b/) {
+      printf ".<%x>%s\n", $if_val, $_;
+    }
 
     s/<kernel_ver>/$ConfigData{kernel_ver}/g;
     s/<kernel_rpm>/$ConfigData{kernel_rpm}/g;
@@ -126,9 +133,43 @@ sub AddFiles
     if(/^ifenv\s+(\S+)\s+(\S+)/)  { $if_val <<= 1; $if_val |= 1 if $ENV{$1} ne $2;  next }
     if(/^ifnenv\s+(\S+)\s+(\S+)/) { $if_val <<= 1; $if_val |= 1 if $ENV{$1} eq $2;  next }
 
+    if(/^(els)?if\s+(.+)/) {
+      no integer;
+
+      my ( $re, $i, $re0, $val );
+      my ( $eif );
+
+      $eif = $1 ? 1 : 0;
+      $re = $2;
+      $re0 = $re;
+      $re0 =~ s/(('[^']*')|("[^"]*")|\b(defined|lt|gt|le|ge|eq|ne|cmp|not|and|or|xor)\b|(\(|\)))/' ' x length($1)/ge;
+      while($re0 =~ s/^((.*)(\b[a-zA-Z]\w+\b))/$2 . (' ' x length($3))/e) {
+#        print "    >>$3<<\n";
+        $val = "\$ENV{'$3'}";
+        $val = '$arch' if $3 eq 'arch';
+        $val = '$AutoBuild' if $3 eq 'abuild';
+        substr($re, length($2), length($3)) = $val;
+      }
+      if($debug =~ /\bif\b/) {
+#        printf "      <%s>\n", $re0;
+        printf "    eval \"%s\"\n", $re;
+      }
+      $i = eval "if($re) { 0 } else { 1 }";
+      die "$Script: sytax error in 'if' statement" unless defined $i;
+      if($eif) {
+        $if_val = ($if_val & ~1) | $i;
+      }
+      else {
+        $if_val <<= 1; $if_val |= $i;
+      }
+      next
+    }
+
     next if $if_val;
 
-#    printf "*<%x>%s\n", $if_val, $_;
+    if($debug =~ /\bif\b/) {
+      printf "*<%x>%s\n", $if_val, $_;
+    }
 
     if(/^include\s+(\S+)$/) {
       die "$Script: recursive include not supported" if $inc_it;
@@ -159,7 +200,7 @@ sub AddFiles
         $r = `echo -n $rpms/$p.rpm`;
         die "$Script: no such package: $p.rpm" unless -f $r;
       }
-      print "adding package $p...\n" if $AutoBuild;
+      print "adding package $p...\n" if $AutoBuild || $debug =~ /\bpkg\b/;
       SUSystem "rm -rf $tdir" and
         die "$Script: failed to remove $tdir";
       die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
@@ -169,7 +210,7 @@ sub AddFiles
 #      }
 
     }
-    elsif(/^\s+(.*)$/) {
+    elsif(!/^[a-zA-Z]\s+/ && /^(.*)$/) {
       $files = $1;
       $files =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c '( cd $tdir; tar -cf - $files ) | tar -C $dir -xpf -'" and

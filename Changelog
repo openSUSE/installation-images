@@ -1,3 +1,12 @@
+22/8/2000:	v0.98
+	- fixed bin/ci_bootdisk to patch syslinux.cfg.fr too
+	- introduced new 'if' statement to *.file_list
+	- ro: activate yast2 fo alpha
+	- allow indentation in *.file_list
+	- introduced 'elsif' statement to *.file_list
+	- ppc kbd & xf86 changes
+	- updated docu
+
 17/8/2000:	v0.97
 	- new kbd package for 7.1 only
 
