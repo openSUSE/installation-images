@@ -1,3 +1,8 @@
+18/3/2002:	v1.130
+	- added FireWire modules again, as there's enough space left and it
+	  seems to work
+        - create a boot image for CD2, that won't ask for a module disk
+
 16/3/2002:	v1.129
 	- fixed typo in inst_setup
 	- ppc needs md.o

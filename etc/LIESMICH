@@ -40,4 +40,4 @@ modules1:  USB- und Dateisystem-Module.
 
 modules2:  SCSI/RAID/EIDE-Module und alte (nicht-ATAPI) CDROM-Treiber.
 
-modules3:  Netzwerk-Module und PCMCIA-Module.
+modules3:  Netzwerk-, PCMCIA- und FireWire-Module.

@@ -42,4 +42,4 @@ modules1:  USB and file system modules.
 
 modules2:  SCSI/RAID/EIDE modules and old (non-ATAPI) CDROM drivers.
 
-modules3:  Network and PCMCIA modules.
+modules3:  Network, PCMCIA and FireWire (IEEE1394) modules.

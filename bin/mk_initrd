@@ -69,6 +69,8 @@ $start_inodes = 10000;
 # default to 'large'
 $ENV{'initrd'} = 'large' if $ENV{'initrd'} eq '';
 
+$image = "${ImagePath}$ENV{'initrd_name'}" if $ENV{'initrd_name'};
+
 if($ENV{'keepinitrd'} != 1) {
   # clean up
   if(-d $tmpdir) {
@@ -152,6 +154,5 @@ mkdir $gendir, 0755;
 die "$Script: $!" unless open F, ">$gendir/initrdsize";
 print F "initrdsize\t", int(($i + 511) / 512), "\n";
 close F;
-
 
 

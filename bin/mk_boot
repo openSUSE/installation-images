@@ -56,10 +56,16 @@ $image = "${ImagePath}boot";
 $initrddir = "$tmpdir/initrd";
 $initrddirx = "$tmpdir/.initrd";
 $initdisk = "${ImagePath}initrd";
-$tinyinitdisk = "${ImagePath}initrd.tiny";
+$initrdondisk = "initrd";
 
 $image .= ".$ENV{'boot'}" if defined $ENV{'boot'};
-$noinitrd = exists($ENV{'noinitrd'}) ?  $ENV{'noinitrd'} : "";
+if($ENV{'noinitrd'}) {
+  $noinitrd = $ENV{'noinitrd'};
+  $tinyinitdisk = "${ImagePath}$noinitrd";
+}
+
+$initdisk = "${ImagePath}$ENV{'initrd_name'}" if $ENV{'initrd_name'};
+$initrdondisk = $ENV{'initrd_name'} if $ENV{'initrd_name'};
 
 # mbr boot program (ia32 only)
 $mboot_file = "${BasePath}src/mboot/mboot";
@@ -273,7 +279,7 @@ if($noinitrd) {
   }
 }
 else {
-  SUSystem "cp $initdisk /mnt/initrd" and
+  SUSystem "cp $initdisk /mnt/$initrdondisk" and
     die "$Script: could not add $initdisk to the image";
 }
 

@@ -80,6 +80,11 @@ if arch eq 'ia32'
   endif
 
   R s/x\.y/<suse_release>/ /message
+
+  if initrd_name
+    R s/\binitrd=initrd\b/initrd=$ENV{'initrd_name'}/ /syslinux.cfg
+  endif
+
 else
   <kernel_rpm>:
 endif		# arch eq 'ia32'
