@@ -26,11 +26,22 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
     include gen/module.files.firewire
   endif
 
+  include gen/module.files.scsi@2
+
+  if hp1
+    include module.files.hp1
+  endif
+
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
-  A gen/module.shortconfig.scsi modules/module.config
+  A gen/module.config.scsi@2 modules/module.config
   A gen/module.shortconfig.cdrom modules/module.config
-  A gen/module.shortconfig.net modules/module.config
+
+  if hp1
+    A module.config.hp1 modules/module.config
+  else
+    A gen/module.shortconfig.net modules/module.config
+  endif
   A gen/module.shortconfig.pcmcia modules/module.config
   if nousb
     A gen/module.shortconfig.usb modules/module.config
@@ -39,8 +50,14 @@ if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
     A gen/module.config.usb modules/module.config
     A gen/module.config.firewire modules/module.config
   endif
-  A gen/module.shortconfig.fs modules/module.config
+  if !hp1
+    A gen/module.shortconfig.fs modules/module.config
+  endif
   A gen/module.config.other modules/module.config
+
+  # make sure lvm mods & co are placed in initrd
+  include gen/module.files.extra
+  A gen/module.config.extra modules/module.config
 
 elsif arch eq 'ia32' && initrd eq 'medium'
 
@@ -48,15 +65,15 @@ elsif arch eq 'ia32' && initrd eq 'medium'
 
   include gen/module.files.autoload
   include gen/module.files.firewire
-  include gen/module.files.pcmcia
   include gen/module.files.usb
 
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
+  A gen/module.shortconfig.scsi@2 modules/module.config
   A gen/module.shortconfig.scsi modules/module.config
   A gen/module.shortconfig.cdrom modules/module.config
   A gen/module.shortconfig.net modules/module.config
-  A gen/module.config.pcmcia modules/module.config
+  A gen/module.shortconfig.pcmcia modules/module.config
   A gen/module.config.usb modules/module.config
   A gen/module.config.firewire modules/module.config
   A gen/module.shortconfig.fs modules/module.config
@@ -72,6 +89,7 @@ else
   include gen/module.files.fs
   include gen/module.files.net
   include gen/module.files.pcmcia
+  include gen/module.files.scsi@2
   include gen/module.files.scsi
   include gen/module.files.usb
   # not strictly necessary
@@ -79,6 +97,7 @@ else
 
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
+  A gen/module.config.scsi@2 modules/module.config
   A gen/module.config.scsi modules/module.config
   A gen/module.config.cdrom modules/module.config
   A gen/module.config.net modules/module.config
@@ -87,12 +106,8 @@ else
   A gen/module.config.firewire modules/module.config
   A gen/module.config.fs modules/module.config
 
-  # for those that don't put these modules into inst-sys
-  # cf. data/root/root.file_list
-  if arch eq 'ppc' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 's390' || arch eq 's390x'
-    include gen/module.files.extra
-    A gen/module.config.extra modules/module.config
-  endif
+  include gen/module.files.extra
+  A gen/module.config.extra modules/module.config
 
   A gen/module.config.other modules/module.config
 
