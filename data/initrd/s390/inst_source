@@ -381,7 +381,7 @@ then
 #
 	write_info_file
 #
-#	[ "$INST_SCREEN" != "SSH" ] && /bin/linuxrc
+/bin/linuxrc
 #
 	[ ! -z "$CONDOM" ] && set
 fi
