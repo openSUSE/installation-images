@@ -1,6 +1,11 @@
+15/4/2004:	v5.41
+	- Fixed netsetup to not sleep for qeth deviced (#38816).
+	  Using correct path for statistics in netsetup.
 	- add CD2/suseboot to trigger the HFS part,
 	  avoid 8.3 filenames and allow OF booting
 	- /lib/modules/<kernel>/extras -> extra
+	- add sgiioc4 module (#38628)
+
 8/4/2004:	v5.40
 	- support SuSE-SLES theme
 
