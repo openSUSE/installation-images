@@ -1,3 +1,6 @@
+2/7/2004:	v5.75
+	- SMB install does not work (#38777)
+
 30/6/2004:	v5.74
 	- added barrier=off to failsafe (#42526)
 

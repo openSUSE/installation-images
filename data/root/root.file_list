@@ -947,7 +947,7 @@ iproute2:
   /sbin/ip
 
 if arch ne 's390' && arch ne 's390x'
-  s /lbin/smbmount /sbin/mount.smbfs
+  s /bin/smbmount /sbin/mount.smbfs
   s /lbin/smbmnt /bin/smbmnt
 endif
 
