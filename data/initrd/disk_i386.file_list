@@ -45,7 +45,6 @@ a /lib/modules/<kernel_ver>/net/rl100a.o /
 a /lib/modules/<kernel_ver>/net/rrunner.o /
 a /lib/modules/<kernel_ver>/net/rtl8139.o /
 a /lib/modules/<kernel_ver>/net/skfp.o /
-a /lib/modules/<kernel_ver>/net/sktr.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra32.o /
 a /lib/modules/<kernel_ver>/net/tulip.o /
@@ -95,6 +94,7 @@ a /lib/modules/<kernel_ver>/scsi/psi240i.o /
 a /lib/modules/<kernel_ver>/scsi/qlogicfas.o /
 a /lib/modules/<kernel_ver>/scsi/qlogicfc.o /
 a /lib/modules/<kernel_ver>/scsi/qlogicisp.o /
+a /lib/modules/<kernel_ver>/scsi/qla2x00.o /
 a /lib/modules/<kernel_ver>/scsi/seagate.o /
 a /lib/modules/<kernel_ver>/scsi/sim710.o /
 a /lib/modules/<kernel_ver>/scsi/sym53c416.o /
@@ -253,6 +253,7 @@ a /lib/modules/<kernel_ver>/net/ni52.o /
 a /lib/modules/<kernel_ver>/net/ni65.o /
 a /lib/modules/<kernel_ver>/net/old_tulip.o /
 a /lib/modules/<kernel_ver>/net/olympic.o /
+a /lib/modules/<kernel_ver>/net/pci-scan.o /
 a /lib/modules/<kernel_ver>/net/pcnet32.o /
 a /lib/modules/<kernel_ver>/net/plip.o /
 a /lib/modules/<kernel_ver>/misc/parport.o /
@@ -268,6 +269,7 @@ a /lib/modules/<kernel_ver>/net/sktr.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra.o /
 a /lib/modules/<kernel_ver>/net/smc-ultra32.o /
 a /lib/modules/<kernel_ver>/net/smc9194.o /
+a /lib/modules/<kernel_ver>/net/starfire.o /
 a /lib/modules/<kernel_ver>/net/tlan.o /
 a /lib/modules/<kernel_ver>/net/via-rhine.o /
 a /lib/modules/<kernel_ver>/net/wd.o /

@@ -89,6 +89,8 @@ block/DAC960: 10
   Mylex DAC-960/DAC1100
 block/cpqarray: 10
   Compaq SMART2 RAID
+block/drbd: 0
+  Network Block Device
 block/nbd: 0
   Network Block Device
 block/xd: 0
@@ -177,6 +179,8 @@ scsi/ppscsi: 0
   Common Code for ppSCSI Adapters
 scsi/psi240i: 10
   PSI-240i
+scsi/qla2x00: 10
+  QLogic ISP2x00
 scsi/qlogicfas: 10
   Qlogic FAS
 scsi/qlogicfc: 10
@@ -394,6 +398,8 @@ net/olympic: 10
   IBM Olympic chipset PCI Token Ring
 net/pc300: 0
   Cyclades-PC300
+net/pci-scan: 10
+  PCI network card support module
 net/pcnet32: 10
   AMD PCI PCnet32 (PCI bus NE2100)
 net/ppp: 0
@@ -443,6 +449,8 @@ net/smc-ultra32: 10
   SMC Ultra32
 net/soundmodem: 0
   Sound card modem driver for AX.25
+net/starfire: 10
+  Adaptec Starfire
 net/strip: 0
   Starmode Radio IP
 net/sunbmac: 10

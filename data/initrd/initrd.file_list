@@ -63,6 +63,7 @@ if arch eq 'ia32'
   # block
   r /modules/nbd.o
   r /modules/xd.o
+  r /modules/drbd.o
 
   # net
   r /modules/soundmodem.o
@@ -118,6 +119,41 @@ if arch eq 'ia32'
   r /modules/ppa.o
   r /modules/imm.o
 
+  # really huge (gigabit) networks mods: make room for other stuff
+  r /modules/skfp.o
+  r /modules/sk98lin.o
+  r /modules/dgrs.o
+  r /modules/acenic.o
+
+  r /modules/tlan.o
+  r /modules/arlan.o
+  r /modules/arlan-proc.o
+
+  r /modules/ltpc.o
+  r /modules/de620.o
+  r /modules/de600.o
+  r /modules/depca.o
+
+  # who needs these ACRNet things anyway?
+  r /modules/arcnet.o
+  r /modules/com20020.o
+  r /modules/com90io.o
+  r /modules/com90xx.o
+
+  r /modules/ppp_mppe.o
+  r /modules/ethertap.o
+  r /modules/arc-rimi.o
+  r /modules/yellowfin.o
+  r /modules/shaper.o
+  r /modules/3c503.o
+  r /modules/3c501.o
+  r /modules/3c509.o
+  r /modules/3c507.o
+  r /modules/3c505.o
+  r /modules/hp-plus.o
+  r /modules/ni65.o
+  r /modules/ni5010.o
+
   a /lib/modules/<kernel_ver>/pcmcia/i82365.o /modules
   a /lib/modules/<kernel_ver>/pcmcia/ds.o /modules
   a /lib/modules/<kernel_ver>/pcmcia/tcic.o /modules
@@ -141,27 +177,17 @@ if arch eq 'ia32'
   a /lib/modules/<kernel_ver>/pcmcia/qlogic_cs.o /modules
   a /lib/modules/<kernel_ver>/pcmcia/smc91c92_cs.o /modules
 
-  # really huge (gigabit) networks mods: make room for other stuff
-  M /lib/modules/<kernel_ver>/net/skfp.o /modules
-  M /lib/modules/<kernel_ver>/net/sk98lin.o /modules
-  M /lib/modules/<kernel_ver>/net/dgrs.o /modules
-  M /lib/modules/<kernel_ver>/net/acenic.o /modules
+  M /lib/modules/<kernel_ver>/net/old_tulip.o /modules
+  M /lib/modules/<kernel_ver>/net/ibmtr.o /modules
 
-  M /lib/modules/<kernel_ver>/net/ltpc.o /modules
+  M /lib/modules/<kernel_ver>/net/sb1000.o /modules
+  M /lib/modules/<kernel_ver>/net/lanstreamer.o /modules
+  M /lib/modules/<kernel_ver>/net/sbni.o /modules
+  M /lib/modules/<kernel_ver>/net/3c515.o /modules
+  M /lib/modules/<kernel_ver>/net/ni52.o /modules
+  M /lib/modules/<kernel_ver>/net/at1700.o /modules
+  M /lib/modules/<kernel_ver>/net/lne390.o /modules
 
-  M /lib/modules/<kernel_ver>/net/tlan.o /modules
-  M /lib/modules/<kernel_ver>/net/arlan.o /modules
-  M /lib/modules/<kernel_ver>/net/arlan-proc.o /modules
-
-  M /lib/modules/<kernel_ver>/net/de620.o /modules
-  M /lib/modules/<kernel_ver>/net/de600.o /modules
-  M /lib/modules/<kernel_ver>/net/depca.o /modules
-
-  # who needs these ACRNet things anyway?
-  M /lib/modules/<kernel_ver>/net/arcnet.o /modules
-  M /lib/modules/<kernel_ver>/net/com20020.o /modules
-  M /lib/modules/<kernel_ver>/net/com90io.o /modules
-  M /lib/modules/<kernel_ver>/net/com90xx.o /modules
 
 endif		# arch eq 'ia32'
 
