@@ -212,6 +212,7 @@ glibc:
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
   /lib*/libpthread.so.0
+  /lib*/libthread_db*
 
 glibc-locale:
   /usr/lib*/gconv/ISO8859*
@@ -309,9 +310,6 @@ util-linux:
 
 gdb:
   /usr/bin/gdb
-
-glibc:
-  /lib*/libthread_db*
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
@@ -651,7 +649,7 @@ endif
     /usr/bin
 
   if with_suse_font ne 'no'
-    desktop-data-SuSE:
+    desktop-data-SLES:
       /usr/X11R6/lib/X11/fonts/truetype/SUSESans*.ttf
   else
     ghostscript-fonts-std:
