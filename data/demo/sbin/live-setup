@@ -23,6 +23,10 @@ ln -snf /S.u.S.E./var/lib/rpm /var/lib
   opt opt/kde opt/kde/share var/X11R6/xfine\
   sbin/init.d sbin/conf.d etc/pcmcia etc/httpd
 
+if [ -d etc/X11 -a ! -L etc/X11 ] ; then
+  /sbin/mk_links etc/X11
+fi
+
 if [ ! -x /bin/y2qt ] ; then
   ln -s y2bignfat /bin/y2qt
 fi
@@ -183,7 +187,12 @@ if [ ! "$nodisk" ] ; then
       mount /home
     fi
     [ "$livetest" ] && /bin/bash
-    /lib/YaST2/bin/YaST2.start
+    # to be compatible with 6.4
+    if [ -x /usr/lib/YaST2/bin/YaST2.start ] ; then
+      /usr/lib/YaST2/bin/YaST2.start
+    else
+      /lib/YaST2/bin/YaST2.start
+    fi
     rm -f /mnt ; mkdir /mnt
     cmp -s /etc/fstab /tmp/fstab.save || {
       grep -v /proc /etc/fstab >>/tmp/fstab.save

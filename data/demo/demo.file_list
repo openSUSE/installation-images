@@ -170,6 +170,12 @@ d /etc/{pcmcia,httpd,isdn,vbox}
 x /sbin/{live-setup,mk_links} /sbin
 ifenv demo eval
 x /sbin/{live-shutdown,find_config,fix_fstab} /sbin
+ifenv suse_major_release 6
 x /etc/XF86Config /etc
+else
+d etc/X11
+x /etc/XF86Config_3 /etc/XF86Config
+x /etc/XF86Config_4 /etc/X11/XF86Config
+endif
 endif
 
