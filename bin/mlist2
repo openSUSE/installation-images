@@ -150,9 +150,11 @@ for (@sect) {
   print W "[$_]\n";
   print W "MoreModules=$sect{$_}{MoreModules}\n\n" if exists $sect{$_}{MoreModules};
   for $m (@{$sect{$_}{'m'}}) {
-    $l = join ',', add_quotes(@$m);
-    $l =~ s/,*$//;
-    print W "$l\n";
+    if($$m[1] !~ /^--/) {
+      $l = join ',', add_quotes(@$m);
+      $l =~ s/,*$//;
+      print W "$l\n";
+    }
   }
   print W "\n\n";
   close W;
@@ -177,8 +179,10 @@ for (@sect) {
   open W, ">${dst}list.$s";
   print W ";\n; $_ modules\n;\n";
   for $m (@{$sect{$_}{'m'}}) {
-    if($$m[1]) {
-      printf W "%-15s\t%s\n", $$m[0], $$m[1];
+    $d = $$m[1];
+    $d =~ s/^--//;
+    if($d) {
+      printf W "%-15s\t%s\n", $$m[0], $d;
     }
   }
   print W "\n";
@@ -206,7 +210,7 @@ sub lsplit
   $l =~ s/\\\"/"/g;
   push @l, $l if $l ne "";
 
-  $l[1] = undef if $l[1] =~ /^-/;
+  $l[1] = undef if $l[1] =~ /^-(?!-)/;
 
   return @l;
 }

@@ -6,7 +6,7 @@ devs:
 
 aaa_dir:
   /etc/{ppp,rc.d,uucp}
-  /etc/rc.config.d
+  /etc/sysconfig
   /root
   /etc/init.d
   /usr/tmp

@@ -37,7 +37,9 @@ kernel/fs/hpfs/
 kernel/fs/jbd/
 kernel/fs/jfs/
 kernel/fs/reiserfs/
+kernel/fs/smbfs/
 pcmcia-external/
 -/pcmcia/
 -pcmcia-external/net/8390.o
 -kernel/drivers/parport/parport_cs.o
+kernel/net/packet/

@@ -12,8 +12,10 @@ if arch eq 'ia32'
       <kernel_rpm>:
         m /boot/<kernel_img> /linux
     else
-      k_inst:
-        m /boot/vminst /linux
+#      k_inst:
+#        m /boot/vminst /linux
+      <kernel_rpm>:
+        m /boot/<kernel_img> /linux
     endif
       R s/linuxrc=auto2,yast2/linuxrc=auto2,yast2,reboot/s /syslinux.cfg
   else

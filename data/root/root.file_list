@@ -19,7 +19,6 @@ e prein
   /sbin/mk_initrd
   /sbin/get_kernel_version
   /sbin/insserv
-  /sbin/bootp
   /usr/bin/old
   /root/.gnupg/suse_build_key
   /root/.gnupg/suse_build_key
@@ -418,6 +417,8 @@ if with_yast2 ne 'no'
     /
   yast2-agent-http:
     /
+  yast2-agent-ini:
+    /
   yast2-agent-modules:
     /
   yast2-agent-package:
@@ -433,6 +434,10 @@ if with_yast2 ne 'no'
   yast2-agent-tftp:
     /
   yast2-agent-xml:
+    /
+  yast2-config-inst-keyboard:
+    /
+  yast2-config-inst-timezone:
     /
   yast2-core-clients:
     /
@@ -457,6 +462,8 @@ if with_yast2 ne 'no'
   yast2-ui-ncurses:
     /
   yast2-ui-qt:
+    /
+  yast2-trans-autoinst:
     /
   yast2-trans-inst-bootloader:
     /

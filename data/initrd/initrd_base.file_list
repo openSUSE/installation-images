@@ -1,5 +1,5 @@
 d bin dev etc mnt proc tmp
-d var/run var/adm/mount var/lib/YaST var/spool var/lock var/log var/tmp
+d var/run var/adm/mount var/lib/YaST var/spool var/lock var/log var/tmp var/lib/dhcpcd
 
 d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11 var/lib/xkb
 s /usr/X11R6/lib/X11 var/X11R6/lib
@@ -460,4 +460,41 @@ if arch eq 'alpha' || arch eq 'ia32' || arch eq 'ppc'
     /etc/pcmcia/config.opts
   x etc/pcmcia/fixed etc/pcmcia
 endif
+
+if with_smb
+  d bin sbin lib
+
+  samba-client:
+    m /usr/bin/smbmount /bin/smbmount
+    m /usr/bin/smbmnt   /bin/smbmnt
+    # to make mount(8) -t smbfs work:
+    l /bin/smbmount  /sbin/mount.smbfs
+
+  glibc:
+    /lib/ld-linux.so.2
+    /lib/ld-2.*.so
+    /lib/libc.so.6*
+    /lib/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
+
+  readline:
+    /lib/libreadline.so.4*
+    /lib/libhistory.so.4*
+
+  pam:
+    /lib/libpam.so.*
+
+  ncurses:
+    /lib/libncurses.so.5*
+
+  cups-libs:
+    m /usr/lib/libcups.so.* /lib
+
+  openssl:
+    m /usr/lib/libcrypto.so.* /lib
+    m /usr/lib/libssl.so.* /lib
+
+endif
+
+aaa_base:
+  /etc/nsswitch.conf
 

@@ -401,6 +401,22 @@ for (@f) {
   ($ENV{'suse_xrelease'} = $rx) =~ s/-?$//;
   $ENV{'suse_base'} = $base;
 
+  ($v = "$r0$rx") =~ s/-?$//;
+
+  if(!exists($ENV{'pre_release'})) {
+    $ENV{'pre_release'} = $rf =~ /^\d+\.\d+(a\b|\.99)$/ ? 1 : 0;
+  }
+
+  if($rf =~ /^(\d+)\.(\d+)\.[5-9]/) {
+    $v = "$1." . ($2 + 1);
+    $ENV{'suse_release'} = $v;
+  }
+
+  # there is no 7.4
+  if($ENV{'suse_release'} eq "7.4" && $ENV{'pre_release'}) {
+    $ENV{'suse_release'} = $v = "8.0";
+  }
+
   if($in_abuild) {
     $ENV{'kernel_img'} = KernelImg $ENV{'kernel_img'}, (`ls /boot/*`);
     undef $kn;
@@ -426,7 +442,7 @@ for (@f) {
     if($use_cache) {
       $cache_dir = `pwd`;
       chomp $cache_dir;
-      $cache_dir .= "/${BasePath}cache/$rf-$ENV{'suse_arch'}"
+      $cache_dir .= "/${BasePath}cache/$ENV{'suse_release'}-$ENV{'suse_arch'}"
     }
 
     undef $kv;
@@ -449,8 +465,6 @@ for (@f) {
     die "invalid SuSE release";
   }
 
-  ($v = "$r0$rx") =~ s/-?$//;
-
   if($in_abuild) {
     $r = $ENV{'BUILD_BASENAME'};
     if(!($r && -d("/.rpm-cache/$r"))) {
@@ -458,20 +472,6 @@ for (@f) {
       die "No usable /.rpm-cache (looking for \"$r\")!\n"
     }
     $base = $AutoBuild = "/.rpm-cache/$r"
-  }
-
-  if(!exists($ENV{'pre_release'})) {
-    $ENV{'pre_release'} = $rf =~ /^\d+\.\d+(a\b|\.99)$/ ? 1 : 0;
-  }
-
-  if($rf =~ /^(\d+)\.(\d+)\.[5-9]/) {
-    $v = "$1." . ($2 + 1);
-    $ENV{'suse_release'} = $v;
-  }
-
-  # there is no 7.4
-  if($ENV{'suse_release'} eq "7.4" && $ENV{'pre_release'}) {
-    $ENV{'suse_release'} = $v = "8.0";
   }
 
   for (qw (kernel_img kernel_rpm kernel_ver suse_release suse_xrelease suse_base pre_release) ) {
