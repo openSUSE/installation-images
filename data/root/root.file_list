@@ -503,6 +503,8 @@ if with_yast2 ne 'no'
     
   yast2-repair:
     /
+  yast2-runlevel:
+    /
   yast2-storage:
     /
   yast2-transfer:
