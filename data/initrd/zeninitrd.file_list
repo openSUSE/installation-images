@@ -1,0 +1,236 @@
+d bin dev etc mnt proc sys tmp
+d var/run var/spool var/lock var/tmp var/adm/mount
+d var/lib/dhcpcd var/lib/hardware
+
+d etc/sysconfig
+d etc/sysconfig/hardware
+
+d lib/modules/<kernel_ver>
+d lib/modules/<kernel_mods>/initrd
+s lib/modules/<kernel_mods>/initrd modules
+s ../<kernel_mods> lib/modules/<kernel_ver>/updates
+
+d mounts
+d root
+
+t var/run/utmp
+
+c 1777 0 0 tmp
+
+x etc/syslog.conf etc
+x etc/host.conf etc
+
+
+if mkdevs
+  e cp -a /initrddevs.tiny/dev .
+  e cp -a /devz .
+else
+  e cp -a /initrddevs/dev .
+endif
+
+
+module-init-tools:
+  d /sbin
+  m /sbin/insmod.static /sbin/insmod
+
+
+linuxrc:
+  if linuxrc
+    if linuxrc =~ m#^[^/]#
+      m /usr/sbin/<linuxrc> /linuxrc
+    else
+      X <linuxrc> /linuxrc
+    endif
+  else
+    m /usr/sbin/linuxrc /linuxrc
+  endif
+
+  d kbd/consolefonts
+
+  g /usr/share/linuxrc/linuxrc-16.psfu.gz kbd/consolefonts/linuxrc-16.psfu
+  g /usr/share/linuxrc/linuxrc2-16.psfu.gz kbd/consolefonts/linuxrc2-16.psfu
+
+
+kbd:
+  /bin/setfont
+
+  m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
+
+  d kbd/consoletrans
+  m /usr/share/kbd/consoletrans/koi2alt kbd/consoletrans
+  m /usr/share/kbd/consoletrans/trivial kbd/consoletrans
+
+  d kbd/consolefonts
+  g /usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz kbd/consolefonts/LatArCyrHeb-16.psfu
+  g /usr/share/kbd/consolefonts/lat1-16.psfu.gz kbd/consolefonts/lat1-16.psfu
+  g /usr/share/kbd/consolefonts/lat2-16.psfu.gz kbd/consolefonts/lat2-16.psfu
+  g /usr/share/kbd/consolefonts/iso07u-16.psfu.gz kbd/consolefonts/lat7-16.psfu
+  g /usr/share/kbd/consolefonts/Cyr_a8x16.psfu.gz kbd/consolefonts/Cyr_a8x16.psfu
+
+  d kbd/keymaps/include
+  m usr/share/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
+
+  g /usr/share/kbd/keymaps/i386/qwerty/Pl02.map.gz kbd/keymaps/Pl02.map
+  g /usr/share/kbd/keymaps/i386/qwerty/br-abnt2.map.gz kbd/keymaps/br-abnt2.map
+  g /usr/share/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz kbd/keymaps/cz-us-qwertz.map
+  g /usr/share/kbd/keymaps/i386/qwerty/dk.map.gz kbd/keymaps/dk.map
+  g /usr/share/kbd/keymaps/i386/qwerty/es.map.gz kbd/keymaps/es.map
+  g /usr/share/kbd/keymaps/i386/qwerty/fi.map.gz kbd/keymaps/fi.map
+  g /usr/share/kbd/keymaps/i386/qwerty/gr.map.gz kbd/keymaps/gr.map
+  g /usr/share/kbd/keymaps/i386/qwertz/hu.map.gz kbd/keymaps/hu.map
+  g /usr/share/kbd/keymaps/i386/qwerty/it.map.gz kbd/keymaps/it.map
+  g /usr/share/kbd/keymaps/i386/qwerty/jp106.map.gz kbd/keymaps/jp106.map
+  g /usr/share/kbd/keymaps/i386/qwerty/nl.map.gz kbd/keymaps/nl.map
+  g /usr/share/kbd/keymaps/i386/qwerty/no-latin1.map.gz kbd/keymaps/no-latin1.map
+  g /usr/share/kbd/keymaps/i386/qwerty/pt-latin1.map.gz kbd/keymaps/pt-latin1.map
+  g /usr/share/kbd/keymaps/i386/qwerty/ru1.map.gz kbd/keymaps/ru1.map
+  g /usr/share/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz kbd/keymaps/sk-qwerty.map
+  g /usr/share/kbd/keymaps/i386/qwerty/sv-latin1.map.gz kbd/keymaps/sv-latin1.map
+  g /usr/share/kbd/keymaps/i386/qwerty/uk.map.gz kbd/keymaps/uk.map
+  g /usr/share/kbd/keymaps/i386/azerty/fr-latin1.map.gz kbd/keymaps/fr-latin1.map
+
+  m /usr/share/kbd/keymaps/i386/include/linux-with-modeshift-altgr.inc kbd/keymaps/include
+  m /usr/share/kbd/keymaps/i386/include/linux-keys-extd.inc kbd/keymaps/include
+  m /usr/share/kbd/keymaps/i386/include/azerty-layout.inc kbd/keymaps/include
+  m /usr/share/kbd/keymaps/i386/include/linux-with-two-alt-keys.inc kbd/keymaps/include
+
+  g /usr/share/kbd/keymaps/i386/qwerty/us.map.gz kbd/keymaps/us.map
+  g /usr/share/kbd/keymaps/i386/qwertz/de-latin1-nodeadkeys.map.gz kbd/keymaps/de-lat1-nd.map
+  g /usr/share/kbd/keymaps/i386/qwertz/de-latin1.map.gz kbd/keymaps/de-latin1.map
+
+  m /usr/share/kbd/keymaps/i386/include/linux-keys-bare.inc kbd/keymaps/include
+  m /usr/share/kbd/keymaps/i386/include/linux-with-alt-and-altgr.inc kbd/keymaps/include
+  m /usr/share/kbd/keymaps/i386/include/qwerty-layout.inc kbd/keymaps/include
+  m /usr/share/kbd/keymaps/i386/include/qwertz-layout.inc kbd/keymaps/include
+  g /usr/share/kbd/keymaps/i386/include/euro1.map.gz kbd/keymaps/include/euro1.map
+  g /usr/share/kbd/keymaps/i386/include/euro2.map.gz kbd/keymaps/include/euro2.map
+
+
+pcmcia:
+  d etc/pcmcia/cis
+  m etc/pcmcia/cis etc/pcmcia
+  t etc/pcmcia/fixed
+  c 0755 0 0 etc/pcmcia/fixed
+  l etc/pcmcia/fixed  etc/pcmcia/scsi
+  l etc/pcmcia/fixed  etc/pcmcia/ide
+  l etc/pcmcia/fixed  etc/pcmcia/network
+
+    /etc/pcmcia/config
+    /etc/pcmcia/config.opts
+  x etc/pcmcia/fixed etc/pcmcia
+
+
+<kernel_rpm>:
+  x module.help modules/module.config
+
+  include gen/module.files.autoload
+  include gen/module.files.firewire
+  include gen/module.files.fs
+  include gen/module.files.net
+  include gen/module.files.pcmcia
+  include gen/module.files.scsi
+  include gen/module.files.scsi@2
+  include gen/module.files.usb
+  # not strictly necessary
+  include gen/module.files.other
+
+  # add them explicitly to make sure we really have all modules from CD1
+  include gen/module.files.cd1
+
+  # note: order _does_ matter
+  A gen/module.config.autoload modules/module.config
+  A gen/module.config.scsi modules/module.config
+  A gen/module.config.scsi@2 modules/module.config
+  A gen/module.config.net modules/module.config
+  A gen/module.config.pcmcia modules/module.config
+  A gen/module.config.usb modules/module.config
+  A gen/module.config.firewire modules/module.config
+  A gen/module.config.fs modules/module.config
+
+  include gen/module.files.extra
+  A gen/module.config.extra modules/module.config
+
+  A gen/module.config.other modules/module.config
+
+
+glibc:
+  /etc/nsswitch.conf
+  /etc/ld.so.conf
+
+  /lib*/ld-linux*.so.2
+  /lib*/ld-2.*.so
+  /lib*/libc.so.6*
+  /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*,libresolv.so.2*}
+  /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
+  /lib*/libm.so.6*
+  /lib*/libthread_db.so*
+  /lib*/libutil.so.*
+  /lib*/libpthread.so.*
+
+
+readline:
+  /lib*/libreadline.so*
+  /lib*/libhistory.so*
+
+
+ncurses:
+  /lib*/libncurses.so.5*
+
+
+bash:
+  /bin/bash
+
+
+gpm:
+  /etc/*
+  /usr/bin/*
+  /usr/sbin/*
+  /usr/lib/*
+
+
+sysvinit:
+  /sbin/{halt,reboot,shutdown,showconsole,setconsole}
+  c 755 0 0 /sbin/showconsole
+  /bin/usleep
+
+
+util-linux:
+  /etc
+  r /etc/init.d/nfsboot
+  /bin/{dmesg,mount,umount,guessfstype}
+  /sbin/hwclock
+  /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
+  /sbin/agetty
+  /usr/{bin,sbin}
+  c 755 0 0 /usr/sbin/klogconsole
+
+
+# some linuxrc config vars
+  # see etc/module.list
+  e echo "Zen:		2" >>linuxrc.config
+  e echo "SetupCmd:	"\""setctsid \`showconsole\` /bin/bash -c zenworks.s"\" >>linuxrc.config
+
+  e echo "KernelPCMCIA:	1" >>linuxrc.config
+
+  e echo "UseUSBSCSI:	1" >>linuxrc.config
+  e echo "Product:	<product_name>" >>linuxrc.config
+  e echo "UpdateDir:	<update_dir>" >>linuxrc.config
+
+  if load_image
+    e echo "MemLoadImage:	<load_image>" >>linuxrc.config
+  endif
+
+  if min_memory
+    e echo "MinMemory:	<min_memory>" >>linuxrc.config
+  endif
+
+  if lang
+    e echo "Language:	<lang>" >>linuxrc.config
+  endif
+
+#  e echo "NetSetup:	dhcp" >>linuxrc.config
+
+# add modules.pcimap
+  e /sbin/depmod -a -b . -F /System.map <kernel_ver>
+  e rm -f lib/modules/<kernel_ver>/modules.[^p]*
+

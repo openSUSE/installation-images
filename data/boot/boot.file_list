@@ -11,6 +11,11 @@ if arch eq 'ia32' || arch eq 'x86_64'
     x syslinux-eval.cfg /syslinux.cfg
   endif
 
+  if theme eq 'Zen'
+    x message-zen /message
+    x syslinux-zen.cfg /syslinux.cfg
+  endif
+
   if boot ne 'small'
     R s/\ndisksize.*?\n/\n/s /syslinux.cfg
   endif

@@ -28,6 +28,7 @@ use ReadConfig;
 use MakeExt2Image;
 use AddFiles;
 use Conv2Image;
+use CompressImage;
 
 die "usage: $Script\n" if @ARGV;
 
@@ -55,6 +56,11 @@ $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
 $use_cramfs = exists($ENV{'use_cramfs'}) ? $ENV{'use_cramfs'} : 1;
 $uncompressed_root = exists($ENV{'uncompressed_root'}) ? $ENV{'uncompressed_root'} : "";
 
+if($ENV{theme} eq 'Zen') {
+  $extra_size = 20000;              # kbyte
+  $extra_inodes = 10000;
+}
+
 
 if($ENV{'keeproot'} != 1) {
   # clean up
@@ -64,7 +70,9 @@ if($ENV{'keeproot'} != 1) {
 
   mkdir $tmpdir || die "$Script: failed to create $tmpdir";
 
-  AddFiles $tmpdir, "${srcdir}/root.file_list", $srcdir or
+  $fl = exists($ENV{'filelist'}) ? $ENV{'filelist'} : "root";
+
+  AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir or
     die "$Script: failed to setup root image";
 
   if(-f "${BasePath}tmp/root.rpmlog") {
@@ -111,7 +119,11 @@ if($use_cramfs) {
   print "$Script: created \"$image.cramfs\" ($i bytes)\n";
 }
 
-if($uncompressed_root) {
+if($uncompressed_root || !$use_cramfs) {
   Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
+  if(!$uncompressed_root) {
+    $i = CompressImage $image;
+    print "$Script: created \"$image\" ($i bytes)\n";
+  }
 }
 

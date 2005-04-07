@@ -57,3 +57,12 @@ update  = /linux/suse/<arch>-<rel>
 image   = 200
 
 
+[Theme Zen]
+yast    = SuSELinux
+splash  = SuSE
+product = ZENworks
+version = 9.2
+update  = /linux/suse/<arch>-<rel>
+image   = 200
+
+

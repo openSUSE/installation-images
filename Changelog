@@ -1,3 +1,7 @@
+7/4/2005:	v6.19
+	- added Zen theme (build images for zenworks)
+	- allow to build root image as compressed ext2 again
+
 10/1/2005:	v6.18
 	- x86-64: add (empty) /lib64 directory to initrd (needed for patch cd)
 

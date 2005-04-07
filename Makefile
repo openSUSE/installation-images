@@ -32,6 +32,15 @@ dirs:
 initrd: dirs base
 	mkdevs=$${mkdevs:-1} YAST_IS_RUNNING=1 bin/mk_initrd
 
+zeninitrd: dirs base
+	mkdevs=$${mkdevs:-1} YAST_IS_RUNNING=1 theme=Zen filelist=zeninitrd bin/mk_initrd
+
+zenboot: zeninitrd mboot
+	theme=Zen initrd=large boot=isolinux memtest=no bin/mk_boot
+
+zenroot: dirs base
+	YAST_IS_RUNNING=1 theme=Zen use_cramfs= uncompressed_root=1 filelist=zenroot bin/mk_root
+
 plain_initrd: dirs
 	YAST_IS_RUNNING=1 bin/mk_initrd
 
