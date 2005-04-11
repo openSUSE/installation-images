@@ -102,8 +102,11 @@ then
 	echo "UNIQUE=\"$UNIQUE\"" >> $DEVICEFILE
 
 	echo "STARTMODE=\"onboot\"" >> $DEVICEFILE
-	IP=`grep "^IP:" $INSTALLINF | uniq | sed -e 's/IP: \\(.*\\)/\\1/'`
-	echo "IPADDR=\"$IP\"" >> $DEVICEFILE
+	# do not write useless misleading info in case of dynamic config (#49131)
+	if [ "$BOOTPROTO" = "static" ]; then
+	    IP=`grep "^IP:" $INSTALLINF | uniq | sed -e 's/IP: \\(.*\\)/\\1/'`
+	    echo "IPADDR=\"$IP\"" >> $DEVICEFILE
+	fi
 	IP_MTU=`grep "^IP_MTU:" $INSTALLINF | uniq | sed -e 's/IP_MTU: \\(.*\\)/\\1/'`
 	[ -n "$IP_MTU" ] && echo "MTU=\"$IP_MTU\"" >> $DEVICEFILE
 
@@ -116,12 +119,15 @@ then
 #
 #	create broadcast-interface
 #
-	NWMASK=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
-	[ -n "$NWMASK" ] && echo "NETMASK=\"$NWMASK\"" >> $DEVICEFILE
-	NW=`grep Network: $INSTALLINF | uniq | sed -e 's/Network: \\(.*\\)/\\1/'`
-	[ -n "$NW" ] && echo "NETWORK=\"$NW\"" >> $DEVICEFILE
-	NWBROADCAST=`grep Broadcast: $INSTALLINF | uniq | sed -e 's/Broadcast: \\(.*\\)/\\1/'`
-	[ -n "$NWBROADCAST" ] && echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
+	# #49131
+	if [ "$BOOTPROTO" = "static" ]; then
+	    NWMASK=`grep Netmask: $INSTALLINF | uniq | sed -e 's/Netmask: \\(.*\\)/\\1/'`
+	    [ -n "$NWMASK" ] && echo "NETMASK=\"$NWMASK\"" >> $DEVICEFILE
+	    NW=`grep Network: $INSTALLINF | uniq | sed -e 's/Network: \\(.*\\)/\\1/'`
+	    [ -n "$NW" ] && echo "NETWORK=\"$NW\"" >> $DEVICEFILE
+	    NWBROADCAST=`grep Broadcast: $INSTALLINF | uniq | sed -e 's/Broadcast: \\(.*\\)/\\1/'`
+	    [ -n "$NWBROADCAST" ] && echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
+	fi
 
 #	
 #	Create routingfile
