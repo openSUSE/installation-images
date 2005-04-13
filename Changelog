@@ -1,3 +1,6 @@
+13/4/2005:	v6.45
+	- xorg.conf fix for 64 bit archs
+
 13/4/2005:	v6.44
 	- XF86Config -> xorg.conf (#66989)
 	- write static net variables only if it really is a static
