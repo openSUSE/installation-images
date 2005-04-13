@@ -122,7 +122,7 @@ if with_yast2 ne 'no'
 
 
   if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
-    R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/XF86Config_4
+    R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/xorg.conf
   endif
 
   xorg-x11-fonts-75dpi:
