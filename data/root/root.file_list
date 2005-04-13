@@ -82,7 +82,6 @@ joe:
 
 hwinfo:
   /lib*
-  /sbin
   /usr/sbin
 
 udev:
@@ -194,6 +193,10 @@ endif
 e2fsprogs:
   /sbin
   /lib*
+
+libcom_err:
+  /lib*/libcom_err.so.*
+  /lib*/libss.so.*
 
 file:
   m /usr/share/misc/magic /etc/magic
@@ -732,6 +735,7 @@ e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 
 # copy empty dictionary
 e cp -a /usr/lib/cracklib_dict.* usr/lib
+e cp -a /usr/share/cracklib usr/share
 
 # x usr/bin/conservative_lndir usr/bin
 

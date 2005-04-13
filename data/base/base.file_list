@@ -231,6 +231,7 @@ glibc-locale:
 cracklib:
   /usr/sbin
   /usr/lib*
+  /usr/share/cracklib
 
 # create splash
 include gen/splash

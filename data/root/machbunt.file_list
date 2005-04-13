@@ -8,10 +8,13 @@ gdb:
 freetype2:
   /usr/lib*
 
-if !(arch eq 'x86_64' || arch eq 'ia64' || arch eq 'alpha' || arch eq 's390' || arch eq 's390x')
+if arch ne 'ia64'
   ltrace:
     /usr/bin/ltrace
     /etc/ltrace.conf
+
+  elfutils-libelf:
+    /usr/lib*/libelf*so*
 endif
 
 if with_yast2 ne 'no'

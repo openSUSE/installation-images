@@ -108,6 +108,10 @@ e2fsprogs:
   /{lib*,sbin}
   /usr/{,s}bin
 
+libcom_err:
+  /lib*/libcom_err.so.*
+  /lib*/libss.so.*
+
 coreutils:
   /etc
   /bin
@@ -483,7 +487,6 @@ gdbm:
 
 hwinfo:
   /lib*
-  /sbin
   /usr/sbin
 
 initviocons:
