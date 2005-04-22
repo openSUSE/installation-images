@@ -1,3 +1,8 @@
+22/4/2005:	v6.47
+	- Increase initial rescue image size.
+	- Add libunwind on ia64.
+	- Don't add fdisk on ia64.
+
 22/4/2005:	v6.46
 	- s390 build fix
 

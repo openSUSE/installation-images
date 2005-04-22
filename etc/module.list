@@ -59,6 +59,7 @@ kernel/fs/nls/nls_cp437.ko
 kernel/fs/nls/nls_iso8859-1.ko
 kernel/fs/nls/nls_base.ko
 kernel/fs/nls/nls_utf8.ko
+kernel/fs/binfmt_misc.ko
 kernel/drivers/firmware/edd.ko
 kernel/drivers/acpi/
 

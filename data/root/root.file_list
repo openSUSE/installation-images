@@ -118,7 +118,9 @@ util-linux:
   /bin/dmesg
   /sbin/losetup
   /sbin/blockdev
-  /sbin/fdisk
+  if arch ne 'ia64'
+    /sbin/fdisk
+  endif
   /usr/sbin/setctsid
 
 <kernel_rpm>:
@@ -211,6 +213,9 @@ endif
 if arch eq 'ia64'
   efibootmgr:
     /usr/sbin/efibootmgr
+
+  libunwind:
+    /lib/libunwind.so*
 endif
 
 if arch eq 's390' || arch eq 's390x'
@@ -319,6 +324,13 @@ strace:
 cpio:
   /usr/bin/mt
   /bin/cpio
+
+if arch eq 'ia64'
+  ia32el:
+    /etc/init.d/ia32el
+    /usr/lib/ia32el
+  r /usr/lib/ia32el/cpuid
+endif
 
 c 0755 0 0 /usr/bin
 c 0755 0 0 /usr/lib*

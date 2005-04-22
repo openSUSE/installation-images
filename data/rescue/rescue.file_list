@@ -230,6 +230,9 @@ endif
 if arch eq 'ia64'
   efibootmgr:
     /usr/sbin
+
+  libunwind:
+    /lib/libunwind.so*
 endif
 
 evms:
@@ -466,7 +469,10 @@ util-linux: postin
 if arch ne 's390' && arch ne 's390x'
   /sbin/hwclock
 endif
-  /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
+  /sbin/{blockdev,ctrlaltdel,elvtune,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
+  if arch ne 'ia64'
+    /sbin/fdisk
+  endif
   /sbin/agetty
   /usr/{bin,sbin}
 e postin
@@ -551,6 +557,14 @@ multipath-tools: postin
   /usr/bin
 e postin
 
+if arch eq 'ia64'
+  ia32el:
+    /etc/init.d/ia32el
+    /usr/lib/ia32el
+  r /usr/lib/ia32el/cpuid
+  e insserv etc/init.d/ia32el
+endif
+
 if arch ne 'sparc'
   <kernel_rpm>:
     f / st.ko
@@ -607,6 +621,7 @@ if arch ne 'sparc'
     f / dm-mod.ko
     f / dm-snapshot.ko
     f / dm-zero.ko
+    f / binfmt_misc.ko
 
 if arch eq 'alpha'
     m /boot/System.map-* /System.map

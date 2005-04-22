@@ -153,6 +153,8 @@ depmod -a 2>/dev/null
 # exists only on s390
 test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
 
+test -x /etc/init.d/ia32el && /etc/init.d/ia32el start
+
 # boot with usessh=1 or use linuxrc to enable ssh 
 if grep -q "^UseSSH:.*1" /etc/install.inf ; then
 	test -x /sbin/inst_setup_ssh  &&  . /sbin/inst_setup_ssh
