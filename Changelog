@@ -1,3 +1,6 @@
+22/4/2005:	v6.46
+	- s390 build fix
+
 13/4/2005:	v6.45
 	- xorg.conf fix for 64 bit archs
 
