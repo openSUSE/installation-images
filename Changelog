@@ -1,3 +1,5 @@
+	- talk about SLES10 in CD1/yaboot.txt
+
 22/4/2005:	v6.47
 	- Increase initial rescue image size.
 	- Add libunwind on ia64.
