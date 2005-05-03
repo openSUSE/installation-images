@@ -49,7 +49,9 @@ if with_yast2 ne 'no'
       /usr/X11R6/lib*/modules/drivers/ati_drv.o
       /usr/X11R6/lib*/modules/drivers/atimisc_drv.o
       /usr/X11R6/lib*/modules/drivers/fbdev_drv.o
+      if arch eq 'ia32' || arch eq 'x86_64'
       /usr/X11R6/lib*/modules/drivers/i810_drv.o
+      endif
       /usr/X11R6/lib*/modules/drivers/nv_drv.o
       /usr/X11R6/lib*/modules/drivers/r128_drv.o
       /usr/X11R6/lib*/modules/drivers/radeon_drv.o
