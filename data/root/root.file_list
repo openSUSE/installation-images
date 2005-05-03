@@ -463,7 +463,7 @@ if arch eq 'ppc' || arch eq 'ppc64'
 
   fbset:
     /etc/fb.modes
-    /usr/sbin/fbset
+    /sbin/fbset
 
   hfsutils:
     /usr/bin/hattrib
