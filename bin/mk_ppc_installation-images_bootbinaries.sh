@@ -30,43 +30,47 @@ cp -pfv $bdir/initrd-kernel-ppc64 $CD1/initrd64
 cp -pfv $bdir/initrd-kernel-iseries64 $CD1/boot
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
-	cp -pfv /lib/lilo/chrp/mkzimage_cmdline $CD1/ppc/netboot
+	cp -Lpfv /lib/lilo/chrp/mkzimage_cmdline $CD1/ppc/netboot
 	chmod 0755 $CD1/ppc/netboot/mkzimage_cmdline
 fi
 #
-bash /lib/lilo/chrp/chrp64/addRamdisk.sh \
-	/var/tmp/chrpinitrd.$$ \
-	/boot/vmlinux-*-ppc64 \
-	$bdir/initrd-kernel-ppc64 \
-	$CD1/install
-/lib/lilo/chrp/mkzimage_cmdline -a 1 -c $CD1/install
+/bin/mkzimage \
+	--board chrp64 \
+	--vmlinux /boot/vmlinux-*-ppc64 \
+	--initrd $bdir/initrd-kernel-ppc64 \
+	--output $CD1/install
 #
-/lib/lilo/iseries/iseries-addRamDisk \
-	$bdir/initrd-kernel-iseries64 \
-	/boot/System.map-*-iseries64 \
-	/boot/vmlinux-*-iseries64 \
-	$CD1/ISERIES64
+/bin/mkzimage \
+	--board iseries \
+	--vmlinux /boot/vmlinux-*-iseries64 \
+	--initrd $bdir/initrd-kernel-iseries64 \
+	--output $CD1/ISERIES64
 #
-/lib/lilo/prep/make_zimage_prep.sh \
+/bin/mkzimage \
+	--board prep \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
 	--output $CD1/boot/zImage.prep.initrd
 #
-/lib/lilo/pmac/oldworld_coff/make_zimage_pmac_oldworld_coff.sh \
+/bin/mkzimage \
+	--board pmaccoff \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc32_pmac_coff \
 	--output $CD1/boot/install-pmaccoff
 #
-/lib/lilo/pmac/oldworld_coff/make_zimage_pmac_oldworld_coff.sh \
+/bin/mkzimage \
+	--board pmaccoff \
 	--vmlinux /boot/vmlinux-*-default \
 	--output $CD1/boot/vmlinux-pmaccoff
 #
-/lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
+/bin/mkzimage \
+	--board pmac \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
 	--output $CD1/installpmac
 #
-/lib/lilo/pmac/newworld/make_zimage_pmac_newworld.sh \
+/bin/mkzimage \
+	--board pmac \
 	--vmlinux /boot/vmlinux-*-ppc64 \
 	--initrd $bdir/initrd-kernel-ppc64 \
 	--output $CD1/installpmac64

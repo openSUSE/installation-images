@@ -1,4 +1,5 @@
 	- talk about SLES10 in CD1/yaboot.txt
+	- use new mkzimage wrapper in bin/mk_ppc_installation-images_bootbinaries.sh
 
 22/4/2005:	v6.47
 	- Increase initial rescue image size.
