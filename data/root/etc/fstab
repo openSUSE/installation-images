@@ -1,2 +1,3 @@
-/dev/ram2	/	minix	defaults	1	1
-none		/proc	proc	defaults	0	0
+proc  /proc         proc  defaults 0 0
+sysfs /sys          sysfs  noauto  0 0
+usbfs /proc/bus/usb usbfs  noauto  0 0
