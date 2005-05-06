@@ -3,6 +3,8 @@
 	- fbset moved from /usr/sbin to /sbin
 	- add isofs to initrd, if available. autoload it
 	- i810_drv.o is only available on i386/x86_64
+	- set not only system time, also hardware clock.
+	  otherwise time will be incorrect again at the next occasion
 
 22/4/2005:	v6.47
 	- Increase initial rescue image size.

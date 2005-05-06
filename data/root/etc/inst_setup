@@ -24,6 +24,7 @@ if [ -f /.timestamp ] ; then
        echo "setting system time to:"
        TZ= LANG= LC_ALL= date ${build_time#????*}1234${build_time%*????}.56
        echo
+       /sbin/hwclock --systohc -u &
        sleep 3
   fi
 fi
