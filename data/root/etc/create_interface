@@ -7,7 +7,7 @@
 # Martin Vidner <mvidner@suse.cz>
 # Ihno Krumreich <ihno@suse.de>
 #
-# $Id: create_interface,v 1.15 2004/07/06 09:32:28 snwint Exp $
+# $Id$
 
 ROOT=$1
 INSTALLINF=/etc/install.inf
