@@ -7,6 +7,9 @@
 	  otherwise time will be incorrect again at the next occasion
 	- add sysfs and usbfs to fstab, remove / entry
 	- lpfcdd is now lpfc
+	- pmac cant have a boot file larger than 4Mb, so use yaboot install of installpmac*
+	- strip vmlinux32 and vmlinux64 kernels to load images faster
+	- add default cmdline to PReP images
 
 22/4/2005:	v6.47
 	- Increase initial rescue image size.

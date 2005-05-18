@@ -28,6 +28,10 @@ cp -pfv $bdir/initrd-kernel-default-ppc $CD1/initrd32
 cp -pfv /boot/vmlinux-*-ppc64 $CD1/vmlinux64
 cp -pfv $bdir/initrd-kernel-ppc64 $CD1/initrd64
 cp -pfv $bdir/initrd-kernel-iseries64 $CD1/boot
+ls -l $CD1/vmlinux64 $CD1/vmlinux32
+strip $CD1/vmlinux32
+strip $CD1/vmlinux64
+ls -l $CD1/vmlinux64 $CD1/vmlinux32
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
 	cp -Lpfv /lib/lilo/chrp/mkzimage_cmdline $CD1/ppc/netboot
@@ -50,6 +54,7 @@ fi
 	--board prep \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
+	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 	--output $CD1/boot/zImage.prep.initrd
 #
 /bin/mkzimage \
@@ -108,6 +113,20 @@ image=cdrom:1,\\vmlinux32
 EOF
 cat $CD1/etc/yaboot.conf
 #
+cat > $CD1/suseboot/yaboot.conf <<EOF
+init-message=" use '32'  to boot the 32bit kernel, and  '64'  to boot the 64bit kernel "
+timeout=1234
+append="minmemory=0 MemYaSTText=0 quiet install=slp sysrq=1 nosshkey  "
+image=cd:,vmlinux32
+  label=32
+  initrd=cd:,initrd32
+image=cd:,vmlinux64
+  label=64
+  initrd=cd:,initrd64
+
+EOF
+cat $CD1/suseboot/yaboot.conf
+#
 
 cat > $CD1/suseboot/os-chooser <<EOF
 <CHRP-BOOT>
@@ -119,8 +138,8 @@ SuSE Linux for PowerMac
 </DESCRIPTION>
 <BOOT-SCRIPT>
 : printf fb8-write drop ;                                                                                               
-: we-are-64-bit " 64bit "(0d 0a)" printf " cd:,installpmac64 quiet" \$boot ;
-: we-are-32-bit " 32bit "(0d 0a)" printf " cd:,installpmac quiet" \$boot ;
+: we-are-64-bit " 64bit "(0d 0a)" printf " cd:,\\suseboot\\yaboot 64 \$boot ;
+: we-are-32-bit " 32bit "(0d 0a)" printf " cd:,\\suseboot\\yaboot 32 \$boot ;
 
 " screen" output
 dev screen
