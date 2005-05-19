@@ -10,6 +10,7 @@
 	- pmac cant have a boot file larger than 4Mb, so use yaboot install of installpmac*
 	- strip vmlinux32 and vmlinux64 kernels to load images faster
 	- add default cmdline to PReP images
+	- readd sym53c8xx driver to ppc
 
 22/4/2005:	v6.47
 	- Increase initial rescue image size.
