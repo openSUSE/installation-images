@@ -1,5 +1,5 @@
-19/5/2005:  v6.49
 	- added ModeSetClearScreen option to xorg.conf file (#80333)
+	- pata_pdc2027x for pseries (#82638)
 
 19/5/2005:	v6.49
 	- removed BusID from xorg.conf (#78950)
