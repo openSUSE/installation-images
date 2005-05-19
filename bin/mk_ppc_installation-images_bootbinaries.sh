@@ -1,4 +1,5 @@
 #!/bin/bash
+# $Id$
 set -ex
 echo foo
 bdir=$1
