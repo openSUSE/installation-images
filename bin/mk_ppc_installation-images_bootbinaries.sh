@@ -54,8 +54,8 @@ fi
 	--board prep \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
-	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 	--output $CD1/boot/zImage.prep.initrd
+#	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 #
 /bin/mkzimage \
 	--board pmaccoff \
@@ -68,17 +68,6 @@ fi
 	--vmlinux /boot/vmlinux-*-default \
 	--output $CD1/boot/vmlinux-pmaccoff
 #
-/bin/mkzimage \
-	--board pmac \
-	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/initrd-kernel-default-ppc \
-	--output $CD1/installpmac
-#
-/bin/mkzimage \
-	--board pmac \
-	--vmlinux /boot/vmlinux-*-ppc64 \
-	--initrd $bdir/initrd-kernel-ppc64 \
-	--output $CD1/installpmac64
 #
 cat > $CD1/ppc/bootinfo.txt <<EOF
 <chrp-boot>
@@ -138,8 +127,8 @@ SuSE Linux for PowerMac
 </DESCRIPTION>
 <BOOT-SCRIPT>
 : printf fb8-write drop ;                                                                                               
-: we-are-64-bit " 64bit "(0d 0a)" printf " cd:,\\suseboot\\yaboot 64 \$boot ;
-: we-are-32-bit " 32bit "(0d 0a)" printf " cd:,\\suseboot\\yaboot 32 \$boot ;
+: we-are-64-bit " cd:,\\suseboot\\yaboot 64" \$boot ;
+: we-are-32-bit " cd:,\\suseboot\\yaboot 32" \$boot ;
 
 " screen" output
 dev screen
