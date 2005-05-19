@@ -1,4 +1,6 @@
-	- talk about SLES10 in CD1/yaboot.txt
+19/5/2005:	v6.49
+	- removed BusID from xorg.conf (#78950)
+	- increase ramdisk size
 	- use new mkzimage wrapper in bin/mk_ppc_installation-images_bootbinaries.sh
 	- fbset moved from /usr/sbin to /sbin
 	- add isofs to initrd, if available. autoload it
@@ -11,6 +13,10 @@
 	- strip vmlinux32 and vmlinux64 kernels to load images faster
 	- add default cmdline to PReP images
 	- readd sym53c8xx driver to ppc
+
+29/4/2005:	v6.48
+	- talk about SLES10 in CD1/yaboot.txt
+	- blocxx & libelf
 
 22/4/2005:	v6.47
 	- Increase initial rescue image size.

@@ -13,8 +13,8 @@ if arch ne 'ia64'
     /usr/bin/ltrace
     /etc/ltrace.conf
 
-  elfutils-libelf:
-    /usr/lib*/libelf*so*
+  libelf:
+    /usr/lib*/libelf.so.*
 endif
 
 if with_yast2 ne 'no'
