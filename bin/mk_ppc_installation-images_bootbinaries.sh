@@ -106,7 +106,7 @@ cat $CD1/etc/yaboot.conf
 cat > $CD1/suseboot/yaboot.conf <<EOF
 init-message=" use '32'  to boot the 32bit kernel, and  '64'  to boot the 64bit kernel "
 timeout=1234
-append="minmemory=0 MemYaSTText=0 quiet install=slp sysrq=1 nosshkey  "
+append="minmemory=0 MemYaSTText=0 quiet sysrq=1                       "
 image=cd:,vmlinux32
   label=32
   initrd=cd:,initrd32
