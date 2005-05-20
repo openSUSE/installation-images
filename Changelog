@@ -1,3 +1,4 @@
+	- reorder autoload section, or some modules cant be loaded
 	- module autoload does not resolve dependencies, load nls_base manually
 	- quote Forth stuff in os-chooser properly
 	- remove printf in os-chooser, it wont appear anyway
