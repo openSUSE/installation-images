@@ -1,5 +1,6 @@
 d bin dev etc home lib mnt proc sys sbin tmp var
 d media/{cdrom,floppy}
+d lib/modules
 c 1777 0 0 tmp
 
 devs:
@@ -565,6 +566,7 @@ if arch eq 'ia64'
   e insserv etc/init.d/ia32el
 endif
 
+if 0
 if arch ne 'sparc'
   <kernel_rpm>:
     f / st.ko
@@ -631,7 +633,9 @@ endif
 
   # run depmod
   E /sbin/depmod -a -F /System.map <kernel_ver>
-  r /System.map /sbin/depmod
+  r /System.map
+#  r /sbin/depmod
+endif
 endif
 
   # serial console / mingetty setup for ppc mostly.

@@ -84,6 +84,10 @@ hwinfo:
   /lib*
   /usr/sbin
 
+glib2:
+  /opt/gnome/lib/libglib-2.0.so.*
+  /opt/gnome/lib/libgobject-2.0.so.*
+
 udev:
   /etc/udev
   /sbin/udev
@@ -93,6 +97,15 @@ udev:
   /sbin/udevstart
   m /usr/bin/udevinfo /sbin
   /lib*/libsysfs.so*
+
+dbus-1:
+  /
+
+dbus-1-glib:
+  /
+
+hal:
+ /
 
 wireless-tools:
   /usr/lib*/libiw.so.*
@@ -734,7 +747,7 @@ E /sbin/depmod -a -F /System.map <kernel_ver>
 
 # final clean up
 r /etc/X11/xserver/C
-r /usr/share/doc/packages/*
+r /usr/share/doc /usr/share/man
 
 # r /modules
 r /System.map

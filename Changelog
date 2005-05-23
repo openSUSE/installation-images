@@ -1,3 +1,4 @@
+23/5/2005:	v7.0
 	- remove install=slp nosshkey from pmac yaboot.conf, this has to go the bootiso
 	- reorder autoload section, or some modules cant be loaded
 	- module autoload does not resolve dependencies, load nls_base manually
@@ -5,6 +6,8 @@
 	- remove printf in os-chooser, it wont appear anyway
 	- added ModeSetClearScreen option to xorg.conf file (#80333)
 	- pata_pdc2027x for pseries (#82638)
+	- rescue system uses modules from initrd
+	- added hal to inst-sys
 
 19/5/2005:	v6.49
 	- removed BusID from xorg.conf (#78950)

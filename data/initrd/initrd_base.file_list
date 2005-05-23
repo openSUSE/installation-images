@@ -15,6 +15,7 @@ s ../<kernel_mods> lib/modules/<kernel_ver>/updates
 
 d mounts
 d root
+d download
 
 t var/run/utmp
 
