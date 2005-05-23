@@ -1,3 +1,4 @@
+	- keep /etc/fstab in inst-sys, only yast1 did not like it
 	- mode 1777 for / is too open for sshd, change it to 755
 
 23/5/2005:	v7.0
