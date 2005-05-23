@@ -55,8 +55,8 @@ fi
 	--board prep \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
+	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 	--output $CD1/boot/zImage.prep.initrd
-#	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 #
 /bin/mkzimage \
 	--board pmaccoff \

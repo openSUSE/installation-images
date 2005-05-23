@@ -3,7 +3,6 @@
 	- module autoload does not resolve dependencies, load nls_base manually
 	- quote Forth stuff in os-chooser properly
 	- remove printf in os-chooser, it wont appear anyway
-	- temporary disable PReP default cmdline
 	- added ModeSetClearScreen option to xorg.conf file (#80333)
 	- pata_pdc2027x for pseries (#82638)
 
