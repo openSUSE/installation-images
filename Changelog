@@ -1,3 +1,5 @@
+	- mode 1777 for / is too open for sshd, change it to 755
+
 23/5/2005:	v7.0
 	- remove install=slp nosshkey from pmac yaboot.conf, this has to go the bootiso
 	- reorder autoload section, or some modules cant be loaded
