@@ -24,7 +24,6 @@ CONFIGFILE=$ROOT/etc/sysconfig/network/config
 CONFIGFILETMP=$ROOT/etc/sysconfig/network/config.tmp
 MODCONFFILE=$ROOT/etc/modules.conf
 MODCONFFILETMP=$ROOT/etc/modules.conf.tmp
-# INSTALLINF=netsetup.inf
 # INSTALLINF=install.inf
 # DEVICEDIR=
 # ROUTINGFILE=routes

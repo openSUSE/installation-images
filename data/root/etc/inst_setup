@@ -154,9 +154,6 @@ esac
 echo "integrating kernel modules of the installation system..."
 depmod -a 2>/dev/null
 
-# exists only on s390
-test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
-
 test -x /etc/init.d/ia32el && /etc/init.d/ia32el start
 
 # boot with usessh=1 or use linuxrc to enable ssh 
@@ -231,7 +228,6 @@ if [ -f /.start_shell ] ; then
 	start_shell
 fi
 
-test -r /etc/netsetup.inf && cat /etc/netsetup.inf >> /etc/install.inf
 # still needed?
 #[ $ec -ne 0 ] && echo "An Error happened during installation"
 #ec=0

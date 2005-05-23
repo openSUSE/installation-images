@@ -1,3 +1,4 @@
+	- remove check for s390 specific /etc/netsetup.inf, linuxrc writes now install.inf
 	- keep /etc/fstab in inst-sys, only yast1 did not like it
 	- mode 1777 for / is too open for sshd, change it to 755
 
