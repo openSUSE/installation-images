@@ -157,6 +157,7 @@ depmod -a 2>/dev/null
 test -x /etc/init.d/ia32el && /etc/init.d/ia32el start
 
 # boot with usessh=1 or use linuxrc to enable ssh 
+# vnc=1 will override the install mode
 if grep -q "^UseSSH:.*1" /etc/install.inf ; then
 	test -x /sbin/inst_setup_ssh  &&  . /sbin/inst_setup_ssh
 fi
@@ -190,6 +191,8 @@ if grep -qi "^VNC:.*1" /etc/install.inf ; then
 	echo starting slpd to anounce VNC...
 	test -x /usr/sbin/slpd  &&  /usr/sbin/slpd
 	/usr/bin/slptool register "service:YaST.installation.suse:vnc://${hostname}:5901"
+	# vnc=1 usessh=1 should start sshd, but the result is a vnc installation
+	YAST2_SSH=false
 fi
 
 ec=
