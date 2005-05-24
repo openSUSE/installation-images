@@ -280,6 +280,7 @@ util-linux:
   if arch eq 'ppc'
     /etc/filesystems
     /sbin/nvsetenv
+    /sbin/lsprop
   endif
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}

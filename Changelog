@@ -1,3 +1,4 @@
+	- add /sbin/lsprop to root image
 	- start sshd during vnc install, but keep the vnc install mode (#45127)
 	- remove check for s390 specific /etc/netsetup.inf, linuxrc writes now install.inf
 	- keep /etc/fstab in inst-sys, only yast1 did not like it
