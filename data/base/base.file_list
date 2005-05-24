@@ -21,7 +21,7 @@ m /usr/share/doc/packages/devs/makedevs.floppy /
 c 0755 0 0 makedevs.floppy
 
 filesystem:
-  /etc/{ppp,rc.d,uucp}
+  /etc/{ppp,rc.d,uucp,skel}
   /etc/sysconfig
   /root
   /etc/init.d
@@ -228,10 +228,44 @@ glibc-i18ndata:
 glibc-locale:
   /
 
+pwdutils:
+  /etc
+  /usr/bin
+  /usr/sbin
+  /usr/lib*
+
+pam:
+  /{etc,lib*,sbin}
+
+openldap2-client:
+  /usr/lib*/liblber-*.so.*
+  /usr/lib*/libldap-*.so.*
+
+openssl:
+  /usr/lib*/libcrypto.so.*
+  /usr/lib*/libssl.so.*
+
+cyrus-sasl:
+  /usr/lib*/libsasl2.so.*
+
+libnscd:
+  /lib*/libnscd.so*
+
+openslp:
+  /etc
+  /usr/bin
+  /usr/lib*
+
+libxcrypt:
+  /lib*
+
 cracklib:
   /usr/sbin
   /usr/lib*
   /usr/share/cracklib
+
+x save_cfg bin/save_cfg
+x restore_cfg bin/restore_cfg
 
 # create splash
 include gen/splash

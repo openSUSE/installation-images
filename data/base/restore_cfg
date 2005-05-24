@@ -1,0 +1,12 @@
+#! /bin/sh
+
+while [ -n "$1" ] ; do
+  [ -e "./$1" ] && rm -rf "./$1"
+  if [ -e "/$1" ] ; then
+    cp -a "/$1" "./$1"
+    rm -rf "/$1"
+  fi
+  [ -e "/$1".xxx ] && mv "/$1".xxx "/$1"
+  shift
+done
+

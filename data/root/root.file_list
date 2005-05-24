@@ -89,23 +89,26 @@ glib2:
   /opt/gnome/lib/libgobject-2.0.so.*
 
 udev:
-  /etc/udev
-  /sbin/udev
-  /sbin/raiddetect
-#  /sbin/udev.*.sh
-  /lib/klibc
-  /sbin/udevstart
-  m /usr/bin/udevinfo /sbin
+  /etc
+  /sbin
+  /usr/bin
   /lib*/libsysfs.so*
-
-dbus-1:
-  /
+  /lib/klibc
 
 dbus-1-glib:
   /
 
-hal:
+dbus-1: prein
+  /
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
+
+hal: prein
  /
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
 
 wireless-tools:
   /usr/lib*/libiw.so.*

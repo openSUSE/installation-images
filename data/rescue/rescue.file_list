@@ -89,9 +89,6 @@ cracklib:
 libxcrypt:
   /lib*
 
-db:
-  /usr/lib*/libdb-4.*
-
 diffutils:
   /usr/bin
 
