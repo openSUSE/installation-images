@@ -1,3 +1,4 @@
+	- set root password always, so inst_setup_ssh can run at any time (#85617)
 	- be less verbose in inst_setup_ssh, remove destination files before copying
 
 24/5/2005:	v7.1
