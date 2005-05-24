@@ -14,6 +14,10 @@ if [ "$1" = "-n" ] ; then
 nosshkey=true
 shift
 fi
+#
+if grep -qwi nosshkey < /proc/cmdline ; then
+nosshkey=true
+fi
 
 #
 
@@ -21,10 +25,10 @@ echo 'sshd found, prepare remote login'
 test -L /etc/ssh && { rm -f /etc/ssh ; mkdir -p /etc/ssh ; }
 test -L /root && rm -f /root
 mkdir -p /root
-cp -a $INSTSYS/root/.bash_login /root
-cp -a $INSTSYS/root/.bash_history /root
-cp -a $INSTSYS/root/.vimrc /root
-cp -a $INSTSYS/etc/ssh/{moduli,primes,ssh*config*} /etc
+cp -a --remove-destination $INSTSYS/root/.bash_login /root
+cp -a --remove-destination $INSTSYS/root/.bash_history /root
+cp -a --remove-destination $INSTSYS/root/.vimrc /root
+cp -a --remove-destination $INSTSYS/etc/ssh/{moduli,primes,ssh*config*} /etc
 # not needed in initrd
 grep -vi UsePrivilegeSeparation < $INSTSYS/etc/ssh/sshd_config > /etc/ssh/sshd_config
 echo UsePrivilegeSeparation no >> /etc/ssh/sshd_config
@@ -41,15 +45,11 @@ THIS_HOST_IP=$(awk ' /^IP:/ { print $2 }' < /etc/install.inf)
 test -z "$THIS_HOST_IP" || hostname $THIS_HOST_IP
 test -z "$domain" || domainname $domain
 fi
-#
-if grep -qwi nosshkey < /proc/cmdline ; then
-nosshkey=true
-fi
 
 #
 if [ "$nosshkey" = "true" ] ; then
 	# for inst-sys testing
-	cp -av $INSTSYS/etc/ssh/*key* /etc/ssh/
+	cp -a --remove-destination $INSTSYS/etc/ssh/*key* /etc/ssh/
 	# if shadow is a symlink then usessh was probably off
 	# now you can just run this script and login and debug that thing..
 	test -L /etc/shadow -a -L /etc/passwd -a ! -z "$1" && {

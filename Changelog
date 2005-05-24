@@ -1,3 +1,5 @@
+	- be less verbose in inst_setup_ssh, remove destination files before copying
+
 24/5/2005:	v7.1
 	- more hal preparations
 	- add /sbin/lsprop to root image
