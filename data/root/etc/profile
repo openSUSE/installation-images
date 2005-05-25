@@ -1,8 +1,17 @@
-# /etc/profile
 umask 022
-PATH=/sbin:/bin:/usr/bin:/usr/sbin
+PATH=/sbin:/bin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/lib/YaST2/bin:/lbin
 export PATH
-PS1="`pwd -P` # "
+PS1='\w # '
 ignoreeof=0
 HISTCONTROL=ignoredups
 export PS1 ignoreeof HISTCONTROL
+
+alias ll="ls -l"
+alias la="ls -la"
+alias pg="less -cf"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+
