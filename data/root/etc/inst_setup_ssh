@@ -28,7 +28,7 @@ mkdir -p /root
 cp -a --remove-destination $INSTSYS/root/.bash_login /root
 cp -a --remove-destination $INSTSYS/root/.bash_history /root
 cp -a --remove-destination $INSTSYS/root/.vimrc /root
-cp -a --remove-destination $INSTSYS/etc/ssh/{moduli,primes,ssh*config*} /etc
+cp -a --remove-destination $INSTSYS/etc/ssh/{moduli,primes,ssh*config*} /etc/ssh
 # not needed in initrd
 grep -vi UsePrivilegeSeparation < $INSTSYS/etc/ssh/sshd_config > /etc/ssh/sshd_config
 echo UsePrivilegeSeparation no >> /etc/ssh/sshd_config

@@ -1,3 +1,4 @@
+	- fix long standing bug in inst_setup_ssh, files go to /etc/ssh, not /etc
 	- set root password always, so inst_setup_ssh can run at any time (#85617)
 	- be less verbose in inst_setup_ssh, remove destination files before copying
 
