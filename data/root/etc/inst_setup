@@ -253,6 +253,6 @@ rm -f /etc/modules.conf
 rm -f /.start_shell
 
 # clean up after yast
-awk '{ if($2 ~ /^\/var/) system("umount " $2) }' /proc/mounts
+sed -n '1{h;n};x;H;${x;p}' /proc/mounts | awk '{ if($2 ~ /^\/var/) system("umount " $2) }'
 
 exit $ec
