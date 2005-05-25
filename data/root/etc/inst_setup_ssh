@@ -20,6 +20,9 @@ nosshkey=true
 fi
 
 #
+if ! test -z "$1" ; then
+	sshpassword=$1
+fi
 
 echo 'sshd found, prepare remote login'
 test -L /etc/ssh && { rm -f /etc/ssh ; mkdir -p /etc/ssh ; }
@@ -52,13 +55,6 @@ if [ "$nosshkey" = "true" ] ; then
 	echo using built-in ssh keys
 	cp -a --remove-destination $INSTSYS/etc/ssh/*key* /etc/ssh/
 
-	mv /etc/passwd /etc/passwd.
-	mv /etc/shadow /etc/shadow.
-	cat /etc/passwd. > /etc/passwd
-	cat /etc/shadow. > /etc/shadow
-	echo "setting root pwd to '$1'"
-	echo "root:$1" | chpasswd
-
 else
 	#
 	echo "generating SSH keys  ...  "
@@ -77,6 +73,14 @@ else
 
 	    ssh-keygen -t rsa -b 1024 -f /etc/ssh/ssh_host_rsa_key -N ''
 	fi
+fi
+if [ ! -z "$sshpassword" ] ; then
+	mv -f /etc/passwd /etc/passwd.
+	mv -f /etc/shadow /etc/shadow.
+	cat /etc/passwd. > /etc/passwd
+	cat /etc/shadow. > /etc/shadow
+	echo "setting root pwd to '$sshpassword'"
+	echo "root:$sshpassword" | chpasswd
 fi
 chmod -R og-rxw  /etc/ssh /root /etc/shadow 2>/dev/null
 chown -R 0.0  /etc/ssh /root /etc/shadow 2>/dev/null
