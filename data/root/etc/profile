@@ -6,9 +6,13 @@ ignoreeof=0
 HISTCONTROL=ignoredups
 export PS1 ignoreeof HISTCONTROL
 
+# no console beep
+echo -en "\e[11;0]"
+
 alias ll="ls -l"
 alias la="ls -la"
 alias pg="less -cf"
+alias which="type -P"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."

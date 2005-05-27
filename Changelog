@@ -1,8 +1,12 @@
+27/5/2005:	v7.2
 	- process the /proc/mounts output reverse when umounting inst-sys
 	- fix long standing bug in inst_setup_ssh, files go to /etc/ssh, not /etc
 	- set root password always, so inst_setup_ssh can run at any time (#85617)
 	- be less verbose in inst_setup_ssh, remove destination files before copying
 	- better /etc/profile
+	- start dbus & hal
+	- added hal to rescue system
+	- some cleanups
 
 24/5/2005:	v7.1
 	- more hal preparations

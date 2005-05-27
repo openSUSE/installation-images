@@ -37,17 +37,27 @@ if [ -d /dev/pts ] ; then
 fi
 
 if [ -x /sbin/udev -a -x /sbin/udevstart ] ; then
-echo -n "creating device nodes .."
-/sbin/udevstart
-echo ". done"
+  echo -n "starting udev..."
+  /sbin/udevstart
+  echo " ok"
 fi
 # FIXME fix udev to not delete valid device nodes
 # /proc/self/fd/N will fail
 exec < /dev/console > /dev/console 2>&1 3>&1
 
 if [ ! -x /sbin/hotplug -a -x /sbin/udev ] ; then
-echo using udev as hotplug helper
-echo /sbin/udev > /proc/sys/kernel/hotplug
+  echo using udev as hotplug helper
+  echo /sbin/udev > /proc/sys/kernel/hotplug
+fi
+
+if [ -x /usr/bin/dbus-daemon -a -x /usr/sbin/hald ] ; then
+  rm -f /var/run/dbus/pid /var/run/hal/haldaemon.pid
+  echo -n "starting hald..."
+  if /usr/bin/dbus-daemon --system && /usr/sbin/hald ; then
+    echo " ok"
+  else
+    echo " failed"
+  fi
 fi
 
 yast="$1"
@@ -84,9 +94,8 @@ test -f /proc/sys/dev/mac_hid/keyboard_sends_linux_keycodes && echo 1 > /proc/sy
 # a few files should be restored when installation has completed if we
 # return to linuxrc.
 FILES_TO_RESTORE="/etc/ld.so.cache"
-for file in $FILES_TO_RESTORE
-do
-    test -e $file && mv $file $file.initrd
+for file in $FILES_TO_RESTORE ; do
+  test -e $file && mv $file $file.initrd
 done
 #
 
@@ -95,7 +104,6 @@ done
 # make depmod happy if the running kernel doesnt match
 mkdir -p /lib/modules/`uname -r`
 
-echo "integrating the shared objects of the installation system..."
 ldconfig
 
 # driver update: rebuild yast update tree
@@ -120,20 +128,23 @@ for i in /update/[0-9]*/install/update.pre ; do
   [ -x "$i" ] && "$i"
 done
 
-if test -x /sbin/syslogd
-then
-    checkproc /sbin/syslogd || {
-	echo "starting syslog (messages are logged to /dev/tty4)..."
-	sh -c '/sbin/syslogd >&1' 2>/dev/null
-    }
+if [ -x /sbin/syslogd ] ; then
+  checkproc /sbin/syslogd || {
+    echo -n "starting syslogd (logging to /dev/tty4)..."
+    sh -c '/sbin/syslogd >&1' 2>/dev/null
+    echo " ok"
+  }
 fi
 
-if test -x /sbin/klogd
-then
-    checkproc /sbin/klogd || {
-	echo "starting klogd ..."
-	/sbin/klogd -c 1
-}
+if [ -x /sbin/klogd ] ; then
+  checkproc /sbin/klogd || {
+    echo -n "starting klogd..."
+    if /sbin/klogd -c 1 ; then
+      echo " ok"
+    else
+      echo " failed"
+    fi
+  }
 fi
 
 arch=$(uname -m)
@@ -149,9 +160,8 @@ esac
 
 # Update module config.
 #
-# Note: modules from initrd are below *-override-* and will take precedence.
+# Note: modules are all from initrd, but just in case...
 #
-echo "integrating kernel modules of the installation system..."
 depmod -a 2>/dev/null
 
 test -x /etc/init.d/ia32el && /etc/init.d/ia32el start
@@ -235,6 +245,9 @@ fi
 #[ $ec -ne 0 ] && echo "An Error happened during installation"
 #ec=0
 
+killall hald
+killall dbus-daemon
+
 # stop slpd
 killall slpd 2>/dev/null >/dev/null
 # stop vnc
@@ -256,3 +269,4 @@ rm -f /.start_shell
 sed -n '1{h;n};x;H;${x;p}' /proc/mounts | awk '{ if($2 ~ /^\/var/) system("umount " $2) }'
 
 exit $ec
+

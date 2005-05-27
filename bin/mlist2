@@ -105,6 +105,9 @@ while(<F>) {
   $r = $l[0] =~ s/^-// ? 1 : 0;
   if(defined $fname{$l[0]}) {
     $all{$l[0]} = 1;
+    if($sect eq 'notuseful') {
+      $notuseful{$l[0]} = 1;
+    }
     push @{$sect{$sect}{'m'}}, [ @l ];
     $sect{$sect}{'r'}{$l[0]} = 1 if $r;
   }
@@ -168,6 +171,10 @@ for (@sect) {
       if(!$all{$k}) {
         $err = 10;
         print STDERR "error: no config for \"$k\" (needed by $mod)\n";
+      }
+      elsif($_ ne 'notuseful' && $notuseful{$k}) {
+        $err = 10;
+        print STDERR "error: no useful config for \"$k\" (needed by $mod)\n";
       }
     }
 

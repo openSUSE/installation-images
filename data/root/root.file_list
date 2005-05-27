@@ -28,6 +28,7 @@ aaa_base: prein,postin
 e prein
   /etc/init.d
   /etc/inputrc
+e echo set bell-style none >>etc/inputrc
   /etc/rc.status
   /usr/bin/old
   /root/.gnupg/suse_build_key
@@ -83,6 +84,12 @@ joe:
 hwinfo:
   /lib*
   /usr/sbin
+
+libxml2:
+  /usr/lib*/libxml2.so.*
+
+expat:
+  /usr/lib*/libexpat.so.*
 
 glib2:
   /opt/gnome/lib/libglib-2.0.so.*
@@ -419,9 +426,6 @@ endif
     /etc/slp.conf
     /usr/bin/slptool
     /usr/lib*/libslp.so.*
-
-  libxml2:
-    /usr/lib*/libxml2.so*
 
   blocxx:
     /usr/lib*/libblocxx.so.*

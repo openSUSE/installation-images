@@ -82,9 +82,6 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib/X11/locale
     /usr/X11R6/bin/xauth
 
-  expat:
-    /usr/lib*/libexpat.so*
-
   fontconfig:
     /etc/fonts/*.conf
     r /etc/fonts/local.conf

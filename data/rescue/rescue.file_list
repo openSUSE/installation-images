@@ -497,12 +497,39 @@ initviocons:
   /bin/initviocons
   /usr/bin/termprobes
 
+libxml2:
+  /usr/lib*/libxml2.so.*
+
+expat:
+  /usr/lib*/libexpat.so.*
+
+glib2:
+  /opt/gnome/lib/libglib-2.0.so.*
+  /opt/gnome/lib/libgobject-2.0.so.*
+
 udev:
-  /lib/klibc
   /etc
-  /lib*/libsysfs.so*
-  /usr/bin
   /sbin  
+  /usr/bin
+  /lib*/libsysfs.so*
+  /lib/klibc
+
+dbus-1-glib:
+  /
+
+dbus-1: prein,postin
+  /
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
+  E postin
+
+hal: prein,postin
+ /
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
+  E postin
 
 wireless-tools:
   /usr/lib*/libiw.so.*
