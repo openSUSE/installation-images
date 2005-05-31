@@ -1,4 +1,6 @@
 	- pass chrp instead of chrp64 to mkzimage
+	- hotplug now works
+	- removed inst-sys modules
 
 27/5/2005:	v7.2
 	- process the /proc/mounts output reverse when umounting inst-sys

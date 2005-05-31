@@ -146,26 +146,6 @@ util-linux:
   endif
   /usr/sbin/setctsid
 
-<kernel_rpm>:
-if arch eq 'alpha'
-# ???
-#    m /boot/System.map-*.default /System.map
-    m /boot/System.map-* /System.map
-else
-    m /boot/System.map-* /System.map
-endif
-
-if !(arch eq 'ppc' || arch eq 'ppc64' || arch eq 'ia64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 's390' || arch eq 's390x')
-
-  include ../initrd/gen/module.files.cd1-instsys
-
-else
-
-  # make at least the directory to get depmod working
-  d /lib/modules/<kernel_ver>/misc
-
-endif
-
 #if !(arch eq 'ppc' || arch eq 'ppc64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 'ia64' || arch eq 's390' || arch eq 's390x')
 if arch eq 'ia32'
   pcmcia:
@@ -454,14 +434,6 @@ endif
 netcfg:
   /etc/{services,protocols}
 
-if arch eq 'ppc' || arch eq 'sparc' || arch eq 'sparc64'
-  # the agp module from xsvga may cause 700 permissions; fix it here
-  # c 0755 0 0 /lib/modules
-
-  # what for???
-  # d /lib/modules/<kernel_ver>/misc
-endif
-
 lvm2:
   /sbin/lv*  
   /sbin/pv* 
@@ -557,22 +529,12 @@ openssh: prein
   /usr/bin/scp
   e prein
 
-if 0
-  heimdal-lib:
-    /etc
-    /usr/lib*/libasn1.so.*
-    /usr/lib*/libgssapi.so.*
-    /usr/lib*/libkrb5.so.*
-    /usr/lib*/libkafs.so.*
-    /usr/lib*/libroken.so.*
-else
-  krb5:
-    /etc
-    /usr/lib*/libkrb5.so.*
-    /usr/lib*/libkrb5support.so.*
-    /usr/lib*/libgssapi_krb5.so.*
-    /usr/lib*/libk5crypto.so.*
-endif
+krb5:
+  /etc
+  /usr/lib*/libkrb5.so.*
+  /usr/lib*/libkrb5support.so.*
+  /usr/lib*/libgssapi_krb5.so.*
+  /usr/lib*/libk5crypto.so.*
 
 openldap2-client:
   /usr/lib*/liblber-*.so.*
@@ -695,6 +657,13 @@ pciutils:
   /sbin/lspci
   /usr/share/pci.ids
 
+usbutils:
+  /sbin/lsusb
+  /usr/share/usb.ids
+
+libusb:
+  /usr/lib*/libusb-0.1.so.*
+
 checkmedia:
   /usr/bin
 
@@ -749,16 +718,10 @@ if root_gfx
   include machbunt.file_list
 endif
 
-
-# run depmod
-E /sbin/depmod -a -F /System.map <kernel_ver>
-
 # final clean up
 r /etc/X11/xserver/C
 r /usr/share/doc /usr/share/man
 
-# r /modules
-r /System.map
 r /sbin/insserv
 
 # some scripts write to /dev/null...
@@ -772,6 +735,4 @@ e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 # copy empty dictionary
 e cp -a /usr/lib/cracklib_dict.* usr/lib
 e cp -a /usr/share/cracklib usr/share
-
-# x usr/bin/conservative_lndir usr/bin
 

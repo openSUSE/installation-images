@@ -331,6 +331,14 @@ E postin
 
 pciutils:
   /sbin
+  /usr/share/pci.ids
+
+usbutils:
+  /sbin/lsusb
+  /usr/share/usb.ids
+
+libusb:
+  /usr/lib*/libusb-0.1.so.*
 
 portmap: postin
   /etc
