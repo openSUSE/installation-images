@@ -1,3 +1,4 @@
+31/5/2005:	v7.3
 	- pass chrp instead of chrp64 to mkzimage
 	- hotplug now works
 	- removed inst-sys modules
