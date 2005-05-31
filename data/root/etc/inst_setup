@@ -100,11 +100,6 @@ for file in $FILES_TO_RESTORE ; do
 done
 #
 
-# effectively makes the kernel module dir tree writable
-/lbin/lndir $INSTSYS/lib/modules /lib/modules
-# make depmod happy if the running kernel doesnt match
-mkdir -p /lib/modules/`uname -r`
-
 ldconfig
 
 # driver update: rebuild yast update tree
@@ -152,18 +147,20 @@ fi
 
 arch=$(uname -m)
 
-case "$arch" in
-  i?86)
-    # remove modules to free memory
-    if [ "$REMOVE_MODULES" = 1 ] ; then
-      rm -f /modules/*
-    fi
-  ;;
-esac
+# don't do it...
+#case "$arch" in
+#  i?86)
+#    # remove modules to free memory
+#    if [ "$REMOVE_MODULES" = 1 ] ; then
+#      rm -f /modules/*
+#    fi
+#  ;;
+#esac
 
 # Update module config.
 #
-# Note: modules are all from initrd, but just in case...
+# Note: modules are all from initrd, but new ones might have come in via
+# driver updates.
 #
 depmod -a 2>/dev/null
 

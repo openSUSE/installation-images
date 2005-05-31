@@ -9,10 +9,16 @@ export PS1 ignoreeof HISTCONTROL
 # no console beep
 echo -en "\e[11;0]"
 
-alias ll="ls -l"
-alias la="ls -la"
+alias ll="ls -l -N --color=tty -T 0"
+alias la="ls -la -N --color=tty -T 0"
+alias ls-l='ls -l'
+alias l='ls -lFa'
+alias dir='ls -l'
 alias pg="less -cf"
+alias o='less'
 alias which="type -P"
+alias -- +='pushd .'
+alias -- -='popd'
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."

@@ -547,7 +547,7 @@ db:
   /usr/lib*/libdb-4*.so  
 
 pam:
-  /etc/pam.d/other
+  /etc/pam.d
   /lib*/security
   /lib*/libpam.so.*
   /lib*/libpam_misc.so.*
@@ -621,6 +621,7 @@ libnscd:
   /lib*/libnscd.so*
 
 pwdutils:
+  /etc/pam.d/passwd
   /etc/pam.d/shadow
   /usr/sbin/chpasswd
   /usr/bin/passwd
