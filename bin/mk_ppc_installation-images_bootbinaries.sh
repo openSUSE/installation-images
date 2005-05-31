@@ -40,7 +40,7 @@ if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
 fi
 #
 /bin/mkzimage \
-	--board chrp64 \
+	--board chrp \
 	--vmlinux /boot/vmlinux-*-ppc64 \
 	--initrd $bdir/initrd-kernel-ppc64 \
 	--output $CD1/install

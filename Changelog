@@ -1,3 +1,5 @@
+	- pass chrp instead of chrp64 to mkzimage
+
 27/5/2005:	v7.2
 	- process the /proc/mounts output reverse when umounting inst-sys
 	- fix long standing bug in inst_setup_ssh, files go to /etc/ssh, not /etc
