@@ -1,6 +1,9 @@
-d bin dev etc home lib mnt proc sys sbin tmp var
-d lib/modules
+d bin dev etc lib proc sys sbin tmp var
 c 1777 0 0 tmp
+
+e echo root:x:0:0:root:/root:/bin/bash >etc/passwd
+e echo root:x:0: >etc/group
+e echo root:*:12880:0:10000:::: >etc/shadow
 
 devs:
   /dev
@@ -13,15 +16,13 @@ readline:
 
 glibc:
   /etc/ld.so.conf
-  /{lib*,sbin}
-r /lib/libdb.so.*
-r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
-  /usr/{,s}bin
+  /lib*
+r /lib*/libdb.so.*
+r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
+r /lib*/libnss_*
+  /lib*/libnss_files.so.*
 r /usr/bin/{db*,glibcbug,localedef,rpcgen}
   /usr/lib*/pt_chown
-
-glib:
-  /opt/gnome/lib*/libglib-1.2.so*
 
 ncurses:
   /lib*/libncurses.so.5*
@@ -46,21 +47,42 @@ expat:
   /usr/lib*/libexpat.so.*
 
 glib2:
-  /opt/gnome/lib/libglib-2.0.so.*
-  /opt/gnome/lib/libgobject-2.0.so.*
+  /opt/gnome/lib*/libglib-2.0.so.*
+  /opt/gnome/lib*/libgobject-2.0.so.*
 
 dbus-1-glib:
-  /
+  /usr/lib*/libdbus-glib-1.so.*
 
 dbus-1: prein
-  /
+  /etc/dbus-1/system.conf
+  /usr/bin/dbus-daemon
+  /usr/lib*/libdbus-1.so.*
+  /var/run/dbus
   e save_cfg etc/passwd etc/shadow etc/group
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
 
 hal: prein
- /
+  /
+  r /etc/init.d
+  r /usr/lib*/libhal-storage.so*
   e save_cfg etc/passwd etc/shadow etc/group
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
+
+udev:
+  /etc
+  /sbin  
+  /usr/bin
+  /lib*/libsysfs.so*
+  r /sbin/*.static
+
+pmtools:
+  /usr/sbin/dmidecode
+
+r /usr/include
+r /usr/share/doc
+r /usr/share/man
+r /usr/share/locale
+r /usr/share/terminfo
 
