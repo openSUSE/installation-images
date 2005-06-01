@@ -40,7 +40,9 @@ if($ENV{'keeprescue'} != 1) {
     SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
   }
 
-  AddFiles $tmpdir, "${srcdir}/rescue.file_list", $srcdir or
+  $fl = exists($ENV{'filelist'}) ? $ENV{'filelist'} : "rescue";
+
+  AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir or
     die "$Script: failed to setup rescue image";
 
   # SUSystem "sh -c 'cd $tmpdir; ./makedevs >/dev/null'" and

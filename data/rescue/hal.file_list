@@ -1,0 +1,66 @@
+d bin dev etc home lib mnt proc sys sbin tmp var
+d lib/modules
+c 1777 0 0 tmp
+
+devs:
+  /dev
+
+bash:
+  /bin
+
+readline:
+  /lib*
+
+glibc:
+  /etc/ld.so.conf
+  /{lib*,sbin}
+r /lib/libdb.so.*
+r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
+  /usr/{,s}bin
+r /usr/bin/{db*,glibcbug,localedef,rpcgen}
+  /usr/lib*/pt_chown
+
+glib:
+  /opt/gnome/lib*/libglib-1.2.so*
+
+ncurses:
+  /lib*/libncurses.so.5*
+  /usr/share/terminfo
+
+pciutils:
+  /usr/share/pci.ids
+
+usbutils:
+  /usr/share/usb.ids
+
+libselinux:
+  /lib*/libselinux.so*
+
+zlib:
+  /lib*/libz.so*
+
+libxml2:
+  /usr/lib*/libxml2.so.*
+
+expat:
+  /usr/lib*/libexpat.so.*
+
+glib2:
+  /opt/gnome/lib/libglib-2.0.so.*
+  /opt/gnome/lib/libgobject-2.0.so.*
+
+dbus-1-glib:
+  /
+
+dbus-1: prein
+  /
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
+
+hal: prein
+ /
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
+

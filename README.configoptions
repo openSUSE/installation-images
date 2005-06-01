@@ -56,6 +56,9 @@ o rescue
   - don't rebuild everything, just recreate (copy the cached tree and compress) the
     last image (useful to speed up testing)
 
+  filelist=foo
+  - build using foo.file_list
+
 
 o base
 

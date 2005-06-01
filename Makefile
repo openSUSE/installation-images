@@ -5,7 +5,7 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root
 
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue \
         root liveeval modules html clean distdir install install_xx rdemo brescue \
-	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd rootfonts
+	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd rootfonts hal
 
 all: bootdisk moduledisks bootcd2 bootcd rescue root
 	@rm -rf images/cd[12]
@@ -92,6 +92,9 @@ rdemo: dirs base
 
 rescue: dirs base
 	YAST_IS_RUNNING=1 bin/mk_rescue
+
+hal: dirs base
+	YAST_IS_RUNNING=1 filelist=hal bin/mk_rescue
 
 brescue: dirs base
 	bin/mk_brescue
