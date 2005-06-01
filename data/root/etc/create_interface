@@ -84,7 +84,8 @@ then
 		myifcfg=ifcfg-${HWD_INTERFACETYPE_0}-id-${HWD_ID}
 	fi
 	: ifcfg $myifcfg
-	DEVICEFILE=${DEVICEDIR}$myifcfg
+	DEVICEFILE=/tmp/$myifcfg
+	TARGET_DEVICEFILE=${DEVICEDIR}$myifcfg
 
 	# Choose correct boot protocol (#23708)
 	BOOTPROTO="dhcp"
@@ -168,6 +169,11 @@ then
 		[ $? -eq 0 ] && mv $CONFIGFILETMP $CONFIGFILE
 	fi
 	chroot $ROOT chkconfig network on
+fi
+if [ -f $ROOT/$TARGET_DEVICEFILE ] ; then
+	echo "$0: $TARGET_DEVICEFILE does already exist, keeping the original"
+else
+	cp $DEVICEFILE $ROOT/$TARGET_DEVICEFILE
 fi
 #
 #	Copy all hwcfg-files to the installed system
