@@ -93,10 +93,10 @@ echo 'sshd did NOT start!'
 }
 if [ ! "$SSH_FAILED" ] ; then
 	echo
-	echo /sbin/ifconfig `grep eth /proc/net/dev | cut -f 1 -d : `
-	for i in  `grep eth /proc/net/dev | cut -f 1 -d : ` ; do
-	    /sbin/ifconfig $i | grep UP > /dev/null 2>&1 && /sbin/ifconfig $i | head -n 2
-	done
+	ip -oneline -family inet link show up | \
+	sed -n '/link\/\(ether\|ieee1394\|tr\)/s@^[^ ]\+[ ]\+\([^:]\+\).*@\1@p' | \
+	xargs --no-run-if-empty -n1 ip addr show dev | \
+	sed 's@^[0-9]\+: *@@'
 	export YAST2_SSH=true
 	cat <<EOF
 
