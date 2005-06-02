@@ -80,6 +80,11 @@ udev:
 pmtools:
   /usr/sbin/dmidecode
 
+coreutils:
+  /bin/cat
+  /bin/rm
+  /bin/ln
+
 r /usr/include
 r /usr/share/doc
 r /usr/share/man
