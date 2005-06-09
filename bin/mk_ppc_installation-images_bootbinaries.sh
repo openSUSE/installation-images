@@ -52,6 +52,12 @@ fi
 	--output $CD1/ISERIES64
 #
 /bin/mkzimage \
+	--board chrp \
+	--vmlinux /boot/vmlinux-*-default \
+	--initrd $bdir/initrd-kernel-default-ppc \
+	--output $CD1/install32
+#
+/bin/mkzimage \
 	--board prep \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
