@@ -25,9 +25,9 @@ if ! test -z "$1" ; then
 fi
 
 echo 'sshd found, prepare remote login'
-test -L /etc/ssh && { rm -f /etc/ssh ; mkdir -p /etc/ssh ; }
-test -L /root && rm -f /root
-mkdir -p /root
+if test -L /root ; then rm -f /root ; fi
+if test -L /etc/ssh ; then rm -f /etc/ssh ; fi
+mkdir -p /etc/ssh /root
 cp -a --remove-destination $INSTSYS/root/.bash_login /root
 cp -a --remove-destination $INSTSYS/root/.bash_history /root
 cp -a --remove-destination $INSTSYS/root/.vimrc /root
@@ -36,17 +36,28 @@ cp -a --remove-destination $INSTSYS/etc/ssh/{moduli,primes,ssh*config*} /etc/ssh
 grep -vi UsePrivilegeSeparation < $INSTSYS/etc/ssh/sshd_config > /etc/ssh/sshd_config
 echo UsePrivilegeSeparation no >> /etc/ssh/sshd_config
 #
-test -z "$nameserver" || echo "nameserver $nameserver" > /etc/resolv.conf
-test -z "$domain" || echo "search $domain" >> /etc/resolv.conf
+if test ! -z "$nameserver" ; then
+	 echo "nameserver $nameserver" >> /etc/resolv.conf
+fi
+if test ! -z "$domain" ; then
+	echo "search $domain" >> /etc/resolv.conf
+fi
 mkdir -p /dev/pts
 mkdir -p /dev/shm
 grep -q devpts /proc/mounts || \
 mount -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
 #
 if [ "$(hostname)" = "(none)" ] ; then
-THIS_HOST_IP=$(awk ' /^IP:/ { print $2 }' < /etc/install.inf)
-test -z "$THIS_HOST_IP" || hostname $THIS_HOST_IP
-test -z "$domain" || domainname $domain
+	THIS_HOST_IP=$(awk ' /^Hostname:/ { print $2 }' < /etc/install.inf)
+	if test -z "$THIS_HOST_IP" ; then
+		THIS_HOST_IP=$(awk ' /^IP:/ { print $2 }' < /etc/install.inf)
+	fi
+	if test ! -z "$THIS_HOST_IP" ; then
+		hostname $THIS_HOST_IP
+	fi
+	if test ! -z "$domain"  ; then
+		domainname $domain
+	fi
 fi
 
 #
