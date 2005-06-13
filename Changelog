@@ -1,5 +1,6 @@
 	- do not overwrite resolv.conf in inst_setup_ssh
-	- set hosthame to Hostname or IP from install.inf (part of #86203)
+	- always set hosthame to Hostname or IP from install.inf in inst_setup,
+	  moved from inst_setup_ssh (part of #86203)
 	- create an CD1/install32 for older RS6K
 	- use ip instead of ifconfig to show active network interfaces during ssh installation
 	- keep the ifcfg-eth-id-* file in the installed system during a ssh/vnc/remoteX installation (#74329)

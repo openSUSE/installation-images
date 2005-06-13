@@ -47,20 +47,6 @@ mkdir -p /dev/shm
 grep -q devpts /proc/mounts || \
 mount -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
 #
-if [ "$(hostname)" = "(none)" ] ; then
-	THIS_HOST_IP=$(awk ' /^Hostname:/ { print $2 }' < /etc/install.inf)
-	if test -z "$THIS_HOST_IP" ; then
-		THIS_HOST_IP=$(awk ' /^IP:/ { print $2 }' < /etc/install.inf)
-	fi
-	if test ! -z "$THIS_HOST_IP" ; then
-		hostname $THIS_HOST_IP
-	fi
-	if test ! -z "$domain"  ; then
-		domainname $domain
-	fi
-fi
-
-#
 if [ "$nosshkey" = "true" ] ; then
 	# for inst-sys testing
 	echo using built-in ssh keys

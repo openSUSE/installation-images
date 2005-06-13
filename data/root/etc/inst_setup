@@ -79,10 +79,33 @@ if [ -s /etc/install.inf ]; then
     rm -f /usr/X11R6/lib/X11/fonts/truetype/FZSongTi.ttf
     rm -f /usr/X11R6/lib/X11/fonts/truetype/gulim.ttf
   fi
+  if [ "$(hostname)" = "(none)" ] ; then
+	# hostname and domainname may come from cmdline
+	if test -z "$hostname" ; then
+		hostname=$(awk ' /^Hostname:/ { print $2 }' < /etc/install.inf)
+	fi
+	if test -z "$hostname" ; then
+		hostname=$(awk ' /^IP:/ { print $2 }' < /etc/install.inf)
+	fi
+	if test -z "$hostname" ; then
+		hostname=linux
+	fi
 
-  hostname=`sed -n -e 's,^Hostname: ,,p' /etc/install.inf`
+	if test -z "$domain"  ; then
+		domain=$(awk ' /^Domain:/ { print $2 }' < /etc/install.inf)
+	fi
+	if test -z "$domain"  ; then
+		domain=local
+	fi
+	hostname $hostname
+	domainname $domain
+  fi
+#
 else
+ # hostname may come from cmdline
+ if test -z "$hostname" ; then
   hostname=`hostname`
+ fi
 fi
 #
 # kernel 2.6 uses linuxkeycodes for all keyboards
