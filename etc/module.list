@@ -88,4 +88,6 @@ extra/cpint.ko
 
 kernel/crypto/twofish.ko
 
+kernel/drivers/video/vga16fb.ko
+kernel/drivers/video/vgastate.ko
 

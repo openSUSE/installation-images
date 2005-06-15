@@ -360,8 +360,8 @@ glibc:
 cifs-mount:
   /sbin/mount.cifs
 
-udev:
-  /lib*/libsysfs.so.*
+sysfsutils:
+  /usr/lib*/libsysfs.so.*
 
 hwinfo-devel:
   /lib*/libhd_tiny.so.*

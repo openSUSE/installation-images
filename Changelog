@@ -1,9 +1,11 @@
+15/6/2005:	v7.4
 	- do not overwrite resolv.conf in inst_setup_ssh
 	- always set hosthame to Hostname or IP from install.inf in inst_setup,
 	  moved from inst_setup_ssh (part of #86203)
 	- create an CD1/install32 for older RS6K
 	- use ip instead of ifconfig to show active network interfaces during ssh installation
 	- keep the ifcfg-eth-id-* file in the installed system during a ssh/vnc/remoteX installation (#74329)
+	- adjusted to udev package split
 
 31/5/2005:	v7.3
 	- pass chrp instead of chrp64 to mkzimage
