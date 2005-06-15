@@ -481,7 +481,9 @@ if arch eq 'ppc' || arch eq 'ppc64'
 endif
 
 initviocons:
+if !(arch eq 's390' || arch eq 's390x')
   /bin/initviocons
+endif
   /usr/bin/termprobes
 
 if arch eq 'ia32'
