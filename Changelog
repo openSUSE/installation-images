@@ -1,3 +1,4 @@
+	- lsusb is now in /usr/sbin
 	- don't pack initviocons on s390* (serves no purpose and is potentially
           harmful, bug #91029)
 

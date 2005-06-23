@@ -663,7 +663,7 @@ pciutils:
   /usr/share/pci.ids
 
 usbutils:
-  /sbin/lsusb
+  /usr/sbin/lsusb
   /usr/share/usb.ids
 
 libusb:
