@@ -361,7 +361,7 @@ cifs-mount:
   /sbin/mount.cifs
 
 sysfsutils:
-  /usr/lib*/libsysfs.so.*
+  /lib*/libsysfs.so.*
 
 hwinfo-devel:
   /lib*/libhd_tiny.so.*

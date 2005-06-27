@@ -102,7 +102,7 @@ udev:
   /lib/klibc
 
 sysfsutils:
-  /usr/lib*/libsysfs.so*
+  /lib*/libsysfs.so*
 
 dbus-1-glib:
   /
