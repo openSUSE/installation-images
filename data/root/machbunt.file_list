@@ -277,8 +277,8 @@ freefont:
   /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
 
 indic-fonts:
-  /usr/X11R6/lib/X11/fonts/truetype/Bengali_MuktiNarrow.ttf
-  /usr/X11R6/lib/X11/fonts/truetype/Punjabi_Lohit.ttf
+  /usr/X11R6/lib/X11/fonts/truetype/MuktiNarrow.ttf
+  /usr/X11R6/lib/X11/fonts/truetype/lohit_pa.ttf
 
 fonts-arabic:
   /usr/X11R6/lib/X11/fonts/truetype/KacstBook.ttf

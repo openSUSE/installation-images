@@ -1,7 +1,13 @@
+4/7/2005:	v7.6
+	- libbz2 moved
+
+27/6/2005:	v7.5
 	- libsysfs is now in /lib
 	- lsusb is now in /usr/sbin
 	- don't pack initviocons on s390* (serves no purpose and is potentially
-          harmful, bug #91029)
+	  harmful, bug #91029)
+	- indic font names changed
+	- evmsn now in /usr
 
 15/6/2005:	v7.4
 	- do not overwrite resolv.conf in inst_setup_ssh

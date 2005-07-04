@@ -217,7 +217,7 @@ gzip:
   /bin
 
 bzip2:
-  /usr/lib*/libbz2.so.*
+  /lib*/libbz2.so.*
 
 cpio:
   /bin

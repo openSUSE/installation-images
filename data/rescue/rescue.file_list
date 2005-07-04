@@ -179,7 +179,7 @@ zlib:
 
 bzip2:
   /usr/bin
-  /usr/lib*/libbz2.so*	
+  /lib*/libbz2.so*	
 
 if arch eq 'ia32' || arch eq 'ppc' || arch eq 'x86_64'
   lilo:
@@ -239,7 +239,7 @@ evms:
   /sbin
 
 evms-gui:
-  /sbin/evmsn
+  /usr/sbin/evmsn
 
 glib:
   /opt/gnome/lib*/libglib-1.2.so*

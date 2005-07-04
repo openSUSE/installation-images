@@ -610,7 +610,7 @@ hex:
   /usr/bin/hex
 
 bzip2:
-  /usr/lib*/libbz2.so*
+  /lib*/libbz2.so*
 
 mdadm:
   /sbin/mdadm
