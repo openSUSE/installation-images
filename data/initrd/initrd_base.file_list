@@ -364,7 +364,7 @@ sysfsutils:
   /lib*/libsysfs.so.*
 
 hwinfo-devel:
-  /lib*/libhd_tiny.so.*
+  /usr/lib*/libhd_tiny.so.*
 
 
 if mkdevs
