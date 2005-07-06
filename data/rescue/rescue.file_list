@@ -498,7 +498,7 @@ gdbm:
   /usr/lib*/libgdbm.so*
 
 hwinfo:
-  /lib*
+  /usr/lib*
   /usr/sbin
 
 initviocons:

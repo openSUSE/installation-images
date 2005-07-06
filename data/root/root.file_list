@@ -82,7 +82,7 @@ joe:
   /etc/joe/joerc
 
 hwinfo:
-  /lib*
+  /usr/lib*
   /usr/sbin
 
 libxml2:
