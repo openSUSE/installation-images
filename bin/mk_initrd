@@ -101,24 +101,21 @@ if($ENV{'keepinitrd'} != 1) {
   }
 }
 
-# on S/390, the initrd contains shared objects
-if ($arch eq 's390' || $arch eq 's390x' || $ENV{'theme'} eq 'Zen') {
-    print "fix permissions of directories...\n";
-    SUSystem "fix_perms $tmpdir";
+print "fix permissions of directories...\n";
+SUSystem "fix_perms $tmpdir";
 
-    print "updating ld.so.cache...\n";
-    SUSystem "ldconfig -r $tmpdir";
-    die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
+#print "updating ld.so.cache...\n";
+#SUSystem "ldconfig -r $tmpdir";
+#die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
-    if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
-      system "check_libs $tmpdir" and
-	warn "$Script: error in shared lib config, please fix\n";
-    }
-    else {
-      system "check_libs $tmpdir" and
-	die "$Script: error in shared lib config, please fix\n";
-    }    
+if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+  system "check_libs $tmpdir" and
+    warn "$Script: error in shared lib config, please fix\n";
 }
+else {
+  system "check_libs $tmpdir" and
+    die "$Script: error in shared lib config, please fix\n";
+}    
 
 @m = `ls $moddir/*.o 2>/dev/null`;
 for (@m) {

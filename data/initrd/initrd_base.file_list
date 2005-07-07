@@ -363,6 +363,12 @@ cifs-mount:
 sysfsutils:
   /lib*/libsysfs.so.*
 
+dbus-1:
+  /usr/lib*/libdbus-1.so.*
+
+hal:
+  /usr/lib*/libhal.so.*
+
 hwinfo-devel:
   /usr/lib*/libhd_tiny.so.*
 

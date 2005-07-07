@@ -1004,6 +1004,8 @@ system "cp -a '$src'/* $tmp_dir/src" and die "error: failed to copy boot loader 
 $src = "$tmp_dir/src";
 
 # delete unnecessary files
+system "rm -f $tmp_dir/src/{*live*,directory.yast}";
+# system "rm -f $tmp_dir/src/{06400480,16001200}.spl";
 if(!$opt_96) {
   for my $f (<$src/*64>) {
     if($opt_64) {

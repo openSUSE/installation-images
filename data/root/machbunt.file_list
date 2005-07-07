@@ -91,7 +91,7 @@ if with_yast2 ne 'no'
 
   xorg-x11-Mesa:
     /usr/lib*/libGL.so.*
-    /usr/lib*/libGLU.so.*
+#    /usr/lib*/libGLU.so.*
 
   xorg-x11:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}

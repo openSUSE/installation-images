@@ -368,6 +368,8 @@ if with_yast2 ne 'no'
     /
   yast2-packager:
     /
+  yast2-perl-bindings:
+    /
   yast2-pkg-bindings:
     /
   yast2-repair:
@@ -411,6 +413,9 @@ endif
 
   blocxx:
     /usr/lib*/libblocxx.so.*
+
+  pcre:
+    /usr/lib*/libpcre.so.*
 
 endif
 
@@ -685,6 +690,7 @@ perl:
   /usr/lib/perl*/*/*/auto/POSIX
   /usr/lib/perl*/*/*/auto/Sys/Hostname
   /usr/lib/perl*/*/*/lib.pm
+  /usr/lib/perl*/*/*/CORE/libperl.so
   /usr/lib/perl*/*/AutoLoader.pm
   /usr/lib/perl*/*/Carp{,.pm}
   /usr/lib/perl*/*/Class/Struct.pm

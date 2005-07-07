@@ -43,7 +43,9 @@ for (`objdump -p @ELF`)
     $f = $1;
     $f0 = $f;
     $f0 =~ s/^\.\///;
+    ($fn = $f0) =~ s#.*/##;
     print "$f0\n" if $verbose >= 2;
+    $soname2{$fn} = $f0 if $fn ne "";
   }
   push @{$needed{$1}}, $f0 if /^\s+NEEDED\s+(\S+)\s*$/;
   $soname{$1} = $f0 if /^\s+SONAME\s+(\S+)\s*$/;
@@ -80,7 +82,7 @@ else {
 print "checking for missing libs...\n";
 $first = 1;
 for (sort keys %needed) {
-  if(!exists($soname{$_}) && !exists($ldconfig{$_})) {
+  if(!exists($soname{$_}) && !exists($soname2{$_}) && !exists($ldconfig{$_})) {
     printf "  %-24s  %s\n", $_, join(', ', @{$needed{$_}});
     $first = 0;
     $error = 1;
