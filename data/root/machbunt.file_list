@@ -95,8 +95,6 @@ if with_yast2 ne 'no'
 
   xorg-x11:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
-    /etc/X11/xkb
-    s /etc/X11/xkb /usr/X11R6/lib/X11
     /usr/X11R6/bin/xkbcomp
     /usr/X11R6/bin/setxkbmap
     /usr/X11R6/bin/mkfontdir
@@ -112,17 +110,19 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib/X11/fonts/misc/cursor.pcf.gz
     # 'fixed' font
     /usr/X11R6/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz
-
     /usr/X11R6/lib/X11/fonts/misc/fonts.scale
-
     /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
-
     x /usr/X11R6/lib/X11/xorg.conf /usr/X11R6/lib/X11
-
 
   if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
     R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/xorg.conf
   endif
+
+  xkeyboard-config:
+    /etc
+    /usr/X11R6
+    /var/lib
+    s /usr/X11R6/bin/xkbcomp /etc/X11/xkb/
 
   xorg-x11-fonts-75dpi:
     m /usr/X11R6/lib/X11/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/X11R6/lib/X11/fonts/misc
@@ -246,11 +246,11 @@ endif
 if with_yast2 ne 'no'
   sax2-tools:
      if arch eq 's390' || arch eq 's390x'
-       /usr/X11R6/bin/testX
+       /usr/sbin/testX
      else
-       /usr/X11R6/bin
+       /usr/sbin
      endif
-   r /usr/X11R6/bin/xkbset
+   r /usr/sbin/xkbset
 
   if arch ne 's390' && arch ne 's390x'
     sax2-ident:

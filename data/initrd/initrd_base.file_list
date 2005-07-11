@@ -190,18 +190,7 @@ if arch eq 's390' || arch eq 's390x' || with_smb
       m /usr/bin/smbmount /bin/smbmount
 
     glibc:
-      if arch eq 'ppc' || arch eq 's390' || arch eq 's390x'
-        /lib*/ld*.so.1
-      elsif arch eq 'ia64'
-        /lib*/ld-linux-ia64.so.2
-      else
-        /lib*/ld-linux.so.2
-      endif
-      /lib*/ld-2.*.so
-      /lib*/libc.so.6*
-      /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
-      /lib*/libresolv.so.*
-      /lib*/libpthread.so.*
+      /lib*/libpthread{.,-}*
 
     pam:
       /lib*/libpam.so.*
@@ -264,14 +253,6 @@ if with_gdb
 
   gdb:
     m /usr/bin/gdb /bin/gdb
-
-  glibc:
-    /lib*/ld*
-    /lib*/libc.so.6*
-    /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*,libresolv.so.2*}
-    /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
-    /lib*/libm.so.6*
-    /lib*/libthread_db.so*
 
   readline:
     /lib*/libreadline.so*
@@ -351,11 +332,11 @@ endif
 
 glibc:
   /lib*/ld*
-  /lib*/libc.so.6*
-  /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*,libresolv.so.2*}
-  /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
-  /lib*/libm.so.6*
-  /lib*/libthread_db.so*
+  /lib*/libc{.,-}*
+  /lib*/{libcrypt,libdl,libnsl,libresolv}{.,-}*
+  /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
+  /lib*/libm{.,-}*
+  /lib*/libthread_db{.,-}*
 
 cifs-mount:
   /sbin/mount.cifs

@@ -180,17 +180,17 @@ libgcc:
 glibc:
   /sbin/ldconfig
   /lib*/ld*
-  /lib*/lib{c,m}.so.6*
-  /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
-  /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
-  /lib*/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt*.so.1,libutil.so.1*}
+  /lib*/lib{c,m}{.,-}*
+  /lib*/{libcrypt,libdl,libnsl}{.,-}*
+  /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
+  /lib*/{libnss_nis,libnss_nisplus,libresolv,librt,libutil}{.,-}*
   /usr/sbin/rpcinfo
   /usr/bin
   /etc/rpc
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
-  /lib*/libpthread.so.0
-  /lib*/libthread_db*
+  /lib*/libpthread{.,-}*
+  /lib*/libthread_db{.,-}*
 
 if !(arch eq 's390' || arch eq 's390x')
   hdparm:
