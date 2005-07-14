@@ -555,7 +555,7 @@ sub AddFiles
       $file = $2;
       $re = $1 . '; 1';		# fixup_re($1) ?
 
-      die "$Script: $file: no such file" unless -f "$dir/$file";
+      # die "$Script: $file: no such file" unless -f "$dir/$file";
       system "touch $tfile" and die "unable to access $file";
       SUSystem "cp $dir/$file $tfile" and die "unable to access $file";
 
