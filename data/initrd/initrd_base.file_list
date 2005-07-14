@@ -277,6 +277,17 @@ if with_gdb
     /bin/bash
     /bin/sh
 
+  util-linux:
+    /bin/mount
+    /bin/umount
+
+  libselinux:
+    /lib*/libselinux.so*
+
+  glibc:
+    /lib*/librt{.,-}*
+    /lib*/libpthread{.,-}*
+
   if with_gdb == 2
 
     linuxrc:
@@ -298,34 +309,34 @@ if with_gdb
 
 
   d /lbin
-  s /bin/linuxrc /lbin/cp
-  s /bin/linuxrc /lbin/mv
-  s /bin/linuxrc /lbin/modprobe
-  s /bin/linuxrc /lbin/rmmod
-  s /bin/linuxrc /lbin/lsmod
-  s /bin/linuxrc /lbin/mount
-  s /bin/linuxrc /lbin/umount
-  s /bin/linuxrc /lbin/cat
-  s /bin/linuxrc /lbin/hex
-  s /bin/linuxrc /lbin/lsof
-  s /bin/linuxrc /lbin/rm
-  s /bin/linuxrc /lbin/ln
-  s /bin/linuxrc /lbin/ls
-  s /bin/linuxrc /lbin/mkdevs
-  s /bin/linuxrc /lbin/mkdir
-  s /bin/linuxrc /lbin/chroot
-  s /bin/linuxrc /lbin/kill
-  s /bin/linuxrc /lbin/swapon
-  s /bin/linuxrc /lbin/swapoff
-  s /bin/linuxrc /lbin/free
-  s /bin/linuxrc /lbin/fstype
-  s /bin/linuxrc /lbin/lndir
-  s /bin/linuxrc /lbin/dhcpcd
-  s /bin/linuxrc /lbin/portmap
-  s /bin/linuxrc /lbin/lsh
-  s /bin/linuxrc /lbin/loadkeys
-  s /bin/linuxrc /lbin/dumpkeys
-  s /bin/linuxrc /lbin/setfont
+  s /init /lbin/cp
+  s /init /lbin/mv
+  s /init /lbin/modprobe
+  s /init /lbin/rmmod
+  s /init /lbin/lsmod
+  s /init /lbin/mount
+  s /init /lbin/umount
+  s /init /lbin/cat
+  s /init /lbin/hex
+  s /init /lbin/lsof
+  s /init /lbin/rm
+  s /init /lbin/ln
+  s /init /lbin/ls
+  s /init /lbin/mkdevs
+  s /init /lbin/mkdir
+  s /init /lbin/chroot
+  s /init /lbin/kill
+  s /init /lbin/swapon
+  s /init /lbin/swapoff
+  s /init /lbin/free
+  s /init /lbin/fstype
+  s /init /lbin/lndir
+  s /init /lbin/dhcpcd
+  s /init /lbin/portmap
+  s /init /lbin/lsh
+  s /init /lbin/loadkeys
+  s /init /lbin/dumpkeys
+  s /init /lbin/setfont
 
 endif
 

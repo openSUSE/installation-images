@@ -92,8 +92,8 @@ expat:
   /usr/lib*/libexpat.so.*
 
 glib2:
-  /opt/gnome/lib/libglib-2.0.so.*
-  /opt/gnome/lib/libgobject-2.0.so.*
+  /opt/gnome/lib*/libglib-2.0.so.*
+  /opt/gnome/lib*/libgobject-2.0.so.*
 
 udev:
   /etc
