@@ -384,6 +384,10 @@ endif
     /
   yast2-storage:
     /
+  yast2-storage-evms:
+    /
+  yast2-storage-lib:
+    /
   yast2-transfer:
     /
   yast2-tune:
@@ -416,6 +420,15 @@ endif
 
   pcre:
     /usr/lib*/libpcre.so.*
+
+  limal:
+    /
+
+  limal-bootloader:
+    /
+
+  limal-perl:
+    /
 
 endif
 

@@ -122,7 +122,7 @@ if with_yast2 ne 'no'
     /etc
     /usr/X11R6
     /var/lib
-    s /usr/X11R6/bin/xkbcomp /etc/X11/xkb/
+    # s /usr/X11R6/bin/xkbcomp /etc/X11/xkb/
 
   xorg-x11-fonts-75dpi:
     m /usr/X11R6/lib/X11/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/X11R6/lib/X11/fonts/misc
