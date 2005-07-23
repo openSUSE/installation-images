@@ -88,10 +88,11 @@ cat $CD1/ppc/bootinfo.txt
 #
 cat > $CD1/yaboot.txt <<EOF
 
-  Welcome to SuSE Linux (SLES10)!
+  Welcome to `echo ${BUILD_DISTRIBUTION_NAME} | sed -e 's@SUSE@SuSE@;s@LINUX@Linux@'`!
 
-  Use  "install"     to boot the pSeries 64bit kernel
-  Use  "install32"   to boot the 32bit RS/6000 kernel
+  Use  "install"  to start the YaST installer on this CD/DVD
+  Use  "slp"      to start the YaST install via network
+  Use  "rescue"   to start the rescue system on this CD/DVD
 
 
 EOF
@@ -99,26 +100,58 @@ cat $CD1/yaboot.txt
 #
 cat > $CD1/etc/yaboot.conf <<EOF
 message=yaboot.txt
-image=install
+image[64bit]=install
   label=install
   append="quiet                       "
-image=cdrom:1,\\vmlinux32
-  label=install32
-  initrd=cdrom:1,\\initrd32
+image[64bit]=install
+  label=slp
+  append="quiet install=slp           "
+image[64bit]=install
+  label=rescue
+  append="quiet rescue=1              "
+image[32bit]=cdrom:1,vmlinux32
+  label=install
+  initrd=cdrom:1,initrd32
+  append="quiet                       "
+image[32bit]=cdrom:1,vmlinux32
+  label=slp
+  initrd=cdrom:1,initrd32
+  append="quiet install=slp           "
+image[32bit]=cdrom:1,vmlinux32
+  label=rescue
+  initrd=cdrom:1,initrd32
+  append="quiet rescue=1              "
 
 EOF
 cat $CD1/etc/yaboot.conf
 #
 cat > $CD1/suseboot/yaboot.conf <<EOF
-init-message=" use '32'  to boot the 32bit kernel, and  '64'  to boot the 64bit kernel "
-timeout=1234
-append="minmemory=0 MemYaSTText=0 quiet sysrq=1                       "
-image=cd:,vmlinux32
-  label=32
-  initrd=cd:,initrd32
-image=cd:,vmlinux64
-  label=64
+message=cd:,yaboot.txt
+image[64bit]=cd:,vmlinux64
   initrd=cd:,initrd64
+  label=install
+  append="minmemory=0 MemYaSTText=0 quiet sysrq=1                       "
+image[64bit]=cd:,vmlinux64
+  initrd=cd:,initrd64
+  label=slp
+  append="minmemory=0 MemYaSTText=0 quiet sysrq=1 install=slp           "
+image[64bit]=cd:,vmlinux64
+  initrd=cd:,initrd64
+  label=rescue
+  append="minmemory=0 MemYaSTText=0 quiet sysrq=1 rescue=1              "
+  append="quiet rescue=1              "
+image[32bit]=cd,vmlinux32
+  initrd=cd,initrd32
+  label=install
+  append="minmemory=0 MemYaSTText=0 quiet sysrq=1                       "
+image[32bit]=cd,vmlinux32
+  initrd=cd,initrd32
+  label=slp
+  append="minmemory=0 MemYaSTText=0 quiet sysrq=1 install=slp           "
+image[32bit]=cd,vmlinux32
+  initrd=cd,initrd32
+  label=rescue
+  append="minmemory=0 MemYaSTText=0 quiet sysrq=1 rescue=1              "
 
 EOF
 cat $CD1/suseboot/yaboot.conf
@@ -134,8 +167,8 @@ SuSE Linux for PowerMac
 </DESCRIPTION>
 <BOOT-SCRIPT>
 : printf fb8-write drop ;                                                                                               
-: we-are-64-bit " cd:,\\suseboot\\yaboot 64" \$boot ;
-: we-are-32-bit " cd:,\\suseboot\\yaboot 32" \$boot ;
+: we-are-64-bit " cd:,\\suseboot\\yaboot" \$boot ;
+: we-are-32-bit " cd:,\\suseboot\\yaboot" \$boot ;
 
 " screen" output
 dev screen
