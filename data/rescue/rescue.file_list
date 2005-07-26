@@ -71,7 +71,8 @@ tar:
 
 star:
   /etc
-  /usr/{,s}bin
+  /usr/bin
+  /sbin
 
 bash:
   /bin

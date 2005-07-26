@@ -958,6 +958,9 @@ my $opt_64 = 0;
 my $opt_96 = 0;
 my $opt_keep = undef;
 my $opt_syslinux = -x "/usr/bin/mcopy" ? "/usr/bin/syslinux" : "/usr/bin/syslinux-nomtools";
+$opt_syslinux = "/usr/bin/syslinux-nomtools" if -x "/usr/bin/syslinux-nomtools";
+my $opt_disk = undef;
+my $opt_backup_mbr = undef;
 
 my ($boot_disks, $tmp_dir, $buf, $i);
 
@@ -972,14 +975,16 @@ chomp (my $arch = `uname -m`);
 $opt_64 = 1 if $arch eq 'x86_64';
 
 GetOptions(
-  'help|h'     => \&help,
-  'verbose|v'  => \$opt_verbose,
-  'out|o=s'    => \$opt_file,
-  '96'         => sub { $opt_64 = 0; $opt_96 = 1 },
-  '64'         => sub { $opt_64 = 1; $opt_96 = 0 },
-  '32'         => sub { $opt_64 = 0; $opt_96 = 0 },
-  'keep'       => \$opt_keep,
-  'syslinux=s' => \$opt_syslinux,
+  'help|h'       => \&help,
+  'verbose|v'    => \$opt_verbose,
+  'out|o=s'      => \$opt_file,
+  '96'           => sub { $opt_64 = 0; $opt_96 = 1 },
+  '64'           => sub { $opt_64 = 1; $opt_96 = 0 },
+  '32'           => sub { $opt_64 = 0; $opt_96 = 0 },
+  'keep'         => \$opt_keep,
+  'syslinux=s'   => \$opt_syslinux,
+  'partition=s'  => \$opt_disk,
+  'backup-mbr=s' => \$opt_backup_mbr,
 );
 
 $opt_src = shift;
@@ -1025,7 +1030,7 @@ my $n = 2;
 $n = 6 if $opt_64;
 $n = 18 if $opt_96;
 s/^(notice\s+)(\d+)/$1$n/ for @cfg;
-push @cfg, "disksize\t2880\n";
+push @cfg, "disksize\t2880\n" unless defined $opt_disk;
 open F, ">$src/syslinux.cfg"; print F @cfg; close F,
 unlink "$src/isolinux.cfg";
 unlink "$src/isolinux.bin";
@@ -1037,49 +1042,160 @@ $boot_disks = 2 if $boot_disks < 2;
 
 unlink "$src/ldlinux.sys";
 
-MakeFAT::Image("$tmp_dir/img", $boot_disks, $opt_verbose);
+my $mp;
 
-system "$opt_syslinux $tmp_dir/img" and die "error: syslinux failed\n";
+if($opt_disk) {
+  # make (usb) disk bootable
 
-system "mount -tmsdos -oloop $tmp_dir/img $tmp_dir/mp" and die "error: mount failed\n";
-my $mp = "$tmp_dir/mp";
-for (dir_sort $src) {
-  if($_ ne 'bootlogo') {
-    system "cp -r $src/$_ $mp" and die "error: copy failed\n";
-  }
-  else {
-    for my $i (unpack_bootlogo $src) {
-      system "cp -r $src/$i $mp" and die "error: copy failed\n";
+  # mbr taken from makebootfat package
+  my $new_mbr =
+    "\xeb\x58\x90\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" .
+    "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" .
+    "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" .
+    "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" .
+    "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" .
+    "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xfa\x31\xc0\x8e\xd8\x8e" .
+    "\xc0\x8e\xd0\xbc\x00\x7c\xfb\xfc\x89\xe6\xbf\x00\x06\xb9\x00\x01" .
+    "\xf3\xa5\xea\x77\x06\x00\x00\x88\x16\x00\x08\xbe\x9b\x07\xf6\xc2" .
+    "\x80\x74\x03\xbe\x9f\x07\xe8\xc7\x00\xb4\x08\xcd\x13\x31\xc0\x88" .
+    "\xf0\x40\xa3\x74\x07\x80\xe1\x3f\x88\x0e\x76\x07\xbe\xbe\x07\x31" .
+    "\xc0\xb9\x04\x00\xf6\x04\x80\x74\x03\x40\x89\xf7\x83\xc6\x10\xe2" .
+    "\xf3\x83\xf8\x01\x74\x03\xe9\x88\x00\x8a\x16\x00\x08\xb8\x00\x41" .
+    "\xbb\xaa\x55\x31\xc9\x30\xf6\xf9\xcd\x13\x72\x2e\x81\xfb\x55\xaa" .
+    "\x75\x28\xf6\xc1\x01\x74\x23\xbe\xa3\x07\xe8\x73\x00\x57\xbe\x64" .
+    "\x07\x8b\x5d\x08\x89\x5c\x08\x8b\x5d\x0a\x89\x5c\x0a\x8a\x16\x00" .
+    "\x08\x8c\xd8\x8e\xc0\xb8\x00\x42\xeb\x34\xbe\xa9\x07\xe8\x50\x00" .
+    "\x57\x8b\x45\x08\x8b\x55\x0a\xf7\x36\x76\x07\x42\x89\xd1\x31\xd2" .
+    "\xf7\x36\x74\x07\x88\xc5\xd1\xe8\xd1\xe8\x24\xc0\x08\xc1\x88\xd6" .
+    "\x8a\x16\x00\x08\x8c\xd8\x8e\xc0\xbb\x00\x7c\xb8\x01\x02\xcd\x13" .
+    "\x72\x16\x5e\x81\x3e\xfe\x7d\x55\xaa\x75\x08\xfa\xea\x00\x7c\x00" .
+    "\x00\x77\x05\xbe\x78\x07\xeb\x03\xbe\x8e\x07\xe8\x02\x00\xeb\xfe" .
+    "\xac\x20\xc0\x74\x0c\xb4\x0e\x8a\x3e\x62\x04\xb3\x07\xcd\x10\xeb" .
+    "\xef\xc3\x00\x00\x10\x00\x01\x00\x00\x7c\x00\x00\x00\x00\x00\x00" .
+    "\x00\x00\x00\x00\x00\x00\x00\x00\x4e\x6f\x20\x6f\x70\x65\x72\x61" .
+    "\x74\x69\x6e\x67\x20\x73\x79\x73\x74\x65\x6d\x0d\x0a\x00\x44\x69" .
+    "\x73\x6b\x20\x65\x72\x72\x6f\x72\x0d\x0a\x00\x46\x44\x44\x00\x48" .
+    "\x44\x44\x00\x20\x45\x42\x49\x4f\x53\x0d\x0a\x00";
+
+  my $part = $opt_disk;
+
+  $opt_disk =~ s/(\d+)$//;
+  my $pn = $1;
+
+  die "not a partition: $opt_disk\n" unless $pn ne "";
+
+  $opt_disk =~ s/(?<=\d)p$//;
+
+  print "disk $opt_disk, partition $part\n";
+
+  die "sorry, must be a primary partition (number 1 - 4)\n" if $pn < 1 || $pn > 4;
+
+  my ($bpc, $fatsize);
+
+  for (`fsck.vfat -v $part 2>/dev/null`) {
+    if(/(\d+)\s+bytes\s+per\s+cluster/) {
+      $bpc = $1;
+      next;
+    }
+    if(/FATs,\s+(\d+)\s+bit\s+entries/) {
+      $fatsize = $1;
+      next;
     }
   }
-}
 
-my $size = 0;
-for (`df -Pk $tmp_dir/mp`) {
-  $i = (split)[3];
-  if($i =~ /^\d+$/) {
-    $size = $i;
-    last;
+  die "not a FAT file system\n" unless $bpc >= 512 && $fatsize >= 12;
+
+  die "must be 16 bit FAT\n" unless $fatsize == 16;
+
+  die "cluster too large (max. 32k)\n" if $bpc > 0x8000;
+
+  system "$opt_syslinux $part" and die "error: syslinux failed\n";
+
+  system "activate $opt_disk $pn" and die "error: activate failed\n";
+
+  system "mount -tmsdos $part $tmp_dir/mp" and die "error: mount failed\n";
+  $mp = "$tmp_dir/mp";
+
+  for (dir_sort $src) {
+    if($_ ne 'bootlogo') {
+      system "cp -r $src/$_ $mp" and die "error: copy failed\n";
+    }
+    else {
+      for my $i (unpack_bootlogo $src) {
+        system "cp -r $src/$i $mp" and die "error: copy failed\n";
+      }
+    }
   }
-}
-system "umount $mp" and die "error: umount failed\n";
-undef $mp;
 
-$i = "32 bit";
-$i = "64 bit" if $opt_64;
-$i = "32+64 bit" if $opt_96;
+  system "umount $mp" and die "error: umount failed\n";
+  undef $mp;
 
-print "Writing $boot_disks boot disks ($i, ${size}k free).\n";
+  if($opt_backup_mbr) {
+    my $backup;
+    open F, "$opt_disk";
+    sysread F, $backup, 0x200;
+    close F;
 
-open F, "$tmp_dir/img";
-for ($i = 1; $i <= $boot_disks; $i++) {
-  unlink "$opt_file$i";
-  open W, ">$opt_file$i";
-  sysread F, $buf, 1440*1024;
-  syswrite W, $buf;
+    die "mbr backup failed\n" unless length($backup) == 0x200;
+
+    open W, ">$opt_backup_mbr" or die "$opt_backup_mbr: $!\n";
+    die "mbr backup failed\n" unless syswrite(W, $backup) == 0x200;
+    close W;
+  }
+
+  open W, ">$opt_disk" or die "$opt_disk: $!\n";
+  die "writing mbr failed\n" unless syswrite(W, $new_mbr) == length($new_mbr);
   close W;
+
 }
-close F;
+else {
+  # make boot disk images
+
+  MakeFAT::Image("$tmp_dir/img", $boot_disks, $opt_verbose);
+
+  system "$opt_syslinux $tmp_dir/img" and die "error: syslinux failed\n";
+
+  system "mount -tmsdos -oloop $tmp_dir/img $tmp_dir/mp" and die "error: mount failed\n";
+  $mp = "$tmp_dir/mp";
+  for (dir_sort $src) {
+    if($_ ne 'bootlogo') {
+      system "cp -r $src/$_ $mp" and die "error: copy failed\n";
+    }
+    else {
+      for my $i (unpack_bootlogo $src) {
+        system "cp -r $src/$i $mp" and die "error: copy failed\n";
+      }
+    }
+  }
+
+  my $size = 0;
+  for (`df -Pk $tmp_dir/mp`) {
+    $i = (split)[3];
+    if($i =~ /^\d+$/) {
+      $size = $i;
+      last;
+    }
+  }
+  system "umount $mp" and die "error: umount failed\n";
+  undef $mp;
+
+  $i = "32 bit";
+  $i = "64 bit" if $opt_64;
+  $i = "32+64 bit" if $opt_96;
+
+  print "Writing $boot_disks boot disks ($i, ${size}k free).\n";
+
+  open F, "$tmp_dir/img";
+  for ($i = 1; $i <= $boot_disks; $i++) {
+    unlink "$opt_file$i";
+    open W, ">$opt_file$i";
+    sysread F, $buf, 1440*1024;
+    syswrite W, $buf;
+    close W;
+  }
+  close F;
+
+}
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1144,16 +1260,20 @@ sub help
 
   print STDERR
   "Usage: $p [options] cd_mount_point\n" .
-  "Create boot disk images from SUSE Linux DVD or CD1.\n" .
+  "Create boot disk images from SUSE Linux DVD or CD1 or make (USB) disk bootable.\n" .
   "Options:\n" .
-  "  --out file\twrite disks as fileN (default: bootdisk)\n" .
-  "  --32\t\tcreate boot disks for 32 bit arch\n" .
-  "  --64\t\tcreate boot disks for 64 bit arch\n" .
+  "  --out file\t\twrite disks as fileN (default: bootdisk)\n" .
+  "  --32\t\t\tcreate boot disks for 32 bit arch\n" .
+  "  --64\t\t\tcreate boot disks for 64 bit arch\n" .
+  "  --partition device\tmake this disk with this partition bootable\n" .
+  "  --backup-mbr file\tsave mbr to file\n" .
   "Examples:\n" .
   "  $p /media/cdrom\n" .
   "  - write boot disks as bootdisk1 ... bootdiskN (N is approx. 6)\n" .
   "  $p --64 --out foo /media/cdrom\n" .
-  "  - write 64 bit boot disks as foo1 ... fooN\n";
+  "  - write 64 bit boot disks as foo1 ... fooN\n" .
+  "  $p --96 --partition /dev/sdb1 --backup-mbr mbr_old /media/cdrom\n" .
+  "  - copy install files to /dev/sdb1 and write new mbr in /dev/sdb\n";
 
   exit 0;
 }
