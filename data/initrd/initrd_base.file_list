@@ -411,6 +411,13 @@ e echo "MemYaST:	92000" >>linuxrc.config
 # min. free kB for ncurses YaST (below swap will be activated)
 e echo "MemYaSTText:	64000" >>linuxrc.config
 
+if instsys_complain
+  e echo "InstsysComplain:	<instsys_complain>" >>linuxrc.config
+endif
+
+if instsys_build_id
+  e echo "InitrdID:	<instsys_build_id>" >>linuxrc.config
+endif
 
 if arch eq 'x86_64'
 e echo "InstallDir:	/boot/inst-sys64" >>linuxrc.config

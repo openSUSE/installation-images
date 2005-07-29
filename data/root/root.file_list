@@ -384,8 +384,9 @@ endif
     /
   yast2-storage:
     /
-  yast2-storage-evms:
-    /
+# for sles10 (make /var/lib/YaST2 writable, include evms)
+#  yast2-storage-evms:
+#    /
   yast2-storage-lib:
     /
   yast2-transfer:
@@ -663,10 +664,10 @@ ntfsprogs:
 libselinux:
   /lib*/libselinux.so*
 
-evms:
-  /etc/evms.conf
-  /lib*
-  /sbin/evms{_activate,_gather_info}
+#evms:
+#  /etc/evms.conf
+#  /lib*
+#  /sbin/evms{_activate,_gather_info}
 
 pmtools:
   /usr/sbin/dmidecode
@@ -744,6 +745,10 @@ endif
 
 if root_gfx
   include machbunt.file_list
+endif
+
+if instsys_build_id
+  e echo "InstsysID:     <instsys_build_id>" >>.instsys.config
 endif
 
 # final clean up

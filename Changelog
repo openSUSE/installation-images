@@ -1,3 +1,7 @@
+27/7/2005:	v7.14
+	- removed yast2-storage-evms
+	- introduce instsys build id
+
 26/7/2005:	v7.13
 	- use the new image[32/64bit] syntax in yaboot.conf, offer also slp and rescue option
 	- mkbootdisk can now handle usb keys
