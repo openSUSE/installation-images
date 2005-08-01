@@ -1,3 +1,6 @@
+1/8/2005:	v7.15
+	- added perl-Compress-Zlib
+
 27/7/2005:	v7.14
 	- removed yast2-storage-evms
 	- introduce instsys build id

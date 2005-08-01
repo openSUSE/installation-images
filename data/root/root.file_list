@@ -727,6 +727,9 @@ perl:
 perl-Bootloader:
   /usr/lib
 
+perl-Compress-Zlib:
+  /usr/lib
+
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale
 r /usr/X11R6/bin/fc-cache
