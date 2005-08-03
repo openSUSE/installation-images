@@ -148,14 +148,6 @@ util-linux:
   endif
   /usr/sbin/setctsid
 
-#if !(arch eq 'ppc' || arch eq 'ppc64' || arch eq 'sparc' || arch eq 'sparc64' || arch eq 'ia64' || arch eq 's390' || arch eq 's390x')
-if arch eq 'ia32'
-  pcmcia:
-    /sbin/cardmgr
-    /sbin/cardctl
-    /sbin/dump_cis
-endif
-
 ncurses:
   /lib*/libncurses.so.5*
   /usr/lib*/libncursesw.so.5*

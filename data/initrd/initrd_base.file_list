@@ -152,37 +152,10 @@ endif
 
 endif # not on s390/ppc
 
-if (arch eq 'alpha' || arch eq 'ia32' || arch eq 'x86_64') && !nopcmcia
-  pcmcia:
-  d etc/pcmcia/cis
-  m etc/pcmcia/cis etc/pcmcia
-  t etc/pcmcia/fixed
-  c 0755 0 0 etc/pcmcia/fixed
-  l etc/pcmcia/fixed  etc/pcmcia/scsi
-  l etc/pcmcia/fixed  etc/pcmcia/ide
-  l etc/pcmcia/fixed  etc/pcmcia/network
-
-    /etc/pcmcia/config
-    /etc/pcmcia/config.opts
-  x etc/pcmcia/fixed etc/pcmcia
-
-  if suse_release == 8.1
-    p /etc/pcmcia/config.dif
-  endif
-
-endif
-
 if arch eq 's390' || arch eq 's390x' || with_smb
 
   d etc/samba
   e echo "; just to make smbmount happy" >etc/samba/smb.conf
-
-  if arch eq 'ia32'
-
-    smbmount-diet:
-      m /usr/bin/smbmount /bin/smbmount
-
-  else
 
     d bin lib
 
@@ -202,19 +175,11 @@ if arch eq 's390' || arch eq 's390x' || with_smb
       m /usr/lib*/libcrypto.so.* /lib
       m /usr/lib*/libssl.so.* /lib
 
-    if 0
-      heimdal-lib:
-        m /usr/lib*/libasn1.so.* /lib
-        m /usr/lib*/libgssapi.so.* /lib
-        m /usr/lib*/libkrb5.so.* /lib
-        m /usr/lib*/libroken.so.* /lib
-    else
-      krb5:
-        m /usr/lib*/libkrb5.so.* /lib
-        m /usr/lib*/libkrb5support.so.* /lib
-        m /usr/lib*/libgssapi_krb5.so.* /lib
-        m /usr/lib*/libk5crypto.so.* /lib
-    endif
+    krb5:
+      m /usr/lib*/libkrb5.so.* /lib
+      m /usr/lib*/libkrb5support.so.* /lib
+      m /usr/lib*/libgssapi_krb5.so.* /lib
+      m /usr/lib*/libk5crypto.so.* /lib
       
     openldap2-client:
       m /usr/lib*/liblber-*.so.* /lib
@@ -232,8 +197,6 @@ if arch eq 's390' || arch eq 's390x' || with_smb
     
     cyrus-sasl:
       m /usr/lib*/libsasl2.so.* /lib
-
-  endif
 
 endif
 
