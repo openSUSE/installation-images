@@ -685,29 +685,34 @@ checkmedia:
 
 perl:
   /usr/bin/perl
+  /usr/lib/perl*/*/*/CORE/libperl.so
   /usr/lib/perl*/*/*/Config.pm
   /usr/lib/perl*/*/*/Data/Dumper.pm
   /usr/lib/perl*/*/*/DynaLoader.pm
   /usr/lib/perl*/*/*/Fcntl.pm
+  /usr/lib/perl*/*/*/IO.pm
+  /usr/lib/perl*/*/*/IO/Handle.pm
   /usr/lib/perl*/*/*/POSIX.pm
   /usr/lib/perl*/*/*/Sys/Hostname.pm
   /usr/lib/perl*/*/*/XSLoader.pm
   /usr/lib/perl*/*/*/auto/Data/Dumper
   /usr/lib/perl*/*/*/auto/DynaLoader
   /usr/lib/perl*/*/*/auto/Fcntl
+  /usr/lib/perl*/*/*/auto/IO
   /usr/lib/perl*/*/*/auto/POSIX
   /usr/lib/perl*/*/*/auto/Sys/Hostname
   /usr/lib/perl*/*/*/lib.pm
-  /usr/lib/perl*/*/*/CORE/libperl.so
   /usr/lib/perl*/*/AutoLoader.pm
   /usr/lib/perl*/*/Carp{,.pm}
   /usr/lib/perl*/*/Class/Struct.pm
   /usr/lib/perl*/*/Exporter{,.pm}
   /usr/lib/perl*/*/IPC/Open3.pm
+  /usr/lib/perl*/*/SelectSaver.pm
   /usr/lib/perl*/*/Symbol.pm
   /usr/lib/perl*/*/Time/localtime.pm
   /usr/lib/perl*/*/Time/tm.pm
   /usr/lib/perl*/*/bytes.pm
+  /usr/lib/perl*/*/constant.pm
   /usr/lib/perl*/*/diagnostics.pm
   /usr/lib/perl*/*/overload.pm
   /usr/lib/perl*/*/pod/perldiag.pod

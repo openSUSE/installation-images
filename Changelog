@@ -1,5 +1,8 @@
-	- remove the 32/64bit detection part from os-chooser, use load go instead of boot to pass on /chosen/bootargs
+5/8/20005:	v7.17
+	- remove the 32/64bit detection part from os-chooser,
+	  use load go instead of boot to pass on /chosen/bootargs
 	- add via82cxxx and via-rhine for pegasos
+	- more perl modules
 
 3/8/2005:	v7.16
 	- pcmcia no longer exists
