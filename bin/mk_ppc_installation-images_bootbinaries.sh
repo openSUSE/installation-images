@@ -166,10 +166,6 @@ MacRISC MacRISC3 MacRISC4
 SuSE Linux for PowerMac
 </DESCRIPTION>
 <BOOT-SCRIPT>
-: printf fb8-write drop ;                                                                                               
-: we-are-64-bit " cd:,\\suseboot\\yaboot" \$boot ;
-: we-are-32-bit " cd:,\\suseboot\\yaboot" \$boot ;
-
 " screen" output
 dev screen
 " "(0000000000aa00aa0000aaaaaa0000aa00aaaa5500aaaaaa)" drop 0 7 set-colors
@@ -177,10 +173,8 @@ dev screen
 device-end
 f to foreground-color
 0 to background-color
-
-" "(0d 0a)" printf
-" booting kernel ... " printf
-" /cpus/@0" find-package IF " 64-bit" rot get-package-property 0= IF we-are-64-bit ELSE we-are-32-bit THEN THEN
+load &device;:,\\suseboot\\yaboot
+go
 </BOOT-SCRIPT>
 <OS-BADGE-ICONS>
 1010
