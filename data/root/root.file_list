@@ -727,6 +727,15 @@ perl-Bootloader:
 perl-Compress-Zlib:
   /usr/lib
 
+hotplug:
+  /etc
+  /sbin
+  /usr/lib
+  /usr/sbin
+
+pcmciautils:
+  /
+
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale
 r /usr/X11R6/bin/fc-cache

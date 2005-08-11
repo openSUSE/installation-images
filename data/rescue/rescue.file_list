@@ -582,7 +582,6 @@ smartmontools:
 multipath-tools: postin
   /etc
   /sbin
-  /usr/bin
 e postin
 
 if arch eq 'ia64'

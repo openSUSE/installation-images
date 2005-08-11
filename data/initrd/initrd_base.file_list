@@ -1,7 +1,7 @@
 d bin dev etc mnt proc sys tmp
 d var/run var/spool var/lock var/tmp var/log/YaST2 var/adm/mount
-d var/lib/YaST var/lib/dhcpcd var/lib/hardware
-d var/run/dbus var/run/hal
+d var/lib/YaST2 var/lib/dhcpcd var/lib/hardware var/lib/autoinstall
+d var/run/dbus var/run/hal var/run/hotplug
 
 d etc/sysconfig
 d etc/sysconfig/hardware
@@ -327,6 +327,11 @@ hal:
 hwinfo-devel:
   /usr/lib*/libhd_tiny.so.*
 
+bootsplash:
+  /sbin/splash
+
+zlib:
+  /lib*/libz.so.1*
 
 if mkdevs
   e cp -a /initrddevs.tiny/dev .
