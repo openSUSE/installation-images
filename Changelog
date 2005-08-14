@@ -1,3 +1,4 @@
+	- adding a delay before registering vnc installation via slp, register in background, fix a typo (#104376)
 	- new pcmcia files
 
 5/8/20005:	v7.17

@@ -218,9 +218,16 @@ function start_shell() {
 
 # anounce VNC via slpd
 if grep -qi "^VNC:.*1" /etc/install.inf ; then
-  echo starting slpd to anounce VNC...
-  test -x /usr/sbin/slpd  &&  /usr/sbin/slpd
-  /usr/bin/slptool register "service:YaST.installation.suse:vnc://${hostname}:5901"
+  echo starting slpd to announce VNC...
+  test -x /usr/sbin/slpd  &&  /usr/sbin/slpd ; ec=$?
+  if test "$ec" = "0" ; then
+    (
+    sleep 3
+    /usr/bin/slptool register "service:YaST.installation.suse:vnc://${hostname}:5901"
+    ) &> /tmp/slptool_register.txt &
+  else
+    echo "slpd returned with exit code $ec, VNC will not be announced"
+  fi
   # vnc=1 usessh=1 should start sshd, but the result is a vnc installation
   YAST2_SSH=false
 fi
