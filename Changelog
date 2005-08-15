@@ -1,3 +1,4 @@
+	- create CD1/ppc again, too much code moved around
 	- do not copy the vmlinux32/64 files via strip -o, they can not be reused for mkzimage that way (for unknown reasons)
 	- gzip the vmlinux32/64 files and name them linux32/64.gz
 

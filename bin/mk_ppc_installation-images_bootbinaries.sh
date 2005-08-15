@@ -11,6 +11,7 @@ fi
 . /.buildenv
 CD1=$targetdir/CD1
 #
+mkdir -pv $CD1/ppc
 mkdir -pv $CD1/boot
 # to trigger the HFS part, avoid 8.3 filenames and allow OF booting
 mkdir -pv $CD1/suseboot
@@ -22,8 +23,6 @@ cp -pfv $bdir/initrd-kernel-ppc64       $CD1/suseboot/initrd64
 cp -pfv $bdir/initrd-kernel-iseries64   $CD1/boot
 gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
 gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD1/suseboot/linux64.gz
-ls -l /boot/vmlinux-*-default $CD1/suseboot/vmlinux32
-ls -l /boot/vmlinux-*-ppc64   $CD1/suseboot/vmlinux64
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
 	mkdir -pv $CD1/ppc/netboot
