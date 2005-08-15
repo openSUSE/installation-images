@@ -1,3 +1,5 @@
+	- remove CD2
+	- move all boot related files from toplevel dir of CD1 to /suseboot
 	- adding a delay before registering vnc installation via slp, register in background, fix a typo (#104376)
 	- new pcmcia files
 

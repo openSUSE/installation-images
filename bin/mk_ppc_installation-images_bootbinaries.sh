@@ -10,31 +10,23 @@ exit 1
 fi
 . /.buildenv
 CD1=$targetdir/CD1
-CD2=$targetdir/CD2
 #
-mkdir -pv $CD1/ppc/netboot
-mkdir -pv $CD1/ppc/chrp
-mkdir -pv $CD1/etc
 mkdir -pv $CD1/boot
-mkdir -pv $CD1/suseboot
 # to trigger the HFS part, avoid 8.3 filenames and allow OF booting
-mkdir -pv $CD2/suseboot
-mkdir -pv $CD2/boot
+mkdir -pv $CD1/suseboot
 #
-cp -pfv $bdir/initrd-* $CD2/boot/
-cp -pfv /lib/lilo/chrp/yaboot.chrp $CD1/
-cp -pfv /lib/lilo/pmac/yaboot $CD1/suseboot/
-cp -pfv /boot/vmlinux-*-default $CD1/vmlinux32
-cp -pfv $bdir/initrd-kernel-default-ppc $CD1/initrd32
-cp -pfv /boot/vmlinux-*-ppc64 $CD1/vmlinux64
-cp -pfv $bdir/initrd-kernel-ppc64 $CD1/initrd64
-cp -pfv $bdir/initrd-kernel-iseries64 $CD1/boot
-ls -l $CD1/vmlinux64 $CD1/vmlinux32
-strip $CD1/vmlinux32
-strip $CD1/vmlinux64
-ls -l $CD1/vmlinux64 $CD1/vmlinux32
+cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
+cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
+cp -pfv $bdir/initrd-kernel-default-ppc $CD1/suseboot/initrd32
+cp -pfv $bdir/initrd-kernel-ppc64       $CD1/suseboot/initrd64
+cp -pfv $bdir/initrd-kernel-iseries64   $CD1/boot
+strip -o $CD1/suseboot/vmlinux32 /boot/vmlinux-*-default
+strip -o $CD1/suseboot/vmlinux64 /boot/vmlinux-*-ppc64
+ls -l /boot/vmlinux-*-default $CD1/suseboot/vmlinux32
+ls -l /boot/vmlinux-*-ppc64   $CD1/suseboot/vmlinux64
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
+	mkdir -pv $CD1/ppc/netboot
 	cp -Lpfv /lib/lilo/chrp/mkzimage_cmdline $CD1/ppc/netboot
 	chmod 0755 $CD1/ppc/netboot/mkzimage_cmdline
 fi
@@ -43,7 +35,7 @@ fi
 	--board chrp \
 	--vmlinux /boot/vmlinux-*-ppc64 \
 	--initrd $bdir/initrd-kernel-ppc64 \
-	--output $CD1/install
+	--output $CD1/suseboot/inst64
 #
 /bin/mkzimage \
 	--board iseries \
@@ -55,7 +47,7 @@ fi
 	--board chrp \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
-	--output $CD1/install32
+	--output $CD1/suseboot/inst32
 #
 /bin/mkzimage \
 	--board prep \
@@ -80,13 +72,16 @@ cat > $CD1/ppc/bootinfo.txt <<EOF
 <chrp-boot>
 <description>$BUILD_DISTRIBUTION_NAME</description>
 <os-name>$BUILD_DISTRIBUTION_NAME</os-name>
-<boot-script>boot &device;:1,yaboot.chrp </boot-script>
+<boot-script>
+load &device;:1,\\suseboot\\yaboot.ibm
+go
+</boot-script>
 </chrp-boot>
 
 EOF
 cat $CD1/ppc/bootinfo.txt
 #
-cat > $CD1/yaboot.txt <<EOF
+cat > $CD1/suseboot/yaboot.txt <<EOF
 
   Welcome to `echo ${BUILD_DISTRIBUTION_NAME} | sed -e 's@SUSE@SuSE@;s@LINUX@Linux@'`!
 
@@ -96,65 +91,31 @@ cat > $CD1/yaboot.txt <<EOF
 
 
 EOF
-cat $CD1/yaboot.txt
+cat $CD1/suseboot/yaboot.txt
 #
-cat > $CD1/etc/yaboot.conf <<EOF
+cat > $CD1/suseboot/yaboot.cnf <<EOF
 message=yaboot.txt
-image[64bit]=install
-  label=install
-  append="quiet                       "
-image[64bit]=install
-  label=slp
-  append="quiet install=slp           "
-image[64bit]=install
-  label=rescue
-  append="quiet rescue=1              "
-image[32bit]=cdrom:1,vmlinux32
-  label=install
-  initrd=cdrom:1,initrd32
-  append="quiet                       "
-image[32bit]=cdrom:1,vmlinux32
-  label=slp
-  initrd=cdrom:1,initrd32
-  append="quiet install=slp           "
-image[32bit]=cdrom:1,vmlinux32
-  label=rescue
-  initrd=cdrom:1,initrd32
-  append="quiet rescue=1              "
-
-EOF
-cat $CD1/etc/yaboot.conf
-#
-cat > $CD1/suseboot/yaboot.conf <<EOF
-message=cd:,yaboot.txt
-image[64bit]=cd:,vmlinux64
-  initrd=cd:,initrd64
+image[64bit]=inst64
   label=install
   append="minmemory=0 MemYaSTText=0 quiet sysrq=1                       "
-image[64bit]=cd:,vmlinux64
-  initrd=cd:,initrd64
+image[64bit]=inst64
   label=slp
   append="minmemory=0 MemYaSTText=0 quiet sysrq=1 install=slp           "
-image[64bit]=cd:,vmlinux64
-  initrd=cd:,initrd64
+image[64bit]=inst64
   label=rescue
   append="minmemory=0 MemYaSTText=0 quiet sysrq=1 rescue=1              "
-  append="quiet rescue=1              "
-image[32bit]=cd,vmlinux32
-  initrd=cd,initrd32
+image[32bit]=inst32
   label=install
   append="minmemory=0 MemYaSTText=0 quiet sysrq=1                       "
-image[32bit]=cd,vmlinux32
-  initrd=cd,initrd32
+image[32bit]=inst32
   label=slp
   append="minmemory=0 MemYaSTText=0 quiet sysrq=1 install=slp           "
-image[32bit]=cd,vmlinux32
-  initrd=cd,initrd32
+image[32bit]=inst32
   label=rescue
   append="minmemory=0 MemYaSTText=0 quiet sysrq=1 rescue=1              "
 
 EOF
-cat $CD1/suseboot/yaboot.conf
+cat $CD1/suseboot/yaboot.cnf
 #
 
 cat > $CD1/suseboot/os-chooser <<EOF
@@ -232,5 +193,5 @@ EOF
 cat $CD1/suseboot/os-chooser
 #
 
-find $CD1 $CD2 -ls
-du -sm $CD1 $CD2
+find $CD1 -ls
+du -sm $CD1
