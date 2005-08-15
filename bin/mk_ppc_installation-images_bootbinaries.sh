@@ -20,8 +20,8 @@ cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
 cp -pfv $bdir/initrd-kernel-default-ppc $CD1/suseboot/initrd32
 cp -pfv $bdir/initrd-kernel-ppc64       $CD1/suseboot/initrd64
 cp -pfv $bdir/initrd-kernel-iseries64   $CD1/boot
-strip -o $CD1/suseboot/vmlinux32 /boot/vmlinux-*-default
-strip -o $CD1/suseboot/vmlinux64 /boot/vmlinux-*-ppc64
+gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
+gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD1/suseboot/linux64.gz
 ls -l /boot/vmlinux-*-default $CD1/suseboot/vmlinux32
 ls -l /boot/vmlinux-*-ppc64   $CD1/suseboot/vmlinux64
 

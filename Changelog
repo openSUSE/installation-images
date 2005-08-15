@@ -1,3 +1,6 @@
+	- do not copy the vmlinux32/64 files via strip -o, they can not be reused for mkzimage that way (for unknown reasons)
+	- gzip the vmlinux32/64 files and name them linux32/64.gz
+
 10/8/2005:	v7.19
 	- ppc: remove CD2
 	- ppc: move all boot related files from toplevel dir of CD1 to /suseboot
