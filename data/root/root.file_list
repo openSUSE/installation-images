@@ -145,6 +145,7 @@ util-linux:
   /sbin/blockdev
   if arch ne 'ia64'
     /sbin/fdisk
+    /sbin/sfdisk
   endif
   /usr/sbin/setctsid
 

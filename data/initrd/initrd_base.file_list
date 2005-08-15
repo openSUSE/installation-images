@@ -328,10 +328,14 @@ hwinfo-devel:
   /usr/lib*/libhd_tiny.so.*
 
 bootsplash:
+  /lib/bootsplash/control
   /sbin/splash
 
 zlib:
   /lib*/libz.so.1*
+
+bootsplash-theme-<splash_theme>:
+  /etc/bootsplash/themes/<splash_theme>/animations
 
 if mkdevs
   e cp -a /initrddevs.tiny/dev .

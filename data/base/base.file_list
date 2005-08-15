@@ -268,6 +268,7 @@ x save_cfg bin/save_cfg
 x restore_cfg bin/restore_cfg
 
 # create splash
+x mk_splash /mk_splash
 include gen/splash
 
 # run depmod

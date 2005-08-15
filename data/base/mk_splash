@@ -1,0 +1,18 @@
+#! /bin/sh
+
+theme=$1
+cfg=$2
+spl=$3
+
+splash -s -f /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg >/$theme/$spl.spl
+splash -s -c -f /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg | gzip -9c >/$theme/gz/$spl.spl
+
+mkdir xxx
+cp -a --parents /etc/bootsplash/themes/$theme/config/*-$cfg.* xxx
+cp -a --parents /etc/bootsplash/themes/$theme/images/*-$cfg.* xxx
+ln -s /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg xxx/etc/splash.cfg
+cd xxx
+find | cpio --quiet -o -H newc | gzip -9 >>/$theme/gz/$spl.spl
+cd /
+rm -r xxx
+

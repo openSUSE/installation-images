@@ -469,6 +469,7 @@ endif
   /sbin/{blockdev,ctrlaltdel,elvtune,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
   if arch ne 'ia64'
     /sbin/fdisk
+    /sbin/sfdisk
   endif
   /sbin/agetty
   /usr/{bin,sbin}

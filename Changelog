@@ -1,7 +1,13 @@
-	- remove CD2
-	- move all boot related files from toplevel dir of CD1 to /suseboot
-	- adding a delay before registering vnc installation via slp, register in background, fix a typo (#104376)
+10/8/2005:	v7.19
+	- ppc: remove CD2
+	- ppc: move all boot related files from toplevel dir of CD1 to /suseboot
+	- adding a delay before registering vnc installation via slp,
+	  register in background, fix a typo (#104376)
+	- added sfdisk (#104451)
+
+10/8/2005:	v7.18
 	- new pcmcia files
+	- full bootsplash support (#104009)
 
 5/8/20005:	v7.17
 	- remove the 32/64bit detection part from os-chooser,
