@@ -730,9 +730,6 @@ perl-Compress-Zlib:
 
 hotplug:
   /etc
-  /sbin
-  /usr/lib
-  /usr/sbin
 
 pcmciautils:
   /

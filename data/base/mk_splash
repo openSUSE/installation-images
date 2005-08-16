@@ -12,6 +12,7 @@ cp -a --parents /etc/bootsplash/themes/$theme/config/*-$cfg.* xxx
 cp -a --parents /etc/bootsplash/themes/$theme/images/*-$cfg.* xxx
 ln -s /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg xxx/etc/splash.cfg
 cd xxx
+chmod -R a+rX .
 find | cpio --quiet -o -H newc | gzip -9 >>/$theme/gz/$spl.spl
 cd /
 rm -r xxx
