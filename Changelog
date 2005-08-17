@@ -1,3 +1,6 @@
+17/8/2005:	v7.21
+	- rename root, rescue -> root.ppc, rescue.ppc on pcc
+
 16/8/2005:	v7.20
 	- fixed /etc permissions (#104715)
 	- create CD1/ppc again, too much code moved around
