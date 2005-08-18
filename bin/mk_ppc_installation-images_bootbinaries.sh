@@ -133,7 +133,7 @@ dev screen
 device-end
 f to foreground-color
 0 to background-color
-load &device;:,\\suseboot\\yaboot
+load &device;:&partition;,\\suseboot\\yaboot
 go
 </BOOT-SCRIPT>
 <OS-BADGE-ICONS>
