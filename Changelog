@@ -1,3 +1,4 @@
+	- add amd8111e and sata_vsc for 970eval board
 	- add &partition; to firmware path (#104649)
 
 17/8/2005:	v7.21
