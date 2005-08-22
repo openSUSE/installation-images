@@ -334,8 +334,69 @@ bootsplash:
 zlib:
   /lib*/libz.so.1*
 
+pcmciautils:
+  /etc/pcmcia/config.opts
+  /sbin/pcmcia-socket-startup
+
 bootsplash-theme-<splash_theme>:
   /etc/bootsplash/themes/<splash_theme>/animations
+
+# add hal & dbus
+if 0
+  e echo /opt/gnome/lib >etc/ld.so.conf
+
+  glibc:
+    /lib*/libpthread{.,-}*
+
+  libselinux:
+    /lib*/libselinux.so*
+
+  libxml2:
+    /usr/lib*/libxml2.so.*
+
+  expat:
+    /usr/lib*/libexpat.so.*
+
+  glib2:
+    /opt/gnome/lib*/libglib-2.0.so.*
+    /opt/gnome/lib*/libgobject-2.0.so.*
+
+  dbus-1-glib:
+    /usr/lib*/libdbus-glib-1.so.*
+    /usr/bin/dbus-monitor
+
+  e cp /etc/{passwd,shadow,group} etc
+  dbus-1: prein
+    /etc
+    /usr/bin/dbus-daemon
+
+    e save_cfg etc/passwd etc/shadow etc/group
+    e prein
+    e restore_cfg etc/passwd etc/shadow etc/group
+
+  hal: prein
+    /etc
+    /usr/bin/lshal
+    /usr/sbin/hald*
+    
+    e save_cfg etc/passwd etc/shadow etc/group
+    e prein
+    e restore_cfg etc/passwd etc/shadow etc/group
+
+
+  # + bash for testing
+
+  bash:
+    /bin/bash
+
+  readline:
+    /lib*/libreadline.so*
+    /lib*/libhistory.so*
+
+  ncurses:
+    /lib*/libncurses.so.5*
+
+endif
 
 if mkdevs
   e cp -a /initrddevs.tiny/dev .

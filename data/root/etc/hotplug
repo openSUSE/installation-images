@@ -1,3 +1,0 @@
-#!/bin/sh
-if [ "$ACTION" = "remove" ] ; then exit 0 ; fi
-exec /sbin/udev "$@"

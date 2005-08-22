@@ -140,6 +140,6 @@ endif
 
 endif
 
-# add modules.pcimap
+# add modules.alias, modules.dep
 e /sbin/depmod -a -b . -F /System.map <kernel_ver>
-# e rm -f lib/modules/<kernel_ver>/modules.[^p]*
+# e rm -f lib/modules/<kernel_ver>/modules.[^ad]*

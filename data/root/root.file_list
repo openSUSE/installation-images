@@ -10,7 +10,6 @@ c 1777 0 0 tmp
 x /etc/* /etc
 r /etc/ssh/CVS
 r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
-r /etc/hotplug
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
@@ -586,8 +585,6 @@ gdbm:
 
  r /lib*/security/pam_userdb.so
 
- x etc/hotplug /sbin/
- c 755 0 0 /sbin/hotplug
  x etc/inst_setup_ssh /sbin/
  c 755 0 0 /sbin/inst_setup_ssh
  x etc/ssh /etc
@@ -727,9 +724,6 @@ perl-Bootloader:
 
 perl-Compress-Zlib:
   /usr/lib
-
-hotplug:
-  /etc
 
 pcmciautils:
   /

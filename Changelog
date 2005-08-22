@@ -1,5 +1,8 @@
+22/8/2005:	v7.22
 	- add amd8111e and sata_vsc for 970eval board
 	- add &partition; to firmware path (#104649)
+	- removed remaining hotplug references
+	- added new pcmciautils
 
 17/8/2005:	v7.21
 	- rename root, rescue -> root.ppc, rescue.ppc on pcc
