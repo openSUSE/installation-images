@@ -1,3 +1,6 @@
+23/8/2005:	v7.23
+	- added sky2 module
+
 22/8/2005:	v7.22
 	- add amd8111e and sata_vsc for 970eval board
 	- add &partition; to firmware path (#104649)
