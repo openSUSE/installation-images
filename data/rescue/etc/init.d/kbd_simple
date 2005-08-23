@@ -1,0 +1,33 @@
+#! /bin/sh
+
+# simplified part of /etc/init.d/kbd
+
+### BEGIN INIT INFO
+# Provides:       kbd_simple
+# Required-Start:
+# Required-Stop:
+# X-SuSE-Should-Start:
+# X-SuSE-Should-Stop: 
+# Default-Start:  1 2 3 5 S
+# Default-Stop:
+# Description:    Keyboard settings (don't disable!)
+### END INIT INFO
+
+KBD_TTY="tty1 tty2 tty3 tty4 tty5 tty6 tty7 tty8 tty9
+	 tty10 tty11 tty12 tty13 tty14 tty15 tty16
+	 tty17 tty18 tty19 tty20 tty21 tty22 tty23 tty24"
+
+newkbd=""
+for tty in $KBD_TTY; do
+  test -w /dev/$tty		|| continue
+  test -c /dev/$tty		|| continue
+  > /dev/$tty &> /dev/null	|| continue
+  newkbd="${newkbd:+$newkbd }/dev/$tty"
+done
+KBD_TTY="$newkbd"
+unset newkbd
+
+for tty in $KBD_TTY; do
+  echo -n -e '\033%G' > $tty
+done
+

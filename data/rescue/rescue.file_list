@@ -580,6 +580,16 @@ multipath-tools: postin
   /sbin
 e postin
 
+glibc-locale:
+  /usr/lib*/gconv/ISO8859*
+  /usr/lib*/gconv/KOI*
+  /usr/lib*/gconv/UNICODE*
+  /usr/lib*/gconv/gconv-modules*
+
+  # built in base system
+  d usr/lib/locale
+  e cp /tmp/usr/lib/locale/locale-archive usr/lib/locale
+
 if arch eq 'ia64'
   ia32el:
     /etc/init.d/ia32el
@@ -588,80 +598,13 @@ if arch eq 'ia64'
   e insserv etc/init.d/ia32el
 endif
 
-if 0
-if arch ne 'sparc'
-  <kernel_rpm>:
-    f / st.ko
-    if arch ne 'ppc'
-    f / sg.ko
-    f / reiserfs.ko
-    if arch ne 'ia64'
-      f / jfs.ko
-    endif
-    f / jbd.ko
-    f / ext3.ko
-    f / hpfs.ko
-    f / xfs.ko
-    f / exportfs.ko
-    f / ntfs.ko
-    endif
+# stripped down kbd init (linuxrc does most)
+x etc/init.d/kbd_simple /etc/init.d/kbd_simple
+e insserv etc/init.d/kbd_simple
+e echo RC_LANG=\"en_US.UTF-8\" >>etc/sysconfig/language
 
-    if arch eq 's390' || arch eq 's390x'
-    f / cpint.ko
-    f / dasd_cmb.ko
-    f / dasd_eckd_mod.ko
-    f / dasd_fba_mod.ko
-    f / dasd_mod.ko
-    f / dcssblk.ko
-    f / xpram.ko
-    f / sclp_cpi.ko
-    f / tape.ko
-    f / tape_34xx.ko
-    f / tape_class.ko
-    f / ccwgroup.ko
-    f / qdio.ko
-    f / z90crypt.ko
-    f / ctc.ko
-    f / ctcmpc.ko
-    f / cu3088.ko
-    f / fsm.ko
-    f / iucv.ko
-    f / lcs.ko
-    f / netiucv.ko
-    f / qeth.ko
-    f / smsgiucv.ko
-    f / zfcp.ko
-    endif
-
-    f / linear.ko
-    f / multipath.ko
-    f / raid0.ko
-    f / raid1.ko
-    f / raid5.ko
-    f / raid6.ko
-    f / xor.ko
-    f / dm-crypt.ko
-    f / dm-mirror.ko
-    f / dm-mod.ko
-    f / dm-snapshot.ko
-    f / dm-zero.ko
-    f / binfmt_misc.ko
-
-if arch eq 'alpha'
-    m /boot/System.map-* /System.map
-else
-    m /boot/System.map-* /System.map
-endif 
-
-  # run depmod
-  E /sbin/depmod -a -F /System.map <kernel_ver>
-  r /System.map
-#  r /sbin/depmod
-endif
-endif
-
-  # serial console / mingetty setup for ppc mostly.
-  x etc/init.d/boot.local /etc/init.d/boot.local
+# serial console / mingetty setup for ppc mostly.
+x etc/init.d/boot.local /etc/init.d/boot.local
 
 # enable sysrq
 e perl -pi -e '\''s/^(ENABLE_SYSRQ=).*/$1"yes"/'\'' etc/sysconfig/sysctl
