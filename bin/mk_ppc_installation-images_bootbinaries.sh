@@ -66,15 +66,14 @@ fi
 	--vmlinux /boot/vmlinux-*-default \
 	--output $CD1/boot/vmlinux-pmaccoff
 #
+we_dont_smoke_that_stuff=`echo ${BUILD_DISTRIBUTION_NAME} | sed -e 's@SUSE@SuSE@;s@LINUX@Linux@'`
 #
+# has to be in one line because the Maple firmware matches just that ...
 cat > $CD1/ppc/bootinfo.txt <<EOF
 <chrp-boot>
-<description>$BUILD_DISTRIBUTION_NAME</description>
-<os-name>$BUILD_DISTRIBUTION_NAME</os-name>
-<boot-script>
-load &device;:1,\\suseboot\\yaboot.ibm
-go
-</boot-script>
+<description>${we_dont_smoke_that_stuff}</description>
+<os-name>${we_dont_smoke_that_stuff}</os-name>
+<boot-script>boot &device;:1,\\suseboot\\yaboot.ibm</boot-script>
 </chrp-boot>
 
 EOF
@@ -82,7 +81,7 @@ cat $CD1/ppc/bootinfo.txt
 #
 cat > $CD1/suseboot/yaboot.txt <<EOF
 
-  Welcome to `echo ${BUILD_DISTRIBUTION_NAME} | sed -e 's@SUSE@SuSE@;s@LINUX@Linux@'`!
+  Welcome to ${we_dont_smoke_that_stuff}!
 
   Use  "install"  to start the YaST installer on this CD/DVD
   Use  "slp"      to start the YaST install via network
