@@ -465,6 +465,7 @@ endif
   if arch ne 'ia64'
     /sbin/fdisk
     /sbin/sfdisk
+    /sbin/cfdisk
   endif
   /sbin/agetty
   /usr/{bin,sbin}

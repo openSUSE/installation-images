@@ -57,6 +57,8 @@ endif
     /
   yast2-trans-es:
     /
+  yast2-trans-fi:
+    /
   yast2-trans-fr:
     /
   yast2-trans-he:
@@ -90,6 +92,8 @@ endif
   yast2-trans-sk:
     /
   yast2-trans-sl_SI:
+    /
+  yast2-trans-sr:
     /
   yast2-trans-sv:
     /
