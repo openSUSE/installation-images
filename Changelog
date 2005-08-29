@@ -4,6 +4,7 @@
 	- keep the <boot-script> in one line because the Maple guys screwed their firmware
 	- added cfdisk to rescue
 	- added yast2-trans-{fi,sr}
+	- addes udf fs module (#113711)
 
 24/8/2005:	v7.24
 	- rescue system correctly supports keymaps (#105690)
