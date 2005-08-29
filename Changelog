@@ -1,3 +1,4 @@
+	- disable building of COFF images, linuxrc got too big to be useful
 	- keep the <boot-script> in one line because the Maple guys screwed their firmware
 
 24/8/2005:	v7.24

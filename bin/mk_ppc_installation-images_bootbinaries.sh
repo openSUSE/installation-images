@@ -55,6 +55,7 @@ fi
 	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 	--output $CD1/boot/zImage.prep.initrd
 #
+if test "42" = "true" ; then
 /bin/mkzimage \
 	--board pmaccoff \
 	--vmlinux /boot/vmlinux-*-default \
@@ -65,6 +66,8 @@ fi
 	--board pmaccoff \
 	--vmlinux /boot/vmlinux-*-default \
 	--output $CD1/boot/vmlinux-pmaccoff
+#
+fi
 #
 we_dont_smoke_that_stuff=`echo ${BUILD_DISTRIBUTION_NAME} | sed -e 's@SUSE@SuSE@;s@LINUX@Linux@'`
 #
@@ -83,9 +86,9 @@ cat > $CD1/suseboot/yaboot.txt <<EOF
 
   Welcome to ${we_dont_smoke_that_stuff}!
 
-  Use  "install"  to start the YaST installer on this CD/DVD
-  Use  "slp"      to start the YaST install via network
-  Use  "rescue"   to start the rescue system on this CD/DVD
+  Type  "install"  to start the YaST installer on this CD/DVD
+  Type  "slp"      to start the YaST install via network
+  Type  "rescue"   to start the rescue system on this CD/DVD
 
 
 EOF
