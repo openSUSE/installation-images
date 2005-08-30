@@ -55,7 +55,7 @@ fi
 	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 	--output $CD1/boot/zImage.prep.initrd
 #
-if test "42" = "true" ; then
+if test "42" = "false" ; then
 /bin/mkzimage \
 	--board pmaccoff \
 	--vmlinux /boot/vmlinux-*-default \

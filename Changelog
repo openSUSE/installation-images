@@ -1,3 +1,5 @@
+	- correct test in mk_ppc_installation-images_bootbinaries.sh (thanks to jw for noticing the mistake)
+
 29/8/2005:	v7.25
 	- keep chinese fonts in japanese locale
 	- disable building of COFF images, linuxrc got too big to be useful
