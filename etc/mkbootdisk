@@ -11,7 +11,7 @@
 use strict 'vars';
 use integer;
 
-%::ConfigData = ( full_product_name => "SUSE Linux 9.3" );
+%::ConfigData = ( full_product_name => "SUSE Linux 10.0" );
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1265,15 +1265,16 @@ sub help
   "  --out file\t\twrite disks as fileN (default: bootdisk)\n" .
   "  --32\t\t\tcreate boot disks for 32 bit arch\n" .
   "  --64\t\t\tcreate boot disks for 64 bit arch\n" .
+  "  --96\t\t\tcreate boot disks for both 32 & 64 bit (bi-arch)\n" .
   "  --partition device\tmake this disk with this partition bootable\n" .
   "  --backup-mbr file\tsave mbr to file\n" .
   "Examples:\n" .
   "  $p /media/cdrom\n" .
-  "  - write boot disks as bootdisk1 ... bootdiskN (N is approx. 6)\n" .
+  "  - write boot disks as bootdisk1 ... bootdiskN (N is approx. 7)\n" .
   "  $p --64 --out foo /media/cdrom\n" .
   "  - write 64 bit boot disks as foo1 ... fooN\n" .
   "  $p --96 --partition /dev/sdb1 --backup-mbr mbr_old /media/cdrom\n" .
-  "  - copy install files to /dev/sdb1 and write new mbr in /dev/sdb\n";
+  "  - copy install files to /dev/sdb1 and write new mbr to /dev/sdb\n";
 
   exit 0;
 }
