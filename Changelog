@@ -1,3 +1,4 @@
+	- add /sbin/lilo on ppc to root image
 	- updated docs (#113945)
 
 30/8/2005:	v7.26

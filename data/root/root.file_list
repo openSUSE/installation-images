@@ -468,6 +468,7 @@ if arch eq 'ppc' || arch eq 'ppc64'
     /sbin/pdisk
 
   lilo:
+    /sbin/lilo
     /bin/show_of_path.sh
 
   fbset:
