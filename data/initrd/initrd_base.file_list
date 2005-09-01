@@ -335,6 +335,9 @@ bootsplash:
 zlib:
   /lib*/libz.so.1*
 
+coreutils:
+  /bin/rm
+
 pcmciautils:
   /etc/pcmcia/config.opts
   /sbin/pcmcia-socket-startup
