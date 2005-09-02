@@ -4,6 +4,7 @@
 	- add 'rm' to initrd
 	- add /sbin/lilo on ppc to root image
 	- shortened pcmcia module descriptions
+	- don't consider kernel-*-nongpl
 
 30/8/2005:	v7.26
 	- olh: correct test in mk_ppc_installation-images_bootbinaries.sh
