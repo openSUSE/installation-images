@@ -1,3 +1,5 @@
+	- add mv643xx_eth,"Marvell MV643XX" for pegasos
+
 1/9/2005:	v7.27
 	- updated docs (#113945)
 	- 64bit libglib2 fix
