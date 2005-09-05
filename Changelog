@@ -1,4 +1,8 @@
+5/9/2005:	v7.28
 	- add mv643xx_eth,"Marvell MV643XX" for pegasos
+	- add reiser4 module & reiser4 support to rescue system (#114808)
+	- s390 module fixes
+	- mkbootdisk updated to handle lots of boot loader files
 
 1/9/2005:	v7.27
 	- updated docs (#113945)

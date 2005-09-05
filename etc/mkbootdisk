@@ -737,16 +737,16 @@ use integer;
 
   # cluster size, extra root dir sectors
   my @format = (
-    [ 4, 3 ],	# 1 (at least 64 root entries (16 + 16 * _3_), default)
+    [ 4, 7 ],	# 1 (at least 96 root entries, default is 128 (16 + 16 * _7_))
     undef,	# 1
     [ 4, 5 ],	# 2
-    [ 4, 3 ],	# 3
+    [ 4, 7 ],	# 3
     [ 4, 5 ],	# 4
-    [ 4, 3 ],	# 5
+    [ 4, 7 ],	# 5
     [ 4, 5 ],	# 6
     [ 4, 6 ],	# 7
-    [ 4, 3 ],	# 8
-    [ 4, 4 ],	# 9
+    [ 4, 7 ],	# 8
+    [ 4, 8 ],	# 9
   );
 
   my $opt_disks = 2;

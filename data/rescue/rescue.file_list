@@ -357,6 +357,14 @@ procinfo:
 reiserfs:
   /sbin
 
+reiser4progs:
+  /usr/sbin
+  /usr/lib*/libreiser4-1.0.so.*
+  /usr/lib*/librepair-1.0.so.*
+
+libaal:
+  /usr/lib*/libaal-1.0.so.*
+
 jfsutils:
   /sbin
 

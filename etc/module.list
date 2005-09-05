@@ -49,6 +49,7 @@ kernel/fs/jbd/
 kernel/fs/jfs/
 kernel/fs/ntfs/
 kernel/fs/reiserfs/
+kernel/fs/reiser4/
 kernel/fs/smbfs/
 kernel/fs/cifs/
 kernel/fs/vfat/
