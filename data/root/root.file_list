@@ -525,9 +525,11 @@ syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 
+if arch ne 's390' && arch ne 's390x'
 opensc:
   /usr/lib*/libopensc.so*
   /usr/lib*/libscconf.so*
+endif
 
 pcsc-lite:
   /usr/lib*/libpcsclite.so*
