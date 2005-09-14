@@ -13,6 +13,7 @@ kernel/drivers/ieee1394/
 # kernel/drivers/input/
 -kernel/drivers/input/joystick
 -kernel/drivers/input/gameport
+kernel/drivers/input/mouse/psmouse.ko
 kernel/drivers/iseries/
 kernel/drivers/md/
 kernel/drivers/net/
