@@ -1,3 +1,5 @@
+	- add 8139too on ppc
+
 14/9/2005:	v7.31
 	- load psmouse module on ppc
 
