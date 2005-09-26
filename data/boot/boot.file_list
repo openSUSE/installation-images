@@ -96,3 +96,13 @@ if boot eq 'isolinux'
   endif
 endif
 
+
+if boot eq 'isolinux'
+  syslinux:
+    m /usr/share/syslinux/isolinux.bin /
+
+  e isolinux-config --base=/boot/loader isolinux.bin
+
+  e mv syslinux.cfg isolinux.cfg
+endif
+

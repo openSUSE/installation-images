@@ -64,16 +64,9 @@ if($ia32_like) {
     $syslx = "${BasePath}tmp/base/usr/bin/syslinux"
   }
   die "$Script: where is syslinux?" unless -x $syslx;
-
-  if($ENV{'isolinux'}) {
-    $isolx = $ENV{'isolinux'};
-  } else {
-    $isolx = "${BasePath}tmp/base/usr/share/syslinux/isolinux.bin"
-  }
-  die "$Script: where is isolinux?" unless -f $isolx;
 }
 
-# print STDERR "syslinux = $syslx, isolinux = $isolx\n";
+# print STDERR "syslinux = $syslx\n";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
@@ -94,14 +87,6 @@ SUSystem "cp $initdisk $tmpbootdir/$initrdondisk" and
 if($ENV{theme} eq 'Zen') {
   SUSystem "sh -c 'cat $tmpbootdir/{06400480,08000600}.spl >>$tmpbootdir/$initrdondisk' ; rm -f $tmpbootdir/*.spl" and
     die "$Script: could not add slpash to initrd";
-}
-
-if($ENV{'boot'} eq 'isolinux') {
-  SUSystem "mv $tmpbootdir/syslinux.cfg $tmpbootdir/isolinux.cfg" and
-    die "$Script: syslinux.cfg missing";
-
-  SUSystem "sh -c 'pisolinux /boot/loader <$isolx >$tmpbootdir/isolinux.bin'" and
-    die "$Script: isolinux.bin missing";
 }
 
 # create empty image
