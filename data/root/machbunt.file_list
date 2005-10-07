@@ -39,25 +39,25 @@ if with_yast2 ne 'no'
       s Xorg /usr/X11R6/bin/XFree86
 
       if arch eq 'ia32' || arch eq 'ia64' || arch eq 'x86_64'
-        /usr/X11R6/lib*/modules/drivers/vesa_drv.o
+        /usr/X11R6/lib*/modules/drivers/vesa_drv.so
       endif
 
       if arch eq 'ia32'
-        /usr/X11R6/lib*/modules/drivers/vmware_drv.o
+        /usr/X11R6/lib*/modules/drivers/vmware_drv.so
       endif
 
-      /usr/X11R6/lib*/modules/drivers/ati_drv.o
-      /usr/X11R6/lib*/modules/drivers/atimisc_drv.o
-      /usr/X11R6/lib*/modules/drivers/fbdev_drv.o
+      /usr/X11R6/lib*/modules/drivers/ati_drv.so
+      /usr/X11R6/lib*/modules/drivers/atimisc_drv.so
+      /usr/X11R6/lib*/modules/drivers/fbdev_drv.so
       if arch eq 'ia32' || arch eq 'x86_64'
-      /usr/X11R6/lib*/modules/drivers/i810_drv.o
+      /usr/X11R6/lib*/modules/drivers/i810_drv.so
       endif
-      /usr/X11R6/lib*/modules/drivers/nv_drv.o
-      /usr/X11R6/lib*/modules/drivers/r128_drv.o
-      /usr/X11R6/lib*/modules/drivers/radeon_drv.o
+      /usr/X11R6/lib*/modules/drivers/nv_drv.so
+      /usr/X11R6/lib*/modules/drivers/r128_drv.so
+      /usr/X11R6/lib*/modules/drivers/radeon_drv.so
 
-      /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.a
-      /usr/X11R6/lib*/modules/fonts/libbitmap.a
+      /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.so
+      /usr/X11R6/lib*/modules/fonts/libbitmap.so
       /usr/X11R6/lib*/modules/input
       /usr/X11R6/lib*/modules/linux
 
@@ -65,16 +65,11 @@ if with_yast2 ne 'no'
         /usr/X11R6/lib*/modules/*.uc
       endif
 
-      /usr/X11R6/lib*/modules/lib*.a
+      /usr/X11R6/lib*/modules/lib*.so
   endif
 
-#  if arch ne 's390' && arch ne 's390x'
-#    xorg-x11-server-glx:
-#      /usr/X11R6/lib*/modules/extensions/lib{glx,GLcore}.a
-#  endif
-
   xorg-x11-libs:
-    /usr/X11R6/lib*/libX{11,cursor,ext,i,inerama,mu,muu,p,pm,randr,render,ss,t,tst,xf86dga,xf86misc,xf86vm}.so*
+    /usr/X11R6/lib*/libX{11,au,cursor,dmcp,ext,i,inerama,mu,muu,p,pm,randr,render,ss,t,tst,xf86dga,xf86misc,xf86vm}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/libXft.so.2*
     /usr/X11R6/lib*/libxkbfile.so.*

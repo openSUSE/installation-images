@@ -2,6 +2,7 @@
 	- use new isolinux-config script
 	- produce new cd layout for i386 & x86_64 (#118394)
 	- add 8139too on ppc
+	- x11 lib names changed
 
 14/9/2005:	v7.31
 	- load psmouse module on ppc
