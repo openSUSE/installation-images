@@ -1,6 +1,6 @@
 26/9/2005:	v8.0
 	- use new isolinux-config script
-	- produce new cd layout (#118394)
+	- produce new cd layout for i386 & x86_64 (#118394)
 	- add 8139too on ppc
 
 14/9/2005:	v7.31

@@ -86,12 +86,12 @@ if boot eq 'isolinux'
   # note: entry is rewritten for DVD in spec file
   if is_dvd
     # just for testing
-    e echo -e "notice\t\t18" >>syslinux.cfg
+    e echo -e "notice\t\t0x1a" >>syslinux.cfg
   else
     if arch eq 'x86_64'
-      e echo -e "notice\t\t6" >>syslinux.cfg
+      e echo -e "notice\t\t0x1a" >>syslinux.cfg
     else
-      e echo -e "notice\t\t2" >>syslinux.cfg
+      e echo -e "notice\t\t0x1a" >>syslinux.cfg
     endif
   endif
 endif
@@ -101,7 +101,11 @@ if boot eq 'isolinux'
   syslinux:
     m /usr/share/syslinux/isolinux.bin /
 
-  e isolinux-config --base=/boot/loader isolinux.bin
+  if arch eq 'x86_64'
+    e isolinux-config --base=/boot/x86_64/loader isolinux.bin
+  else
+    e isolinux-config --base=/boot/i386/loader isolinux.bin
+  endif
 
   e mv syslinux.cfg isolinux.cfg
 endif
