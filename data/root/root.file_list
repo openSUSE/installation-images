@@ -389,6 +389,8 @@ endif
     /
   yast2-update:
     /
+  yast2-hardware-detection:
+    /
   autoyast2-installation:
     /
   liby2util:
