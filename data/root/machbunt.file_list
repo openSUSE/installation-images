@@ -84,7 +84,7 @@ if with_yast2 ne 'no'
     /usr/lib*/libfontconfig.so.*
     /usr/bin/fc-{cache,list,match}
 
-  xorg-x11-Mesa:
+  Mesa:
     /usr/lib*/libGL.so.*
 #    /usr/lib*/libGLU.so.*
 

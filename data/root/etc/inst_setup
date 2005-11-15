@@ -12,7 +12,7 @@
 # the environment variable INSTSYS.
 #
 
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/lib/YaST2/bin:/usr/X11/bin:/lbin
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11/bin:/lbin
 
 # tmpfs has mode 1777, sshd doesnt like that
 chmod 755 /

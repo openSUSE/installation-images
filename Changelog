@@ -1,3 +1,7 @@
+15/11/2005:	v8.4
+	- removing /usr/lib/YaST2/bin from PATH (#131766)
+	- module list updated
+
 19/10/2005:	v8.3
 	- added libXfixes
 
