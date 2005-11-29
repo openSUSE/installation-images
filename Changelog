@@ -1,3 +1,7 @@
+29/11/2005:	v8.5
+	- unpack license files
+	- adjust to some packages changes
+
 15/11/2005:	v8.4
 	- removing /usr/lib/YaST2/bin from PATH (#131766)
 	- module list updated

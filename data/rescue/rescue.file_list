@@ -50,9 +50,8 @@ r /etc/init.d/rc?.d/*xdm
 r /usr/bin/ChangeSymlinks
   /lib/YaST/SuSEconfig.functions
   /var/adm/fillup-templates
-x etc/init.d/boot.rootfsck /etc/init.d/boot.rootfsck
+# x etc/init.d/boot.rootfsck /etc/init.d/boot.rootfsck
 e postin
-e insserv etc/init.d/boot.shm
 e insserv etc/init.d/boot.rootfsck
 # r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
 t /etc/fstab
@@ -316,14 +315,12 @@ resmgr:
 pam:
   /{etc,lib*,sbin}
 
-pam-modules: postin
+pam-modules:
   /{etc,lib*,sbin}
 
   # don't use cracklib
   c 755 0 0 /etc /etc/security
   R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
-
-E postin
 
 pciutils:
   /sbin
@@ -517,7 +514,6 @@ udev:
   /etc
   /sbin  
   /usr/bin
-  /lib/klibc
 
 sysfsutils:
   /lib*/libsysfs.so*

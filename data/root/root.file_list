@@ -98,7 +98,6 @@ udev:
   /etc
   /sbin
   /usr/bin
-  /lib/klibc
 
 sysfsutils:
   /lib*/libsysfs.so*
@@ -625,6 +624,9 @@ hex:
 
 bzip2:
   /lib*/libbz2.so*
+
+unzip:
+  /usr/bin/unzip
 
 mdadm:
   /sbin/mdadm
