@@ -1,3 +1,6 @@
+30/11/2005:	v8.6
+	- adjust to new gfxboot/syslinux packages
+
 29/11/2005:	v8.5
 	- unpack license files
 	- adjust to some packages changes

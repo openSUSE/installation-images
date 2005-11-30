@@ -75,29 +75,6 @@ endif
 
 
 if boot eq 'isolinux'
-  # 'notice' bitmask:
-  #   0: wrong side of a two-sided dvd
-  #   1: enable 64bit check
-  #   2: software is 64bit
-  #   3: is dvd
-  #   4: software is 32+64bit (Needs bit 1 set, too!)
-  #   5: default install source is slp
-  #
-  # note: entry is rewritten for DVD in spec file
-  if is_dvd
-    # just for testing
-    e echo -e "notice\t\t0x1a" >>syslinux.cfg
-  else
-    if arch eq 'x86_64'
-      e echo -e "notice\t\t0x1a" >>syslinux.cfg
-    else
-      e echo -e "notice\t\t0x1a" >>syslinux.cfg
-    endif
-  endif
-endif
-
-
-if boot eq 'isolinux'
   syslinux:
     m /usr/share/syslinux/isolinux.bin /
 
