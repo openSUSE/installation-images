@@ -1,3 +1,5 @@
+	- fix rescue system
+
 30/11/2005:	v8.6
 	- adjust to new gfxboot/syslinux packages
 

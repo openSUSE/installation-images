@@ -18,13 +18,6 @@ filesystem:
   /var
 r /var/{spool,squid,lib/YaST}
 
-sysconfig:
-  /etc
-  /sbin
-  /var
-  /lib*/libgetconfig.so*
-d /var/run/sysconfig/tmp
-
 iproute2:
   /sbin/ip
 
@@ -510,10 +503,25 @@ glib2:
   /opt/gnome/lib*/libglib-2.0.so.*
   /opt/gnome/lib*/libgobject-2.0.so.*
 
-udev:
+sysconfig: postin
   /etc
-  /sbin  
+  /sbin
+  /var
+  /lib*
+  /var
+  E postin
+
+# d /var/run/sysconfig/tmp
+
+udev: postin
+  /etc
+  /lib*
+  /sbin
   /usr/bin
+  /usr/sbin
+  /var
+
+  E postin
 
 sysfsutils:
   /lib*/libsysfs.so*

@@ -7,7 +7,7 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root
         root liveeval modules html clean distdir install install_xx rdemo brescue \
 	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd rootfonts hal
 
-all: bootdisk moduledisks bootcd2 bootcd rescue root
+all: bootdvd bootcd2 rescue root
 	@rm -rf images/cd[12]
 	@mkdir -p images/cd1/boot/loader images/cd2/boot
 	@cp images/boot.small images/cd1/boot/bootdisk
