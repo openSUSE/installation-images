@@ -1,4 +1,6 @@
+2/12/2005:	v8.7
 	- fix rescue system
+	- move initrd kbd maps to /usr/share/kbd
 
 30/11/2005:	v8.6
 	- adjust to new gfxboot/syslinux packages

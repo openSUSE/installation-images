@@ -52,103 +52,106 @@ x etc/host.conf etc
 if arch ne 's390' && arch ne 's390x' && arch ne 'ppc' && arch ne 'ppc64'
 
 kbd:
+  /bin/dumpkeys
+  /bin/loadkeys
+  /bin/setfont
 
-  d kbd/consoletrans
+  d usr/share/kbd/consoletrans
 if arch ne 'sparc' && arch ne 'sparc64'
-  m /usr/share/kbd/consoletrans/koi2alt kbd/consoletrans
+  m /usr/share/kbd/consoletrans/koi2alt usr/share/kbd/consoletrans
 endif
-  m /usr/share/kbd/consoletrans/trivial kbd/consoletrans
+  m /usr/share/kbd/consoletrans/trivial usr/share/kbd/consoletrans
 
-  d kbd/consolefonts
+  d usr/share/kbd/consolefonts
 
 if 0
-  g /usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz kbd/consolefonts/LatArCyrHeb-16.psfu
-  g /usr/share/kbd/consolefonts/lat1-16.psfu.gz kbd/consolefonts/lat1-16.psfu
-  g /usr/share/kbd/consolefonts/lat2-16.psfu.gz kbd/consolefonts/lat2-16.psfu
-  g /usr/share/kbd/consolefonts/iso07u-16.psfu.gz kbd/consolefonts/lat7-16.psfu
-  g /usr/share/kbd/consolefonts/Cyr_a8x16.psfu.gz kbd/consolefonts/Cyr_a8x16.psfu
+  g /usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu
+  g /usr/share/kbd/consolefonts/lat1-16.psfu.gz usr/share/kbd/consolefonts/lat1-16.psfu
+  g /usr/share/kbd/consolefonts/lat2-16.psfu.gz usr/share/kbd/consolefonts/lat2-16.psfu
+  g /usr/share/kbd/consolefonts/iso07u-16.psfu.gz usr/share/kbd/consolefonts/lat7-16.psfu
+  g /usr/share/kbd/consolefonts/Cyr_a8x16.psfu.gz usr/share/kbd/consolefonts/Cyr_a8x16.psfu
 endif
 
 linuxrc:
-  g /usr/share/linuxrc/linuxrc-16.psfu.gz kbd/consolefonts/linuxrc-16.psfu
-  g /usr/share/linuxrc/linuxrc2-16.psfu.gz kbd/consolefonts/linuxrc2-16.psfu
+  g /usr/share/linuxrc/linuxrc-16.psfu.gz usr/share/kbd/consolefonts/linuxrc-16.psfu
+  g /usr/share/linuxrc/linuxrc2-16.psfu.gz usr/share/kbd/consolefonts/linuxrc2-16.psfu
 
 kbd:
 
 if arch ne 'sparc' && arch ne 'sparc64'
-  d kbd/keymaps/include
-  m usr/share/kbd/keymaps/include/compose.latin1 kbd/keymaps/include
+  d usr/share/kbd/keymaps/include
+  m usr/share/kbd/keymaps/include/compose.latin1 usr/share/kbd/keymaps/include
 endif
 
 if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
   if !fewkeymaps
-    g /usr/share/kbd/keymaps/i386/qwerty/Pl02.map.gz kbd/keymaps/Pl02.map
-    g /usr/share/kbd/keymaps/i386/qwerty/br-abnt2.map.gz kbd/keymaps/br-abnt2.map
-    g /usr/share/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz kbd/keymaps/cz-us-qwertz.map
-    g /usr/share/kbd/keymaps/i386/qwerty/dk.map.gz kbd/keymaps/dk.map
-    g /usr/share/kbd/keymaps/i386/qwerty/es.map.gz kbd/keymaps/es.map
-    g /usr/share/kbd/keymaps/i386/qwerty/fi.map.gz kbd/keymaps/fi.map
-    g /usr/share/kbd/keymaps/i386/qwerty/gr.map.gz kbd/keymaps/gr.map
-    g /usr/share/kbd/keymaps/i386/qwertz/hu.map.gz kbd/keymaps/hu.map
-    g /usr/share/kbd/keymaps/i386/qwerty/it.map.gz kbd/keymaps/it.map
-    g /usr/share/kbd/keymaps/i386/qwerty/jp106.map.gz kbd/keymaps/jp106.map
-    g /usr/share/kbd/keymaps/i386/qwerty/nl.map.gz kbd/keymaps/nl.map
-    g /usr/share/kbd/keymaps/i386/qwerty/no-latin1.map.gz kbd/keymaps/no-latin1.map
-    g /usr/share/kbd/keymaps/i386/qwerty/pt-latin1.map.gz kbd/keymaps/pt-latin1.map
-    g /usr/share/kbd/keymaps/i386/qwerty/ru1.map.gz kbd/keymaps/ru1.map
-    g /usr/share/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz kbd/keymaps/sk-qwerty.map
-    g /usr/share/kbd/keymaps/i386/qwertz/slovene.map.gz kbd/keymaps/slovene.map
-    g /usr/share/kbd/keymaps/i386/qwerty/sv-latin1.map.gz kbd/keymaps/sv-latin1.map
-    g /usr/share/kbd/keymaps/i386/qwerty/uk.map.gz kbd/keymaps/uk.map
-    g /usr/share/kbd/keymaps/i386/azerty/fr-latin1.map.gz kbd/keymaps/fr-latin1.map
+    g /usr/share/kbd/keymaps/i386/qwerty/Pl02.map.gz usr/share/kbd/keymaps/Pl02.map
+    g /usr/share/kbd/keymaps/i386/qwerty/br-abnt2.map.gz usr/share/kbd/keymaps/br-abnt2.map
+    g /usr/share/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz usr/share/kbd/keymaps/cz-us-qwertz.map
+    g /usr/share/kbd/keymaps/i386/qwerty/dk.map.gz usr/share/kbd/keymaps/dk.map
+    g /usr/share/kbd/keymaps/i386/qwerty/es.map.gz usr/share/kbd/keymaps/es.map
+    g /usr/share/kbd/keymaps/i386/qwerty/fi.map.gz usr/share/kbd/keymaps/fi.map
+    g /usr/share/kbd/keymaps/i386/qwerty/gr.map.gz usr/share/kbd/keymaps/gr.map
+    g /usr/share/kbd/keymaps/i386/qwertz/hu.map.gz usr/share/kbd/keymaps/hu.map
+    g /usr/share/kbd/keymaps/i386/qwerty/it.map.gz usr/share/kbd/keymaps/it.map
+    g /usr/share/kbd/keymaps/i386/qwerty/jp106.map.gz usr/share/kbd/keymaps/jp106.map
+    g /usr/share/kbd/keymaps/i386/qwerty/nl.map.gz usr/share/kbd/keymaps/nl.map
+    g /usr/share/kbd/keymaps/i386/qwerty/no-latin1.map.gz usr/share/kbd/keymaps/no-latin1.map
+    g /usr/share/kbd/keymaps/i386/qwerty/pt-latin1.map.gz usr/share/kbd/keymaps/pt-latin1.map
+    g /usr/share/kbd/keymaps/i386/qwerty/ru1.map.gz usr/share/kbd/keymaps/ru1.map
+    g /usr/share/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz usr/share/kbd/keymaps/sk-qwerty.map
+    g /usr/share/kbd/keymaps/i386/qwertz/slovene.map.gz usr/share/kbd/keymaps/slovene.map
+    g /usr/share/kbd/keymaps/i386/qwerty/sv-latin1.map.gz usr/share/kbd/keymaps/sv-latin1.map
+    g /usr/share/kbd/keymaps/i386/qwerty/uk.map.gz usr/share/kbd/keymaps/uk.map
+    g /usr/share/kbd/keymaps/i386/azerty/fr-latin1.map.gz usr/share/kbd/keymaps/fr-latin1.map
 
-    m /usr/share/kbd/keymaps/i386/include/linux-with-modeshift-altgr.inc kbd/keymaps/include
-    m /usr/share/kbd/keymaps/i386/include/linux-keys-extd.inc kbd/keymaps/include
-    m /usr/share/kbd/keymaps/i386/include/azerty-layout.inc kbd/keymaps/include
-    m /usr/share/kbd/keymaps/i386/include/linux-with-two-alt-keys.inc kbd/keymaps/include
+    m /usr/share/kbd/keymaps/i386/include/linux-with-modeshift-altgr.inc usr/share/kbd/keymaps/include
+    m /usr/share/kbd/keymaps/i386/include/linux-keys-extd.inc usr/share/kbd/keymaps/include
+    m /usr/share/kbd/keymaps/i386/include/azerty-layout.inc usr/share/kbd/keymaps/include
+    m /usr/share/kbd/keymaps/i386/include/linux-with-two-alt-keys.inc usr/share/kbd/keymaps/include
   endif
 
-  g /usr/share/kbd/keymaps/i386/qwerty/us.map.gz kbd/keymaps/us.map
-  g /usr/share/kbd/keymaps/i386/qwertz/de-latin1-nodeadkeys.map.gz kbd/keymaps/de-lat1-nd.map
-  g /usr/share/kbd/keymaps/i386/qwertz/de-latin1.map.gz kbd/keymaps/de-latin1.map
+  g /usr/share/kbd/keymaps/i386/qwerty/us.map.gz usr/share/kbd/keymaps/us.map
+  g /usr/share/kbd/keymaps/i386/qwertz/de-latin1-nodeadkeys.map.gz usr/share/kbd/keymaps/de-lat1-nd.map
+  g /usr/share/kbd/keymaps/i386/qwertz/de-latin1.map.gz usr/share/kbd/keymaps/de-latin1.map
 
-  m /usr/share/kbd/keymaps/i386/include/linux-keys-bare.inc kbd/keymaps/include
-  m /usr/share/kbd/keymaps/i386/include/linux-with-alt-and-altgr.inc kbd/keymaps/include
-  m /usr/share/kbd/keymaps/i386/include/qwerty-layout.inc kbd/keymaps/include
-  m /usr/share/kbd/keymaps/i386/include/qwertz-layout.inc kbd/keymaps/include
-  g /usr/share/kbd/keymaps/i386/include/euro1.map.gz kbd/keymaps/include/euro1.map
-  g /usr/share/kbd/keymaps/i386/include/euro2.map.gz kbd/keymaps/include/euro2.map
+  m /usr/share/kbd/keymaps/i386/include/linux-keys-bare.inc usr/share/kbd/keymaps/include
+  m /usr/share/kbd/keymaps/i386/include/linux-with-alt-and-altgr.inc usr/share/kbd/keymaps/include
+  m /usr/share/kbd/keymaps/i386/include/qwerty-layout.inc usr/share/kbd/keymaps/include
+  m /usr/share/kbd/keymaps/i386/include/qwertz-layout.inc usr/share/kbd/keymaps/include
+  g /usr/share/kbd/keymaps/i386/include/euro1.map.gz usr/share/kbd/keymaps/include/euro1.map
+  g /usr/share/kbd/keymaps/i386/include/euro2.map.gz usr/share/kbd/keymaps/include/euro2.map
 endif
 
 if arch eq 'ppc'
-  m /usr/share/kbd/keymaps/mac/include/mac-{azerty-layout,qwerty-layout,linux-keys-bare}.inc kbd/keymaps/include
-  g /usr/share/kbd/keymaps/mac/include/mac-euro.map.gz kbd/keymaps/include/mac-euro.map
-  g /usr/share/kbd/keymaps/mac/all/mac-be.map.gz kbd/keymaps/mac-be.map
-  g /usr/share/kbd/keymaps/mac/all/mac-de-latin1-nodeadkeys.map.gz kbd/keymaps/mac-de-latin1-nodeadkeys.map
-  g /usr/share/kbd/keymaps/mac/all/mac-de-latin1.map.gz kbd/keymaps/mac-de-latin1.map
-  g /usr/share/kbd/keymaps/mac/all/mac-de_CH.map.gz kbd/keymaps/mac-de_CH.map
-  g /usr/share/kbd/keymaps/mac/all/mac-dk-latin1.map.gz kbd/keymaps/mac-dk-latin1.map
-  g /usr/share/kbd/keymaps/mac/all/mac-es.map.gz kbd/keymaps/mac-es.map
-  g /usr/share/kbd/keymaps/mac/all/mac-fi-latin1.map.gz kbd/keymaps/mac-fi-latin1.map
-  g /usr/share/kbd/keymaps/mac/all/mac-fr.map.gz kbd/keymaps/mac-fr.map
-  g /usr/share/kbd/keymaps/mac/all/mac-it.map.gz kbd/keymaps/mac-it.map
-  g /usr/share/kbd/keymaps/mac/all/mac-se.map.gz kbd/keymaps/mac-se.map
-  g /usr/share/kbd/keymaps/mac/all/mac-uk.map.gz kbd/keymaps/mac-uk.map
-  g /usr/share/kbd/keymaps/mac/all/mac-us.map.gz kbd/keymaps/mac-us.map
+  m /usr/share/kbd/keymaps/mac/include/mac-{azerty-layout,qwerty-layout,linux-keys-bare}.inc usr/share/kbd/keymaps/include
+  g /usr/share/kbd/keymaps/mac/include/mac-euro.map.gz usr/share/kbd/keymaps/include/mac-euro.map
+  g /usr/share/kbd/keymaps/mac/all/mac-be.map.gz usr/share/kbd/keymaps/mac-be.map
+  g /usr/share/kbd/keymaps/mac/all/mac-de-latin1-nodeadkeys.map.gz usr/share/kbd/keymaps/mac-de-latin1-nodeadkeys.map
+  g /usr/share/kbd/keymaps/mac/all/mac-de-latin1.map.gz usr/share/kbd/keymaps/mac-de-latin1.map
+  g /usr/share/kbd/keymaps/mac/all/mac-de_CH.map.gz usr/share/kbd/keymaps/mac-de_CH.map
+  g /usr/share/kbd/keymaps/mac/all/mac-dk-latin1.map.gz usr/share/kbd/keymaps/mac-dk-latin1.map
+  g /usr/share/kbd/keymaps/mac/all/mac-es.map.gz usr/share/kbd/keymaps/mac-es.map
+  g /usr/share/kbd/keymaps/mac/all/mac-fi-latin1.map.gz usr/share/kbd/keymaps/mac-fi-latin1.map
+  g /usr/share/kbd/keymaps/mac/all/mac-fr.map.gz usr/share/kbd/keymaps/mac-fr.map
+  g /usr/share/kbd/keymaps/mac/all/mac-it.map.gz usr/share/kbd/keymaps/mac-it.map
+  g /usr/share/kbd/keymaps/mac/all/mac-se.map.gz usr/share/kbd/keymaps/mac-se.map
+  g /usr/share/kbd/keymaps/mac/all/mac-uk.map.gz usr/share/kbd/keymaps/mac-uk.map
+  g /usr/share/kbd/keymaps/mac/all/mac-us.map.gz usr/share/kbd/keymaps/mac-us.map
 endif
 
 if arch eq 'sparc' || arch eq 'sparc64'
-  d kbd/keymaps
-  g /usr/share/kbd/keymaps/sun/sunkeymap.map.gz kbd/keymaps/sunkeymap.map
-  g /usr/share/kbd/keymaps/sun/sunt4-es.map.gz kbd/keymaps/sunt4-es.map
-  g /usr/share/kbd/keymaps/sun/sunt4-fi-latin1.map.gz kbd/keymaps/sunt4-fi-latin1.map
-  g /usr/share/kbd/keymaps/sun/sunt4-no-latin1.map.gz kbd/keymaps/sunt4-no-latin1.map
-  g /usr/share/kbd/keymaps/sun/sunt5-de-latin1.map.gz kbd/keymaps/sunt5-de-latin1.map
-  g /usr/share/kbd/keymaps/sun/sunt5-es.map.gz kbd/keymaps/sunt5-es.map
-  g /usr/share/kbd/keymaps/sun/sunt5-fi-latin1.map.gz kbd/keymaps/sunt5-fi-latin1.map
-  g /usr/share/kbd/keymaps/sun/sunt5-fr-latin1.map.gz kbd/keymaps/sunt5-fr-latin1.map
-  g /usr/share/kbd/keymaps/sun/sunt5-ru.map.gz kbd/keymaps/sunt5-ru.map
-  g /usr/share/kbd/keymaps/sun/sunt5-uk.map.gz kbd/keymaps/sunt5-uk.map
+  d usr/share/kbd/keymaps
+  g /usr/share/kbd/keymaps/sun/sunkeymap.map.gz usr/share/kbd/keymaps/sunkeymap.map
+  g /usr/share/kbd/keymaps/sun/sunt4-es.map.gz usr/share/kbd/keymaps/sunt4-es.map
+  g /usr/share/kbd/keymaps/sun/sunt4-fi-latin1.map.gz usr/share/kbd/keymaps/sunt4-fi-latin1.map
+  g /usr/share/kbd/keymaps/sun/sunt4-no-latin1.map.gz usr/share/kbd/keymaps/sunt4-no-latin1.map
+  g /usr/share/kbd/keymaps/sun/sunt5-de-latin1.map.gz usr/share/kbd/keymaps/sunt5-de-latin1.map
+  g /usr/share/kbd/keymaps/sun/sunt5-es.map.gz usr/share/kbd/keymaps/sunt5-es.map
+  g /usr/share/kbd/keymaps/sun/sunt5-fi-latin1.map.gz usr/share/kbd/keymaps/sunt5-fi-latin1.map
+  g /usr/share/kbd/keymaps/sun/sunt5-fr-latin1.map.gz usr/share/kbd/keymaps/sunt5-fr-latin1.map
+  g /usr/share/kbd/keymaps/sun/sunt5-ru.map.gz usr/share/kbd/keymaps/sunt5-ru.map
+  g /usr/share/kbd/keymaps/sun/sunt5-uk.map.gz usr/share/kbd/keymaps/sunt5-uk.map
 endif
 
 endif # not on s390/ppc
@@ -339,6 +342,16 @@ pcmciautils:
 bootsplash-theme-<splash_theme>:
   /etc/bootsplash/themes/<splash_theme>/animations
 
+bash:
+  /bin/{sh,bash}
+
+readline:
+  /lib*/libreadline.so*
+  /lib*/libhistory.so*
+
+ncurses:
+  /lib*/libncurses.so.5*
+
 # add hal & dbus
 if 0
   e echo /opt/gnome/lib >etc/ld.so.conf
@@ -383,16 +396,6 @@ if 0
 
 
   # + bash for testing
-
-  bash:
-    /bin/bash
-
-  readline:
-    /lib*/libreadline.so*
-    /lib*/libhistory.so*
-
-  ncurses:
-    /lib*/libncurses.so.5*
 
 endif
 
