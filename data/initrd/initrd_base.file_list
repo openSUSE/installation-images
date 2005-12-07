@@ -293,11 +293,7 @@ if with_gdb
   s /init /lbin/fstype
   s /init /lbin/lndir
   s /init /lbin/dhcpcd
-  s /init /lbin/portmap
   s /init /lbin/lsh
-  s /init /lbin/loadkeys
-  s /init /lbin/dumpkeys
-  s /init /lbin/setfont
 
 endif
 
@@ -309,6 +305,7 @@ glibc:
   /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
   /lib*/libm{.,-}*
   /lib*/libthread_db{.,-}*
+  /lib*/libutil{.,-}*
 
 cifs-mount:
   /sbin/mount.cifs
@@ -351,6 +348,12 @@ readline:
 
 ncurses:
   /lib*/libncurses.so.5*
+
+portmap:
+  /sbin/portmap
+
+tcpd:
+  /lib*/libwrap.so.*
 
 # add hal & dbus
 if 0

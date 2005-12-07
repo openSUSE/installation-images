@@ -63,6 +63,10 @@ kernel/fs/nls/nls_iso8859-1.ko
 kernel/fs/nls/nls_base.ko
 kernel/fs/nls/nls_utf8.ko
 kernel/fs/binfmt_misc.ko
+kernel/fs/nfs/
+kernel/fs/nfs_common/
+kernel/fs/lockd/
+kernel/net/sunrpc/sunrpc.ko
 kernel/drivers/firmware/edd.ko
 kernel/drivers/acpi/
 
