@@ -292,7 +292,6 @@ if with_gdb
   s /init /lbin/free
   s /init /lbin/fstype
   s /init /lbin/lndir
-  s /init /lbin/dhcpcd
   s /init /lbin/lsh
 
 endif
@@ -354,6 +353,19 @@ portmap:
 
 tcpd:
   /lib*/libwrap.so.*
+
+dhcpcd:
+  /sbin/dhcpcd
+
+iputils:
+  /bin/ping
+
+net-tools:
+  /sbin/ifconfig
+  /sbin/route
+
+iproute2:
+  /sbin/ip
 
 # add hal & dbus
 if 0

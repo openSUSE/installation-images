@@ -113,7 +113,7 @@ while(<F>) {
   }
   else {
     # once per module is enough
-    print STDERR "warning: no such module: $l[0]\n" unless $mod_warned{$l[0]};
+    # print STDERR "warning: no such module: $l[0]\n" unless $mod_warned{$l[0]};
     $mod_warned{$l[0]} = 1;
   }
 }
