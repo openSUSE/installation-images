@@ -406,6 +406,7 @@ pwdutils:
   /{etc,bin}
   /usr/bin
   /usr/sbin/pwunconv
+  /usr/lib*/pwdutils/liblog_syslog.so.*
 
 openldap2-client:
   /usr/lib*/liblber-*.so.*
@@ -580,6 +581,7 @@ openct:
 openssh:
   /etc/ssh
   /usr/bin
+  /usr/sbin/sshd
   /usr/lib*
 
 dhcpcd:
