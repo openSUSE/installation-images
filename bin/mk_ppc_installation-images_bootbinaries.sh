@@ -12,7 +12,7 @@ fi
 CD1=$targetdir/CD1
 #
 mkdir -pv $CD1/ppc
-mkdir -pv $CD1/boot
+mkdir -pv $CD1/boot/ppc
 # to trigger the HFS part, avoid 8.3 filenames and allow OF booting
 mkdir -pv $CD1/suseboot
 #
@@ -20,7 +20,7 @@ cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
 cp -pfv $bdir/initrd-kernel-default-ppc $CD1/suseboot/initrd32
 cp -pfv $bdir/initrd-kernel-ppc64       $CD1/suseboot/initrd64
-cp -pfv $bdir/initrd-kernel-iseries64   $CD1/boot
+cp -pfv $bdir/initrd-kernel-iseries64   $CD1/boot/ppc
 gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
 gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD1/suseboot/linux64.gz
 
@@ -53,19 +53,19 @@ fi
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
 	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
-	--output $CD1/boot/zImage.prep.initrd
+	--output $CD1/boot/ppc/zImage.prep.initrd
 #
 if test "42" = "false" ; then
 /bin/mkzimage \
 	--board pmaccoff \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc32_pmac_coff \
-	--output $CD1/boot/install-pmaccoff
+	--output $CD1/boot/ppc/install-pmaccoff
 #
 /bin/mkzimage \
 	--board pmaccoff \
 	--vmlinux /boot/vmlinux-*-default \
-	--output $CD1/boot/vmlinux-pmaccoff
+	--output $CD1/boot/ppc/vmlinux-pmaccoff
 #
 fi
 #

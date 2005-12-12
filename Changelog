@@ -1,3 +1,5 @@
+	- move zImage.prep, iseries and coff kernel to CD1/boot/ppc (#118394)
+
 12/12/2005:	v8.11
 	- removed selinux
 
