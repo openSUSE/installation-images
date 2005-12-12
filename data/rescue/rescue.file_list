@@ -473,9 +473,6 @@ e postin
 mingetty:
   /sbin
 
-libselinux:
-  /lib*/libselinux.so*
-
 vim:
   /etc
   /bin/vi{,m}

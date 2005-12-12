@@ -339,9 +339,6 @@ sock:
 iproute2:
   /sbin/ip
 
-libselinux:
-  /lib*/libselinux.so*
-
 sysconfig:
   /sbin/getcfg*
   /lib*/libgetconfig.so*

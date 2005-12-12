@@ -658,9 +658,6 @@ ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
 
-libselinux:
-  /lib*/libselinux.so*
-
 #evms:
 #  /etc/evms.conf
 #  /lib*

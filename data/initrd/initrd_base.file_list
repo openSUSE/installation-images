@@ -242,9 +242,6 @@ if with_gdb
     /bin/mount
     /bin/umount
 
-  libselinux:
-    /lib*/libselinux.so*
-
   glibc:
     /lib*/librt{.,-}*
     /lib*/libpthread{.,-}*
@@ -373,9 +370,6 @@ if 0
 
   glibc:
     /lib*/libpthread{.,-}*
-
-  libselinux:
-    /lib*/libselinux.so*
 
   libxml2:
     /usr/lib*/libxml2.so.*

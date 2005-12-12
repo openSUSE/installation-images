@@ -1,3 +1,6 @@
+12/12/2005:	v8.11
+	- removed selinux
+
 9/12/2005:	v8.10
 	- add sshd to rescue system
 

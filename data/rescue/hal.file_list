@@ -34,9 +34,6 @@ pciutils:
 usbutils:
   /usr/share/usb.ids
 
-libselinux:
-  /lib*/libselinux.so*
-
 zlib:
   /lib*/libz.so*
 
