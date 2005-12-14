@@ -475,9 +475,9 @@ e echo "RootImage:	/boot/x86_64/root" >>linuxrc.config
 endif
 
 if arch eq 'ppc'
-e echo "InstallDir:	/boot/inst-sys.ppc" >>linuxrc.config
-e echo "RescueImage:	/boot/rescue.ppc" >>linuxrc.config
-e echo "RootImage:	/boot/root.ppc" >>linuxrc.config
+e echo "InstallDir:	/boot/ppc/inst-sys" >>linuxrc.config
+e echo "RescueImage:	/boot/ppc/rescue" >>linuxrc.config
+e echo "RootImage:	/boot/ppc/root" >>linuxrc.config
 endif
 
 # turn off automatic module disks requests in linuxrc (there are no module
