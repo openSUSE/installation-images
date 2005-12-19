@@ -44,10 +44,12 @@ echo  > /proc/sys/kernel/hotplug
 
 # start udev
 if [ -x /sbin/udev -a -x /sbin/udevstart -a -x /sbin/udevd ] ; then
-  echo -n "starting udev..."
-  /sbin/udevstart
-  /sbin/udevd -d
-  echo " ok"
+  checkproc udevd || {
+    echo -n "starting udev..."
+    /sbin/udevstart
+    /sbin/udevd -d
+    echo " ok"
+  }
 fi
 
 # FIXME fix udev to not delete valid device nodes

@@ -1,6 +1,8 @@
-14/12/2005:	v8.12
+19/12/2005:	v8.12
 	- move zImage.prep, iseries and coff kernel to CD1/boot/ppc (#118394)
 	- ppc: go for /boot/ppc
+	- don't use static insmod
+	- prepare for udevd in initrd
 
 12/12/2005:	v8.11
 	- removed selinux

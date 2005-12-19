@@ -43,9 +43,11 @@ glibc:
 
   x etc/syslog.conf etc
 
-  module-init-tools:
-    d /sbin
-    m /sbin/insmod.static /sbin/insmod
+module-init-tools:
+#  d /sbin
+#  m /sbin/insmod.static /sbin/insmod
+  /sbin/insmod
+  /sbin/modprobe
 
 x etc/host.conf etc
 
@@ -327,6 +329,7 @@ zlib:
 
 coreutils:
   /bin/rm
+  /bin/sleep
 
 pcmciautils:
   /etc/pcmcia/config.opts
@@ -363,6 +366,24 @@ net-tools:
 
 iproute2:
   /sbin/ip
+
+
+# add udev
+if 1
+
+udev:
+  /etc
+  /lib/udev
+  /sbin
+  /usr/bin
+  /usr/sbin
+  /var
+#  r /lib/udev/*.sh
+
+x etc/myudevstart /bin
+
+endif
+
 
 # add hal & dbus
 if 0
@@ -484,4 +505,7 @@ endif
 # disks)
 
 e echo "ModuleDisks:	0" >>linuxrc.config
+
+# static /dev tree or udevd (1/0)
+e echo "StaticDevices:	1" >>linuxrc.config
 
