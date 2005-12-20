@@ -1,3 +1,6 @@
+20/12/2005: v8.13
+	- added support for graphical installation on ia64 archs (#140142)
+
 19/12/2005:	v8.12
 	- move zImage.prep, iseries and coff kernel to CD1/boot/ppc (#118394)
 	- ppc: go for /boot/ppc
