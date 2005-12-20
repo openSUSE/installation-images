@@ -486,9 +486,7 @@ hwinfo:
   /usr/sbin
 
 initviocons:
-if !(arch eq 's390' || arch eq 's390x')
   /bin/initviocons
-endif
   /usr/bin/termprobes
 
 libxml2:

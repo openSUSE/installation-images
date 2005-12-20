@@ -6,7 +6,7 @@ PS1="inst-sys:\w # "
 
 [ -z "$SSH_TTY" ] && return
 
-[ -x /bin/initviocons ] && /bin/initviocons
+#[ -x /bin/initviocons ] && /bin/initviocons
 
 echo
 echo "run `cat /tmp/linuxrc_installer_name` to start the installation"
