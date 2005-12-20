@@ -369,8 +369,6 @@ iproute2:
 
 
 # add udev
-if 1
-
 udev:
   /etc
   /lib/udev
@@ -378,11 +376,7 @@ udev:
   /usr/bin
   /usr/sbin
   /var
-#  r /lib/udev/*.sh
-
 x etc/myudevstart /bin
-
-endif
 
 
 # add hal & dbus
@@ -507,5 +501,5 @@ endif
 e echo "ModuleDisks:	0" >>linuxrc.config
 
 # static /dev tree or udevd (1/0)
-e echo "StaticDevices:	1" >>linuxrc.config
+e echo "StaticDevices:	0" >>linuxrc.config
 
