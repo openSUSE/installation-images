@@ -3,143 +3,86 @@ include initrd_base.file_list
 
 <kernel_rpm>:
 
-if extramod
-  f / <extramod>.o /modules
-  f / af_packet.o /modules
-endif
-
 x module.help modules/module.config
 
-# for ia32 we support 2 different initrd sizes: 'small' and 'large'
-# 'small'     : bootdisk
-# 'large'     : no size limit
-# no longer supported: '': 2.88MB image
+if arch eq 'ppc'
 
-if (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'small'
+  if initrd eq 'initrd'
+    include gen/module.files.net
+    include gen/module.files.other
+    A gen/module.config.net modules/module.config
+    A gen/module.config.other modules/module.config
+  endif
 
-  # for ia32/x86_64 boot disks
-
-  include gen/module.files.autoload
-  if !nousb
+  if initrd eq 'initrd_ppc'
+    include gen/module.files.autoload
+    include gen/module.files.ppc
     include gen/module.files.usb
     include gen/module.files.firewire
-  endif
-
-  # note: order _does_ matter
-  A gen/module.config.autoload modules/module.config
-#  A gen/module.shortconfig.scsi@2 modules/module.config
-#  A gen/module.shortconfig.cdrom modules/module.config
-  A gen/module.shortconfig.net modules/module.config
-  A gen/module.shortconfig.pcmcia modules/module.config
-  if nousb
-    A gen/module.shortconfig.usb modules/module.config
-    A gen/module.shortconfig.firewire modules/module.config
-  else
+    include gen/module.files.fs
+    include gen/module.files.other
+    A gen/module.config.autoload modules/module.config
+    A gen/module.config.ppc modules/module.config
     A gen/module.config.usb modules/module.config
     A gen/module.config.firewire modules/module.config
+    A gen/module.config.fs modules/module.config
+    A gen/module.config.other modules/module.config
   endif
-  A gen/module.shortconfig.fs modules/module.config
-  A gen/module.config.other modules/module.config
 
-  # add them to initrd, they're not on any module disk
-  include gen/module.files.extra
-  A gen/module.config.extra modules/module.config
+  if initrd eq 'initrd_ppc32_pmac_coff'
+    include gen/module.files.autoload
+    include gen/module.files.ppc32_pmac_coff
+    include gen/module.files.firewire
+    include gen/module.files.fs
+    include gen/module.files.other
+    A gen/module.config.autoload modules/module.config
+    A gen/module.config.ppc32_pmac_coff modules/module.config
+    A gen/module.config.firewire modules/module.config
+    A gen/module.config.fs modules/module.config
+    A gen/module.config.other modules/module.config
+  endif
 
-elsif (arch eq 'ia32' || arch eq 'x86_64') && initrd eq 'medium'
-
-  # for ia32 CD2 image
-
-  include gen/module.files.autoload
-
-  # note: order _does_ matter
-  A gen/module.config.autoload modules/module.config
-#  A gen/module.shortconfig.scsi@2 modules/module.config
-  A gen/module.shortconfig.net modules/module.config
-  A gen/module.shortconfig.pcmcia modules/module.config
-  A gen/module.shortconfig.usb modules/module.config
-  A gen/module.shortconfig.firewire modules/module.config
-  A gen/module.shortconfig.fs modules/module.config
-  A gen/module.config.other modules/module.config
-
-elsif arch eq 'ppc'
-
-if initrd eq 'initrd'
-  include gen/module.files.net
-  A gen/module.config.net modules/module.config
-endif
-if initrd eq 'initrd_ppc'
-  include gen/module.files.other
-  A gen/module.config.other modules/module.config
-  include gen/module.files.autoload
-  include gen/module.files.ppc
-  include gen/module.files.usb
-  include gen/module.files.firewire
-  A gen/module.config.autoload modules/module.config
-  A gen/module.config.ppc modules/module.config
-  A gen/module.config.usb modules/module.config
-  A gen/module.config.firewire modules/module.config
-endif
-if initrd eq 'initrd_ppc32_pmac_coff'
-  include gen/module.files.other
-  A gen/module.config.other modules/module.config
-  include gen/module.files.autoload
-  include gen/module.files.ppc32_pmac_coff
-  include gen/module.files.firewire
-  A gen/module.config.autoload modules/module.config
-  A gen/module.config.ppc32_pmac_coff modules/module.config
-  A gen/module.config.firewire modules/module.config
-endif
-if initrd eq 'initrd_ppc_iseries64'
-  include gen/module.files.other
-  A gen/module.config.other modules/module.config
-  include gen/module.files.autoload
-  include gen/module.files.ppc_iseries64
-  A gen/module.config.autoload modules/module.config
-  A gen/module.config.ppc_iseries64 modules/module.config
-endif
+  if initrd eq 'initrd_ppc_iseries64'
+    include gen/module.files.autoload
+    include gen/module.files.ppc_iseries64
+    include gen/module.files.fs
+    include gen/module.files.other
+    A gen/module.config.autoload modules/module.config
+    A gen/module.config.ppc_iseries64 modules/module.config
+    A gen/module.config.fs modules/module.config
+    A gen/module.config.other modules/module.config
+  endif
 
 else
 
-  # all other archs with no restrictions to initrd size
+  # all other archs
 
   include gen/module.files.autoload
-#  include gen/module.files.cdrom
   include gen/module.files.firewire
   include gen/module.files.fs
   include gen/module.files.net
   include gen/module.files.pcmcia
   include gen/module.files.scsi
-#  include gen/module.files.scsi@2
   include gen/module.files.usb
-  # not strictly necessary
   include gen/module.files.other
-
-  # add them explicitly to make sure we really have all modules from CD1
-  include gen/module.files.cd1
 
   # note: order _does_ matter
   A gen/module.config.autoload modules/module.config
   A gen/module.config.scsi modules/module.config
-#  A gen/module.config.scsi@2 modules/module.config
-#  A gen/module.config.cdrom modules/module.config
   A gen/module.config.net modules/module.config
   A gen/module.config.pcmcia modules/module.config
   A gen/module.config.usb modules/module.config
   A gen/module.config.firewire modules/module.config
   A gen/module.config.fs modules/module.config
-
-  include gen/module.files.extra
-  A gen/module.config.extra modules/module.config
-
   A gen/module.config.other modules/module.config
 
-if arch eq 's390' || arch eq 's390x'
-  include gen/module.files.s390
-  A gen/module.config.s390 modules/module.config
-endif
+  if arch eq 's390' || arch eq 's390x'
+    include gen/module.files.s390
+    A gen/module.config.s390 modules/module.config
+  endif
 
 endif
 
 # add modules.alias, modules.dep
 e /sbin/depmod -a -b . -F /System.map <kernel_ver>
-# e rm -f lib/modules/<kernel_ver>/modules.[^ad]*
+

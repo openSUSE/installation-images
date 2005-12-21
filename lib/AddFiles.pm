@@ -329,12 +329,12 @@ sub AddFiles
           die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
           SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
             warn "$Script: failed to extract $r";
-          #if($p eq $ConfigData{kernel_rpm}) {
-          #  my $r2 = RPMFileName "$p-nongpl";
-          #  warn("$Script: no such package: $p-nongpl.rpm"), next unless $r2 && -f $r2;
-          #  SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
-          #    warn "$Script: failed to extract $r2";
-          #}
+          if($p eq $ConfigData{kernel_rpm}) {
+            my $r2 = RPMFileName "$p-nongpl";
+            warn("$Script: no such package: $p-nongpl.rpm"), next unless $r2 && -f $r2;
+            SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
+              warn "$Script: failed to extract $r2";
+          }
         }
       }
     }

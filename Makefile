@@ -4,14 +4,13 @@ PLIBS	= AddFiles MakeFATImage MakeMinixImage ReadConfig
 PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root  
 
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue \
-        root liveeval modules html clean distdir install install_xx rdemo brescue \
+        root liveeval html clean distdir install install_xx rdemo brescue \
 	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd rootfonts hal
 
 all: bootdvd bootcd2 rescue root
 	@rm -rf images/cd[12]
 	@mkdir -p images/cd1/boot/loader images/cd2/boot
 	@cp images/boot.small images/cd1/boot/bootdisk
-	@cp images/modules? images/modules?.txt images/cd1/boot
 	@cp -r images/boot.isolinux/* images/cd1/boot/loader
 	@cp images/root.cramfs images/cd1/boot/root
 	@cp images/rescue images/cd1/boot
@@ -101,17 +100,6 @@ brescue: dirs base
 
 rescue_cd: boot brescue rdemo
 	bin/mk_rescue_cd
-
-modules: dirs base
-	bin/mk_modules
-	bin/mk_mod_disk
-
-moduledisks:
-	modules=1 make modules
-	modules=2 make modules
-	modules=3 make modules
-	modules=4 make modules
-	modules=5 make modules
 
 mboot:
 	make -C src/mboot

@@ -1,5 +1,10 @@
-	- do not run initviocons for the time being, does not work on POWER4/5 hvc console (#140383)
+21/12/2005:	v8.14
+	- do not run initviocons for the time being, does not work on POWER4/5
+	  hvc console (#140383)
 	- put initviocons always in the rescue system
+	- removed module disk support
+	- module list cleanup, part 2
+	- use nongpl kernel
 
 20/12/2005:	v8.13
 	- added support for graphical installation on ia64 archs (#140142)
