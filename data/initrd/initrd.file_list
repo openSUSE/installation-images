@@ -7,13 +7,6 @@ x module.help modules/module.config
 
 if arch eq 'ppc'
 
-  if initrd eq 'initrd'
-    include gen/module.files.net
-    include gen/module.files.other
-    A gen/module.config.net modules/module.config
-    A gen/module.config.other modules/module.config
-  endif
-
   if initrd eq 'initrd_ppc'
     include gen/module.files.autoload
     include gen/module.files.ppc

@@ -1,15 +1,11 @@
 ; versions
 [Version]
-default	= 10.0
-beta	= 10.0,beta
-debug   = 10.0,debug
-sles10	= 10.0
+default	= 10.1
+beta	= 10.1,beta
+debug   = 10.1,debug
+sles10	= 10.1
+10.1	= 10.1
 10.0	= 10.0
-9.3	= 9.3
-9.2	= 9.2
-9.1	= 9.1
-sles9   = 9.1
-9.0	= 9.0
 
 
 ; kernel image name
@@ -46,7 +42,7 @@ floppy	=
 yast	= SuSELinux
 splash	= SuSE
 product	= SUSE Linux
-version = 10.0
+version = 10.1
 update	= /linux/suse/<arch>-<rel>
 image	= 200
 
@@ -55,7 +51,7 @@ image	= 200
 yast    = SuSELinux
 splash  = SuSE
 product = ZENworks
-version = 10.0
+version = 10.1
 update  = /linux/suse/<arch>-<rel>
 image   = 200
 
