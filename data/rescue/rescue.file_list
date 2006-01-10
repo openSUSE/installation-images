@@ -460,6 +460,9 @@ util-linux: postin
 if arch ne 's390' && arch ne 's390x'
   /sbin/hwclock
 endif
+if arch eq 'ppc'
+  /sbin/lsprop
+endif
   /sbin/{blockdev,ctrlaltdel,elvtune,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
   if arch ne 'ia64'
     /sbin/fdisk
