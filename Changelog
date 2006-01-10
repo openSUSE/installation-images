@@ -1,5 +1,9 @@
+10/1/2006:	v8.15
 	- put lsprop into rescue system
 	- set version to 10.1
+	- adjust module info
+	- added xterm
+	- added links (at least for now)
 
 21/12/2005:	v8.14
 	- do not run initviocons for the time being, does not work on POWER4/5

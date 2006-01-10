@@ -68,10 +68,35 @@ if with_yast2 ne 'no'
       /usr/X11R6/lib*/modules/drivers/i810_drv.so
       endif
 
+    xterm:
+      /usr/X11R6/lib/X11/app-defaults/XTerm
+      R s/nil2/fixed/ /usr/X11R6/lib/X11/app-defaults/XTerm
+      /usr/X11R6/bin/xterm
+      /usr/bin/xterm
+
+    utempter:
+      /usr/sbin/utempter
+
+    # links support
+    if 1
+
+      links:
+        /usr/bin/links
+
+      DirectFB:
+        /usr/lib/libdirect-0.9.so.*
+        /usr/lib/libdirectfb-0.9.so.*
+        /usr/lib/libfusion-0.9.so.*
+
+      gpm:
+        /usr/lib/libgpm.so.*
+
+    endif
+
   endif
 
   xorg-x11-libs:
-    /usr/X11R6/lib*/libX{11,au,cursor,dmcp,ext,fixes,i,inerama,mu,muu,p,pm,randr,render,ss,t,tst,xf86dga,xf86misc,xf86vm}.so*
+    /usr/X11R6/lib*/libX{11,au,aw,cursor,dmcp,ext,fixes,i,inerama,mu,muu,p,pm,randr,render,ss,t,tst,xf86dga,xf86misc,xf86vm}.so*
     /usr/X11R6/lib*/lib{SM,ICE}.so*
     /usr/X11R6/lib*/libXft.so.2*
     /usr/X11R6/lib*/libxkbfile.so.*
@@ -106,6 +131,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/lib/X11/fonts/misc/cursor.pcf.gz
     # 'fixed' font
     /usr/X11R6/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz
+    /usr/X11R6/lib/X11/fonts/misc/6x13.pcf.gz
     /usr/X11R6/lib/X11/fonts/misc/fonts.scale
     /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
     x /usr/X11R6/lib/X11/xorg.conf /usr/X11R6/lib/X11
