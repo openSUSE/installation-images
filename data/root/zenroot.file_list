@@ -175,8 +175,8 @@ lilo:
   /sbin/{activate,lilo}
 
 
-raidtools:
-  /sbin/*
+mdadm:
+  /sbin
 
 
 dosfstools:

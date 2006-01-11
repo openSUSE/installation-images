@@ -232,9 +232,6 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/hcp
 endif
 
-raidtools:
-  /sbin/*
-
 dosfstools:
   /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
 
@@ -669,6 +666,7 @@ pmtools:
 
 sysconfig:
   /sbin/getcfg*
+  /sbin/modify_resolvconf
   /lib*/libgetconfig.so*
 
 pciutils:

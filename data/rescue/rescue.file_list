@@ -244,11 +244,6 @@ device-mapper: postin
   /sbin
 e postin
 
-raidtools: postin
-  /etc
-  /sbin
-e postin
-
 mktemp:
   /bin/mktemp
 
