@@ -1,3 +1,5 @@
+	- get modify_resolveconf working
+
 11/1/2006:	v8.16
 	- raidtools are gone
 	- added modify_resolvconf

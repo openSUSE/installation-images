@@ -139,6 +139,7 @@ util-linux:
   /bin/guessfstype
   /bin/{u,}mount
   /bin/dmesg
+  /bin/logger
   /sbin/losetup
   /sbin/blockdev
   if arch ne 'ia64'
@@ -499,7 +500,7 @@ endif
 if arch eq 'ia32'
   # needed for blinux start script
   sysvinit:
-    /sbin/{check,kill,start}proc
+    /sbin/{check,kill,pidof,start}proc
 
   sbl:
     /usr/lib/suse-blinux
@@ -666,8 +667,10 @@ pmtools:
 
 sysconfig:
   /sbin/getcfg*
-  /sbin/modify_resolvconf
   /lib*/libgetconfig.so*
+  # for modify_resolvconf
+  /etc/sysconfig/network/config
+  /sbin/modify_resolvconf
 
 pciutils:
   /sbin/lspci
