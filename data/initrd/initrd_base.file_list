@@ -375,9 +375,24 @@ udev:
   /sbin
   /usr/bin
   /usr/sbin
-  /var
 x etc/myudevstart /bin
-
+  # add some md devices statically
+  b 9  0 /lib/udev/devices/md0
+  b 9  1 /lib/udev/devices/md1
+  b 9  2 /lib/udev/devices/md2
+  b 9  3 /lib/udev/devices/md3
+  b 9  4 /lib/udev/devices/md4
+  b 9  5 /lib/udev/devices/md5
+  b 9  6 /lib/udev/devices/md6
+  b 9  7 /lib/udev/devices/md7
+  b 9  8 /lib/udev/devices/md8
+  b 9  9 /lib/udev/devices/md9
+  b 9 10 /lib/udev/devices/md10
+  b 9 11 /lib/udev/devices/md11
+  b 9 12 /lib/udev/devices/md12
+  b 9 13 /lib/udev/devices/md13
+  b 9 14 /lib/udev/devices/md14
+  b 9 15 /lib/udev/devices/md15
 
 # add hal & dbus
 if 0

@@ -1,4 +1,7 @@
+16/1/2006:	v8.17
 	- get modify_resolveconf working
+	- add /dev/md* statically
+	- new modules
 
 11/1/2006:	v8.16
 	- raidtools are gone
