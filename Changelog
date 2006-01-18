@@ -1,3 +1,6 @@
+18/1/2006:	v8.19
+	- add 2 missing perl files for yast2-bootloader (#143746)
+
 18/1/2006:	v8.18
 	- get xfs module working again
 	- added perl-gettext

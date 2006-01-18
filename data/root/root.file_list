@@ -725,6 +725,8 @@ perl:
   /usr/lib/perl*/*/vars.pm
   /usr/lib/perl*/*/warnings.pm
   /usr/lib/perl*/*/warnings/register.pm
+  /usr/lib/perl*/*/Scalar/Util.pm
+  /usr/lib/perl*/*/List/Util.pm
 
 perl-Bootloader:
   /usr/lib
