@@ -692,6 +692,7 @@ perl:
   /usr/lib/perl*/*/*/Config.pm
   /usr/lib/perl*/*/*/Data/Dumper.pm
   /usr/lib/perl*/*/*/DynaLoader.pm
+  /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/*/Fcntl.pm
   /usr/lib/perl*/*/*/IO.pm
   /usr/lib/perl*/*/*/IO/Handle.pm
@@ -708,6 +709,7 @@ perl:
   /usr/lib/perl*/*/AutoLoader.pm
   /usr/lib/perl*/*/Carp{,.pm}
   /usr/lib/perl*/*/Class/Struct.pm
+  /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/Exporter{,.pm}
   /usr/lib/perl*/*/IPC/Open3.pm
   /usr/lib/perl*/*/SelectSaver.pm
@@ -728,6 +730,9 @@ perl-Bootloader:
   /usr/lib
 
 perl-Compress-Zlib:
+  /usr/lib
+
+perl-gettext:
   /usr/lib
 
 pcmciautils:

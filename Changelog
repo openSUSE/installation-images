@@ -1,3 +1,9 @@
+18/1/2006:	v8.18
+	- get xfs module working again
+	- added perl-gettext
+	- less needs libncursesw
+	- added pam_resmgr to rescue system
+
 16/1/2006:	v8.17
 	- get modify_resolveconf working
 	- add /dev/md* statically

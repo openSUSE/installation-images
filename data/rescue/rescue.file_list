@@ -253,7 +253,8 @@ module-init-tools:
   /bin/lsmod
 
 ncurses:
-  /lib*/libncurses.so.5*
+  /lib*/libncurses.so.*
+  /usr/lib*/libncursesw.so.*
   /usr/lib*/libpanel.so.*
   /usr/share/terminfo
   /usr/bin/{clear,tset,reset}
@@ -299,6 +300,7 @@ rsh:
 
 resmgr:
   /lib*/libresmgr.so.*
+  /lib*/security/pam_resmgr.so
 
 pam:
   /{etc,lib*,sbin}
@@ -451,7 +453,7 @@ e postin
 
 util-linux: postin
   /etc
-  /bin/{dmesg,mount,umount,guessfstype}
+  /bin/{dmesg,logger,mount,umount,guessfstype}
 if arch ne 's390' && arch ne 's390x'
   /sbin/hwclock
 endif
@@ -513,7 +515,6 @@ udev: postin
   /sbin
   /usr/bin
   /usr/sbin
-  /var
 
   E postin
 
