@@ -306,9 +306,13 @@ freefont:
 indic-fonts:
   /usr/X11R6/lib/X11/fonts/truetype/MuktiNarrow.ttf
   /usr/X11R6/lib/X11/fonts/truetype/lohit_pa.ttf
+  /usr/X11R6/lib/X11/fonts/truetype/lohit_hi.ttf
 
 fonts-arabic:
   /usr/X11R6/lib/X11/fonts/truetype/KacstBook.ttf
+
+KhmerOS-fonts:
+  /usr/X11R6/lib/X11/fonts/truetype/KhmerOSsys.ttf
 
 efont-unicode:
   /usr/X11R6/lib/X11/fonts/misc/b16.pcf.gz

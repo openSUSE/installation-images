@@ -1,3 +1,7 @@
+19/1/2006:	v8.20
+	- added yast2-trans-km
+	- added font for Hindi
+
 18/1/2006:	v8.19
 	- add 2 missing perl files for yast2-bootloader (#143746)
 
