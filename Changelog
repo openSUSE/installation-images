@@ -1,3 +1,6 @@
+	- drop ibmsis (140762)
+	- remove long obsolete and unused ppc_post_install.sh
+
 19/1/2006:	v8.20
 	- added yast2-trans-km
 	- added font for Hindi

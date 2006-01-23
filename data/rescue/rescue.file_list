@@ -191,9 +191,6 @@ if arch eq 'ppc'
     /sbin/pdisk
   iprutils:
     /sbin
-  ibmsis:
-    /etc/microcode
-    /sbin
   ncurses:
     /usr/lib/libpanel.so.*
     /usr/lib/libform.so.*
