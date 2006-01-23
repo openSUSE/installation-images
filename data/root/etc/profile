@@ -1,5 +1,5 @@
 umask 022
-PATH=/sbin:/bin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/lib/YaST2/bin:/lbin
+PATH=/sbin:/bin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/lbin
 export PATH
 PS1='\w # '
 ignoreeof=0
