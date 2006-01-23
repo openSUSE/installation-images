@@ -110,6 +110,7 @@ if with_yast2 ne 'no'
     m /etc/fonts/local.conf.instsys /etc/fonts/local.conf
     /usr/lib*/libfontconfig.so.*
     /usr/bin/fc-{cache,list,match}
+    /var/cache/fontconfig
 
 #  Mesa:
 #    /usr/lib*/libGL.so.*
@@ -327,20 +328,20 @@ if with_yast2 ne 'no'
   if with_suse_font ne 'no'
     e mkfontscale usr/X11R6/lib/X11/fonts/truetype
     e mkfontdir usr/X11R6/lib/X11/fonts/truetype
-    e fc-cache usr/X11R6/lib/X11/fonts/truetype
+    # e fc-cache usr/X11R6/lib/X11/fonts/truetype
   else
     e mkfontscale usr/share/ghostscript/fonts
     e mkfontdir usr/share/ghostscript/fonts
-    e fc-cache usr/share/ghostscript/fonts
+    # e fc-cache usr/share/ghostscript/fonts
   endif
 
   e mkfontscale usr/X11R6/lib/X11/fonts/misc
   e mkfontdir usr/X11R6/lib/X11/fonts/misc
-  e fc-cache usr/X11R6/lib/X11/fonts/misc
+  # e fc-cache usr/X11R6/lib/X11/fonts/misc
 
   e mkfontscale usr/X11R6/lib/X11/fonts/uni
   e mkfontdir usr/X11R6/lib/X11/fonts/uni
-  e fc-cache usr/X11R6/lib/X11/fonts/uni
+  # e fc-cache usr/X11R6/lib/X11/fonts/uni
 
   e touch usr/X11R6/lib/X11/fonts/*/*
   e sleep 2

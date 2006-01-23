@@ -2,6 +2,8 @@
 	- remove /usr/lib/YaST2/bin/yast2 (#144237)
 	- drop ibmsis (#144732)
 	- remove long obsolete and unused ppc_post_install.sh
+	- don't create font cache files
+	- added qlogic-firmware
 
 19/1/2006:	v8.20
 	- added yast2-trans-km
