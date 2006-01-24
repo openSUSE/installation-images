@@ -320,9 +320,16 @@ hal:
 hwinfo-devel:
   /usr/lib*/libhd_tiny.so.*
 
-bootsplash:
-  /lib/bootsplash/control
-  /sbin/splash
+if arch eq 'ia32' || arch eq 'x86_64'
+
+  bootsplash:
+    /lib/bootsplash/control
+    /sbin/splash
+
+  bootsplash-theme-<splash_theme>:
+    /etc/bootsplash/themes/<splash_theme>/animations
+
+endif
 
 zlib:
   /lib*/libz.so.1*
@@ -334,9 +341,6 @@ coreutils:
 pcmciautils:
   /etc/pcmcia/config.opts
   /sbin/pcmcia-socket-startup
-
-bootsplash-theme-<splash_theme>:
-  /etc/bootsplash/themes/<splash_theme>/animations
 
 bash:
   /bin/{sh,bash}
@@ -368,7 +372,15 @@ iproute2:
   /sbin/ip
 
 qlogic-firmware:
+if arch eq 'ppc' || arch eq 'ppc64'
+  # the firmware images are too big
+  # temporary fix to keep the ELF memsize below 8mb for ppc64
+  /lib/firmware/ql2300_fw.bin
+  /lib/firmware/ql2400_fw.bin
+else
   /lib/firmware
+endif
+
 
 # add udev
 udev:
