@@ -32,7 +32,7 @@ $start_inodes = 30000;
 # now we really start...
 
 $debug = exists($ENV{'debug'}) ? $ENV{'debug'} : "";
-$use_cramfs = exists($ENV{'use_cramfs'}) ? $ENV{'use_cramfs'} : "";
+$use_cramfs = exists($ENV{'use_cramfs'}) ? $ENV{'use_cramfs'} : 1;
 
 if($ENV{'keeprescue'} != 1) {
   # clean up
@@ -71,10 +71,10 @@ if($use_cramfs) {
   die "$Script: $!" unless rename $image, "$image.cramfs";
   $i = -s "$image.cramfs";
   print "$Script: created \"$image.cramfs\" ($i bytes)\n";
-
 }
-
-Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
-$i = CompressImage $image;
-print "$Script: compressed rescue to \"$image\" ($i bytes)\n";
+else {
+  Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
+  $i = CompressImage $image;
+  print "$Script: compressed rescue to \"$image\" ($i bytes)\n";
+}
 

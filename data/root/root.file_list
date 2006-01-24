@@ -350,6 +350,8 @@ if with_yast2 ne 'no'
     /
   yast2-installation:
     /
+  yast2-iscsi-client:
+    /
   yast2-mouse:
     /
   yast2-ncurses:
@@ -670,7 +672,7 @@ sysconfig:
   /sbin/getcfg*
   /lib*/libgetconfig.so*
   # for modify_resolvconf
-  /etc/sysconfig/network/config
+  # /etc/sysconfig/network/config
   /sbin/modify_resolvconf
 
 pciutils:
@@ -740,6 +742,10 @@ perl-gettext:
 
 pcmciautils:
   /
+
+open-iscsi:
+  /sbin
+  /etc/iscsid.conf
 
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale
