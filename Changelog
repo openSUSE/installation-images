@@ -1,3 +1,5 @@
+	- autoload loop module
+
 23/1/2006:	v8.21
 	- remove /usr/lib/YaST2/bin/yast2 (#144237)
 	- drop ibmsis (#144732)
