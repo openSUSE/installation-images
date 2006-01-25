@@ -110,13 +110,6 @@ else
  fi
 fi
 #
-# kernel 2.6 uses linuxkeycodes for all keyboards
-# 2.4 kernels may still use ADB keycodes, but all the maps have the new encoding 
-# since post 9.0. Just switch the kernel side if the default is still ADB
-if [ -f /proc/sys/dev/mac_hid/keyboard_sends_linux_keycodes ] ; then
-  echo 1 > /proc/sys/dev/mac_hid/keyboard_sends_linux_keycodes
-fi
-
 # a few files should be restored when installation has completed if we
 # return to linuxrc.
 FILES_TO_RESTORE="/etc/ld.so.cache"
@@ -175,18 +168,6 @@ if [ -x /sbin/klogd ] ; then
     fi
   }
 fi
-
-arch=$(uname -m)
-
-# don't do it...
-#case "$arch" in
-#  i?86)
-#    # remove modules to free memory
-#    if [ "$REMOVE_MODULES" = 1 ] ; then
-#      rm -f /modules/*
-#    fi
-#  ;;
-#esac
 
 # Update module config.
 #
@@ -273,10 +254,6 @@ fi
 
 # start shell, useful on iSeries or via serial console
 [ -f /.start_shell ] && start_shell
-
-# still needed?
-#[ $ec -ne 0 ] && echo "An Error happened during installation"
-#ec=0
 
 # stop various daemons
 killall hald >/dev/null 2>&1

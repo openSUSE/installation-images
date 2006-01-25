@@ -1,3 +1,5 @@
+	- remove some dead code from inst_setup
+
 24/1/2006:	v8.23
 	- reduce initrd size on ppc64 (#145152)
 
