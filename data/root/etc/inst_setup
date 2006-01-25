@@ -195,8 +195,7 @@ fi
 export XCURSOR_THEME=crystalwhite
 
 # start shell, useful on iSeries or via serial console
-rm -f /.start_shell
-grep -qwi start_shell /proc/cmdline && echo 42 > /.start_shell
+grep -qwi start_shell /proc/cmdline && echo -n '' > /.start_shell
 function start_shell() {
   echo 
   echo "ATTENTION"
@@ -270,7 +269,6 @@ for file in $FILES_TO_RESTORE ; do
 done
 
 rm -f /etc/modules.conf
-rm -f /.start_shell
 
 # clean up after yast
 sed -n '1{h;n};x;H;${x;p}' /proc/mounts | awk '{ if($2 ~ /^\/var/) system("umount " $2) }'

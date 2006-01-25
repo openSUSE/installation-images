@@ -1,4 +1,5 @@
 	- remove some dead code from inst_setup
+	- do not remove /.start_shell, linuxrc will create/unlink it soon (#145619)
 
 24/1/2006:	v8.23
 	- reduce initrd size on ppc64 (#145152)
