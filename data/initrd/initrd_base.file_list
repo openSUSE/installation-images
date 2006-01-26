@@ -372,14 +372,7 @@ iproute2:
   /sbin/ip
 
 qlogic-firmware:
-if arch eq 'ppc' || arch eq 'ppc64'
-  # the firmware images are too big
-  # temporary fix to keep the ELF memsize below 8mb for ppc64
-  /lib/firmware/ql2300_fw.bin
-  /lib/firmware/ql2400_fw.bin
-else
   /lib/firmware
-endif
 
 
 # add udev

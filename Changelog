@@ -1,3 +1,4 @@
+	- readd qla modules on ppc, changed link address for zImage (#145152)
 	- remove some dead code from inst_setup
 	- do not remove /.start_shell, linuxrc will create/unlink it soon (#145619)
 
