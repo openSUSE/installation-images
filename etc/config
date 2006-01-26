@@ -47,6 +47,15 @@ update	= /linux/suse/<arch>-<rel>
 image	= 200
 
 
+[Theme SLES]
+yast	= SuSELinux
+splash	= SuSE
+product	= SUSE LINUX Enterprise Server 10
+version = 10.1
+update	= /linux/suse/<arch>-<sles>
+image	= 200
+
+
 [Theme Zen]
 yast    = SuSELinux
 splash  = SuSE

@@ -376,9 +376,10 @@ endif
     /
   yast2-storage:
     /
-# for sles10 (make /var/lib/YaST2 writable, include evms)
-#  yast2-storage-evms:
-#    /
+if theme eq 'SLES'
+    yast2-storage-evms:
+      /
+endif
   yast2-storage-lib:
     /
   yast2-transfer:
@@ -660,10 +661,12 @@ ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
 
-#evms:
-#  /etc/evms.conf
-#  /lib*
-#  /sbin/evms{_activate,_gather_info}
+if theme eq 'SLES'
+  evms:
+    /etc/evms.conf
+    /lib*
+    /sbin/evms{_activate,_gather_info}
+endif
 
 pmtools:
   /usr/sbin/dmidecode

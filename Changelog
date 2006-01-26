@@ -1,3 +1,7 @@
+26/1/2006:	v8.24
+	- initrd on ppc64 gets back qlogic firmware (#145152)
+	- added SLES theme
+	- SLES: added evms support
 	- add pidofproc, modify_resolvconf needs it (#144365)
 	- readd qla modules on ppc, changed link address for zImage (#145152)
 	- remove some dead code from inst_setup

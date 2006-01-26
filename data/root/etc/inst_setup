@@ -194,15 +194,16 @@ fi
 
 export XCURSOR_THEME=crystalwhite
 
+grep -qi "^StartShell:.*1" /etc/install.inf && START_SHELL=1
+
 # start shell, useful on iSeries or via serial console
-grep -qwi start_shell /proc/cmdline && echo -n '' > /.start_shell
 function start_shell() {
   echo 
   echo "ATTENTION"
   echo "Starting shell... (use 'exit' to proceed)"
   bash --init-file /root/.bash_login
 }
-[ -f /.start_shell ] && start_shell
+[ "$START_SHELL" ] && start_shell
 
 # anounce VNC via slpd
 if grep -qi "^VNC:.*1" /etc/install.inf ; then
@@ -252,7 +253,7 @@ echo "starting $yast..."
 fi
 
 # start shell, useful on iSeries or via serial console
-[ -f /.start_shell ] && start_shell
+[ "$START_SHELL" ] && start_shell
 
 # stop various daemons
 killall hald >/dev/null 2>&1
