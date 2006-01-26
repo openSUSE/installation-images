@@ -6,6 +6,7 @@
 	- readd qla modules on ppc, changed link address for zImage (#145152)
 	- remove some dead code from inst_setup
 	- don't use /.start_shell, linuxrc handles it (#145619)
+	- add sax2-tools for s390 (#145823)
 
 24/1/2006:	v8.23
 	- reduce initrd size on ppc64 (#145152)

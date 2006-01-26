@@ -265,24 +265,11 @@ if with_yast2 ne 'no'
 
 endif
 
+sax2-tools:
+  /usr/sbin
 
-if with_yast2 ne 'no'
-  if arch ne 's390' && arch ne 's390x'
-
-  sax2-tools:
-     if arch eq 's390' || arch eq 's390x'
-       /usr/sbin/testX
-     else
-       /usr/sbin
-     endif
-   r /usr/sbin/xkbset
-
-    sax2-ident:
-      /
-
-  endif
-
-endif
+sax2-ident:
+  /
 
 xmset:
   /usr/sbin
