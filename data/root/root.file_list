@@ -503,7 +503,7 @@ endif
 if arch eq 'ia32'
   # needed for blinux start script
   sysvinit:
-    /sbin/{check,kill,pidof,start}proc
+    /sbin/{kill,start}proc
 
   sbl:
     /usr/lib/suse-blinux
@@ -516,6 +516,7 @@ endif
 
 sysvinit:
   /sbin/checkproc
+  /sbin/pidofproc
   /sbin/showconsole
   c 755 0 0 /sbin/showconsole
   /sbin/setconsole
