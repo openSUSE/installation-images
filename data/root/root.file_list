@@ -258,11 +258,14 @@ util-linux:
   if !(arch eq 's390' || arch eq 's390x')
     /sbin/{ctrlaltdel,hwclock}
   endif
-  if arch eq 'ppc'
-    /etc/filesystems
+
+if arch eq 'ppc'
+powerpc-utils:
     /sbin/nvsetenv
     /sbin/lsprop
-  endif
+    /usr/sbin/nvram
+    /usr/sbin/update_flash
+endif
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys

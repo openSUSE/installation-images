@@ -1,3 +1,5 @@
+	- add all tools from powerpc-utils to rescue
+	- lsprop and nvsetenv moved from util-linux to powerpc-utils
 	- remove clock from demo filelist
 
 26/1/2006:	v8.24
