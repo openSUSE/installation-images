@@ -465,6 +465,8 @@ endif
 e postin
 
 if arch eq 'ppc'
+librtas:
+    /usr/lib
 powerpc-utils:
   /sbin
   /usr/sbin

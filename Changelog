@@ -1,3 +1,4 @@
+	- add librtas, required by powerpc-utils
 	- add all tools from powerpc-utils to rescue
 	- lsprop and nvsetenv moved from util-linux to powerpc-utils
 	- remove clock from demo filelist
