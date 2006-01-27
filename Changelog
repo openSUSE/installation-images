@@ -1,3 +1,5 @@
+	- remove clock from demo filelist
+
 26/1/2006:	v8.24
 	- initrd on ppc64 gets back qlogic firmware (#145152)
 	- added SLES theme

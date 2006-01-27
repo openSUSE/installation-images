@@ -79,7 +79,7 @@ coreutils:
 
 util-linux:
   /bin/{mount,umount}
-  /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,clock,hwclock,losetup,pivot_root}
+  /sbin/{ctrlaltdel,fsck.minix,swapoff,swapon,hwclock,losetup,pivot_root}
 
 libacl:
   /lib*
