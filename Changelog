@@ -1,3 +1,6 @@
+30/1/2006:	v8.26
+	- add ethtool
+
 27/1/2006:	v8.25
 	- add librtas, required by powerpc-utils
 	- add all tools from powerpc-utils to rescue

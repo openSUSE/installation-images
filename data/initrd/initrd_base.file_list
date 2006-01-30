@@ -371,6 +371,9 @@ net-tools:
 iproute2:
   /sbin/ip
 
+ethtool:
+  m /usr/sbin/ethtool /sbin
+
 qlogic-firmware:
   /lib/firmware
 
