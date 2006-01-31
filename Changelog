@@ -1,3 +1,5 @@
+	- restore start_shell cmdline syntax
+
 31/1/2006:	v8.27
 	- get rid of /dev/shm warning (#146456)
 
