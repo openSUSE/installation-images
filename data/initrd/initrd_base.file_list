@@ -520,11 +520,6 @@ e echo "RescueImage:	/boot/ppc/rescue" >>linuxrc.config
 e echo "RootImage:	/boot/ppc/root" >>linuxrc.config
 endif
 
-# turn off automatic module disks requests in linuxrc (there are no module
-# disks)
-
-e echo "ModuleDisks:	0" >>linuxrc.config
-
 # static /dev tree or udevd (1/0)
 e echo "StaticDevices:	0" >>linuxrc.config
 
