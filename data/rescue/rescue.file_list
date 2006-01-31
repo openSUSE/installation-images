@@ -512,7 +512,9 @@ sysconfig: postin
 
 udev: postin
   /etc
-  /lib*
+  /lib/udev
+  # to avoid hardlink in cramfs
+  t /lib/udev/devices/pts/.xxx
   /sbin
   /usr/bin
   /usr/sbin
