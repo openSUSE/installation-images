@@ -752,6 +752,18 @@ open-iscsi:
   /sbin
   /etc/iscsid.conf
 
+libzypp:
+  /usr/lib*/libzypp.so.*
+
+boost:
+  /usr/lib*/libboost_regex.so.*
+  /usr/lib*/libboost_filesystem.so.*
+
+libicu:
+  /usr/lib*/libicui18n.so.*
+  /usr/lib*/libicuuc.so.*
+  /usr/lib*/libicudata.so.*
+
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale
 r /usr/X11R6/bin/fc-cache

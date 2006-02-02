@@ -3,7 +3,6 @@
 	- adding libopensc to s390x image
 	- s390 build fix
 	- remove need for devs package, step 1
-	- restore start_shell cmdline syntax
 
 30/1/2006:	v8.26
 	- add ethtool
