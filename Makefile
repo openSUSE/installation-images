@@ -29,10 +29,10 @@ dirs:
 	@[ -d tmp ] || mkdir tmp
 
 initrd: dirs base
-	initramfs=$${initramfs:-1} mkdevs=$${mkdevs:-1} YAST_IS_RUNNING=1 bin/mk_initrd
+	initramfs=$${initramfs:-1} YAST_IS_RUNNING=1 bin/mk_initrd
 
 zeninitrd: dirs base
-	initramfs=$${initramfs:-1} mkdevs=$${mkdevs:-1} YAST_IS_RUNNING=1 theme=Zen filelist=zeninitrd bin/mk_initrd
+	initramfs=$${initramfs:-1} YAST_IS_RUNNING=1 theme=Zen filelist=zeninitrd bin/mk_initrd
 
 zenboot: zeninitrd mboot
 	theme=Zen initrd=large boot=isolinux memtest=no bin/mk_boot

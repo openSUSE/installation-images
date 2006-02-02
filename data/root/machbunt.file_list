@@ -84,12 +84,12 @@ if with_yast2 ne 'no'
         /usr/bin/links
 
       DirectFB:
-        /usr/lib/libdirect-0.9.so.*
-        /usr/lib/libdirectfb-0.9.so.*
-        /usr/lib/libfusion-0.9.so.*
+        /usr/lib*/libdirect-0.9.so.*
+        /usr/lib*/libdirectfb-0.9.so.*
+        /usr/lib*/libfusion-0.9.so.*
 
       gpm:
-        /usr/lib/libgpm.so.*
+        /usr/lib*/libgpm.so.*
 
     endif
 
@@ -265,11 +265,13 @@ if with_yast2 ne 'no'
 
 endif
 
-sax2-tools:
-  /usr/sbin
+if arch ne 's390' && arch ne 's390x'
+  sax2-tools:
+    /usr/sbin
 
-sax2-ident:
-  /
+  sax2-ident:
+    /
+endif
 
 xmset:
   /usr/sbin

@@ -22,6 +22,10 @@ t var/run/utmp
 
 c 1777 0 0 tmp
 
+e cp -a /dev/{null,zero,console,ram0,tty[1349]} dev
+# historical static device nodes
+x devz /devz
+
 glibc:
   /etc/nsswitch.conf
 
@@ -448,13 +452,6 @@ if 0
 
 endif
 
-if mkdevs
-  e cp -a /initrddevs.tiny/dev .
-  e cp -a /devz .
-else
-  e cp -a /initrddevs/dev .
-endif
-
 # see etc/module.list
 e echo "KernelPCMCIA:	1" >>linuxrc.config
 
@@ -519,7 +516,4 @@ e echo "InstallDir:	/boot/ppc/inst-sys" >>linuxrc.config
 e echo "RescueImage:	/boot/ppc/rescue" >>linuxrc.config
 e echo "RootImage:	/boot/ppc/root" >>linuxrc.config
 endif
-
-# static /dev tree or udevd (1/0)
-e echo "StaticDevices:	0" >>linuxrc.config
 

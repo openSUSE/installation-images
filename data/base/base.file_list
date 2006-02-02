@@ -1,25 +1,17 @@
-d bin etc lib mnt proc sbin tmp var
+d bin dev etc lib mnt proc sbin tmp var
 c 1777 0 0 tmp
 
-devs:
-  /dev
-  d /dev/.udev/db
-  d /initrddevs
-  m /dev /initrddevs
-
-if arch eq 's390' || arch eq 's390x'
-  m /dev/dasd* /initrddevs/dev
-  m /dev/pts /initrddevs/dev
-endif 
-
-d /initrddevs.tiny/dev
-  m /dev/{null,zero,console,ram0} /initrddevs.tiny/dev
-  if arch ne 's390' && arch ne 's390x'
-    m /dev/tty[1349] /initrddevs.tiny/dev
-  endif
-
-m /usr/share/doc/packages/devs/makedevs.floppy /
-c 0755 0 0 makedevs.floppy
+udev:
+  m /lib/udev/devices/* /dev
+  b 1 0 /dev/ram0
+  b 7 0 /dev/loop0
+  b 7 1 /dev/loop1
+  b 7 2 /dev/loop2
+  b 7 3 /dev/loop3
+  b 7 4 /dev/loop4
+  b 7 5 /dev/loop5
+  b 7 6 /dev/loop6
+  b 7 7 /dev/loop7
 
 filesystem:
   /etc/{ppp,rc.d,uucp,skel}
@@ -288,8 +280,9 @@ E create-cracklib-dict /tmp/xxx
 E rm -f /tmp/xxx
 
 # create & compress device tree
-x compdev /compdev
+# x compdev /compdev
 # E echo "creating devices..."
 # E cd /initrddevs; /makedevs.floppy >/dev/null
 # E find /initrddevs/dev | ./compdev /initrddevs/dev >/devz
-E find /dev | ./compdev /dev >/devz
+# E find /dev | ./compdev /dev >/devz
+
