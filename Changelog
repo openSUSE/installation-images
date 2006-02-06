@@ -1,5 +1,6 @@
 6/2/2006:	v8.28
 	- use /boot/<arch>/ for all architectures
+	- no -nongpl kernel
 
 2/2/2006:	v8.27
 	- get rid of /dev/shm warning (#146456)
