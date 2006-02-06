@@ -157,7 +157,7 @@ sub AddFiles
 
     $ifmsg = sprintf " [%x|%x] %s\n", $if_val, $if_taken, $_;
 
-    s/<(kernel_ver|kernel_mods|kernel_rpm|kernel_img|suse_release|theme|product|product_name|yast_theme|splash_theme|update_dir|load_image|min_memory|instsys_build_id|instsys_complain)>/$ConfigData{$1}/g;
+    s/<(kernel_ver|kernel_mods|kernel_rpm|kernel_img|suse_release|theme|product|product_name|yast_theme|splash_theme|update_dir|load_image|min_memory|instsys_build_id|instsys_complain|arch)>/$ConfigData{$1}/g;
     for $i (qw( linuxrc lang extramod items )) {
       s/<$i>/$ENV{$i}/g if exists $ENV{$i};
     }
@@ -329,12 +329,14 @@ sub AddFiles
           die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
           SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
             warn "$Script: failed to extract $r";
-          if($p eq $ConfigData{kernel_rpm}) {
+
+          if(0 && $p eq $ConfigData{kernel_rpm}) {
             my $r2 = RPMFileName "$p-nongpl";
             warn("$Script: no such package: $p-nongpl.rpm"), next unless $r2 && -f $r2;
             SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
               warn "$Script: failed to extract $r2";
           }
+
         }
       }
     }
