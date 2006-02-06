@@ -503,17 +503,9 @@ if arch eq 'ia32'
 e echo "InstallDir:	/boot/i386/inst-sys" >>linuxrc.config
 e echo "RescueImage:	/boot/i386/rescue" >>linuxrc.config
 e echo "RootImage:	/boot/i386/root" >>linuxrc.config
-endif
-
-if arch eq 'x86_64'
-e echo "InstallDir:	/boot/x86_64/inst-sys" >>linuxrc.config
-e echo "RescueImage:	/boot/x86_64/rescue" >>linuxrc.config
-e echo "RootImage:	/boot/x86_64/root" >>linuxrc.config
-endif
-
-if arch eq 'ppc'
-e echo "InstallDir:	/boot/ppc/inst-sys" >>linuxrc.config
-e echo "RescueImage:	/boot/ppc/rescue" >>linuxrc.config
-e echo "RootImage:	/boot/ppc/root" >>linuxrc.config
+else
+e echo "InstallDir:	/boot/<arch>/inst-sys" >>linuxrc.config
+e echo "RescueImage:	/boot/<arch>/rescue" >>linuxrc.config
+e echo "RootImage:	/boot/<arch>/root" >>linuxrc.config
 endif
 
