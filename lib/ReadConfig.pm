@@ -472,6 +472,15 @@ $ConfigData{kernel_img} = $ENV{kernel_img} if $ENV{kernel_img};
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# lib directory
+#
+
+$ConfigData{lib} = "lib";
+$ConfigData{lib} = $ConfigData{ini}{lib}{default} if $ConfigData{ini}{lib}{default};
+$ConfigData{lib} = $ConfigData{ini}{lib}{$arch} if $ConfigData{ini}{lib}{$arch};
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # kernel rpm name
 #
 
@@ -710,7 +719,7 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
     $r = $ConfigData{suse_release};
     $r .= " $ConfigData{suse_xrelease}" if $ConfigData{suse_xrelease};
 
-    print "--- Building for $product_name $r $ConfigData{arch} ($sles_release), theme $ConfigData{theme}\n";
+    print "--- Building for $product_name $r $ConfigData{arch} [$ConfigData{lib}] ($sles_release), theme $ConfigData{theme}\n";
     print "--- Kernel: $ConfigData{kernel_rpm}, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
 
     $r = $ConfigData{suse_base};

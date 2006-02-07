@@ -437,7 +437,7 @@ zlib:
 c 0755 0 0 /usr
 
 libstdc++:
-  /usr/lib*/libstdc++*.so*
+  /usr/<lib>/libstdc++*.so*
 
 eject:
   /bin/eject
