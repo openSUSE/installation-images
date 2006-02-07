@@ -1,3 +1,6 @@
+7/2/2006:	v8.29
+	- some build fixes for ia64, x86_64
+
 6/2/2006:	v8.28
 	- use /boot/<arch>/ for all architectures
 	- no -nongpl kernel
