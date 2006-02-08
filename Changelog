@@ -1,3 +1,5 @@
+	- s390: removed opensc stuff again (no longer needed by openssh)
+
 7/2/2006:	v8.29
 	- some build fixes for ia64, x86_64
 
