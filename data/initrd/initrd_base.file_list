@@ -341,6 +341,7 @@ zlib:
 coreutils:
   /bin/rm
   /bin/sleep
+  /bin/cat
 
 pcmciautils:
   /etc/pcmcia/config.opts
