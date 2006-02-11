@@ -1,3 +1,4 @@
+	- remove unused boot.rootfsck, do not run boot.rootfsck in rescue
 	- add cat to initrd, for firmware.sh (#147337)
 	- s390: removed opensc stuff again (no longer needed by openssh)
 
