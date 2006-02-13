@@ -1,3 +1,4 @@
+	- add ulimit -c unlimited to leave a core file if yast crashes
 	- add less -S /var/log/YaST2/y2log to default .bash_history
 	- remove unused boot.rootfsck, do not run boot.rootfsck in rescue
 	- add cat to initrd, for firmware.sh (#147337)

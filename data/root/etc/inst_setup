@@ -196,6 +196,8 @@ export XCURSOR_THEME=crystalwhite
 
 grep -qwi start_shell /proc/cmdline && START_SHELL=1
 grep -qi "^StartShell:.*1" /etc/install.inf && START_SHELL=1
+# leave a core file if yast crashes
+ulimit -c unlimited
 
 # start shell, useful on iSeries or via serial console
 function start_shell() {
