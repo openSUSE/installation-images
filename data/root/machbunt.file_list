@@ -215,8 +215,9 @@ if with_yast2 ne 'no'
     agfa-fonts:
       /usr/X11R6/lib/X11/fonts/truetype/alb*.ttf
   elsif with_suse_font ne 'no'
-    desktop-data-SuSE:
-      /usr/X11R6/lib/X11/fonts/truetype/SUSESans*.ttf
+    dejavu:
+      /usr/X11R6/lib/X11/fonts/truetype/DejaVuSans*.ttf
+      r /usr/X11R6/lib/X11/fonts/truetype/DejaVuSansCondensed*
   else
     ghostscript-fonts-std:
       /usr/X11R6/lib/X11/fonts/URW
@@ -312,6 +313,8 @@ Crystalcursors:
 
 multipath-tools:
   /sbin
+
+x etc/suse-post-user.conf etc/fonts/
 
 if with_yast2 ne 'no'
   if with_suse_font ne 'no'

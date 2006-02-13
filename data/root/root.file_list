@@ -360,8 +360,8 @@ if with_yast2 ne 'no'
     /
   yast2-ncurses:
     /
-  yast2-packagemanager:
-    /
+#  yast2-packagemanager:
+#    /
   yast2-packager:
     /
   yast2-perl-bindings:
