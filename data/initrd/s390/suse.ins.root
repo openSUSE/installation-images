@@ -1,5 +1,5 @@
 * SuSE Linux for S/390 and zSeries Installation/Rescue System
-boot/vmrdr.ikr 0x00000000
-boot/initrd.siz 0x00010414
-boot/initrd 0x00800000
-boot/parmfile 0x00010480
+boot/s390/vmrdr.ikr 0x00000000
+boot/s390/initrd.siz 0x00010414
+boot/s390/initrd 0x00800000
+boot/s390/parmfile 0x00010480
