@@ -1,3 +1,7 @@
+14/2/2006:	v8.31
+	- add apic boot option (#150030)
+	- try to get rescue login right (#149949)
+
 13/2/2006:	v8.30
 	- font issue fixed (#132577)
 	- add ulimit -c unlimited to leave a core file if yast crashes

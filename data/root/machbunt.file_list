@@ -211,6 +211,7 @@ if with_yast2 ne 'no'
   yast2-x11:
     /
 
+if 0
   if with_agfa_font ne 'no'
     agfa-fonts:
       /usr/X11R6/lib/X11/fonts/truetype/alb*.ttf
@@ -227,6 +228,11 @@ if with_yast2 ne 'no'
       /usr/share/ghostscript/fonts/n019004l.pfb
       /usr/share/ghostscript/fonts/n019024l.pfb
   endif
+else
+  dejavu:
+    /usr/X11R6/lib/X11/fonts/truetype/DejaVuSans*.ttf
+    r /usr/X11R6/lib/X11/fonts/truetype/DejaVuSansCondensed*
+endif
 
 endif
 
