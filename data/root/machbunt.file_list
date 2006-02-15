@@ -272,13 +272,11 @@ if with_yast2 ne 'no'
 
 endif
 
-if arch ne 's390' && arch ne 's390x'
   sax2-tools:
     /usr/sbin
 
   sax2-ident:
     /
-endif
 
 xmset:
   /usr/sbin
