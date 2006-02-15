@@ -767,6 +767,9 @@ libicu:
   /usr/lib*/libicuuc.so.*
   /usr/lib*/libicudata.so.*
 
+libidn:
+  /usr/lib*/libidn.so.*
+
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale
 r /usr/X11R6/bin/fc-cache

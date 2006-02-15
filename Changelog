@@ -1,3 +1,4 @@
+	- libpy2lang_perl.so needs libidn
 	- s390: fixed paths in suse.ins (new CD layout, bug #149406)
 
 14/2/2006:	v8.32
