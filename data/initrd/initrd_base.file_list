@@ -252,6 +252,9 @@ if with_gdb
     /lib*/librt{.,-}*
     /lib*/libpthread{.,-}*
 
+  linuxrc-debuginfo:
+    /
+
   if with_gdb == 2
 
     linuxrc:
