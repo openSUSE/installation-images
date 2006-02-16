@@ -1,3 +1,8 @@
+	- Belgian keymap added (#117185)
+
+16/2/2006:	v8.34
+	- fix console in rescue system for s390 (#149949)
+
 15/2/2006:	v8.33
 	- libpy2lang_perl.so needs libidn
 	- s390: fixed paths in suse.ins (new CD layout, bug #149406)

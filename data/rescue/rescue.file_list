@@ -621,6 +621,11 @@ e echo RC_LANG=\"en_US.UTF-8\" >>etc/sysconfig/language
 # serial console / mingetty setup for ppc mostly.
 # x etc/init.d/boot.local /etc/init.d/boot.local
 
+# s390 have their own inittab
+if arch eq 's390' || arch eq 's390x'
+  e sed -i '/getty/d' etc/inittab
+endif
+
 e echo "cons:1235:respawn:/sbin/smart_agetty -L 42 console" >>etc/inittab
 # e perl -pi -e "undef \$_ if /tty1/" etc/inittab
 # e echo "cons:1235:respawn:/sbin/mingetty --noclear --old console" >>etc/inittab

@@ -110,6 +110,7 @@ if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch
     g /usr/share/kbd/keymaps/i386/qwerty/sv-latin1.map.gz usr/share/kbd/keymaps/sv-latin1.map
     g /usr/share/kbd/keymaps/i386/qwerty/uk.map.gz usr/share/kbd/keymaps/uk.map
     g /usr/share/kbd/keymaps/i386/azerty/fr-latin1.map.gz usr/share/kbd/keymaps/fr-latin1.map
+    g /usr/share/kbd/keymaps/i386/azerty/be-latin1.map.gz usr/share/kbd/keymaps/be-latin1.map
 
     m /usr/share/kbd/keymaps/i386/include/linux-with-modeshift-altgr.inc usr/share/kbd/keymaps/include
     m /usr/share/kbd/keymaps/i386/include/linux-keys-extd.inc usr/share/kbd/keymaps/include
