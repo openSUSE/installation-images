@@ -680,7 +680,8 @@ sysconfig:
   /sbin/getcfg*
   /lib*/libgetconfig.so*
   # for modify_resolvconf
-  # /etc/sysconfig/network/config
+  d etc/sysconfig/network
+  e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
   /sbin/modify_resolvconf
 
 pciutils:
