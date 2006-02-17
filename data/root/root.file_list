@@ -792,6 +792,8 @@ if root_gfx
   include machbunt.file_list
 endif
 
+:
+
 if instsys_build_id
   e echo "InstsysID:     <instsys_build_id>" >>.instsys.config
 endif

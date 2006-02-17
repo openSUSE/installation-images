@@ -165,7 +165,7 @@ require Exporter;
 @ISA = qw ( Exporter );
 @EXPORT = qw (
   $Script $BasePath $LibPath $BinPath $CfgPath $ImagePath $DataPath
-  $TmpBase %ConfigData RPMFileName SUSystem Print2File $MToolsCfg $AutoBuild
+  $TmpBase %ConfigData RPMFileName $SUBinary SUSystem Print2File $MToolsCfg $AutoBuild
 );
 
 use strict 'vars';

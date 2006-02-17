@@ -1,5 +1,10 @@
+17/2/2006:	v8.35
 	- Belgian keymap added (#117185)
 	- devs package no longer needed
+	- missing package could cause files from previous package to be added
+	- added accounting function showing how much each package
+	  contributes to boot image sizes
+	- add special font config file for chinese/japanese fonts
 
 16/2/2006:	v8.34
 	- fix console in rescue system for s390 (#149949)

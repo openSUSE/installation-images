@@ -609,6 +609,8 @@ if arch eq 'ia64'
   e insserv etc/init.d/ia32el
 endif
 
+:
+
 e insserv -f -r etc/init.d/boot.rootfsck
 r etc/init.d/boot.rootfsck
 

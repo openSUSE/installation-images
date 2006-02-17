@@ -69,7 +69,30 @@ sub AddFiles
   my ($old_warn, $ver, $i, $cache_dir, $tmp_cache_dir, $tmp_rpm);
   my (@scripts, $s, @s, %script, $use_cache);
   my (@packs, $sl, $rpm_cmd);
-  my (@plog);
+  my (@plog, $current_pack, %acc_all_files, %acc_pack_files, $account);
+  my ($su);
+
+  $su = "$SUBinary -q 0 " if $SUBinary;
+
+
+  sub account_size
+  {
+    my ($dir, $s, @f);
+    local $_;
+
+    return if !defined($current_pack) || !$account;
+
+    $dir = shift;
+
+    @f = `${su}find $dir -type f`;
+
+    chomp @f;
+
+    for (@f) {
+      $acc_pack_files{$current_pack}{$_} = 1 unless exists $acc_all_files{$_};
+      $acc_all_files{$_} = 1;
+    }
+  }
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
@@ -84,6 +107,8 @@ sub AddFiles
   }
 
   $ignore = $debug =~ /\bignore\b/ ? 1 : 0;
+
+  $account = $debug =~ /\baccount\b/ ? 1 : 0;
 
   $old_warn =  $SIG{'__WARN__'};
 
@@ -137,6 +162,8 @@ sub AddFiles
   $tag = "" unless defined $tag;
 
   $if_val = $if_taken = 0;
+
+  $current_pack = '';
 
   while(1) {
     $_ = $inc_it ? <I> : <F>;
@@ -227,13 +254,24 @@ sub AddFiles
       die "$Script: no such file list: $inc_file" unless open I, "$ext_dir/$inc_file";
       $inc_it = 1;
     }
-    elsif(/^(\S+):\s*(\S+)?\s*$/) {
+    elsif(/^(\S*):\s*(\S+)?\s*$/ || !defined($current_pack)) {
       undef %script;
       undef @scripts;
+
+      account_size $dir;
+
+      undef $current_pack;
 
       $p = $1;
       if(defined $2) {
         @scripts = split /,/, $2;
+      }
+
+      next unless defined $p;
+
+      if($p eq '') {
+        $current_pack = '';
+        next;
       }
 
       undef $rc;
@@ -270,6 +308,8 @@ sub AddFiles
           }
         }
       }
+
+      $current_pack = $p;
 
       $ver = (`$rpm_cmd -qp $r`)[0];
       $ver = "" unless defined $ver;
@@ -596,6 +636,8 @@ sub AddFiles
 
   close F;
 
+  account_size $dir;
+
   if(!($use_cache & 4)) {
     SUSystem "rm -rf $tdir";
   }
@@ -608,6 +650,21 @@ sub AddFiles
   open F, ">${dir}.rpmlog";
   print F @plog;
   close F;
+
+  if(%acc_pack_files) {
+    open F, ">${dir}.size";
+    for $p (sort keys %acc_pack_files) {
+      # print "$p:\n";
+      my $size = 0;
+      my $s = 0;
+      for (keys %{$acc_pack_files{$p}}) {
+        $size += (split ' ', `${su}du -bsk $_ 2>/dev/null`)[0];
+        # print "$_: $size\n";
+      }
+      printf F "%-24s %s\n", $p eq '' ? 'no package' : $p, $size;
+    }
+    close F;
+  }
 
   if($ENV{'nomods'}) {
     for (split /,/, $ENV{'nomods'}) {

@@ -1,3 +1,6 @@
+d etc/fonts/conf.d
+x etc/10-disable-cjk-bitmap-fonts.conf etc/fonts/conf.d
+
 ttf-founder-simplified:
   /usr/X11R6/lib/X11/fonts/truetype/FZSongTi.ttf
 

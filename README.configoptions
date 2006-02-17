@@ -10,6 +10,9 @@ o general options
   debug=ignore
   - ignore noncritical errors
 
+  debug=account
+  - create disk usage statistics, stored in tmp/<image_name>.size
+
   dist=8.1, dist=8.1-i386+kde
   - build for this release
 
