@@ -525,6 +525,7 @@ sysvinit:
   /sbin/showconsole
   c 755 0 0 /sbin/showconsole
   /sbin/setconsole
+  /sbin/{reboot,halt,poweroff,shutdown}
 
 klogd:
   /sbin/klogd

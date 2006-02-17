@@ -279,10 +279,3 @@ E touch /tmp/xxx
 E create-cracklib-dict /tmp/xxx
 E rm -f /tmp/xxx
 
-# create & compress device tree
-# x compdev /compdev
-# E echo "creating devices..."
-# E cd /initrddevs; /makedevs.floppy >/dev/null
-# E find /initrddevs/dev | ./compdev /initrddevs/dev >/devz
-# E find /dev | ./compdev /dev >/devz
-
