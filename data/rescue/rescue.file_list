@@ -648,5 +648,4 @@ E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 E /sbin/SuSEconfig --force --norestarts
 
 r /var/adm/fillup-templates
-r /dev/*
 

@@ -1,3 +1,7 @@
+20/2/2006:	v8.36
+	- fixed rescue /dev dir
+	- xfs module config fixed
+
 17/2/2006:	v8.35
 	- Belgian keymap added (#117185)
 	- devs package no longer needed
