@@ -1,3 +1,7 @@
+21/2/2006:	v8.37
+	- add noapic boot option (#150030)
+	- add initviocons on s390 (#144151)
+
 20/2/2006:	v8.36
 	- fixed rescue /dev dir
 	- xfs module config fixed
