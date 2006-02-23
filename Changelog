@@ -1,3 +1,5 @@
+	- add iprutils binaries from /usr/sbin (#152886)
+
 21/2/2006:	v8.37
 	- add noapic boot option (#150030)
 	- add initviocons on s390 (#144151)
