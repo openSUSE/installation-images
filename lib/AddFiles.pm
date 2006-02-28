@@ -74,8 +74,7 @@ sub AddFiles
 
   $su = "$SUBinary -q 0 " if $SUBinary;
 
-
-  sub account_size
+  my $account_size = sub
   {
     my ($dir, $s, @f);
     local $_;
@@ -92,7 +91,7 @@ sub AddFiles
       $acc_pack_files{$current_pack}{$_} = 1 unless exists $acc_all_files{$_};
       $acc_all_files{$_} = 1;
     }
-  }
+  };
 
   ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
 
@@ -258,7 +257,7 @@ sub AddFiles
       undef %script;
       undef @scripts;
 
-      account_size $dir;
+      $account_size->($dir);
 
       undef $current_pack;
 
@@ -636,7 +635,7 @@ sub AddFiles
 
   close F;
 
-  account_size $dir;
+  $account_size->($dir);
 
   if(!($use_cache & 4)) {
     SUSystem "rm -rf $tdir";

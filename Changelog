@@ -1,5 +1,7 @@
+28/2/2006:	v8.39
 	- s390: moved zfcp configure scripts from root to initrd
 	  (bug #153336)
+	- enabled themes
 
 24/2/2006:	v8.38
 	- add iprutils binaries from /usr/sbin (#152886)

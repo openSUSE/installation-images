@@ -78,7 +78,7 @@ if with_yast2 ne 'no'
       /usr/sbin/utempter
 
     # links support
-    if 1
+    if 0
 
       links:
         /usr/bin/links

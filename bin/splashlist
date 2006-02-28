@@ -25,9 +25,14 @@ if($ENV{themes}) {
 
 for (keys %{$ConfigData{ini}}) {
   next unless /^Theme (.+)$/;
-  next unless $ConfigData{ini}{$_}{splash};
+  next unless $ConfigData{ini}{$_}{bsplash};
+  $st{$1}{bsplash} = $ConfigData{ini}{$_}{bsplash} if !%themes || exists $themes{$1};
+}
 
-  $st{$ConfigData{ini}{$_}{splash}} = 1 if !%themes || exists $themes{$1};
+for (keys %{$ConfigData{ini}}) {
+  next unless /^Theme (.+)$/;
+  next unless $ConfigData{ini}{$_}{ksplash};
+  $st{$1}{ksplash} = $ConfigData{ini}{$_}{ksplash} if !%themes || exists $themes{$1};
 }
 
 mkdir "${DataPath}base/gen", 0755;
@@ -37,28 +42,30 @@ open W, ">$dst";
 print W "if arch eq 'ia32' || arch eq 'x86_64'\n";
 print W "  gfxboot:\n    /\n    r /usr/sbin/getx11font\nendif\n";
 for (sort keys %st) {
+  next unless $st{$_}{bsplash};
+
   print W
     "  d /$_\n" .
     "  d /$_/floppy\n" .
     "  d /$_/gz\n" .
     "if arch eq 'ia32' || arch eq 'x86_64'\n" .
-    "    E make -C /usr/share/gfxboot/themes/$_\n" .
-    "    E cp /usr/share/gfxboot/themes/$_/install/bootlogo /$_\n" .
+    "    E make -C /usr/share/gfxboot/themes/$st{$_}{bsplash}\n" .
+    "    E cp /usr/share/gfxboot/themes/$st{$_}{bsplash}/install/bootlogo /$_\n" .
     "endif\n";
 }
 
 for (sort keys %st) {
+  next unless $st{$_}{ksplash};
+
   print W
-    "\nbootsplash-theme-$_:\n  /\n";
+    "\nbootsplash-theme-$st{$_}{ksplash}:\n  /\n";
 
   undef %fl_spl;
   @fl_spl{split /\s|,/, $ConfigData{ini}{Splash}{floppy}} = ();
 
   for $res (split /\s|,/, $ConfigData{ini}{Splash}{cdrom}) {
     $res2 = sprintf "%04u%04u", split(/x/, $res);
-#    print W "  E splash -s${full_splash} -f /etc/bootsplash/themes/$_/config/bootsplash-${res}.cfg >/$_/${res2}.spl\n";
-#    print W "  E splash -s${full_splash} -c -f /etc/bootsplash/themes/$_/config/bootsplash-${res}.cfg | gzip -9c >/$_/gz/${res2}.spl\n";
-    print W "  E /mk_splash $_ $res $res2\n";
+    print W "  E /mk_splash $_ $st{$_}{ksplash} $res $res2\n";
     print W "  l /$_/gz/${res2}.spl /$_/floppy\n" if exists $fl_spl{$res};
   }
   print W "\n";

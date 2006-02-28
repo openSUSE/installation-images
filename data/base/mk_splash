@@ -1,11 +1,14 @@
 #! /bin/sh
 
-theme=$1
-cfg=$2
-spl=$3
+dst=$1
+theme=$2
+cfg=$3
+spl=$4
 
-splash -s -f /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg >/$theme/$spl.spl
-splash -s -c -f /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg | gzip -9c >/$theme/gz/$spl.spl
+splash -s -f /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg >/$dst/$spl.spl
+splash -s -c -f /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg | gzip -9c >/$dst/gz/$spl.spl
+
+cp -a /etc/bootsplash/themes/$theme/animations /$dst
 
 mkdir xxx
 cp -a --parents /etc/bootsplash/themes/$theme/config/*-$cfg.* xxx
@@ -13,7 +16,7 @@ cp -a --parents /etc/bootsplash/themes/$theme/images/*-$cfg.* xxx
 ln -s /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg xxx/etc/splash.cfg
 cd xxx
 chmod -R a+rX .
-find | cpio --quiet -o -H newc | gzip -9 >>/$theme/gz/$spl.spl
+find | cpio --quiet -o -H newc | gzip -9 >>/$dst/gz/$spl.spl
 cd /
 rm -r xxx
 

@@ -46,9 +46,11 @@ x86_64	= lib64
 cdrom	= 800x600,1024x768,1280x1024,1400x1050,1600x1200
 floppy	= 
 
+
 [Theme SuSE]
 yast	= SuSELinux
-splash	= SuSE
+bsplash = SuSE
+ksplash = SuSE
 product	= SUSE Linux
 version = 10.1
 update	= /linux/suse/<arch>-<rel>
@@ -56,20 +58,32 @@ image	= 200
 
 
 [Theme SLES]
-yast	= SuSELinux
-splash	= SuSE
-product	= SUSE LINUX Enterprise Server 10
+yast	= NLD
+bsplash = SuSE
+ksplash = SuSE-SLES
+product	= SUSE Linux Enterprise Server 10
 version = 10.1
 update	= /linux/suse/<arch>-<sles>
 image	= 200
 
 
-[Theme Zen]
-yast    = SuSELinux
-splash  = SuSE
-product = ZENworks
+[Theme NLD]
+yast	= NLD
+bsplash = SuSE
+ksplash	= SuSE-NLD
+product	= SUSE Linux Enterprise Desktop 10
 version = 10.1
-update  = /linux/suse/<arch>-<rel>
-image   = 200
+update	= /linux/suse/<arch>-<sles>
+image	= 200
+
+
+; [Theme Zen]
+; yast    = SuSELinux
+; bsplash = SuSE
+; ksplash = SuSE
+; product = ZENworks
+; version = 10.1
+; update  = /linux/suse/<arch>-<rel>
+; image   = 200
 
 

@@ -339,8 +339,8 @@ if arch eq 'ia32' || arch eq 'x86_64'
     /lib/bootsplash/control
     /sbin/splash
 
-  bootsplash-theme-<splash_theme>:
-    /etc/bootsplash/themes/<splash_theme>/animations
+    d /etc/bootsplash/themes/<theme>
+    e cp -a /<theme>/animations etc/bootsplash/themes/<theme>
 
 endif
 
