@@ -1,3 +1,7 @@
+1/3/2006:	v8.40
+	- /etc/iscsid.conf needs to be writable
+	- /dev/null was a file in rescue system (why?)
+
 28/2/2006:	v8.39
 	- s390: moved zfcp configure scripts from root to initrd
 	  (bug #153336)

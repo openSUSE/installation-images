@@ -507,6 +507,9 @@ sysconfig: postin
 # d /var/run/sysconfig/tmp
 
 udev: postin
+  # ******* FIXME: where does it come from???
+  r /dev/null
+
   /etc
   /lib/udev
   # to avoid hardlink in cramfs

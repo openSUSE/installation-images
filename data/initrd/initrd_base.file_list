@@ -391,6 +391,10 @@ ethtool:
 qlogic-firmware:
   /lib/firmware
 
+open-iscsi:
+  # must be writable
+  /etc/iscsid.conf
+  c 644 0 0 /etc/iscsid.conf
 
 # add udev
 udev:
