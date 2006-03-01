@@ -39,9 +39,6 @@ r /var/adm/fillup-templates
 tar:
   /bin/tar
 
-sed:
-  /bin/sed
-
 libacl:
   /lib*
 

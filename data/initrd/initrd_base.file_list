@@ -210,6 +210,9 @@ if arch eq 's390' || arch eq 's390x'
       /sbin/zfcp_*_configure
 endif
 
+sed:
+  /bin/sed
+
 if with_gdb
 
   kbd:

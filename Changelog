@@ -1,3 +1,6 @@
+	- moved /bin/sed from root to initrd (needed by s390
+	  zfcp_*_configure scripts, bug #153336)
+
 1/3/2006:	v8.41
 	- SLES: removed evms support
 
