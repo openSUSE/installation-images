@@ -118,6 +118,7 @@ if with_yast2 ne 'no'
   xorg-x11:
     /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
     /usr/X11R6/bin/xkbcomp
+    /usr/X11R6/bin/xmodmap
     /usr/X11R6/bin/setxkbmap
     /usr/X11R6/bin/mkfontdir
     /usr/X11R6/bin/mkfontscale

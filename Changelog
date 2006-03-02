@@ -1,3 +1,7 @@
+2/3/2006:	v8.43
+	- added Khmer utf8 locale (#145854)
+	- added xmodmap (#154357)
+
 1/3/2006:	v8.42
 	- moved /bin/sed from root to initrd (needed by s390
 	  zfcp_*_configure scripts, bug #153336)
