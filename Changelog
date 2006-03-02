@@ -1,3 +1,6 @@
+	- load ipr and sym53c8xx unconditionally to preserve SLES9 module loadorder (#145259)
+	- disable zImage.prep creation for the time being
+
 2/3/2006:	v8.43
 	- added Khmer utf8 locale (#145854)
 	- added xmodmap (#154357)

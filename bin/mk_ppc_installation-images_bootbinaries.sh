@@ -48,6 +48,7 @@ fi
 	--initrd $bdir/initrd-kernel-default-ppc \
 	--output $CD1/suseboot/inst32
 #
+if test "42" = "false" ; then
 /bin/mkzimage \
 	--board prep \
 	--vmlinux /boot/vmlinux-*-default \
@@ -55,7 +56,6 @@ fi
 	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 	--output $CD1/boot/ppc/zImage.prep.initrd
 #
-if test "42" = "false" ; then
 /bin/mkzimage \
 	--board pmaccoff \
 	--vmlinux /boot/vmlinux-*-default \
@@ -98,7 +98,7 @@ cat > $CD1/suseboot/yaboot.cnf <<EOF
 message=yaboot.txt
 image[64bit]=inst64
   label=install
-  append="minmemory=0 MemYaSTText=0 quiet sysrq=1                       "
+  append="minmemory=0 MemYaSTText=0 quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
 image[64bit]=inst64
   label=slp
   append="minmemory=0 MemYaSTText=0 quiet sysrq=1 install=slp           "
