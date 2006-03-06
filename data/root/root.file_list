@@ -787,8 +787,12 @@ endif
 
 :
 
+if instsys_complain_root
+  e echo "InstsysComplain:	<instsys_complain_root>" >>.instsys.config
+endif
+
 if instsys_build_id
-  e echo "InstsysID:     <instsys_build_id>" >>.instsys.config
+  e echo "InstsysID:	<instsys_build_id>" >>.instsys.config
 endif
 
 # final clean up

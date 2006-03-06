@@ -711,6 +711,7 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   $ConfigData{kernel_mods} =~ s/-(.+?)-/-override-/;
 
   $ConfigData{instsys_complain} = $ENV{instsys_complain};
+  $ConfigData{instsys_complain_root} = $ENV{instsys_complain_root};
   $ConfigData{instsys_build_id} = $ENV{instsys_build_id};
 
   if(!$ENV{silent}) {

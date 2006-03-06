@@ -1,5 +1,8 @@
+6/3/2006:	v8.44
 	- load ipr and sym53c8xx unconditionally to preserve SLES9 module loadorder (#145259)
 	- disable zImage.prep creation for the time being
+	- introduce instsys_complain_root to set warning level in inst-sys
+	- nolapic instead of noapic (#155280)
 
 2/3/2006:	v8.43
 	- added Khmer utf8 locale (#145854)
