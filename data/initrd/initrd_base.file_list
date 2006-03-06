@@ -96,7 +96,6 @@ if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch
     g /usr/share/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz usr/share/kbd/keymaps/cz-us-qwertz.map
     g /usr/share/kbd/keymaps/i386/qwerty/dk.map.gz usr/share/kbd/keymaps/dk.map
     g /usr/share/kbd/keymaps/i386/qwerty/es.map.gz usr/share/kbd/keymaps/es.map
-    g /usr/share/kbd/keymaps/i386/qwerty/fi.map.gz usr/share/kbd/keymaps/fi.map
     g /usr/share/kbd/keymaps/i386/qwerty/gr.map.gz usr/share/kbd/keymaps/gr.map
     g /usr/share/kbd/keymaps/i386/qwertz/hu.map.gz usr/share/kbd/keymaps/hu.map
     g /usr/share/kbd/keymaps/i386/qwerty/it.map.gz usr/share/kbd/keymaps/it.map
@@ -108,6 +107,7 @@ if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch
     g /usr/share/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz usr/share/kbd/keymaps/sk-qwerty.map
     g /usr/share/kbd/keymaps/i386/qwertz/slovene.map.gz usr/share/kbd/keymaps/slovene.map
     g /usr/share/kbd/keymaps/i386/qwerty/sv-latin1.map.gz usr/share/kbd/keymaps/sv-latin1.map
+    g /usr/share/kbd/keymaps/i386/qwerty/fi-latin1.map.gz usr/share/kbd/keymaps/fi-latin1.map
     g /usr/share/kbd/keymaps/i386/qwerty/uk.map.gz usr/share/kbd/keymaps/uk.map
     g /usr/share/kbd/keymaps/i386/azerty/fr-latin1.map.gz usr/share/kbd/keymaps/fr-latin1.map
     g /usr/share/kbd/keymaps/i386/azerty/be-latin1.map.gz usr/share/kbd/keymaps/be-latin1.map
