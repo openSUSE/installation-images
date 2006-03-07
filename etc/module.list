@@ -91,7 +91,6 @@ kernel/drivers/s390/
 kernel/net/ipv6/ipv6.ko
 kernel/lib/zlib_inflate/
 kernel/lib/crc-ccitt.ko
-extra/cpint.ko
 
 kernel/crypto/twofish.ko
 

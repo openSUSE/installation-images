@@ -1,3 +1,8 @@
+7/3/2006:	v8.45
+	- s390: removed cpint stuff, added /sbin/vmcp, vmcp kernel module
+	  (bug #149490)
+	- s390: added "console=ttyS0 console=ttyS1" to parmfile (bug #155707)
+
 6/3/2006:	v8.44
 	- load ipr and sym53c8xx unconditionally to preserve SLES9 module loadorder (#145259)
 	- disable zImage.prep creation for the time being

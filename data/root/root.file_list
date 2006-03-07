@@ -223,9 +223,8 @@ if arch eq 's390' || arch eq 's390x'
     /sbin/dasd_configure
     /sbin/dasd_reload
     /sbin/dasdro
+    /sbin/vmcp
     e postin
-  cpint:
-    /sbin/hcp
 endif
 
 dosfstools:
