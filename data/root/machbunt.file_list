@@ -61,12 +61,12 @@ if with_yast2 ne 'no'
     xorg-x11-driver-video:
       /usr/X11R6/lib*/modules/drivers/ati_drv.so
       /usr/X11R6/lib*/modules/drivers/atimisc_drv.so
+      /usr/X11R6/lib*/modules/drivers/i810_drv.so
       /usr/X11R6/lib*/modules/drivers/nv_drv.so
       /usr/X11R6/lib*/modules/drivers/r128_drv.so
       /usr/X11R6/lib*/modules/drivers/radeon_drv.so
-      if arch eq 'ia32' || arch eq 'x86_64'
-      /usr/X11R6/lib*/modules/drivers/i810_drv.so
-      endif
+      /usr/X11R6/lib*/modules/drivers/sis_drv.so
+      /usr/X11R6/lib*/modules/drivers/via_drv.so
 
     xterm:
       /usr/X11R6/lib/X11/app-defaults/XTerm

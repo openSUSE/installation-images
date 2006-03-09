@@ -558,6 +558,12 @@ gawk:
 ddrescue:
   /bin
 
+bc:
+  /usr/bin/bc
+
+checkmedia:
+  /usr/bin/checkmedia
+
 hex:
   /usr/bin/hex
 

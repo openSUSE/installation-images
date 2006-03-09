@@ -1,6 +1,8 @@
-8/3/2006:   v8.46
-    - ia64: added 60Hz 800x600 Modeline to xorg.conf. This is needed
-      for the radeon driver on ia64 to start the X-Server (#155130)
+9/3/2006:	v8.46
+	- added bc to rescue (#156061)
+	- ia64: added 60Hz 800x600 Modeline to xorg.conf. This is needed
+	  for the radeon driver on ia64 to start the X-Server (#155130)
+	- added via & sis drivers (#155681)
 
 7/3/2006:	v8.45
 	- s390: removed cpint stuff, added /sbin/vmcp, vmcp kernel module
