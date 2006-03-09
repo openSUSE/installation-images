@@ -1,5 +1,5 @@
-SUSE LINUX 10.0-Bootdisketten erstellen
---------------------------------------
+SUSE Linux 10.1-Bootdisketten erstellen
+---------------------------------------
 
 Die Bootdateien sind auf mehrere Disketten aufgeteilt.
 
@@ -23,28 +23,5 @@ diesem Verzeichnis) auf einem Linux-System:
 4. Einen kurzen Überblick über die Bedienung des Programms 'mkbootdisk' gibt
 
      mkbootdisk --help
-
-
-
-Rettungsdiskette erstellen
---------------------------
-
-Es befindet sich bereits ein Rettungssystem auf dieser CD. Für den
-Fall, dass Ihr Rechner nicht auf das CD-Laufwerk zugreifen kann oder das
-Rettungssystem zu groß ist, können Sie eine Rettungsdiskette erstellen.
-
-Gehen Sie bitte so vor:
-
-  dd if=/where_CD1_is_mounted/boot/rescuefloppy of=/dev/fd0
-
-
-
-Was bedeuten die anderen Dateien in diesem Verzeichnis?
--------------------------------------------------------
-
-rescue:		Rettungssystem.
-root:		Installationssystem.
-root.fonts:	Zusätzliche Schriften.
-loader:		Vom Bootmanager benötigte Dateien.
 
 

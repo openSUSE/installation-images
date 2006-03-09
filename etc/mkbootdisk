@@ -11,7 +11,7 @@
 use strict 'vars';
 use integer;
 
-%::ConfigData = ( full_product_name => "SUSE Linux 10.0" );
+%::ConfigData = ( full_product_name => "SUSE Linux 10.1" );
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -998,9 +998,15 @@ die "error: $opt_syslinux not found\nPlease install package \"syslinux\" first.\
 chomp ($tmp_dir = `mktemp -d /tmp/mkbootdisk.XXXXXXXXXX`);
 die "error: mktemp failed\n" if $?;
 
-my $src = "$opt_src/boot/loader";
-$src = "$opt_src/loader" unless -d $src;
-$src = $opt_src unless -d $src;
+$arch = $opt_64 ? 'x86_64' : 'i386';
+
+my $src = "$opt_src/boot/$arch/loader";
+$opt_64 = $opt_96 = 0 if -f "$src/isolinux.cfg";
+$src = "$opt_src/boot/loader" unless -f "$src/isolinux.cfg";
+$src = "$opt_src/loader" unless -f "$src/isolinux.cfg";
+$src = $opt_src unless -f "$src/isolinux.cfg";
+
+die "$opt_src: no $arch installation source\n" unless -f "$src/isolinux.cfg";
 
 mkdir "$tmp_dir/src", 0755;
 mkdir "$tmp_dir/mp", 0755;
@@ -1026,10 +1032,6 @@ if(!$opt_96) {
 # prepare syslinux config file
 
 open F, "$src/isolinux.cfg"; my @cfg = <F>; close F;
-my $n = 2;
-$n = 6 if $opt_64;
-$n = 18 if $opt_96;
-s/^(notice\s+)(\d+)/$1$n/ for @cfg;
 push @cfg, "disksize\t2880\n" unless defined $opt_disk;
 open F, ">$src/syslinux.cfg"; print F @cfg; close F,
 unlink "$src/isolinux.cfg";
@@ -1265,15 +1267,14 @@ sub help
   "  --out file\t\twrite disks as fileN (default: bootdisk)\n" .
   "  --32\t\t\tcreate boot disks for 32 bit arch\n" .
   "  --64\t\t\tcreate boot disks for 64 bit arch\n" .
-  "  --96\t\t\tcreate boot disks for both 32 & 64 bit (bi-arch)\n" .
   "  --partition device\tmake this disk with this partition bootable\n" .
   "  --backup-mbr file\tsave mbr to file\n" .
   "Examples:\n" .
   "  $p /media/cdrom\n" .
-  "  - write boot disks as bootdisk1 ... bootdiskN (N is approx. 7)\n" .
+  "  - write boot disks as bootdisk1 ... bootdiskN (N is approx. 8)\n" .
   "  $p --64 --out foo /media/cdrom\n" .
   "  - write 64 bit boot disks as foo1 ... fooN\n" .
-  "  $p --96 --partition /dev/sdb1 --backup-mbr mbr_old /media/cdrom\n" .
+  "  $p --partition /dev/sdb1 --backup-mbr mbr_old /media/cdrom\n" .
   "  - copy install files to /dev/sdb1 and write new mbr to /dev/sdb\n";
 
   exit 0;

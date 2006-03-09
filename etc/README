@@ -1,5 +1,5 @@
-Creating SUSE LINUX 10.0 Boot Disks
-----------------------------------
+Creating SUSE Linux 10.1 Boot Disks
+-----------------------------------
 
 The boot files are split across several floppy disks.
 
@@ -22,27 +22,5 @@ a Linux system:
 4. A short usage summary of 'mkbootdisk' gives
 
      mkbootdisk --help
-
-
-
-Creating a Rescue Floppy
-------------------------
-
-There is already a rescue system on CD. If you cannot access the CD
-or just want a smaller rescue system, you can create a rescue floppy.
-
-Use a command like
-
-  dd if=/where_CD1_is_mounted/boot/rescuefloppy of=/dev/fd0
-
-
-
-Other Files in This Directory
------------------------------
-
-rescue:		Rescue system.
-root:		Installation system.
-root.fonts:	Additional fonts.
-loader:		Boot loader and files it needs.
 
 
