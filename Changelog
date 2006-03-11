@@ -1,3 +1,5 @@
+	- mount /lib/firmware and /usr/lib/microcode as tmpfs in rescue (#155900)
+
 9/3/2006:	v8.46
 	- added bc to rescue (#156061)
 	- ia64: added 60Hz 800x600 Modeline to xorg.conf. This is needed

@@ -657,5 +657,9 @@ E echo "usbfs /proc/bus/usb usbfs defaults 0 0" >>/etc/fstab
 E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 E /sbin/SuSEconfig --force --norestarts
 
+d lib/firmware usr/lib/microcode
+E echo "firmware /lib/firmware tmpfs defaults 0 0" >>/etc/fstab
+E echo "microcode /usr/lib/microcode tmpfs defaults 0 0" >>/etc/fstab
+
 r /var/adm/fillup-templates
 
