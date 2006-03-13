@@ -1,4 +1,5 @@
 	- mount /lib/firmware and /usr/lib/microcode as tmpfs in rescue (#155900)
+	- remove reiser4progs (#157465)
 
 9/3/2006:	v8.46
 	- added bc to rescue (#156061)

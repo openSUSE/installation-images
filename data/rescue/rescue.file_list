@@ -337,10 +337,12 @@ procinfo:
 reiserfs:
   /sbin
 
+if 0
 reiser4progs:
   /usr/sbin
   /usr/lib*/libreiser4-1.0.so.*
   /usr/lib*/librepair-1.0.so.*
+endif
 
 libaal:
   /usr/lib*/libaal-1.0.so.*
