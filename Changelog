@@ -1,5 +1,9 @@
+13/3/2006:	v8.47
 	- mount /lib/firmware and /usr/lib/microcode as tmpfs in rescue (#155900)
 	- remove reiser4progs (#157465)
+	- added pci=nommconf to failsafe (#157390)
+	- driver update: NLD gets separate dir '<arch>-sled10'
+	- use updated themes
 
 9/3/2006:	v8.46
 	- added bc to rescue (#156061)

@@ -508,7 +508,7 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   # (used to be in etc/config)
 
   my ( $r, $r0, $rx, $in_abuild, $a, $v, $kv, $rf, $ki, @f );
-  my ( $theme, $sles_release, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir );
+  my ( $theme, $sles_release, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir, $sled_release );
 
   my ( $dist, $i, $j, $rel, $xrel );
 
@@ -664,6 +664,7 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
     $j =~ s/,([^,]+)//;
     if($j <= $ConfigData{suse_release}) {
       $sles_release = $i if $i =~ /^sles/;
+      $sled_release = $i if $i =~ /^sled/;
     }
   }
 
@@ -686,6 +687,7 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   $full_product_name .= (" " . $ConfigData{ini}{"Theme $theme"}{version}) if $ConfigData{ini}{"Theme $theme"}{version};
   $update_dir = $ConfigData{ini}{"Theme $theme"}{update};
   $update_dir =~ s/<sles>/$sles_release/g;
+  $update_dir =~ s/<sled>/$sled_release/g;
   $update_dir =~ s/<rel>/$rel/g;
   $update_dir =~ s/<arch>/$realarch/g;
   $load_image = $ConfigData{ini}{"Theme $theme"}{image};
@@ -720,7 +722,7 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
     $r = $ConfigData{suse_release};
     $r .= " $ConfigData{suse_xrelease}" if $ConfigData{suse_xrelease};
 
-    print "--- Building for $product_name $r $ConfigData{arch} [$ConfigData{lib}] ($sles_release), theme $ConfigData{theme}\n";
+    print "--- Building for $product_name $r $ConfigData{arch} [$ConfigData{lib}] ($sles_release,$sled_release), theme $ConfigData{theme}\n";
     print "--- Kernel: $ConfigData{kernel_rpm}, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
 
     $r = $ConfigData{suse_base};
