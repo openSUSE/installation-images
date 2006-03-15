@@ -1,3 +1,6 @@
+15/3/2006:	v8.48
+	- x86_64: added *32bit packages to rescue system for grub (#153094)
+
 13/3/2006:	v8.47
 	- mount /lib/firmware and /usr/lib/microcode as tmpfs in rescue (#155900)
 	- remove reiser4progs (#157465)
