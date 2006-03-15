@@ -623,6 +623,7 @@ hex:
   /usr/bin/hex
 
 bzip2:
+  /usr/bin/b{,un}zip2
   /lib*/libbz2.so*
 
 unzip:
