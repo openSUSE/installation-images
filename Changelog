@@ -1,3 +1,6 @@
+16/3/2006:	v8.49
+	- s390: added s390-tools binaries to rescue system (bug #157952)
+
 15/3/2006:	v8.48
 	- x86_64: added *32bit packages to rescue system for grub (#153094)
 
