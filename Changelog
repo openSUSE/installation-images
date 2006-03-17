@@ -1,3 +1,5 @@
+	- add spidernet for Cell
+
 16/3/2006:	v8.49
 	- s390: added s390-tools binaries to rescue system (bug #157952)
 
