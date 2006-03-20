@@ -2,34 +2,6 @@
 
 PATH="/sbin:/bin:/lbin"
 
-# generate events with the sysfs trigger
-function trigger_device_events() {
-	list=$(echo /sys/bus/*/devices/*/uevent)
-	list="$list $(echo /sys/class/*/*/uevent)"
-	list="$list $(echo /sys/block/*/uevent /sys/block/*/*/uevent)"
-	for i in $list; do
-	    case "$i" in
-		*/device/uevent|*\**)
-		    continue
-		    ;;
-		*/class/mem/*|*/class/tty/*)
-		    first="$first $i"
-		    ;;
-		*/block/md*)
-		    last="$last $i"
-		    ;;
-		*/*)
-		    default="$default $i"
-		    ;;
-	    esac
-	done
-
-	# trigger the sorted events
-	for i in $first $default $last; do
-	    echo "add" > "$i"
-	done
-}
-
 # disable hotplug helper, udevd listens to netlink
 echo "" > /proc/sys/kernel/hotplug
 
@@ -50,14 +22,14 @@ rm -f /var/run/sysconfig/network
 mkdir /dev/.udev
 mkdir /dev/.udev/queue
 
-# configure all devices
-trigger_device_events
+# create devices
+/sbin/udevtrigger
 
 # until we know how to do better, just wait for _all_ events to finish
-loop=300
+#loop=300
 while test -d /dev/.udev/queue; do
     sleep 0.1;
-    test "$loop" -gt 0 || break
-    loop=$(($loop - 1))
+#    test "$loop" -gt 0 || break
+#    loop=$(($loop - 1))
 done
 
