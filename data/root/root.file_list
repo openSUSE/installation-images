@@ -375,8 +375,8 @@ endif
   yast2-storage:
     /
 if theme eq 'SLES'
-#    yast2-storage-evms:
-#      /
+    yast2-storage-evms:
+      /
 endif
   yast2-storage-lib:
     /
@@ -660,10 +660,10 @@ ntfsprogs:
   /usr/lib*/libntfs.so*
 
 if theme eq 'SLES'
-#  evms:
-#    /etc/evms.conf
-#    /lib*
-#    /sbin/evms{_activate,_gather_info}
+  evms:
+    /etc/evms.conf
+    /lib*
+    /sbin/evms{_activate,_gather_info}
 endif
 
 pmtools:

@@ -1,5 +1,6 @@
 	- add spidernet for Cell
 	- simplify boot.msg inspection, case sensitive
+	- evms is back (#154379)
 
 16/3/2006:	v8.49
 	- s390: added s390-tools binaries to rescue system (bug #157952)
