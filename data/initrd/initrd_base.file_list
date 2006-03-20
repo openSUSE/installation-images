@@ -361,6 +361,7 @@ pcmciautils:
 
 bash:
   /bin/{sh,bash}
+  s bash /bin/lsh
 
 readline:
   /lib*/libreadline.so*
