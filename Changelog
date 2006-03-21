@@ -1,3 +1,5 @@
+	- added s2io for ppc (#159639 - LTC22556)
+
 21/3/2006:	v8.51
 	- added cpio & more to initrd
 	- fixed 'adddir' script to work better on conflicting directory
