@@ -32,7 +32,9 @@ function add_dir {
           tmp=`mktemp -d "$dst/adddir.XXXXXX"` || exit 2
           chown --dereference --reference "$dst/$i" "$tmp" 2>/dev/null
           chmod --reference "$dst/$i" "$tmp"
-          add_dir "`readlink $dst/$i`" "$tmp"
+          slink="`readlink $dst/$i`"
+          [ "${slink:0:1}" = / ] || slink="$dst/$slink"
+          add_dir "$slink" "$tmp"
           rm -f "$dst/$i"
           mv "$tmp" "$dst/$i"
         fi

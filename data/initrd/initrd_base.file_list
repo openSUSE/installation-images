@@ -400,6 +400,13 @@ open-iscsi:
   /etc/iscsid.conf
   c 644 0 0 /etc/iscsid.conf
 
+cpio:
+  /bin/cpio
+
+util-linux:
+  /bin/more
+  s more /bin/less
+
 # add udev
 udev:
   /etc
