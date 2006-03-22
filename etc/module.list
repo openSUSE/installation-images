@@ -97,3 +97,5 @@ kernel/crypto/twofish.ko
 kernel/drivers/video/vga16fb.ko
 kernel/drivers/video/vgastate.ko
 
+kernel/arch/i386/kernel/msr.ko
+
