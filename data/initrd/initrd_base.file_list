@@ -405,7 +405,6 @@ cpio:
 
 util-linux:
   /bin/more
-  s more /bin/less
 
 # add udev
 udev:
