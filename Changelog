@@ -1,3 +1,4 @@
+	- spidernet needs firmware_class, autoload it
 	- added s2io for ppc (#159639 - LTC22556)
 	- added msr module (#157429)
 
