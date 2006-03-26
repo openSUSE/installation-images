@@ -50,7 +50,13 @@ then
 	    # use bus info
 	    eval HWD_BUSNAME=\$HWD_BUSNAME_$((HWD_BUS_N-1))
 	    eval HWD_BUSID=\$HWD_BUSID_$((HWD_BUS_N-1))
+	    if test "${HWD_BUSNAME}" = "vio" -a -d /proc/iSeries
+	    then
+	    # Bug 159652 - LTC22358 - no hwcfg-static files created for iseries_veth
+	    myhwcfg=hwcfg-static-0
+	    else
 	    myhwcfg=hwcfg-bus-${HWD_BUSNAME}-${HWD_BUSID}
+	    fi
 	else
 	    # use static name
 	    myhwcfg=hwcfg-static-0
