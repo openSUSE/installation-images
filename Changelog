@@ -1,4 +1,6 @@
+27/3/2006:	v8.53
 	- use hwcfg-static for iseries_veth until the kernel is fixed (#159652 - LTC22358)
+	- bootsplash control socket is gone
 
 24/3/2006:	v8.52
 	- added s2io for ppc (#159639 - LTC22556)

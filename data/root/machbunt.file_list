@@ -276,8 +276,10 @@ endif
   sax2-tools:
     /usr/sbin
 
+if !(arch eq 's390' || arch eq 's390x')
   sax2-ident:
     /
+endif
 
 xmset:
   /usr/sbin

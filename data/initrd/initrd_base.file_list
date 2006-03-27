@@ -339,7 +339,6 @@ hwinfo-devel:
 if arch eq 'ia32' || arch eq 'x86_64'
 
   bootsplash:
-#    /lib/bootsplash/control
     /sbin/splash
 
     d /etc/bootsplash/themes/<theme>
