@@ -1,3 +1,6 @@
+28/3/2006:	v8.54
+	- ajusted module config
+
 27/3/2006:	v8.53
 	- use hwcfg-static for iseries_veth until the kernel is fixed (#159652 - LTC22358)
 	- bootsplash control socket is gone
