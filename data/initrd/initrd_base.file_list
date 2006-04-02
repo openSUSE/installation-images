@@ -55,7 +55,7 @@ module-init-tools:
 
 x etc/host.conf etc
 
-if arch ne 's390' && arch ne 's390x' && arch ne 'ppc' && arch ne 'ppc64'
+if arch ne 's390' && arch ne 's390x'
 
 kbd:
   /bin/dumpkeys
