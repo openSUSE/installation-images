@@ -270,6 +270,8 @@ if with_yast2 ne 'no'
   kdelibs3:
     /opt/kde3/lib*/kde3/plugins/styles/plastik.so
     /opt/kde3/lib*/libkdefx.so.*
+    d /usr/lib/qt3/plugins/styles
+    s /opt/kde3/lib*/kde3/plugins/styles/plastik.so /usr/lib/qt3/plugins/styles
 
 endif
 

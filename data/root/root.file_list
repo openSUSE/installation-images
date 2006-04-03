@@ -750,6 +750,9 @@ open-iscsi:
   /sbin
   /etc/iscsid.conf
 
+gpg:
+  /usr/bin/gpg
+
 libzypp:
   /usr/lib*/libzypp.so.*
 

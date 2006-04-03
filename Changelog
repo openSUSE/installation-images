@@ -1,4 +1,7 @@
+3/4/2006:	v8.55
 	- add keymaps to ppc initrd
+	- added gpg (#162933)
+	- add symlink to plastik style (#162930)
 
 28/3/2006:	v8.54
 	- ajusted module config
