@@ -25,11 +25,6 @@ mkdir /dev/.udev/queue
 # create devices
 /sbin/udevtrigger
 
-# until we know how to do better, just wait for _all_ events to finish
-#loop=300
-while test -d /dev/.udev/queue; do
-    sleep 0.1;
-#    test "$loop" -gt 0 || break
-#    loop=$(($loop - 1))
-done
+# 10 min - just long enough
+/sbin/udevsettle --timeout=600
 

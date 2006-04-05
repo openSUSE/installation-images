@@ -1,5 +1,9 @@
+5/4/2006:	v8.56
+	- added yast2-trans-hr (#115341)
+	- fixed splash animation
+	- use udevsettle (#163010)
 	- s390: removed "console=ttyS0 console=ttyS1" from parmfile again
-          (bug #163262)
+	  (bug #163262)
 	- add entry firmware_class to ppc, to fix booting with 'insmod=ipr'
 
 3/4/2006:	v8.55
