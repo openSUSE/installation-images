@@ -1,3 +1,5 @@
+	- s390: removed "console=ttyS0 console=ttyS1" from parmfile again
+          (bug #163262)
 	- add entry firmware_class to ppc, to fix booting with 'insmod=ipr'
 
 3/4/2006:	v8.55
