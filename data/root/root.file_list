@@ -464,7 +464,7 @@ reiserfs:
 gawk:
   /bin
 
-if arch eq 'ppc' || arch eq 'ppc64'
+if arch eq 'ppc'
   pdisk:
     /sbin/pdisk
 

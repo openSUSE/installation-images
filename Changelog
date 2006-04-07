@@ -1,3 +1,6 @@
+7/4/2006:	v8.59
+	- make it build on ia64 & ppc64 & s390x
+
 7/4/2006:	v8.58
 	- raidautorun is in mdadm now (#162932)
 	- adjusted module config
