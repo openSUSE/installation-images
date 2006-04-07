@@ -131,8 +131,9 @@ if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch
 endif
 
 if arch eq 'ppc'
-  m /usr/share/kbd/keymaps/mac/include/mac-{azerty-layout,qwerty-layout,linux-keys-bare}.inc usr/share/kbd/keymaps/include
+  m /usr/share/kbd/keymaps/mac/include/mac-{azerty-layout,qwert{y,z}-layout,linux-keys-bare}.inc usr/share/kbd/keymaps/include
   g /usr/share/kbd/keymaps/mac/include/mac-euro.map.gz usr/share/kbd/keymaps/include/mac-euro.map
+  g /usr/share/kbd/keymaps/mac/include/mac-euro2.map.gz usr/share/kbd/keymaps/include/mac-euro2.map
   g /usr/share/kbd/keymaps/mac/all/mac-be.map.gz usr/share/kbd/keymaps/mac-be.map
   g /usr/share/kbd/keymaps/mac/all/mac-de-latin1-nodeadkeys.map.gz usr/share/kbd/keymaps/mac-de-latin1-nodeadkeys.map
   g /usr/share/kbd/keymaps/mac/all/mac-de-latin1.map.gz usr/share/kbd/keymaps/mac-de-latin1.map

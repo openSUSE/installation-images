@@ -1,3 +1,5 @@
+	- add missing kdb include files for mac-* keymaps to initrd
+
 7/4/2006:	v8.57
 	- added suse build key (#164001)
 	- updated zenworks file lists, enabled zenworks build
