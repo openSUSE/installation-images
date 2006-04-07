@@ -1,3 +1,7 @@
+7/4/2006:	v8.57
+	- added suse build key (#164001)
+	- updated zenworks file lists, enabled zenworks build
+
 5/4/2006:	v8.56
 	- added yast2-trans-hr (#115341)
 	- fixed splash animation

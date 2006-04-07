@@ -1,13 +1,11 @@
 d bin dev etc mnt proc sys tmp
-d var/run var/spool var/lock var/tmp var/log/YaST2 var/adm/mount
-d var/lib/YaST2 var/lib/dhcpcd var/lib/hardware/unique-keys var/lib/autoinstall
+d var/run var/spool var/lock var/tmp var/adm/mount
+d var/lib/dhcpcd var/lib/hardware/unique-keys var/lib/autoinstall
 d var/run/dbus var/run/hal var/run/hotplug var/cache/fontconfig
 
 d etc/sysconfig
 d etc/sysconfig/hardware
 
-d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11 var/lib/xkb
-s /usr/X11R6/lib/X11 var/X11R6/lib
 
 d lib/modules/<kernel_ver>
 d lib/modules/<kernel_mods>/initrd
@@ -55,7 +53,7 @@ module-init-tools:
 
 x etc/host.conf etc
 
-if arch ne 's390' && arch ne 's390x'
+##if arch ne 's390' && arch ne 's390x' && arch ne 'ppc' && arch ne 'ppc64'
 
 kbd:
   /bin/dumpkeys
@@ -63,20 +61,18 @@ kbd:
   /bin/setfont
 
   d usr/share/kbd/consoletrans
-if arch ne 'sparc' && arch ne 'sparc64'
+##if arch ne 'sparc' && arch ne 'sparc64'
   m /usr/share/kbd/consoletrans/koi2alt usr/share/kbd/consoletrans
-endif
+##endif
   m /usr/share/kbd/consoletrans/trivial usr/share/kbd/consoletrans
 
   d usr/share/kbd/consolefonts
 
-if 0
   g /usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu
   g /usr/share/kbd/consolefonts/lat1-16.psfu.gz usr/share/kbd/consolefonts/lat1-16.psfu
   g /usr/share/kbd/consolefonts/lat2-16.psfu.gz usr/share/kbd/consolefonts/lat2-16.psfu
   g /usr/share/kbd/consolefonts/iso07u-16.psfu.gz usr/share/kbd/consolefonts/lat7-16.psfu
   g /usr/share/kbd/consolefonts/Cyr_a8x16.psfu.gz usr/share/kbd/consolefonts/Cyr_a8x16.psfu
-endif
 
 linuxrc:
   g /usr/share/linuxrc/linuxrc-16.psfu.gz usr/share/kbd/consolefonts/linuxrc-16.psfu
@@ -84,13 +80,13 @@ linuxrc:
 
 kbd:
 
-if arch ne 'sparc' && arch ne 'sparc64'
+##if arch ne 'sparc' && arch ne 'sparc64'
   d usr/share/kbd/keymaps/include
   m usr/share/kbd/keymaps/include/compose.latin1 usr/share/kbd/keymaps/include
-endif
+##endif
 
-if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
-  if !fewkeymaps
+##if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
+##  if !fewkeymaps
     g /usr/share/kbd/keymaps/i386/qwerty/Pl02.map.gz usr/share/kbd/keymaps/Pl02.map
     g /usr/share/kbd/keymaps/i386/qwerty/br-abnt2.map.gz usr/share/kbd/keymaps/br-abnt2.map
     g /usr/share/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz usr/share/kbd/keymaps/cz-us-qwertz.map
@@ -116,7 +112,7 @@ if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch
     m /usr/share/kbd/keymaps/i386/include/linux-keys-extd.inc usr/share/kbd/keymaps/include
     m /usr/share/kbd/keymaps/i386/include/azerty-layout.inc usr/share/kbd/keymaps/include
     m /usr/share/kbd/keymaps/i386/include/linux-with-two-alt-keys.inc usr/share/kbd/keymaps/include
-  endif
+##  endif
 
   g /usr/share/kbd/keymaps/i386/qwerty/us.map.gz usr/share/kbd/keymaps/us.map
   g /usr/share/kbd/keymaps/i386/qwertz/de-latin1-nodeadkeys.map.gz usr/share/kbd/keymaps/de-lat1-nd.map
@@ -128,47 +124,13 @@ if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch
   m /usr/share/kbd/keymaps/i386/include/qwertz-layout.inc usr/share/kbd/keymaps/include
   g /usr/share/kbd/keymaps/i386/include/euro1.map.gz usr/share/kbd/keymaps/include/euro1.map
   g /usr/share/kbd/keymaps/i386/include/euro2.map.gz usr/share/kbd/keymaps/include/euro2.map
-endif
+##endif
 
-if arch eq 'ppc'
-  m /usr/share/kbd/keymaps/mac/include/mac-{azerty-layout,qwerty-layout,linux-keys-bare}.inc usr/share/kbd/keymaps/include
-  g /usr/share/kbd/keymaps/mac/include/mac-euro.map.gz usr/share/kbd/keymaps/include/mac-euro.map
-  g /usr/share/kbd/keymaps/mac/all/mac-be.map.gz usr/share/kbd/keymaps/mac-be.map
-  g /usr/share/kbd/keymaps/mac/all/mac-de-latin1-nodeadkeys.map.gz usr/share/kbd/keymaps/mac-de-latin1-nodeadkeys.map
-  g /usr/share/kbd/keymaps/mac/all/mac-de-latin1.map.gz usr/share/kbd/keymaps/mac-de-latin1.map
-  g /usr/share/kbd/keymaps/mac/all/mac-de_CH.map.gz usr/share/kbd/keymaps/mac-de_CH.map
-  g /usr/share/kbd/keymaps/mac/all/mac-dk-latin1.map.gz usr/share/kbd/keymaps/mac-dk-latin1.map
-  g /usr/share/kbd/keymaps/mac/all/mac-es.map.gz usr/share/kbd/keymaps/mac-es.map
-  g /usr/share/kbd/keymaps/mac/all/mac-fi-latin1.map.gz usr/share/kbd/keymaps/mac-fi-latin1.map
-  g /usr/share/kbd/keymaps/mac/all/mac-fr.map.gz usr/share/kbd/keymaps/mac-fr.map
-  g /usr/share/kbd/keymaps/mac/all/mac-it.map.gz usr/share/kbd/keymaps/mac-it.map
-  g /usr/share/kbd/keymaps/mac/all/mac-se.map.gz usr/share/kbd/keymaps/mac-se.map
-  g /usr/share/kbd/keymaps/mac/all/mac-uk.map.gz usr/share/kbd/keymaps/mac-uk.map
-  g /usr/share/kbd/keymaps/mac/all/mac-us.map.gz usr/share/kbd/keymaps/mac-us.map
-endif
 
-if arch eq 'sparc' || arch eq 'sparc64'
-  d usr/share/kbd/keymaps
-  g /usr/share/kbd/keymaps/sun/sunkeymap.map.gz usr/share/kbd/keymaps/sunkeymap.map
-  g /usr/share/kbd/keymaps/sun/sunt4-es.map.gz usr/share/kbd/keymaps/sunt4-es.map
-  g /usr/share/kbd/keymaps/sun/sunt4-fi-latin1.map.gz usr/share/kbd/keymaps/sunt4-fi-latin1.map
-  g /usr/share/kbd/keymaps/sun/sunt4-no-latin1.map.gz usr/share/kbd/keymaps/sunt4-no-latin1.map
-  g /usr/share/kbd/keymaps/sun/sunt5-de-latin1.map.gz usr/share/kbd/keymaps/sunt5-de-latin1.map
-  g /usr/share/kbd/keymaps/sun/sunt5-es.map.gz usr/share/kbd/keymaps/sunt5-es.map
-  g /usr/share/kbd/keymaps/sun/sunt5-fi-latin1.map.gz usr/share/kbd/keymaps/sunt5-fi-latin1.map
-  g /usr/share/kbd/keymaps/sun/sunt5-fr-latin1.map.gz usr/share/kbd/keymaps/sunt5-fr-latin1.map
-  g /usr/share/kbd/keymaps/sun/sunt5-ru.map.gz usr/share/kbd/keymaps/sunt5-ru.map
-  g /usr/share/kbd/keymaps/sun/sunt5-uk.map.gz usr/share/kbd/keymaps/sunt5-uk.map
-endif
+d bin lib
 
-endif # not on s390
-
-if arch eq 's390' || arch eq 's390x' || with_smb
-
-    d bin lib
-
-    glibc:
-      /lib*/libpthread{.,-}*
+glibc:
+  /lib*/libpthread{.,-}*
 
     pam:
       /lib*/libpam.so.*
@@ -176,44 +138,39 @@ if arch eq 's390' || arch eq 's390x' || with_smb
     cups-libs:
       m /usr/lib*/libcups.so.* /lib
 
-    openssl:
-      m /usr/lib*/libcrypto.so.* /lib
-      m /usr/lib*/libssl.so.* /lib
+openssl:
+  m /usr/lib*/libcrypto.so.* /lib
+  m /usr/lib*/libssl.so.* /lib
 
-    krb5:
-      m /usr/lib*/libkrb5.so.* /lib
-      m /usr/lib*/libkrb5support.so.* /lib
-      m /usr/lib*/libgssapi_krb5.so.* /lib
-      m /usr/lib*/libk5crypto.so.* /lib
+krb5:
+  m /usr/lib*/libkrb5.so.* /lib
+  m /usr/lib*/libkrb5support.so.* /lib
+  m /usr/lib*/libgssapi_krb5.so.* /lib
+  m /usr/lib*/libk5crypto.so.* /lib
       
-    openldap2-client:
-      m /usr/lib*/liblber-*.so.* /lib
-      m /usr/lib*/libldap-*.so.* /lib
+openldap2-client:
+  m /usr/lib*/liblber-*.so.* /lib
+  m /usr/lib*/libldap-*.so.* /lib
     
-    e2fsprogs:
-      m /lib*/lib*.so.* /lib
+e2fsprogs:
+  m /lib*/lib*.so.* /lib
 
-    libcom_err:
-      m /lib*/libcom_err.so.* /lib
-      m /lib*/libss.so.* /lib
+libcom_err:
+  m /lib*/libcom_err.so.* /lib
+  m /lib*/libss.so.* /lib
 
-    db:
-      m /usr/lib*/libdb-4*.so /lib
+db:
+  m /usr/lib*/libdb-4*.so /lib
     
-    cyrus-sasl:
-      m /usr/lib*/libsasl2.so.* /lib
+cyrus-sasl:
+  m /usr/lib*/libsasl2.so.* /lib
 
-endif
-
-if arch eq 's390' || arch eq 's390x'
-    s390-tools:
-      /sbin/zfcp_*_configure
-endif
 
 sed:
   /bin/sed
 
-if with_gdb
+##if 0
+##if with_gdb
 
   kbd:
    /bin/kbd_mode
@@ -249,13 +206,16 @@ if with_gdb
     m /usr/bin/head /bin
     m /usr/bin/tail /bin
 
-  bash:
-    /bin/bash
-    /bin/sh
+##  bash:
+##    /bin/bash
+##    /bin/sh
 
   util-linux:
     /bin/mount
     /bin/umount
+
+##  libselinux:
+##    /lib*/libselinux.so*
 
   glibc:
     /lib*/librt{.,-}*
@@ -283,7 +243,7 @@ if with_gdb
 
   endif
 
-
+if 0
   d /lbin
   s /init /lbin/cp
   s /init /lbin/mv
@@ -307,9 +267,14 @@ if with_gdb
   s /init /lbin/free
   s /init /lbin/fstype
   s /init /lbin/lndir
+##  s /init /lbin/dhcpcd
+##  s /init /lbin/portmap
   s /init /lbin/lsh
-
+##  s /init /lbin/loadkeys
+##  s /init /lbin/dumpkeys
+##  s /init /lbin/setfont
 endif
+##endif
 
 
 glibc:
@@ -336,16 +301,15 @@ hal:
 hwinfo-devel:
   /usr/lib*/libhd_tiny.so.*
 
-if arch eq 'ia32' || arch eq 'x86_64'
+##if arch eq 'ia32' || arch eq 'x86_64'
 
   bootsplash:
     /sbin/splash
 
-    d /etc/bootsplash/themes/<theme>
-    e cp -a /<theme>/animations etc/bootsplash/themes/<theme>
-    e cp -a /<theme>/images etc/bootsplash/themes/<theme>
+    d /etc/bootsplash/themes/Zen
+##    e cp -a /Zen/animations etc/bootsplash/themes/Zen
 
-endif
+##endif
 
 zlib:
   /lib*/libz.so.1*
@@ -362,6 +326,7 @@ pcmciautils:
 bash:
   /bin/{sh,bash}
   s bash /bin/lsh
+  s bash /bin/ash
 
 readline:
   /lib*/libreadline.so*
@@ -406,9 +371,6 @@ cpio:
 util-linux:
   /bin/more
 
-suse-build-key:
-  m /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
-
 # add udev
 udev:
   /etc
@@ -435,106 +397,47 @@ x etc/myudevstart /bin
   b 9 14 /lib/udev/devices/md14
   b 9 15 /lib/udev/devices/md15
 
-# add hal & dbus
-if 0
-  e echo /opt/gnome/lib >etc/ld.so.conf
 
-  glibc:
-    /lib*/libpthread{.,-}*
-
-  libxml2:
-    /usr/lib*/libxml2.so.*
-
-  expat:
-    /usr/lib*/libexpat.so.*
-
-  glib2:
-    /opt/gnome/lib*/libglib-2.0.so.*
-    /opt/gnome/lib*/libgobject-2.0.so.*
-
-  dbus-1-glib:
-    /usr/lib*/libdbus-glib-1.so.*
-    /usr/bin/dbus-monitor
-
-  e cp /etc/{passwd,shadow,group} etc
-  dbus-1: prein
-    /etc
-    /usr/bin/dbus-daemon
-
-    e save_cfg etc/passwd etc/shadow etc/group
-    e prein
-    e restore_cfg etc/passwd etc/shadow etc/group
-
-  hal: prein
-    /etc
-    /usr/bin/lshal
-    /usr/sbin/hald*
-    
-    e save_cfg etc/passwd etc/shadow etc/group
-    e prein
-    e restore_cfg etc/passwd etc/shadow etc/group
+sysvinit:
+  /sbin/{halt,reboot,shutdown,showconsole,setconsole}
+  c 755 0 0 /sbin/showconsole
+  /bin/usleep
 
 
-  # + bash for testing
-
-endif
-
-:
+util-linux:
+  /etc
+  r /etc/init.d/nfsboot
+  /bin/{mount,umount,guessfstype}
+#dmesg,
+  /sbin/hwclock
+  /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
+  /sbin/agetty
+  /usr/{bin,sbin}
+  c 755 0 0 /usr/sbin/klogconsole
+gpm:
+  /etc/*
+  /usr/bin/*
+  /usr/sbin/*
+  /usr/lib/*
 
 # see etc/module.list
-e echo "KernelPCMCIA:	1" >>linuxrc.config
+  e echo "Zen:		2" >>linuxrc.config
+  e echo "SetupCmd:	"\""setctsid \`showconsole\` /bin/bash -c zenworks.s"\" >>linuxrc.config
+
+  e echo "KernelPCMCIA:	1" >>linuxrc.config
 
 e echo "UseUSBSCSI:	1" >>linuxrc.config
 e echo "Product:	<product_name>" >>linuxrc.config
 e echo "UpdateDir:	<update_dir>" >>linuxrc.config
 
-if load_image
-  if arch eq 'x86_64'
-    e echo "MemLoadImage:	307200" >>linuxrc.config
-  else
-    e echo "MemLoadImage:	<load_image>" >>linuxrc.config
-  endif
-endif
+e echo "MemLoadImage:	60000" >>linuxrc.config
 
-if min_memory
   e echo "MinMemory:	<min_memory>" >>linuxrc.config
-endif
 
-if lang
-  e echo "Language:	<lang>" >>linuxrc.config
-endif
 
-if liveeval
-  e echo "UseIDESCSI:	1" >>linuxrc.config
-  e echo "LiveConfig:	suselive.900" >>linuxrc.config
-endif
-
-if arch eq 'ppc' || arch eq 's390' || arch eq 's390x'
-  e echo "Linemode:	1" >>linuxrc.config
-endif
-
-# min. free kB for X11 YaST (below ncurses will be used)
-# 92000 free ~ 110MB total mem
-e echo "MemYaST:	92000" >>linuxrc.config
-
-# min. free kB for ncurses YaST (below swap will be activated)
-e echo "MemYaSTText:	64000" >>linuxrc.config
-
-if instsys_complain
-  e echo "InstsysComplain:	<instsys_complain>" >>linuxrc.config
-endif
-
-if instsys_build_id
-  e echo "InitrdID:	<instsys_build_id>" >>linuxrc.config
-endif
-
-if arch eq 'ia32'
-e echo "InstallDir:	/boot/i386/inst-sys" >>linuxrc.config
-e echo "RescueImage:	/boot/i386/rescue" >>linuxrc.config
-e echo "RootImage:	/boot/i386/root" >>linuxrc.config
-else
-e echo "InstallDir:	/boot/<arch>/inst-sys" >>linuxrc.config
-e echo "RescueImage:	/boot/<arch>/rescue" >>linuxrc.config
-e echo "RootImage:	/boot/<arch>/root" >>linuxrc.config
-endif
+e echo "MemYaST:	2000" >>linuxrc.config
+e echo "MemYaSTText:	2000" >>linuxrc.config
+#  e echo "NetSetup:	dhcp" >>linuxrc.config
+e echo "ScsiRename=0" >>linuxrc.config
+e echo "ScsiBeforeUsb=1" >>linuxrc.config
 

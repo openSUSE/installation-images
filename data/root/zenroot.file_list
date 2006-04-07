@@ -10,12 +10,9 @@ c 1777 0 0 tmp
 x /etc/* /etc
 r /etc/ssh/CVS
 r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
-r /etc/hotplug
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
-r /etc/nsswitch.conf
-r /etc/syslog.conf
 R s/product_name/<product_name>/ /etc/motd
 R s/product_name/<product_name>/ /etc/issue
 
@@ -30,10 +27,11 @@ aaa_base: prein,postin
 e prein
   /etc/init.d
   /etc/inputrc
-  /etc/rc.status
+e echo set bell-style none >>etc/inputrc
+#  /etc/rc.status
   /usr/bin/old
-  /root/.gnupg/suse_build_key
-  /root/.gnupg/suse_build_key
+#  /root/.gnupg/suse_build_key
+#  /root/.gnupg/suse_build_key
   /var/adm/fillup-templates
 e postin
 r /var/adm/fillup-templates
@@ -41,8 +39,8 @@ r /var/adm/fillup-templates
 tar:
   /bin/tar
 
-sed:
-  /bin/sed
+###sed:
+###  /bin/sed
 
 #samba
 libacl:
@@ -62,12 +60,14 @@ readline:
   /lib*/libhistory.so.*
 
 coreutils:
-  /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
+  /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rmdir,sync}
+#rm,
   /usr/bin/du
   /bin/touch
-  /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename}
+  /bin/{date,echo,false,pwd,stty,true,uname,basename}
+#sleep,
   /usr/bin/{expr,tee,dirname,chroot,test,tty}
-  /bin/cat
+#  /bin/cat
   /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc,od}
   /bin/sort
   /bin/kill
@@ -82,18 +82,44 @@ joe:
   /etc/joe/joerc
 
 hwinfo:
-  /lib*
-  /sbin
+  /usr/lib*
   /usr/sbin
 
+libxml2:
+  /usr/lib*/libxml2.so.*
+
+expat:
+  /usr/lib*/libexpat.so.*
+
+glib2:
+  /opt/gnome/lib*/libglib-2.0.so.*
+  /opt/gnome/lib*/libgobject-2.0.so.*
+
 udev:
-  /etc/udev
-  /sbin/udev
-  /sbin/raiddetect
-  /lib/klibc
-  /sbin/udevstart
-  m /usr/bin/udevinfo /sbin
-  /lib*/libsysfs.so*
+  /etc
+  /sbin
+  /usr/bin
+
+cifs-mount:
+  /sbin/mount.cifs
+
+dbus-1-glib:
+  /
+
+dbus-1: prein
+  /
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
+
+hal: prein
+ /
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
+
+wireless-tools:
+  /usr/lib*/libiw.so.*
 
 dmraid:
   /sbin
@@ -104,19 +130,36 @@ mktemp:
 iputils:
   /bin/ping
 
-<kernel_rpm>:
-  m /boot/System.map-* /System.map
+#rpm:
+#  /bin/rpm
+#  /usr/lib/rpm/{rpmrc,macros}
+#  /usr/lib/rpm/rpmpopt*
+#  /usr/lib*/librpm*.so
 
-  include ../initrd/gen/module.files.cd1-instsys
+util-linux:
+##  /bin/guessfstype
+##  /bin/{u,}mount
+  /bin/dmesg
+  /bin/logger
+  /sbin/losetup
+  /sbin/blockdev
+##  if arch ne 'ia64'
+    /sbin/fdisk
+    /sbin/sfdisk
+##  endif
+  /usr/sbin/setctsid
 
-pcmcia:
-  /sbin/cardmgr
-  /sbin/cardctl
-  c 755 0 0 /sbin/cardctl
-  /sbin/dump_cis
+sysfsutils:
+  /lib*/libsysfs.so*
 
 ncurses:
   /lib*/libncurses.so.5*
+  /usr/lib*/libncursesw.so.5*
+  /usr/lib*/libpanelw.so.5*
+  /usr/bin/reset
+  /usr/bin/tset
+  /usr/share/terminfo
+s ../share/terminfo /usr/lib/terminfo
 
 terminfo:
   /usr/share/terminfo/i/ibm3151
@@ -133,28 +176,17 @@ libgcc:
 glibc:
   /sbin/ldconfig
   /lib*/ld*
-  /lib*/lib{c,m}.so.6*
-  /lib*/{libcrypt.so.1*,libdl.so.2*,libnsl.so.1*}
-  /lib*/{libnss_compat.so.2,libnss_dns.so.2,libnss_files.so.2,libnss_hesiod.so.2}
-  /lib*/{libnss_nis.so.2,libnss_nisplus.so.2,libresolv.so.2*,librt*.so.1,libutil.so.1*}
+  /lib*/lib{c,m}{.,-}*
+  /lib*/{libcrypt,libdl,libnsl}{.,-}*
+  /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
+  /lib*/{libnss_nis,libnss_nisplus,libresolv,librt,libutil}{.,-}*
   /usr/sbin/rpcinfo
   /usr/bin
   /etc/rpc
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
-  /lib*/libpthread.so.0
-
-
-glibc-locale:
-  /usr/lib*/gconv/ISO8859*
-  /usr/lib*/gconv/KOI*
-  /usr/lib*/gconv/UNICODE*
-  /usr/lib*/gconv/gconv-modules*
-
-  # built in base system
-  d usr/lib/locale
-  e cp /tmp/usr/lib/locale/locale-archive usr/lib/locale
-
+  /lib*/libpthread{.,-}*
+  /lib*/libthread_db{.,-}*
 
 hdparm:
   /sbin/hdparm
@@ -164,10 +196,13 @@ e2fsprogs:
   /sbin
   /lib*
 
+libcom_err:
+  /lib*/libcom_err.so.*
+  /lib*/libss.so.*
 
 file:
   m /usr/share/misc/magic /etc/magic
-  m /usr/lib*/libmagic.so* /lib
+  /usr/lib*/libmagic.so*
   /usr/bin/file
 
 
@@ -175,8 +210,6 @@ lilo:
   /sbin/{activate,lilo}
 
 
-mdadm:
-  /sbin
 
 
 dosfstools:
@@ -186,7 +219,7 @@ dosfstools:
 net-tools:
   /bin/{domain,host}name
   /sbin/{ifconfig,route}
-  /sbin/plipconfig
+    /sbin/plipconfig
 
 
 portmap:
@@ -194,13 +227,13 @@ portmap:
 
 
 util-linux:
-  /sbin/{mkfs.minix,fsck.minix,swapoff}
+  /sbin/{mkfs,mkfs.minix,fsck.minix,mkswap,swapoff,swapon}
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
 d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
 
-d /var/X11R6/{bin,xkb/compiled,app-defaults}
+#d /var/X11R6/{bin,xkb/compiled,app-defaults}
 d /var/lib/xkb
 
 s ../lock /var/spool/locks
@@ -215,50 +248,40 @@ d /usr/{bin,lib,lib64,libexec,sbin,share}
 s ../var/spool /usr/spool
 s ../var/tmp /usr/tmp
 
-
 grep:
   /bin/{,e,f}grep
-
 
 diffutils:
   /usr/bin/{cmp,diff}
 
-
 findutils:
   /usr/bin/{find,xargs}
-
 
 less:
   /etc/lesskey
   /usr/bin/less
 
-
 module-init-tools:
- /sbin/{depmod,modinfo,modprobe,rmmod}
+ /sbin/{depmod,insmod,modinfo,modprobe,rmmod}
  /bin/lsmod
-
 
 procps:
   /bin/ps
   /usr/bin/{free,top,vmstat}
-
 
 psmisc:
   m /bin/fuser /usr/bin
   /usr/bin/killall
   /usr/bin/pstree
 
-
 procinfo:
   /usr/bin/socklist
-
 
 strace:
   /usr/bin/strace
 
-
 cpio:
-  /usr/bin/mt
+##  /usr/bin/mt
   /bin/cpio
 
 c 0755 0 0 /usr/bin
@@ -268,13 +291,16 @@ c 0755 0 0 /usr/share
 
 x /etc/ld.so.conf /etc
 
+#  curl:
+#    /usr/lib*/libcurl.so*
+
 zlib:
   /lib*/libz.so.1*
 
 c 0755 0 0 /usr
 
 libstdc++:
-  /usr/lib*/libstdc++*.so*
+  /usr/<lib>/libstdc++*.so*
 
 eject:
   /bin/eject
@@ -306,6 +332,15 @@ initviocons:
   /bin/initviocons
   /usr/bin/termprobes
 
+
+#sysvinit:
+#  /sbin/checkproc
+#  /sbin/pidofproc
+#  /sbin/showconsole
+#  c 755 0 0 /sbin/showconsole
+#  /sbin/setconsole
+#  /sbin/{reboot,halt,poweroff,shutdown}
+
 klogd:
   /sbin/klogd
 
@@ -313,10 +348,32 @@ syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 
+
+
+krb5:
+  /etc
+  /usr/lib*/libkrb5.so.*
+  /usr/lib*/libkrb5support.so.*
+  /usr/lib*/libgssapi_krb5.so.*
+  /usr/lib*/libk5crypto.so.*
+
+openldap2-client:
+  /usr/lib*/liblber-*.so.*
+  /usr/lib*/libldap-*.so.*
+
+cyrus-sasl:
+  /usr/lib*/libsasl2.so.*
+
+db:
+  /usr/lib*/libdb-4*.so  
+
+gdbm:
+  /usr/lib*/libgdbm.so*
+
  r /lib*/security/pam_userdb.so
 
- x etc/hotplug /sbin/
- c 755 0 0 /sbin/hotplug
+# x etc/hotplug /sbin/
+# c 755 0 0 /sbin/hotplug
  x etc/inst_setup_ssh /sbin/
  c 755 0 0 /sbin/inst_setup_ssh
  x etc/ssh /etc
@@ -330,8 +387,30 @@ parted:
   /usr/sbin
   /usr/lib*
 
+jfsutils:
+  /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump}
+
+xfsprogs:
+  /sbin/fsck.xfs
+  /sbin/mkfs.xfs
+  /usr/sbin/xfs_{growfs,admin,db}
+
+
+openssl:
+  m /usr/lib*/libcrypto.so.* /lib
+  m /usr/lib*/libssl.so.* /lib
+#  /usr/lib*
+#  /usr/share/ssl
+
 hex:
   /usr/bin/hex
+
+bzip2:
+  /usr/bin/b{,un}zip2
+  /lib*/libbz2.so*
+
+unzip:
+  /usr/bin/unzip
 
 sock:
   /usr/bin/sock
@@ -339,52 +418,74 @@ sock:
 iproute2:
   /sbin/ip
 
+ntfsprogs:
+  /usr/sbin/ntfsresize
+  /usr/lib*/libntfs.so*
+
+#if theme eq 'SLES'
+  evms:
+    /etc/evms.conf
+    /lib*
+    /sbin/evms{_activate,_gather_info}
+#endif
+
+pmtools:
+  /usr/sbin/dmidecode
+  /usr/sbin/acpidmp
+
 sysconfig:
   /sbin/getcfg*
   /lib*/libgetconfig.so*
+  # for modify_resolvconf
+  d etc/sysconfig/network
+  e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
+  /sbin/modify_resolvconf
 
+pciutils:
+  /sbin/lspci
+  /usr/share/pci.ids
 
-d etc/samba
-e echo "; just to make smbmount happy" >etc/samba/smb.conf
+usbutils:
+  /usr/sbin/lsusb
+  /usr/share/usb.ids
 
-smbmount-diet:
+libusb:
+  /usr/lib*/libusb-0.1.so.*
+
+checkmedia:
+  /usr/bin
+
+###d etc/samba
+###e echo "; just to make smbmount happy" >etc/samba/smb.conf
+if 0
+samba-client:
   m /usr/bin/smbmount /bin/smbmount
   s /bin/smbmount /sbin/mount.smbfs
   # taken from linuxrc
   s /lbin/smbmnt /bin/smbmnt
+endif
 
-openssl:
-  m /usr/lib*/libcrypto.so.* /lib
-  m /usr/lib*/libssl.so.* /lib
+pcmciautils:
+  /
 
-krb5:
-  /etc
-  m /usr/lib*/libkrb5.so.* /lib
-  m /usr/lib*/libkrb5support.so.* /lib
-  m /usr/lib*/libgssapi_krb5.so.* /lib
-  m /usr/lib*/libk5crypto.so.* /lib
-  
-openldap2-client:
-  m /usr/lib*/liblber-*.so.* /lib
-  m /usr/lib*/libldap-*.so.* /lib
+open-iscsi:
+  /sbin
+  /etc/iscsid.conf
 
-e2fsprogs:
-  m /lib*/libcom_err.so.* /lib
+##libzypp:
+##  /usr/lib*/libzypp.so.*
 
-db:
-  m /usr/lib*/libdb-4*.so /lib
+#boost:
+#  /usr/lib*/libboost_regex.so.*
+#  /usr/lib*/libboost_filesystem.so.*
 
-cyrus-sasl:
-  m /usr/lib*/libsasl2.so.* /lib
+libicu:
+  /usr/lib*/libicui18n.so.*
+  /usr/lib*/libicuuc.so.*
+  /usr/lib*/libicudata.so.*
 
-ftp:
-  /usr/bin/ftp
-
-tftp:
-  /usr/bin/tftp
-
-slang:
-  /usr/lib*/libslang-utf8.so.*
+libidn:
+  /usr/lib*/libidn.so.*
 
 dos2unix:
   /usr/bin/dos2unix
@@ -395,7 +496,11 @@ ncpfs:
   /usr/sbin
   /usr/lib*
 
-r /usr/X11R6
+ftp:
+  /usr/bin/ftp
+
+tftp:
+  /usr/bin/tftp
 
 x etc/inst_setup /sbin/inst_setup
 x etc/create_interface /sbin/create_interface
@@ -404,16 +509,14 @@ c 755 0 0 /sbin/inst_setup
 c 755 0 0 /sbin/create_interface
 c 755 0 0 /sbin/adddir
 
-# run depmod
-E /sbin/depmod -a -F /System.map <kernel_ver>
+
 
 # final clean up
 
+r /usr/X11R6
 r /etc/X11/xserver/C
 r /usr/share/doc/packages/*
 
-# r /modules
-r /System.map
 r /sbin/insserv
 
 # some scripts write to /dev/null...
@@ -422,35 +525,10 @@ r /dev
 E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 
 # make passwords not expire
-e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
+#e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 
 # copy empty dictionary
-e cp -a /usr/lib/cracklib_dict.* usr/lib
+#e cp -a /usr/lib/cracklib_dict.* usr/lib
 
-# Novell stuff
-#Zenworks:
 
-if 0
-  F /code/cobalt/imaging/bootimages/bootdisk libtvision.so.0.0.8 /usr/lib
-  s /usr/lib/libtvision.so.0.8 /usr/lib/libtvision.so.0
-  s /usr/lib/libtvision.so.0 /usr/lib/libtvision.so
-  F /code/cobalt/imaging/bootimages/bootdisk libhwresolve.so.2.2 /usr/lib
-  s /usr/lib/libhwresolve.so.2.2 /usr/lib/libhwresolve.so.2
-  s /usr/lib/libhwresolve.so.2 /usr/lib/libhwresolve.so
-  F /code/cobalt/imaging/bootimages/bootdisk libnewt.so.0.50.17 /usr/lib
-  s /usr/lib/libnewt.so.0.50.17 /usr/lib/libnewt.so.0.50
-  s /usr/lib/libnewt.so.0.50 /usr/lib/libnewt.so
-  F /code/cobalt/imaging/bootimages/bootdisk libslang.so.1* /usr/lib
-  F /code/cobalt/imaging/bootimages/bootdisk libgpm.so.1* /usr/lib
-  F /code/cobalt/imaging/bootimages/bootdisk crlf /bin
-  F /code/cobalt/imaging/bootimages/bootdisk active /bin
-  F /code/cobalt/imaging/bootimages/bootdisk zdisk /bin
-  F /code/cobalt/imaging/bootimages/bootdisk img /bin
-  F /code/cobalt/imaging/bootimages/bootdisk zisedit /bin
-  s /bin/zisedit /bin/zisview
-  F /code/cobalt/imaging/bootimages/bootdisk zpartload /bin
-  F /code/cobalt/imaging/bootimages/bootdisk .inputrc /bin
-  F /code/cobalt/imaging/bootimages/bootdisk bashrc /bin
-  F /code/cobalt/imaging/bootimages/bootdisk/seconddisk/bin *.s /bin
-endif
 
