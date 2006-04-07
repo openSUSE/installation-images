@@ -166,6 +166,10 @@ tcpd:
 libgcc:
   /lib*
 
+if arch eq 'ppc64'
+  r /lib/libgcc_s.so*
+endif
+
 glibc:
   /sbin/ldconfig
   /lib*/ld*
