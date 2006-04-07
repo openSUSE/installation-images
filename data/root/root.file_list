@@ -630,7 +630,7 @@ unzip:
   /usr/bin/unzip
 
 mdadm:
-  /sbin/mdadm
+  /sbin
 
 sock:
   /usr/bin/sock

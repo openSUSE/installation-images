@@ -1,3 +1,6 @@
+7/4/2006:	v8.58
+	- raidautorun is in mdadm now (#162932)
+	- adjusted module config
 	- add missing kdb include files for mac-* keymaps to initrd
 
 7/4/2006:	v8.57
