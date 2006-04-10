@@ -102,3 +102,5 @@ if [ ! "$SSH_FAILED" ] ; then
 EOF
 fi
 
+[ -f /proc/splash ] && echo verbose >/proc/splash
+
