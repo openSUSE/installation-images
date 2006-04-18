@@ -1,3 +1,6 @@
+18/4/2006:	v8.61
+	- add xen-specific modules (#166211)
+
 10/4/2006:	v8.60
 	- disable splash in ssh mode (#164740)
 

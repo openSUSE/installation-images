@@ -99,3 +99,5 @@ kernel/drivers/video/vgastate.ko
 
 kernel/arch/i386/kernel/msr.ko
 
+kernel/drivers/xen/blkfront/xenblk.ko
+kernel/drivers/xen/netfront/xennet.ko
