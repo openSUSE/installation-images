@@ -81,7 +81,7 @@ then
 	if echo "$myhwcfg"|grep -E "(qeth|hsi|ctc|lcs|iucv)" 
 	then
 	# use getcfg naming
-		myifcfg=ifcfg-$myhwcfg
+		myifcfg=ifcfg-${myhwcfg#static-}
 	elif [ -z "$HWD_ID" ] ; then
 	# use kernel name
 		myifcfg=ifcfg-$NETDEV

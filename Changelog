@@ -1,3 +1,6 @@
+19/4/2006:	v8.62
+	- s390: create_interface IUCV fix (bug #165898)
+
 18/4/2006:	v8.61
 	- add xen-specific modules (#166211)
 
