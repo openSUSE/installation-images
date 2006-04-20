@@ -1,3 +1,6 @@
+20/4/2006:	v8.63
+	- x86_64 has a vmware xorg driver, too (#164319)
+
 19/4/2006:	v8.62
 	- s390: create_interface IUCV fix (bug #165898)
 

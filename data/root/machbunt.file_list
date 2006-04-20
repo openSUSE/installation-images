@@ -42,7 +42,7 @@ if with_yast2 ne 'no'
         /usr/X11R6/lib*/modules/drivers/vesa_drv.so
       endif
 
-      if arch eq 'ia32'
+      if arch eq 'ia32' || arch eq 'x86_64'
         /usr/X11R6/lib*/modules/drivers/vmware_drv.so
       endif
 
