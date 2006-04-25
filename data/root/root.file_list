@@ -388,6 +388,8 @@ endif
     /
   yast2-tune:
     /
+  yast2-vm:
+    /
   yast2-xml:
     /
   yast2-update:
