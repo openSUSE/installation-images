@@ -266,7 +266,11 @@ if with_yast2 ne 'no'
     /usr/lib/qt3/lib*/libqt*.so*
   r /usr/lib/qt3/plugins/imageformats/libqmng*
 
-  desktop-data-SuSE:
+  if theme eq 'SuSE'
+    desktop-data-SuSE:
+  else
+    desktop-data-NLD:
+  endif
     /usr/share/desktop-data/qtrc
 
   kdelibs3:
