@@ -1,3 +1,7 @@
+2/5/2006:	v8.67
+	- always load sata_sis before sis5513 (#171359)
+	- s390x: zgetdump is gone
+
 27/4/2006:	v8.66
 	- use desktop-data-NLD for sles/d
 
