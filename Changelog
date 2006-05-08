@@ -1,3 +1,7 @@
+8/5/2006:	v8.68
+	- removed obsolete (and non-working) udevd handling from inst_setup,
+	  linuxrc takes care of it now (#171872)
+
 2/5/2006:	v8.67
 	- always load sata_sis before sis5513 (#171359)
 	- s390x: zgetdump is gone
