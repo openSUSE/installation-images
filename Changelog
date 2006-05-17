@@ -1,3 +1,6 @@
+	- added new parmfile.cd with "console=ttyS1 console=ttyS0" (bug
+          #162954)
+
 16/5/2006:	v8.69
 	- added /var/lib/open-iscsi (#175462)
 
