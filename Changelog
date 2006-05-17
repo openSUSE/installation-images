@@ -1,3 +1,6 @@
+16/5/2006:	v8.69
+	- added /var/lib/open-iscsi (#175462)
+
 8/5/2006:	v8.68
 	- removed obsolete (and non-working) udevd handling from inst_setup,
 	  linuxrc takes care of it now (#171872)
