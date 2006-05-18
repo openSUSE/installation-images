@@ -1,3 +1,4 @@
+18/5/2006:	v8.70
 	- added new parmfile.cd with "console=ttyS1 console=ttyS0" (bug
           #162954)
 
