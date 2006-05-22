@@ -1,5 +1,7 @@
 *** there is a 10.1 branch ***
 
+	- add support for root on iscsi to create_interface (#176804)
+
 22/5/2006:	v8.71
 	- added libltdl
 	- acpidmp got an 'u'

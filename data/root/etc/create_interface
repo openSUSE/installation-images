@@ -107,7 +107,23 @@ then
 	UNIQUE=`grep "^NetUniqueID:" $INSTALLINF | uniq | sed -e 's/NetUniqueID: \\(.*\\)/\\1/'`
 	echo "UNIQUE=\"$UNIQUE\"" >> $DEVICEFILE
 
-	echo "STARTMODE=\"onboot\"" >> $DEVICEFILE
+	# correct STARTMODE for root fs on a network device, #176804
+	STARTMODE=onboot
+	# `sed -n s;T;p` : print only if substitution succeeded
+	ROOTPART=`sed -n 's,^/dev/\([^[:space:]]*\)[[:space:]]*'${ROOT%/}'[[:space:]].*,\1,;T;p' /proc/mounts`
+	# use * and .. to get to the device containing ROOTPART
+	case `cd -P /sys/block/*/"$ROOTPART"/../device && pwd` in
+	    *session*)
+		IS_ISCSI=true ;;
+	    *)
+		IS_ISCSI=false ;;
+	esac
+	# TODO: NFS
+	if $IS_ISCSI; then
+	    STARTMODE=nfsroot
+	fi
+	echo "STARTMODE=\"$STARTMODE\"" >> $DEVICEFILE
+
 	# do not write useless misleading info in case of dynamic config (#49131)
 	if [ "$BOOTPROTO" = "static" ]; then
 	    IP=`grep "^IP:" $INSTALLINF | uniq | sed -e 's/IP: \\(.*\\)/\\1/'`
