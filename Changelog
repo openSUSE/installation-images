@@ -1,5 +1,8 @@
 *** there is a 10.1 branch ***
 
+22/5/2006:	v8.71
+	- added libltdl
+	- acpidmp got an 'u'
 
 18/5/2006:	v8.70
 	- added new parmfile.cd with "console=ttyS1 console=ttyS0" (bug

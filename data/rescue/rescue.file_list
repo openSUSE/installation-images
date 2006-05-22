@@ -593,6 +593,10 @@ if arch ne 's390' && arch ne 's390x'
 opensc:
   /usr/lib*/libopensc.so*
   /usr/lib*/libscconf.so*
+
+libltdl:
+  /usr/lib*/libltdl.so*
+
 endif
 
 pcsc-lite:
