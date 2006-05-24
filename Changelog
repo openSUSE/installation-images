@@ -1,9 +1,7 @@
-24/5/2006: v8.73
-
-	- fixed 800x600 modeline in xorg.conf (#177378)
-
 *** there is a 10.1 branch ***
 
+
+	- fixed 800x600 modeline in xorg.conf (#177378)
 	- add support for root on iscsi to create_interface (#176804)
 
 22/5/2006:	v8.71
