@@ -1,3 +1,5 @@
+	- s390: set TERM to "linux" for CD installation
+
 *** there is a 10.1 branch ***
 
 
