@@ -1,8 +1,5 @@
+	- added /usr/share/zypp/schema (#175197)
 	- s390: set TERM to "linux" for CD installation
-
-*** there is a 10.1 branch ***
-
-
 	- fixed 800x600 modeline in xorg.conf (#177378)
 	- add support for root on iscsi to create_interface (#176804)
 
