@@ -760,6 +760,7 @@ gpg:
 
 libzypp:
   /usr/lib*/libzypp.so.*
+  /usr/share/zypp/schema
 
 boost:
   /usr/lib*/libboost_regex.so.*

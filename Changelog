@@ -1,3 +1,6 @@
+6/6/2006:	v8.74
+	- added /usr/share/zypp/schema (#175197)
+
 1/6/2006:	v8.73
 	- s390: set TERM to "linux" for CD installation
 
