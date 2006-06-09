@@ -1,3 +1,4 @@
+9/6/2006:	v8.72
 	- added /usr/share/zypp/schema (#175197)
 	- s390: set TERM to "linux" for CD installation
 	- fixed 800x600 modeline in xorg.conf (#177378)
