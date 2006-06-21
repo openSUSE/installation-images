@@ -99,6 +99,9 @@ udev:
 sysfsutils:
   /lib*/libsysfs.so*
 
+libvolume_id:
+  /lib*/libvolume_id.so*
+
 dbus-1-glib:
   /
 
@@ -387,8 +390,10 @@ endif
     /
   yast2-tune:
     /
+if arch eq 'ia32' || arch eq 'x86_64'
   yast2-vm:
     /
+endif
   yast2-xml:
     /
   yast2-update:

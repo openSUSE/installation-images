@@ -372,6 +372,9 @@ util-linux:
   /bin/more
 
 # add udev
+libvolume_id:
+  /lib*/libvolume_id.so*
+
 udev:
   /etc
   /lib/udev

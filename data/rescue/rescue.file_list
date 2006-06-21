@@ -544,6 +544,9 @@ udev: postin
 sysfsutils:
   /lib*/libsysfs.so*
 
+libvolume_id:
+  /lib*/libvolume_id.so*
+
 dbus-1-glib:
   /
 

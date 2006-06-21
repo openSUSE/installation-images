@@ -111,6 +111,9 @@ then
 	STARTMODE=onboot
 	# `sed -n s;T;p` : print only if substitution succeeded
 	ROOTPART=`sed -n 's,^/dev/\([^[:space:]]*\)[[:space:]]*'${ROOT%/}'[[:space:]].*,\1,;T;p' /proc/mounts`
+	# translate from persistent names (#176804#c41)
+	ROOTPART=`readlink -f /dev/$ROOTPART`
+	ROOTPART=${ROOTPART#/dev/}
 	# use * and .. to get to the device containing ROOTPART
 	case `cd -P /sys/block/*/"$ROOTPART"/../device && pwd` in
 	    *session*)
