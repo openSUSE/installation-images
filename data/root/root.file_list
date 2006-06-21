@@ -387,8 +387,10 @@ endif
     /
   yast2-tune:
     /
+if arch eq 'ia32' || arch eq 'x86_64'
   yast2-vm:
     /
+endif
   yast2-xml:
     /
   yast2-update:
