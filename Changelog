@@ -1,3 +1,6 @@
+21/6/2006:	v8.75
+	- fixed root on iSCSI also for persistently named devices (#176804)
+
 6/6/2006:	v8.74
 	- added /usr/share/zypp/schema (#175197)
 
