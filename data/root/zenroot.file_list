@@ -431,7 +431,7 @@ ntfsprogs:
 
 pmtools:
   /usr/sbin/dmidecode
-  /usr/sbin/acpidmp
+  /usr/sbin/acpidump
 
 sysconfig:
   /sbin/getcfg*

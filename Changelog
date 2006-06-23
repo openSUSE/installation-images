@@ -1,3 +1,6 @@
+23/6/2006:	v8.74
+	- acpidmp -> acpidump fixed in zen image
+
 21/6/2006:	v8.73
 	- fixed root on iSCSI also for persistently named devices (#176804)
 	- BuildRequire yast2-vm only on x86 and x86_64
