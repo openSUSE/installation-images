@@ -46,8 +46,6 @@ glibc:
   x etc/syslog.conf etc
 
 module-init-tools:
-#  d /sbin
-#  m /sbin/insmod.static /sbin/insmod
   /sbin/insmod
   /sbin/modprobe
 
@@ -59,11 +57,10 @@ kbd:
   /bin/dumpkeys
   /bin/loadkeys
   /bin/setfont
+  /bin/setleds
 
   d usr/share/kbd/consoletrans
-##if arch ne 'sparc' && arch ne 'sparc64'
   m /usr/share/kbd/consoletrans/koi2alt usr/share/kbd/consoletrans
-##endif
   m /usr/share/kbd/consoletrans/trivial usr/share/kbd/consoletrans
 
   d usr/share/kbd/consolefonts
@@ -79,11 +76,8 @@ linuxrc:
   g /usr/share/linuxrc/linuxrc2-16.psfu.gz usr/share/kbd/consolefonts/linuxrc2-16.psfu
 
 kbd:
-
-##if arch ne 'sparc' && arch ne 'sparc64'
   d usr/share/kbd/keymaps/include
   m usr/share/kbd/keymaps/include/compose.latin1 usr/share/kbd/keymaps/include
-##endif
 
 ##if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
 ##  if !fewkeymaps
@@ -132,38 +126,28 @@ d bin lib
 glibc:
   /lib*/libpthread{.,-}*
 
-    pam:
-      /lib*/libpam.so.*
+#    pam:
+#      /lib*/libpam.so.*
 
-    cups-libs:
-      m /usr/lib*/libcups.so.* /lib
+#    cups-libs:
+#      m /usr/lib*/libcups.so.* /lib
 
 openssl:
   m /usr/lib*/libcrypto.so.* /lib
   m /usr/lib*/libssl.so.* /lib
 
-krb5:
-  m /usr/lib*/libkrb5.so.* /lib
-  m /usr/lib*/libkrb5support.so.* /lib
-  m /usr/lib*/libgssapi_krb5.so.* /lib
-  m /usr/lib*/libk5crypto.so.* /lib
-      
-openldap2-client:
-  m /usr/lib*/liblber-*.so.* /lib
-  m /usr/lib*/libldap-*.so.* /lib
     
 e2fsprogs:
   m /lib*/lib*.so.* /lib
 
+grub:
+  /boot/*
+  /usr/lib/*
+  /usr/sbin/*
+
 libcom_err:
   m /lib*/libcom_err.so.* /lib
   m /lib*/libss.so.* /lib
-
-db:
-  m /usr/lib*/libdb-4*.so /lib
-    
-cyrus-sasl:
-  m /usr/lib*/libsasl2.so.* /lib
 
 
 sed:
@@ -181,11 +165,11 @@ sed:
   net-tools:
     m /sbin/{ifconfig,route} /bin
 
-  strace:
-    m /usr/bin/strace /bin
+#!  strace:
+#!    m /usr/bin/strace /bin
 
-  gdb:
-    m /usr/bin/gdb /bin/gdb
+#!  gdb:
+#!    m /usr/bin/gdb /bin/gdb
 
   readline:
     /lib*/libreadline.so*
@@ -206,16 +190,9 @@ sed:
     m /usr/bin/head /bin
     m /usr/bin/tail /bin
 
-##  bash:
-##    /bin/bash
-##    /bin/sh
-
   util-linux:
     /bin/mount
     /bin/umount
-
-##  libselinux:
-##    /lib*/libselinux.so*
 
   glibc:
     /lib*/librt{.,-}*
@@ -224,6 +201,7 @@ sed:
   linuxrc-debuginfo:
     /
 
+if 0
   if with_gdb == 2
 
     linuxrc:
@@ -242,40 +220,8 @@ sed:
       e echo -e "#! /bin/sh\ngdb --command /zap /bin/linuxrc" >linuxrc
 
   endif
-
-if 0
-  d /lbin
-  s /init /lbin/cp
-  s /init /lbin/mv
-  s /init /lbin/modprobe
-  s /init /lbin/rmmod
-  s /init /lbin/lsmod
-  s /init /lbin/mount
-  s /init /lbin/umount
-  s /init /lbin/cat
-  s /init /lbin/hex
-  s /init /lbin/lsof
-  s /init /lbin/rm
-  s /init /lbin/ln
-  s /init /lbin/ls
-  s /init /lbin/mkdevs
-  s /init /lbin/mkdir
-  s /init /lbin/chroot
-  s /init /lbin/kill
-  s /init /lbin/swapon
-  s /init /lbin/swapoff
-  s /init /lbin/free
-  s /init /lbin/fstype
-  s /init /lbin/lndir
-##  s /init /lbin/dhcpcd
-##  s /init /lbin/portmap
-  s /init /lbin/lsh
-##  s /init /lbin/loadkeys
-##  s /init /lbin/dumpkeys
-##  s /init /lbin/setfont
 endif
 ##endif
-
 
 glibc:
   /lib*/ld*
@@ -283,7 +229,7 @@ glibc:
   /lib*/{libcrypt,libdl,libnsl,libresolv}{.,-}*
   /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
   /lib*/libm{.,-}*
-  /lib*/libthread_db{.,-}*
+#!  /lib*/libthread_db{.,-}*
   /lib*/libutil{.,-}*
 
 cifs-mount:
