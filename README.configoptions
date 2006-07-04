@@ -157,6 +157,9 @@ o boot
   is_dvd=1
   - create dvd boot config (32/64 bit dual boot)
 
+  with_floppy=1
+  - create boot disks, too (i386, x86_86 only)
+
 
 o modules
 

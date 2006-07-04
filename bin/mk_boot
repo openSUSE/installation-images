@@ -61,7 +61,7 @@ if($ia32_like) {
   if($ENV{'syslinux'}) {
     $syslx = $ENV{'syslinux'};
   } else {
-    $syslx = "${BasePath}tmp/base/usr/bin/syslinux"
+    $syslx = "${BasePath}tmp/base/usr/bin/syslinux-nomtools"
   }
   die "$Script: where is syslinux?" unless -x $syslx;
 }
@@ -73,7 +73,7 @@ if($ia32_like) {
 
 # clean up
 if(-e $image) {
-  SUSystem "rm -rf $image\{,\[0-9\]\}" and die "$Script: failed to remove old $image";
+  SUSystem "rm -rf $image\{,\[0-9\],.floppy\}" and die "$Script: failed to remove old $image";
 }
 
 # copy everything except initrd
@@ -154,6 +154,12 @@ elsif($ENV{'boot'} eq 'isolinux') {
 
   print "contents of $image:\n";
   system "ls -l $image";
+
+  if($ENV{'with_floppy'}) {
+    mkdir "$image.floppy";
+    SUSystem "${BasePath}etc/mkbootdisk --syslinux=$syslx --out=$image.floppy/bootdsk $image" and
+      die "$Script: mkbootdisk failed";
+  }
 
   exit;
 }
