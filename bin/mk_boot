@@ -85,7 +85,7 @@ SUSystem "cp $initdisk $tmpbootdir/$initrdondisk" and
   die "$Script: could not add $initdisk to the image";
 
 if($ENV{theme} eq 'Zen') {
-  SUSystem "sh -c 'cat $tmpbootdir/{06400480,08000600}.spl >>$tmpbootdir/$initrdondisk' ; rm -f $tmpbootdir/*.spl" and
+  SUSystem "sh -c 'cat $tmpbootdir/08000600.spl >>$tmpbootdir/$initrdondisk' ; rm -f $tmpbootdir/*.spl" and
     die "$Script: could not add slpash to initrd";
 }
 

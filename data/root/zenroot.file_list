@@ -114,6 +114,7 @@ dbus-1: prein
 
 hal: prein
  /
+  r /usr/lib/libhal-storage*
   e save_cfg etc/passwd etc/shadow etc/group
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
@@ -155,14 +156,14 @@ sysfsutils:
 ncurses:
   /lib*/libncurses.so.5*
   /usr/lib*/libncursesw.so.5*
-  /usr/lib*/libpanelw.so.5*
+#!  /usr/lib*/libpanelw.so.5*
   /usr/bin/reset
   /usr/bin/tset
-  /usr/share/terminfo
-s ../share/terminfo /usr/lib/terminfo
+#!  /usr/share/terminfo
+#!s ../share/terminfo /usr/lib/terminfo
 
-terminfo:
-  /usr/share/terminfo/i/ibm3151
+#!terminfo:
+#!  /usr/share/terminfo/i/ibm3151
 
 popt:
   /usr/lib*/libpopt.so*
@@ -186,7 +187,7 @@ glibc:
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
   /lib*/libpthread{.,-}*
-  /lib*/libthread_db{.,-}*
+#!  /lib*/libthread_db{.,-}*
 
 hdparm:
   /sbin/hdparm
@@ -210,8 +211,6 @@ lilo:
   /sbin/{activate,lilo}
 
 
-
-
 dosfstools:
   /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
 
@@ -219,7 +218,7 @@ dosfstools:
 net-tools:
   /bin/{domain,host}name
   /sbin/{ifconfig,route}
-    /sbin/plipconfig
+  /sbin/plipconfig
 
 
 portmap:
@@ -277,8 +276,8 @@ psmisc:
 procinfo:
   /usr/bin/socklist
 
-strace:
-  /usr/bin/strace
+#!strace:
+#!  /usr/bin/strace
 
 cpio:
 ##  /usr/bin/mt
@@ -350,25 +349,25 @@ syslogd:
 
 
 
-krb5:
-  /etc
-  /usr/lib*/libkrb5.so.*
-  /usr/lib*/libkrb5support.so.*
-  /usr/lib*/libgssapi_krb5.so.*
-  /usr/lib*/libk5crypto.so.*
+#!krb5:
+#!  /etc
+#!  /usr/lib*/libkrb5.so.*
+#!  /usr/lib*/libkrb5support.so.*
+#!  /usr/lib*/libgssapi_krb5.so.*
+#!  /usr/lib*/libk5crypto.so.*
 
-openldap2-client:
-  /usr/lib*/liblber-*.so.*
-  /usr/lib*/libldap-*.so.*
+#!openldap2-client:
+##  /usr/lib*/liblber-*.so.*
+##  /usr/lib*/libldap-*.so.*
 
-cyrus-sasl:
-  /usr/lib*/libsasl2.so.*
+#!cyrus-sasl:
+##  /usr/lib*/libsasl2.so.*
 
-db:
-  /usr/lib*/libdb-4*.so  
+#!db:
+#!  /usr/lib*/libdb-4*.so  
 
-gdbm:
-  /usr/lib*/libgdbm.so*
+#!gdbm:
+#!  /usr/lib*/libgdbm.so*
 
  r /lib*/security/pam_userdb.so
 
@@ -387,13 +386,13 @@ parted:
   /usr/sbin
   /usr/lib*
 
-jfsutils:
-  /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump}
+#!jfsutils:
+#!  /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump}
 
-xfsprogs:
-  /sbin/fsck.xfs
-  /sbin/mkfs.xfs
-  /usr/sbin/xfs_{growfs,admin,db}
+##xfsprogs:
+##  /sbin/fsck.xfs
+##  /sbin/mkfs.xfs
+##  /usr/sbin/xfs_{growfs,admin,db}
 
 
 openssl:
@@ -423,10 +422,10 @@ ntfsprogs:
   /usr/lib*/libntfs.so*
 
 #if theme eq 'SLES'
-  evms:
-    /etc/evms.conf
-    /lib*
-    /sbin/evms{_activate,_gather_info}
+#!  evms:
+#!    /etc/evms.conf
+#!    /lib*
+#!    /sbin/evms{_activate,_gather_info}
 #endif
 
 pmtools:
@@ -479,13 +478,13 @@ open-iscsi:
 #  /usr/lib*/libboost_regex.so.*
 #  /usr/lib*/libboost_filesystem.so.*
 
-libicu:
-  /usr/lib*/libicui18n.so.*
-  /usr/lib*/libicuuc.so.*
-  /usr/lib*/libicudata.so.*
+#!libicu:
+#!  /usr/lib*/libicui18n.so.*
+#!  /usr/lib*/libicuuc.so.*
+#!  /usr/lib*/libicudata.so.*
 
-libidn:
-  /usr/lib*/libidn.so.*
+#!libidn:
+#!  /usr/lib*/libidn.so.*
 
 dos2unix:
   /usr/bin/dos2unix
