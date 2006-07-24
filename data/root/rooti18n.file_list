@@ -43,6 +43,8 @@ endif
     /
   yast2-trans-bs:
     /
+  yast2-trans-ca:
+    /
   yast2-trans-cs:
     /
   yast2-trans-da:
@@ -106,6 +108,8 @@ endif
   yast2-trans-tr:
     /
   yast2-trans-uk:
+    /
+  yast2-trans-vi:
     /
   yast2-trans-zh_CN:
     /

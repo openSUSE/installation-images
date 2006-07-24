@@ -783,6 +783,9 @@ libicu:
 libidn:
   /usr/lib*/libidn.so.*
 
+sqlite:
+  /usr/lib*/libsqlite3.so.*
+
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale
 r /usr/X11R6/bin/fc-cache

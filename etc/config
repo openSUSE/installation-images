@@ -80,7 +80,7 @@ image	= 200
 
 [Theme Zen]
 yast    = SuSELinux
-bsplash = Zen 
+bsplash = Zen
 ksplash = SuSE
 product = ZENworks
 version = 10.1

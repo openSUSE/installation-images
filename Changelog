@@ -1,5 +1,8 @@
+24/7/2006:	v9.1
 	- add DefaultColorDepth 16 to fbdev section (#144373)
 	- Depth 15 in fbdev Screen section was listed twice in xorg.conf
+	- added yast2-trans-{ca,vi}
+	- zypp needs sqlite
 
 4/7/2006:	v9.0
 	- updated Zen theme
