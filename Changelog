@@ -1,3 +1,7 @@
+31/7/2006:	v9.3
+	- embrace latest gcc packaging changes
+	- x11 starts to move to /usr
+
 24/7/2006:	v9.2
 	- added cpufreq modules (#176791)
 

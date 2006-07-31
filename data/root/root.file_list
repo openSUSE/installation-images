@@ -166,7 +166,7 @@ popt:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc:
+libgcc41:
   /lib*
 
 if arch eq 'ppc64'
@@ -441,7 +441,7 @@ zlib:
 
 c 0755 0 0 /usr
 
-libstdc++:
+libstdc++41:
   /usr/<lib>/libstdc++*.so*
 
 eject:

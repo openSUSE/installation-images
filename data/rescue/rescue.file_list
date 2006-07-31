@@ -121,7 +121,7 @@ nscd:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc:
+libgcc41:
   /lib*
 
 if arch eq 'ppc64'

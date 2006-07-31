@@ -71,7 +71,6 @@ if with_yast2 ne 'no'
     xterm:
       /usr/X11R6/lib/X11/app-defaults/XTerm
       R s/nil2/fixed/ /usr/X11R6/lib/X11/app-defaults/XTerm
-      /usr/X11R6/bin/xterm
       /usr/bin/xterm
 
     utempter:
