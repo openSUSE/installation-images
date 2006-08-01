@@ -294,6 +294,7 @@ xmset:
 vim:
   /bin/vim
   /bin/vi
+  /usr/bin/xxd
 
 fonts-config:
   /usr/sbin/fonts-config
