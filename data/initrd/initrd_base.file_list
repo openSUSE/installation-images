@@ -6,8 +6,7 @@ d var/run/dbus var/run/hal var/run/hotplug var/cache/fontconfig
 d etc/sysconfig
 d etc/sysconfig/hardware
 
-d var/X11R6/xkb/compiled var/X11R6/bin var/X11R6/app-defaults etc/X11 var/lib/xkb
-s /usr/X11R6/lib/X11 var/X11R6/lib
+d var/lib/xkb/compiled etc/X11
 
 d lib/modules/<kernel_ver>
 d lib/modules/<kernel_mods>/initrd

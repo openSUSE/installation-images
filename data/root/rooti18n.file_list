@@ -126,5 +126,5 @@ libiterm:
   /usr/share/terminfo/i
 
 xorg-x11-libs:
-  /usr/X11R6/lib*/libXfont.so.*
+  /usr/lib*/libXfont.so.*
 

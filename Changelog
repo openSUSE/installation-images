@@ -1,4 +1,7 @@
+3/8/2006:	v9.4
 	- added xxd
+	- disabled all but SuSE themes
+	- adjusted to Xorg changes
 
 31/7/2006:	v9.3
 	- embrace latest gcc packaging changes

@@ -129,14 +129,14 @@ freetype2:
     /usr/lib*/libfreetype.so.*
 
 xorg-x11:
-  /usr/X11R6/bin/mkfontscale
-  /usr/X11R6/bin/mkfontdir
-  s /usr/X11R6/bin/mkfontscale /usr/bin
-  s /usr/X11R6/bin/mkfontdir /usr/bin
+  /usr/bin/mkfontscale
+  /usr/bin/mkfontdir
 
 xorg-x11-libs:
-  /usr/X11R6/lib*/libXfont.so.*
-  /usr/X11R6/lib*/libfontenc.so.*
+  /usr/lib*/libXfont.so.*
+
+xorg-x11-libfontenc:
+  /usr/lib*/libfontenc.so.*
 
 fontconfig:
   /etc/fonts/fonts.conf

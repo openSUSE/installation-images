@@ -20,10 +20,6 @@ endif
 if with_yast2 ne 'no'
   d /usr/X11R6/{bin,include/X11,share}
 
-  s X11R6 /usr/X11
-  # Don't do this!
-  # s /var/X11R6/bin/X /usr/X11R6/bin/X
-
   if arch eq 's390' || arch eq 's390x'
     xorg-x11-Xnest:
       .
@@ -35,42 +31,43 @@ if with_yast2 ne 'no'
 
   if arch ne 's390' && arch ne 's390x'
     xorg-x11-server:
-      /usr/X11R6/bin/Xorg
-      s Xorg /usr/X11R6/bin/XFree86
+      /usr/bin/Xorg
+
+      /usr/lib*/xorg/modules/extensions/lib{dbe,extmod}.so
+      # /usr/X11R6/lib*/modules/fonts/libbitmap.so
+      /usr/lib*/xorg/modules/linux/lib*.so
+
+      /usr/lib*/xorg/modules/lib*.so
+
+    xorg-x11-driver-input:
+      /usr/lib*/xorg/modules/input
+
+    xorg-x11-driver-video:
+      /usr/lib*/xorg/modules/drivers/ati_drv.so
+      /usr/lib*/xorg/modules/drivers/atimisc_drv.so
+      /usr/lib*/xorg/modules/drivers/fbdev_drv.so
+      /usr/lib*/xorg/modules/drivers/i810_drv.so
+      /usr/lib*/xorg/modules/drivers/nv_drv.so
+      /usr/lib*/xorg/modules/drivers/r128_drv.so
+      /usr/lib*/xorg/modules/drivers/radeon_drv.so
+      /usr/lib*/xorg/modules/drivers/sis_drv.so
+      /usr/lib*/xorg/modules/drivers/via_drv.so
 
       if arch eq 'ia32' || arch eq 'ia64' || arch eq 'x86_64'
-        /usr/X11R6/lib*/modules/drivers/vesa_drv.so
+        /usr/lib*/xorg/modules/drivers/vesa_drv.so
       endif
 
       if arch eq 'ia32' || arch eq 'x86_64'
-        /usr/X11R6/lib*/modules/drivers/vmware_drv.so
+        /usr/lib*/xorg/modules/drivers/vmware_drv.so
       endif
-
-      /usr/X11R6/lib*/modules/drivers/fbdev_drv.so
-      /usr/X11R6/lib*/modules/extensions/lib{dbe,extmod}.so
-      /usr/X11R6/lib*/modules/fonts/libbitmap.so
-      /usr/X11R6/lib*/modules/input
-      /usr/X11R6/lib*/modules/linux
 
       if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc' && arch ne 'ppc64'
-        /usr/X11R6/lib*/modules/*.uc
+        /usr/lib*/xorg/modules/*.uc
       endif
 
-      /usr/X11R6/lib*/modules/lib*.so
-
-    xorg-x11-driver-video:
-      /usr/X11R6/lib*/modules/drivers/ati_drv.so
-      /usr/X11R6/lib*/modules/drivers/atimisc_drv.so
-      /usr/X11R6/lib*/modules/drivers/i810_drv.so
-      /usr/X11R6/lib*/modules/drivers/nv_drv.so
-      /usr/X11R6/lib*/modules/drivers/r128_drv.so
-      /usr/X11R6/lib*/modules/drivers/radeon_drv.so
-      /usr/X11R6/lib*/modules/drivers/sis_drv.so
-      /usr/X11R6/lib*/modules/drivers/via_drv.so
-
     xterm:
-      /usr/X11R6/lib/X11/app-defaults/XTerm
-      R s/nil2/fixed/ /usr/X11R6/lib/X11/app-defaults/XTerm
+      /usr/share/X11/app-defaults/XTerm
+      R s/nil2/fixed/ /usr/share/X11/app-defaults/XTerm
       /usr/bin/xterm
 
     utempter:
@@ -94,14 +91,64 @@ if with_yast2 ne 'no'
 
   endif
 
+  xorg-x11-libX11:
+    /usr/lib*/libX11.so.*
+    /usr/share/X11/{XErrorDB,XKeysymDB}
+    /usr/share/X11/locale
+
+  xorg-x11-libXau:
+    /usr/lib*/libXau.so.*
+
+  xorg-x11-libXdmcp:
+    /usr/lib*/libXdmcp.so.*
+
+  xorg-x11-libXext:
+    /usr/lib*/libXext.so.*
+
+  xorg-x11-libXfixes:
+    /usr/lib*/libXfixes.so.*
+
+  xorg-x11-libXmu:
+    /usr/lib*/libXmu.so.*
+    /usr/lib*/libXmuu.so.*
+
+  xorg-x11-libXp:
+    /usr/lib*/libXp.so.*
+
+  xorg-x11-libXpm:
+    /usr/lib*/libXpm.so.*
+
+  xorg-x11-libXrender:
+    /usr/lib*/libXrender.so.*
+
+  xorg-x11-libXt:
+    /usr/lib*/libXt.so.*
+
+  xorg-x11-libSM:
+    /usr/lib*/libSM.so.*
+
+  xorg-x11-libICE:
+    /usr/lib*/libICE.so.*
+
+  xorg-x11-libxkbfile:
+    /usr/lib*/libxkbfile.so.*
+
+  xorg-x11-libfontenc:
+    /usr/lib*/libfontenc.so.*
+
   xorg-x11-libs:
-    /usr/X11R6/lib*/libX{11,au,aw,cursor,dmcp,ext,fixes,i,inerama,mu,muu,p,pm,randr,render,ss,t,tst,xf86dga,xf86misc,xf86vm}.so*
-    /usr/X11R6/lib*/lib{SM,ICE}.so*
-    /usr/X11R6/lib*/libXft.so.2*
-    /usr/X11R6/lib*/libxkbfile.so.*
-    /usr/X11R6/lib*/libfontenc.so.*
-    /usr/X11R6/lib/X11/locale
-    /usr/X11R6/bin/xauth
+    /usr/lib*/libXaw*.so.*
+    /usr/lib*/libXcursor.so.*
+    /usr/lib*/libXft.so.*
+    /usr/lib*/libXinerama.so.*
+    /usr/lib*/libXi.so.*
+    /usr/lib*/libXrandr.so.*
+    /usr/lib*/libXss.so.*
+    /usr/lib*/libXtst.so.*
+    /usr/lib*/libXxf86dga.so.*
+    /usr/lib*/libXxf86misc.so.*
+    /usr/lib*/libXxf86vm.so.*
+    /usr/lib*/libdmx.so.*
 
   fontconfig:
     /etc/fonts/*.conf
@@ -111,44 +158,35 @@ if with_yast2 ne 'no'
     /usr/bin/fc-{cache,list,match}
     /var/cache/fontconfig
 
-#  Mesa:
-#    /usr/lib*/libGL.so.*
-
   xorg-x11:
-    /usr/X11R6/lib/X11/{XErrorDB,XKeysymDB,rgb.txt}
-    /usr/X11R6/bin/xkbcomp
-    /usr/X11R6/bin/xmodmap
-    /usr/X11R6/bin/setxkbmap
-    /usr/X11R6/bin/mkfontdir
-    /usr/X11R6/bin/mkfontscale
-    /usr/X11R6/bin/xrefresh
-    /usr/X11R6/bin/xhost
-    /usr/X11R6/bin/xdpyinfo
-    /etc/X11/xserver
-  r /etc/X11/xserver/C
-  s /etc/X11/xserver /usr/X11R6/lib/X11
-  # unicode stuff
-  d /usr/X11R6/lib/X11/fonts/{misc,uni}
-    /usr/X11R6/lib/X11/fonts/misc/cursor.pcf.gz
-    # 'fixed' font
-    /usr/X11R6/lib/X11/fonts/misc/6x13-ISO8859-1.pcf.gz
-    /usr/X11R6/lib/X11/fonts/misc/6x13.pcf.gz
-    /usr/X11R6/lib/X11/fonts/misc/fonts.scale
-    /usr/X11R6/lib/X11/fonts/misc/{encodings.dir,fonts.alias,fonts.dir,olcursor.pcf.gz}
-    x /usr/X11R6/lib/X11/xorg.conf /usr/X11R6/lib/X11
+    /usr/share/X11/rgb.txt
 
-  if arch eq 'x86_64' || arch eq 's390x' || arch eq 'ppc64'
-    R s#usr/X11R6/lib/modules#usr/X11R6/lib64/modules# /usr/X11R6/lib/X11/xorg.conf
-  endif
+    /usr/bin/mkfontdir
+    /usr/bin/mkfontscale
+    /usr/bin/setxkbmap
+    /usr/bin/xauth
+    /usr/bin/xdpyinfo
+    /usr/bin/xhost
+    /usr/bin/xkbcomp
+    /usr/bin/xmodmap
+    /usr/bin/xrefresh
+
+  xorg-x11-fonts:
+    # 'fixed' font
+    /usr/share/fonts/misc/6x13-ISO8859-1.pcf.gz
+    /usr/share/fonts/misc/6x13.pcf.gz
+    /usr/share/fonts/misc/fonts.{alias,dir,scale}
+    # /usr/share/fonts/misc/encodings.dir
+    /usr/share/fonts/misc/{ol,}cursor.pcf.gz
+    m /usr/share/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/share/fonts/misc
+
+    d /etc/X11
+    x /etc/xorg.conf.template /etc/X11
+    R s#usr/lib/xorg/modules#usr/<lib>/xorg/modules# /etc/X11/xorg.conf.template
 
   xkeyboard-config:
-    /etc
-    /usr/X11R6
+    /usr/share
     /var/lib
-    # s /usr/X11R6/bin/xkbcomp /etc/X11/xkb/
-
-  xorg-x11-fonts-75dpi:
-    m /usr/X11R6/lib/X11/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/X11R6/lib/X11/fonts/misc
 
   libusb:
     /usr/lib*/libusb*.so.*
@@ -162,8 +200,11 @@ if with_yast2 ne 'no'
       /lib/libdl.so.2
       /lib/libm.so.6
   endif
+
+if 0
   xorg-x11-Xvnc:
-    /usr/X11R6/bin/Xvnc
+    /usr/bin/Xvnc
+endif
 
   tightvnc:
     /usr/X11R6/bin/vncpasswd.arg
@@ -208,40 +249,20 @@ if with_yast2 ne 'no'
     /
     s <yast_theme> usr/share/YaST2/theme/current
 
-if arch ne 's390' && arch ne 's390x'
-  yast2-x11:
-    /
-endif
-
-if 0
-  if with_agfa_font ne 'no'
-    agfa-fonts:
-      /usr/X11R6/lib/X11/fonts/truetype/alb*.ttf
-  elsif with_suse_font ne 'no'
-    dejavu:
-      /usr/X11R6/lib/X11/fonts/truetype/DejaVuSans*.ttf
-      r /usr/X11R6/lib/X11/fonts/truetype/DejaVuSansCondensed*
-  else
-    ghostscript-fonts-std:
-      /usr/X11R6/lib/X11/fonts/URW
-      /usr/share/ghostscript/fonts/fonts.scale
-      /usr/share/ghostscript/fonts/n019003l.pfb
-      /usr/share/ghostscript/fonts/n019063l.pfb
-      /usr/share/ghostscript/fonts/n019004l.pfb
-      /usr/share/ghostscript/fonts/n019024l.pfb
+  if arch ne 's390' && arch ne 's390x'
+    yast2-x11:
+      /
   endif
-else
+
   dejavu:
     /usr/X11R6/lib/X11/fonts/truetype/DejaVuSans*.ttf
     r /usr/X11R6/lib/X11/fonts/truetype/DejaVuSansCondensed*
-endif
 
 endif
 
 if with_yast2 ne 'no'
   c 0755 0 0 /usr/X11R6
   c 0755 0 0 /usr/X11R6/bin
-  c 0755 0 0 /etc/X11
 endif
 
 libpng:
@@ -346,12 +367,14 @@ if with_yast2 ne 'no'
   e mkfontdir usr/X11R6/lib/X11/fonts/misc
   # e fc-cache usr/X11R6/lib/X11/fonts/misc
 
+  e mkfontscale usr/share/fonts/misc
+  e mkfontdir usr/share/fonts/misc
+
   e mkfontscale usr/X11R6/lib/X11/fonts/uni
   e mkfontdir usr/X11R6/lib/X11/fonts/uni
   # e fc-cache usr/X11R6/lib/X11/fonts/uni
 
   e touch usr/X11R6/lib/X11/fonts/*/*
-  e sleep 2
   e touch usr/X11R6/lib/X11/fonts/*/font*
 endif
 

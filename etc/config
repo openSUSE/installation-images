@@ -58,33 +58,33 @@ update	= /linux/suse/<arch>-<rel>
 image	= 200
 
 
-[Theme SLES]
-yast	= NLD
-bsplash = SLES
-ksplash = SuSE-SLES
-product	= SUSE Linux Enterprise Server 10
-version = 10.1
-update	= /linux/suse/<arch>-<sles>
-image	= 200
+; [Theme SLES]
+; yast	= NLD
+; bsplash = SLES
+; ksplash = SuSE-SLES
+; product	= SUSE Linux Enterprise Server 10
+; version = 10.1
+; update	= /linux/suse/<arch>-<sles>
+; image	= 200
 
 
-[Theme NLD]
-yast	= NLD
-bsplash = NLD
-ksplash	= SuSE-NLD
-product	= SUSE Linux Enterprise Desktop 10
-version = 10.1
-update	= /linux/suse/<arch>-<sled>
-image	= 200
+; [Theme NLD]
+; yast	= NLD
+; bsplash = NLD
+; ksplash	= SuSE-NLD
+; product	= SUSE Linux Enterprise Desktop 10
+; version = 10.1
+; update	= /linux/suse/<arch>-<sled>
+; image	= 200
 
 
-[Theme Zen]
-yast    = SuSELinux
-bsplash = Zen
-ksplash = SuSE
-product = ZENworks
-version = 10.1
-update  = /linux/suse/<arch>-<sles>
-image   = 200
+; [Theme Zen]
+; yast    = SuSELinux
+; bsplash = Zen
+; ksplash = SuSE
+; product = ZENworks
+; version = 10.1
+; update  = /linux/suse/<arch>-<sles>
+; image   = 200
 
 
