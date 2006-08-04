@@ -338,6 +338,7 @@ x /etc/ld.so.conf /etc
 
 if with_yast2 ne 'no'
   yast2:
+    /etc/YaST2
     /sbin/save_y2logs
     /usr
     /var
