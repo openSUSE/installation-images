@@ -255,8 +255,8 @@ if with_yast2 ne 'no'
   endif
 
   dejavu:
-    /usr/X11R6/lib/X11/fonts/truetype/DejaVuSans*.ttf
-    r /usr/X11R6/lib/X11/fonts/truetype/DejaVuSansCondensed*
+    /usr/share/fonts/truetype/DejaVuSans*.ttf
+    r /usr/share/fonts/truetype/DejaVuSansCondensed*
 
 endif
 
