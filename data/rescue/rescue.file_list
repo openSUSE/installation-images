@@ -547,6 +547,9 @@ sysfsutils:
 libvolume_id:
   /lib*/libvolume_id.so*
 
+PolicyKit:
+  /usr/lib*/libpolkit.so.*
+
 dbus-1-glib:
   /
 
@@ -589,8 +592,12 @@ checkmedia:
 hex:
   /usr/bin/hex
 
-mdadm:
+mdadm: postin
   /sbin
+  /usr/sbin
+  /etc
+  /var/adm/fillup-templates
+  E postin
 
 if arch ne 's390' && arch ne 's390x'
 opensc:

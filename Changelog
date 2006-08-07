@@ -1,3 +1,9 @@
+4/8/2006:	v9.5
+	- added /etc/YaST2
+	- adjusted to hal changes
+	- ongoing X11 changes
+	- activate raid devs in rescue system
+
 3/8/2006:	v9.4
 	- added xxd
 	- disabled all but SuSE themes

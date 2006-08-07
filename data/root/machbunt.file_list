@@ -226,10 +226,10 @@ endif
    /usr/lib*/libgpg-error.so*
 
   fvwm2:
-    /usr/X11R6/bin/fvwm{,2}
-    /usr/X11R6/bin/FvwmCommand
-    /usr/X11R6/lib/X11/fvwm2/FvwmCommandS
-    /usr/X11R6/share/fvwm/ConfigFvwmDefaults
+    /usr/bin/fvwm{,2}
+    /usr/bin/FvwmCommand
+    /usr/lib/X11/fvwm2/FvwmCommandS
+    /usr/share/fvwm/ConfigFvwmDefaults
 
   fribidi:
     /usr/lib*/libfribidi.so*
@@ -328,7 +328,7 @@ utempter:
   /usr/lib*/libutempter.so.*
 
 freefont:
-  /usr/X11R6/lib/X11/fonts/truetype/FreeSans*
+  /usr/share/fonts/truetype/FreeSans*
 
 indic-fonts:
   /usr/X11R6/lib/X11/fonts/truetype/MuktiNarrow.ttf
@@ -336,13 +336,13 @@ indic-fonts:
   /usr/X11R6/lib/X11/fonts/truetype/lohit_hi.ttf
 
 fonts-arabic:
-  /usr/X11R6/lib/X11/fonts/truetype/KacstBook.ttf
+  /usr/share/fonts/truetype/KacstBook.ttf
 
 KhmerOS-fonts:
   /usr/X11R6/lib/X11/fonts/truetype/KhmerOSsys.ttf
 
 efont-unicode:
-  /usr/X11R6/lib/X11/fonts/misc/b16.pcf.gz
+  /usr/share/fonts/misc/b16.pcf.gz
 
 Crystalcursors:
   /usr/X11R6/lib/X11/icons/crystalwhite
@@ -353,29 +353,20 @@ multipath-tools:
 x etc/suse-post-user.conf etc/fonts/
 
 if with_yast2 ne 'no'
-  if with_suse_font ne 'no'
-    e mkfontscale usr/X11R6/lib/X11/fonts/truetype
-    e mkfontdir usr/X11R6/lib/X11/fonts/truetype
-    # e fc-cache usr/X11R6/lib/X11/fonts/truetype
-  else
-    e mkfontscale usr/share/ghostscript/fonts
-    e mkfontdir usr/share/ghostscript/fonts
-    # e fc-cache usr/share/ghostscript/fonts
-  endif
-
-  e mkfontscale usr/X11R6/lib/X11/fonts/misc
-  e mkfontdir usr/X11R6/lib/X11/fonts/misc
-  # e fc-cache usr/X11R6/lib/X11/fonts/misc
-
   e mkfontscale usr/share/fonts/misc
   e mkfontdir usr/share/fonts/misc
 
-  e mkfontscale usr/X11R6/lib/X11/fonts/uni
-  e mkfontdir usr/X11R6/lib/X11/fonts/uni
-  # e fc-cache usr/X11R6/lib/X11/fonts/uni
+  e mkfontscale usr/share/fonts/truetype
+  e mkfontdir usr/share/fonts/truetype
 
-  e touch usr/X11R6/lib/X11/fonts/*/*
-  e touch usr/X11R6/lib/X11/fonts/*/font*
+  e mkfontscale usr/share/fonts/uni
+  e mkfontdir usr/share/fonts/uni
+
+  e mkfontscale usr/X11R6/lib/X11/fonts/truetype
+  e mkfontdir usr/X11R6/lib/X11/fonts/truetype
+
+#  e touch usr/X11R6/lib/X11/fonts/*/*
+#  e touch usr/X11R6/lib/X11/fonts/*/font*
 endif
 
 if arch ne 's390' && arch ne 's390x'
