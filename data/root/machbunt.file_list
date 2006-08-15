@@ -18,8 +18,6 @@ if arch ne 'ia64'
 endif
 
 if with_yast2 ne 'no'
-  d /usr/X11R6/{bin,include/X11,share}
-
   if arch eq 's390' || arch eq 's390x'
     xorg-x11-Xnest:
       .
@@ -201,10 +199,8 @@ if with_yast2 ne 'no'
       /lib/libm.so.6
   endif
 
-if 0
   xorg-x11-Xvnc:
     /usr/bin/Xvnc
-endif
 
   tightvnc:
     /usr/X11R6/bin/vncpasswd.arg
@@ -331,21 +327,21 @@ freefont:
   /usr/share/fonts/truetype/FreeSans*
 
 indic-fonts:
-  /usr/X11R6/lib/X11/fonts/truetype/MuktiNarrow.ttf
-  /usr/X11R6/lib/X11/fonts/truetype/lohit_pa.ttf
-  /usr/X11R6/lib/X11/fonts/truetype/lohit_hi.ttf
+  /usr/share/fonts/truetype/MuktiNarrow.ttf
+  /usr/share/fonts/truetype/lohit_pa.ttf
+  /usr/share/fonts/truetype/lohit_hi.ttf
 
 fonts-arabic:
   /usr/share/fonts/truetype/KacstBook.ttf
 
 KhmerOS-fonts:
-  /usr/X11R6/lib/X11/fonts/truetype/KhmerOSsys.ttf
+  /usr/share/fonts/truetype/KhmerOSsys.ttf
 
 efont-unicode:
   /usr/share/fonts/misc/b16.pcf.gz
 
 Crystalcursors:
-  /usr/X11R6/lib/X11/icons/crystalwhite
+  /usr/share/icons/crystalwhite
 
 multipath-tools:
   /sbin

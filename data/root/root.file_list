@@ -585,6 +585,9 @@ pam:
   /lib*/libpam.so.*
   /lib*/libpam_misc.so.*
 
+audit-libs:
+  /lib*/libaudit.so.*
+
 pam-modules:
   /{etc,lib*,sbin}
 

@@ -2,11 +2,11 @@ d etc/fonts/conf.d
 x etc/10-disable-cjk-bitmap-fonts.conf etc/fonts/conf.d
 
 ttf-founder-simplified:
-  /usr/X11R6/lib/X11/fonts/truetype/FZSongTi.ttf
+  /usr/share/fonts/truetype/FZSongTi.ttf
 
 baekmuk-ttf:
   /usr/share/fonts/truetype/gulim.ttf
 
 IPAGothic:
-  /usr/X11R6/lib/X11/fonts/truetype/ipag.ttf
+  /usr/share/fonts/truetype/ipag.ttf
 

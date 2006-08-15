@@ -2,13 +2,8 @@
 
 Section "Files"
   FontPath		"/usr/share/fonts/truetype/"
-  FontPath		"/usr/share/fonts/URW/"
   FontPath		"/usr/share/fonts/uni/"
   FontPath		"/usr/share/fonts/misc/"
-  FontPath		"/usr/X11R6/lib/X11/fonts/truetype/"
-  FontPath		"/usr/X11R6/lib/X11/fonts/URW/"
-  FontPath		"/usr/X11R6/lib/X11/fonts/uni/"
-  FontPath		"/usr/X11R6/lib/X11/fonts/misc/"
   ModulePath		"/usr/lib/xorg/modules"
   InputDevices	"/dev/ttyS0"
   InputDevices	"/dev/ttyS1"
