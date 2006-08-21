@@ -203,7 +203,7 @@ if with_yast2 ne 'no'
     /usr/bin/Xvnc
 
   tightvnc:
-    /usr/X11R6/bin/vncpasswd.arg
+    /usr/bin/vncpasswd.arg
     /usr/share/vnc/classes
 
   openslp-server:
@@ -254,11 +254,6 @@ if with_yast2 ne 'no'
     /usr/share/fonts/truetype/DejaVuSans*.ttf
     r /usr/share/fonts/truetype/DejaVuSansCondensed*
 
-endif
-
-if with_yast2 ne 'no'
-  c 0755 0 0 /usr/X11R6
-  c 0755 0 0 /usr/X11R6/bin
 endif
 
 libpng:
