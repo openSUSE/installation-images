@@ -1,3 +1,5 @@
+	- add /usr/lib/debug and /usr/src/debug directories to inst-sys, to mount debuginfo from remote
+
 21/8/2006:	v9.8
 	- more X11 changes
 	- added some new modules

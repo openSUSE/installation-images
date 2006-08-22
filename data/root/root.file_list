@@ -837,3 +837,4 @@ e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 e cp -a /usr/lib/cracklib_dict.* usr/lib
 e cp -a /usr/share/cracklib usr/share
 
+d /usr/lib/debug /usr/src/debug
