@@ -1,3 +1,6 @@
+31/8/2006.	v9.10
+	- use xorg-x11-fonts-core
+
 22/8/2006:	v9.9
 	- add /usr/lib/debug and /usr/src/debug directories to inst-sys, to mount debuginfo from remote
 
