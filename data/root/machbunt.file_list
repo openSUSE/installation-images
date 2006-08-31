@@ -29,6 +29,8 @@ if with_yast2 ne 'no'
 
   if arch ne 's390' && arch ne 's390x'
     xorg-x11-server:
+      /usr/lib*/xserver/SecurityPolicy
+
       /usr/bin/Xorg
 
       /usr/lib*/xorg/modules/extensions/lib{dbe,extmod}.so
@@ -169,13 +171,16 @@ if with_yast2 ne 'no'
     /usr/bin/xmodmap
     /usr/bin/xrefresh
 
-  xorg-x11-fonts:
+  xorg-x11-fonts-core:
     # 'fixed' font
     /usr/share/fonts/misc/6x13-ISO8859-1.pcf.gz
+    /usr/share/fonts/misc/fonts.alias
+    /usr/share/fonts/misc/cursor.pcf.gz
+
+  xorg-x11-fonts:
+    # 'fixed' font
     /usr/share/fonts/misc/6x13.pcf.gz
-    /usr/share/fonts/misc/fonts.{alias,dir,scale}
-    # /usr/share/fonts/misc/encodings.dir
-    /usr/share/fonts/misc/{ol,}cursor.pcf.gz
+    /usr/share/fonts/misc/olcursor.pcf.gz
     m /usr/share/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/share/fonts/misc
 
     d /etc/X11
@@ -352,12 +357,6 @@ if with_yast2 ne 'no'
 
   e mkfontscale usr/share/fonts/uni
   e mkfontdir usr/share/fonts/uni
-
-  e mkfontscale usr/X11R6/lib/X11/fonts/truetype
-  e mkfontdir usr/X11R6/lib/X11/fonts/truetype
-
-#  e touch usr/X11R6/lib/X11/fonts/*/*
-#  e touch usr/X11R6/lib/X11/fonts/*/font*
 endif
 
 if arch ne 's390' && arch ne 's390x'
