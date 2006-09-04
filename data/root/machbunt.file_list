@@ -89,6 +89,9 @@ if with_yast2 ne 'no'
 
     endif
 
+    gpm:
+      /usr/sbin/gpm
+
   endif
 
   xorg-x11-libX11:
@@ -229,6 +232,7 @@ if with_yast2 ne 'no'
   fvwm2:
     /usr/bin/fvwm{,2}
     /usr/bin/FvwmCommand
+    /usr/bin/fvwm-root
     /usr/lib/X11/fvwm2/FvwmCommandS
     /usr/share/fvwm/ConfigFvwmDefaults
 
