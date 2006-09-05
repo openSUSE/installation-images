@@ -591,10 +591,6 @@ audit-libs:
 pam-modules:
   /{etc,lib*,sbin}
 
-  # don't use cracklib
-  c 755 0 0 /etc /etc/security
-  R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
-
 libxcrypt:
   /lib*/libxcrypt.so.*
 

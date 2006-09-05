@@ -1,4 +1,7 @@
+4/9/2006:	v9.11
 	- added fvwm-root (#203510)
+	- new modules
+	- updated pam config
 
 31/8/2006:	v9.10
 	- use xorg-x11-fonts-core
