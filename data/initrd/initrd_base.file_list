@@ -406,6 +406,7 @@ cpio:
 
 util-linux:
   /bin/more
+  /var/lib/nfs/state
 
 suse-build-key:
   m /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
