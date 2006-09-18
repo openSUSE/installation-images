@@ -589,7 +589,7 @@ audit-libs:
   /lib*/libaudit.so.*
 
 pam-modules:
-  /{etc,lib*,sbin}
+  /{lib*,sbin}
 
 libxcrypt:
   /lib*/libxcrypt.so.*

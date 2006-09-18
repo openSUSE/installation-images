@@ -25,6 +25,24 @@ e cp -a /dev/{null,zero,console,ram0,tty[1349]} dev
 # historical static device nodes
 x devz /devz
 
+aaa_base: prein
+  e prein
+  # keep only passwd & group
+  r boot
+  r etc/init.d
+  r etc/mtab
+  r var/adm/fillup-templates
+
+dbus-1: prein
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
+
+hal: prein
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
+
 glibc:
   /etc/nsswitch.conf
 
@@ -333,8 +351,12 @@ dbus-1:
 hal:
   /usr/lib*/libhal.so.*
 
-hwinfo-devel:
-  /usr/lib*/libhd_tiny.so.*
+#hwinfo-devel:
+#  /usr/lib*/libhd_tiny.so.*
+
+hwinfo:
+  /usr/lib/libhd.so.*
+  /usr/sbin/hwinfo
 
 if arch eq 'ia32' || arch eq 'x86_64'
 
@@ -483,6 +505,33 @@ if 0
   # + bash for testing
 
 endif
+
+# wlan
+ipw-firmware:
+  /lib/firmware
+
+ipw3945d:
+  /etc
+  /lib
+  /sbin
+
+atmel-firmware:
+  /lib/firmware
+  # really?
+  /usr/sbin
+
+wpa_supplicant:
+  /usr/sbin
+
+wireless-tools:
+  /usr/sbin
+  /usr/lib*/libiw.so.*
+  /etc
+  /sbin
+
+openssl:
+  /usr/lib*/libcrypto.so.*
+  /usr/lib*/libssl.so.*
 
 :
 

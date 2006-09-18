@@ -320,7 +320,7 @@ audit-libs:
   /lib*/libaudit.so.*
 
 pam-modules:
-  /{etc,lib*,sbin}
+  /{lib*,sbin}
 
 pciutils:
   /sbin

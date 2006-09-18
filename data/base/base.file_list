@@ -263,6 +263,13 @@ x restore_cfg bin/restore_cfg
 strace:
   /usr/bin/strace
 
+util-linux:
+  /bin/mount
+  /bin/umount
+
+libvolume_id:
+  /lib*/libvolume_id.so.*
+
 # create splash
 x mk_splash /mk_splash
 include gen/splash

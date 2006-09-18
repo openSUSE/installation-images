@@ -12,6 +12,8 @@ cp -a /etc/bootsplash/themes/$theme/animations /$dst
 cp -a /etc/bootsplash/themes/$theme/images /$dst
 rm -f /$dst/images/*-*.jpg
 
+mount -t proc proc proc
+
 mkdir xxx
 cp -a --parents /etc/bootsplash/themes/$theme/config/*-$cfg.* xxx
 cp -a --parents /etc/bootsplash/themes/$theme/images/*-$cfg.* xxx
@@ -21,4 +23,6 @@ chmod -R a+rX .
 find | cpio --quiet -o -H newc | gzip -9 >>/$dst/gz/$spl.spl
 cd /
 rm -r xxx
+
+umount proc
 

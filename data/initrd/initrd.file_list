@@ -55,6 +55,7 @@ else
   include gen/module.files.fs
   include gen/module.files.net
   include gen/module.files.pcmcia
+  include gen/module.files.WLAN
   include gen/module.files.scsi
   include gen/module.files.usb
   include gen/module.files.other
@@ -64,6 +65,7 @@ else
   A gen/module.config.scsi modules/module.config
   A gen/module.config.net modules/module.config
   A gen/module.config.pcmcia modules/module.config
+  A gen/module.config.WLAN modules/module.config
   A gen/module.config.usb modules/module.config
   A gen/module.config.firewire modules/module.config
   A gen/module.config.fs modules/module.config
