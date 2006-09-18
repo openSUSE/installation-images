@@ -51,8 +51,6 @@ module-init-tools:
 
 x etc/host.conf etc
 
-##if arch ne 's390' && arch ne 's390x' && arch ne 'ppc' && arch ne 'ppc64'
-
 kbd:
   /bin/dumpkeys
   /bin/loadkeys
@@ -79,8 +77,6 @@ kbd:
   d usr/share/kbd/keymaps/include
   m usr/share/kbd/keymaps/include/compose.latin1 usr/share/kbd/keymaps/include
 
-##if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
-##  if !fewkeymaps
     g /usr/share/kbd/keymaps/i386/qwerty/Pl02.map.gz usr/share/kbd/keymaps/Pl02.map
     g /usr/share/kbd/keymaps/i386/qwerty/br-abnt2.map.gz usr/share/kbd/keymaps/br-abnt2.map
     g /usr/share/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz usr/share/kbd/keymaps/cz-us-qwertz.map
@@ -106,7 +102,6 @@ kbd:
     m /usr/share/kbd/keymaps/i386/include/linux-keys-extd.inc usr/share/kbd/keymaps/include
     m /usr/share/kbd/keymaps/i386/include/azerty-layout.inc usr/share/kbd/keymaps/include
     m /usr/share/kbd/keymaps/i386/include/linux-with-two-alt-keys.inc usr/share/kbd/keymaps/include
-##  endif
 
   g /usr/share/kbd/keymaps/i386/qwerty/us.map.gz usr/share/kbd/keymaps/us.map
   g /usr/share/kbd/keymaps/i386/qwertz/de-latin1-nodeadkeys.map.gz usr/share/kbd/keymaps/de-lat1-nd.map
@@ -118,43 +113,15 @@ kbd:
   m /usr/share/kbd/keymaps/i386/include/qwertz-layout.inc usr/share/kbd/keymaps/include
   g /usr/share/kbd/keymaps/i386/include/euro1.map.gz usr/share/kbd/keymaps/include/euro1.map
   g /usr/share/kbd/keymaps/i386/include/euro2.map.gz usr/share/kbd/keymaps/include/euro2.map
-##endif
 
 
 d bin lib
 
-glibc:
-  /lib*/libpthread{.,-}*
-
-#    pam:
-#      /lib*/libpam.so.*
-
-#    cups-libs:
-#      m /usr/lib*/libcups.so.* /lib
-
-openssl:
-  m /usr/lib*/libcrypto.so.* /lib
-  m /usr/lib*/libssl.so.* /lib
-
-    
-e2fsprogs:
-  m /lib*/lib*.so.* /lib
-
 grub:
-  /boot/*
-  /usr/lib/*
-  /usr/sbin/*
-
-libcom_err:
-  m /lib*/libcom_err.so.* /lib
-  m /lib*/libss.so.* /lib
-
+    /usr/{bin,sbin,lib}
 
 sed:
   /bin/sed
-
-##if 0
-##if with_gdb
 
   kbd:
    /bin/kbd_mode
@@ -164,19 +131,6 @@ sed:
 
   net-tools:
     m /sbin/{ifconfig,route} /bin
-
-#!  strace:
-#!    m /usr/bin/strace /bin
-
-#!  gdb:
-#!    m /usr/bin/gdb /bin/gdb
-
-  readline:
-    /lib*/libreadline.so*
-    /lib*/libhistory.so*
-
-  ncurses:
-    /lib*/libncurses.so.5*
 
   procps:
     /bin/ps
@@ -195,11 +149,7 @@ sed:
     /bin/umount
 
   glibc:
-    /lib*/librt{.,-}*
     /lib*/libpthread{.,-}*
-
-  linuxrc-debuginfo:
-    /
 
 if 0
   if with_gdb == 2
@@ -221,15 +171,13 @@ if 0
 
   endif
 endif
-##endif
 
 glibc:
   /lib*/ld*
   /lib*/libc{.,-}*
-  /lib*/{libcrypt,libdl,libnsl,libresolv}{.,-}*
+  /lib*/{libdl,libnsl,libresolv}{.,-}*
   /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
   /lib*/libm{.,-}*
-#!  /lib*/libthread_db{.,-}*
   /lib*/libutil{.,-}*
 
 cifs-mount:
@@ -253,9 +201,6 @@ hwinfo-devel:
     /sbin/splash
 
     d /etc/bootsplash/themes/Zen
-##    e cp -a /Zen/animations etc/bootsplash/themes/Zen
-
-##endif
 
 zlib:
   /lib*/libz.so.1*
@@ -268,15 +213,6 @@ coreutils:
 pcmciautils:
   /etc/pcmcia/config.opts
   /sbin/pcmcia-socket-startup
-
-bash:
-  /bin/{sh,bash}
-  s bash /bin/lsh
-  s bash /bin/ash
-
-readline:
-  /lib*/libreadline.so*
-  /lib*/libhistory.so*
 
 ncurses:
   /lib*/libncurses.so.5*
@@ -354,7 +290,6 @@ util-linux:
   /etc
   r /etc/init.d/nfsboot
   /bin/{mount,umount,guessfstype}
-#dmesg,
   /sbin/hwclock
   /sbin/{blockdev,ctrlaltdel,elvtune,fdisk,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
   /sbin/agetty
@@ -383,7 +318,6 @@ e echo "MemLoadImage:	60000" >>linuxrc.config
 
 e echo "MemYaST:	2000" >>linuxrc.config
 e echo "MemYaSTText:	2000" >>linuxrc.config
-#  e echo "NetSetup:	dhcp" >>linuxrc.config
 e echo "ScsiRename=0" >>linuxrc.config
 e echo "ScsiBeforeUsb=1" >>linuxrc.config
 

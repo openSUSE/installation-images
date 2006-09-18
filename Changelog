@@ -1,4 +1,6 @@
-	- added /etc/YaST2/XVersion
+18/9/2006:	v8.78
+	- added /etc/YaST2/XVersion (needed for sp1 branch)
+	- updated Zen theme
 
 29/6/2006:	v8.77
 	- use new SuSE-Zen kernel splash theme

@@ -1,4 +1,3 @@
-
 #
 # the 'root' system
 #
@@ -25,7 +24,7 @@ insserv:
 
 aaa_base: prein,postin
 e prein
-  /etc/init.d
+###  /etc/init.d
   /etc/inputrc
 e echo set bell-style none >>etc/inputrc
 #  /etc/rc.status
@@ -51,8 +50,7 @@ libattr:
   /lib*
 
 bash:
-  /bin/bash
-s bash /bin/sh
+  /bin/{sh,bash}
 s bash /bin/ash
 
 readline:
@@ -60,14 +58,11 @@ readline:
   /lib*/libhistory.so.*
 
 coreutils:
-  /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rmdir,sync}
-#rm,
+  /bin/{chmod,cp,dd,df,ln,ls,mkdir,mknod,mv,rmdir,sync}
   /usr/bin/du
   /bin/touch
   /bin/{date,echo,false,pwd,stty,true,uname,basename}
-#sleep,
   /usr/bin/{expr,tee,dirname,chroot,test,tty}
-#  /bin/cat
   /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc,od}
   /bin/sort
   /bin/kill
@@ -84,6 +79,7 @@ joe:
 hwinfo:
   /usr/lib*
   /usr/sbin
+r /usr/sbin/mk_isdnhwdb
 
 libxml2:
   /usr/lib*/libxml2.so.*
@@ -119,8 +115,8 @@ hal: prein
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
 
-wireless-tools:
-  /usr/lib*/libiw.so.*
+##wireless-tools:
+##  /usr/lib*/libiw.so.*
 
 dmraid:
   /sbin
@@ -128,27 +124,13 @@ dmraid:
 mktemp:
   /bin/mktemp
 
-iputils:
-  /bin/ping
-
-#rpm:
-#  /bin/rpm
-#  /usr/lib/rpm/{rpmrc,macros}
-#  /usr/lib/rpm/rpmpopt*
-#  /usr/lib*/librpm*.so
-
 util-linux:
-##  /bin/guessfstype
-##  /bin/{u,}mount
   /bin/dmesg
   /bin/logger
   /sbin/losetup
   /sbin/blockdev
-##  if arch ne 'ia64'
-    /sbin/fdisk
-    /sbin/sfdisk
-##  endif
-  /usr/sbin/setctsid
+  /sbin/fdisk
+  /sbin/sfdisk
 
 sysfsutils:
   /lib*/libsysfs.so*
@@ -156,14 +138,6 @@ sysfsutils:
 ncurses:
   /lib*/libncurses.so.5*
   /usr/lib*/libncursesw.so.5*
-#!  /usr/lib*/libpanelw.so.5*
-  /usr/bin/reset
-  /usr/bin/tset
-#!  /usr/share/terminfo
-#!s ../share/terminfo /usr/lib/terminfo
-
-#!terminfo:
-#!  /usr/share/terminfo/i/ibm3151
 
 popt:
   /usr/lib*/libpopt.so*
@@ -179,15 +153,14 @@ glibc:
   /lib*/ld*
   /lib*/lib{c,m}{.,-}*
   /lib*/{libcrypt,libdl,libnsl}{.,-}*
-  /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
-  /lib*/{libnss_nis,libnss_nisplus,libresolv,librt,libutil}{.,-}*
+  /lib*/libnss_files{.,-}*
+  /lib*/{libnss_nisplus,libresolv,librt,libutil}{.,-}*
   /usr/sbin/rpcinfo
   /usr/bin
   /etc/rpc
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
   /lib*/libpthread{.,-}*
-#!  /lib*/libthread_db{.,-}*
 
 hdparm:
   /sbin/hdparm
@@ -195,35 +168,30 @@ hdparm:
 
 e2fsprogs:
   /sbin
+  r /sbin/debugfs
   /lib*
+  m /lib*/lib*.so.* /lib
 
 libcom_err:
   /lib*/libcom_err.so.*
-  /lib*/libss.so.*
 
 file:
   m /usr/share/misc/magic /etc/magic
   /usr/lib*/libmagic.so*
   /usr/bin/file
 
-
 lilo:
   /sbin/{activate,lilo}
-
 
 dosfstools:
   /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
 
-
 net-tools:
-  /bin/{domain,host}name
+  /bin/hostname
   /sbin/{ifconfig,route}
-  /sbin/plipconfig
-
 
 portmap:
   /sbin/portmap
-
 
 util-linux:
   /sbin/{mkfs,mkfs.minix,fsck.minix,mkswap,swapoff,swapon}
@@ -232,7 +200,6 @@ d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
 d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
 
-#d /var/X11R6/{bin,xkb/compiled,app-defaults}
 d /var/lib/xkb
 
 s ../lock /var/spool/locks
@@ -265,7 +232,6 @@ module-init-tools:
  /bin/lsmod
 
 procps:
-  /bin/ps
   /usr/bin/{free,top,vmstat}
 
 psmisc:
@@ -279,19 +245,12 @@ procinfo:
 #!strace:
 #!  /usr/bin/strace
 
-cpio:
-##  /usr/bin/mt
-  /bin/cpio
-
 c 0755 0 0 /usr/bin
 c 0755 0 0 /usr/lib*
 c 0755 0 0 /usr/sbin
 c 0755 0 0 /usr/share
 
 x /etc/ld.so.conf /etc
-
-#  curl:
-#    /usr/lib*/libcurl.so*
 
 zlib:
   /lib*/libz.so.1*
@@ -323,22 +282,11 @@ device-mapper:
 
 reiserfs:
   /sbin
-
-gawk:
-  /bin
+  r /sbin/debugreiserfs
 
 initviocons:
   /bin/initviocons
   /usr/bin/termprobes
-
-
-#sysvinit:
-#  /sbin/checkproc
-#  /sbin/pidofproc
-#  /sbin/showconsole
-#  c 755 0 0 /sbin/showconsole
-#  /sbin/setconsole
-#  /sbin/{reboot,halt,poweroff,shutdown}
 
 klogd:
   /sbin/klogd
@@ -347,27 +295,19 @@ syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 
+krb5:
+  /etc
+  /usr/lib*/libkrb5.so.*
+  /usr/lib*/libkrb5support.so.*
+  /usr/lib*/libgssapi_krb5.so.*
+  /usr/lib*/libk5crypto.so.*
 
+openldap2-client:
+  /usr/lib*/liblber-*.so.*
+  /usr/lib*/libldap-*.so.*
 
-#!krb5:
-#!  /etc
-#!  /usr/lib*/libkrb5.so.*
-#!  /usr/lib*/libkrb5support.so.*
-#!  /usr/lib*/libgssapi_krb5.so.*
-#!  /usr/lib*/libk5crypto.so.*
-
-#!openldap2-client:
-##  /usr/lib*/liblber-*.so.*
-##  /usr/lib*/libldap-*.so.*
-
-#!cyrus-sasl:
-##  /usr/lib*/libsasl2.so.*
-
-#!db:
-#!  /usr/lib*/libdb-4*.so  
-
-#!gdbm:
-#!  /usr/lib*/libgdbm.so*
+cyrus-sasl:
+  /usr/lib*/libsasl2.so.*
 
  r /lib*/security/pam_userdb.so
 
@@ -382,24 +322,9 @@ syslogd:
  x root/.bash_login /root
  x root/.vimrc /root
 
-parted:
-  /usr/sbin
-  /usr/lib*
-
-#!jfsutils:
-#!  /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump}
-
-##xfsprogs:
-##  /sbin/fsck.xfs
-##  /sbin/mkfs.xfs
-##  /usr/sbin/xfs_{growfs,admin,db}
-
-
 openssl:
   m /usr/lib*/libcrypto.so.* /lib
   m /usr/lib*/libssl.so.* /lib
-#  /usr/lib*
-#  /usr/share/ssl
 
 hex:
   /usr/bin/hex
@@ -416,17 +341,6 @@ sock:
 
 iproute2:
   /sbin/ip
-
-ntfsprogs:
-  /usr/sbin/ntfsresize
-  /usr/lib*/libntfs.so*
-
-#if theme eq 'SLES'
-#!  evms:
-#!    /etc/evms.conf
-#!    /lib*
-#!    /sbin/evms{_activate,_gather_info}
-#endif
 
 pmtools:
   /usr/sbin/dmidecode
@@ -454,15 +368,18 @@ libusb:
 checkmedia:
   /usr/bin
 
-###d etc/samba
-###e echo "; just to make smbmount happy" >etc/samba/smb.conf
-if 0
+ d etc/samba
+ e echo "; just to make smbmount happy" >etc/samba/smb.conf
 samba-client:
-  m /usr/bin/smbmount /bin/smbmount
-  s /bin/smbmount /sbin/mount.smbfs
-  # taken from linuxrc
+  /etc
+  /lib
+  /sbin
+  /usr/bin
+  /usr/lib
+  /usr/sbin
+  /var
+#  s /bin/smbmount /sbin/mount.smbfs
   s /lbin/smbmnt /bin/smbmnt
-endif
 
 pcmciautils:
   /
@@ -470,21 +387,6 @@ pcmciautils:
 open-iscsi:
   /sbin
   /etc/iscsid.conf
-
-##libzypp:
-##  /usr/lib*/libzypp.so.*
-
-#boost:
-#  /usr/lib*/libboost_regex.so.*
-#  /usr/lib*/libboost_filesystem.so.*
-
-#!libicu:
-#!  /usr/lib*/libicui18n.so.*
-#!  /usr/lib*/libicuuc.so.*
-#!  /usr/lib*/libicudata.so.*
-
-#!libidn:
-#!  /usr/lib*/libidn.so.*
 
 dos2unix:
   /usr/bin/dos2unix
@@ -522,12 +424,5 @@ r /sbin/insserv
 r /dev
 
 E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
-
-# make passwords not expire
-#e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
-
-# copy empty dictionary
-#e cp -a /usr/lib/cracklib_dict.* usr/lib
-
 
 
