@@ -338,6 +338,7 @@ glibc:
   /lib*/libm{.,-}*
   /lib*/libthread_db{.,-}*
   /lib*/libutil{.,-}*
+  /lib*/librt{.,-}*
 
 cifs-mount:
   /sbin/mount.cifs
@@ -355,7 +356,7 @@ hal:
 #  /usr/lib*/libhd_tiny.so.*
 
 hwinfo:
-  /usr/lib/libhd.so.*
+  /usr/lib*/libhd.so.*
   /usr/sbin/hwinfo
 
 if arch eq 'ia32' || arch eq 'x86_64'
@@ -428,7 +429,7 @@ cpio:
 
 util-linux:
   /bin/more
-  /var/lib/nfs/state
+  /var/lib/nfs
 
 suse-build-key:
   m /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
