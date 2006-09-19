@@ -339,6 +339,7 @@ glibc:
   /lib*/libthread_db{.,-}*
   /lib*/libutil{.,-}*
   /lib*/librt{.,-}*
+  /lib*/libpthread{.,-}*
 
 cifs-mount:
   /sbin/mount.cifs
