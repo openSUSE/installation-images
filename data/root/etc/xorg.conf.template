@@ -125,7 +125,7 @@ EndSection
 # Screen Section for fbdev support
 # vesafb defaults to 16bit
 # others default to 8bit, force a higher colordepth
-# FIXME: some default to 15bit, need to verify this case to avoid broken colormap
+# on Apple onboard controllers, remove the default #207338
 # ----------------------------------
 Section "Screen"
   DefaultColorDepth 16
