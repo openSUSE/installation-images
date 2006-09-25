@@ -69,6 +69,8 @@ $start_inodes = 15000;
 # default to 'large'
 $ENV{'initrd'} = 'large' if $ENV{'initrd'} eq '';
 
+$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+
 $image = "${ImagePath}$ENV{'initrd_name'}" if $ENV{'initrd_name'};
 
 $bootsplash = 0;
@@ -108,11 +110,11 @@ SUSystem "fix_perms $tmpdir";
 #SUSystem "ldconfig -r $tmpdir";
 #die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
-if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+if($debug =~ /\bignore\b/) {
   system "check_libs $tmpdir" and
     warn "$Script: error in shared lib config, please fix\n";
 }
-else {
+elsif($debug !~ /\bignorelibs\b/) {
   system "check_libs $tmpdir" and
     die "$Script: error in shared lib config, please fix\n";
 }    

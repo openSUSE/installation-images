@@ -1,6 +1,10 @@
 # common part for all initrds
 include initrd_base.file_list
 
+if libcheck
+  include biostest.file_list
+endif
+
 <kernel_rpm>:
 
 x module.help modules/module.config

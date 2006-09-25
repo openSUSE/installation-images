@@ -1,0 +1,15 @@
+#! /bin/bash
+
+exec < /dev/console > /dev/console 2>&1 3>&1
+
+echo verbose >/proc/splash
+
+echo root reboot >/etc/yast.inf
+
+# unicode mode off
+echo -ne '\e%@'
+
+cd /usr/share/firmwarekit
+
+./biostest
+

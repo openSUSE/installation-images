@@ -1,0 +1,41 @@
+d etc bin usbkey
+
+firmwarekit:
+  /usr/lib*
+  /usr/share/firmwarekit
+  x run_biostest /bin
+
+glib2:
+  m /opt/gnome/<lib>/libglib-2.0.so.* /usr/<lib>
+
+newt:
+  /usr/lib*/libnewt.so.*
+
+slang:
+  /usr/lib*/libslang.so.*
+
+sysvinit:
+  /sbin/showconsole
+  c 755 0 0 /sbin/showconsole
+
+util-linux:
+  /usr/sbin/setctsid
+  /bin/mount
+  /bin/umount
+
+ncurses:
+  /usr/share/terminfo/l/linux
+  /usr/share/terminfo/s/screen
+  /usr/share/terminfo/v/vt10{0,2}
+
+pciutils:
+  /sbin/lspci
+  /sbin/setpci
+
+dhcp-client:
+  /sbin/dhclient
+
+:
+
+e ldconfig -r .
+

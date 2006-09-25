@@ -5,7 +5,8 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root
 
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue \
         root liveeval html clean distdir install install_xx rdemo brescue \
-	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd rootfonts hal
+	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd rootfonts hal \
+	biostest
 
 all: bootdvd bootcd2 rescue root
 	@rm -rf images/cd[12]
@@ -27,6 +28,9 @@ dirs:
 	@[ -d images ] || mkdir images
 	@[ -d test ] || mkdir test
 	@[ -d tmp ] || mkdir tmp
+
+biostest:
+	debug=ignorelibs filelist=biostest initrd_name=biostest make initrd
 
 initrd: dirs base
 	initramfs=$${initramfs:-1} YAST_IS_RUNNING=1 bin/mk_initrd
@@ -54,17 +58,15 @@ bootcd2: eltorito
 #	initrd=medium boot=medium make boot
 	cp src/eltorito/boot images/boot.cd2
 
-bootdisk:
+# i386 & x86_64 only
+bootdisk: biostest
 # with_smb=1
 	initrd=large boot=small make boot
 
-bootcd:
+# i386 & x86_64 only
+bootcd: biostest
 # with_smb=1
 	initramfs=$${initramfs:-1} initrd=large boot=isolinux make boot
-
-bootdvd:
-# with_smb=1
-	initramfs=$${initramfs:-1} is_dvd=1 initrd=large boot=isolinux make boot
 
 rootcd:
 	use_cramfs=1 make root

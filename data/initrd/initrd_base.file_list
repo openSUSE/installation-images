@@ -529,13 +529,14 @@ wireless-tools:
   /usr/sbin
   /usr/lib*/libiw.so.*
   /etc
-  /sbin
 
 openssl:
   /usr/lib*/libcrypto.so.*
   /usr/lib*/libssl.so.*
 
 :
+
+e ldconfig -r .
 
 # see etc/module.list
 e echo "KernelPCMCIA:	1" >>linuxrc.config
