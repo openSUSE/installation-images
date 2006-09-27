@@ -51,7 +51,7 @@ if with_yast2 ne 'no'
       /usr/lib*/xorg/modules/drivers/r128_drv.so
       /usr/lib*/xorg/modules/drivers/radeon_drv.so
       /usr/lib*/xorg/modules/drivers/sis_drv.so
-      /usr/lib*/xorg/modules/drivers/via_drv.so
+#      /usr/lib*/xorg/modules/drivers/via_drv.so
 
       if arch eq 'ia32' || arch eq 'ia64' || arch eq 'x86_64'
         /usr/lib*/xorg/modules/drivers/vesa_drv.so

@@ -1,3 +1,7 @@
+27/9/2006:	v9.16
+	- no via_drv
+	- added acpidmp, acpixtract to initrd
+
 25/9/2006:	v9.15
 	- build firmware test image (x86, x86_64)
 

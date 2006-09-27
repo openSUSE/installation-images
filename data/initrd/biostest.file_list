@@ -35,6 +35,9 @@ pciutils:
 dhcp-client:
   /sbin/dhclient
 
+pmtools:
+  /usr/bin/acpixtract
+
 :
 
 e ldconfig -r .
