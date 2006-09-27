@@ -358,7 +358,7 @@ hwinfo:
   /usr/sbin/hwinfo
 
 pmtools:
-  /usr/sbin/acpidmp
+  /usr/sbin/acpidump
 
 if arch eq 'ia32' || arch eq 'x86_64'
 
