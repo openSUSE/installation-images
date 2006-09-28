@@ -1,3 +1,7 @@
+28/9/2006:	v8.80
+	- we need audit-libs now
+	- yast2-theme-SuSELinux is gone
+
 22/9/2006:	v8.79
 	- make sles10 sp1 known
 

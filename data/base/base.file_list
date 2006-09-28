@@ -227,6 +227,9 @@ pwdutils:
 pam:
   /{etc,lib*,sbin}
 
+audit-libs:
+  /lib*/libaudit.so.*
+
 openldap2-client:
   /usr/lib*/liblber-*.so.*
   /usr/lib*/libldap-*.so.*

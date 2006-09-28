@@ -50,7 +50,7 @@ floppy	=
 
 
 [Theme SuSE]
-yast	= SuSELinux
+yast	= openSUSE
 bsplash = SuSE
 ksplash = SuSE
 product	= SUSE Linux
@@ -80,7 +80,7 @@ image	= 200
 
 
 [Theme Zen]
-yast    = SuSELinux
+yast    = openSUSE
 bsplash = Zen 
 ksplash = SuSE-Zen
 product = ZENworks
