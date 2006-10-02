@@ -46,17 +46,6 @@ echo  > /proc/sys/kernel/hotplug
 # /proc/self/fd/N will fail
 exec < /dev/console > /dev/console 2>&1 3>&1
 
-# start dbus & hal
-if [ -x /usr/bin/dbus-daemon -a -x /usr/sbin/hald ] ; then
-  rm -f /var/run/dbus/pid /var/run/hal/haldaemon.pid
-  echo -n "starting hald..."
-  if /usr/bin/dbus-daemon --system && /usr/sbin/hald ; then
-    echo " ok"
-  else
-    echo " failed"
-  fi
-fi
-
 yast="$1"
 shift
 echo $yast > /tmp/linuxrc_installer_name
@@ -109,6 +98,17 @@ done
 #
 
 ldconfig
+
+# start dbus & hal
+if [ -x /usr/bin/dbus-daemon -a -x /usr/sbin/hald ] ; then
+  rm -f /var/run/dbus/pid /var/run/hal/haldaemon.pid
+  echo -n "starting hald..."
+  if /usr/bin/dbus-daemon --system && /usr/sbin/hald ; then
+    echo " ok"
+  else
+    echo " failed"
+  fi
+fi
 
 # driver update: rebuild yast update tree
 [ -L /y2update ] && rm -f /y2update

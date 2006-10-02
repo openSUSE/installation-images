@@ -1,3 +1,7 @@
+2/10/2006:	v9.17
+	- renamed yast2-trans-el_GR -> *-el
+	- start hald later (#209086)
+
 27/9/2006:	v9.16
 	- no via_drv
 	- added acpidmp, acpixtract to initrd
