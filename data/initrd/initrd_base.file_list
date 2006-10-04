@@ -9,9 +9,8 @@ d etc/sysconfig/hardware
 d var/lib/xkb/compiled etc/X11
 
 d lib/modules/<kernel_ver>
-d lib/modules/<kernel_mods>/initrd
-s lib/modules/<kernel_mods>/initrd modules
-s ../<kernel_mods> lib/modules/<kernel_ver>/updates
+d lib/modules/<kernel_ver>/initrd
+s lib/modules/<kernel_ver>/initrd modules
 
 d mounts
 d root
