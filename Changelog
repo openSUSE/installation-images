@@ -1,3 +1,6 @@
+5/10/2006:	v9.19
+	- remove pata-* modules to make it build
+
 4/10/1006:	v9.18
 	- get rid of -override- module dir
 	- ide modules have been moved into a new directory
