@@ -354,6 +354,8 @@ if with_yast2 ne 'no'
     /
   yast2-installation:
     /
+    # back to fullscreen - netpbm tools are in machbunt.file_list
+    r /usr/lib/YaST2/startup/InstallImages/*
   yast2-iscsi-client:
     /
   yast2-mouse:

@@ -350,12 +350,12 @@ Crystalcursors:
 multipath-tools:
   /sbin
 
-netpbm:
-  /usr/bin/jpegtopnm
-  /usr/bin/pnmtopng
+#netpbm:
+#  /usr/bin/jpegtopnm
+#  /usr/bin/pnmtopng
 
-libnetpbm:
-  /usr/lib*/libnetpbm.so.*
+#libnetpbm:
+#  /usr/lib*/libnetpbm.so.*
 
 x etc/suse-post-user.conf etc/fonts/
 

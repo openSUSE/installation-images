@@ -1,3 +1,8 @@
+9/10/2006:	v9.20
+	- yast2 runs in fullscreen again (#208307)
+	- firmware kit gets scp
+	- fixed error checking when building firmware kit
+
 5/10/2006:	v9.19
 	- remove pata-* modules to make it build
 

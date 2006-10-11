@@ -533,6 +533,13 @@ openssl:
   /usr/lib*/libcrypto.so.*
   /usr/lib*/libssl.so.*
 
+curl:
+  /usr/bin/curl
+  /usr/lib*/libcurl.so.*
+
+libidn:
+  /usr/lib*/libidn.so.*
+
 :
 
 e ldconfig -r .

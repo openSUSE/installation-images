@@ -110,14 +110,16 @@ SUSystem "fix_perms $tmpdir";
 #SUSystem "ldconfig -r $tmpdir";
 #die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
-if($debug =~ /\bignore\b/) {
-  system "check_libs $tmpdir" and
-    warn "$Script: error in shared lib config, please fix\n";
+if($debug !~ /\bignorelibs\b/) {
+  if($debug =~ /\bignore\b/) {
+    system "check_libs $tmpdir" and
+      warn "$Script: error in shared lib config, please fix\n";
+  }
+  else {
+    system "check_libs $tmpdir" and
+      die "$Script: error in shared lib config, please fix\n";
+  }    
 }
-elsif($debug !~ /\bignorelibs\b/) {
-  system "check_libs $tmpdir" and
-    die "$Script: error in shared lib config, please fix\n";
-}    
 
 @m = `ls $moddir/*.o 2>/dev/null`;
 for (@m) {

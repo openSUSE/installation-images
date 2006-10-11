@@ -30,7 +30,7 @@ dirs:
 	@[ -d tmp ] || mkdir tmp
 
 biostest:
-	debug=ignorelibs filelist=biostest initrd_name=biostest make initrd
+	debug=$${debug},ignorelibs filelist=biostest initrd_name=biostest make initrd
 
 initrd: dirs base
 	initramfs=$${initramfs:-1} YAST_IS_RUNNING=1 bin/mk_initrd
