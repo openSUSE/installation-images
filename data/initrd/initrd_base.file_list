@@ -420,9 +420,9 @@ qlogic-firmware:
 
 open-iscsi:
   # must be writable
-  /etc/iscsid.conf
-  c 644 0 0 /etc/iscsid.conf
-  /var/lib/open-iscsi
+  /etc/iscsi/iscsid.conf
+  c 644 0 0 /etc/iscsi/iscsid.conf
+  # /var/lib/open-iscsi
 
 cpio:
   /bin/cpio

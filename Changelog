@@ -1,3 +1,6 @@
+	- added pata modules
+	- iscsi config files changed
+
 9/10/2006:	v9.20
 	- yast2 runs in fullscreen again (#208307)
 	- firmware kit gets scp
