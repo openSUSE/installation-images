@@ -32,6 +32,8 @@ ncurses:
 pciutils:
   /sbin/lspci
   /sbin/setpci
+
+pciutils-ids:
   /usr/share/pci.ids
 
 dhcp-client:

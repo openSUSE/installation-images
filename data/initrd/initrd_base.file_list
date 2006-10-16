@@ -42,6 +42,11 @@ hal: prein
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
 
+openssh: prein
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
+
 glibc:
   /etc/nsswitch.conf
 

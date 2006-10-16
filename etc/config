@@ -31,6 +31,14 @@ s390x	= image
 default	= kernel-default
 
 
+; extra kmps we need (',' separated list)
+[KMP]
+default	=
+i386	= wlan
+x86_64	= wlan
+ppc	= wlan
+
+
 ; lib directory
 [lib]
 default	= lib

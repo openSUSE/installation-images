@@ -1,5 +1,11 @@
 	- added pata modules
 	- iscsi config files changed
+	- added jfs_tune (#211412)
+	- prepare for ext2
+	- we now have a pciutils-ids package
+	- more wlan modules
+	- add ssh user ids back (#205380)
+	- remove unused YaST translations (#212233)
 
 9/10/2006:	v9.20
 	- yast2 runs in fullscreen again (#208307)

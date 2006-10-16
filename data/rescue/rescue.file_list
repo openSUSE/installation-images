@@ -324,6 +324,8 @@ pam-modules:
 
 pciutils:
   /sbin
+
+pciutils-ids:
   /usr/share/pci.ids
 
 usbutils:

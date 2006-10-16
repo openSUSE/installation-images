@@ -41,6 +41,7 @@ kernel/drivers/char/nvram.ko
 kernel/drivers/message/fusion/
 kernel/drivers/message/i2o/
 kernel/fs/cramfs/
+kernel/fs/ext2/
 kernel/fs/ext3/
 kernel/fs/fat/
 kernel/fs/hfs/
@@ -113,4 +114,7 @@ kernel/drivers/xen/blkfront/xenblk.ko
 kernel/drivers/xen/netfront/xennet.ko
 
 kernel/net/ieee80211/
+
+# kmps
+updates/
 

@@ -257,9 +257,6 @@ cracklib:
   /usr/lib*
   /usr/share/cracklib
 
-x save_cfg bin/save_cfg
-x restore_cfg bin/restore_cfg
-
 strace:
   /usr/bin/strace
 
@@ -273,6 +270,12 @@ libvolume_id:
 # create splash
 x mk_splash /mk_splash
 include gen/splash
+
+:
+
+x save_cfg bin/save_cfg
+x restore_cfg bin/restore_cfg
+x unused_mos bin/unused_mos
 
 # run depmod
 E /sbin/depmod -a -F /System.map <kernel_ver> || true

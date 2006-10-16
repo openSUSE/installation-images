@@ -619,7 +619,7 @@ parted:
   /usr/lib*
 
 jfsutils:
-  /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump}
+  /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump,jfs_tune}
 
 xfsprogs:
   /sbin/fsck.xfs
@@ -695,6 +695,8 @@ sysconfig:
 
 pciutils:
   /sbin/lspci
+
+pciutils-ids:
   /usr/share/pci.ids
 
 usbutils:
@@ -836,3 +838,7 @@ e cp -a /usr/lib/cracklib_dict.* usr/lib
 e cp -a /usr/share/cracklib usr/share
 
 d /usr/lib/debug /usr/src/debug
+
+# remove unused yast2 translations
+e rm `unused_mos --files --dir usr/share/YaST2`
+
