@@ -69,6 +69,7 @@ kernel/fs/binfmt_misc.ko
 kernel/fs/nfs/
 kernel/fs/nfs_common/
 kernel/fs/lockd/
+kernel/fs/mbcache.ko
 kernel/net/sunrpc/sunrpc.ko
 kernel/drivers/firmware/edd.ko
 kernel/drivers/acpi/
