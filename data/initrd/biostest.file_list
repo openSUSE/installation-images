@@ -41,6 +41,7 @@ dhcp-client:
 
 pmtools:
   /usr/bin/acpixtract
+  /usr/bin/iasl
 
 openssh:
   /usr/bin/scp

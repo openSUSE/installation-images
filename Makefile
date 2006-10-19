@@ -6,7 +6,7 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue \
         root liveeval html clean distdir install install_xx rdemo brescue \
 	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd rootfonts hal \
-	biostest
+	biostest gkv
 
 all: bootdvd bootcd2 rescue root
 	@rm -rf images/cd[12]
@@ -109,7 +109,10 @@ mboot:
 eltorito:
 	make -C src/eltorito
 
-base: dirs
+gkv:
+	make -C src/gkv
+
+base: dirs gkv
 	@[ -d tmp/base ] || YAST_IS_RUNNING=1 bin/mk_base
 
 html:
@@ -120,6 +123,7 @@ html:
 clean:
 	-@make -C src/mboot clean
 	-@make -C src/eltorito clean
+	-@make -C src/gkv clean
 	-@umount test/initdisk/proc 2>/dev/null ; true
 	-@umount test/initdisk/mnt 2>/dev/null ; true
 	-@rm -rf images test tmp

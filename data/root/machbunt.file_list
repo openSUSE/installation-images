@@ -155,6 +155,8 @@ if with_yast2 ne 'no'
 
   fontconfig:
     /etc/fonts/*.conf
+    /etc/fonts/conf.d
+    /etc/fonts/conf.avail
     r /etc/fonts/local.conf
     m /etc/fonts/local.conf.instsys /etc/fonts/local.conf
     /usr/lib*/libfontconfig.so.*

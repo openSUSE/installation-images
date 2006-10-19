@@ -162,6 +162,7 @@ libjpeg:
 
 <kernel_rpm>:
   /lib/modules
+  a /boot/<kernel_img> /tmp/linux
 if arch eq 'alpha'
   m /boot/System.map-*.default /System.map
 else
@@ -267,11 +268,19 @@ util-linux:
 libvolume_id:
   /lib*/libvolume_id.so.*
 
+busybox:
+  /usr/bin
+  /usr/share/busybox
+E cd /usr/bin ; busybox.install /tmp/bb --hardlinks
+
 # create splash
 x mk_splash /mk_splash
 include gen/splash
 
 :
+
+x ../../src/gkv/gkv bin
+E gkv /tmp/linux >tmp/kernel_version
 
 x save_cfg bin/save_cfg
 x restore_cfg bin/restore_cfg
