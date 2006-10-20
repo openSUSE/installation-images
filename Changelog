@@ -1,6 +1,7 @@
+20/10/2006:	v9.24
 	- added busybox
 	- minor biostest fixes
-	- fixed font issue
+	- fixed font issue (#213581)
 
 17/10/2006:	v9.23
 	- ext2/3 need mbcache module
