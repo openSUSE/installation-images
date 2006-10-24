@@ -38,6 +38,7 @@ pciutils-ids:
 
 dhcp-client:
   /sbin/dhclient
+  /var/lib/dhcp
 
 pmtools:
   /usr/bin/acpixtract
@@ -68,6 +69,10 @@ pcsc-lite:
 
 openct:
   /usr/lib*/libopenct.so*
+
+kbd:
+  d usr/share/kbd/consolefonts
+  g /usr/share/kbd/consolefonts/lat1-16.psfu.gz usr/share/kbd/consolefonts/lat1-16.psfu
 
 :
 

@@ -9,6 +9,8 @@ echo root reboot >/etc/yast.inf
 # unicode mode off
 echo -ne '\e%@'
 
+setfont lat1-16
+
 cd /usr/share/firmwarekit
 
 ./biostest
