@@ -37,7 +37,7 @@ kernel/drivers/usb/net/
 kernel/drivers/usb/serial/
 kernel/drivers/usb/input/usbhid.ko
 kernel/drivers/char/nvram.ko
-# kernel/drivers/char/agp/
+kernel/drivers/char/agp/
 kernel/drivers/message/fusion/
 kernel/drivers/message/i2o/
 kernel/fs/cramfs/

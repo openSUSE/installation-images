@@ -1,3 +1,4 @@
+	- added agp modules (#204324)
 	- let yaboot open the output device, instead of blindly using screen.
 	  should fix Xserve serial console
 
