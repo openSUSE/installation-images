@@ -128,13 +128,6 @@ MacRISC MacRISC3 MacRISC4
 SuSE Linux for PowerMac
 </DESCRIPTION>
 <BOOT-SCRIPT>
-" screen" output
-dev screen
-" "(0000000000aa00aa0000aaaaaa0000aa00aaaa5500aaaaaa)" drop 0 7 set-colors
-" "(5555555555ff55ff5555ffffff5555ff55ffffff55ffffff)" drop 8 15 set-colors
-device-end
-f to foreground-color
-0 to background-color
 load &device;:&partition;,\\suseboot\\yaboot
 go
 </BOOT-SCRIPT>
