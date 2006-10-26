@@ -1,6 +1,7 @@
 	- added agp modules (#204324)
 	- let yaboot open the output device, instead of blindly using screen.
 	  should fix Xserve serial console
+	- fixed product name in mkbootdisk (#215214)
 
 24/10/2006:	v9.26
 	- minor firmware kit corrections
