@@ -149,10 +149,7 @@ elsif($ENV{'boot'} eq 'isolinux') {
   system "cp -r $tmpbootdir/* $image" and
     die "$Script: failed to setup boot image";
 
-  system "unpack_bootlogo $image" and
-    die "$Script: failed to unpack bootlogo";
-
-  print "contents of $image:\n";
+  print "content of $image:\n";
   system "ls -l $image";
 
   if($ENV{'with_floppy'}) {
@@ -194,7 +191,7 @@ if(-f '/mnt/readme.txt') {
   SUSystem "touch -r /mnt/readme.txt /mnt/*";
 }
 
-print "contents of $image:\n";
+print "content of $image:\n";
 system "ls -lRU /mnt";
 
 SUSystem "umount /mnt" and
