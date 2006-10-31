@@ -1,3 +1,6 @@
+	- open the screen in os-chooser
+	  fixes crashes on G5 with nvidia card and no monitor connected
+
 27/10/2006:	v9.28
 	- works with latest gfxboot package
 

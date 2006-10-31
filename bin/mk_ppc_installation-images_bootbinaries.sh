@@ -128,6 +128,36 @@ MacRISC MacRISC3 MacRISC4
 SuSE Linux for PowerMac
 </DESCRIPTION>
 <BOOT-SCRIPT>
+dev /chosen 0 0 " yaboot,do-not-open-screen" property device-end
+output-device find-device?
+if
+	" device_type" active-package get-package-property
+	not
+	if
+		decode-string
+		2swap
+		2drop
+		" display" $=
+		if
+			" display-cfg" active-package get-package-property
+			dup
+			not
+			if
+				drop
+				decode-int
+				2rot
+				2drop
+				-1 =
+				not
+			then
+			if
+				output-device output
+				h#f to foreground-color
+				0 to background-color
+			then
+		then
+	then
+then
 load &device;:&partition;,\\suseboot\\yaboot
 go
 </BOOT-SCRIPT>
