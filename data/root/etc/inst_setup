@@ -192,8 +192,7 @@ ulimit -c unlimited
 # start shell, useful on iSeries or via serial console
 function start_shell() {
   echo 
-  echo "ATTENTION"
-  echo "Starting shell... (use 'exit' to proceed)"
+  echo "ATTENTION: Starting shell... (use 'exit' to proceed)"
   bash --init-file /root/.bash_login
 }
 [ "$START_SHELL" ] && start_shell

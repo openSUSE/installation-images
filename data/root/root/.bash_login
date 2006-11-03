@@ -1,7 +1,5 @@
 test -f /etc/vendor.inf && . /etc/vendor.inf
-echo Welcome to the inst-sys...
-uname -a
-pwd
+echo "Welcome to the inst-sys on `uname -n` `uname -r` `uname -m`" 
 PS1="inst-sys:\w # "
 
 [ -z "$SSH_TTY" ] && return
