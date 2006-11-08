@@ -1,3 +1,6 @@
+8/11/2006:	v9.30
+	- added multipath-tools to inst-sys
+
 6/11/2006:	v9.29
 	- reduce the start_shell noise, reduce output by 3 lines
 	- a bit more ata modules
