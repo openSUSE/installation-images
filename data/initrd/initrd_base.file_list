@@ -373,7 +373,44 @@ if arch eq 'ia32' || arch eq 'x86_64'
     e cp -a /<theme>/animations etc/bootsplash/themes/<theme>
     e cp -a /<theme>/images etc/bootsplash/themes/<theme>
 
+# wlan
+ipw-firmware:
+  /lib/firmware
+
+ipw3945d:
+  /etc
+  /lib
+  /sbin
+
+atmel-firmware:
+  /lib/firmware
+  # really?
+  /usr/sbin
+
+wpa_supplicant:
+  /usr/sbin
+
+wireless-tools:
+  /usr/sbin
+  /usr/lib*/libiw.so.*
+  /etc
+  r /usr/sbin/switch_prism_driver
+  r /usr/sbin/install_acx100_firmware
+  r /usr/sbin/install_intersil_firmware
+
+openssl:
+  /usr/lib*/libcrypto.so.*
+  /usr/lib*/libssl.so.*
+
+curl:
+  /usr/bin/curl
+  /usr/lib*/libcurl.so.*
+
+libidn:
+  /usr/lib*/libidn.so.*
+
 endif
+# i386/x86_64
 
 zlib:
   /lib*/libz.so.1*
@@ -512,43 +549,6 @@ if 0
 
 endif
 
-if arch eq 'ia32' || arch eq 'x86_64'
-# wlan
-ipw-firmware:
-  /lib/firmware
-
-ipw3945d:
-  /etc
-  /lib
-  /sbin
-
-atmel-firmware:
-  /lib/firmware
-  # really?
-  /usr/sbin
-
-wpa_supplicant:
-  /usr/sbin
-
-wireless-tools:
-  /usr/sbin
-  /usr/lib*/libiw.so.*
-  /etc
-  r /usr/sbin/switch_prism_driver
-  r /usr/sbin/install_acx100_firmware
-  r /usr/sbin/install_intersil_firmware
-
-openssl:
-  /usr/lib*/libcrypto.so.*
-  /usr/lib*/libssl.so.*
-
-curl:
-  /usr/bin/curl
-  /usr/lib*/libcurl.so.*
-
-libidn:
-  /usr/lib*/libidn.so.*
-endif
 
 :
 
