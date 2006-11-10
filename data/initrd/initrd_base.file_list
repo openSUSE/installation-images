@@ -534,6 +534,9 @@ wireless-tools:
   /usr/sbin
   /usr/lib*/libiw.so.*
   /etc
+  r /usr/sbin/switch_prism_driver
+  r /usr/sbin/install_acx100_firmware
+  r /usr/sbin/install_intersil_firmware
 
 openssl:
   /usr/lib*/libcrypto.so.*
