@@ -487,6 +487,7 @@ udev:
   /usr/bin
   /usr/sbin
 x etc/myudevstart /bin
+r /etc/init.d
   # add some md devices statically
   b 9  0 /lib/udev/devices/md0
   b 9  1 /lib/udev/devices/md1

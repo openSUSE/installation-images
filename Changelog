@@ -1,3 +1,4 @@
+	- remove /etc/init.d content from udev 
 	- move the wireless stuff into the i386/x86_64 into the bootsplash section
 	- remove firmware install scripts from wireless-tools
 	- provide wlan only on i386 and x86_64 to reduce final initrd size
