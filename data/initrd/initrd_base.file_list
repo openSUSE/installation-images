@@ -512,6 +512,7 @@ if 0
 
 endif
 
+if arch eq 'ia32' || arch eq 'x86_64'
 # wlan
 ipw-firmware:
   /lib/firmware
@@ -544,6 +545,7 @@ curl:
 
 libidn:
   /usr/lib*/libidn.so.*
+endif
 
 :
 

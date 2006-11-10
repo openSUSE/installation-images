@@ -1,3 +1,5 @@
+	- provide wlan only on i386 and x86_64 to reduce final initrd size
+
 8/11/2006:	v9.30
 	- added multipath-tools to inst-sys
 
