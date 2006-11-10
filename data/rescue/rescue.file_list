@@ -631,6 +631,9 @@ smartmontools:
   /etc
   /usr/sbin
 
+libstdc++41:
+  /usr/<lib>/libstdc++*.so*
+
 multipath-tools: postin
   /etc
   /sbin
