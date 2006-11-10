@@ -1,3 +1,5 @@
+	- separate pmac_coff and prep image building
+
 10/11/2006:	v9.31
 	- remove /etc/init.d content from udev 
 	- move the wireless stuff into the i386/x86_64 into the bootsplash section

@@ -55,7 +55,9 @@ if test "42" = "false" ; then
 	--initrd $bdir/initrd-kernel-default-ppc \
 	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 	--output $CD1/boot/ppc/zImage.prep.initrd
+fi
 #
+if test "42" = "false" ; then
 /bin/mkzimage \
 	--board pmaccoff \
 	--vmlinux /boot/vmlinux-*-default \
