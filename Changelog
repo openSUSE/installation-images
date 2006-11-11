@@ -1,3 +1,4 @@
+	- remove /usr/sbin/atmel_fwl perl script from initrd
 	- separate pmac_coff and prep image building
 
 10/11/2006:	v9.31

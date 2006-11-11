@@ -384,8 +384,6 @@ ipw3945d:
 
 atmel-firmware:
   /lib/firmware
-  # really?
-  /usr/sbin
 
 wpa_supplicant:
   /usr/sbin
