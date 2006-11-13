@@ -1,4 +1,4 @@
-13/11/2006: v9.32
+13/11/2006:	v9.32
 	- added Option "ShadowFB" "off" to (vesa) xorg template
 	- added DefaultDepth 16 to (Screen[0]) xorg template
 	- remove /usr/sbin/atmel_fwl perl script from initrd

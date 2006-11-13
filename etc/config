@@ -62,7 +62,7 @@ yast	= openSUSE
 bsplash = SuSE
 ksplash = SuSE
 product	= SUSE Linux
-version = 10.1
+version = 10.2
 update	= /linux/suse/<arch>-<rel>
 image	= 200
 
