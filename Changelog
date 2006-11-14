@@ -1,3 +1,5 @@
+	- updated text mode boot menu
+
 14/11/2006:	v9.33
 	- changed DefaultColorDepth to DefaultDepth in xorg.conf template
 	- fixed joe config
