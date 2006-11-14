@@ -12,11 +12,13 @@ Available boot options:
   harddisk  - Boot from Harddisk (this is default)
   linux     - Installation
   noacpi    - Installation - ACPI Disabled
+  nolapic   - Installation - Local APIC Disabled
   failsafe  - Installation - Safe Settings
   rescue    - Rescue System
+  firmware  - Firmware Test
   memtest   - Memory Test
 
-'noacpi' or 'failsafe' may be necessary on some tricky hardware.
+'noacpi', 'nolapic', or 'failsafe' may be necessary on some tricky hardware.
 
 Have a lot of fun...
 
