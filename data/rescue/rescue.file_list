@@ -151,7 +151,7 @@ gzip:
 
 joe:
   /usr/bin/{joe,jmacs}
-  /etc/joe/{joerc,jmacsrc}
+  /etc/joe/{joerc,jmacsrc,ftyperc}
 
 less:
   /etc

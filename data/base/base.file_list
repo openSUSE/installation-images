@@ -197,6 +197,9 @@ t /etc/fstab
 perl:
   /usr/{bin,lib}
 
+perl-HTML-Parser:
+  /usr/lib
+
 db:
   /usr/lib*/libdb-4*.so
 

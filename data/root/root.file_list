@@ -75,7 +75,7 @@ gzip:
 
 joe:
   /usr/bin/joe
-  /etc/joe/joerc
+  /etc/joe/{joerc,ftyperc}
 
 hwinfo:
   /usr/lib*
