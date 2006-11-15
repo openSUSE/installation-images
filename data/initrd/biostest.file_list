@@ -43,6 +43,7 @@ dhcp-client:
 pmtools:
   /usr/bin/acpixtract
   /usr/bin/iasl
+  /usr/sbin/dmidecode
 
 openssh:
   /usr/bin/scp
