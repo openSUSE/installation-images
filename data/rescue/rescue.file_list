@@ -339,6 +339,7 @@ portmap: postin
   /etc
   /sbin
   /usr/sbin
+  /var/adm/fillup-templates
 e postin
 
 procps:
