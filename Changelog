@@ -1,5 +1,7 @@
+15/11/2006:	v9.34
 	- updated text mode boot menu
 	- portmap needs sysconfig (#220840)
+	- biostest needs dmidecode
 
 14/11/2006:	v9.33
 	- changed DefaultColorDepth to DefaultDepth in xorg.conf template
