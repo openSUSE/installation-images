@@ -1,3 +1,5 @@
+	- add qla4xxx to initrd on ppc
+
 15/11/2006:	v9.34
 	- updated text mode boot menu
 	- portmap needs sysconfig (#220840)
