@@ -1,3 +1,4 @@
+	- add ehea network driver on ppc (#221292)
 	- add qla4xxx to initrd on ppc
 
 15/11/2006:	v9.34
