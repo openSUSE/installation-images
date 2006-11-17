@@ -1,3 +1,4 @@
+	- removed DefaultDepth option from fbdev section (#221139)
 	- add ehea network driver on ppc (#221292)
 	- add qla4xxx to initrd on ppc
 
