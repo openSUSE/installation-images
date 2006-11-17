@@ -129,7 +129,7 @@ EndSection
 # on Apple onboard controllers, remove the default #207338
 # ----------------------------------
 Section "Screen"
-  DefaultColorDepth 16
+  DefaultDepth 16
   SubSection "Display"
     Depth		16
     Modes		"default"            
