@@ -1,3 +1,5 @@
+	- readd DefaultColorDepth 16 to fbdev (#221139)
+
 16/11/2006:	v9.35
 	- added some yast2-trans packages
 	- removed DefaultDepth option from fbdev section (#221139)
