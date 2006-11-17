@@ -39,7 +39,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
     R s/\n# memory.*memtest\n//s /syslinux.cfg
     R s/.*memtest.*// /message
   else
-    memtest86:
+    memtest86+:
       m /boot/memtest.bin /memtest
   endif
 

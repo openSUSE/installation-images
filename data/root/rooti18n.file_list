@@ -37,6 +37,8 @@ endif
   yast2-trans-stats:
     /
 
+  yast2-trans-ar:
+    /
   yast2-trans-bg:
     /
   yast2-trans-bn:
@@ -47,11 +49,11 @@ endif
     /
   yast2-trans-cs:
     /
+  yast2-trans-cy:
+    /
   yast2-trans-da:
     /
   yast2-trans-de:
-    /
-  yast2-trans-et:
     /
   yast2-trans-el:
     /
@@ -60,6 +62,8 @@ endif
   yast2-trans-en_US:
     /
   yast2-trans-es:
+    /
+  yast2-trans-et:
     /
   yast2-trans-fi:
     /
@@ -73,6 +77,8 @@ endif
     /
   yast2-trans-hu:
     /
+  yast2-trans-id:
+    /
   yast2-trans-it:
     /
   yast2-trans-ja:
@@ -82,6 +88,8 @@ endif
   yast2-trans-ko:
     /
   yast2-trans-lt:
+    /
+  yast2-trans-mk:
     /
   yast2-trans-nb:
     /

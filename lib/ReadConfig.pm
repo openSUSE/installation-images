@@ -497,6 +497,8 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
 # kmp list
 #
 
+$ConfigData{kmp_list} = "";
+
 $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{default}
   if $ConfigData{ini}{KMP}{default};
 
@@ -735,6 +737,9 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
 
     if($ConfigData{kmp_list}) {
       $kmp = ' (' . join(', ', map { $_ .= "-kmp" } (split(',', $ConfigData{kmp_list}))) . ')';
+    }
+    else {
+      $kmp = "";
     }
 
     print "--- Building for $product_name $r $ConfigData{arch} [$ConfigData{lib}] ($sles_release,$sled_release), theme $ConfigData{theme}\n";

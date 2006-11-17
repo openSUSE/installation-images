@@ -373,11 +373,11 @@ sub AddFiles
             my ($kmp, $kmp_name);
             for $kmp (split(',', $ConfigData{kmp_list})) {
               ($kmp_name = $p) =~ s/^kernel/$kmp-kmp/;
+              my $r2 = RPMFileName "$kmp_name";
+              warn("$Script: no such package: ${kmp_name}.rpm"), next unless $r2 && -f $r2;
+              SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
+                warn "$Script: failed to extract $r2";
             }
-            my $r2 = RPMFileName "$kmp_name";
-            warn("$Script: no such package: ${kmp_name}.rpm"), next unless $r2 && -f $r2;
-            SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
-              warn "$Script: failed to extract $r2";
           }
         }
       }

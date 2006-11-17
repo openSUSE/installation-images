@@ -842,5 +842,5 @@ e cp -a /usr/share/cracklib usr/share
 d /usr/lib/debug /usr/src/debug
 
 # remove unused yast2 translations
-e rm `unused_mos --files --dir usr/share/YaST2`
+e unused_mos --files --dir usr/share/YaST2 | xargs rm
 
