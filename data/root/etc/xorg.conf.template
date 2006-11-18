@@ -127,10 +127,10 @@ EndSection
 # vesafb defaults to 16bit
 # others default to 8bit, force a higher colordepth
 # on Apple onboard controllers, remove the default #207338
-# changes have to be made in /usr/lib/YaST2/startup/YaST2.call as well
+# changes for DefaultDepth have to be made in /usr/lib/YaST2/startup/YaST2.call as well
 # ----------------------------------
 Section "Screen"
-  DefaultDepth 16
+#@DefaultDepth@
   SubSection "Display"
     Depth		16
     Modes		"default"            
