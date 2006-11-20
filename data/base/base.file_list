@@ -282,8 +282,8 @@ include gen/splash
 
 :
 
-x ../../src/gkv/gkv bin
-E gkv /tmp/linux >tmp/kernel_version
+# x ../../src/gkv/gkv bin
+# E gkv /tmp/linux >tmp/kernel_version
 
 x save_cfg bin/save_cfg
 x restore_cfg bin/restore_cfg

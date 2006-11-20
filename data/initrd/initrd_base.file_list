@@ -195,6 +195,9 @@ if arch eq 's390' || arch eq 's390x' || with_smb
     pam:
       /lib*/libpam.so.*
 
+    audit-libs:
+      /lib*/libaudit.so.*
+
     cups-libs:
       m /usr/lib*/libcups.so.* /lib
 

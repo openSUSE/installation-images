@@ -37,7 +37,6 @@ default	= kernel-default
 default	=
 i386	= wlan
 x86_64	= wlan
-ppc	= wlan
 
 
 ; lib directory

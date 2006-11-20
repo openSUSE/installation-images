@@ -1,3 +1,7 @@
+20/11/2006:	v9.37
+	- module config fix
+	- correct some build errors
+
 20/11/2006:	v9.36
 	- readd DefaultDepth 16 for fbdev at runtime (#221139)
 
