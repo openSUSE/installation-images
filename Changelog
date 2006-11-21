@@ -1,3 +1,8 @@
+21/11/2006:	v9.38
+	- s390x: no Xnest & Xvfb
+	- ia64: evmsn needs libpanelw
+	- pam_unix2.conf gone ages ago
+
 20/11/2006:	v9.37
 	- module config fix
 	- correct some build errors
