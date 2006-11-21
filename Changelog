@@ -1,3 +1,6 @@
+21/11/2006:	v9.39
+	- added bcm43xx (#211037)
+
 21/11/2006:	v9.38
 	- s390x: no Xnest & Xvfb
 	- ia64: evmsn needs libpanelw
