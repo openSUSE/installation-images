@@ -74,8 +74,11 @@ udev:
   /lib*/libsysfs.so*
   r /sbin/*.static
 
-pmtools:
-  /usr/sbin/dmidecode
+if arch eq 'ia64' || arch eq 'ia32' || arch eq 'x86_64'
+  pmtools:
+    /usr/sbin/dmidecode
+    /usr/sbin/acpidump
+endif
 
 coreutils:
   /bin/cat

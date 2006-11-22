@@ -1,3 +1,5 @@
+	- pmtools is intel only. add acpidump to rescue, add dmidecode to install initrd (#223186)
+
 21/11/2006:	v9.39
 	- added bcm43xx (#211037)
 
