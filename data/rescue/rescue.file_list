@@ -91,6 +91,7 @@ ntfsprogs:
   /usr/{,s}bin
 
 e2fsprogs:
+  /etc
   /{lib*,sbin}
   /usr/{,s}bin
 
