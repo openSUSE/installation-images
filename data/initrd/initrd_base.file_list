@@ -603,7 +603,7 @@ e echo "MemYaST:	92000" >>linuxrc.config
 # min. free kB for ncurses YaST (below swap will be activated)
 if arch eq 'ia32'
   # just so that 256MB won't get swap
-  e echo "MemYaSTText:	235000" >>linuxrc.config
+  e echo "MemYaSTText:	230000" >>linuxrc.config
 else
   e echo "MemYaSTText:	260000" >>linuxrc.config
 endif
