@@ -63,7 +63,7 @@ ksplash = SuSE
 product	= openSUSE
 version = 10.2
 update	= /linux/suse/<arch>-<rel>
-image	= 200
+image	= 350
 
 
 ; [Theme SLES]
