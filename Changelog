@@ -1,3 +1,6 @@
+29/11/2006:	v8.81
+	- s390x: we need audit libs in initrd
+
 28/9/2006:	v8.80
 	- we need audit-libs now
 	- yast2-theme-SuSELinux is gone
