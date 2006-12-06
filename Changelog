@@ -1,3 +1,7 @@
+6/12/2006:	v8.82
+	- activate raid devs in rescue system (#155267)
+	- updated module config
+
 29/11/2006:	v8.81
 	- s390x: we need audit libs in initrd
 
