@@ -1,3 +1,6 @@
+7/12/2006:	v8.83
+	- zenroot: samba needs more libs now
+
 6/12/2006:	v8.82
 	- activate raid devs in rescue system (#155267)
 	- updated module config

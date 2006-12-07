@@ -368,6 +368,12 @@ libusb:
 checkmedia:
   /usr/bin
 
+libiniparser:
+  /usr/lib*/libiniparser.so.*
+
+libnscd:
+  /lib*/libnscd.so.*
+
  d etc/samba
  e echo "; just to make smbmount happy" >etc/samba/smb.conf
 samba-client:
