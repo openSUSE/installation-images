@@ -1,3 +1,4 @@
+	- add mptsas on ppc if available (#225712)
 	- add winbond pata pata_sl82c105 on ppc if availble (#159235)
 
 27/11/2006:	v9.42
