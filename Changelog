@@ -1,3 +1,4 @@
+	- libgcrypt was moved to /lib
 	- handle modular ramdisk
 	- add mptsas on ppc if available (#225712)
 	- add winbond pata pata_sl82c105 on ppc if availble (#159235)

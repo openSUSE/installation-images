@@ -229,7 +229,7 @@ if with_yast2 ne 'no'
     /usr/bin
 
   libgcrypt:
-    /usr/lib*/libgcrypt.so*
+    /lib*/libgcrypt.so*
 
   libgpg-error:
    /usr/lib*/libgpg-error.so*
