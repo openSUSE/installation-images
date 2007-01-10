@@ -1,3 +1,4 @@
+	- add iscsi modules on ppc (#232501/#226682)
 	- libgcrypt was moved to /lib
 	- handle modular ramdisk
 	- add mptsas on ppc if available (#225712)
