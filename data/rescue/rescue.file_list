@@ -241,7 +241,7 @@ evms-gui:
   /usr/sbin/evmsn
 
 glib:
-  /opt/gnome/lib*/libglib-1.2.so*
+  /usr/lib*/libglib-1.2.so*
 
 lvm2: postin
   /etc
@@ -517,8 +517,8 @@ expat:
   /usr/lib*/libexpat.so.*
 
 glib2:
-  /opt/gnome/lib*/libglib-2.0.so.*
-  /opt/gnome/lib*/libgobject-2.0.so.*
+  /usr/lib*/libglib-2.0.so.*
+  /usr/lib*/libgobject-2.0.so.*
 
 sysconfig: postin
   /etc

@@ -512,7 +512,6 @@ r /etc/init.d
 
 # add hal & dbus
 if 0
-  e echo /opt/gnome/lib >etc/ld.so.conf
 
   glibc:
     /lib*/libpthread{.,-}*
@@ -524,8 +523,8 @@ if 0
     /usr/lib*/libexpat.so.*
 
   glib2:
-    /opt/gnome/lib*/libglib-2.0.so.*
-    /opt/gnome/lib*/libgobject-2.0.so.*
+    /usr/lib*/libglib-2.0.so.*
+    /usr/lib*/libgobject-2.0.so.*
 
   dbus-1-glib:
     /usr/lib*/libdbus-glib-1.so.*

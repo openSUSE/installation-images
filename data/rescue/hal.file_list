@@ -44,8 +44,8 @@ expat:
   /usr/lib*/libexpat.so.*
 
 glib2:
-  /opt/gnome/lib*/libglib-2.0.so.*
-  /opt/gnome/lib*/libgobject-2.0.so.*
+  /usr/lib*/libglib-2.0.so.*
+  /usr/lib*/libgobject-2.0.so.*
 
 dbus-1-glib:
   /usr/lib*/libdbus-glib-1.so.*

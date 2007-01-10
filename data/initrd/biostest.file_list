@@ -7,7 +7,7 @@ firmwarekit:
   x run_biostest /bin
 
 glib2:
-  m /opt/gnome/<lib>/libglib-2.0.so.* /usr/<lib>
+  /usr/lib*/libglib-2.0.so.*
 
 newt:
   /usr/lib*/libnewt.so.*
