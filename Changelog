@@ -1,3 +1,4 @@
+	- add new modules from 2.6.20-rc4
 	- add iscsi modules on ppc (#232501/#226682)
 	- libgcrypt was moved to /lib
 	- handle modular ramdisk
