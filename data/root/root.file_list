@@ -785,6 +785,9 @@ multipath-tools:
   /sbin/kpartx*
   /sbin/mpath_id
 
+util-linux-crypto:
+  /sbin/cryptsetup
+
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale
 r /usr/X11R6/bin/fc-cache

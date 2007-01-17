@@ -1,8 +1,9 @@
 ; versions
 [Version]
-default	 = 10.2
-beta     = 10.2,beta
-debug    = 10.2,debug
+default	 = 10.3
+beta     = 10.3,beta
+debug    = 10.3,debug
+10.3     = 10.3
 10.2     = 10.2
 sles10   = 10.1
 sled10   = 10.1

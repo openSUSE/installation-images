@@ -36,6 +36,8 @@ kernel/drivers/usb/core/
 kernel/drivers/usb/net/
 kernel/drivers/usb/serial/
 kernel/drivers/usb/input/usbhid.ko
+kernel/drivers/hid/
+kernel/drivers/input/ff-memless.ko
 kernel/drivers/char/nvram.ko
 kernel/drivers/char/agp/
 kernel/drivers/message/fusion/
@@ -73,6 +75,7 @@ kernel/fs/mbcache.ko
 kernel/net/sunrpc/sunrpc.ko
 kernel/drivers/firmware/edd.ko
 kernel/drivers/acpi/
+kernel/drivers/video/backlight/
 kernel/drivers/cpufreq/freq_table.ko
 kernel/drivers/cpufreq/cpufreq_ondemand.ko
 kernel/drivers/cpufreq/cpufreq_powersave.ko
@@ -103,8 +106,10 @@ kernel/lib/zlib_inflate/
 kernel/lib/crc-ccitt.ko
 
 kernel/crypto/twofish.ko
+kernel/crypto/twofish_common.ko
 kernel/crypto/aes.ko
 kernel/crypto/arc4.ko
+kernel/arch/[^/]*/crypto/
 
 kernel/drivers/video/vga16fb.ko
 kernel/drivers/video/vgastate.ko

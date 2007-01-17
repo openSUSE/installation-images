@@ -1,4 +1,6 @@
 17/1/2007:	v9.43
+	- added cryptsetup
+	- added arch specific crypto modules
 	- remove udpcast (dropped package) 
 	- gnome moved from /opt/gnome to /usr
 	- add new modules from 2.6.20-rc4
