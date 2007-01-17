@@ -119,6 +119,7 @@ d bin lib
 
 grub:
     /usr/{bin,sbin,lib}
+    /boot
 
 sed:
   /bin/sed
@@ -244,8 +245,8 @@ qlogic-firmware:
 
 open-iscsi:
   # must be writable
-  /etc/iscsid.conf
-  c 644 0 0 /etc/iscsid.conf
+  /etc/iscsi*
+  c 644 0 0 /etc/iscsi/iscsid.conf
 
 cpio:
   /bin/cpio

@@ -145,6 +145,15 @@ util-linux:
   endif
   /usr/sbin/setctsid
 
+util-linux-crypto:
+  /sbin
+
+libgcrypt:
+  /usr/lib*/libgcrypt.so*
+
+libgpg-error:
+  /usr/lib*/libgpg-error.so*
+
 ncurses:
   /lib*/libncurses.so.5*
   /usr/lib*/libncursesw.so.5*
@@ -563,6 +572,9 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
+libgssapi:
+  /usr/lib*/libgssapi.so.*
+
 openldap2-client:
   /usr/lib*/liblber-*.so.*
   /usr/lib*/libldap-*.so.*
@@ -759,7 +771,7 @@ pcmciautils:
 
 open-iscsi:
   /sbin
-  /etc/iscsid.conf
+  /etc/iscsi*
 
 gpg:
   /usr/bin/gpg

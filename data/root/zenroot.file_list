@@ -132,6 +132,16 @@ util-linux:
   /sbin/fdisk
   /sbin/sfdisk
 
+util-linux-crypto:
+  /sbin
+  /usr/lib*/libcryptsetup.so*
+
+libgcrypt:
+  /usr/lib*/libgcrypt.so*
+
+libgpg-error:
+  /usr/lib*/libgpg-error.so*
+
 sysfsutils:
   /lib*/libsysfs.so*
 
@@ -284,6 +294,9 @@ reiserfs:
   /sbin
   r /sbin/debugreiserfs
 
+gawk:
+  /bin  
+
 initviocons:
   /bin/initviocons
   /usr/bin/termprobes
@@ -302,12 +315,12 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
-openldap2-client:
-  /usr/lib*/liblber-*.so.*
-  /usr/lib*/libldap-*.so.*
+##openldap2-client:
+##  /usr/lib*/liblber-*.so.*
+##  /usr/lib*/libldap-*.so.*
 
-cyrus-sasl:
-  /usr/lib*/libsasl2.so.*
+##cyrus-sasl:
+##  /usr/lib*/libsasl2.so.*
 
  r /lib*/security/pam_userdb.so
 
@@ -368,31 +381,25 @@ libusb:
 checkmedia:
   /usr/bin
 
-libiniparser:
-  /usr/lib*/libiniparser.so.*
-
-libnscd:
-  /lib*/libnscd.so.*
-
  d etc/samba
- e echo "; just to make smbmount happy" >etc/samba/smb.conf
-samba-client:
-  /etc
-  /lib
-  /sbin
-  /usr/bin
-  /usr/lib
-  /usr/sbin
-  /var
-#  s /bin/smbmount /sbin/mount.smbfs
-  s /lbin/smbmnt /bin/smbmnt
+# e echo "; just to make smbmount happy" >etc/samba/smb.conf
+#samba-client:
+#  /etc
+#  /lib
+#  /sbin
+#  /usr/bin
+#  /usr/lib
+#  /usr/sbin
+#  /var
+##  s /bin/smbmount /sbin/mount.smbfs
+#  s /lbin/smbmnt /bin/smbmnt
 
 pcmciautils:
   /
 
 open-iscsi:
   /sbin
-  /etc/iscsid.conf
+  /etc/iscsi*
 
 dos2unix:
   /usr/bin/dos2unix

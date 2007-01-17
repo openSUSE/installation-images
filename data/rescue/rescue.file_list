@@ -441,6 +441,9 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
+libgssapi:
+  /usr/lib*/libgssapi.so.*
+
 strace:
   /usr/bin/strace
 
@@ -481,6 +484,16 @@ endif
   /sbin/agetty
   /usr/{bin,sbin}
 e postin
+
+util-linux-crypto:
+  /sbin
+  /usr/lib*/libcryptsetup.so*
+
+libgcrypt:
+  /usr/lib*/libgcrypt.so*
+
+libgpg-error:
+  /usr/lib*/libgpg-error.so*
 
 if arch eq 'ppc'
 librtas:

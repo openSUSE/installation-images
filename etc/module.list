@@ -3,6 +3,7 @@
 # Lines starting with '-' specify modules to drop.
 # The lines below are actually perl regexps, so be careful.
 #
+kernel/drivers/ata/
 kernel/drivers/base/
 kernel/drivers/block/
 -kernel/drivers/block/paride
@@ -86,13 +87,17 @@ kernel/arch/ia64/sn/kernel
 kernel/drivers/sn
 extra/megaide.ko
 
-kernel/arch/s390/
+-kernel/arch/s390/
 kernel/drivers/s390/
 kernel/net/ipv6/ipv6.ko
 kernel/lib/zlib_inflate/
 kernel/lib/crc-ccitt.ko
 
 kernel/crypto/twofish.ko
+kernel/crypto/twofish_common.ko
+kernel/crypto/aes.ko
+kernel/crypto/arc4.ko
+kernel/arch/[^/]*/crypto/
 
 kernel/drivers/video/vga16fb.ko
 kernel/drivers/video/vgastate.ko

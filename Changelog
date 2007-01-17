@@ -1,3 +1,16 @@
+17/1/2007:	v8.84
+	- pata modules added
+	- updated zen files (#229670)
+	- include even moved iscsi-config
+	- added util-linux-crypto and aes module 
+	- add iscsi modules on ppc (#232501/#226682)
+	- add mptsas on ppc if available (#225712)
+	- ignore kernel/arch/s390/crypto/prng.ko on s390x
+	- add pata_sl82c105 (#159235)
+	- add ehea for POWER6 (#221292 / #232705)
+	- add libgssapi to rescue and root image 
+	- added hptiop and sierra driver 
+
 7/12/2006:	v8.83
 	- zenroot: samba needs more libs now
 
