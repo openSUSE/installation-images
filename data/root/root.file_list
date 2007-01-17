@@ -666,9 +666,6 @@ gdbm:
   /usr/lib*/libgdbm.so.*
   /usr/lib*/libgdbm_compat.so.*
 
-udpcast:
-  /usr/sbin/udp-receiver
-
 ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*

@@ -232,7 +232,7 @@ if with_yast2 ne 'no'
     /lib*/libgcrypt.so*
 
   libgpg-error:
-   /usr/lib*/libgpg-error.so*
+   /lib*/libgpg-error.so*
 
   fvwm2:
     /usr/bin/fvwm{,2}
