@@ -1,3 +1,6 @@
+18/1/2007:	v9.44
+	- added ibmvstgt
+
 17/1/2007:	v9.43
 	- added cryptsetup
 	- added arch specific crypto modules
