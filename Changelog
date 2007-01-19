@@ -1,3 +1,6 @@
+19/1/2007:	v9.43
+	- fixed mkbootdisk script to write files in correct order (#231158)
+
 27/11/2006:	v9.42
 	- adjust memory limits (#223753)
 
