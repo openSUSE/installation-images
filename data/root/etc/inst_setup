@@ -53,6 +53,10 @@ export YAST2_SSH=false
 unset SSH_FAILED
 stty sane
 
+# hostname may come from cmdline
+if test -z "$hostname" ; then
+  hostname=`hostname`
+fi
 if [ -s /etc/install.inf ]; then
 #  # fix fonts for japanese
 #  lang=`awk '{ if(/^Locale:/) print $2 }' /etc/install.inf`
@@ -60,7 +64,7 @@ if [ -s /etc/install.inf ]; then
 #    rm -f /usr/X11R6/lib/X11/fonts/truetype/FZSongTi.ttf
 #    rm -f /usr/X11R6/lib/X11/fonts/truetype/gulim.ttf
 #  fi
-  if [ "$(hostname)" = "(none)" ] ; then
+  if [ "$hostname" = "(none)" ] ; then
 	# hostname and domainname may come from cmdline
 	if test -z "$hostname" ; then
 		hostname=$(awk ' /^Hostname:/ { print $2 }' < /etc/install.inf)
@@ -81,12 +85,6 @@ if [ -s /etc/install.inf ]; then
 	hostname $hostname
 	domainname $domain
   fi
-#
-else
- # hostname may come from cmdline
- if test -z "$hostname" ; then
-  hostname=`hostname`
- fi
 fi
 #
 # a few files should be restored when installation has completed if we

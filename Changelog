@@ -1,3 +1,8 @@
+19/1/2007:	v9.45
+	- fix hostname display for ssh install (#230617)
+	- fixed mkbootdisk script to write files in correct order (#231158)
+	- make inst_setup_ssh script more robust (#233760)
+
 18/1/2007:	v9.44
 	- added ibmvstgt
 
