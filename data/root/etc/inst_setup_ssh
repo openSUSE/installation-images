@@ -28,6 +28,9 @@ echo 'sshd found, prepare remote login'
 if test -L /root ; then rm -f /root ; fi
 if test -L /etc/ssh ; then rm -f /etc/ssh ; fi
 mkdir -p /etc/ssh /root
+if [ -L /etc/ssh/sshd_config ] ; then
+  rm -f /etc/ssh/*
+fi
 cp -a --remove-destination $INSTSYS/root/.bash_login /root
 cp -a --remove-destination $INSTSYS/root/.bash_history /root
 cp -a --remove-destination $INSTSYS/root/.vimrc /root
