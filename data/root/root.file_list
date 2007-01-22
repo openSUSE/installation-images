@@ -687,7 +687,7 @@ pciutils:
   /sbin/lspci
 
 pciutils-ids:
-  /usr/share/pci.ids
+  m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
 usbutils:
   /usr/sbin/lsusb

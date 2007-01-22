@@ -34,7 +34,7 @@ pciutils:
   /sbin/setpci
 
 pciutils-ids:
-  /usr/share/pci.ids
+  m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
 dhcp-client:
   /sbin/dhclient
