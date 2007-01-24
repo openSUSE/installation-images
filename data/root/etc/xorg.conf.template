@@ -206,14 +206,12 @@ Section "Device"
   Driver		"fbdev"
   Identifier	"Device[fbdev]"
   # fbdev_options
-  Option		"ShadowFB"	"off"
 EndSection
 
 Section "Device"
   Driver		"vesa"
   #Option        "DefaultRefresh"
   Option        "ModeSetClearScreen" "no"
-  Option        "ShadowFB" "off"
   Identifier	"Device[vesa]"
 EndSection
 
