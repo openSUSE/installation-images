@@ -92,7 +92,9 @@ kernel/drivers/s390/
 kernel/net/ipv6/ipv6.ko
 kernel/lib/zlib_inflate/
 kernel/lib/crc-ccitt.ko
+kernel/lib/libcrc32c.ko
 
+kernel/crypto/crc32c.ko
 kernel/crypto/twofish.ko
 kernel/crypto/twofish_common.ko
 kernel/crypto/aes.ko
