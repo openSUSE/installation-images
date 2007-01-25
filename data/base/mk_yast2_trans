@@ -1,0 +1,9 @@
+#! /usr/bin/perl
+
+while(<>) {
+  push @t, $1 if /^(yast2-trans-\S+)/;
+}
+
+open F, ">yast2-trans.inc";
+print F "$_:\n  /\n" for (@t);
+close F;

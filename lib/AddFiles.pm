@@ -70,7 +70,7 @@ sub AddFiles
   my (@scripts, $s, @s, %script, $use_cache);
   my (@packs, $sl, $rpm_cmd);
   my (@plog, $current_pack, %acc_all_files, %acc_pack_files, $account);
-  my ($su);
+  my ($su, @requires);
 
   $su = "$SUBinary -q 0 " if $SUBinary;
 
@@ -256,6 +256,7 @@ sub AddFiles
     elsif(/^(\S*):\s*(\S+)?\s*$/ || !defined($current_pack)) {
       undef %script;
       undef @scripts;
+      undef @requires;
 
       $account_size->($dir);
 
@@ -264,6 +265,9 @@ sub AddFiles
       $p = $1;
       if(defined $2) {
         @scripts = split /,/, $2;
+
+        @requires = grep { $_ eq 'requires' } @scripts;
+        @scripts = grep { $_ ne 'requires' } @scripts;
       }
 
       next unless defined $p;
@@ -354,6 +358,13 @@ sub AddFiles
           print "  got \"$s\" script\n" if $debug =~ /\bscripts\b/;
           @{$script{$s}} = @s;
         }
+      }
+
+      if(@requires) {
+        @requires = `$rpm_cmd --requires -qp $r 2>/dev/null`;
+        open R, ">$dir/$p.requires";
+        print R @requires;
+        close R;
       }
 
       if(!($use_cache & 4)) {

@@ -802,6 +802,7 @@ c 755 0 0 /sbin/adddir
 
 if root_i18n
   include rooti18n.file_list
+  include ../../tmp/base/yast2-trans.inc
 endif
 
 if root_gfx
