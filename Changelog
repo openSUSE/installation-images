@@ -1,3 +1,5 @@
+	- add adaptec firmware (#238630)
+
 25/1/2007:	v9.48
 	- track yast2 translations via yast2-trans-allpacks package (#216231)
 

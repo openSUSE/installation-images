@@ -464,6 +464,9 @@ ethtool:
 qlogic-firmware:
   /lib/firmware
 
+adaptec-firmware:
+  /lib/firmware
+
 open-iscsi:
   # must be writable
   /etc/iscsi/iscsid.conf
