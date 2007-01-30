@@ -1,3 +1,6 @@
+30/1/2007:	v8.89
+	- fixed hostname fix (#230617)
+
 25/1/2007:	v8.88
 	- added some new indic fonts (#237367)
 	- added crc32 modules (#221223, #238661)

@@ -76,6 +76,8 @@ if [ -s /etc/install.inf ]; then
 #    rm -f /usr/X11R6/lib/X11/fonts/truetype/gulim.ttf
 #  fi
   if [ "$hostname" = "(none)" ] ; then
+	hostname=
+
 	# hostname and domainname may come from cmdline
 	if test -z "$hostname" ; then
 		hostname=$(awk ' /^Hostname:/ { print $2 }' < /etc/install.inf)
