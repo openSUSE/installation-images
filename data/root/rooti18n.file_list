@@ -37,6 +37,8 @@ endif
   yast2-trans-stats:
     /
 
+  yast2-trans-af:
+    /
   yast2-trans-bg:
     /
   yast2-trans-bn:
@@ -61,6 +63,8 @@ endif
     /
   yast2-trans-fr:
     /
+  yast2-trans-gu:
+    /
   yast2-trans-he:
     /
   yast2-trans-hi:
@@ -78,6 +82,8 @@ endif
   yast2-trans-ko:
     /
   yast2-trans-lt:
+    /
+  yast2-trans-mr:
     /
   yast2-trans-nb:
     /
@@ -103,6 +109,8 @@ endif
     /
   yast2-trans-sv:
     /
+  yast2-trans-ta:
+    /
   yast2-trans-tr:
     /
   yast2-trans-uk:
@@ -110,6 +118,8 @@ endif
   yast2-trans-zh_CN:
     /
   yast2-trans-zh_TW:
+    /
+  yast2-trans-zu:
     /
 
 fbiterm:
