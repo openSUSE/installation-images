@@ -34,7 +34,7 @@ else {
   chomp(@l = `ls /usr/lib/locale/`);
 }
 
-push @l, ( 'km_KH.utf8' );
+push @l, ( 'km_KH.utf8', 'gu_IN.utf8' );
 
 @all_locales{@l} = ();
 
