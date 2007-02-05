@@ -1,3 +1,6 @@
+5/2/2007:	v8.91
+	- added fwparam_ibft (#221206)
+
 1/2/2007:	v8.90
 	- added some new yast translations (#237367)
 	- Gujarati is missing utf8 locale
