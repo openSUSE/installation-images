@@ -443,6 +443,9 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
+keyutils-libs:
+  /lib*/libkeyutils{.,-}*
+
 strace:
   /usr/bin/strace
 

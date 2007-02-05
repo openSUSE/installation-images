@@ -210,7 +210,10 @@ if arch eq 's390' || arch eq 's390x' || with_smb
       m /usr/lib*/libkrb5support.so.* /lib
       m /usr/lib*/libgssapi_krb5.so.* /lib
       m /usr/lib*/libk5crypto.so.* /lib
-      
+
+    keyutils-libs:
+      /lib*/libkeyutils{.,-}*
+
     openldap2-client:
       m /usr/lib*/liblber-*.so.* /lib
       m /usr/lib*/libldap-*.so.* /lib

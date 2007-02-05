@@ -356,6 +356,9 @@ syslogd:
 #!  /usr/lib*/libgssapi_krb5.so.*
 #!  /usr/lib*/libk5crypto.so.*
 
+#!keyutils-libs:
+#!  /lib*/libkeyutils{.,-}*
+
 #!openldap2-client:
 ##  /usr/lib*/liblber-*.so.*
 ##  /usr/lib*/libldap-*.so.*

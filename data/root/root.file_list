@@ -155,6 +155,7 @@ ncurses:
   /lib*/libncurses.so.5*
   /usr/lib*/libncursesw.so.5*
   /usr/lib*/libpanelw.so.5*
+  /usr/lib/libtic.so.5.*
   /usr/bin/reset
   /usr/bin/tset
   /usr/share/terminfo
@@ -570,6 +571,9 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
+keyutils-libs:
+  /lib*/libkeyutils{.,-}*
+
 openldap2-client:
   /usr/lib*/liblber-*.so.*
   /usr/lib*/libldap-*.so.*
@@ -645,9 +649,6 @@ unzip:
 
 mdadm:
   /sbin
-
-sock:
-  /usr/bin/sock
 
 iproute2:
   /sbin/ip

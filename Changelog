@@ -1,3 +1,8 @@
+5/2/2007:	v9.50
+	- removed sock (#167572)
+	- fixed hostname fix (#230617)
+	- added keyutils-libs
+
 25/1/2007:	v9.49
 	- added adaptec firmware (#238630)
 	- added crc32 modules (#221223, #238661)
