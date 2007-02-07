@@ -4,8 +4,8 @@ x etc/10-disable-cjk-bitmap-fonts.conf etc/fonts/conf.d
 ttf-founder-simplified:
   /usr/share/fonts/truetype/FZSongTi.ttf
 
-baekmuk-ttf:
-  /usr/share/fonts/truetype/gulim.ttf
+#baekmuk-ttf:
+#  /usr/share/fonts/truetype/gulim.ttf
 
 IPAGothic:
   /usr/share/fonts/truetype/ipag.ttf

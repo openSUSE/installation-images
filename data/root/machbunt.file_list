@@ -355,6 +355,9 @@ fonts-arabic:
 KhmerOS-fonts:
   /usr/share/fonts/truetype/KhmerOSsys.ttf
 
+unfonts:
+  /usr/share/fonts/truetype/UnDotum.ttf
+
 efont-unicode:
   /usr/share/fonts/misc/b16.pcf.gz
 
