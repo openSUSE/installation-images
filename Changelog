@@ -1,4 +1,6 @@
+9/2/2007:	v9.51
 	- Korean uses UnDotum instead of gulim font
+	- added sha256 module (#242508)
 
 5/2/2007:	v9.50
 	- removed sock (#167572)
