@@ -99,6 +99,7 @@ kernel/crypto/twofish.ko
 kernel/crypto/twofish_common.ko
 kernel/crypto/aes.ko
 kernel/crypto/arc4.ko
+kernel/crypto/sha256.ko
 kernel/arch/[^/]*/crypto/
 
 kernel/drivers/video/vga16fb.ko
