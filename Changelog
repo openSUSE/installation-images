@@ -1,4 +1,5 @@
 	- add qla3xxx and netxen for ppc
+	- added ext4 modules
 
 9/2/2007:	v9.51
 	- Korean uses UnDotum instead of gulim font
