@@ -64,7 +64,11 @@ then
 	: hwcfg $myhwcfg
 	HARDWAREFILE=${HARDWAREDIR}$myhwcfg
 
-	if [ ! -f ${HARDWAREFILE} ] ; then
+    LLADDR=$(grep OSAHWAddr $INSTALLINF|cut -d':' -f2-|cut -d' ' -f2)
+    QETH_LAYER2_SUPPORT=0
+    [ -z "$LLADDR" ] || QETH_LAYER2_SUPPORT=1 
+
+    if [ ! -f ${HARDWAREFILE} ] ; then
 	    # Here save Aliases and Options for $NETDEV
 	    MODULE=`grep "Alias: $NETDEV" $INSTALLINF | uniq | sed -e "s/Alias: $NETDEV \\(.*\\)/\\1/"`
 	    MODULE_OPTIONS=`grep "Options: $NETDEV" $INSTALLINF | uniq | sed -e "s/Options: $NETDEV \\(.*\\)/\\1/"`
@@ -72,7 +76,6 @@ then
 	    echo "MODULE='$MODULE'" >> $HARDWAREFILE
 	    echo "MODULE_OPTIONS='$MODULE_OPTIONS'" >> $HARDWAREFILE
 	fi
-
 #
 #	Create interface file
 #
@@ -102,6 +105,9 @@ then
 		[ $? -eq 0 ] && mv $DHCPFILETMP $DHCPFILE
 	fi
 	echo "BOOTPROTO=\"$BOOTPROTO\"" > $DEVICEFILE
+
+	# [ -z "$LLADDR" ] || ( echo "QETH_LAYER2_SUPPORT='$QETH_LAYER2_SUPPORT'"  >> $DEVICEFILE )
+	[ -z "$LLADDR" ] || ( echo "LLADDR=\"$LLADDR\""  >> $DEVICEFILE )
 
 	# Include UNIQUE number (#25739)
 	UNIQUE=`grep "^NetUniqueID:" $INSTALLINF | uniq | sed -e 's/NetUniqueID: \\(.*\\)/\\1/'`
