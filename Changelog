@@ -1,3 +1,5 @@
+	- fixed bug in splash config
+
 14/2/2007:	v9.52
 	- add qla3xxx and netxen for ppc
 	- added ext4 modules

@@ -694,7 +694,7 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
   }
 
   $yast_theme = $ConfigData{ini}{"Theme $theme"}{yast};
-  $splash_theme = $ConfigData{ini}{"Theme $theme"}{splash};
+  $splash_theme = $ConfigData{ini}{"Theme $theme"}{ksplash};
   $product_name = $ConfigData{ini}{"Theme $theme"}{product};
   my $full_product_name = $product_name;
   $full_product_name .= (" " . $ConfigData{ini}{"Theme $theme"}{version}) if $ConfigData{ini}{"Theme $theme"}{version};
