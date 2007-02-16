@@ -1,5 +1,6 @@
 15/2/2007:	v8.97
-	- create_interface something whatever
+	- create_interface: extract OSA MAC address from install.inf
+	  (bug #184438)
 
 15/2/2007:	v8.96
 	- fixed bug in splash config
