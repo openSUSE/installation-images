@@ -494,6 +494,19 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# kmp list
+#
+
+$ConfigData{kmp_list} = "";
+
+$ConfigData{kmp_list} = $ConfigData{ini}{KMP}{default}
+  if $ConfigData{ini}{KMP}{default};
+
+$ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
+  if $ConfigData{ini}{KMP}{$arch};
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 # print STDERR "kernel_rpm = $ConfigData{kernel_rpm}, kernel_img = $ConfigData{kernel_img}\n";
@@ -717,13 +730,20 @@ $ConfigData{kernel_rpm} = $ENV{kernel} if $ENV{kernel};
   $ConfigData{instsys_build_id} = $ENV{instsys_build_id};
 
   if(!$ENV{silent}) {
-    my $r;
+    my ($r, $kmp);
 
     $r = $ConfigData{suse_release};
     $r .= " $ConfigData{suse_xrelease}" if $ConfigData{suse_xrelease};
 
+    if($ConfigData{kmp_list}) {
+      $kmp = ' (' . join(', ', map { $_ .= "-kmp" } (split(',', $ConfigData{kmp_list}))) . ')';
+    }
+    else {
+      $kmp = "";
+    }
+
     print "--- Building for $product_name $r $ConfigData{arch} [$ConfigData{lib}] ($sles_release,$sled_release), theme $ConfigData{theme}\n";
-    print "--- Kernel: $ConfigData{kernel_rpm}, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
+    print "--- Kernel: $ConfigData{kernel_rpm}$kmp, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
 
     $r = $ConfigData{suse_base};
     $r =~ s/\/\*$//;

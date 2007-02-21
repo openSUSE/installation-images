@@ -32,6 +32,13 @@ s390x	= image
 default	= kernel-default
 
 
+; extra kmps we need (',' separated list)
+[KMP]
+default =
+i386    = xen
+x86_64  = xen
+
+
 ; lib directory
 [lib]
 default	= lib
