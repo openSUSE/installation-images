@@ -1,3 +1,6 @@
+21/2/2007:	v8.99
+	- don't stop if kmp packages are missing
+
 21/2/2007:	v8.98
 	- support kmp packages
 	- added new xen modules (#241564)
