@@ -1,3 +1,6 @@
+26/2/2007:	v9.54
+	- added yast2-add-on, xorg-x11-libxcb
+
 22/2/2007:	v9.53
 	- fixed bug in splash config
 	- create_interface: extract OSA MAC address from install.inf (#184438)

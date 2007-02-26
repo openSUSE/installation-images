@@ -156,6 +156,10 @@ if with_yast2 ne 'no'
     /usr/lib*/libXxf86vm.so.*
     /usr/lib*/libdmx.so.*
 
+  xorg-x11-libxcb:
+    /usr/lib*/libxcb.so.*
+    /usr/lib*/libxcb-xlib.so.*
+
   fontconfig:
     /etc/fonts/*.conf
     /etc/fonts/conf.d

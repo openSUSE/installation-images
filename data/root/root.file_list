@@ -349,8 +349,8 @@ if with_yast2 ne 'no'
     s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast
     r /usr/lib/YaST2/bin/yast2
 
-#  yast2-add-on:
-#    /
+  yast2-add-on:
+    /
   yast2-bootloader:
     /
   yast2-core:
