@@ -1,3 +1,5 @@
+	- move unused bootfiles from CD1/suseboot/ to CD2/boot/ppc/ (#248844)
+
 26/2/2007:	v9.54
 	- added yast2-add-on, xorg-x11-libxcb
 
