@@ -10,19 +10,22 @@ exit 1
 fi
 . /.buildenv
 CD1=$targetdir/CD1
+CD2=$targetdir/CD2
 #
 mkdir -pv $CD1/ppc
 mkdir -pv $CD1/boot/ppc
+# move unused files to CD2 to reduce size of CD1
+mkdir -pv $CD2/boot/ppc
 # to trigger the HFS part, avoid 8.3 filenames and allow OF booting
 mkdir -pv $CD1/suseboot
 #
 cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
-cp -pfv $bdir/initrd-kernel-default-ppc $CD1/suseboot/initrd32
-cp -pfv $bdir/initrd-kernel-ppc64       $CD1/suseboot/initrd64
-cp -pfv $bdir/initrd-kernel-iseries64   $CD1/boot/ppc
-gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
-gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD1/suseboot/linux64.gz
+cp -pfv $bdir/initrd-kernel-default-ppc $CD2/boot/ppc/initrd32
+cp -pfv $bdir/initrd-kernel-ppc64       $CD2/boot/ppc/initrd64
+cp -pfv $bdir/initrd-kernel-iseries64   $CD2/boot/ppc
+gzip -fcv9 /boot/vmlinux-*-default >    $CD2/boot/ppc/linux32.gz
+gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD2/boot/ppc/linux64.gz
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
 	mkdir -pv $CD1/ppc/netboot
@@ -194,5 +197,5 @@ EOF
 cat $CD1/suseboot/os-chooser
 #
 
-find $CD1 -ls
-du -sm $CD1
+find $CD1 $CD2 -ls
+du -sm $CD1 $CD2
