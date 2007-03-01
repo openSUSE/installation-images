@@ -1,3 +1,6 @@
+1/3/2007:	v8.101
+	- added arcmsr module
+
 28/2/2007:	v8.100
 	- move unused bootfiles from CD1/suseboot/ to CD2/boot/ppc/ (#248844)
 
