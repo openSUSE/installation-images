@@ -56,6 +56,8 @@ stty sane
 # hostname may come from cmdline
 if test -z "$hostname" ; then
   hostname=`hostname`
+else
+  hostname "$hostname"
 fi
 if [ -s /etc/install.inf ]; then
 #  # fix fonts for japanese
