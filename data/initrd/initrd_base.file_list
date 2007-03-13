@@ -362,6 +362,10 @@ dbus-1:
 
 hal:
   /usr/lib*/libhal.so.*
+  /var/cache/hald
+
+e2fsprogs:
+  /lib*/libuuid.so.*
 
 hwinfo:
   /usr/lib*/libhd.so.*
