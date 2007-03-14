@@ -1,3 +1,7 @@
+14/3/2007:	v9.57
+	- s390: something about osa layer 2/3 (#184438)
+	- parted needs libreiserfs-devel (#198054)
+
 13/3/2007:	v9.56
 	- really set hostname in /sbin/inst_setup when booted with hostname=myhostname
 	- hal needs libuuid

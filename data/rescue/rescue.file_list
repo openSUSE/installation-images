@@ -586,6 +586,14 @@ parted:
   /usr/lib*
   /usr/sbin
 
+libreiserfs:
+  /usr/lib*/libdal-*.so.*
+  /usr/lib*/libreiserfs-*.so.*
+
+libreiserfs-devel:
+  /usr/lib*/libdal.so
+  /usr/lib*/libreiserfs.so
+
 gawk:
   /bin
 
