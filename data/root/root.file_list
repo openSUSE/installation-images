@@ -686,7 +686,7 @@ if theme eq 'SLES'
   evms:
     /etc/evms.conf
     /lib*
-    /sbin/evms{_activate,_gather_info}
+    /sbin
 endif
 
 pmtools:
