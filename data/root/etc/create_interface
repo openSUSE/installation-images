@@ -160,6 +160,10 @@ then
 	    [ -n "$NWBROADCAST" ] && echo "BROADCAST=\"$NWBROADCAST\"" >> $DEVICEFILE
 	fi
 
+
+
+	echo "_nm_name='$myhwcfg'" >> $DEVICEFILE
+
 #	
 #	Create routingfile
 #
