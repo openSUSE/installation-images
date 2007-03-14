@@ -677,7 +677,7 @@ ntfsprogs:
 evms:
   /etc/evms.conf
   /lib*
-  /sbin/evms{_activate,_gather_info}
+  /sbin
 
 sysconfig:
   /sbin/getcfg*

@@ -1,3 +1,7 @@
+14/3/2007:	v9.58
+	- add more evms tools (#249764)
+	- removed old ahci workaround (-> v6.35)
+
 14/3/2007:	v9.57
 	- s390: something about osa layer 2/3 (#184438)
 	- parted needs libreiserfs-devel (#198054)
