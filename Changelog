@@ -1,4 +1,6 @@
+20/3/2007:	v9.59
 	- enable pata drivers for cmd64x, mpc52xx, via on ppc32
+	- added libsmbios
 
 14/3/2007:	v9.58
 	- add more evms tools (#249764)

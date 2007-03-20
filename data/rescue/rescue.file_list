@@ -576,6 +576,9 @@ hal: prein,postin
   e restore_cfg etc/passwd etc/shadow etc/group
   E postin
 
+libsmbios-libs:
+  /usr/lib*/libsmbios.so.*
+
 wireless-tools:
   /usr/lib*/libiw.so.*
 
