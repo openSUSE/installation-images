@@ -1,3 +1,5 @@
+	- add new 2.6.21 drivers
+
 20/3/2007:	v9.59
 	- enable pata drivers for cmd64x, mpc52xx, via on ppc32
 	- added libsmbios
