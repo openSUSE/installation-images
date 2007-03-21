@@ -38,14 +38,9 @@ r /var/adm/fillup-templates
 tar:
   /bin/tar
 
-###sed:
-###  /bin/sed
-
-#samba
 libacl:
   /lib*
 
-#samba
 libattr:
   /lib*
 
@@ -315,17 +310,8 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
-##openldap2-client:
-##  /usr/lib*/liblber-*.so.*
-##  /usr/lib*/libldap-*.so.*
-
-##cyrus-sasl:
-##  /usr/lib*/libsasl2.so.*
-
  r /lib*/security/pam_userdb.so
 
-# x etc/hotplug /sbin/
-# c 755 0 0 /sbin/hotplug
  x etc/inst_setup_ssh /sbin/
  c 755 0 0 /sbin/inst_setup_ssh
  x etc/ssh /etc
@@ -384,17 +370,6 @@ checkmedia:
   /usr/bin
 
  d etc/samba
-# e echo "; just to make smbmount happy" >etc/samba/smb.conf
-#samba-client:
-#  /etc
-#  /lib
-#  /sbin
-#  /usr/bin
-#  /usr/lib
-#  /usr/sbin
-#  /var
-##  s /bin/smbmount /sbin/mount.smbfs
-#  s /lbin/smbmnt /bin/smbmnt
 
 pcmciautils:
   /
@@ -412,8 +387,9 @@ ncpfs:
   /usr/sbin
   /usr/lib*
 
-ftp:
-  /usr/bin/ftp
+lukemftp:
+  /usr/bin/pftp
+s /usr/bin/pftp /usr/bin/ftp
 
 tftp:
   /usr/bin/tftp

@@ -515,10 +515,6 @@ initviocons:
   /usr/bin/termprobes
 
 if arch eq 'ia32'
-  # needed for blinux start script
-  sysvinit:
-    /sbin/{kill,start}proc
-
   sbl:
     /usr/lib/suse-blinux
     /etc/init.d/suse-blinux
@@ -530,7 +526,9 @@ endif
 
 sysvinit:
   /sbin/checkproc
+  /sbin/killproc
   /sbin/pidofproc
+  /sbin/startproc
   /sbin/showconsole
   c 755 0 0 /sbin/showconsole
   /sbin/setconsole
