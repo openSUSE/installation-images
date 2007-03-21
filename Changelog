@@ -1,4 +1,6 @@
+21/3/2007:	v9.60
 	- add new 2.6.21 drivers
+	- we need fribidi to build gfxboot
 
 20/3/2007:	v9.59
 	- enable pata drivers for cmd64x, mpc52xx, via on ppc32
