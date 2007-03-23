@@ -39,11 +39,15 @@ endif
 
   yast2-trans-af:
     /
+  yast2-trans-ar:
+    /
   yast2-trans-bg:
     /
   yast2-trans-bn:
     /
   yast2-trans-bs:
+    /
+  yast2-trans-ca:
     /
   yast2-trans-cs:
     /
