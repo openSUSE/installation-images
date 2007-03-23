@@ -1,3 +1,4 @@
+	- add pata_sil680 for QS20 and pata_amd for JS20 to ppc64 initrd
 	- add viodasd, viocd and iseries_veth to ppc64 initrd
 	- added killproc (#244385)
 
