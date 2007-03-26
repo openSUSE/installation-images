@@ -1,6 +1,12 @@
+26/3/2007:	v9.61
 	- add pata_sil680 for QS20 and pata_amd for JS20 to ppc64 initrd
 	- add viodasd, viocd and iseries_veth to ppc64 initrd
 	- added killproc (#244385)
+	- cleand up a bit & removed some really ancient files
+	- don't stop if kmp packages are missing
+	- add package list to initrd & rescue system
+	- use new wlan km packages
+	- autoload ide-disk module until #250241 is fixed
 
 21/3/2007:	v9.60
 	- add new 2.6.21 drivers

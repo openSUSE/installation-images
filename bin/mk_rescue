@@ -45,6 +45,10 @@ if($ENV{'keeprescue'} != 1) {
   AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir or
     die "$Script: failed to setup rescue image";
 
+  if(-f "${BasePath}tmp/rescue.rpmlog") {
+    SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' ${BasePath}tmp/rescue.rpmlog | sort -u >$tmpdir/.packages";
+  }
+
   # SUSystem "sh -c 'cd $tmpdir; ./makedevs >/dev/null'" and
   #   die "$Script: could not create all devices";
   # SUSystem "rm $tmpdir/makedevs";

@@ -114,7 +114,7 @@ libacl:
   /lib*
 
 popt:
-  /usr/lib*/libpopt.so*
+  /lib*/libpopt.so*
 
 nscd:
   /etc/nscd.conf
@@ -172,6 +172,8 @@ zlib:
 
 bzip2:
   /usr/bin
+
+libbz2:
   /lib*/libbz2.so*	
 
 if arch eq 'ia32' || arch eq 'ppc' || arch eq 'x86_64'
@@ -656,6 +658,16 @@ multipath-tools: postin
   /etc
   /sbin
 e postin
+
+util-linux-crypto:
+  /sbin
+  /lib*
+
+libgcrypt:
+  /lib*/libgcrypt.so*
+
+libgpg-error:
+ /lib*/libgpg-error.so*
 
 glibc-locale:
   /usr/lib*/gconv/ISO8859*

@@ -77,7 +77,7 @@ if($ENV{'keeproot'} != 1) {
     die "$Script: failed to setup root image";
 
   if(-f "${BasePath}tmp/root.rpmlog") {
-    SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' ${BasePath}tmp/root.rpmlog | sort >$tmpdir/.packages";
+    SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' ${BasePath}tmp/root.rpmlog | sort -u >$tmpdir/.packages";
   }
 
 #  print "fix locale...\n";

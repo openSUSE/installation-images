@@ -97,6 +97,10 @@ if($ENV{'keepinitrd'} != 1) {
   AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir, $ENV{'initrd'}, "${BasePath}tmp/initrd.opt_mods" or
     die "$Script: failed to setup initrd image";
 
+  if(-f "${BasePath}tmp/initrd.rpmlog") {
+    SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' ${BasePath}tmp/initrd.rpmlog | sort -u >$tmpdir/.packages";
+  }
+
   if(!$ENV{with_gdb}) {
     print "stripping object files...\n";
     SUSystem "strip_dir $tmpdir";

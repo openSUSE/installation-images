@@ -168,7 +168,7 @@ terminfo:
   /usr/share/terminfo/i/ibm3151
 
 popt:
-  /usr/lib*/libpopt.so*
+  /lib*/libpopt.so*
 
 tcpd:
   /lib*/libwrap.so*
@@ -646,6 +646,8 @@ hex:
 
 bzip2:
   /usr/bin/b{,un}zip2
+
+libbz2:
   /lib*/libbz2.so*
 
 unzip:
@@ -795,6 +797,7 @@ multipath-tools:
 
 util-linux-crypto:
   /sbin/cryptsetup
+  /lib*/libcryptsetup.so.*
 
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale

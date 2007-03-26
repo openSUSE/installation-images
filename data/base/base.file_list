@@ -210,7 +210,7 @@ gdbm:
 gzip:
   /bin
 
-bzip2:
+libbz2:
   /lib*/libbz2.so.*
 
 cpio:
