@@ -1,3 +1,7 @@
+27/3/2007:	v9.62
+	- ide-disk no longer autoloaded
+	- added rt2x00lib module
+
 26/3/2007:	v9.61
 	- add pata_sil680 for QS20 and pata_amd for JS20 to ppc64 initrd
 	- add viodasd, viocd and iseries_veth to ppc64 initrd
