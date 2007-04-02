@@ -1,3 +1,4 @@
+	- remove unused coff support from ppc32, boot image cant fit into 4MB
 	- readd sd_mod and sr_mod on ppc32
 
 27/3/2007:	v9.62
