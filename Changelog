@@ -1,5 +1,7 @@
+3/4/2007:	v9.63
 	- remove unused coff support from ppc32, boot image cant fit into 4MB
 	- readd sd_mod and sr_mod on ppc32
+	- vim is back
 
 27/3/2007:	v9.62
 	- ide-disk no longer autoloaded
