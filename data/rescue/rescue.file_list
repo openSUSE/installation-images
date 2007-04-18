@@ -131,6 +131,7 @@ endif
 
 glibc:
   /etc/ld.so.conf
+  /etc/nsswitch.conf
   /{lib*,sbin}
 r /lib/libdb.so.*
 r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
@@ -647,7 +648,7 @@ openssh: prein
   d /etc/sysconfig
   t /etc/sysconfig/ssh
   /usr/bin
-  /usr/sbin/sshd
+  /usr/sbin
   /usr/lib*
   /var/lib
   e save_cfg etc/passwd etc/shadow etc/group
@@ -720,6 +721,9 @@ e echo console >>etc/securetty
 
 # enable sysrq
 e perl -pi -e '\''s/^(ENABLE_SYSRQ=).*/$1"yes"/'\'' etc/sysconfig/sysctl
+
+# make /root rw
+e echo -e "cp -a /root /tmp\nmount --bind /tmp/root /root" >>etc/init.d/boot.local
 
 # now run SuSEconfig
 E echo "/dev/root / ext2 defaults 0 0" >/etc/fstab

@@ -1,4 +1,9 @@
+18/4/2007:	v9.65
 	- add PS3 network and storage driver
+	- added s390 udev rules
+	- nsswitch.conf was missing in rescue system
+	- more ssh config fixes
+	- /root in rescue is now writable
 
 18/4/2007:	v9.64
 	- reworked ssh/sshd config

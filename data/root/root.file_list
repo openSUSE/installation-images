@@ -560,8 +560,11 @@ openct:
 openssh: prein
   /etc/ssh
   /etc/pam.d/sshd
+  /etc/init.d/sshd
+  d /etc/sysconfig
+  t /etc/sysconfig/ssh
   /usr/bin
-  /usr/sbin/sshd
+  /usr/sbin
   /usr/lib*
   e prein
 

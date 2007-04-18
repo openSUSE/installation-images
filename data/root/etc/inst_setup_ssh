@@ -34,7 +34,7 @@ fi
 cp -a --remove-destination $INSTSYS/root/.bash_login /root
 cp -a --remove-destination $INSTSYS/root/.bash_history /root
 cp -a --remove-destination $INSTSYS/root/.vimrc /root
-cp -a --remove-destination $INSTSYS/etc/ssh/{moduli,primes,ssh*config*} /etc/ssh
+cp -a --remove-destination $INSTSYS/etc/ssh/{moduli,ssh*config*} /etc/ssh
 #
 if test ! -z "$nameserver" ; then
 	 echo "nameserver $nameserver" >> /etc/resolv.conf
