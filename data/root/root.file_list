@@ -8,8 +8,7 @@ c 1777 0 0 tmp
 
 # add some /etc files
 x /etc/* /etc
-r /etc/ssh/CVS
-r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
+r /etc/ssh
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
@@ -142,7 +141,6 @@ rpm:
   /usr/lib*/librpm*.so
 
 util-linux:
-  /bin/guessfstype
   /bin/{u,}mount
   /bin/dmesg
   /bin/logger
@@ -416,8 +414,9 @@ endif
   gpart:
     /usr/bin
 
-  curl:
+  libcurl4:
     /usr/lib*/libcurl.so*
+
   resmgr:
     /lib*/libresmgr.so.*
 
@@ -559,13 +558,11 @@ openct:
   /usr/lib*/libopenct.so*
 
 openssh: prein
-  /etc/init.d/sshd
-  /etc/pam.d/sshd
   /etc/ssh
+  /etc/pam.d/sshd
+  /usr/bin
   /usr/sbin/sshd
-  /usr/bin/ssh
-  /usr/bin/ssh-keygen
-  /usr/bin/scp
+  /usr/lib*
   e prein
 
 krb5:
@@ -590,9 +587,12 @@ db:
 
 pam:
   /etc/pam.d
+  /etc
   /lib*/security
   /lib*/libpam.so.*
   /lib*/libpam_misc.so.*
+  /lib*
+  /sbin
 
 audit-libs:
   /lib*/libaudit.so.*
@@ -613,8 +613,8 @@ gdbm:
 
  x etc/inst_setup_ssh /sbin/
  c 755 0 0 /sbin/inst_setup_ssh
- x etc/ssh /etc
- c 644 0 0 /etc/ssh/*
+# x etc/ssh /etc
+# c 644 0 0 /etc/ssh/*
  d /root
  x root/.yast2 /root
  x root/.bash_history /root

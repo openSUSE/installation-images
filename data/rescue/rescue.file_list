@@ -423,6 +423,7 @@ pwdutils:
   /{etc,bin}
   /usr/bin
   /usr/sbin/pwunconv
+  /usr/sbin/chpasswd
   /usr/lib*/pwdutils/liblog_syslog.so.*
 
 openldap2-client:
@@ -476,7 +477,7 @@ e postin
 
 util-linux: postin
   /etc
-  /bin/{dmesg,logger,mount,umount,guessfstype}
+  /bin/{dmesg,logger,mount,umount}
 if arch ne 's390' && arch ne 's390x'
   /sbin/hwclock
 endif
@@ -639,11 +640,19 @@ pcsc-lite:
 openct:
   /usr/lib*/libopenct.so*
 
-openssh:
+openssh: prein
   /etc/ssh
+  /etc/pam.d/sshd
+  /etc/init.d/sshd
+  d /etc/sysconfig
+  t /etc/sysconfig/ssh
   /usr/bin
   /usr/sbin/sshd
   /usr/lib*
+  /var/lib
+  e save_cfg etc/passwd etc/shadow etc/group
+  e prein
+  e restore_cfg etc/passwd etc/shadow etc/group
 
 dhcpcd:
   /sbin

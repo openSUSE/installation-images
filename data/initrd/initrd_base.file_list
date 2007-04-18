@@ -2,6 +2,7 @@ d bin dev etc mnt proc sys tmp
 d var/run var/spool var/lock var/tmp var/log/YaST2 var/adm/mount
 d var/lib/YaST2 var/lib/dhcpcd var/lib/hardware/unique-keys var/lib/autoinstall
 d var/run/dbus var/run/hal var/run/hotplug var/cache/fontconfig
+d var/lib/sshd var/lib/empty
 
 d etc/sysconfig
 d etc/sysconfig/hardware
@@ -415,6 +416,8 @@ openssl:
 
 curl:
   /usr/bin/curl
+
+libcurl4:
   /usr/lib*/libcurl.so.*
 
 libidn:
