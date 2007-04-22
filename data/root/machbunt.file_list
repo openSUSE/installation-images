@@ -322,6 +322,7 @@ xmset:
   /usr/sbin
 
 vim:
+  /bin/vim-normal
   /bin/vim
   /bin/vi
   /usr/bin/xxd
