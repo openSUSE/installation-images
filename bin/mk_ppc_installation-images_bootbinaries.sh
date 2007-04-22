@@ -23,7 +23,6 @@ cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
 cp -pfv $bdir/initrd-kernel-default-ppc $CD2/boot/ppc/initrd32
 cp -pfv $bdir/initrd-kernel-ppc64       $CD2/boot/ppc/initrd64
-cp -pfv $bdir/initrd-kernel-iseries64   $CD2/boot/ppc
 gzip -fcv9 /boot/vmlinux-*-default >    $CD2/boot/ppc/linux32.gz
 gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD2/boot/ppc/linux64.gz
 
@@ -41,8 +40,8 @@ fi
 #
 /bin/mkzimage \
 	--board iseries \
-	--vmlinux /boot/vmlinux-*-iseries64 \
-	--initrd $bdir/initrd-kernel-iseries64 \
+	--vmlinux /boot/vmlinux-*-ppc64 \
+	--initrd $bdir/initrd-kernel-ppc64 \
 	--output $CD1/ISERIES64
 #
 /bin/mkzimage \
