@@ -1,3 +1,4 @@
+	- readd ide-cd on ppc
 	- readd vim to inst-sys
 	- use kernel-ppc64 instead of kernel-iseries64 for ISERIES64 boot file
 
