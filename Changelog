@@ -1,10 +1,11 @@
+	- s390: add dasdinfo
 	- readd ide-cd on ppc
 	- readd vim to inst-sys
 	- use kernel-ppc64 instead of kernel-iseries64 for ISERIES64 boot file
 
 18/4/2007:	v9.65
 	- add PS3 network and storage driver
-	- added s390 udev rules
+	- added s390 udev rules (#267078)
 	- nsswitch.conf was missing in rescue system
 	- more ssh config fixes
 	- /root in rescue is now writable
