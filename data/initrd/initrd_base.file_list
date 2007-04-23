@@ -212,6 +212,8 @@ endif
 if arch eq 's390' || arch eq 's390x'
     s390-tools:
       /sbin/zfcp_*_configure
+      /sbin/dasdinfo
+      /etc/udev
 endif
 
 sed:

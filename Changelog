@@ -1,3 +1,6 @@
+23/4/2007:	v8.108
+	- add s390 udev rules (#267078)
+
 5/4/2007:	v8.107
 	- s390: removed console=... from parmfile.cd (bug #253695)
 
