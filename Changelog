@@ -2,6 +2,7 @@
 	- readd ide-cd on ppc
 	- readd vim to inst-sys
 	- use kernel-ppc64 instead of kernel-iseries64 for ISERIES64 boot file
+	- added libzypp translations (#219783)
 
 18/4/2007:	v9.65
 	- add PS3 network and storage driver
