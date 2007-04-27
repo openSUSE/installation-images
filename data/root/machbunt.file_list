@@ -323,6 +323,8 @@ xmset:
 
 vim:
   /bin/vim-normal
+
+vim-base:
   /bin/vim
   /bin/vi
   /usr/bin/xxd

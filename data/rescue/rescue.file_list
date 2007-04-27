@@ -502,12 +502,13 @@ endif
 mingetty:
   /sbin
 
-vim-normal:
-  /bin
-
 vim:
-  /bin/vi{,m}
-  /usr/bin/vi{,m}
+  /bin/vim-normal
+
+vim-base:
+  /bin/vim
+  /bin/vi
+  /usr/bin/xxd
 
 gdbm:
   /usr/lib*/libgdbm.so*
