@@ -49,7 +49,7 @@ coreutils:
   /usr/bin
   r /bin/su
 
-expat:
+libexpat1:
   /usr/lib*/libexpat.so.*
 
 libacl:

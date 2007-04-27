@@ -535,7 +535,7 @@ if 0
   libxml2:
     /usr/lib*/libxml2.so.*
 
-  expat:
+  libexpat1:
     /usr/lib*/libexpat.so.*
 
   glib2:
