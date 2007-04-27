@@ -790,9 +790,6 @@ libidn:
 sqlite:
   /usr/lib*/libsqlite3.so.*
 
-sqlite-zmd:
-  /usr/lib*/libsqlitezmd3.so.*
-
 multipath-tools:
   /etc/udev
   /sbin/devmap_name
