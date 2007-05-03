@@ -35,8 +35,8 @@ default	= kernel-default
 ; extra kmps we need (',' separated list)
 [KMP]
 default =
-i386    = xen
-x86_64  = xen
+i386    =
+x86_64  =
 
 
 ; lib directory
