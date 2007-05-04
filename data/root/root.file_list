@@ -616,8 +616,8 @@ gdbm:
 
  x etc/inst_setup_ssh /sbin/
  c 755 0 0 /sbin/inst_setup_ssh
- x etc/ssh /etc
- c 644 0 0 /etc/ssh/*
+ # for Olaf
+ x etc/ssh /lib
  d /root
  x root/.yast2 /root
  x root/.bash_history /root

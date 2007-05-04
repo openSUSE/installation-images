@@ -50,7 +50,7 @@ mount -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
 if [ "$nosshkey" = "true" ] ; then
 	# for inst-sys testing
 	echo using built-in ssh keys
-	cp -a --remove-destination $INSTSYS/etc/ssh/*key* /etc/ssh/
+	cp -a --remove-destination $INSTSYS/lib/ssh/*key* /etc/ssh/
 
 else
 	#
