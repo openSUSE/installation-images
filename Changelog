@@ -1,6 +1,8 @@
+4/5/2007:	v9.67
 	- libexpat.so.1 moved from expat to libexpat1
 	- fix inst_setup_ssh -n rootpassword
-	- readd vim to inst-sys
+	- re-add vim to inst-sys
+	- add mkdir to /bin, so udev scripts work (#270490)
 
 27/4/2007:	v9.66
 	- s390: add dasdinfo

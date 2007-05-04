@@ -436,6 +436,7 @@ coreutils:
   /bin/rm
   /bin/sleep
   /bin/cat
+  /bin/mkdir
 
 pcmciautils:
   /etc/pcmcia/config.opts
