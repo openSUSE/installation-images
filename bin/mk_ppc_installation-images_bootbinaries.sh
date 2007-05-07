@@ -18,7 +18,9 @@ mkdir -pv $CD1/boot/ppc
 mkdir -pv $CD2/boot/ppc
 # to trigger the HFS part, avoid 8.3 filenames and allow OF booting
 mkdir -pv $CD1/suseboot
+mkdir -pv $CD1/PS3/otheros
 #
+cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
 cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
 cp -pfv $bdir/initrd-kernel-default-ppc $CD2/boot/ppc/initrd32
