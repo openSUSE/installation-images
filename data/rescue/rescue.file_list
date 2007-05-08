@@ -431,7 +431,7 @@ openldap2-client:
   /usr/lib*/liblber-*.so.*
   /usr/lib*/libldap-*.so.*
 
-openssl:
+libopenssl0_9_8:
   /usr/lib*/libcrypto.so.*
   /usr/lib*/libssl.so.*
 

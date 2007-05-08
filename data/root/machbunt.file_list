@@ -83,9 +83,9 @@ if with_yast2 ne 'no'
         /usr/bin/links
 
       DirectFB:
-        /usr/lib*/libdirect-0.9.so.*
-        /usr/lib*/libdirectfb-0.9.so.*
-        /usr/lib*/libfusion-0.9.so.*
+        /usr/lib*/libdirect-*.so.*
+        /usr/lib*/libdirectfb-*.so.*
+        /usr/lib*/libfusion-*.so.*
 
       gpm:
         /usr/lib*/libgpm.so.*

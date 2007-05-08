@@ -203,7 +203,7 @@ if arch eq 's390' || arch eq 's390x' || with_smb
     cups-libs:
       m /usr/lib*/libcups.so.* /lib
 
-    openssl:
+    libopenssl0_9_8:
       m /usr/lib*/libcrypto.so.* /lib
       m /usr/lib*/libssl.so.* /lib
 
@@ -413,7 +413,7 @@ wireless-tools:
   r /usr/sbin/install_acx100_firmware
   r /usr/sbin/install_intersil_firmware
 
-openssl:
+libopenssl0_9_8:
   /usr/lib*/libcrypto.so.*
   /usr/lib*/libssl.so.*
 
@@ -526,6 +526,11 @@ r /etc/init.d
   b 9 13 /lib/udev/devices/md13
   b 9 14 /lib/udev/devices/md14
   b 9 15 /lib/udev/devices/md15
+
+sysconfig:
+  # for ipw3945d
+  /etc/udev/rules.d/*-network.rules 
+  e perl -ni -e "print if /^SUBSYSTEM.*ipw3945/" etc/udev/rules.d/*-network.rules
 
 # add hal & dbus
 if 0

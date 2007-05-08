@@ -640,8 +640,10 @@ wget:
   /etc
   /usr/bin
 
-openssl:
+libopenssl0_9_8:
   /usr/lib*
+
+openssl:
   /usr/share/ssl
 
 hex:
