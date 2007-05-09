@@ -1,3 +1,4 @@
+	- autoload ps3_storage
 8/5/2007:	v9.68
 	- added otheros.bld for ps3
 	- move pre-generated ssh keys out of /etc
