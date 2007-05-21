@@ -388,8 +388,10 @@ endif
     /
   yast2-storage:
     /
+if 0
   yast2-storage-evms:
     /
+endif
   yast2-storage-lib:
     /
   yast2-transfer:
@@ -585,8 +587,8 @@ openldap2-client:
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*
 
-db:
-  /usr/lib*/libdb-4*.so  
+libdb-4_5:
+  /usr/lib*/libdb*.so  
 
 pam:
   /etc/pam.d
@@ -682,10 +684,12 @@ ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
 
+if 0
 evms:
   /etc/evms.conf
   /lib*
   /sbin
+endif
 
 sysconfig:
   /sbin/getcfg*
@@ -711,10 +715,8 @@ libusb:
 checkmedia:
   /usr/bin
 
-perl:
+perl-base:
   /usr/bin/perl
-  /usr/lib/perl*/*/*/CORE/libperl.so
-  /usr/lib/perl*/*/*/Config.pm
   /usr/lib/perl*/*/*/Data/Dumper.pm
   /usr/lib/perl*/*/*/DynaLoader.pm
   /usr/lib/perl*/*/*/Errno.pm
@@ -722,14 +724,12 @@ perl:
   /usr/lib/perl*/*/*/IO.pm
   /usr/lib/perl*/*/*/IO/Handle.pm
   /usr/lib/perl*/*/*/POSIX.pm
-  /usr/lib/perl*/*/*/Sys/Hostname.pm
   /usr/lib/perl*/*/*/XSLoader.pm
   /usr/lib/perl*/*/*/auto/Data/Dumper
   /usr/lib/perl*/*/*/auto/DynaLoader
   /usr/lib/perl*/*/*/auto/Fcntl
   /usr/lib/perl*/*/*/auto/IO
   /usr/lib/perl*/*/*/auto/POSIX
-  /usr/lib/perl*/*/*/auto/Sys/Hostname
   /usr/lib/perl*/*/*/lib.pm
   /usr/lib/perl*/*/AutoLoader.pm
   /usr/lib/perl*/*/Carp{,.pm}
@@ -739,19 +739,25 @@ perl:
   /usr/lib/perl*/*/IPC/Open3.pm
   /usr/lib/perl*/*/SelectSaver.pm
   /usr/lib/perl*/*/Symbol.pm
-  /usr/lib/perl*/*/Time/localtime.pm
-  /usr/lib/perl*/*/Time/tm.pm
   /usr/lib/perl*/*/bytes.pm
   /usr/lib/perl*/*/constant.pm
-  /usr/lib/perl*/*/diagnostics.pm
-  /usr/lib/perl*/*/overload.pm
-  /usr/lib/perl*/*/pod/perldiag.pod
   /usr/lib/perl*/*/strict.pm
   /usr/lib/perl*/*/vars.pm
   /usr/lib/perl*/*/warnings.pm
   /usr/lib/perl*/*/warnings/register.pm
   /usr/lib/perl*/*/Scalar/Util.pm
   /usr/lib/perl*/*/List/Util.pm
+  /usr/lib/perl*/*/overload.pm
+
+perl:
+  /usr/lib/perl*/*/*/CORE/libperl.so
+  /usr/lib/perl*/*/*/Config.pm
+  /usr/lib/perl*/*/*/Sys/Hostname.pm
+  /usr/lib/perl*/*/*/auto/Sys/Hostname
+  /usr/lib/perl*/*/Time/localtime.pm
+  /usr/lib/perl*/*/Time/tm.pm
+  /usr/lib/perl*/*/diagnostics.pm
+  /usr/lib/perl*/*/pod/perldiag.pod
 
 perl-Bootloader:
   /usr/lib
@@ -796,7 +802,6 @@ multipath-tools:
   /etc/udev
   /sbin/devmap_name
   /sbin/kpartx*
-  /sbin/mpath_id
 
 util-linux-crypto:
   /sbin/cryptsetup

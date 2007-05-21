@@ -438,8 +438,8 @@ libopenssl0_9_8:
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*
 
-db:
-  /usr/lib*/libdb-4*.so  
+libdb-4_5:
+  /usr/lib*/libdb*.so  
 
 krb5:
   /etc

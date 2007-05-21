@@ -1,5 +1,8 @@
+21/5/2007:	v9.69
 	- add ahci, sata_sil24, sata_sil on ppc
-	- autoload ps3_storage
+	- added ps3_storage
+	- various package changes
+	- removed evms
 
 8/5/2007:	v9.68
 	- added otheros.bld for ps3
