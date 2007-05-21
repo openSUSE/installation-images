@@ -108,8 +108,8 @@ kernel/lib/zlib_inflate/
 kernel/lib/crc-ccitt.ko
 kernel/lib/libcrc32c.ko
 
-kernel/crypto/cbc.ko 
-kernel/crypto/blkcipher.ko 
+kernel/crypto/cbc.ko
+kernel/crypto/blkcipher.ko
 kernel/crypto/crc32c.ko
 kernel/crypto/twofish.ko
 kernel/crypto/twofish_common.ko

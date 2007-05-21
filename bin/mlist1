@@ -44,7 +44,7 @@ close F;
 die "$0: $ex: $!\n" unless open(F, "$ex.$arch") || open(F, $ex);
 
 while(<F>) {
-  chomp;
+  s/\s*$//;
   next if /^\s*(#|$)/;
 
   if(s/^\-//) {

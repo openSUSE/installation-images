@@ -717,8 +717,26 @@ checkmedia:
 
 perl-base:
   /usr/bin/perl
+  /usr/lib/perl*/*/AutoLoader.pm
+  /usr/lib/perl*/*/Carp{,.pm}
+  /usr/lib/perl*/*/Class/Struct.pm
+  /usr/lib/perl*/*/Exporter{,.pm}
+  /usr/lib/perl*/*/IPC/Open3.pm
+  /usr/lib/perl*/*/List/Util.pm
+  /usr/lib/perl*/*/Scalar/Util.pm
+  /usr/lib/perl*/*/SelectSaver.pm
+  /usr/lib/perl*/*/Symbol.pm
+  /usr/lib/perl*/*/bytes.pm
+  /usr/lib/perl*/*/constant.pm
+  /usr/lib/perl*/*/overload.pm
+  /usr/lib/perl*/*/strict.pm
+  /usr/lib/perl*/*/vars.pm
+  /usr/lib/perl*/*/warnings.pm
+  /usr/lib/perl*/*/warnings/register.pm
+  /usr/lib/perl*/*/*/Config.pm
   /usr/lib/perl*/*/*/Data/Dumper.pm
   /usr/lib/perl*/*/*/DynaLoader.pm
+  /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/*/Fcntl.pm
   /usr/lib/perl*/*/*/IO.pm
@@ -731,33 +749,17 @@ perl-base:
   /usr/lib/perl*/*/*/auto/IO
   /usr/lib/perl*/*/*/auto/POSIX
   /usr/lib/perl*/*/*/lib.pm
-  /usr/lib/perl*/*/AutoLoader.pm
-  /usr/lib/perl*/*/Carp{,.pm}
-  /usr/lib/perl*/*/Class/Struct.pm
-  /usr/lib/perl*/*/*/Errno.pm
-  /usr/lib/perl*/*/Exporter{,.pm}
-  /usr/lib/perl*/*/IPC/Open3.pm
-  /usr/lib/perl*/*/SelectSaver.pm
-  /usr/lib/perl*/*/Symbol.pm
-  /usr/lib/perl*/*/bytes.pm
-  /usr/lib/perl*/*/constant.pm
-  /usr/lib/perl*/*/strict.pm
-  /usr/lib/perl*/*/vars.pm
-  /usr/lib/perl*/*/warnings.pm
-  /usr/lib/perl*/*/warnings/register.pm
-  /usr/lib/perl*/*/Scalar/Util.pm
-  /usr/lib/perl*/*/List/Util.pm
-  /usr/lib/perl*/*/overload.pm
 
 perl:
-  /usr/lib/perl*/*/*/CORE/libperl.so
-  /usr/lib/perl*/*/*/Config.pm
-  /usr/lib/perl*/*/*/Sys/Hostname.pm
-  /usr/lib/perl*/*/*/auto/Sys/Hostname
   /usr/lib/perl*/*/Time/localtime.pm
   /usr/lib/perl*/*/Time/tm.pm
   /usr/lib/perl*/*/diagnostics.pm
   /usr/lib/perl*/*/pod/perldiag.pod
+  /usr/lib/perl*/*/*/CORE/libperl.so
+  /usr/lib/perl*/*/*/Config.pm
+  /usr/lib/perl*/*/*/Sys/Hostname.pm
+  /usr/lib/perl*/*/*/auto/POSIX
+  /usr/lib/perl*/*/*/auto/Sys/Hostname
 
 perl-Bootloader:
   /usr/lib
