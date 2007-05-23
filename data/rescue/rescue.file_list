@@ -667,6 +667,10 @@ smartmontools:
 libstdc++41:
   /usr/<lib>/libstdc++*.so*
 
+kpartx:
+  /etc/udev
+  /sbin
+
 multipath-tools: postin
   /etc
   /sbin

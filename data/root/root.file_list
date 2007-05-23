@@ -801,8 +801,10 @@ sqlite:
   /usr/lib*/libsqlite3.so.*
 
 multipath-tools:
+  /sbin/multipath
+
+kpartx:
   /etc/udev
-  /sbin/devmap_name
   /sbin/kpartx*
 
 util-linux-crypto:
