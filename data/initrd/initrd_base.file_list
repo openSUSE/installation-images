@@ -370,6 +370,7 @@ hal:
 
 e2fsprogs:
   /lib*/libuuid.so.*
+  /lib*/libblkid.so.*
 
 hwinfo:
   /usr/lib*/libhd.so.*
@@ -491,6 +492,7 @@ cpio:
   /bin/cpio
 
 util-linux:
+  /sbin/mkswap
   /bin/more
   /var/lib/nfs
 
