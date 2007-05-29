@@ -1,3 +1,7 @@
+29/5/2007:	v9.73
+	- yast2-network added
+	- create_interface script removed
+
 25/5/2007:	v9.72
 	- MemYaSTText option no longer exists
 

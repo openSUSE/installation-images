@@ -368,8 +368,10 @@ if with_yast2 ne 'no'
     /
   yast2-ncurses:
     /
-#  yast2-packagemanager:
-#    /
+  yast2-network:
+    # /usr/share/YaST2/include/network/install.ycp
+    # /usr/share/YaST2/modules/NetworkStorage.*
+    /
   yast2-packager:
     /
   yast2-perl-bindings:
@@ -817,10 +819,8 @@ r /usr/X11R6/bin/fc-cache
 
 x /usr/lib/YaST/.Reh /usr/lib/YaST2
 x etc/inst_setup /sbin/inst_setup
-x etc/create_interface /sbin/create_interface
 x etc/adddir /sbin/adddir
 c 755 0 0 /sbin/inst_setup
-c 755 0 0 /sbin/create_interface
 c 755 0 0 /sbin/adddir
 
 if root_i18n
