@@ -55,6 +55,7 @@ readline:
 coreutils:
   /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rm,rmdir,sync}
   /usr/bin/du
+  /usr/bin/yes
   /bin/touch
   /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename}
   /usr/bin/{expr,tee,dirname,chroot,test,tty}
