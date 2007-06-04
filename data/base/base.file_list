@@ -213,7 +213,7 @@ gdbm:
 gzip:
   /bin
 
-libbz2:
+libbz2-1:
   /lib*/libbz2.so.*
 
 cpio:

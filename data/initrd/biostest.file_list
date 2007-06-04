@@ -2,7 +2,7 @@ d etc bin usbkey
 
 firmwarekit:
   /usr/lib*
-  /usr/share/firmwarekit
+  /usr/lib/firmwarekit
   /var/log/firmwarekit
   x run_biostest /bin
 

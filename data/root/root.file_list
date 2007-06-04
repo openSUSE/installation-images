@@ -657,7 +657,7 @@ hex:
 bzip2:
   /usr/bin/b{,un}zip2
 
-libbz2:
+libbz2-1:
   /lib*/libbz2.so*
 
 unzip:
@@ -810,8 +810,8 @@ kpartx:
   /etc/udev
   /sbin/kpartx*
 
-util-linux-crypto:
-  /sbin/cryptsetup
+cryptsetup:
+  /sbin
   /lib*/libcryptsetup.so.*
 
 r /usr/X11R6/bin/mkfontdir

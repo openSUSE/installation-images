@@ -174,7 +174,7 @@ zlib:
 bzip2:
   /usr/bin
 
-libbz2:
+libbz2-1:
   /lib*/libbz2.so*	
 
 if arch eq 'ia32' || arch eq 'ppc' || arch eq 'x86_64'
@@ -675,7 +675,7 @@ multipath-tools: postin
   /sbin
 e postin
 
-util-linux-crypto:
+cryptsetup:
   /sbin
   /lib*
 
