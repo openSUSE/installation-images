@@ -1,3 +1,6 @@
+11/6/2007:	v9.76
+	- added mount.nfs from nfs-client (#282750)
+
 11/6/2007:	v9.75
 	- wlan module changes
 	- nfs package changes

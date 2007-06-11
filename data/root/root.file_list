@@ -153,6 +153,9 @@ util-linux:
   endif
   /usr/sbin/setctsid
 
+nfs-client:
+  /sbin/{u,}mount.nfs*
+
 ncurses:
   /lib*/libncurses.so.5*
   /usr/lib*/libncursesw.so.5*
