@@ -107,6 +107,7 @@ kernel/net/ipv6/ipv6.ko
 kernel/lib/zlib_inflate/
 kernel/lib/crc-ccitt.ko
 kernel/lib/libcrc32c.ko
+kernel/lib/crc-itu-t.ko
 
 kernel/crypto/cbc.ko
 kernel/crypto/blkcipher.ko
@@ -127,6 +128,9 @@ kernel/drivers/xen/blkfront/xenblk.ko
 kernel/drivers/xen/netfront/xennet.ko
 
 kernel/net/ieee80211/
+
+kernel/net/mac80211/mac80211.ko
+kernel/net/wireless/cfg80211.ko
 
 # kmps
 updates/

@@ -494,6 +494,8 @@ cpio:
 util-linux:
   /sbin/mkswap
   /bin/more
+
+nfs-client:
   /var/lib/nfs
 
 suse-build-key:
