@@ -90,6 +90,16 @@ ntfsprogs:
   /usr/lib*/libntfs.so.*
   /usr/{,s}bin
 
+ntfs-3g:
+  /sbin
+  /usr/bin
+  /usr/lib*
+
+fuse:
+  /sbin
+  /usr/bin
+  /usr/lib*
+
 e2fsprogs:
   /etc
   /{lib*,sbin}
@@ -490,6 +500,23 @@ endif
   /sbin/agetty
   /usr/{bin,sbin}
 e postin
+
+nfs-client:
+  /sbin
+  /usr/sbin
+  /var/lib/nfs
+
+nfsidmap:
+  /usr/lib*/libnfsidmap.so.*
+
+librpcsecgss:
+  /usr/lib*/librpcsecgss.so.*
+
+libgssapi:
+  /usr/lib*/libgssapi.so.*
+
+libevent:
+  /usr/lib*/libevent-*.so.*
 
 if arch eq 'ppc'
 librtas:

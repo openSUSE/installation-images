@@ -47,6 +47,7 @@ kernel/fs/ext2/
 kernel/fs/ext3/
 kernel/fs/ext4/
 kernel/fs/fat/
+kernel/fs/fuse/
 kernel/fs/hfs/
 kernel/fs/hfsplus/
 kernel/fs/hpfs/
