@@ -529,11 +529,10 @@ mingetty:
   /sbin
 
 vim:
-  /bin/vim-normal
+  m /bin/vim-normal /bin/vim
+  s vim /bin/vi
 
 vim-base:
-  /bin/vim
-  /bin/vi
   /usr/bin/xxd
 
 gdbm:
