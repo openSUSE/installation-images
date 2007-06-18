@@ -175,7 +175,7 @@ popt:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc41:
+libgcc42:
   /lib*
 
 if arch eq 'ppc64'
@@ -554,7 +554,7 @@ opensc:
   /usr/lib*/libopensc.so*
   /usr/lib*/libscconf.so*
 
-libltdl:
+libltdl-3:
   /usr/lib*/libltdl.so*
 
 endif
