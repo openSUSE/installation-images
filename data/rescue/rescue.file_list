@@ -689,7 +689,7 @@ smartmontools:
   /etc
   /usr/sbin
 
-libstdc++41:
+libstdc++42:
   /usr/<lib>/libstdc++*.so*
 
 kpartx:
