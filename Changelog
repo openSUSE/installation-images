@@ -1,3 +1,6 @@
+2/7/2007:	v9.83
+	- change cursor theme to DMZ
+
 2/7/2007:	v9.82
 	- added socat, wget to rescue (#288734)
 	- gpg -> gpg2

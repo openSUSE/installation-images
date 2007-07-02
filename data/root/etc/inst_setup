@@ -184,7 +184,7 @@ if grep -iwq y2debug < /proc/cmdline ; then
   test -d $INSTSYS/root/.yast2 && cp -a $INSTSYS/root/.yast2 /root
 fi
 
-export XCURSOR_THEME=crystalwhite
+export XCURSOR_THEME=DMZ
 
 grep -qwi start_shell /proc/cmdline && START_SHELL=1
 grep -qi "^StartShell:.*1" /etc/install.inf && START_SHELL=1

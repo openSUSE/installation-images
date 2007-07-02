@@ -367,8 +367,8 @@ unfonts:
 efont-unicode:
   /usr/share/fonts/misc/b16.pcf.gz
 
-Crystalcursors:
-  /usr/share/icons/crystalwhite
+desktop-data-SuSE:
+  /usr/share/icons/DMZ
 
 multipath-tools:
   /sbin
