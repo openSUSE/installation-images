@@ -774,8 +774,8 @@ open-iscsi:
   /sbin
   /etc/iscsi/iscsid.conf
 
-gpg:
-  /usr/bin/gpg
+gpg2:
+  /usr/bin/gpg{,2}
 
 libzypp:
   /usr/lib*/libzypp.so.*

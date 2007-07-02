@@ -295,6 +295,9 @@ net-tools:
 netcat:
   /usr/bin
 
+socat:
+  /usr/bin
+
 netcfg:
   /etc
 r /etc/{diphosts,ftpusers,hosts.*}
@@ -729,6 +732,9 @@ if arch eq 'ia64'
   r /usr/lib/ia32el/auxapp 
   e insserv etc/init.d/ia32el
 endif
+
+wget:
+  /usr/bin/wget
 
 :
 
