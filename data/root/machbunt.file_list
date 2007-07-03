@@ -13,7 +13,7 @@ if arch ne 'ia64'
     /usr/bin/ltrace
     /etc/ltrace.conf
 
-  libelf:
+  libelf0:
     /usr/lib*/libelf.so.*
 endif
 
