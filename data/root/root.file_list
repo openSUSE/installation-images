@@ -440,6 +440,12 @@ endif
   pcre:
     /usr/lib*/libpcre.so.*
 
+  limal:
+    /
+
+  limal-perl:
+    /
+
 endif
 
 zlib:
