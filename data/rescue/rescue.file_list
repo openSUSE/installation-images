@@ -92,13 +92,14 @@ ntfsprogs:
 
 ntfs-3g:
   /sbin
-  /usr/bin
-  /usr/lib*
+  /bin
+  /lib*
 
 fuse:
   /sbin
+  /bin
   /usr/bin
-  /usr/lib*
+  /lib*
 
 e2fsprogs:
   /etc

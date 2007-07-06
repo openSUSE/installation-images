@@ -368,8 +368,10 @@ hal:
   /usr/lib*/libhal.so.*
   /var/cache/hald
 
-e2fsprogs:
+libuuid1:
   /lib*/libuuid.so.*
+
+libblkid1:
   /lib*/libblkid.so.*
 
 hwinfo:
@@ -540,15 +542,15 @@ sysconfig:
 
 ntfs-3g:
   /sbin
-  /usr/bin
-  /usr/lib*/libntfs-3g.so.*
+  /bin
+  /lib*/libntfs-3g.so.*
 
 fuse:
   /sbin/mount.fuse
   /usr/bin/fusermount
-  /usr/bin/ulockmgr_server
-  /usr/lib*/libfuse.so.*
-  /usr/lib*/libulockmgr.so.*
+  /bin/ulockmgr_server
+  /lib*/libfuse.so.*
+  /lib*/libulockmgr.so.*
 
 # add hal & dbus
 if 0
