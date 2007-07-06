@@ -1,5 +1,6 @@
 	- e2fsprogs -> libblkid1+libuuid1
 	- fuse and ntfs-3g moved from /usr/{bin,lib*} to /bin and /lib*
+	- xorg.conf: drop glx
 
 4/7/2007:	v9.84
 	- libelf -> libelf0

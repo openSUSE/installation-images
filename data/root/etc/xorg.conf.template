@@ -36,7 +36,6 @@ EndSection
 Section "Module"
   Load	"dbe"
   Load	"extmod"
-  Load	"glx"
 EndSection
 
 Section "InputDevice"
