@@ -1,3 +1,6 @@
+11/7/2007:	v9.86
+	- stop udevd from loading modules (a feature added in #286132)
+
 11/7/2007:	v9.85
 	- e2fsprogs package split
 	- fuse and ntfs-3g moved from /usr/{bin,lib*} to /bin and /lib*

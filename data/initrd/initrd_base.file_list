@@ -535,6 +535,8 @@ r /etc/init.d
   b 9 14 /lib/udev/devices/md14
   b 9 15 /lib/udev/devices/md15
 
+r /etc/udev/rules.d/*-drivers.rules
+
 sysconfig:
   # for ipw3945d
   /etc/udev/rules.d/*-network.rules 
