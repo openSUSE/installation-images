@@ -103,12 +103,21 @@ fuse:
 
 e2fsprogs:
   /etc
-  /{lib*,sbin}
+  /sbin
   /usr/{,s}bin
 
-libcom_err:
+libext2fs2:
+  /lib*
+
+libcom_err2:
   /lib*/libcom_err.so.*
   /lib*/libss.so.*
+
+libuuid1:
+  /lib*/libuuid.so.*
+
+libblkid1:
+  /lib*/libblkid.so.*
 
 coreutils:
   /etc

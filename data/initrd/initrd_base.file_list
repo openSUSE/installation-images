@@ -223,7 +223,7 @@ if arch eq 's390' || arch eq 's390x' || with_smb
     e2fsprogs:
       m /lib*/lib*.so.* /lib
 
-    libcom_err:
+    libcom_err2:
       m /lib*/libcom_err.so.* /lib
       m /lib*/libss.so.* /lib
 

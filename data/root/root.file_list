@@ -205,11 +205,19 @@ endif
 e2fsprogs:
   /etc
   /sbin
+
+libext2fs2:
   /lib*
 
-libcom_err:
+libcom_err2:
   /lib*/libcom_err.so.*
   /lib*/libss.so.*
+
+libuuid1:
+  /lib*/libuuid.so.*
+
+libblkid1:
+  /lib*/libblkid.so.*
 
 file:
   m /usr/share/misc/magic /etc/magic

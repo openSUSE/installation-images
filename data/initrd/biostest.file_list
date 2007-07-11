@@ -57,7 +57,7 @@ krb5:
 keyutils-libs:
   /lib*/libkeyutils{.,-}*
 
-libcom_err:
+libcom_err2:
   /lib*/libcom_err.so.*
 
 opensc:
