@@ -741,6 +741,8 @@ perl-base:
   /usr/lib/perl*/*/constant.pm
   /usr/lib/perl*/*/overload.pm
   /usr/lib/perl*/*/strict.pm
+  /usr/lib/perl*/*/utf8.pm
+  /usr/lib/perl*/*/utf8_heavy.pl
   /usr/lib/perl*/*/vars.pm
   /usr/lib/perl*/*/warnings.pm
   /usr/lib/perl*/*/warnings/register.pm
@@ -779,6 +781,12 @@ perl-Compress-Zlib:
   /usr/lib
 
 perl-gettext:
+  /usr/lib
+
+perl-XML-Simple:
+  /usr/lib
+
+perl-XML-Parser:
   /usr/lib
 
 pcmciautils:

@@ -1,3 +1,7 @@
+12/7/2007:	v9.87
+	- added Sinhala font
+	- yast needs perl-XML-Simple/-Parser
+
 11/7/2007:	v9.86
 	- stop udevd from loading modules (a feature added in #286132)
 

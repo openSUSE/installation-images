@@ -349,6 +349,9 @@ indic-fonts:
   /usr/share/fonts/truetype/lohit_hi.ttf
   /usr/share/fonts/truetype/lohit_pa.ttf
 
+lklug:
+  /usr/share/fonts/truetype/lklug.ttf
+
 fonts-thai:
   /usr/share/fonts/truetype/Garuda.ttf
 
@@ -359,7 +362,7 @@ fonts-arabic:
   /usr/share/fonts/truetype/KacstBook.ttf
 
 KhmerOS-fonts:
-  /usr/share/fonts/truetype/KhmerOSsys.ttf
+  /usr/share/fonts/truetype/KhmerOS_sys.ttf
 
 unfonts:
   /usr/share/fonts/truetype/UnDotum.ttf
