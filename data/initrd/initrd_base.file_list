@@ -644,7 +644,7 @@ if arch eq 'ia32'
   # just so that 256MB won't get swap
   e echo "MemYaST:	230000" >>linuxrc.config
 else
-  e echo "MemYaST:	260000" >>linuxrc.config
+  e echo "MemYaST:	123456" >>linuxrc.config
 endif
 
 if instsys_complain

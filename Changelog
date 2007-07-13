@@ -1,3 +1,4 @@
+	- reduce MemYaST to 128MB (#282813)
 	- remove minmemory=0 boot option because it disables memory detection in linuxrc
 	- remove obsolete MemYaSTText=0 boot option
 
