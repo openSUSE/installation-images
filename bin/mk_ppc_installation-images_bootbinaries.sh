@@ -104,22 +104,22 @@ cat > $CD1/suseboot/yaboot.cnf <<EOF
 message=yaboot.txt
 image[64bit]=inst64
   label=install
-  append="minmemory=0 MemYaSTText=0 quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
+  append="quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
 image[64bit]=inst64
   label=slp
-  append="minmemory=0 MemYaSTText=0 quiet sysrq=1 install=slp           "
+  append="quiet sysrq=1 install=slp           "
 image[64bit]=inst64
   label=rescue
-  append="minmemory=0 MemYaSTText=0 quiet sysrq=1 rescue=1              "
+  append="quiet sysrq=1 rescue=1              "
 image[32bit]=inst32
   label=install
-  append="minmemory=0 MemYaSTText=0 quiet sysrq=1                       "
+  append="quiet sysrq=1                       "
 image[32bit]=inst32
   label=slp
-  append="minmemory=0 MemYaSTText=0 quiet sysrq=1 install=slp           "
+  append="quiet sysrq=1 install=slp           "
 image[32bit]=inst32
   label=rescue
-  append="minmemory=0 MemYaSTText=0 quiet sysrq=1 rescue=1              "
+  append="quiet sysrq=1 rescue=1              "
 
 EOF
 cat $CD1/suseboot/yaboot.cnf
