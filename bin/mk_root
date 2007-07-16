@@ -95,10 +95,14 @@ if($ENV{'keeproot'} != 1) {
     if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
       system "check_libs $tmpdir" and
         warn "$Script: error in shared lib config, please fix\n";
+      system "perl_deps --check --dir $tmpdir/usr/lib/perl5" and
+        warn "$Script: error in perl module config, please fix\n";
     }
     else {
       system "check_libs $tmpdir" and
         die "$Script: error in shared lib config, please fix\n";
+      system "perl_deps --check --dir $tmpdir/usr/lib/perl5" and
+        die "$Script: error in perl module config, please fix\n";
     }
   }
 

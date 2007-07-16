@@ -1,0 +1,123 @@
+#! /usr/bin/perl
+
+sub get_deps;
+sub ex;
+sub short_name;
+
+@white_list{qw (
+  sys/systeminfo.ph
+  Mac/InternetConfig.pm
+  VMS/Filespec.pm
+  XML/SAX.pm
+  LWP.pm
+  URI.pm
+  URI/file.pm
+)} = ();
+
+if($ARGV[0] eq '--check') {
+  shift;
+  $check = 1;
+}
+
+if($ARGV[0] eq '--dir') {
+  shift;
+  $dir = shift;
+}
+
+$ver = (<$dir/5.*>)[0];
+$ver =~ s#.*/##;
+
+$l = (<$dir/$ver/*-linux-*>)[0];
+$l =~ s#.*/##;
+
+if(! -d "$dir/vendor_perl" || !$ver || !$l) {
+  die "$dir: not a perl directory\n"
+}
+
+@inc = ( "$dir/$ver/$l", "$dir/$ver", "$dir/vendor_perl/$ver/$l", "$dir/vendor_perl/$ver" );
+
+for $file (`find $dir`) {
+  get_deps $file;
+}
+
+for (sort keys %dep) {
+  next if exists $white_list{$_};
+  if(ex $_) {
+    $buf .= "* $_\n" unless $check;
+  }
+  else {
+    $x = join ", ", sort(keys %{$dep{$_}});
+    $buf .= "  $_: $x\n";
+  }
+}
+
+if($check) {
+  print "missing perl libs:\n$buf" if $buf;
+  exit($buf ne "" ? 1 : 0);
+}
+else {
+  print $buf;
+}
+
+
+sub get_deps
+{
+  my $file = shift;
+  local $_;
+
+  open G, $file;
+  while(<G>) {
+    next if /^=head\d/ .. /^=cut/;
+
+    if(s/^\s*(use|require)\s+(\S+?)\s*;//) {
+      $m = $2;
+      next if $m =~ /^\d/;
+      if($m =~ /^"(.*)"$/) {
+        $m = $1;
+        $dep{$m}{short_name $file} = 1 unless $m =~ /\$/;
+      }
+      elsif($m =~ /^'(.*)'$/) {
+        $dep{$1}{short_name $file} = 1
+      }
+      else {
+        $m =~ s/::/\//g;
+        $dep{"${m}.pm"}{short_name $file} = 1;
+      }
+    }
+  }
+  close G;
+}
+
+
+sub ex
+{
+  my $file = shift;
+  local $_;
+
+  for (@inc) {
+    return 1 if -f "$_/$file";
+  }
+
+  return 0;
+}
+
+
+sub short_name
+{
+  my $file = shift;
+  my ($i);
+  local $_;
+
+  chomp $file;
+
+  for (@inc) {
+    $i = length($_) + 1;
+    if(substr($file, 0, $i) eq "$_/") {
+      return substr $file, $i;
+    }
+  }
+
+  return $file;
+}
+
+

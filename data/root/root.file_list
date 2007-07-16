@@ -732,12 +732,16 @@ perl-base:
   /usr/lib/perl*/*/Carp{,.pm}
   /usr/lib/perl*/*/Class/Struct.pm
   /usr/lib/perl*/*/Exporter{,.pm}
+  /usr/lib/perl*/*/File/Basename.pm
+  /usr/lib/perl*/*/File/Spec.pm
+  /usr/lib/perl*/*/Getopt/Std.pm
   /usr/lib/perl*/*/IPC/Open3.pm
   /usr/lib/perl*/*/List/Util.pm
   /usr/lib/perl*/*/Scalar/Util.pm
   /usr/lib/perl*/*/SelectSaver.pm
   /usr/lib/perl*/*/Symbol.pm
   /usr/lib/perl*/*/bytes.pm
+  /usr/lib/perl*/*/bytes_heavy.pl
   /usr/lib/perl*/*/constant.pm
   /usr/lib/perl*/*/overload.pm
   /usr/lib/perl*/*/strict.pm
@@ -746,14 +750,19 @@ perl-base:
   /usr/lib/perl*/*/vars.pm
   /usr/lib/perl*/*/warnings.pm
   /usr/lib/perl*/*/warnings/register.pm
+  /usr/lib/perl*/*/*/B/Deparse.pm
   /usr/lib/perl*/*/*/Config.pm
+  /usr/lib/perl*/*/*/Config_heavy.pl
   /usr/lib/perl*/*/*/Data/Dumper.pm
   /usr/lib/perl*/*/*/DynaLoader.pm
   /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/*/Fcntl.pm
   /usr/lib/perl*/*/*/IO.pm
+  /usr/lib/perl*/*/*/IO/File.pm
   /usr/lib/perl*/*/*/IO/Handle.pm
+  /usr/lib/perl*/*/*/IO/Pipe.pm
+  /usr/lib/perl*/*/*/IO/Seekable.pm
   /usr/lib/perl*/*/*/POSIX.pm
   /usr/lib/perl*/*/*/XSLoader.pm
   /usr/lib/perl*/*/*/auto/Data/Dumper
@@ -762,17 +771,32 @@ perl-base:
   /usr/lib/perl*/*/*/auto/IO
   /usr/lib/perl*/*/*/auto/POSIX
   /usr/lib/perl*/*/*/lib.pm
+  /usr/lib/perl*/*/*/re.pm
 
 perl:
+  /usr/lib/perl*/*/Term/Cap.pm
   /usr/lib/perl*/*/Time/localtime.pm
   /usr/lib/perl*/*/Time/tm.pm
   /usr/lib/perl*/*/diagnostics.pm
   /usr/lib/perl*/*/pod/perldiag.pod
+  /usr/lib/perl*/*/unicore/Canonical.pl
+  /usr/lib/perl*/*/unicore/Exact.pl
+  /usr/lib/perl*/*/unicore/PVA.pl
   /usr/lib/perl*/*/*/CORE/libperl.so
   /usr/lib/perl*/*/*/Config.pm
+  /usr/lib/perl*/*/*/Encode.pm
+  /usr/lib/perl*/*/*/Encode/Alias.pm
+  /usr/lib/perl*/*/*/Encode/Config.pm
+  /usr/lib/perl*/*/*/Encode/Encoding.pm
+  /usr/lib/perl*/*/*/Storable.pm
   /usr/lib/perl*/*/*/Sys/Hostname.pm
   /usr/lib/perl*/*/*/auto/POSIX
   /usr/lib/perl*/*/*/auto/Sys/Hostname
+  /usr/lib/perl*/vendor_perl/*/*/_h2ph_pre.ph
+  /usr/lib/perl*/vendor_perl/*/*/asm/unistd.ph
+  /usr/lib/perl*/vendor_perl/*/*/bits/syscall.ph
+  /usr/lib/perl*/vendor_perl/*/*/sys/syscall.ph
+  /usr/lib/perl*/vendor_perl/*/*/syscall.ph
 
 perl-Bootloader:
   /usr/lib
@@ -787,6 +811,9 @@ perl-XML-Simple:
   /usr/lib
 
 perl-XML-Parser:
+  /usr/lib
+
+perl-XML-NamespaceSupport:
   /usr/lib
 
 pcmciautils:
