@@ -807,6 +807,7 @@ perl-Compress-Zlib:
 perl-gettext:
   /usr/lib
 
+if 0
 perl-XML-Simple:
   /usr/lib
 
@@ -814,6 +815,10 @@ perl-XML-Parser:
   /usr/lib
 
 perl-XML-NamespaceSupport:
+  /usr/lib
+endif
+
+perl-XML-Bare:
   /usr/lib
 
 pcmciautils:
