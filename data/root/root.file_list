@@ -374,6 +374,9 @@ if with_yast2 ne 'no'
     /
     # back to fullscreen - netpbm tools are in machbunt.file_list
     r /usr/lib/YaST2/startup/InstallImages/*
+    # hack to make 'repair' option work
+    p repair.diff
+
   yast2-iscsi-client:
     /
   yast2-mouse:

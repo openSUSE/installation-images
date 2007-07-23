@@ -1,0 +1,30 @@
+--- usr/lib/YaST2/startup/First-Stage/F09-start
++++ usr/lib/YaST2/startup/First-Stage/F09-start
+@@ -45,7 +45,11 @@
+ rm -f /var/X11R6/bin/X
+ rm -f /tmp/YaST2_ssh_installation_finished
+ log "\tDelegate program call to YaST2.call installation initial"
+-/usr/lib/YaST2/startup/YaST2.call installation initial
++if grep -q repair=1 /proc/cmdline ; then
++  /usr/lib/YaST2/startup/YaST2.call repair
++else
++  /usr/lib/YaST2/startup/YaST2.call installation initial
++fi
+ yast2exitcode=$?
+ 
+ #=============================================
+--- usr/lib/YaST2/startup/YaST2.call
++++ usr/lib/YaST2/startup/YaST2.call
+@@ -836,7 +836,11 @@
+ # 8) Call YaST2
+ #---------------------------------------------
+ Y2_MODULE_NAME=${1:-installation}; shift
+-Y2_MODULE_ARGS=\(\"$*\"\)
++if [ -z "$*" ] ; then
++    Y2_MODULE_ARGS=
++else
++    Y2_MODULE_ARGS=\(\"$*\"\)
++fi
+ start_yast
+ 
+ #=============================================
