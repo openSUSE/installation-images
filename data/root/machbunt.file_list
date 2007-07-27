@@ -188,11 +188,10 @@ if with_yast2 ne 'no'
     /usr/share/fonts/misc/6x13-ISO8859-1.pcf.gz
     /usr/share/fonts/misc/fonts.alias
     /usr/share/fonts/misc/cursor.pcf.gz
-
-  xorg-x11-fonts:
-    # 'fixed' font
     /usr/share/fonts/misc/6x13.pcf.gz
     /usr/share/fonts/misc/olcursor.pcf.gz
+
+  xorg-x11-fonts:
     m /usr/share/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/share/fonts/misc
 
     d /etc/X11
