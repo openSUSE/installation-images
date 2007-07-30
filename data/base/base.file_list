@@ -50,7 +50,7 @@ coreutils:
   r /bin/su
 
 libexpat1:
-  /usr/lib*/libexpat.so.*
+  lib*/libexpat.so.*
 
 libacl:
   /lib*

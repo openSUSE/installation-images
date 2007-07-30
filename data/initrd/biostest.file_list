@@ -70,7 +70,7 @@ libltdl-3:
 pcsc-lite:
   /usr/lib*/libpcsclite.so*
 
-openct:
+libopenct1:
   /usr/lib*/libopenct.so*
 
 kbd:

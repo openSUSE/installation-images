@@ -1,6 +1,7 @@
+30/7/2007:	v9.92
 	- added ps3 modules (#153268)
 	- added rpc.statd
-	- xorg font package changes
+	- various package changes
 
 24/7/2007:	v9.91
 	- firmwarekit now in /usr/lib

@@ -85,7 +85,7 @@ libxml2:
   /usr/lib*/libxml2.so.*
 
 libexpat1:
-  /usr/lib*/libexpat.so.*
+  /lib*/libexpat.so.*
 
 glib2:
   /usr/lib*/libglib-2.0.so.*
@@ -559,9 +559,9 @@ syslogd:
   x etc/syslogd /sbin/syslogd
 
 if arch ne 's390' && arch ne 's390x'
-opensc:
-  /usr/lib*/libopensc.so*
-  /usr/lib*/libscconf.so*
+libopensc2:
+  /usr/lib*/libopensc.so.*
+  /usr/lib*/libscconf.so.*
 
 libltdl-3:
   /usr/lib*/libltdl.so*
@@ -571,7 +571,7 @@ endif
 pcsc-lite:
   /usr/lib*/libpcsclite.so*
 
-openct:
+libopenct1:
   /usr/lib*/libopenct.so*
 
 openssh: prein

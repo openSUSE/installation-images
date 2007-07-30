@@ -362,7 +362,7 @@ sysfsutils:
   /lib*/libsysfs.so.*
 
 dbus-1:
-  /usr/lib*/libdbus-1.so.*
+  /lib*/libdbus-1.so.*
 
 hal:
   /usr/lib*/libhal.so.*
@@ -397,10 +397,11 @@ if arch eq 'ia32' || arch eq 'x86_64'
 ipw-firmware:
   /lib/firmware
 
-ipw3945d:
-  /etc
-  /lib
-  /sbin
+iwl3945-ucode:
+  /lib/firmware/iwlwifi-*
+
+iwl4965-ucode:
+  /lib/firmware/iwlwifi-*
 
 atmel-firmware:
   /lib/firmware
@@ -564,15 +565,15 @@ if 0
     /usr/lib*/libxml2.so.*
 
   libexpat1:
-    /usr/lib*/libexpat.so.*
+    /lib*/libexpat.so.*
 
   glib2:
     /usr/lib*/libglib-2.0.so.*
     /usr/lib*/libgobject-2.0.so.*
 
   dbus-1-glib:
-    /usr/lib*/libdbus-glib-1.so.*
-    /usr/bin/dbus-monitor
+    /lib*/libdbus-glib-1.so.*
+    /bin/dbus-monitor
 
   e cp /etc/{passwd,shadow,group} etc
   dbus-1: prein

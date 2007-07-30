@@ -42,6 +42,7 @@ kernel/drivers/char/nvram.ko
 kernel/drivers/char/agp/
 kernel/drivers/message/fusion/
 kernel/drivers/message/i2o/
+kernel/drivers/ps3/
 kernel/fs/cramfs/
 kernel/fs/ext2/
 kernel/fs/ext3/
