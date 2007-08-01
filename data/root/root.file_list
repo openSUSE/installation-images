@@ -707,8 +707,6 @@ evms:
 endif
 
 sysconfig:
-  /sbin/getcfg*
-  /lib*/libgetconfig.so*
   # for modify_resolvconf
   d etc/sysconfig/network
   e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
