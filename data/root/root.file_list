@@ -367,6 +367,9 @@ if with_yast2 ne 'no'
     /
   yast2-ncurses:
     /
+  yast2-network:
+    /usr/share/YaST2/modules/Internet.yc*
+    /usr/share/YaST2/include/network/routines.yc*
 #  yast2-packagemanager:
 #    /
   yast2-packager:

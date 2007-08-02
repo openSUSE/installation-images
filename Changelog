@@ -1,3 +1,6 @@
+2/8/2007:	v8.110
+	- needs yast2-network (#296540)
+
 3/5/2007:	v8.109
 	- removed xen modules (#270656)
 
