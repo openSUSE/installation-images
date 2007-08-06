@@ -502,6 +502,19 @@ util-linux:
 nfs-client:
   /var/lib/nfs
 
+gpg2:
+  /usr/bin/gpg{,2}
+d root/.gnupg
+
+libbz2-1:
+  /lib*/libbz2.so*
+
+libgcrypt:
+  /lib*/libgcrypt.so*
+
+libgpg-error:
+ /lib*/libgpg-error.so*
+
 suse-build-key:
   m /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
 
@@ -653,15 +666,5 @@ endif
 
 if instsys_build_id
   e echo "InitrdID:	<instsys_build_id>" >>linuxrc.config
-endif
-
-if arch eq 'ia32'
-e echo "InstallDir:	/boot/i386/inst-sys" >>linuxrc.config
-e echo "RescueImage:	/boot/i386/rescue" >>linuxrc.config
-e echo "RootImage:	/boot/i386/root" >>linuxrc.config
-else
-e echo "InstallDir:	/boot/<arch>/inst-sys" >>linuxrc.config
-e echo "RescueImage:	/boot/<arch>/rescue" >>linuxrc.config
-e echo "RootImage:	/boot/<arch>/root" >>linuxrc.config
 endif
 
