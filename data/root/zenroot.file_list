@@ -55,7 +55,7 @@ bash:
 s bash /bin/sh
 s bash /bin/ash
 
-readline:
+libreadline5:
   /lib*/libreadline.so.*
   /lib*/libhistory.so.*
 

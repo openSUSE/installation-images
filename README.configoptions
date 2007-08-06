@@ -49,6 +49,10 @@ o root
   image_name=foo
   - name the image 'foo'
 
+  imagetype=foo
+  imagetype=foo.gz
+  - use foo as filesystem for image (.gz: and compress with gzip)
+
 
 o rescue
 
@@ -61,6 +65,10 @@ o rescue
 
   filelist=foo
   - build using foo.file_list
+
+  imagetype=foo
+  imagetype=foo.gz
+  - use foo as filesystem for image (.gz: and compress with gzip)
 
 
 o base

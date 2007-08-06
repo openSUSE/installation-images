@@ -24,7 +24,8 @@ sub Conv2Image
 {
   my (
     $image, $dir, $fs, $x_k, $x_inodes, $c_k, $c_inodes, $blk_size, $blks,
-    $ublks, $inds, $uinds, $tmp_k, $tmp_inodes, $cnt, $size, $name, $mkcramfs
+    $ublks, $inds, $uinds, $tmp_k, $tmp_inodes, $cnt, $size, $name, $mkcramfs,
+    $mksquashfs
   );
 
   ($image, $dir, $fs, $c_k, $c_inodes, $x_k, $x_inodes) = @_;
@@ -36,12 +37,10 @@ sub Conv2Image
   if($fs eq 'cramfs') {
     $mkcramfs = "/usr/bin/mkcramfs" if -x "/usr/bin/mkcramfs";
     $mkcramfs = "/sbin/mkfs.cramfs" if -x "/sbin/mkfs.cramfs";
-
     die "$Script: no mkfs.cramfs\n" unless $mkcramfs;
-
     SUSystem "rm -f $image";
-    system "touch $image";	# just to ensure the image gets the correct owner
-    SUSystem "sh -c '$mkcramfs $dir $image >$image.cramfs.log'" and die "$Script: mkfs.cramfs failed";
+    system "touch $image $image.log";	# just to ensure the image gets the correct owner
+    SUSystem "sh -c '$mkcramfs $dir $image >$image.log'" and die "$Script: mkfs.cramfs failed";
     $size = -s $image;
     die "$Script: no image?" if $size == 0;
     $name = $image;
@@ -51,17 +50,24 @@ sub Conv2Image
     SUSystem "pcramfs '$name' $image" and die "$Script: pcramfs failed";
     return;
   }
-
-  if($fs eq 'cpio') {
+  if($fs eq 'squashfs') {
+    $mksquashfs = "/usr/bin/mksquashfs" if -x "/usr/bin/mksquashfs";
+    die "$Script: no mksquashfs\n" unless $mksquashfs;
+    SUSystem "rm -f $image";
+    system "touch $image $image.log";	# just to ensure the image gets the correct owner
+    SUSystem "sh -c '$mksquashfs $dir $image -noappend >$image.log'" and die "$Script: mksquashfs failed";
+    $size = -s $image;
+    die "$Script: no image?" if $size == 0;
+    return;
+  }
+  elsif($fs eq 'cpio') {
     SUSystem "rm -f $image";
     system "touch $image";	# just to ensure the image gets the correct owner
     SUSystem "sh -c '( cd $dir ; find . | cpio --quiet -o -H newc ) >$image'" and die "$Script: cpio failed";
     return;
   }
-
-  if($fs eq 'minix' && !-x('/sbin/mkfs.minix')) {
-    $fs = 'ext2';
-    print STDERR "WARNING: no support for minix fs; using ext2!\n"
+  elsif($fs ne 'ext2' && $fs ne 'minix') {
+    die "ERRROR: no support for \"$fs\"!\n"
   }
 
   while($cnt <= 2) {

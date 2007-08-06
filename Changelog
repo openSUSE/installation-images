@@ -1,4 +1,10 @@
+3/8/2007:	v9.93
 	- getcfg gone
+	- use squashfs for images
+	- cleaned up Makefile a bit
+	- added yast2-ntp-client (#296469)
+	- readline renamed to libreadline5
+	- added xset (#294292)
 
 30/7/2007:	v9.92
 	- added ps3 modules (#153268)

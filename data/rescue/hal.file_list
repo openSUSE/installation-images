@@ -11,7 +11,7 @@ devs:
 bash:
   /bin
 
-readline:
+libreadline5:
   /lib*
 
 glibc:

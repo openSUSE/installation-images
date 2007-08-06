@@ -35,9 +35,9 @@ default	= kernel-default
 
 ; extra kmps we need (',' separated list)
 [KMP]
-default	=
-i386	= iwlwifi,at76_usb,adm8211,rt2x00,wlan-ng
-x86_64	= iwlwifi,at76_usb,adm8211,rt2x00,wlan-ng
+default	= squashfs
+i386	= squashfs,iwlwifi,at76_usb,adm8211,rt2x00,wlan-ng
+x86_64	= squashfs,iwlwifi,at76_usb,adm8211,rt2x00,wlan-ng
 
 
 ; lib directory

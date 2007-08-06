@@ -54,8 +54,9 @@ $start_inodes = 10000;
 # now we really start...
 
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
-$use_cramfs = exists($ENV{'use_cramfs'}) ? $ENV{'use_cramfs'} : 1;
-$uncompressed_root = exists($ENV{'uncompressed_root'}) ? $ENV{'uncompressed_root'} : "";
+$imagetype = $ENV{imagetype};
+$imagetype = "cramfs" unless $imagetype;
+$use_gzip = 1 if $imagetype =~ s/\.gz$//;
 
 if($ENV{theme} eq 'Zen') {
   $extra_size = 20000;              # kbyte
@@ -119,18 +120,12 @@ if($ENV{'keeproot'} != 1) {
 
 }
 
-if($use_cramfs) {
-  Conv2Image $image, $tmpdir, 'cramfs';
-  die "$Script: $!" unless rename $image, "$image.cramfs";
-  $i = -s "$image.cramfs";
-  print "$Script: created \"$image.cramfs\" ($i bytes)\n";
-}
+Conv2Image $image, $tmpdir, $imagetype, $start_size, $start_inodes, $extra_size, $extra_inodes;
+$i = -s $image;
+print "$Script: created \"$image\" ($i bytes)\n";
 
-if($uncompressed_root || !$use_cramfs) {
-  Conv2Image $image, $tmpdir, 'ext2', $start_size, $start_inodes, $extra_size, $extra_inodes;
-  if(!$uncompressed_root) {
-    $i = CompressImage $image;
-    print "$Script: created \"$image\" ($i bytes)\n";
-  }
+if($use_gzip) {
+  $i = CompressImage $image;
+  print "$Script: compressed \"$image\" ($i bytes)\n";
 }
 

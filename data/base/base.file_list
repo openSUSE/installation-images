@@ -40,7 +40,7 @@ tar:
 bash:
   /bin
 
-readline:
+libreadline5:
   /lib*
 
 coreutils:

@@ -61,6 +61,7 @@ kernel/fs/ntfs/
 kernel/fs/reiserfs/
 kernel/fs/reiser4/
 kernel/fs/smbfs/
+kernel/fs/squashfs.ko
 kernel/fs/cifs/
 kernel/fs/vfat/
 kernel/fs/xfs/

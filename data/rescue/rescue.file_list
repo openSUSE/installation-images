@@ -64,7 +64,7 @@ star:
 bash:
   /bin
 
-readline:
+libreadline5:
   /lib*
 
 cpio:
@@ -570,7 +570,6 @@ sysconfig: postin
   /etc
   /sbin
   /var
-  /lib*
   /var
   E postin
 

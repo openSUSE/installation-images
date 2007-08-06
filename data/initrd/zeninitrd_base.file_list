@@ -171,7 +171,7 @@ sed:
 #!  gdb:
 #!    m /usr/bin/gdb /bin/gdb
 
-  readline:
+  libreadline5:
     /lib*/libreadline.so*
     /lib*/libhistory.so*
 
@@ -274,7 +274,7 @@ bash:
   s bash /bin/lsh
   s bash /bin/ash
 
-readline:
+libreadline5:
   /lib*/libreadline.so*
   /lib*/libhistory.so*
 

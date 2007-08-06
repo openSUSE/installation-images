@@ -262,7 +262,7 @@ if with_gdb
   gdb:
     m /usr/bin/gdb /bin/gdb
 
-  readline:
+  libreadline5:
     /lib*/libreadline.so*
     /lib*/libhistory.so*
 
@@ -450,7 +450,7 @@ bash:
   /bin/{sh,bash}
   s bash /bin/lsh
 
-readline:
+libreadline5:
   /lib*/libreadline.so*
   /lib*/libhistory.so*
 

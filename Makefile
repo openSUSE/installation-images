@@ -4,8 +4,8 @@ PLIBS	= AddFiles MakeFATImage MakeMinixImage ReadConfig
 PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root  
 
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue \
-        root liveeval html clean distdir install install_xx rdemo brescue \
-	rescue_cd mboot base bootcd2 bootdisk bootcd rootcd rootfonts hal \
+        root liveeval html clean distdir install install_xx \
+	mboot base bootcd2 bootdisk bootcd rootfonts hal \
 	biostest gkv
 
 all: bootdvd bootcd2 rescue root
@@ -42,7 +42,7 @@ zenboot: zeninitrd mboot
 	theme=Zen initrd=large boot=isolinux memtest=no bin/mk_boot
 
 zenroot: dirs base
-	YAST_IS_RUNNING=1 theme=Zen use_cramfs= uncompressed_root=1 filelist=zenroot bin/mk_root
+	YAST_IS_RUNNING=1 theme=Zen imagetype=$${imagetype:-ext2} filelist=zenroot bin/mk_root
 
 plain_initrd: dirs
 	YAST_IS_RUNNING=1 bin/mk_initrd
@@ -68,9 +68,6 @@ bootcd: biostest
 # with_smb=1
 	initramfs=$${initramfs:-1} initrd=large boot=isolinux make boot
 
-rootcd:
-	use_cramfs=1 make root
-
 boot_axp: initrd
 	bin/mk_boot_axp
 
@@ -80,28 +77,16 @@ install_xx: initrd
 root: dirs base
 	# just for now
 	root_i18n=1 root_gfx=1 \
-	YAST_IS_RUNNING=1 bin/mk_root
+	imagetype=$${imagetype:-squashfs} YAST_IS_RUNNING=1 bin/mk_root
 
 rootfonts: dirs base
-	use_cramfs=0 nolibs=1 filelist=fonts image_name=root.fonts bin/mk_root
-
-liveeval: dirs base
-	bin/mk_liveeval
-
-rdemo: dirs base
-	bin/mk_rdemo
+	imagetype=$${imagetype:-squashfs} nolibs=1 filelist=fonts image_name=root.fonts bin/mk_root
 
 rescue: dirs base
-	YAST_IS_RUNNING=1 bin/mk_rescue
+	imagetype=$${imagetype:-squashfs} YAST_IS_RUNNING=1 bin/mk_rescue
 
 hal: dirs base
 	YAST_IS_RUNNING=1 filelist=hal bin/mk_rescue
-
-brescue: dirs base
-	bin/mk_brescue
-
-rescue_cd: boot brescue rdemo
-	bin/mk_rescue_cd
 
 mboot:
 	make -C src/mboot

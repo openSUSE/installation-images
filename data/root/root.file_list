@@ -48,7 +48,7 @@ bash:
   /bin/bash
 s bash /bin/sh
 
-readline:
+libreadline5:
   /lib*/libreadline.so.*
   /lib*/libhistory.so.*
 
@@ -385,8 +385,8 @@ if with_yast2 ne 'no'
   yast2-ncurses:
     /
   yast2-network:
-    # /usr/share/YaST2/include/network/install.ycp
-    # /usr/share/YaST2/modules/NetworkStorage.*
+    /
+  yast2-ntp-client:
     /
   yast2-packager:
     /

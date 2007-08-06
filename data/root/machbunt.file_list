@@ -145,6 +145,7 @@ if with_yast2 ne 'no'
   xorg-x11-libs:
     /usr/lib*/libXaw*.so.*
     /usr/lib*/libXcursor.so.*
+    /usr/lib*/libXfontcache.so.*
     /usr/lib*/libXft.so.*
     /usr/lib*/libXinerama.so.*
     /usr/lib*/libXi.so.*
@@ -182,6 +183,7 @@ if with_yast2 ne 'no'
     /usr/bin/xkbcomp
     /usr/bin/xmodmap
     /usr/bin/xrefresh
+    /usr/bin/xset
 
   xorg-x11-fonts-core:
     # 'fixed' font
@@ -301,7 +303,7 @@ if with_yast2 ne 'no'
   endif
     /usr/share/desktop-data/qtrc
 
-  kdelibs3:
+  kdelibs3-default-style:
     /opt/kde3/lib*/kde3/plugins/styles/plastik.so
     /opt/kde3/lib*/libkdefx.so.*
     d /usr/lib/qt3/plugins/styles
