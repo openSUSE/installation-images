@@ -385,41 +385,43 @@ pmtools:
 endif
 
 if arch eq 'ia32' || arch eq 'x86_64'
+    bootsplash:
+      /sbin/splash
 
-  bootsplash:
-    /sbin/splash
+      d /etc/bootsplash/themes/<splash_theme>
+      e cp -a /<theme>/animations etc/bootsplash/themes/<splash_theme>
+      e cp -a /<theme>/images etc/bootsplash/themes/<splash_theme>
 
-    d /etc/bootsplash/themes/<splash_theme>
-    e cp -a /<theme>/animations etc/bootsplash/themes/<splash_theme>
-    e cp -a /<theme>/images etc/bootsplash/themes/<splash_theme>
+  # wlan
+  ipw-firmware:
+    /lib/firmware
 
-# wlan
-ipw-firmware:
-  /lib/firmware
+  iwl3945-ucode:
+    /lib/firmware/iwlwifi-*
 
-iwl3945-ucode:
-  /lib/firmware/iwlwifi-*
+  iwl4965-ucode:
+    /lib/firmware/iwlwifi-*
 
-iwl4965-ucode:
-  /lib/firmware/iwlwifi-*
+  atmel-firmware:
+    /lib/firmware
 
-atmel-firmware:
-  /lib/firmware
+  wpa_supplicant:
+    /usr/sbin
 
-wpa_supplicant:
-  /usr/sbin
+  wireless-tools:
+    /usr/sbin
+    /usr/lib*/libiw.so.*
+    /etc
+    r /usr/sbin/switch_prism_driver
+    r /usr/sbin/install_acx100_firmware
+    r /usr/sbin/install_intersil_firmware
 
-wireless-tools:
-  /usr/sbin
-  /usr/lib*/libiw.so.*
-  /etc
-  r /usr/sbin/switch_prism_driver
-  r /usr/sbin/install_acx100_firmware
-  r /usr/sbin/install_intersil_firmware
+  libopenssl0_9_8:
+    /usr/lib*/libcrypto.so.*
+    /usr/lib*/libssl.so.*
 
-libopenssl0_9_8:
-  /usr/lib*/libcrypto.so.*
-  /usr/lib*/libssl.so.*
+endif
+# i386/x86_64
 
 curl:
   /usr/bin/curl
@@ -429,9 +431,6 @@ libcurl4:
 
 libidn:
   /usr/lib*/libidn.so.*
-
-endif
-# i386/x86_64
 
 zlib:
   /lib*/libz.so.1*
