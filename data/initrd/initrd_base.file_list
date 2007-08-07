@@ -416,12 +416,12 @@ if arch eq 'ia32' || arch eq 'x86_64'
     r /usr/sbin/install_acx100_firmware
     r /usr/sbin/install_intersil_firmware
 
-  libopenssl0_9_8:
-    /usr/lib*/libcrypto.so.*
-    /usr/lib*/libssl.so.*
-
 endif
 # i386/x86_64
+
+libopenssl0_9_8:
+  /usr/lib*/libcrypto.so.*
+  /usr/lib*/libssl.so.*
 
 curl:
   /usr/bin/curl
