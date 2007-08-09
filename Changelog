@@ -1,4 +1,6 @@
+9/8/2007:	v9.97
 	- removed old license.zip unpack code
+	- autoload some mods for wlan
 
 9/8/2007:	v9.96
 	- added showy2log and y2tool from yast2-devtools to inst-sys
