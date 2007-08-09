@@ -371,6 +371,9 @@ if with_yast2 ne 'no'
     /
   yast2-country:
     /
+  yast2-devtools:
+    /usr/bin/y2tool
+    /usr/share/YaST2/data/devtools/bin/showy2log
   yast2-installation:
     /
     # back to fullscreen - netpbm tools are in machbunt.file_list
@@ -736,12 +739,14 @@ perl-base:
   /usr/lib/perl*/*/Exporter{,.pm}
   /usr/lib/perl*/*/File/Basename.pm
   /usr/lib/perl*/*/File/Spec.pm
+  /usr/lib/perl*/*/Getopt/Long.pm
   /usr/lib/perl*/*/Getopt/Std.pm
   /usr/lib/perl*/*/IPC/Open3.pm
   /usr/lib/perl*/*/List/Util.pm
   /usr/lib/perl*/*/Scalar/Util.pm
   /usr/lib/perl*/*/SelectSaver.pm
   /usr/lib/perl*/*/Symbol.pm
+  /usr/lib/perl*/*/base.pm
   /usr/lib/perl*/*/bytes.pm
   /usr/lib/perl*/*/bytes_heavy.pl
   /usr/lib/perl*/*/constant.pm
@@ -757,7 +762,6 @@ perl-base:
   /usr/lib/perl*/*/*/Config_heavy.pl
   /usr/lib/perl*/*/*/Data/Dumper.pm
   /usr/lib/perl*/*/*/DynaLoader.pm
-  /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/*/Fcntl.pm
   /usr/lib/perl*/*/*/IO.pm
@@ -781,6 +785,7 @@ perl:
   /usr/lib/perl*/*/Time/tm.pm
   /usr/lib/perl*/*/diagnostics.pm
   /usr/lib/perl*/*/pod/perldiag.pod
+  /usr/lib/perl*/*/sigtrap.pm
   /usr/lib/perl*/*/unicore/Canonical.pl
   /usr/lib/perl*/*/unicore/Exact.pl
   /usr/lib/perl*/*/unicore/PVA.pl
