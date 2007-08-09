@@ -6,6 +6,8 @@
 	- added requirements for Compress::Zlib: File/Glob.pm, auto/File/Glob,
 	  auto/List/Util, perl-*Compress*
 	- added kexec to initrd & rescue system
+	- some new ata modules
+	- fixed perl module deps
 
 7/8/2007:	v9.95
 	- libcurl fix, 2nd try

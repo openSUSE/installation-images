@@ -746,6 +746,7 @@ perl-base:
   /usr/lib/perl*/*/Scalar/Util.pm
   /usr/lib/perl*/*/SelectSaver.pm
   /usr/lib/perl*/*/Symbol.pm
+  /usr/lib/perl*/*/Text/ParseWords.pm
   /usr/lib/perl*/*/base.pm
   /usr/lib/perl*/*/bytes.pm
   /usr/lib/perl*/*/bytes_heavy.pl
@@ -783,6 +784,9 @@ perl-base:
   /usr/lib/perl*/*/*/re.pm
 
 perl:
+  /usr/lib/perl*/*/Pod/PlainText.pm
+  /usr/lib/perl*/*/Pod/Text.pm
+  /usr/lib/perl*/*/Pod/Usage.pm
   /usr/lib/perl*/*/Term/Cap.pm
   /usr/lib/perl*/*/Time/localtime.pm
   /usr/lib/perl*/*/Time/tm.pm
