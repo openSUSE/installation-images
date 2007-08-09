@@ -764,6 +764,7 @@ perl-base:
   /usr/lib/perl*/*/*/DynaLoader.pm
   /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/*/Fcntl.pm
+  /usr/lib/perl*/*/*/File/Glob.pm
   /usr/lib/perl*/*/*/IO.pm
   /usr/lib/perl*/*/*/IO/File.pm
   /usr/lib/perl*/*/*/IO/Handle.pm
@@ -774,7 +775,9 @@ perl-base:
   /usr/lib/perl*/*/*/auto/Data/Dumper
   /usr/lib/perl*/*/*/auto/DynaLoader
   /usr/lib/perl*/*/*/auto/Fcntl
+  /usr/lib/perl*/*/*/auto/File/Glob
   /usr/lib/perl*/*/*/auto/IO
+  /usr/lib/perl*/*/*/auto/List/Util
   /usr/lib/perl*/*/*/auto/POSIX
   /usr/lib/perl*/*/*/lib.pm
   /usr/lib/perl*/*/*/re.pm
@@ -809,6 +812,15 @@ perl-Bootloader:
   /usr/lib
 
 perl-Compress-Zlib:
+  /usr/lib
+
+perl-Compress-Raw-Zlib:
+  /usr/lib
+
+perl-IO-Compress-Base:
+  /usr/lib
+
+perl-IO-Compress-Zlib:
   /usr/lib
 
 perl-gettext:

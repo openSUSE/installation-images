@@ -2,6 +2,7 @@
 	- added perl dependencies of showy2log: Getopt/Long.pm, base.pm, sigtrap.pm
 	- removed duplicate entry for Errno.pm
 	- added yast to default .bash_history
+	- added requirements for Compress::Zlib: File/Glob.pm, auto/File/Glob, auto/List/Util, perl-*Compress*
 
 7/8/2007:	v9.95
 	- libcurl fix, 2nd try
