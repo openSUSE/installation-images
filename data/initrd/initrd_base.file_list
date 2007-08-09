@@ -567,6 +567,9 @@ fuse:
   /lib*/libfuse.so.*
   /lib*/libulockmgr.so.*
 
+kexec-tools:
+  /sbin/kexec
+
 # add hal & dbus
 if 0
 

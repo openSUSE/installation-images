@@ -742,6 +742,9 @@ endif
 wget:
   /usr/bin/wget
 
+kexec-tools:
+  /sbin/kexec
+
 :
 
 e insserv -f -r etc/init.d/boot.rootfsck

@@ -1,8 +1,11 @@
+9/8/2007:	v9.96
 	- added showy2log and y2tool from yast2-devtools to inst-sys
 	- added perl dependencies of showy2log: Getopt/Long.pm, base.pm, sigtrap.pm
 	- removed duplicate entry for Errno.pm
 	- added yast to default .bash_history
-	- added requirements for Compress::Zlib: File/Glob.pm, auto/File/Glob, auto/List/Util, perl-*Compress*
+	- added requirements for Compress::Zlib: File/Glob.pm, auto/File/Glob,
+	  auto/List/Util, perl-*Compress*
+	- added kexec to initrd & rescue system
 
 7/8/2007:	v9.95
 	- libcurl fix, 2nd try
