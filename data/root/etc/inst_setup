@@ -134,12 +134,6 @@ for i in /update/[0-9]*/install/update.pre ; do
   [ -x "$i" ] && "$i"
 done
 
-# unpack license files for yast
-if [ -f /license.zip ] ; then
-  mkdir -p /var/lib/YaST2/license
-  ( [ -d /var/lib/YaST2/license ] && cd /var/lib/YaST2/license && unzip -qqo /license.zip )
-fi
-
 # start syslog
 if [ -x /sbin/syslogd ] ; then
   checkproc /sbin/syslogd || {

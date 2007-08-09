@@ -112,14 +112,15 @@ kernel/lib/crc-ccitt.ko
 kernel/lib/libcrc32c.ko
 kernel/lib/crc-itu-t.ko
 
-kernel/crypto/cbc.ko
-kernel/crypto/blkcipher.ko
-kernel/crypto/crc32c.ko
-kernel/crypto/twofish.ko
-kernel/crypto/twofish_common.ko
 kernel/crypto/aes.ko
 kernel/crypto/arc4.ko
+kernel/crypto/blkcipher.ko
+kernel/crypto/cbc.ko
+kernel/crypto/crc32c.ko
+kernel/crypto/ecb.ko
 kernel/crypto/sha256.ko
+kernel/crypto/twofish_common.ko
+kernel/crypto/twofish.ko
 kernel/arch/[^/]*/crypto/
 
 kernel/drivers/video/vga16fb.ko
@@ -133,6 +134,7 @@ kernel/drivers/xen/netfront/xennet.ko
 kernel/net/ieee80211/
 
 kernel/net/mac80211/mac80211.ko
+kernel/net/mac80211/rc80211_simple.ko
 kernel/net/wireless/cfg80211.ko
 
 # kmps
