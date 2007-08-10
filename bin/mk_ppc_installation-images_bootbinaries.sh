@@ -23,6 +23,10 @@ mkdir -pv $CD1/PS3/otheros
 cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
 cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
+cp -pfv $bdir/initrd-kernel-default-ppc $CD2/boot/ppc/initrd32
+cp -pfv $bdir/initrd-kernel-ppc64       $CD2/boot/ppc/initrd64
+gzip -fcv9 /boot/vmlinux-*-default >    $CD2/boot/ppc/linux32.gz
+gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD2/boot/ppc/linux64.gz
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
 	mkdir -pv $CD1/ppc/netboot
@@ -31,35 +35,22 @@ if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
 fi
 #
 /bin/mkzimage \
-	--board iseries \
-	--vmlinux /boot/vmlinux-*-ppc64 \
-	--initrd $bdir/initrd-kernel-ppc64 \
-	--output $CD1/ISERIES64
-#
-if test "$stupid_paranoia" = "false" ; then
-cp -pfv $bdir/initrd-kernel-default-ppc $CD2/boot/ppc/initrd32
-cp -pfv $bdir/initrd-kernel-ppc64       $CD2/boot/ppc/initrd64
-gzip -fcv9 /boot/vmlinux-*-default >    $CD2/boot/ppc/linux32.gz
-gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD2/boot/ppc/linux64.gz
-#
-/bin/mkzimage \
 	--board chrp \
 	--vmlinux /boot/vmlinux-*-ppc64 \
 	--initrd $bdir/initrd-kernel-ppc64 \
 	--output $CD1/suseboot/inst64
 #
 /bin/mkzimage \
+	--board iseries \
+	--vmlinux /boot/vmlinux-*-ppc64 \
+	--initrd $bdir/initrd-kernel-ppc64 \
+	--output $CD1/ISERIES64
+#
+/bin/mkzimage \
 	--board chrp \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
 	--output $CD1/suseboot/inst32
-#
-else
-cp -a /boot/vmlinux-*-default $CD1/suseboot/linux32
-cp -a /boot/vmlinux-*-ppc64   $CD1/suseboot/linux64
-cp -a $bdir/initrd-kernel-default-ppc $CD1/suseboot/initrd32.gz
-cp -a $bdir/initrd-kernel-ppc64       $CD1/suseboot/initrd64.gz
-fi
 #
 if test "42" = "false" ; then
 /bin/mkzimage \
@@ -111,28 +102,22 @@ cat $CD1/suseboot/yaboot.txt
 #
 cat > $CD1/suseboot/yaboot.cnf <<EOF
 message=yaboot.txt
-image[64bit]=vmlinux64
-  initrd=initrd64.gz
+image[64bit]=inst64
   label=install
   append="quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
-image[64bit]=vmlinux64
-  initrd=initrd64.gz
+image[64bit]=inst64
   label=slp
   append="quiet sysrq=1 install=slp           "
-image[64bit]=vmlinux64
-  initrd=initrd64.gz
+image[64bit]=inst64
   label=rescue
   append="quiet sysrq=1 rescue=1              "
-image[32bit]=vmlinux32
-  initrd=initrd32.gz
+image[32bit]=inst32
   label=install
   append="quiet sysrq=1                       "
-image[32bit]=vmlinux32
-  initrd=initrd32.gz
+image[32bit]=inst32
   label=slp
   append="quiet sysrq=1 install=slp           "
-image[32bit]=vmlinux32
-  initrd=initrd32.gz
+image[32bit]=inst32
   label=rescue
   append="quiet sysrq=1 rescue=1              "
 
