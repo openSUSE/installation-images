@@ -739,6 +739,7 @@ perl-base:
   /usr/lib/perl*/*/Exporter{,.pm}
   /usr/lib/perl*/*/File/Basename.pm
   /usr/lib/perl*/*/File/Spec.pm
+  /usr/lib/perl*/*/File/Spec
   /usr/lib/perl*/*/Getopt/Long.pm
   /usr/lib/perl*/*/Getopt/Std.pm
   /usr/lib/perl*/*/IPC/Open3.pm
