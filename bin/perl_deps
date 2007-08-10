@@ -62,14 +62,17 @@ else {
 
 sub get_deps
 {
-  my $file = shift;
+  my $file = shift, $comment;
   local $_;
 
   open G, $file;
   while(<G>) {
-    next if /^=head\d/ .. /^=cut/;
+    $comment = 1 if /^=head\d/;
+    $comment = 0 if /^=cut/;
 
-    if(s/^\s*(use|require)\s+(\S+?)\s*;//) {
+    next if $comment;
+
+    if(s/^\s*(use|require)\s+([^\s;]+).*?;//) {
       $m = $2;
       next if $m =~ /^\d/;
       if($m =~ /^"(.*)"$/) {
