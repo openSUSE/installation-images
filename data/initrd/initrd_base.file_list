@@ -368,6 +368,9 @@ hal:
   /usr/lib*/libhal.so.*
   /var/cache/hald
 
+libusb:
+  /usr/lib/libusb-0.1.so.*
+
 libuuid1:
   /lib*/libuuid.so.*
 
@@ -560,12 +563,16 @@ ntfs-3g:
   /bin
   /lib*/libntfs-3g.so.*
 
+if 0
 fuse:
   /sbin/mount.fuse
   /usr/bin/fusermount
   /bin/ulockmgr_server
-  /lib*/libfuse.so.*
   /lib*/libulockmgr.so.*
+endif
+
+libfuse2:
+  /lib*/libfuse.so.*
 
 kexec-tools:
   /sbin/kexec

@@ -1,3 +1,6 @@
+13/8/2007:	v9.99
+	- adjusted to recent package changes
+
 10/8/2007:	v9.98
 	- added more requirements for Compress::Zlib: File/Spec
 
