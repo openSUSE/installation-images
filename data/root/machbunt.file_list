@@ -204,9 +204,6 @@ if with_yast2 ne 'no'
     /usr/share
     /var/lib
 
-  libusb:
-    /usr/lib*/libusb*.so.*
-
   if arch eq 's390x'
 #    these libs are needed for 32-Bit vnc
 

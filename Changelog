@@ -1,3 +1,7 @@
+13/8/2007:	v9.100
+	- fixed perl module deps
+	- clean up library list
+
 13/8/2007:	v9.99
 	- adjusted to recent package changes
 

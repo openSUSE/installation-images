@@ -95,10 +95,7 @@ ntfs-3g:
   /bin
   /lib*
 
-fuse:
-  /sbin
-  /bin
-  /usr/bin
+libfuse2:
   /lib*
 
 e2fsprogs:

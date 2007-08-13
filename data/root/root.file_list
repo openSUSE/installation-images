@@ -123,9 +123,6 @@ hal: prein
 libsmbios-libs:
   /usr/lib*/libsmbios.so.*
 
-wireless-tools:
-  /usr/lib*/libiw.so.*
-
 dmraid:
   /sbin
 
@@ -605,9 +602,6 @@ openldap2-client:
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*
 
-libdb-4_5:
-  /usr/lib*/libdb*.so  
-
 pam:
   /etc/pam.d
   /etc
@@ -628,9 +622,6 @@ libxcrypt:
 
 cracklib:
   /usr/lib*/libcrack.so*
-
-gdbm:
-  /usr/lib*/libgdbm.so*
 
  r /lib*/security/pam_userdb.so
 
@@ -693,10 +684,6 @@ pwdutils:
   /usr/sbin/chpasswd
   /usr/bin/passwd
 c 644 0 0 /etc/shadow
-
-gdbm:
-  /usr/lib*/libgdbm.so.*
-  /usr/lib*/libgdbm_compat.so.*
 
 ntfsprogs:
   /usr/sbin/ntfsresize
@@ -762,6 +749,7 @@ perl-base:
   /usr/lib/perl*/*/*/B/Deparse.pm
   /usr/lib/perl*/*/*/Config.pm
   /usr/lib/perl*/*/*/Config_heavy.pl
+  /usr/lib/perl*/*/*/Cwd.pm
   /usr/lib/perl*/*/*/Data/Dumper.pm
   /usr/lib/perl*/*/*/DynaLoader.pm
   /usr/lib/perl*/*/*/Errno.pm
@@ -773,6 +761,7 @@ perl-base:
   /usr/lib/perl*/*/*/IO/Pipe.pm
   /usr/lib/perl*/*/*/IO/Seekable.pm
   /usr/lib/perl*/*/*/POSIX.pm
+  /usr/lib/perl*/*/*/Socket.pm
   /usr/lib/perl*/*/*/XSLoader.pm
   /usr/lib/perl*/*/*/auto/Data/Dumper
   /usr/lib/perl*/*/*/auto/DynaLoader
@@ -785,10 +774,15 @@ perl-base:
   /usr/lib/perl*/*/*/re.pm
 
 perl:
+  /usr/lib/perl*/*/Pod/InputObjects.pm
+  /usr/lib/perl*/*/Pod/ParseLink.pm
+  /usr/lib/perl*/*/Pod/Parser.pm
   /usr/lib/perl*/*/Pod/PlainText.pm
+  /usr/lib/perl*/*/Pod/Select.pm
   /usr/lib/perl*/*/Pod/Text.pm
   /usr/lib/perl*/*/Pod/Usage.pm
   /usr/lib/perl*/*/Term/Cap.pm
+  /usr/lib/perl*/*/Time/Local.pm
   /usr/lib/perl*/*/Time/localtime.pm
   /usr/lib/perl*/*/Time/tm.pm
   /usr/lib/perl*/*/diagnostics.pm
@@ -808,10 +802,14 @@ perl:
   /usr/lib/perl*/*/*/auto/POSIX
   /usr/lib/perl*/*/*/auto/Sys/Hostname
   /usr/lib/perl*/vendor_perl/*/*/_h2ph_pre.ph
-  /usr/lib/perl*/vendor_perl/*/*/asm/unistd.ph
   /usr/lib/perl*/vendor_perl/*/*/bits/syscall.ph
   /usr/lib/perl*/vendor_perl/*/*/sys/syscall.ph
   /usr/lib/perl*/vendor_perl/*/*/syscall.ph
+  /usr/lib/perl*/vendor_perl/*/*/asm/unistd.ph
+if arch eq 'ia32' || arch eq 'x86_64'
+  /usr/lib/perl*/vendor_perl/*/*/asm-i386/unistd.ph
+  /usr/lib/perl*/vendor_perl/*/*/asm-x86_64/unistd.ph
+endif
 
 perl-Bootloader:
   /usr/lib
@@ -861,13 +859,7 @@ libzypp:
   /usr/share/locale
 
 boost:
-  /usr/lib*/libboost_regex.so.*
   /usr/lib*/libboost_filesystem.so.*
-
-libicu:
-  /usr/lib*/libicui18n.so.*
-  /usr/lib*/libicuuc.so.*
-  /usr/lib*/libicudata.so.*
 
 libidn:
   /usr/lib*/libidn.so.*
