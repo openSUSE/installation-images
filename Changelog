@@ -1,3 +1,5 @@
+	- add fec_mpc52xx for efika
+
 13/8/2007:	v9.100
 	- fixed perl module deps
 	- clean up library list
