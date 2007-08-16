@@ -1,5 +1,7 @@
+16/8/2007:	v9.101
 	- add fec_mpc52xx for efika
 	- advansys module added (#300791)
+	- appletouch mdule added
 
 13/8/2007:	v9.100
 	- fixed perl module deps
