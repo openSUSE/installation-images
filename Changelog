@@ -1,5 +1,6 @@
 16/8/2007:	v9.102
 	- fix ia64 module deps
+	- fix perl module deps
 
 16/8/2007:	v9.101
 	- add fec_mpc52xx for efika
