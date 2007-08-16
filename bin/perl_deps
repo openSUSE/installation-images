@@ -6,6 +6,8 @@ sub short_name;
 
 @white_list{qw (
   sys/systeminfo.ph
+  File/BSDGlob.pm
+  IO/Compress/Bzip2.pm
   Mac/InternetConfig.pm
   VMS/Filespec.pm
   XML/SAX.pm
@@ -37,6 +39,7 @@ if(! -d "$dir/vendor_perl" || !$ver || !$l) {
 @inc = ( "$dir/$ver/$l", "$dir/$ver", "$dir/vendor_perl/$ver/$l", "$dir/vendor_perl/$ver" );
 
 for $file (`find $dir`) {
+  chomp $file;
   get_deps $file;
 }
 
@@ -62,10 +65,15 @@ else {
 
 sub get_deps
 {
-  my $file = shift, $comment;
+  my ($file, $comment);
   local $_;
 
+  $file = shift;
+
   open G, $file;
+
+  # print STDERR "[$file]\n";
+
   while(<G>) {
     $comment = 1 if /^=head\d/;
     $comment = 0 if /^=cut/;
@@ -75,6 +83,7 @@ sub get_deps
     if(s/^\s*(use|require)\s+([^\s;]+).*?;//) {
       $m = $2;
       next if $m =~ /^\d/;
+      # print STDERR "  <$m>\n";
       if($m =~ /^"(.*)"$/) {
         $m = $1;
         $dep{$m}{short_name $file} = 1 unless $m =~ /\$/;

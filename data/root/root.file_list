@@ -739,6 +739,7 @@ perl-base:
   /usr/lib/perl*/*/bytes.pm
   /usr/lib/perl*/*/bytes_heavy.pl
   /usr/lib/perl*/*/constant.pm
+  /usr/lib/perl*/*/integer.pm
   /usr/lib/perl*/*/overload.pm
   /usr/lib/perl*/*/strict.pm
   /usr/lib/perl*/*/utf8.pm
