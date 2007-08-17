@@ -369,7 +369,7 @@ hal:
   /var/cache/hald
 
 libusb:
-  /usr/lib/libusb-0.1.so.*
+  /usr/lib*/libusb-0.1.so.*
 
 libuuid1:
   /lib*/libuuid.so.*

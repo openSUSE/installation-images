@@ -8,14 +8,12 @@ gdb:
 freetype2:
   /usr/lib*
 
-if arch ne 'ia64'
-  ltrace:
-    /usr/bin/ltrace
-    /etc/ltrace.conf
+ltrace:
+  /usr/bin/ltrace
+  /etc/ltrace.conf
 
-  libelf0:
-    /usr/lib*/libelf.so.*
-endif
+libelf0:
+  /usr/lib*/libelf.so.*
 
 if with_yast2 ne 'no'
   if arch eq 's390' || arch eq 's390x'
