@@ -501,6 +501,7 @@ util-linux:
   /bin/more
   /bin/mount
   /bin/umount
+  /usr/sbin/setctsid
 
 nfs-client:
   /var/lib/nfs
@@ -576,6 +577,12 @@ libfuse2:
 
 kexec-tools:
   /sbin/kexec
+
+sysvinit:
+  /sbin/showconsole
+  c 755 0 0 /sbin/showconsole
+
+
 
 # add hal & dbus
 if 0

@@ -1,4 +1,8 @@
+22/8/2007:	v9.104
 	- add PS3 sys-manager module to allow reboot, remove old ps3_storage
+	- moved some files from firmware image to initrd
+	- increase boot loader timeout to 1 min
+	- add some ntp files (#299238)
 
 17/8/2007:	v9.103
 	- x86_64: libusb really added

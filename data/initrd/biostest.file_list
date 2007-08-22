@@ -15,15 +15,6 @@ newt:
 slang:
   /usr/lib*/libslang.so.*
 
-sysvinit:
-  /sbin/showconsole
-  c 755 0 0 /sbin/showconsole
-
-util-linux:
-  /usr/sbin/setctsid
-  /bin/mount
-  /bin/umount
-
 ncurses:
   /usr/share/terminfo/l/linux
   /usr/share/terminfo/s/screen
