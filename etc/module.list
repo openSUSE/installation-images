@@ -7,6 +7,7 @@ kernel/drivers/base/
 kernel/drivers/block/
 -kernel/drivers/block/paride
 kernel/drivers/cdrom/cdrom.ko
+kernel/drivers/cdrom/viocd.ko
 kernel/drivers/i2o/
 kernel/drivers/ide/
 kernel/drivers/ata/
