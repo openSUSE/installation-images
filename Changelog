@@ -1,3 +1,5 @@
+	- remove unused ppc_iseries64 code
+
 22/8/2007:	v9.104
 	- add PS3 sys-manager module to allow reboot, remove old ps3_storage
 	- moved some files from firmware image to initrd

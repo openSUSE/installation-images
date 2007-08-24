@@ -26,17 +26,6 @@ if arch eq 'ppc'
     A gen/module.config.other modules/module.config
   endif
 
-  if initrd eq 'initrd_ppc_iseries64'
-    include gen/module.files.autoload
-    include gen/module.files.ppc_iseries64
-    include gen/module.files.fs
-    include gen/module.files.other
-    A gen/module.config.autoload modules/module.config
-    A gen/module.config.ppc_iseries64 modules/module.config
-    A gen/module.config.fs modules/module.config
-    A gen/module.config.other modules/module.config
-  endif
-
 else
 
   # all other archs
