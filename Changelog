@@ -1,5 +1,7 @@
+27/8/2007:	v9.105
 	- add drivers/cdrom/viocd.ko to search path
 	- remove unused ppc_iseries64 code
+	- squashfs in different dir now
 
 22/8/2007:	v9.104
 	- add PS3 sys-manager module to allow reboot, remove old ps3_storage
