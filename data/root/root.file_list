@@ -874,15 +874,14 @@ multipath-tools:
 kpartx:
   /etc/udev
   /sbin/kpartx*
+  /sbin/activate_dm_linear
 
 cryptsetup:
   /sbin
   /lib*/libcryptsetup.so.*
 
 xntp:
-  /etc/ntp.conf 
   /usr/sbin/ntpdate
-  /usr/sbin/ntpd
 
 libcap:
    /lib*/libcap.so.*

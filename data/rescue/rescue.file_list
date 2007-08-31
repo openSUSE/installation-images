@@ -93,7 +93,6 @@ ntfsprogs:
 ntfs-3g:
   /sbin
   /bin
-  /lib*
 
 libfuse2:
   /lib*
@@ -226,10 +225,9 @@ if arch eq 's390' || arch eq 's390x'
 endif
 
 scsi:
-  /bin
-  /usr/bin
-  /usr/sbin
-  /usr/lib*/libsgutils.so*
+  /
+  r /usr/include
+  r /usr/share
 
 if arch eq 'ia32' || arch eq 'x86_64'
   grub:

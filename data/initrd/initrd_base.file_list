@@ -562,7 +562,6 @@ sysconfig:
 ntfs-3g:
   /sbin
   /bin
-  /lib*/libntfs-3g.so.*
 
 if 0
 fuse:
