@@ -1,3 +1,6 @@
+3/9/2007:	v9.107
+	- add modprobe config to initrd (#303728)
+
 31/8/2007:	v9.106
 	- sdparm is back (#304967)
 	- kpartx: add activate_dm_linear (#305095)

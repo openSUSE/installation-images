@@ -71,8 +71,9 @@ glibc:
   x etc/syslog.conf etc
 
 module-init-tools:
-#  d /sbin
-#  m /sbin/insmod.static /sbin/insmod
+  /etc/modprobe.conf
+  /etc/modprobe.conf.local
+  d /etc/modprobe.d
   /sbin/insmod
   /sbin/modprobe
 
