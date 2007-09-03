@@ -1,3 +1,6 @@
+3/9/2007:	v8.112
+	- yast2 theme is SuSELinux
+
 13/8/2007:	v8.111
 	- fixed yast2-network file list (#296540)
 	- added Providers.{ycp,ybc} (#296540)

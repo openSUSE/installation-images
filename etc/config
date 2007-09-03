@@ -57,7 +57,7 @@ floppy	=
 
 
 [Theme SuSE]
-yast	= openSUSE
+yast	= SuSELinux
 bsplash = SuSE
 ksplash = SuSE
 product	= SUSE Linux
