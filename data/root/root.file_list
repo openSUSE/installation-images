@@ -531,8 +531,10 @@ initviocons:
   /bin/initviocons
   /usr/bin/termprobes
 
-if arch eq 'ia32'
+if arch eq 'ia32' || arch eq 'x86_64'
   sbl:
+    /usr/sbin/brld
+    /etc/init.d/brld
     /usr/lib/suse-blinux
     /etc/init.d/suse-blinux
     /etc/suse-blinux.conf
