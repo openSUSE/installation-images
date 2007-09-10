@@ -102,10 +102,10 @@ done
 ldconfig
 
 # start dbus & hal
-if [ -x /usr/bin/dbus-daemon -a -x /usr/sbin/hald ] ; then
+if [ -x /bin/dbus-daemon -a -x /usr/sbin/hald ] ; then
   rm -f /var/run/dbus/pid /var/run/hal/haldaemon.pid
   echo -n "starting hald..."
-  if /usr/bin/dbus-daemon --system && /usr/sbin/hald ; then
+  if /bin/dbus-daemon --system && /usr/sbin/hald ; then
     echo " ok"
   else
     echo " failed"

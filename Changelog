@@ -1,3 +1,7 @@
+10/9/2007:	v9.109
+	- adjust inst_setup script: dbus has been moved to /bin (#303799)
+	- get hald working again
+
 7/9/2007:	v9.108
 	- added brld
 

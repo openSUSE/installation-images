@@ -103,6 +103,7 @@ libvolume_id:
   /lib*/libvolume_id.so*
 
 PolicyKit:
+  /etc/PolicyKit/PolicyKit.conf
   /usr/lib*/libpolkit.so.*
 
 dbus-1-glib:
