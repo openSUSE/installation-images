@@ -11,7 +11,7 @@
 use strict 'vars';
 use integer;
 
-%::ConfigData = ( full_product_name => "openSUSE 10.2" );
+%::ConfigData = ( full_product_name => "openSUSE 10.3" );
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

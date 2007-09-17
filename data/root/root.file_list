@@ -157,7 +157,7 @@ nfs-client:
 
 ncurses:
   /lib*/libncurses.so.5*
-  /usr/lib*/libncursesw.so.5*
+  /lib*/libncursesw.so.5*
   /usr/lib*/libpanelw.so.5*
   /usr/lib*/libtic.so.5.*
   /usr/bin/reset

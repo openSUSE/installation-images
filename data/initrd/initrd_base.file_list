@@ -444,6 +444,8 @@ coreutils:
   /bin/sleep
   /bin/cat
   /bin/mkdir
+  /bin/rmdir
+  /bin/ln
 
 pcmciautils:
   /etc/pcmcia/config.opts

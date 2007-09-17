@@ -283,7 +283,7 @@ module-init-tools:
 
 ncurses:
   /lib*/libncurses.so.*
-  /usr/lib*/libncursesw.so.*
+  /lib*/libncursesw.so.*
   /usr/lib*/libpanel.so.*
   /usr/lib*/libpanelw.so.*
   /usr/lib*/libtic.so.5.*
@@ -427,7 +427,7 @@ r /usr/bin/rpmqpack
 rsync: postin
   /etc
   /usr/{,s}bin
-e postin
+E postin
 
 setserial: postin
   /etc
