@@ -1,3 +1,6 @@
+24/9/2007:	v9.112
+	- reenabled atl1.ko (#309320)
+
 20/9/2007:	v9.111
 	- some kpartx parts were missing (#326692)
 	- run postin for module-init-tools (#326265)
