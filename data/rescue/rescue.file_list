@@ -276,11 +276,6 @@ e postin
 mktemp:
   /bin/mktemp
 
-module-init-tools:
-  /etc
-  /sbin/{insmod,modprobe,rmmod,depmod,modinfo}
-  /bin/lsmod
-
 ncurses:
   /lib*/libncurses.so.*
   /lib*/libncursesw.so.*
@@ -292,6 +287,12 @@ ncurses:
 
 terminfo:
   /usr/share/terminfo/i/ibm3151
+
+module-init-tools: postin
+  /etc
+  /sbin/{insmod,modprobe,rmmod,depmod,modinfo}
+  /bin/lsmod
+E postin
 
 net-tools:
   /{,s}bin
@@ -700,6 +701,7 @@ libstdc++42:
 
 kpartx:
   /etc/udev
+  /lib/udev
   /sbin
 
 multipath-tools: postin

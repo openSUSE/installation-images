@@ -876,6 +876,7 @@ multipath-tools:
 
 kpartx:
   /etc/udev
+  /lib/udev
   /sbin/kpartx*
   /sbin/activate_dm_linear
 
