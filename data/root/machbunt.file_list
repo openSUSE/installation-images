@@ -48,6 +48,7 @@ if with_yast2 ne 'no'
       /usr/lib*/xorg/modules/drivers/atimisc_drv.so
       /usr/lib*/xorg/modules/drivers/fbdev_drv.so
       /usr/lib*/xorg/modules/drivers/i810_drv.so
+      /usr/lib*/xorg/modules/drivers/intel_drv.so
       /usr/lib*/xorg/modules/drivers/nv_drv.so
       /usr/lib*/xorg/modules/drivers/r128_drv.so
       /usr/lib*/xorg/modules/drivers/radeon_drv.so
