@@ -1,3 +1,7 @@
+19/10/2007:	v8.113
+	- added config for GRC theme
+	- make /etc/YaST2 writable (#329795)
+
 3/9/2007:	v8.112
 	- yast2 theme is SuSELinux
 

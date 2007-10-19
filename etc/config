@@ -96,3 +96,13 @@ update  = /linux/suse/<arch>-<sles>
 image   = 200
 
 
+[Theme GRC]
+yast	= NLD
+bsplash = GRC
+ksplash = SuSE-SLES
+product	= SUSE Linux Enterprise Server 10
+version = 10.1
+update	= /linux/suse/<arch>-<sles>
+image	= 200
+
+
