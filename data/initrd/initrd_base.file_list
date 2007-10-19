@@ -6,6 +6,7 @@ d var/lib/sshd var/lib/empty
 
 d etc/sysconfig
 d etc/sysconfig/hardware
+d etc/YaST2
 
 d var/lib/xkb/compiled etc/X11
 
