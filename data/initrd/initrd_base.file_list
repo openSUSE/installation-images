@@ -218,10 +218,6 @@ if arch eq 's390' || arch eq 's390x' || with_smb
     keyutils-libs:
       /lib*/libkeyutils{.,-}*
 
-    openldap2-client:
-      m /usr/lib*/liblber-*.so.* /lib
-      m /usr/lib*/libldap-*.so.* /lib
-    
     e2fsprogs:
       m /lib*/lib*.so.* /lib
 
@@ -232,9 +228,6 @@ if arch eq 's390' || arch eq 's390x' || with_smb
     db:
       m /usr/lib*/libdb-4*.so /lib
     
-    cyrus-sasl:
-      m /usr/lib*/libsasl2.so.* /lib
-
 endif
 
 if arch eq 's390' || arch eq 's390x'
@@ -436,6 +429,13 @@ libcurl4:
 
 libidn:
   /usr/lib*/libidn.so.*
+
+openldap2-client:
+  /usr/lib*/liblber-*.so.*
+  /usr/lib*/libldap-*.so.*
+
+cyrus-sasl:
+  /usr/lib*/libsasl2.so.*
 
 zlib:
   /lib*/libz.so.1*

@@ -1,5 +1,7 @@
+19/10/2007:	v9.115
 	- changed product version to 11.0 (#332774)
 	- make /etc/YaST2 writable (#329795)
+	- added ldap libs to initrd (#333768)
 
 27/9/2007:	v9.114
 	- added intel xorg driver (#328042)
