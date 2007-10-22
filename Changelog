@@ -1,3 +1,9 @@
+22/10/2007:	v9.116
+	- added libaio for multipath
+	- added libpixman for Xorg
+	- added gtk2/glib2/cairo/librsvg for fvwm 
+	- fixed fvmw deps
+
 19/10/2007:	v9.115
 	- changed product version to 11.0 (#332774)
 	- make /etc/YaST2 writable (#329795)

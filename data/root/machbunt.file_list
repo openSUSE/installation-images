@@ -155,6 +155,7 @@ if with_yast2 ne 'no'
     /usr/lib*/libXxf86misc.so.*
     /usr/lib*/libXxf86vm.so.*
     /usr/lib*/libdmx.so.*
+    /usr/lib*/libpixman.so.*
 
   xorg-x11-libxcb:
     /usr/lib*/libxcb.so.*
@@ -247,6 +248,57 @@ if with_yast2 ne 'no'
 
   libstroke:
     /usr/lib*/libstroke.so*
+
+  cairo:
+    /usr/lib*/libcairo.so.*
+
+  glib2:
+    /usr/lib*/libgmodule-2.0.so.*
+    /usr/lib*/libgthread-2.0.so.*
+
+  gtk2:
+    /usr/lib*/libgdk_pixbuf-2.0.so.*
+
+  librsvg:
+    /usr/lib*/librsvg-2.so.*
+
+  pango:
+    /usr/lib*/libpango-1.0.so.*
+    /usr/lib*/libpangocairo-1.0.so.*
+    /usr/lib*/libpangoft2-1.0.so.*
+
+  xorg-x11-libs:
+    /usr/lib*/libxcb-render-util.so.*
+
+  xorg-x11-libxcb:
+    /usr/lib*/libxcb-render.so.*
+
+  glitz:
+    /usr/lib*/libglitz.so.*
+
+  gnome-vfs2:
+    /usr/lib*/libgnomevfs-2.so.*
+
+  orbit2:
+    /usr/lib*/libORBit-2.so.*
+
+  libcroco-0_6-3:
+    /usr/lib*/libcroco-0.6.so.*
+
+  gconf2:
+    /usr/lib*/libgconf-2.so.*
+
+  libgsf-1-114:
+    /usr/lib*/libgsf-1.so.*
+
+  libavahi-client3:
+    /usr/lib*/libavahi-client.so.*
+
+  libavahi-common3:
+    /usr/lib*/libavahi-common.so.*
+
+  libavahi-glib1:
+    /usr/lib*/libavahi-glib.so.*
 
 endif
 

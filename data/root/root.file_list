@@ -875,6 +875,9 @@ sqlite:
 multipath-tools:
   /sbin/multipath
 
+libaio:
+  /lib*/libaio.so.*
+
 kpartx:
   /etc/udev
   /lib/udev

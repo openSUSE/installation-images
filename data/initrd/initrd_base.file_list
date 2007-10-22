@@ -586,7 +586,7 @@ sysvinit:
   c 755 0 0 /sbin/showconsole
 
 PolicyKit:
-  /var/lib/PolicyKit/reload
+  /var/lib/PolicyKit
 
 # add hal & dbus
 if 0

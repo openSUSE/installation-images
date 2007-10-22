@@ -596,7 +596,7 @@ libvolume_id:
 PolicyKit:
   /etc/PolicyKit/PolicyKit.conf
   /usr/lib*/libpolkit.so.*
-  /var/lib/PolicyKit/reload
+  /var/lib/PolicyKit
 
 dbus-1-glib:
   /
@@ -708,6 +708,9 @@ multipath-tools: postin
   /etc
   /sbin
 e postin
+
+libaio:
+  /lib*/libaio.so.*
 
 cryptsetup:
   /sbin
