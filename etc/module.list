@@ -125,10 +125,13 @@ kernel/crypto/ecb.ko
 kernel/crypto/sha256.ko
 kernel/crypto/twofish_common.ko
 kernel/crypto/twofish.ko
+kernel/crypto/xor.ko
+kernel/crypto/async_tx/
 kernel/arch/[^/]*/crypto/
 
 kernel/drivers/video/vga16fb.ko
 kernel/drivers/video/vgastate.ko
+kernel/drivers/video/output.ko
 
 kernel/arch/i386/kernel/msr.ko
 
@@ -140,6 +143,8 @@ kernel/net/ieee80211/
 kernel/net/mac80211/mac80211.ko
 kernel/net/mac80211/rc80211_simple.ko
 kernel/net/wireless/cfg80211.ko
+
+kernel/drivers/rtc/
 
 # kmps
 updates/

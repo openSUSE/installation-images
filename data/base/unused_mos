@@ -5,7 +5,7 @@ use Getopt::Long;
 # whitelist
 @text_domains{qw (
   packages-qt control-center storage iso-languages iso-countries packages
-  packagemanager base control rpm-groups
+  packagemanager base control rpm-groups pkg-bindings
 )} = ();
 
 GetOptions(
