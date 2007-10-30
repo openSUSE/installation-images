@@ -688,3 +688,14 @@ if instsys_build_id
   e echo "InitrdID:	<instsys_build_id>" >>linuxrc.config
 endif
 
+
+# media change messages
+x nextmedia /nextmedia
+
+
+# driver update with fixed yast2-repair
+yast2-repair:
+  d 01/<update_dir>/inst-sys/usr/share
+  e echo -e "UpdateName:\t10.3 fix\nUpdateID:\t82q346Hgf3908Kts766gd\nUpdatePriority:\t100" >01/<update_dir>/dud.config
+  m /usr/share/YaST2 01/<update_dir>/inst-sys/usr/share
+

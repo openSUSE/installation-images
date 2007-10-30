@@ -1,3 +1,8 @@
+30/10/2007:	v9.115
+	- include driverupdate for yast2-repair in initrd
+	- added file with media change messages to initrd
+	- fix firmware test menu entry (#331531)
+
 27/9/2007:	v9.114
 	- added intel xorg driver (#328042)
 
