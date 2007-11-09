@@ -23,6 +23,7 @@ t var/run/utmp
 c 1777 0 0 tmp
 
 e cp -a /dev/{null,zero,console,ram0,tty[1349]} dev
+C 4 4 /dev/tty4
 # historical static device nodes
 x devz /devz
 
@@ -556,7 +557,9 @@ r /etc/init.d
   b 9 14 /lib/udev/devices/md14
   b 9 15 /lib/udev/devices/md15
 
+# our own rules file which loads only pnp subsystem mods
 r /etc/udev/rules.d/*-drivers.rules
+x etc/80-drivers.rules /etc/udev/rules.d
 
 sysconfig:
   # for ipw3945d
@@ -586,7 +589,8 @@ sysvinit:
   c 755 0 0 /sbin/showconsole
 
 PolicyKit:
-  /var/lib/PolicyKit
+  /var/lib
+  /var/run
 
 # add hal & dbus
 if 0
@@ -688,4 +692,6 @@ endif
 if instsys_build_id
   e echo "InitrdID:	<instsys_build_id>" >>linuxrc.config
 endif
+
+e echo "exec: echo zappel" >>info
 

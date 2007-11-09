@@ -138,7 +138,7 @@ nscd:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc42:
+libgcc43:
   /lib*
 
 if arch eq 'ppc64'
@@ -596,7 +596,8 @@ libvolume_id:
 PolicyKit:
   /etc/PolicyKit/PolicyKit.conf
   /usr/lib*/libpolkit.so.*
-  /var/lib/PolicyKit
+  /var/lib
+  /var/run
 
 dbus-1-glib:
   /
@@ -696,7 +697,7 @@ smartmontools:
   /etc
   /usr/sbin
 
-libstdc++42:
+libstdc++43:
   /usr/<lib>/libstdc++*.so*
 
 kpartx:

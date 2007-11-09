@@ -151,7 +151,7 @@ bootsplash:
   /
   r /sbin/fbtruetype
 
-liblcms:
+liblcms0:
   /usr/lib*/liblcms.so*
 
 libmng:

@@ -1,6 +1,8 @@
+9/11/2007:	v9.117
 	- fix firmware test menu entry (#331531)
 	- include pkg-bindings translations (#330343)
 	- updated module list
+	- switch to gcc43
 
 22/10/2007:	v9.116
 	- added libaio for multipath
