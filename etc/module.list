@@ -18,6 +18,7 @@ kernel/drivers/ieee1394/
 -kernel/drivers/input/gameport
 kernel/drivers/input/mouse/psmouse.ko
 kernel/drivers/input/mouse/appletouch.ko
+kernel/drivers/input/input-polldev.ko
 kernel/drivers/iseries/
 kernel/drivers/md/
 kernel/drivers/net/
@@ -29,6 +30,7 @@ kernel/drivers/net/
 -kernel/drivers/net/ppp/
 -kernel/drivers/net/wan/
 -kernel/drivers/net/ppp_async.ko
+-kernel/drivers/net/netconsole.ko
 kernel/drivers/parport/
 kernel/drivers/pnp/
 kernel/drivers/scsi/
@@ -46,6 +48,9 @@ kernel/drivers/message/fusion/
 kernel/drivers/message/i2o/
 kernel/drivers/ps3/
 kernel/drivers/misc/ioc4.ko
+kernel/drivers/ssb/
+kernel/drivers/leds/led-class.ko
+kernel/drivers/mmc/core/
 kernel/fs/cramfs/
 kernel/fs/ext2/
 kernel/fs/ext3/
@@ -82,6 +87,7 @@ kernel/fs/nfs_common/
 kernel/fs/lockd/
 kernel/fs/mbcache.ko
 kernel/net/sunrpc/sunrpc.ko
+kernel/drivers/power/power_supply.ko
 kernel/drivers/firmware/edd.ko
 kernel/drivers/acpi/
 kernel/drivers/video/backlight/
@@ -100,6 +106,7 @@ kernel/arch/i386/kernel/cpu/cpufreq/powernow-k7.ko
 -/sound/pcmcia/
 
 kernel/net/packet/
+kernel/net/rfkill/rfkill.ko
 # for pcilynx
 kernel/lib/zlib_deflate/
 kernel/drivers/i2c/i2c-core.ko
@@ -115,6 +122,7 @@ kernel/lib/zlib_inflate/
 kernel/lib/crc-ccitt.ko
 kernel/lib/libcrc32c.ko
 kernel/lib/crc-itu-t.ko
+kernel/lib/crc16.ko
 
 kernel/crypto/aes.ko
 kernel/crypto/arc4.ko
@@ -145,6 +153,8 @@ kernel/net/mac80211/rc80211_simple.ko
 kernel/net/wireless/cfg80211.ko
 
 kernel/drivers/rtc/
+
+kernel/drivers/misc/eeprom_93cx6.ko
 
 # kmps
 updates/

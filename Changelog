@@ -1,3 +1,6 @@
+12/11/2007:	v9.118
+	- adjust to new kernel
+
 9/11/2007:	v9.117
 	- fix firmware test menu entry (#331531)
 	- include pkg-bindings translations (#330343)
