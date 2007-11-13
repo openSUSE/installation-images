@@ -10,12 +10,12 @@ exit 1
 fi
 . /.buildenv
 CD1=$targetdir/CD1
-CD2=$targetdir/CD2
+CD2=$targetdir/FTP
 #
 mkdir -pv $CD1/ppc
 mkdir -pv $CD1/boot/ppc
 # move unused files to CD2 to reduce size of CD1
-mkdir -pv $CD2/boot/ppc
+mkdir -pv $CD2/suseboot
 # to trigger the HFS part, avoid 8.3 filenames and allow OF booting
 mkdir -pv $CD1/suseboot
 mkdir -pv $CD1/PS3/otheros
@@ -23,10 +23,10 @@ mkdir -pv $CD1/PS3/otheros
 cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
 cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
-cp -pfv $bdir/initrd-kernel-default-ppc $CD2/boot/ppc/initrd32
-cp -pfv $bdir/initrd-kernel-ppc64       $CD2/boot/ppc/initrd64
-gzip -fcv9 /boot/vmlinux-*-default >    $CD2/boot/ppc/linux32.gz
-gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD2/boot/ppc/linux64.gz
+cp -pfv $bdir/initrd-kernel-default-ppc $CD2/suseboot/initrd32
+cp -pfv $bdir/initrd-kernel-ppc64       $CD2/suseboot/initrd64
+gzip -fcv9 /boot/vmlinux-*-default >    $CD2/suseboot/linux32.gz
+gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD2/suseboot/linux64.gz
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
 	mkdir -pv $CD1/ppc/netboot
