@@ -1,3 +1,4 @@
+	- sys-manager will be named ps3-sys-manager in newer kernels
 	- move ppc kernel/initrd from CD2 to FTP/suseboot directory (#333665)
 
 12/11/2007:	v9.118
