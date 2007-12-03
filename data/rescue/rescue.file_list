@@ -273,9 +273,6 @@ device-mapper: postin
   /sbin
 e postin
 
-mktemp:
-  /bin/mktemp
-
 ncurses:
   /lib*/libncurses.so.*
   /lib*/libncursesw.so.*
@@ -562,6 +559,9 @@ glib2:
   /usr/lib*/libglib-2.0.so.*
   /usr/lib*/libgobject-2.0.so.*
 
+pcre:
+  /usr/lib*/libpcre*.so.*
+
 sysconfig: postin
   /etc
   /sbin
@@ -720,7 +720,7 @@ cryptsetup:
 libgcrypt:
   /lib*/libgcrypt.so*
 
-libgpg-error:
+libgpg-error0:
  /lib*/libgpg-error.so*
 
 glibc-locale:

@@ -64,7 +64,7 @@ coreutils:
 #rm,
   /usr/bin/du
   /bin/touch
-  /bin/{date,echo,false,pwd,stty,true,uname,basename}
+  /bin/{date,echo,false,pwd,stty,true,uname,basename,mktemp}
 #sleep,
   /usr/bin/{expr,tee,dirname,chroot,test,tty}
 #  /bin/cat
@@ -124,9 +124,6 @@ wireless-tools:
 
 dmraid:
   /sbin
-
-mktemp:
-  /bin/mktemp
 
 iputils:
   /bin/ping

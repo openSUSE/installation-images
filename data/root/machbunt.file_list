@@ -155,7 +155,7 @@ if with_yast2 ne 'no'
     /usr/lib*/libXxf86misc.so.*
     /usr/lib*/libXxf86vm.so.*
     /usr/lib*/libdmx.so.*
-    /usr/lib*/libpixman.so.*
+    /usr/lib*/libpixman-1.so.*
 
   xorg-x11-libxcb:
     /usr/lib*/libxcb.so.*
@@ -233,7 +233,7 @@ if with_yast2 ne 'no'
   libgcrypt:
     /lib*/libgcrypt.so*
 
-  libgpg-error:
+  libgpg-error0:
    /lib*/libgpg-error.so*
 
   fvwm2:

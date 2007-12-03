@@ -80,9 +80,6 @@ r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
   /usr/{,s}bin
 r /usr/bin/{db*,glibcbug,rpcgen}
 
-mktemp:
-  /bin/mktemp
-
 module-init-tools:
   /sbin/depmod
 

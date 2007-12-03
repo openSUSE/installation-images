@@ -521,7 +521,7 @@ libbz2-1:
 libgcrypt:
   /lib*/libgcrypt.so*
 
-libgpg-error:
+libgpg-error0:
  /lib*/libgpg-error.so*
 
 suse-build-key:

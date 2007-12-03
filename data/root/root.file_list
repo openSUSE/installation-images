@@ -57,7 +57,7 @@ coreutils:
   /usr/bin/du
   /usr/bin/yes
   /bin/touch
-  /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename}
+  /bin/{date,echo,false,pwd,sleep,stty,true,uname,basename,mktemp}
   /usr/bin/{expr,tee,dirname,chroot,test,tty}
   /bin/cat
   /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc,od}
@@ -126,9 +126,6 @@ libsmbios-libs:
 
 dmraid:
   /sbin
-
-mktemp:
-  /bin/mktemp
 
 iputils:
   /bin/ping
@@ -429,8 +426,6 @@ endif
     /
   autoyast2-installation:
     /
-  liby2util:
-   /
 
   gpart:
     /usr/bin
@@ -447,7 +442,7 @@ endif
     /usr/bin/slptool
     /usr/lib*/libslp.so.*
 
-  blocxx:
+  libblocxx6:
     /usr/lib*/libblocxx.so.*
 
   pcre:
@@ -457,6 +452,9 @@ endif
     /
 
   limal-perl:
+    /
+
+  libblocxx6:
     /
 
 endif
