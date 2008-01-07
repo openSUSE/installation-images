@@ -1,3 +1,11 @@
+7/1/2008:	v9.120
+	- include the jpeg plugin so that qt can read the world map
+	- country was split into 2 packages 
+	- remove some libraries no longer in use
+	- also rename the libpng package in the file list
+	- BuildRequires: libpng-debuginfo -> libpng12-0-debuginfo
+	- added igb
+
 3/12/2007:	v9.119
 	- it's libblocxx6 now (#343731)
 	- sys-manager will be named ps3-sys-manager in newer kernels

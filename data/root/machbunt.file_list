@@ -142,7 +142,7 @@ if with_yast2 ne 'no'
     /usr/lib*/libfontenc.so.*
 
   xorg-x11-libs:
-    /usr/lib*/libXaw*.so.*
+    /usr/lib*/libXaw8.so.*
     /usr/lib*/libXcursor.so.*
     /usr/lib*/libXfontcache.so.*
     /usr/lib*/libXft.so.*
@@ -249,64 +249,22 @@ if with_yast2 ne 'no'
   libstroke:
     /usr/lib*/libstroke.so*
 
-  cairo:
-    /usr/lib*/libcairo.so.*
-
-  glib2:
-    /usr/lib*/libgmodule-2.0.so.*
-    /usr/lib*/libgthread-2.0.so.*
-
-  gtk2:
-    /usr/lib*/libgdk_pixbuf-2.0.so.*
-
-  librsvg:
-    /usr/lib*/librsvg-2.so.*
-
-  pango:
-    /usr/lib*/libpango-1.0.so.*
-    /usr/lib*/libpangocairo-1.0.so.*
-    /usr/lib*/libpangoft2-1.0.so.*
-
-  xorg-x11-libs:
-    /usr/lib*/libxcb-render-util.so.*
-
-  xorg-x11-libxcb:
-    /usr/lib*/libxcb-render.so.*
-
-  glitz:
-    /usr/lib*/libglitz.so.*
-
-  gnome-vfs2:
-    /usr/lib*/libgnomevfs-2.so.*
-
-  orbit2:
-    /usr/lib*/libORBit-2.so.*
-
-  libcroco-0_6-3:
-    /usr/lib*/libcroco-0.6.so.*
-
-  gconf2:
-    /usr/lib*/libgconf-2.so.*
-
-  libgsf-1-114:
-    /usr/lib*/libgsf-1.so.*
-
-  libavahi-client3:
-    /usr/lib*/libavahi-client.so.*
-
-  libavahi-common3:
-    /usr/lib*/libavahi-common.so.*
-
-  libavahi-glib1:
-    /usr/lib*/libavahi-glib.so.*
-
 endif
 
 if with_yast2 ne 'no'
   yast2-qt:
     /
-    r /usr/X11R6/lib/X11/fonts/uni/newunifont[BI]*.pcf.gz
-    r /usr/X11R6/lib/X11/fonts/uni/unifont.pcf.gz
+
+  libqt4:
+   /usr/lib*/libQtCore.so.*
+ 
+  libqt4-x11:
+   /usr/lib*/libQtGui.so.*
+   /usr/lib*/qt4/plugins/imageformats/libqjpeg.so
+
+  glib2:
+   /usr/lib*/libgthread-2.0.so.*
+   /usr/lib*/libglib-2.0.so.*
 
   yast2-theme-<yast_theme>:
     /
@@ -323,7 +281,7 @@ if with_yast2 ne 'no'
 
 endif
 
-libpng:
+libpng12-0:
   /usr/lib*/libpng*.so*
 
 libjpeg:
@@ -336,26 +294,12 @@ if with_yast2 ne 'no'
 #  liblcms:
 #    /usr/lib*/liblcms.so*
 
-  qt3:
-    /etc/X11/qtrc
-    /usr/lib/qt3/bin/qtconfig
-    /usr/lib/qt3
-    /usr/lib*/libqt*.so.3
-    /usr/lib/qt3/lib*/libqt*.so*
-  r /usr/lib/qt3/plugins/imageformats/libqmng*
-
   if theme eq 'SuSE'
     desktop-data-SuSE:
   else
     desktop-data-NLD:
   endif
     /usr/share/desktop-data/qtrc
-
-  kdelibs3-default-style:
-    /opt/kde3/lib*/kde3/plugins/styles/plastik.so
-    /opt/kde3/lib*/libkdefx.so.*
-    d /usr/lib/qt3/plugins/styles
-    s /opt/kde3/lib*/kde3/plugins/styles/plastik.so /usr/lib/qt3/plugins/styles
 
 endif
 

@@ -484,7 +484,7 @@ iproute2:
   /sbin/ip
 
 ethtool:
-  m /usr/sbin/ethtool /sbin
+  /sbin/ethtool
 
 qlogic-firmware:
   /lib/firmware
