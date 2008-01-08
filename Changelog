@@ -1,3 +1,6 @@
+8/1/2008:	v9.121
+	- added mkfifo to instsys
+
 7/1/2008:	v9.120
 	- include the jpeg plugin so that qt can read the world map
 	- country was split into 2 packages 

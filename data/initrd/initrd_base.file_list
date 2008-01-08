@@ -693,5 +693,3 @@ if instsys_build_id
   e echo "InitrdID:	<instsys_build_id>" >>linuxrc.config
 endif
 
-e echo "exec: echo zappel" >>info
-
