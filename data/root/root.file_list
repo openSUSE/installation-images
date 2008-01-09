@@ -907,7 +907,9 @@ c 755 0 0 /sbin/adddir
 
 if root_i18n
   include rooti18n.file_list
-  include ../../tmp/base/yast2-trans.inc
+  if root_trans
+    include ../../tmp/base/yast2-trans.inc
+  endif
 endif
 
 if root_gfx
@@ -944,6 +946,11 @@ e cp -a /usr/share/cracklib usr/share
 
 d /usr/lib/debug /usr/src/debug
 
+# find used yast2 gettext domains
+e unused_mos --domains --dir usr/share/YaST2 >/yast2-trans.domains
+
+if root_trans
 # remove unused yast2 translations
-e unused_mos --files --dir usr/share/YaST2 | xargs rm
+e unused_mos --files --domains=/yast2-trans.domains --dir usr/share/YaST2 | xargs rm
+endif
 

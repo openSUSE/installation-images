@@ -36,11 +36,12 @@ die "usage: $Script\n" if @ARGV;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # some config data
 
+
+$image_name = $ENV{image_name} ne "" ? $ENV{image_name} : "root";
+
 $srcdir = "${DataPath}root";
-$tmpdir = "${BasePath}tmp/root";
-# $tmpinitrd = "${BasePath}tmp/initrd";
-$image = "${ImagePath}root";
-$image = "${ImagePath}$ENV{image_name}" if $ENV{image_name} ne "";
+$tmpdir = "${BasePath}tmp/$image_name";
+$image = "${ImagePath}$image_name";
 
 # leave that much space
 $extra_size = 1000;              # kbyte

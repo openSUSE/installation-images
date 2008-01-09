@@ -6,7 +6,7 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue \
         root liveeval html clean distdir install install_xx \
 	mboot base bootcd2 bootdisk bootcd rootfonts hal \
-	biostest gkv
+	biostest gkv trans
 
 all: bootdvd bootcd2 rescue root
 	@rm -rf images/cd[12]
@@ -76,11 +76,17 @@ install_xx: initrd
 
 root: dirs base
 	# just for now
-	root_i18n=1 root_gfx=1 \
+	root_i18n=1 root_gfx=1 root_trans=$${root_trans:-1} \
 	imagetype=$${imagetype:-squashfs} YAST_IS_RUNNING=1 bin/mk_root
 
 rootfonts: dirs base
 	imagetype=$${imagetype:-squashfs} nolibs=1 filelist=fonts image_name=root.fonts bin/mk_root
+
+trans: dirs base
+	for lang in `cat tmp/base/yast2-trans.list` ; do \
+	  imagetype=$${imagetype:-squashfs} lang=$$lang image_name=root.$$lang nolibs=1 filelist=trans bin/mk_root ; \
+	  rm -f images/root.$$lang.log ; \
+	done
 
 rescue: dirs base
 	imagetype=$${imagetype:-squashfs} YAST_IS_RUNNING=1 bin/mk_rescue

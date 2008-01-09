@@ -9,21 +9,27 @@ use Getopt::Long;
 )} = ();
 
 GetOptions(
-  'dir|d=s' => \$opt_dir,
-  'files'   => \$opt_files,
+  'dir|d=s'   => \$opt_dir,
+  'files'     => \$opt_files,
+  'domains:s' => \$opt_domains,
 );
 
-die "usage: unused_mos: [--files] --dir yast2_dir\n" unless -d $opt_dir;
+die "usage: unused_mos: [--files] [--domains[=domain_file]] --dir yast2_dir\n" unless -d $opt_dir;
 
-for (`grep -r 'textdomain' $opt_dir 2>/dev/null`) {
-  if(/(:|<<)\s*textdomain\s*\"(\S+)\"/) {
-    $text_domains{$2} = 1;
-  }
-  elsif(/:\s*textdomain\s*\(\"(\S+)\"\)/) {
-    $text_domains{$1} = 1;
-  }
-  else {
-    # print STDERR "ooh: $_";
+if($opt_domains) {
+  map { chomp; $text_domains{$_} = 1 } (`cat $opt_domains`);
+}
+else {
+  for (`grep -r 'textdomain' $opt_dir 2>/dev/null`) {
+    if(/(:|<<)\s*textdomain\s*\"(\S+)\"/) {
+      $text_domains{$2} = 1;
+    }
+    elsif(/:\s*textdomain\s*\(\"(\S+)\"\)/) {
+      $text_domains{$1} = 1;
+    }
+    else {
+      # print STDERR "ooh: $_";
+    }
   }
 }
 
@@ -36,6 +42,9 @@ for ( <$opt_dir/locale/*/LC_MESSAGES/*.mo> ) {
 
 if($opt_files) {
   print join("\n", sort @files), "\n";
+}
+elsif(defined($opt_domains) && !$opt_domains) {
+  print "$_\n" for (sort keys %text_domains);
 }
 else {
   print "Used Text Domains:\n";
