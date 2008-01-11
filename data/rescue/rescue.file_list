@@ -641,9 +641,14 @@ dhcpcd:
   /sbin
   /var
 
-smartmontools:
+if arch ne 's390' && arch ne 's390x' && arch ne 'ppc64'
+ smartmontools:
   /etc
   /usr/sbin
+
+ libstdc++:
+  /usr/lib*/libstdc++.so*
+endif
 
 multipath-tools: postin
   /etc

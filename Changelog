@@ -1,4 +1,8 @@
 11/1/2008:	v8.115
+	- remove fwparam_ibft for now (not in current open-iscsi package)
+	- add audit-libs to zeninitrd (for hwclock)
+	- add more fixes to make it build on sle10-sp2 
+	- added more new modules (cxgb3,vmur) 
 	- add workaround for ehea to create_interface (#329106)
 
 4/12/2007:	v8.114

@@ -296,6 +296,10 @@ util-linux:
   /sbin/agetty
   /usr/{bin,sbin}
   c 755 0 0 /usr/sbin/klogconsole
+
+audit-libs:
+  /lib*/libaudit.so.*
+
 gpm:
   /etc/*
   /usr/bin/*
