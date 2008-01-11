@@ -1,0 +1,231 @@
+#! /usr/bin/perl
+
+use Getopt::Long;
+use Digest::MD5;
+
+sub add_md5;
+sub is_common;
+sub sub_dirs;
+sub del_dups;
+sub copy_files;
+sub new_tmp_file;
+sub cleanup;
+
+END { cleanup }     
+$SIG{INT} = \&cleanup;
+$SIG{TERM} = \&cleanup;
+
+GetOptions(
+  'dst=s'    => \$opt_dst,
+  'verbose+' => \$opt_verbose,
+);
+
+die "usage: common_tree --dst dst_dir src_1 src_2 ...\n" unless $opt_dst;
+die "error: \"$opt_dst\" already exists; please delete\n" if -e $opt_dst;
+die "$opt_dst: $!\n" unless mkdir $opt_dst, 0755;
+
+@dir_list = @ARGV;
+
+for ($i = 0; $i <= @dir_list; $i++) {
+  $j = "$opt_dst/" . ($i ? $i : 'c');
+  die "$j: $!\n" unless mkdir $j, 0755;
+}
+
+for $dir (@dir_list) {
+  for (`find '$dir'`) {
+    chomp;
+    ($mode, $size) = (lstat)[2,7];
+    if(s/^$dir\///) {
+      $size = 0 if -d _;
+      $i = '*';
+      $i = 'b' if -b _;
+      $i = 'c' if -c _;
+      $i = 'd' if -d _;
+      $i = 'f' if -f _;
+      $i = 'l' if -l _;
+      $i = 'p' if -p _;
+      $i = 's' if -S _;
+      # $i .= sprintf "0%06o", $mode;
+      $i .= sprintf ":%d", $size;
+      push @{$l->{$dir}{list}}, $_;
+      $l->{$dir}{$_} = $i;
+      $dup->{$_}{$i}++ if -f _;
+    }
+  }
+}
+
+for $f (keys %$dup) {
+  for (keys %{$dup->{$f}}) {
+    # print "$f, $_: $dup->{$f}{$_}\n";
+    add_md5 $f if $dup->{$f}{$_} >= 2
+  }
+}
+
+#for $dir (@dir_list) {
+#  for (@{$l->{$dir}{list}}) {
+#    print "$dir $_: $l->{$dir}{$_}\n";
+#  }
+#}
+
+$cnt = 1;
+for $dir (@dir_list) {
+  for (@{$l->{$dir}{list}}) {
+    if(is_common $_) {
+      push @$common, sub_dirs($_);
+      push @$common, $_;
+    }
+    else {
+      push @{$out->{$dir}}, sub_dirs($_);
+      push @{$out->{$dir}}, $_;
+    }
+  }
+
+  $cnt++;
+}
+
+del_dups $common;
+del_dups $out->{$_} for (@dir_list);
+
+if($opt_verbose) {
+  $dir = $dir_list[0];
+  for (@$common) {
+    print "c: $dir $_: $l->{$dir}{$_}\n";
+  }
+
+  $cnt = 1;
+  for $dir (@dir_list) {
+    for (@{$out->{$dir}}) {
+      print "$cnt: $dir $_: $l->{$dir}{$_}\n";
+    }
+    $cnt++;
+  }
+}
+
+copy_files $common, $dir_list[0], "$opt_dst/c";
+$cnt = 1;
+for $dir (@dir_list) {
+  copy_files $out->{$dir}, $dir, "$opt_dst/$cnt";
+  $cnt++;
+}
+
+
+sub add_md5
+{
+  local $_;
+  my $file = shift;
+  my ($dir, $md5);
+
+
+  return if $have_md5->{$file};
+
+  $have_md5->{$file} = 1;
+
+  for $dir (@dir_list) {
+    if(exists($l->{$dir}{$file}) && $l->{$dir}{$file} =~ /^f:/) {
+      die "$dir/$file: $!\n"unless open F, "$dir/$file";
+      $md5 = Digest::MD5->new->addfile(*F)->hexdigest;
+      close F;
+      $l->{$dir}{$file} .= ":$md5";
+    }
+  }
+}
+
+
+sub is_common
+{
+  local $_;
+  my $file = shift;
+  my ($dir, $c, %x, $is_dir, $is_no_dir);
+
+  for $dir (@dir_list) {
+    next unless exists $l->{$dir}{$file};
+
+    $x{$l->{$dir}{$file}} = 1;
+    if($l->{$dir}{$file} =~ /^d:/) {
+      $is_dir++;
+    }
+    else {
+      $is_no_dir++;
+    }
+  }
+
+  die "error: \"$file\" is sometimes a directory\n" if $is_dir && $is_no_dir;
+
+  $c = keys %x;
+
+  # print "$file: $c\n";
+
+  return $c == 1 && $is_dir + $is_no_dir == @dir_list ? 1 : 0;
+}
+
+
+sub sub_dirs
+{
+  local $_;
+  my $file = shift;
+  my (@dirs);
+
+  # print ">$file: ";
+
+  unshift @dirs, $file while $file =~ s#/[^/]*$##;
+
+  # print join(',', @dirs), "<\n";
+
+  return @dirs;
+}
+
+
+sub del_dups
+{
+  local $_;
+  my %x;
+
+  $_[0] = [ grep { !$x{$_}++ } @{$_[0]} ];
+}
+
+
+sub copy_files
+{
+  local $_;
+  my ($files, $src, $dst, $tmp);
+
+  ($files, $src, $dst) = @_;
+
+  if($dst !~ /^\//) {
+    chomp($_ = `pwd`);
+    $dst = "$_/$dst";
+  }
+
+  $tmp = new_tmp_file;
+
+  open F, "|cd $src ; cpio --quiet -pm $dst 2>$tmp";
+  print F "$_\n" for (@$files);
+  close F;
+
+  if(-s $tmp) {
+    print STDERR scalar(`cat $tmp`);
+    die "error copying files\n";
+  }
+}
+
+
+sub new_tmp_file
+{
+  local $_;
+
+  chomp ($_ = `mktemp /tmp/common_tree.XXXXXXXXXX`);
+  die "error: mktemp failed\n" if $?;
+
+  push @tmp_files, $_;
+
+  return $_;
+}
+
+
+sub cleanup
+{
+  unlink @tmp_files;
+  undef @tmp_files;
+}
+
+

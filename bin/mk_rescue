@@ -33,7 +33,7 @@ $start_inodes = 30000;
 
 $debug = exists($ENV{'debug'}) ? $ENV{'debug'} : "";
 $imagetype = $ENV{imagetype};
-$imagetype = "cramfs" unless $imagetype;
+$imagetype = "squashfs" unless $imagetype;
 $use_gzip = 1 if $imagetype =~ s/\.gz$//;
 
 if($ENV{'keeprescue'} != 1) {
@@ -72,12 +72,14 @@ if($ENV{'keeprescue'} != 1) {
   }
 }
 
-Conv2Image $image, $tmpdir, $imagetype, $start_size, $start_inodes, $extra_size, $extra_inodes;
-$i = -s $image;
-print "$Script: created \"$image\" ($i bytes)\n";
+if($imagetype ne 'none') {
+  Conv2Image $image, $tmpdir, $imagetype, $start_size, $start_inodes, $extra_size, $extra_inodes;
+  $i = -s $image;
+  print "$Script: created \"$image\" ($i bytes)\n";
 
-if($use_gzip) {
-  $i = CompressImage $image;
-  print "$Script: compressed \"$image\" ($i bytes)\n";
+  if($use_gzip) {
+    $i = CompressImage $image;
+    print "$Script: compressed \"$image\" ($i bytes)\n";
+  }
 }
 
