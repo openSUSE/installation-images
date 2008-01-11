@@ -54,6 +54,9 @@ then
 	    then
 	    # Bug 159652 - LTC22358 - no hwcfg-static files created for iseries_veth
 	    myhwcfg=hwcfg-static-0
+           elif test "${HWD_BUSNAME}" = "ibmebus"
+           then
+           myhwcfg=hwcfg-static-0
 	    else
 	    myhwcfg=hwcfg-bus-${HWD_BUSNAME}-${HWD_BUSID}
 	    fi
