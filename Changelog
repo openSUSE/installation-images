@@ -1,6 +1,7 @@
 14/1/2008:	v10.1
 	- prepare to split off common part from rescue/instsys images
 	- adapt to new perl
+	- sqlite is libsqlite3 now
 
 9/1/2008:	v10.0
 	- prepare for separate language-dependent instsys parts
