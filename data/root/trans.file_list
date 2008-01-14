@@ -1,0 +1,8 @@
+yast2-trans-<lang>:
+  /
+
+r /usr/share/doc /usr/share/man
+
+# NOTE: must have build 'root' image before!
+e unused_mos --files --domains=/yast2-trans.domains --dir usr/share/YaST2 | xargs rm
+
