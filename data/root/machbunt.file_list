@@ -295,7 +295,7 @@ if with_yast2 ne 'no'
 #    /usr/lib*/liblcms.so*
 
   if theme eq 'SuSE'
-    desktop-data-SuSE:
+    desktop-data-openSUSE:
   else
     desktop-data-NLD:
   endif
@@ -363,7 +363,7 @@ unfonts:
 efont-unicode:
   /usr/share/fonts/misc/b16.pcf.gz
 
-desktop-data-SuSE:
+desktop-data-openSUSE:
   /usr/share/icons/DMZ
 
 multipath-tools:

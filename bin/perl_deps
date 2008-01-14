@@ -14,6 +14,10 @@ sub short_name;
   LWP.pm
   URI.pm
   URI/file.pm
+  CPANPLUS.pm
+  CPANPLUS/Error.pm
+  CPANPLUS/Internals/Constants.pm
+  Pod/Simple.pm
 )} = ();
 
 if($ARGV[0] eq '--check') {

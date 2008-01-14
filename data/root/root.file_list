@@ -732,11 +732,12 @@ perl-base:
   /usr/lib/perl*/*/File/Basename.pm
   /usr/lib/perl*/*/File/Spec.pm
   /usr/lib/perl*/*/File/Spec
+  /usr/lib/perl*/*/FileHandle.pm
   /usr/lib/perl*/*/Getopt/Long.pm
   /usr/lib/perl*/*/Getopt/Std.pm
   /usr/lib/perl*/*/IPC/Open3.pm
-  /usr/lib/perl*/*/List/Util.pm
-  /usr/lib/perl*/*/Scalar/Util.pm
+  /usr/lib/perl*/*/*/List/Util.pm
+  /usr/lib/perl*/*/*/Scalar/Util.pm
   /usr/lib/perl*/*/SelectSaver.pm
   /usr/lib/perl*/*/Symbol.pm
   /usr/lib/perl*/*/Text/ParseWords.pm
@@ -761,6 +762,7 @@ perl-base:
   /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/*/Fcntl.pm
   /usr/lib/perl*/*/*/File/Glob.pm
+  /usr/lib/perl*/*/*/File/GlobMapper.pm
   /usr/lib/perl*/*/*/IO.pm
   /usr/lib/perl*/*/*/IO/File.pm
   /usr/lib/perl*/*/*/IO/Handle.pm
@@ -788,6 +790,7 @@ perl:
   /usr/lib/perl*/*/Pod/Text.pm
   /usr/lib/perl*/*/Pod/Usage.pm
   /usr/lib/perl*/*/Term/Cap.pm
+  /usr/lib/perl*/*/Tie/Hash.pm
   /usr/lib/perl*/*/Time/Local.pm
   /usr/lib/perl*/*/Time/localtime.pm
   /usr/lib/perl*/*/Time/tm.pm
@@ -803,6 +806,7 @@ perl:
   /usr/lib/perl*/*/*/Encode/Alias.pm
   /usr/lib/perl*/*/*/Encode/Config.pm
   /usr/lib/perl*/*/*/Encode/Encoding.pm
+  /usr/lib/perl*/*/*/Encode/MIME/Name.pm
   /usr/lib/perl*/*/*/Storable.pm
   /usr/lib/perl*/*/*/Sys/Hostname.pm
   /usr/lib/perl*/*/*/auto/POSIX
@@ -816,20 +820,12 @@ if arch eq 'ia32' || arch eq 'x86_64'
   /usr/lib/perl*/vendor_perl/*/*/asm-i386/unistd.ph
   /usr/lib/perl*/vendor_perl/*/*/asm-x86_64/unistd.ph
 endif
+  /usr/lib/perl*/*/*/Compress
+  /usr/lib/perl*/*/*/IO/Compress
+  /usr/lib/perl*/*/*/IO/Uncompress
+  r /usr/lib/perl*/*/CPANPLUS
 
 perl-Bootloader:
-  /usr/lib
-
-perl-Compress-Zlib:
-  /usr/lib
-
-perl-Compress-Raw-Zlib:
-  /usr/lib
-
-perl-IO-Compress-Base:
-  /usr/lib
-
-perl-IO-Compress-Zlib:
   /usr/lib
 
 perl-gettext:
@@ -870,7 +866,7 @@ boost:
 libidn:
   /usr/lib*/libidn.so.*
 
-sqlite:
+libsqlite3-0:
   /usr/lib*/libsqlite3.so.*
 
 multipath-tools:
