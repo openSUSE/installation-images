@@ -6,7 +6,7 @@ PBINS	= initrd_test mk_boot mk_initrd mk_initrd_test mk_root
 .PHONY: all dirs initrd initrd_test boot boot_axp rescue \
         root liveeval html clean distdir install install_xx \
 	mboot base bootcd2 bootdisk bootcd rootfonts hal \
-	biostest gkv trans
+	biostest gkv trans root+rescue
 
 all: bootdvd bootcd2 rescue root
 	@rm -rf images/cd[12]
@@ -76,20 +76,29 @@ install_xx: initrd
 
 root: dirs base
 	# just for now
-	root_i18n=1 root_gfx=1 root_trans=$${root_trans:-1} \
-	imagetype=$${imagetype:-squashfs} YAST_IS_RUNNING=1 bin/mk_root
+	root_i18n=1 root_gfx=1 roottrans=$${roottrans:-1} \
+	YAST_IS_RUNNING=1 bin/mk_root
 
 rootfonts: dirs base
-	imagetype=$${imagetype:-squashfs} nolibs=1 filelist=fonts image_name=root.fonts bin/mk_root
+	nolibs=1 filelist=fonts imagename=root.fonts bin/mk_root
+	echo -e "rootx:\troot *root.fonts" >images/config
 
 trans: dirs base
 	for lang in `cat tmp/base/yast2-trans.list` ; do \
-	  imagetype=$${imagetype:-squashfs} lang=$$lang image_name=root.$$lang nolibs=1 filelist=trans bin/mk_root ; \
+	  lang=$$lang imagename=root.$$lang nolibs=1 filelist=trans bin/mk_root ; \
 	  rm -f images/root.$$lang.log ; \
 	done
 
 rescue: dirs base
-	imagetype=$${imagetype:-squashfs} YAST_IS_RUNNING=1 bin/mk_rescue
+	YAST_IS_RUNNING=1 bin/mk_rescue
+
+root+rescue: dirs base
+	rm -rf tmp/tmp
+	bin/common_tree --dst tmp/tmp tmp/rescue tmp/root
+	keeproot=1 tmpdir=tmp/tmp/c imagename=common bin/mk_root
+	keeproot=1 tmpdir=tmp/tmp/1 imagename=rescue bin/mk_root
+	keeproot=1 tmpdir=tmp/tmp/2 imagename=root bin/mk_root
+	echo -e "root:\tcommon root\nrescue:\tcommon rescue\nrootx:\tcommon root *root.fonts" >images/config
 
 hal: dirs base
 	YAST_IS_RUNNING=1 filelist=hal bin/mk_rescue

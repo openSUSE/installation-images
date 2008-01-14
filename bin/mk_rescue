@@ -16,9 +16,12 @@ die "usage: $Script\n" if @ARGV;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # some config data
 
+$imagename = $ENV{imagename} ne "" ? $ENV{imagename} : "rescue";
+
 $srcdir = "${DataPath}rescue";
-$tmpdir = "${BasePath}tmp/rescue";
-$image = "${ImagePath}rescue";
+$tmpdir = "${BasePath}tmp/$imagename";
+$tmpdir = "${BasePath}$ENV{tmpdir}" if $ENV{tmpdir};   
+$image = "${ImagePath}$imagename";
 
 # leave that much space
 $extra_size = 4000;              # kbyte

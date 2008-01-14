@@ -1,4 +1,5 @@
-	- split off common part from rescue/instsys images
+14/1/2008:	v10.1
+	- prepare to split off common part from rescue/instsys images
 
 9/1/2008:	v10.0
 	- prepare for separate language-dependent instsys parts
