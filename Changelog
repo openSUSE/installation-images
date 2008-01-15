@@ -1,3 +1,6 @@
+15/1/2008:	v10.2
+	- fix crypto module list (#351604)
+
 14/1/2008:	v10.1
 	- prepare to split off common part from rescue/instsys images
 	- adapt to new perl
