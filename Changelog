@@ -1,4 +1,5 @@
 17/1/2008:	v8.116
+	- added ixgba and dm-alua to module config
 	- added arping to initrd (fate #302027)
 
 11/1/2008:	v8.115
