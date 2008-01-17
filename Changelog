@@ -1,3 +1,6 @@
+17/1/2008:	v8.116
+	- added arping to initrd (fate #302027)
+
 11/1/2008:	v8.115
 	- remove fwparam_ibft for now (not in current open-iscsi package)
 	- add audit-libs to zeninitrd (for hwclock)

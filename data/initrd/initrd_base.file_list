@@ -388,6 +388,7 @@ dhcpcd:
 
 iputils:
   /bin/ping
+  /sbin/arping
 
 net-tools:
   /sbin/ifconfig
