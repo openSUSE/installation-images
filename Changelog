@@ -1,3 +1,5 @@
+	- add module dependencies for fec_mpc52xx (#347234)
+
 15/1/2008:	v10.2
 	- fix crypto module list (#351604)
 
