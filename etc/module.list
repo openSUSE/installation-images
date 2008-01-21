@@ -30,6 +30,7 @@ kernel/drivers/net/
 kernel/drivers/parport/
 kernel/drivers/pnp/
 kernel/drivers/scsi/
+-kernel/drivers/scsi/scsi_dump.ko
 kernel/drivers/usb/storage/
 kernel/drivers/usb/host/
 kernel/drivers/usb/core/
@@ -109,6 +110,9 @@ kernel/arch/i386/kernel/msr.ko
 
 kernel/drivers/xen/blkfront/xenblk.ko
 kernel/drivers/xen/netfront/xennet.ko
+kernel/drivers/serial/8250.ko
+kernel/drivers/serial/8250_pci.ko
+kernel/drivers/serial/serial_core.ko
 
 # kmps
 updates/
