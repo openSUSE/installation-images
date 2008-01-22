@@ -885,7 +885,7 @@ cryptsetup:
   /sbin
   /lib*/libcryptsetup.so.*
 
-xntp:
+ntp:
   /usr/sbin/ntpdate
 
 libcap:

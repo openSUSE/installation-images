@@ -518,7 +518,7 @@ d root/.gnupg
 libbz2-1:
   /lib*/libbz2.so*
 
-libgcrypt:
+libgcrypt11:
   /lib*/libgcrypt.so*
 
 libgpg-error0:

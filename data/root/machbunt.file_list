@@ -230,7 +230,7 @@ if with_yast2 ne 'no'
     /usr/lib*
     /usr/bin
 
-  libgcrypt:
+  libgcrypt11:
     /lib*/libgcrypt.so*
 
   libgpg-error0:
