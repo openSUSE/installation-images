@@ -1,3 +1,6 @@
+22/1/2008:	v10.4
+	- removed all references to $INSTSYS
+
 22/1/2008:	v10.3
 	- add module dependencies for fec_mpc52xx (#347234)
 	- some package names changed

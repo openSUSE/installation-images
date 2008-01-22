@@ -717,7 +717,7 @@ cryptsetup:
   /sbin
   /lib*
 
-libgcrypt:
+libgcrypt11:
   /lib*/libgcrypt.so*
 
 libgpg-error0:

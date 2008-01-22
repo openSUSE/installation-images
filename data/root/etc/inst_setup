@@ -8,9 +8,6 @@
 #
 # linuxrc-based tools are in /lbin.
 #
-# linuxrc passes the root directory of the freshly mounted instsys in
-# the environment variable INSTSYS.
-#
 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11/bin:/lbin
 
@@ -164,6 +161,13 @@ depmod -a 2>/dev/null
 
 test -x /etc/init.d/ia32el && /etc/init.d/ia32el start
 
+# ensure everything below /root & /etc/ssh is writable
+for i in /root /etc/ssh ; do
+  cp -aL $i ${i}_tmp
+  rm -rf $i
+  mv ${i}_tmp $i
+done
+
 # boot with usessh=1 or use linuxrc to enable ssh 
 # vnc=1 will override the install mode
 if grep -q "^UseSSH:.*1" /etc/install.inf ; then
@@ -175,7 +179,6 @@ if grep -iwq y2debug < /proc/cmdline ; then
   export Y2DEBUG=1
   export Y2MAXLOGSIZE=50000
   export Y2MAXLOGNUM=5
-  test -d $INSTSYS/root/.yast2 && cp -a $INSTSYS/root/.yast2 /root
 fi
 
 export XCURSOR_THEME=DMZ

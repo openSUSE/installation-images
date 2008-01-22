@@ -9,6 +9,7 @@ c 1777 0 0 tmp
 # add some /etc files
 x /etc/* /etc
 r /etc/ssh
+r /etc/rpm/.svn
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
@@ -634,8 +635,10 @@ cracklib:
  c 755 0 0 /sbin/inst_setup_ssh
  # for Olaf
  x etc/ssh /lib
+ r /lib/ssh/.svn
  d /root
  x root/.yast2 /root
+ r /root/.yast2/.svn
  x root/.bash_history /root
  x root/.bash_login /root
  x root/.vimrc /root

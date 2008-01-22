@@ -1,0 +1,5 @@
+root:		common root ?root.<lang>
+rescue:		common rescue
+root.ja:	root.ja root.fonts
+root.zh_CN:	root.zh_CN root.fonts
+root.zh_TW:	root.zh_TW root.fonts

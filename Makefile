@@ -81,7 +81,6 @@ root: dirs base
 
 rootfonts: dirs base
 	nolibs=1 filelist=fonts imagename=root.fonts bin/mk_root
-	echo -e "rootx:\troot *root.fonts" >images/config
 
 trans: dirs base
 	for lang in `cat tmp/base/yast2-trans.list` ; do \
@@ -98,7 +97,7 @@ root+rescue: dirs base
 	keeproot=1 tmpdir=tmp/tmp/c imagename=common bin/mk_root
 	keeproot=1 tmpdir=tmp/tmp/1 imagename=rescue bin/mk_root
 	keeproot=1 tmpdir=tmp/tmp/2 imagename=root bin/mk_root
-	echo -e "root:\tcommon root\nrescue:\tcommon rescue\nrootx:\tcommon root *root.fonts" >images/config
+	cp data/root/config images/config
 
 hal: dirs base
 	YAST_IS_RUNNING=1 filelist=hal bin/mk_rescue

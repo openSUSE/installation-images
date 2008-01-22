@@ -1,13 +1,6 @@
 # will be sourced by /sbin/inst_setup
 
 # vim: syntax=sh
-if [ -z "$INSTSYS" ] ; then
-	echo "variable INSTSYS not set"
-	sleep 1
-	exit 1
-fi
-
-#
 
 nosshkey=false
 if [ "$1" = "-n" ] ; then
@@ -25,16 +18,6 @@ if ! test -z "$1" ; then
 fi
 
 echo 'sshd found, prepare remote login'
-if test -L /root ; then rm -f /root ; fi
-if test -L /etc/ssh ; then rm -f /etc/ssh ; fi
-mkdir -p /etc/ssh /root
-if [ -L /etc/ssh/sshd_config ] ; then
-  rm -f /etc/ssh/*
-fi
-cp -a --remove-destination $INSTSYS/root/.bash_login /root
-cp -a --remove-destination $INSTSYS/root/.bash_history /root
-cp -a --remove-destination $INSTSYS/root/.vimrc /root
-cp -a --remove-destination $INSTSYS/etc/ssh/{moduli,ssh*config*} /etc/ssh
 #
 if test ! -z "$nameserver" ; then
 	 echo "nameserver $nameserver" >> /etc/resolv.conf
@@ -50,7 +33,7 @@ mount -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
 if [ "$nosshkey" = "true" ] ; then
 	# for inst-sys testing
 	echo using built-in ssh keys
-	cp -a --remove-destination $INSTSYS/lib/ssh/*key* /etc/ssh/
+	cp -a --remove-destination /lib/ssh/*key* /etc/ssh/
 
 else
 	#
