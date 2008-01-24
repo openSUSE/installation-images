@@ -1,3 +1,6 @@
+24/1/2008:	v8.118
+	- re-added iucv (s390)
+
 21/1/2008:	v8.117
 	- added bnx2x
 	- fixed module config for ia64 & xen
