@@ -14,7 +14,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11/bin:/lbin
 # tmpfs has mode 1777, sshd doesnt like that
 chmod 755 /
 
-# see bug 46535
+# see bug 61535
 [ -e /proc/sys/vm/local-oom-kill ] && echo 1 > /proc/sys/vm/local-oom-kill
 
 if [ -f /.timestamp ] ; then
