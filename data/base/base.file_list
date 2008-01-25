@@ -186,7 +186,7 @@ r /etc/init.d/rc?.d/*xdm
 r /usr/bin/ChangeSymlinks
   /lib/YaST/SuSEconfig.functions
   /var/adm/fillup-templates
-  /root/.gnupg/suse_build_key
+  # /root/.gnupg/suse_build_key
 e postin
 r /var/adm/fillup-templates
 t /etc/fstab

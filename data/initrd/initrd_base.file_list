@@ -638,6 +638,8 @@ endif
 
 :
 
+x etc/prepare_rescue bin
+
 # get busybox
 d usr/local/bin
 e cp -a /tmp/bb/{,usr/}{bin,sbin}/* usr/local/bin

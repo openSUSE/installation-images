@@ -1,0 +1,13 @@
+#! /bin/sh
+
+# ensure some trees are completely writable
+for i in /etc /media /root /var ; do
+  cp -aL $i ${i}_tmp
+  rm -rf $i
+  mv ${i}_tmp $i
+done
+
+rm -f /mounts/initrd/{*,.*}
+rmdir /mounts/initrd/* 2>/dev/null
+rm -rf /mounts/initrd/{bin,download,etc,lbin,lib,modules,oldroot,root,sbin,tmp,usr,var}
+

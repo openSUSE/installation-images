@@ -30,8 +30,7 @@ e prein
 e echo set bell-style none >>etc/inputrc
   /etc/rc.status
   /usr/bin/old
-  /root/.gnupg/suse_build_key
-  /root/.gnupg/suse_build_key
+  # /root/.gnupg/suse_build_key
   /var/adm/fillup-templates
 e postin
 r /var/adm/fillup-templates
