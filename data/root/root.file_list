@@ -819,8 +819,9 @@ perl:
   /usr/lib/perl*/vendor_perl/*/*/syscall.ph
   /usr/lib/perl*/vendor_perl/*/*/asm/unistd.ph
 if arch eq 'ia32' || arch eq 'x86_64'
-  /usr/lib/perl*/vendor_perl/*/*/asm-i386/unistd.ph
-  /usr/lib/perl*/vendor_perl/*/*/asm-x86_64/unistd.ph
+  /usr/lib/perl*/vendor_perl/*/*/asm-x86/unistd.ph
+  /usr/lib/perl*/vendor_perl/*/*/asm-x86/unistd_32.ph
+  /usr/lib/perl*/vendor_perl/*/*/asm-x86/unistd_64.ph
 endif
   /usr/lib/perl*/*/*/Compress
   /usr/lib/perl*/*/*/IO/Compress

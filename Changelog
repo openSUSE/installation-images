@@ -1,6 +1,7 @@
-24/1/2008:	v10.5
+28/1/2008:	v10.5
 	- add rescue system setup script
 	- add tmpfs bindmount to /usr/{lib,src}/debug
+	- adjust to perl package changes
 
 22/1/2008:	v10.4
 	- removed all references to $INSTSYS
