@@ -243,51 +243,32 @@ sed:
 
 if with_gdb
 
+  valgrind:
+    /
+
   kbd:
-   /bin/kbd_mode
-
-  iputils:
-    /bin/ping
-
-  net-tools:
-    m /sbin/{ifconfig,route} /bin
+    /bin/kbd_mode
 
   strace:
-    m /usr/bin/strace /bin
+    /usr/bin/strace
 
   gdb:
-    m /usr/bin/gdb /bin/gdb
+    /usr/bin/gdb
 
-  libreadline5:
-    /lib*/libreadline.so*
-    /lib*/libhistory.so*
-
-  ncurses:
-    /lib*/libncurses.so.5*
+  libexpat1:
+    /lib*/libexpat.so.*
 
   procps:
     /bin/ps
 
   psmisc:
     /bin/fuser
-    m /usr/bin/killall /bin
-    m /usr/bin/pstree /bin
+    /usr/bin/killall
+    /usr/bin/pstree
 
   coreutils:
-    m /usr/bin/head /bin
-    m /usr/bin/tail /bin
-
-  bash:
-    /bin/bash
-    /bin/sh
-
-  util-linux:
-    /bin/mount
-    /bin/umount
-
-  glibc:
-    /lib*/librt{.,-}*
-    /lib*/libpthread{.,-}*
+    /usr/bin/head
+    /usr/bin/tail
 
   linuxrc-debuginfo:
     /
@@ -295,19 +276,20 @@ if with_gdb
   if with_gdb == 2
 
     linuxrc:
-      m /usr/sbin/linuxrc /bin/linuxrc
+      e mv init sbin
 
-      e echo -e "#! /bin/sh\nexport PATH=/bin:/sbin:/lbin\nPS1=\\\\\\w\>\n/bin/bash\n" >linuxrc
-
+      e echo -e "#! /bin/sh\nexport PATH=/bin:/usr/bin:/sbin:/usr/sbin:/lbin\nPS1=\\\\\\w\>\n/bin/bash\n" >init
+      c 755 0 0 init
   endif
 
   if with_gdb == 3
 
     linuxrc:
-      m /usr/sbin/linuxrc /bin/linuxrc
+      e mv init sbin
 
       e echo run >zap
-      e echo -e "#! /bin/sh\ngdb --command /zap /bin/linuxrc" >linuxrc
+      e echo -e "#! /bin/sh\ngdb --command /zap /sbin/init" >init
+      c 755 0 0 init
 
   endif
 
@@ -335,7 +317,6 @@ if with_gdb
   s /init /lbin/free
   s /init /lbin/fstype
   s /init /lbin/lndir
-  s /init /lbin/lsh
 
 endif
 
