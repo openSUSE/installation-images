@@ -826,6 +826,7 @@ endif
   /usr/lib/perl*/*/*/Compress
   /usr/lib/perl*/*/*/IO/Compress
   /usr/lib/perl*/*/*/IO/Uncompress
+  /usr/lib/perl*/*/*/auto/Compress
   r /usr/lib/perl*/*/CPANPLUS
 
 perl-Bootloader:
