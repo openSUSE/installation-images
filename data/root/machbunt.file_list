@@ -249,6 +249,9 @@ if with_yast2 ne 'no'
   libstroke:
     /usr/lib*/libstroke.so*
 
+  icewm-lite:
+    /usr/bin/icewm
+
 endif
 
 if with_yast2 ne 'no'
