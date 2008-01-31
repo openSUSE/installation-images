@@ -1,0 +1,9 @@
+To get the debuginfo images automatically added copy them to the server and
+edit boot/<arch>/config to look similar to:
+
+# cat boot/i386/config 
+root:		common root ?root.<lang> ?root.lib.debug ?root.src.debug
+rescue:		common rescue
+root.ja:	root.ja root.fonts
+root.zh_CN:	root.zh_CN root.fonts
+root.zh_TW:	root.zh_TW root.fonts

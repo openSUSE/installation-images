@@ -1,28 +1,22 @@
 #! /bin/sh
 #
 
-#                              ***  NOTE  ***
 #
-# linuxrc now takes care of integrating the instsys. No need to fiddle with
-# symlinks and such here.
-#
-# linuxrc-based tools are in /lbin.
+# Note: linuxrc-based tools are in /lbin.
 #
 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11/bin:/lbin
 
 # tmpfs has mode 1777, sshd doesnt like that
 chmod 755 /
-# simple debuginfo handling, workaround read-only loop mount
-# if the root image is loop mounted, extract the debuginfo like this:
-# cd / ; tar xfj inst-sys.lib.debuginfo.tar.bz2 ; tar xfj inst-sys.src.debuginfo.tar.bz2
-# if the root image is on a remote filesystem, extract it on the server side
-tmpfs_debuginfo_paths=/dev/shm/dbg
-for i in lib src
-do
-	mkdir -v $tmpfs_debuginfo_paths.$i
-	mount -v --bind $tmpfs_debuginfo_paths.$i /usr/$i/debug
-done
+
+# gdb can't be symlink
+if [ -L /usr/bin/gdb ] ; then
+  i=`readlink /usr/bin/gdb`
+  rm -f /usr/bin/gdb
+  touch /usr/bin/gdb
+  mount --bind $i /usr/bin/gdb
+fi
 
 # see bug 61535
 [ -e /proc/sys/vm/local-oom-kill ] && echo 1 > /proc/sys/vm/local-oom-kill
@@ -263,10 +257,7 @@ killall slpd >/dev/null 2>&1
 killall Xvnc >/dev/null 2>&1
 killall sshd >/dev/null 2>&1
 
-# debuginfo will take a huge amount of memory, swapoff may lead to OOM
-# just get rid of it.
-umount -v /usr/*/debug
-rm -rf ${tmpfs_debuginfo_paths}.*
+umount /usr/bin/gdb 2>/dev/null
 umount devpts 2>/dev/null
 
 for file in $FILES_TO_RESTORE ; do
