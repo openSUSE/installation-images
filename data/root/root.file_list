@@ -425,6 +425,12 @@ endif
     /
   yast2-update:
     /
+  yast2-users:
+    /usr/share/YaST2/clients/inst_user_first.ycp
+    /usr/share/YaST2/clients/users_finish.ycp
+    /usr/share/YaST2/modules/UsersSimple.pm
+    /usr/share/YaST2/modules/UsersUI.*
+
   yast2-hardware-detection:
     /
   autoyast2-installation:
@@ -535,12 +541,9 @@ initviocons:
 
 if arch eq 'ia32' || arch eq 'x86_64'
   sbl:
-    /usr/sbin/brld
-    /usr/lib*/libbrld.so
-    /etc/init.d/brld
-    /usr/lib/suse-blinux
-    /etc/init.d/suse-blinux
-    /etc/suse-blinux.conf
+    /etc
+    /usr/sbin
+    /usr/lib*
     r /usr/lib/suse-blinux/profile/default
     s y2base /usr/lib/suse-blinux/profile/default
 

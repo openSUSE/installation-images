@@ -1,3 +1,7 @@
+1/2/2008:	v10.10
+	- adjusted to new sbl package
+	- added yast2-users (fate #302980)
+
 31/1/2008:	v10.9
 	- put debuginfo into image files
 
