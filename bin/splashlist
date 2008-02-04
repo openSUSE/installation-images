@@ -49,9 +49,8 @@ for (sort keys %st) {
     "  d /$_/floppy\n" .
     "  d /$_/gz\n" .
     "if arch eq 'ia32' || arch eq 'x86_64'\n" .
-    "    E make -C /usr/share/gfxboot/themes/$st{$_}{bsplash} prep\n" .
     "    E make -C /usr/share/gfxboot/themes/$st{$_}{bsplash}\n" .
-    "    E cp /usr/share/gfxboot/themes/$st{$_}{bsplash}/install/bootlogo /$_\n" .
+    "    E cp /usr/share/gfxboot/themes/$st{$_}{bsplash}/bootlogo /$_\n" .
     "endif\n";
 }
 

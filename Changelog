@@ -1,3 +1,7 @@
+4/2/2008:	v10.11
+	- adapted to new gfxboot
+	- added 'mediacheck' boot option
+
 1/2/2008:	v10.10
 	- adjusted to new sbl package
 	- added yast2-users (fate #302980)
