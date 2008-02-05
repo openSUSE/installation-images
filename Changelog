@@ -1,3 +1,6 @@
+5/2/2008:	v10.12
+	- increased number of loop devs to 64
+
 4/2/2008:	v10.11
 	- adapted to new gfxboot
 	- added 'mediacheck' boot option
