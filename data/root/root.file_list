@@ -65,6 +65,7 @@ coreutils:
   /bin/kill
   /usr/bin/readlink
   /usr/bin/mkfifo
+  /usr/bin/sha1sum
   # for show_of_path.sh
   if arch eq 'ppc'
   /usr/bin/stat

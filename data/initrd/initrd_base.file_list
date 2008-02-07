@@ -551,17 +551,12 @@ sysconfig:
 ntfs-3g:
   /sbin
   /bin
+  /lib*/libntfs-3g.so.*
 
 if 0
-fuse:
-  /sbin/mount.fuse
-  /usr/bin/fusermount
-  /bin/ulockmgr_server
-  /lib*/libulockmgr.so.*
-endif
-
 libfuse2:
   /lib*/libfuse.so.*
+endif
 
 kexec-tools:
   /sbin/kexec

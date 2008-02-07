@@ -93,6 +93,7 @@ ntfsprogs:
 ntfs-3g:
   /sbin
   /bin
+  /lib*/libntfs-3g.so.*
 
 libfuse2:
   /lib*
