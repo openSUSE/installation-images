@@ -1,3 +1,6 @@
+11/2/2008:	v8.120
+	- add ixgbe and e1000e on ppc (#358970)
+
 6/2/2008:	v8.119
 	- add bnx2 on ppc (#359114)
 
