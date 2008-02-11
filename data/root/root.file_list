@@ -431,6 +431,8 @@ endif
     /usr/share/YaST2/clients/users_finish.ycp
     /usr/share/YaST2/modules/UsersSimple.pm
     /usr/share/YaST2/modules/UsersUI.*
+    /usr/lib*/YaST2/plugin/libpy2ag_crack.so*
+    /usr/share/YaST2/scrconf/crack.scr
 
   yast2-hardware-detection:
     /
@@ -629,8 +631,11 @@ pam-modules:
 libxcrypt:
   /lib*/libxcrypt.so.*
 
+cracklib-dict-full:
+  /usr/share/cracklib
+
 cracklib:
-  /usr/lib*/libcrack.so*
+  /usr/lib*
 
  r /lib*/security/pam_userdb.so
 
@@ -945,8 +950,8 @@ E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 
 # copy empty dictionary
-e cp -a /usr/lib/cracklib_dict.* usr/lib
-e cp -a /usr/share/cracklib usr/share
+#e cp -a /usr/lib/cracklib_dict.* usr/lib
+#e cp -a /usr/share/cracklib usr/share
 
 d /usr/lib/debug /usr/src/debug
 

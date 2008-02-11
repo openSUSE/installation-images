@@ -1,10 +1,10 @@
-	- fix module dependencies for fec_mpc52xx, dont mark required modules as hidden (#347234)
-
-6/2/2008:	v10.13
+11/2/2008:	v10.13
 	- ntfs-3g uses /lib*/libntfs-3g.so.* for ntfs-3g and ntfs-3g.probe
 	- add bnx2 on ppc (#359114)
 	- add ixgbe and e1000e on ppc (#358970)
 	- added sha1sum (fate #302955)
+	- added cracklib dict (fate #302980)
+	- fix module dependencies for fec_mpc52xx, dont mark required modules as hidden (#347234)
 
 5/2/2008:	v10.12
 	- increased number of loop devs to 64
