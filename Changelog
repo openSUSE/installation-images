@@ -1,3 +1,7 @@
+18/2/2008:	v8.121
+	- removed old ahci workaround (-> v6.35), it's handled
+	  in hwinfo now (#355983, #304134)
+
 11/2/2008:	v8.120
 	- add ixgbe and e1000e on ppc (#358970)
 
