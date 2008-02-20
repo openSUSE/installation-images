@@ -783,6 +783,7 @@ gpg:
 libzypp:
   /usr/lib*/libzypp.so.*
   /usr/share/zypp/schema
+  /usr/share/locale
 
 boost:
   /usr/lib*/libboost_regex.so.*
