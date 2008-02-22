@@ -136,7 +136,9 @@ rpm:
   /bin/rpm
   /usr/lib/rpm/{rpmrc,macros}
   /usr/lib/rpm/rpmpopt*
-  /usr/lib*/librpm*.so
+  /usr/lib*/librpm-*.so
+  /usr/lib*/librpmdb-*.so
+  /usr/lib*/librpmio-*.so
 
 util-linux:
   /bin/{u,}mount
@@ -434,8 +436,15 @@ endif
     /usr/lib*/YaST2/plugin/libpy2ag_crack.so*
     /usr/share/YaST2/scrconf/crack.scr
 
+  yast2-qt-pkg:
+    /
+
+  yast2-ncurses-pkg:
+    /
+
   yast2-hardware-detection:
     /
+
   autoyast2-installation:
     /
 
@@ -879,9 +888,6 @@ boost:
 libidn:
   /usr/lib*/libidn.so.*
 
-libsqlite3-0:
-  /usr/lib*/libsqlite3.so.*
-
 multipath-tools:
   /sbin/multipath
 
@@ -902,7 +908,10 @@ ntp:
   /usr/sbin/ntpdate
 
 libcap:
-   /lib*/libcap.so.*
+  /lib*/libcap.so.*
+
+satsolver-tools:
+  /usr/bin
 
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale

@@ -437,11 +437,14 @@ libnscd:
   /lib*/libnscd.so*
 
 pwdutils:
-  /{etc,bin}
+  /etc
   /usr/bin
   /usr/sbin/pwunconv
   /usr/sbin/chpasswd
   /usr/lib*/pwdutils/liblog_syslog.so.*
+
+login:
+  /{etc,bin}
 
 openldap2-client:
   /usr/lib*/liblber-*.so.*

@@ -1,3 +1,7 @@
+22/2/2008:	v10.14
+	- added ralink-firmware (#357256)
+	- adapt to libzypp & pwdutils changes
+
 11/2/2008:	v10.13
 	- ntfs-3g uses /lib*/libntfs-3g.so.* for ntfs-3g and ntfs-3g.probe
 	- add bnx2 on ppc (#359114)
