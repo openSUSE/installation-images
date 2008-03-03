@@ -437,8 +437,11 @@ endif
     /usr/lib*/YaST2/plugin/libpy2ag_crack.so*
     /usr/share/YaST2/scrconf/crack.scr
 
-  yast2-qt-pkg:
-    /
+  yast2-libyui:
+    /usr/lib*/libyui*
+
+  yast2-ycp-ui-bindings:
+    /usr/lib*/YaST2/plugin/libpy2UI.so.*
 
   yast2-ncurses-pkg:
     /

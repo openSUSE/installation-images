@@ -1,3 +1,7 @@
+	- adapt to yast2-core split
+	- A. Stieger: adjust mkbootdisk script to use two digits for floppy
+	  image names
+
 22/2/2008:	v10.15
 	- added inst_root_first.ycp
 

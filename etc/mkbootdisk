@@ -711,7 +711,7 @@ use integer;
   <x_readme>
   To access Boot Disk data, you have to join the individual disk images first:
 
-    cat bootdsk? >/tmp/bootdisk
+    cat bootdisk?? >/tmp/bootdisk
 
   Then mount it as usual:
 
@@ -1189,8 +1189,8 @@ else {
 
   open F, "$tmp_dir/img";
   for ($i = 1; $i <= $boot_disks; $i++) {
-    unlink "$opt_file$i";
-    open W, ">$opt_file$i";
+    unlink sprintf("%s%02d", $opt_file, $i);
+    open W, sprintf(">%s%02d", $opt_file, $i);
     sysread F, $buf, 1440*1024;
     syswrite W, $buf;
     close W;

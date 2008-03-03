@@ -258,6 +258,9 @@ if with_yast2 ne 'no'
   yast2-qt:
     /
 
+  yast2-qt-pkg:
+    /
+
   libqt4:
    /usr/lib*/libQtCore.so.*
  
