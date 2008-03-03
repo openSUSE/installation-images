@@ -9,6 +9,9 @@ firmwarekit:
 glib2:
   /usr/lib*/libglib-2.0.so.*
 
+pcre:
+  /usr/lib*/libpcre.so.*
+
 libnewt0_52:
   /usr/lib*/libnewt.so.*
 
@@ -37,6 +40,10 @@ pmtools:
 
 openssh:
   /usr/bin/scp
+
+libopensc2:
+  /usr/lib*/libopensc.so.*
+  /usr/lib*/libscconf.so.*
 
 krb5:
   /etc
