@@ -1,3 +1,6 @@
+3/3/2008:	v10.17
+	- added virtualbox drivers (bnc #358460)
+
 3/3/2008:	v10.16
 	- adapt to yast2-core split
 	- A. Stieger: adjust mkbootdisk script to use two digits for floppy

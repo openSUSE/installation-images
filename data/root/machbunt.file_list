@@ -67,6 +67,12 @@ if with_yast2 ne 'no'
         /usr/lib*/xorg/modules/*.uc
       endif
 
+      if arch eq 'ia32' || arch eq 'x86_64'
+        xorg-x11-driver-virtualbox-ose:
+          /usr/lib*/xorg/modules/input/vboxmouse_drv.so
+          /usr/lib*/xorg/modules/drivers/vboxvideo_drv.so
+      endif
+
     xterm:
       /usr/share/X11/app-defaults/XTerm
       R s/nil2/fixed/ /usr/share/X11/app-defaults/XTerm
