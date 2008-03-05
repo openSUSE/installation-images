@@ -429,13 +429,14 @@ endif
   yast2-update:
     /
   yast2-users:
-    /usr/share/YaST2/clients/inst_user_first.ycp
     /usr/share/YaST2/clients/inst_root_first.ycp
+    /usr/share/YaST2/clients/inst_user_first.ycp
     /usr/share/YaST2/clients/users_finish.ycp
+    /usr/share/YaST2/clients/users_proposal.ycp
     /usr/share/YaST2/modules/UsersSimple.pm
     /usr/share/YaST2/modules/UsersUI.*
-    /usr/lib*/YaST2/plugin/libpy2ag_crack.so*
     /usr/share/YaST2/scrconf/crack.scr
+    /usr/lib*/YaST2/plugin/libpy2ag_crack.so*
 
   yast2-libyui:
     /usr/lib*/libyui*
