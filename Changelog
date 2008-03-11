@@ -1,3 +1,7 @@
+11/3/2008:	v10.19
+	- curl needs kerberos
+	- adapt to new kernel
+
 5/3/2008:	v10.18
 	- added users_proposal.ycp (fate #302980)
 

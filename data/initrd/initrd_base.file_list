@@ -422,6 +422,20 @@ openldap2-client:
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*
 
+libcom_err2:
+  /lib*/libcom_err.so.*
+  /lib*/libss.so.*
+
+krb5:
+  /etc
+  /usr/lib*/libkrb5.so.*
+  /usr/lib*/libkrb5support.so.*
+  /usr/lib*/libgssapi_krb5.so.*
+  /usr/lib*/libk5crypto.so.*
+
+keyutils-libs:
+  /lib*/libkeyutils{.,-}*
+
 zlib:
   /lib*/libz.so.1*
 
