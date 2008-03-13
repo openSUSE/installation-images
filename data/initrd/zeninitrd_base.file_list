@@ -306,6 +306,9 @@ gpm:
   /usr/sbin/*
   /usr/lib/*
 
+# copy bootsplash files
+e cp -a /Zen/unpacked/08000600/* .
+
 # see etc/module.list
   e echo "Zen:		2" >>linuxrc.config
   e echo "SetupCmd:	"\""setctsid \`showconsole\` /bin/bash -c zenworks.s"\" >>linuxrc.config

@@ -1,3 +1,6 @@
+11/3/2008:	v8.124
+	- add bootsplash files directly to initrd for ZENworks (bnc #370332)
+
 27/2/2008:	v8.123
 	- updated crypto module list
 
