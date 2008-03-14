@@ -1,5 +1,6 @@
 14/3/2008:	v10.20
 	- add bootsplash files directly to initrd for ZENworks (bnc #370332)
+	- add ipv6 module (bnc #370073)
 
 11/3/2008:	v10.19
 	- curl needs kerberos
