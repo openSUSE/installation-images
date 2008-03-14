@@ -12,12 +12,16 @@ cp -a /etc/bootsplash/themes/$theme/animations /$dst
 cp -a /etc/bootsplash/themes/$theme/images /$dst
 rm -f /$dst/images/*-*.jpg
 
+mkdir -p /$dst/unpacked/$spl
+gunzip -c /$dst/gz/$spl.spl | ( cd /$dst/unpacked/$spl ; cpio --quiet -di )
+
 mount -t proc proc proc
 
 mkdir xxx
 cp -a --parents /etc/bootsplash/themes/$theme/config/*-$cfg.* xxx
 cp -a --parents /etc/bootsplash/themes/$theme/images/*-$cfg.* xxx
 ln -s /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg xxx/etc/splash.cfg
+cp -a xxx/* /$dst/unpacked/$spl
 cd xxx
 chmod -R a+rX .
 find | cpio --quiet -o -H newc | gzip -9 >>/$dst/gz/$spl.spl
