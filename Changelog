@@ -1,3 +1,6 @@
+17/3/2008:	v10.21
+	- qt needs utf-16.so (bnc #371747)
+
 14/3/2008:	v10.20
 	- add bootsplash files directly to initrd for ZENworks (bnc #370332)
 	- add ipv6 module (bnc #370073)
