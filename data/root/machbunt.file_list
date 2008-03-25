@@ -358,7 +358,7 @@ lklug:
   /usr/share/fonts/truetype/lklug.ttf
 
 fonts-thai:
-  /usr/share/fonts/truetype/Garuda.ttf
+  /usr/share/fonts/truetype/Loma.ttf
 
 pothana2000:
   /usr/share/fonts/truetype/Pothana2000.ttf

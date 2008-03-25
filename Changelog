@@ -1,3 +1,8 @@
+25/3/2008:	v10.22
+	- adjust to new perl package
+	- parted needs libreiserfs (bnc #373166)
+	- Loma looks better than Garuda
+
 17/3/2008:	v10.21
 	- qt needs utf-16.so (bnc #371747)
 

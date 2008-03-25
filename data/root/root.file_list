@@ -520,6 +520,10 @@ device-mapper:
 reiserfs:
   /sbin
 
+libreiserfs:
+  /usr/lib*/libreiserfs-*.so.*
+  /usr/lib*/libdal-*.so.*
+
 gawk:
   /bin
 
@@ -840,12 +844,9 @@ perl:
   /usr/lib/perl*/vendor_perl/*/*/bits/syscall.ph
   /usr/lib/perl*/vendor_perl/*/*/sys/syscall.ph
   /usr/lib/perl*/vendor_perl/*/*/syscall.ph
-  /usr/lib/perl*/vendor_perl/*/*/asm/unistd.ph
-if arch eq 'ia32' || arch eq 'x86_64'
-  /usr/lib/perl*/vendor_perl/*/*/asm-x86/unistd.ph
-  /usr/lib/perl*/vendor_perl/*/*/asm-x86/unistd_32.ph
-  /usr/lib/perl*/vendor_perl/*/*/asm-x86/unistd_64.ph
-endif
+  /usr/lib/perl*/vendor_perl/*/*/sys/unistd.ph
+  /usr/lib/perl*/vendor_perl/*/*/bits/unistd.ph
+  /usr/lib/perl*/vendor_perl/*/*/unistd.ph
   /usr/lib/perl*/*/*/Compress
   /usr/lib/perl*/*/*/IO/Compress
   /usr/lib/perl*/*/*/IO/Uncompress
