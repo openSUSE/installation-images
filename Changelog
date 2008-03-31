@@ -1,3 +1,6 @@
+31/3/2008:	v10.24
+	- add /boot/<arch>/rpmlist
+
 31/3/2008:	v10.23
 	- libgssapi renamed
 	- added lzma

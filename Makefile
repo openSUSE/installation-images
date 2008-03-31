@@ -97,7 +97,7 @@ root+rescue: dirs base
 	keeproot=1 tmpdir=tmp/tmp/c imagename=common bin/mk_root
 	keeproot=1 tmpdir=tmp/tmp/1 imagename=rescue bin/mk_root
 	keeproot=1 tmpdir=tmp/tmp/2 imagename=root bin/mk_root
-	cp data/root/config images/config
+	cp data/root/{config,rpmlist} images
 
 hal: dirs base
 	YAST_IS_RUNNING=1 filelist=hal bin/mk_rescue
