@@ -586,6 +586,18 @@ PolicyKit:
   /var/lib
   /var/run
 
+rpm:
+  /usr/bin/rpm2cpio
+  /usr/lib*/librpm-*.so
+  /usr/lib*/librpmdb-*.so
+  /usr/lib*/librpmio-*.so
+
+popt:
+  /lib*/libpopt.so*
+
+squashfs:
+  /usr/bin/mksquashfs
+
 # add hal & dbus
 if 0
 

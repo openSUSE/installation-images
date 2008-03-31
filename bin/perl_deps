@@ -6,6 +6,7 @@ sub short_name;
 
 @white_list{qw (
   sys/systeminfo.ph
+  asm/unistd.ph
   unistd_32.ph
   unistd_64.ph
   File/BSDGlob.pm

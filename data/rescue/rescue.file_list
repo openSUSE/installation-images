@@ -522,8 +522,9 @@ nfsidmap:
 librpcsecgss:
   /usr/lib*/librpcsecgss.so.*
 
-libgssapi:
-  /usr/lib*/libgssapi.so.*
+libgssglue1:
+  /etc
+  /lib*/libgssglue.so.*
 
 libevent:
   /usr/lib*/libevent-*.so.*

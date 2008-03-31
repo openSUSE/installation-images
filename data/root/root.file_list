@@ -649,10 +649,13 @@ pam-modules:
 libxcrypt:
   /lib*/libxcrypt.so.*
 
+if 1
 cracklib-dict-full:
   /usr/share/cracklib
+endif
 
 cracklib:
+  /usr/sbin/cracklib-check
   /usr/lib*
 
  r /lib*/security/pam_userdb.so
@@ -702,6 +705,12 @@ libbz2-1:
 
 unzip:
   /usr/bin/unzip
+
+lzma:
+  /usr/bin/lzmadec
+
+liblzmadec0:
+  /usr/lib*/liblzmadec.so.*
 
 mdadm:
   /sbin
@@ -844,9 +853,9 @@ perl:
   /usr/lib/perl*/vendor_perl/*/*/bits/syscall.ph
   /usr/lib/perl*/vendor_perl/*/*/sys/syscall.ph
   /usr/lib/perl*/vendor_perl/*/*/syscall.ph
-  /usr/lib/perl*/vendor_perl/*/*/sys/unistd.ph
-  /usr/lib/perl*/vendor_perl/*/*/bits/unistd.ph
-  /usr/lib/perl*/vendor_perl/*/*/unistd.ph
+#  /usr/lib/perl*/vendor_perl/*/*/sys/unistd.ph
+#  /usr/lib/perl*/vendor_perl/*/*/bits/unistd.ph
+#  /usr/lib/perl*/vendor_perl/*/*/unistd.ph
   /usr/lib/perl*/*/*/Compress
   /usr/lib/perl*/*/*/IO/Compress
   /usr/lib/perl*/*/*/IO/Uncompress
