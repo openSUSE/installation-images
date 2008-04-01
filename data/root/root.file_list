@@ -649,7 +649,7 @@ pam-modules:
 libxcrypt:
   /lib*/libxcrypt.so.*
 
-if 1
+if 0
 cracklib-dict-full:
   /usr/share/cracklib
 endif

@@ -1,3 +1,6 @@
+1/4/2008:	v10.25
+	- changed config to use rpmlist
+
 31/3/2008:	v10.24
 	- add /boot/<arch>/rpmlist
 

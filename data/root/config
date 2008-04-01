@@ -1,5 +1,5 @@
-root:		common root ?root.<lang>
+root:		common root cracklib-dict-full.rpm ?root.<lang>
 rescue:		common rescue
-root.ja:	root.ja root.fonts
-root.zh_CN:	root.zh_CN root.fonts
-root.zh_TW:	root.zh_TW root.fonts
+root.ja:	root.ja IPAGothic.rpm
+root.zh_CN:	root.zh_CN ttf-founder-simplified.rpm?list=*FZSongTi*
+root.zh_TW:	root.zh_TW ttf-founder-simplified.rpm?list=*FZSongTi*
