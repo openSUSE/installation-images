@@ -1,3 +1,9 @@
+7/4/2008:	v10.26
+	- removed busybox (too broken)
+	- glib2 was splitted
+	- libxcrypt has plugin dir
+	- don't include yast2-trans-xx packages in inst-sys
+
 1/4/2008:	v10.25
 	- changed config to use rpmlist
 

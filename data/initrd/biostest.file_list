@@ -6,7 +6,7 @@ firmwarekit:
   /var/log/firmwarekit
   x run_biostest /bin
 
-glib2:
+libglib-2_0-0:
   /usr/lib*/libglib-2.0.so.*
 
 pcre:

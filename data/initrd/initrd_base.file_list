@@ -506,6 +506,7 @@ util-linux:
   /bin/mount
   /bin/umount
   /usr/sbin/setctsid
+  /sbin/losetup
 
 nfs-client:
   /var/lib/nfs
@@ -535,7 +536,6 @@ udev:
   /lib/udev
   /sbin
   /usr/bin
-  /usr/sbin
 x etc/myudevstart /bin
 r /etc/init.d
   # add some md devices statically
@@ -646,10 +646,11 @@ endif
 
 x etc/prepare_rescue bin
 
-# get busybox
-d usr/local/bin
-e cp -a /tmp/bb/{,usr/}{bin,sbin}/* usr/local/bin
-e rm usr/local/bin/init
+# busybox is mostly broken
+## get busybox
+#d usr/local/bin
+#e cp -a /tmp/bb/{,usr/}{bin,sbin}/* usr/local/bin
+#e rm usr/local/bin/init
 
 e ldconfig -r .
 

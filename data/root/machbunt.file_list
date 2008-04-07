@@ -274,9 +274,8 @@ if with_yast2 ne 'no'
    /usr/lib*/libQtGui.so.*
    /usr/lib*/qt4/plugins/imageformats/libqjpeg.so
 
-  glib2:
+  libgthread-2_0-0:
    /usr/lib*/libgthread-2.0.so.*
-   /usr/lib*/libglib-2.0.so.*
 
   yast2-theme-<yast_theme>:
     /

@@ -275,10 +275,12 @@ fribidi:
   /usr/bin/fribidi
   /usr/lib*/libfribidi.so.*
 
+if 0
 busybox:
   /usr/bin
   /usr/share/busybox
 E cd /usr/bin ; busybox.install /tmp/bb --hardlinks
+endif
 
 yast2-trans-allpacks: requires
   x mk_yast2_trans bin/mk_yast2_trans

@@ -560,8 +560,10 @@ initviocons:
 libexpat1:
   /lib*/libexpat.so.*
 
-glib2:
+libglib-2_0-0:
   /usr/lib*/libglib-2.0.so.*
+
+libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
 
 pcre:
@@ -586,7 +588,6 @@ udev: postin
   t /lib/udev/devices/pts/.xxx
   /sbin
   /usr/bin
-  /usr/sbin
   # for running SuSEconfig below
   m /lib/udev/devices/* /dev
 

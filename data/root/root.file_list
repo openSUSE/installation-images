@@ -89,8 +89,10 @@ libxml2:
 libexpat1:
   /lib*/libexpat.so.*
 
-glib2:
+libglib-2_0-0:
   /usr/lib*/libglib-2.0.so.*
+
+libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
 
 udev:
@@ -647,7 +649,7 @@ pam-modules:
   /{lib*,sbin}
 
 libxcrypt:
-  /lib*/libxcrypt.so.*
+  /lib*
 
 if 0
 cracklib-dict-full:

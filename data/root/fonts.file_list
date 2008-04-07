@@ -1,7 +1,7 @@
 d etc/fonts/conf.d
 x etc/10-disable-cjk-bitmap-fonts.conf etc/fonts/conf.d
 
-ttf-founder-simplified:
+FZSongTi:
   /usr/share/fonts/truetype/FZSongTi.ttf
 
 #baekmuk-ttf:

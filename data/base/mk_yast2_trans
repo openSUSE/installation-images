@@ -8,6 +8,10 @@ open F, ">yast2-trans.inc";
 print F "yast2-trans-$_:\n  /\n" for (@t);
 close F;
 
+open F, ">yast2-trans-rpm.list";
+print F "yast2-trans-$_\n" for (@t);
+close F;
+
 open F, ">yast2-trans.list";
 print F join(' ', @t), "\n";
 close F;
