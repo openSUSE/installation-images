@@ -4,7 +4,6 @@ if arch eq 'ia32' || arch eq 'x86_64'
 
   x message /
   x syslinux.cfg /
-  x gfxboot.cfg /
 
   <kernel_rpm>:
     a /boot/<kernel_img> /linux
@@ -27,6 +26,9 @@ if arch eq 'ia32' || arch eq 'x86_64'
     R s/\ngfxboot.*?\n/\n/s /syslinux.cfg
   else
     e cp /<theme>/cdrom/* .
+    x gfxboot.cfg /foo
+    e cat foo >>gfxboot.cfg
+    e rm foo
   endif
 
   if initramfs
