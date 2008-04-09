@@ -60,10 +60,10 @@ floppy	=
 
 [Theme SuSE]
 yast	= openSUSE
-bsplash = SuSE
-ksplash = SuSE
+bsplash = openSUSE
+ksplash = openSUSE
 product	= openSUSE
-version = 10.2
+version = 11.0
 update	= /linux/suse/<arch>-<rel>
 image	= 350
 

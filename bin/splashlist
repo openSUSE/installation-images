@@ -39,18 +39,17 @@ mkdir "${DataPath}base/gen", 0755;
 
 open W, ">$dst";
 
-print W "if arch eq 'ia32' || arch eq 'x86_64'\n";
-print W "  gfxboot:\n    /\n    r /usr/sbin/getx11font\nendif\n";
 for (sort keys %st) {
   next unless $st{$_}{bsplash};
 
   print W
-    "  d /$_\n" .
-    "  d /$_/floppy\n" .
-    "  d /$_/gz\n" .
-    "if arch eq 'ia32' || arch eq 'x86_64'\n" .
-    "    E make -C /usr/share/gfxboot/themes/$st{$_}{bsplash}\n" .
-    "    E cp /usr/share/gfxboot/themes/$st{$_}{bsplash}/bootlogo /$_\n" .
+    "\n" .
+    "d /$_\n" .
+    "d /$_/floppy\n" .
+    "d /$_/gz\n" .
+    "\nif arch eq 'ia32' || arch eq 'x86_64'\n" .
+    "  gfxboot-branding-$st{$_}{bsplash}:\n    /\n" .
+    "    E cp -a /etc/bootsplash/themes/$st{$_}{bsplash}/cdrom /$_\n" .
     "endif\n";
 }
 
@@ -58,7 +57,7 @@ for (sort keys %st) {
   next unless $st{$_}{ksplash};
 
   print W
-    "\nbootsplash-theme-$st{$_}{ksplash}:\n  /\n";
+    "\nbootsplash-branding-$st{$_}{ksplash}:\n  /\n";
 
   undef %fl_spl;
   @fl_spl{split /\s|,/, $ConfigData{ini}{Splash}{floppy}} = ();

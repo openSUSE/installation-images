@@ -26,7 +26,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
   if bootlogo eq 'no' || bootlogo eq '0'
     R s/\ngfxboot.*?\n/\n/s /syslinux.cfg
   else
-    e cp /<theme>/bootlogo .
+    e cp /<theme>/cdrom/* .
   endif
 
   if initramfs
@@ -82,10 +82,5 @@ if boot eq 'isolinux'
   endif
 
   e mv syslinux.cfg isolinux.cfg
-
-  # we need proc for 'rm'...
-  e mount -t proc proc /proc
-  e /usr/share/gfxboot/bin/unpack_bootlogo .
-  e umount /proc
 endif
 
