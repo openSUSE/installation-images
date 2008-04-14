@@ -412,6 +412,9 @@ curl:
 libcurl4:
   /usr/lib*/libcurl.so.*
 
+libcares2:
+  /usr/lib*/libcares.so.*
+
 libidn:
   /usr/lib*/libidn.so.*
 
@@ -460,7 +463,7 @@ libreadline5:
   /lib*/libreadline.so*
   /lib*/libhistory.so*
 
-ncurses:
+libncurses5:
   /lib*/libncurses.so.5*
 
 portmap:

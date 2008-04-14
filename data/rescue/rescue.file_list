@@ -212,7 +212,7 @@ if arch eq 'ppc'
   iprutils:
     /sbin
     /usr/sbin
-  ncurses:
+  libncurses5:
     /usr/lib/libpanel.so.*
     /usr/lib/libform.so.*
     /usr/lib/libmenu.so.*
@@ -239,7 +239,7 @@ if arch eq 'x86_64'
   glibc-32bit:
     /lib
 
-  ncurses-32bit:
+  libncurses5-32bit:
     /lib/libncurses.so.*
 endif
 
@@ -274,12 +274,14 @@ device-mapper: postin
   /sbin
 e postin
 
-ncurses:
+libncurses5:
   /lib*/libncurses.so.*
   /lib*/libncursesw.so.*
   /usr/lib*/libpanel.so.*
   /usr/lib*/libpanelw.so.*
   /usr/lib*/libtic.so.5.*
+
+ncurses:
   /usr/share/terminfo
   /usr/bin/{clear,tset,reset}
 
@@ -347,6 +349,7 @@ pam-modules:
 
 pciutils:
   /sbin
+  /lib*/libpci.so.*
 
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids

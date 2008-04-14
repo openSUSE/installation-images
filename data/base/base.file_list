@@ -107,8 +107,10 @@ r /usr/bin/rpmqpack
 popt:
   /lib*/libpopt.so*
 
-ncurses:
+libncurses5:
   /lib*/libncurses.so.5*
+
+ncurses:
   /usr/share/terminfo/d/dumb
   /usr/share/terminfo/l
   /usr/share/terminfo/v/vt10[02]

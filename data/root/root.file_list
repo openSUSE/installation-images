@@ -158,11 +158,13 @@ nfs-client:
   /sbin/{u,}mount.nfs*
   /usr/sbin/rpc.statd
 
-ncurses:
+libncurses5:
   /lib*/libncurses.so.5*
   /lib*/libncursesw.so.5*
   /usr/lib*/libpanelw.so.5*
   /usr/lib*/libtic.so.5.*
+
+ncurses:
   /usr/bin/reset
   /usr/bin/tset
   /usr/share/terminfo
@@ -461,6 +463,9 @@ endif
   libcurl4:
     /usr/lib*/libcurl.so*
 
+  libcares2:
+    /usr/lib*/libcares.so.*
+
   resmgr:
     /lib*/libresmgr.so.*
 
@@ -749,6 +754,7 @@ sysconfig:
 
 pciutils:
   /sbin/lspci
+  /lib*/libpci.so.*
 
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
