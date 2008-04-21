@@ -1,3 +1,6 @@
+21/4/2008:	v8.125
+	- s390x: added zfcp_san_disc (bnc #378730)
+
 11/3/2008:	v8.124
 	- add bootsplash files directly to initrd for ZENworks (bnc #370332)
 
