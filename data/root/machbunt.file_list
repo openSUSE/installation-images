@@ -127,6 +127,7 @@ if with_yast2 ne 'no'
     /usr/X11R6/bin/xrefresh
     /usr/X11R6/bin/xhost
     /usr/X11R6/bin/xdpyinfo
+    /usr/X11R6/bin/xset
     /etc/X11/xserver
   r /etc/X11/xserver/C
   s /etc/X11/xserver /usr/X11R6/lib/X11

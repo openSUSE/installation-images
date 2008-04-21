@@ -1,3 +1,6 @@
+21/4/2008:	v8.126
+	- added xset (bnc #376945)
+
 21/4/2008:	v8.125
 	- s390x: added zfcp_san_disc (bnc #378730)
 
