@@ -6,6 +6,12 @@ c 1777 0 0 tmp
 fillup:
   /bin
 
+file:
+  /etc
+  /usr/bin
+  /usr/lib*/libmagic.so.*
+  /usr/share/misc
+
 filesystem:
   /etc/{ppp,rc.d,uucp}
   /etc/sysconfig
