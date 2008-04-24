@@ -162,6 +162,8 @@ kernel/drivers/rtc/
 kernel/drivers/misc/eeprom_93cx6.ko
 kernel/arch/powerpc/sysdev/bestcomm/bestcomm-fec.ko
 
+kernel/drivers/virtio/
+
 # kmps
 updates/
 

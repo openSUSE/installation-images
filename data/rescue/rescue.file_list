@@ -706,7 +706,6 @@ openssh: prein
 
 dhcpcd:
   /sbin
-  /var
 
 smartmontools:
   /etc

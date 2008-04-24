@@ -1,3 +1,6 @@
+24/4/2008:	v10.30
+	- added nice (bnc #381470)
+	- more virtio modules
 	- added file to rescue system (bnc #381857)
 
 21/4/2008:	v10.29
