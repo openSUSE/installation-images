@@ -287,8 +287,10 @@ libncurses5:
   /usr/lib*/libpanelw.so.*
   /usr/lib*/libtic.so.5.*
 
-ncurses:
-  /usr/share/terminfo
+terminfo-base:
+  /
+
+ncurses-utils:
   /usr/bin/{clear,tset,reset}
 
 terminfo:

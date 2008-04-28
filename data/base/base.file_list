@@ -110,7 +110,7 @@ popt:
 libncurses5:
   /lib*/libncurses.so.5*
 
-ncurses:
+terminfo-base:
   /usr/share/terminfo/d/dumb
   /usr/share/terminfo/l
   /usr/share/terminfo/v/vt10[02]

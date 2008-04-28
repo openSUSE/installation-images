@@ -1,3 +1,7 @@
+28/4/2008:	v10.31
+	- virtio: load all virtio modules
+	- ncurses -> ncurses-utils, terminfo-base
+
 24/4/2008:	v10.30
 	- added nice (bnc #381470)
 	- more virtio modules

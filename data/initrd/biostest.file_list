@@ -18,7 +18,7 @@ libnewt0_52:
 slang:
   /usr/lib*/libslang.so.*
 
-ncurses:
+terminfo-base:
   /usr/share/terminfo/l/linux
   /usr/share/terminfo/s/screen
   /usr/share/terminfo/v/vt10{0,2}
