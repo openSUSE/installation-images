@@ -667,6 +667,7 @@ endif
 cracklib:
   /usr/sbin/cracklib-check
   /usr/lib*
+  /usr/share/locale
 
  r /lib*/security/pam_userdb.so
 
@@ -915,6 +916,7 @@ libidn:
   /usr/lib*/libidn.so.*
 
 multipath-tools:
+  /lib*
   /sbin/multipath
 
 libaio:

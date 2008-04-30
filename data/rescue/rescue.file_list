@@ -724,6 +724,7 @@ kpartx:
 multipath-tools: postin
   /etc
   /sbin
+  /lib*
 e postin
 
 libaio:

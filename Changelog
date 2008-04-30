@@ -1,3 +1,7 @@
+20/4/2008:	v10.32
+	- added cracklib locales (bnc #381286)
+	- multipath tools need a lib
+
 28/4/2008:	v10.31
 	- virtio: load all virtio modules
 	- ncurses -> ncurses-utils, terminfo-base
