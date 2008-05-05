@@ -1,3 +1,7 @@
+5/5/2008:	v8.128
+	- create_interface: use 'search' instead of 'domain' in resolv.conf
+	  (bnc #376410)
+
 23/4/2008:	v8.127
 	- s390x: added zfcp_hbaapi & san_disc
 
