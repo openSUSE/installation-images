@@ -34,6 +34,7 @@ aaa_base: prein
   r etc/init.d
   r etc/mtab
   r var/adm/fillup-templates
+  /etc/rc.status
 
 dbus-1: prein
   e save_cfg etc/passwd etc/shadow etc/group
@@ -585,6 +586,7 @@ kexec-tools:
 sysvinit:
   /sbin/showconsole
   c 755 0 0 /sbin/showconsole
+  /sbin/startproc
 
 PolicyKit:
   /var/lib
@@ -601,6 +603,22 @@ popt:
 
 squashfs:
   /usr/bin/mksquashfs
+
+if arch eq 'ia32' || arch eq 'x86_64'
+  sbl:
+    /etc
+    /usr/sbin
+    /usr/lib*
+    r /usr/lib/suse-blinux/profile/default
+    s y2base /usr/lib/suse-blinux/profile/default
+
+endif
+
+libstdc++43:
+  /usr/<lib>/libstdc++*.so*
+
+libgcc43:
+  /lib*
 
 # add hal & dbus
 if 0
@@ -692,8 +710,8 @@ endif
 
 # min. free kB for YaST (below swap will be activated)
 if arch eq 'ia32'
-  # just so that 256MB won't get swap
-  e echo "MemYaST:	230000" >>linuxrc.config
+  # so that 200MB won't get swap
+  e echo "MemYaST:	170000" >>linuxrc.config
 else
   e echo "MemYaST:	123456" >>linuxrc.config
 endif

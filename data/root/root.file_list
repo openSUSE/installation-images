@@ -570,16 +570,6 @@ initviocons:
   /bin/initviocons
   /usr/bin/termprobes
 
-if arch eq 'ia32' || arch eq 'x86_64'
-  sbl:
-    /etc
-    /usr/sbin
-    /usr/lib*
-    r /usr/lib/suse-blinux/profile/default
-    s y2base /usr/lib/suse-blinux/profile/default
-
-endif
-
 sysvinit:
   /sbin/checkproc
   /sbin/killproc
@@ -935,7 +925,7 @@ cryptsetup:
 ntp:
   /usr/sbin/ntpdate
 
-libcap:
+libcap2:
   /lib*/libcap.so.*
 
 satsolver-tools:
