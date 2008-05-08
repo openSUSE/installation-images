@@ -7,6 +7,14 @@ for i in /etc /media /root /var ; do
   mv ${i}_tmp $i
 done
 
+if [ -f /mounts/initrd/etc/suse-blinux.conf ] ; then
+  grep -q '^brlname=none' /mounts/initrd/etc/suse-blinux.conf || {
+    cp /mounts/initrd/etc/suse-blinux.conf /etc
+    insserv brld
+    insserv sbl
+  }
+fi
+
 rm -f /mounts/initrd/{*,.*}
 rmdir /mounts/initrd/* 2>/dev/null
 rm -rf /mounts/initrd/{bin,download,etc,lbin,lib,modules,oldroot,root,sbin,tmp,usr,var}

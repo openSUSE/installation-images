@@ -765,6 +765,16 @@ wget:
 kexec-tools:
   /sbin/kexec
 
+if arch eq 'ia32' || arch eq 'x86_64'
+  sbl:
+    /etc
+    /usr/sbin
+    /usr/lib*
+    r /usr/lib/suse-blinux/profile/default
+    s y2base /usr/lib/suse-blinux/profile/default
+
+endif
+
 :
 
 e insserv -f -r etc/init.d/boot.rootfsck
