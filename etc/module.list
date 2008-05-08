@@ -48,6 +48,10 @@ kernel/drivers/char/agp/
 kernel/drivers/message/fusion/
 kernel/drivers/message/i2o/
 kernel/drivers/ps3/
+kernel/drivers/mtd/devices/ps3vram.ko
+kernel/drivers/mtd/mtd.ko
+kernel/drivers/mtd/mtd_blkdevs.ko
+kernel/drivers/mtd/mtdblock.ko
 kernel/drivers/misc/ioc4.ko
 kernel/drivers/ssb/
 kernel/drivers/leds/led-class.ko
