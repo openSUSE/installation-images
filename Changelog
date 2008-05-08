@@ -1,4 +1,6 @@
+8/5/2008:	v10.35
 	- add swap to videoram on PS3 (ps3vram, mtd, mtd_blkdevs, mtdblock)
+	- fix some package deps
 
 8/5/2008:	v10.34
 	- configure & start brld in rescue system

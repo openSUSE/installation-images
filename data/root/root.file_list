@@ -126,8 +126,10 @@ hal: prein
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
 
-libsmbios-libs:
-  /usr/lib*/libsmbios.so.*
+if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ia64'
+  libsmbios-libs:
+    /usr/lib*/libsmbios.so.*
+endif
 
 dmraid:
   /sbin
@@ -710,8 +712,8 @@ unzip:
 lzma:
   /usr/bin/lzmadec
 
-liblzmadec0:
-  /usr/lib*/liblzmadec.so.*
+# liblzmadec0:
+#   /usr/lib*/liblzmadec.so.*
 
 mdadm:
   /sbin
