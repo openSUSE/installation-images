@@ -1,3 +1,5 @@
+	- remove autoloading of ps3vram and mtdblock, linuxrc loads them
+
 8/5/2008:	v10.35
 	- add swap to videoram on PS3 (ps3vram, mtd, mtd_blkdevs, mtdblock)
 	- fix some package deps
