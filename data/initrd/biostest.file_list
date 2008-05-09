@@ -26,6 +26,7 @@ terminfo-base:
 pciutils:
   /sbin/lspci
   /sbin/setpci
+  /lib*/libpci.so.*
 
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
