@@ -712,8 +712,8 @@ unzip:
 lzma:
   /usr/bin/lzmadec
 
-# liblzmadec0:
-#   /usr/lib*/liblzmadec.so.*
+liblzmadec0:
+  /usr/lib*/liblzmadec.so.*
 
 mdadm:
   /sbin
