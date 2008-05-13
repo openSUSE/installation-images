@@ -1,3 +1,7 @@
+13/5/2008:	v10.37
+	- ps3: add swapon
+	- adjust to last bootsplash branding changes (no animations)
+
 9/5/2008:	v10.36
 	- firmware test needs pci lib
 	- remove autoloading of ps3vram and mtdblock, linuxrc loads them

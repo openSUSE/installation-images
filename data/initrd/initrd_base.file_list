@@ -313,7 +313,6 @@ if with_gdb
   s /init /lbin/mkdir
   s /init /lbin/chroot
   s /init /lbin/kill
-  s /init /lbin/swapon
   s /init /lbin/swapoff
   s /init /lbin/free
   s /init /lbin/fstype
@@ -370,7 +369,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
       /sbin/splash
 
       d /etc/bootsplash/themes/<splash_theme>
-      e cp -a /<theme>/animations etc/bootsplash/themes/<splash_theme>
+      # e cp -a /<theme>/animations etc/bootsplash/themes/<splash_theme>
       e cp -a /<theme>/images etc/bootsplash/themes/<splash_theme>
 
   # wlan
@@ -507,6 +506,7 @@ cpio:
 
 util-linux:
   /sbin/mkswap
+  /sbin/swapon
   /bin/more
   /bin/mount
   /bin/umount
