@@ -23,9 +23,9 @@ mkdir -pv $CD1/PS3/otheros
 cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
 cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
-cp -pfv $bdir/initrd-kernel-default-ppc $CD2/suseboot/initrd32
+cp -pfv $bdir/initrd-kernel-default-ppc $CD1/suseboot/initrd32
 cp -pfv $bdir/initrd-kernel-ppc64       $CD2/suseboot/initrd64
-gzip -fcv9 /boot/vmlinux-*-default >    $CD2/suseboot/linux32.gz
+gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
 gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD2/suseboot/linux64.gz
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
