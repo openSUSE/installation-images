@@ -1,4 +1,6 @@
-	- provide the linux32/initrd32 files on install media to simplify install on oldworld macs
+	- provide the linux32/initrd32 files on install media to simplify
+	  install on oldworld macs
+	- drop pata_isapnp (bnc #388948)
 
 13/5/2008:	v10.38
 	- we need liblzmadec
