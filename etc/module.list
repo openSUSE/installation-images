@@ -96,13 +96,8 @@ kernel/drivers/power/power_supply.ko
 kernel/drivers/firmware/edd.ko
 kernel/drivers/acpi/
 kernel/drivers/video/backlight/
-kernel/drivers/cpufreq/freq_table.ko
-kernel/drivers/cpufreq/cpufreq_ondemand.ko
-kernel/drivers/cpufreq/cpufreq_powersave.ko
-kernel/arch/x86_64/kernel/cpufreq/powernow-k8.ko
-kernel/arch/i386/kernel/cpu/cpufreq/speedstep-centrino.ko
-kernel/arch/i386/kernel/cpu/cpufreq/acpi-cpufreq.ko
-kernel/arch/i386/kernel/cpu/cpufreq/powernow-k7.ko
+kernel/drivers/cpufreq/
+kernel/arch/x86/kernel/cpu/cpufreq/
 
 # kernel pcmcia
 # see data/initrd/initrd_base.list
