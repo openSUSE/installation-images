@@ -1,4 +1,5 @@
 15/5/2008:	v10.39
+	- s390: new path to iucv
 	- provide the linux32/initrd32 files on install media to simplify
 	  install on oldworld macs
 	- drop pata_isapnp (bnc #388948)
