@@ -8,7 +8,6 @@ spl=$4
 splash -s -f /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg >/$dst/$spl.spl
 splash -s -c -f /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg | gzip -9c >/$dst/gz/$spl.spl
 
-cp -a /etc/bootsplash/themes/$theme/animations /$dst
 cp -a /etc/bootsplash/themes/$theme/images /$dst
 rm -f /$dst/images/*-*.jpg
 
