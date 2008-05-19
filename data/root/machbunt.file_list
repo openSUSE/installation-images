@@ -342,35 +342,6 @@ screen:
 utempter:
   /usr/lib*/libutempter.so.*
 
-freefont:
-  /usr/share/fonts/truetype/FreeSans*
-
-indic-fonts:
-  /usr/share/fonts/truetype/MuktiNarrow.ttf
-  /usr/share/fonts/truetype/RachanaMedium.ttf
-  /usr/share/fonts/truetype/TSCu_Paranar.ttf
-  /usr/share/fonts/truetype/lohit_gu.ttf
-  /usr/share/fonts/truetype/lohit_hi.ttf
-  /usr/share/fonts/truetype/lohit_pa.ttf
-
-lklug:
-  /usr/share/fonts/truetype/lklug.ttf
-
-fonts-thai:
-  /usr/share/fonts/truetype/Loma.ttf
-
-pothana2000:
-  /usr/share/fonts/truetype/Pothana2000.ttf
-
-fonts-arabic:
-  /usr/share/fonts/truetype/KacstBook.ttf
-
-KhmerOS-fonts:
-  /usr/share/fonts/truetype/KhmerOS_sys.ttf
-
-unfonts:
-  /usr/share/fonts/truetype/UnDotum.ttf
-
 efont-unicode:
   /usr/share/fonts/misc/b16.pcf.gz
 
