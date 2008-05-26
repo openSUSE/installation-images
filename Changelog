@@ -1,3 +1,6 @@
+26/5/2008:	v10.41
+	- fix cpufreq config (part 2)
+
 19/5/2008:	v10.40
 	- s390: new path to iucv
 	- fix cpufreq config
