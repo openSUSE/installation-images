@@ -1,3 +1,7 @@
+27/5/2008:	v10.42
+	- scsi package has been split up, adapt rescue filelist 
+	- add default openSUSE DUD location
+
 26/5/2008:	v10.41
 	- fix cpufreq config (part 2)
 

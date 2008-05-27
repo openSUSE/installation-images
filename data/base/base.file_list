@@ -122,6 +122,10 @@ if arch eq 'ia32' || arch eq 'x86_64'
   syslinux:
     /usr/bin
     /usr/share/syslinux
+
+  gfxboot:
+    /usr/sbin/gfxboot
+
 endif
 
 freetype2:

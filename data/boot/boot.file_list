@@ -26,6 +26,7 @@ if arch eq 'ia32' || arch eq 'x86_64'
     R s/\ngfxboot.*?\n/\n/s /syslinux.cfg
   else
     e cp /<theme>/cdrom/* .
+    e gfxboot --config-file=gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/11.0/driverupdate
   endif
 
   if initramfs

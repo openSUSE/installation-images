@@ -231,10 +231,14 @@ if arch eq 's390' || arch eq 's390x'
     /sbin
 endif
 
-scsi:
-  /
-  r /usr/include
-  r /usr/share
+lsscsi:
+  /usr/bin
+
+sdparm:
+  /sbin
+
+smp_utils:
+  /usr/bin
 
 if arch eq 'ia32' || arch eq 'x86_64'
   grub:
