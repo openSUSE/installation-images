@@ -41,6 +41,16 @@ pmtools:
 
 openssh:
   /usr/bin/scp
+  /usr/bin/ssh
+
+coreutils:
+  /bin/cp
+
+libacl:
+  /lib*
+
+libattr:
+  /lib*
 
 libopensc2:
   /usr/lib*/libopensc.so.*
@@ -71,6 +81,12 @@ pcsc-lite:
 
 libopenct1:
   /usr/lib*/libopenct.so*
+
+powertop:
+  /usr/bin/powertop
+
+libncurses5:
+  /lib*/libncursesw.so.*
 
 kbd:
   d usr/share/kbd/consolefonts

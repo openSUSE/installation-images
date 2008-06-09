@@ -347,6 +347,7 @@ efont-unicode:
 
 desktop-data-openSUSE:
   /usr/share/icons/DMZ
+  /usr/share/icons/hicolor/32x32/apps/package_utility_desktop.png
 
 multipath-tools:
   /sbin
