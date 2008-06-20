@@ -683,9 +683,13 @@ jfsutils:
   /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump,jfs_tune}
 
 xfsprogs:
-  /sbin/fsck.xfs
-  /sbin/mkfs.xfs
-  /usr/sbin/xfs_{growfs,admin,db}
+  /lib*
+  /usr/sbin
+  /sbin
+
+xfsdump:
+  /usr/sbin
+  /sbin
 
 wget:
   /etc

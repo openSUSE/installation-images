@@ -1,8 +1,9 @@
 ; versions
 [Version]
-default	 = 11.0
-beta     = 11.0,beta
-debug    = 11.0,debug
+default	 = 11.1
+beta     = 11.1,beta
+debug    = 11.1,debug
+11.1     = 11.1
 11.0     = 11.0
 10.3     = 10.3
 10.2     = 10.2
@@ -63,7 +64,7 @@ yast	= openSUSE
 bsplash = openSUSE
 ksplash = openSUSE
 product	= openSUSE
-version = 11.0
+version = 11.1
 update	= /linux/suse/<arch>-<rel>
 image	= 350
 
