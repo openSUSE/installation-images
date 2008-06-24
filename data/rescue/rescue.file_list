@@ -148,10 +148,6 @@ tcpd:
 libgcc43:
   /lib*
 
-if arch eq 'ppc64'
-  r /lib/libgcc_s.so*
-endif
-
 glibc:
   /etc/ld.so.conf
   /etc/nsswitch.conf
@@ -219,9 +215,9 @@ if arch eq 'ppc' || arch eq 'ppc64'
     /sbin
     /usr/sbin
   libncurses5:
-    /usr/lib/libpanel.so.*
-    /usr/lib/libform.so.*
-    /usr/lib/libmenu.so.*
+    /usr/lib*/libpanel.so.*
+    /usr/lib*/libform.so.*
+    /usr/lib*/libmenu.so.*
   eject:
     /bin
 endif

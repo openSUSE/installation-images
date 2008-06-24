@@ -114,7 +114,7 @@ dbus-1: prein
 
 hal: prein
  /
-  r /usr/lib/libhal-storage*
+  r /usr/lib*/libhal-storage*
   e save_cfg etc/passwd etc/shadow etc/group
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
@@ -529,7 +529,7 @@ E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 #e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 
 # copy empty dictionary
-#e cp -a /usr/lib/cracklib_dict.* usr/lib
+#e cp -a /usr/lib*/cracklib_dict.* usr/lib
 
 
 

@@ -1,3 +1,5 @@
+	- keep /lib/libgcc_s.so on ppc64
+	- fix some missing /usr/lib64/ path in root image
 	- add arch ppc64 in addition to arch ppc (fate#304103)
 	- more xfs tools (#401954)
 

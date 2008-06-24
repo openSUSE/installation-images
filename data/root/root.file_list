@@ -187,10 +187,6 @@ tcpd:
 libgcc43:
   /lib*
 
-if arch eq 'ppc64'
-  r /lib/libgcc_s.so*
-endif
-
 glibc:
   /sbin/ldconfig
   /lib*/ld*
@@ -983,7 +979,7 @@ E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 
 # copy empty dictionary
-#e cp -a /usr/lib/cracklib_dict.* usr/lib
+#e cp -a /usr/lib*/cracklib_dict.* usr/lib
 #e cp -a /usr/share/cracklib usr/share
 
 d /usr/lib/debug /usr/src/debug
