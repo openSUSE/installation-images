@@ -1,7 +1,29 @@
 #!/bin/bash
 # $Id$
+# usage: $0 [-32] [-64] <bdir> <targetdirectory>
 set -ex
-echo foo
+
+do_32=false
+do_64=false
+do_bits=
+i=
+
+until test "$#" = 0
+do
+	echo "\$1 '$1'"
+	case "$1" in
+		-32) do_32=true ; shift;;
+		-64) do_64=true ; shift;;
+		*)   break ;;
+	esac
+done
+
+# do everything
+if test "$do_32" = "false" -a "$do_64" = "false" ; then
+	do_32=true
+	do_64=true
+fi
+#
 bdir=$1
 targetdir=$2
 if [ -z "$bdir" -o -z "$targetdir" -o ! -f /.buildenv ] ; then
@@ -23,10 +45,14 @@ mkdir -pv $CD1/PS3/otheros
 cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
 cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
+if test "$do_32" = "true" ; then
 cp -pfv $bdir/initrd-kernel-default-ppc $CD1/suseboot/initrd32
-cp -pfv $bdir/initrd-kernel-ppc64       $CD2/suseboot/initrd64
 gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
+fi
+if test "$do_64" = "true" ; then
+cp -pfv $bdir/initrd-kernel-ppc64       $CD2/suseboot/initrd64
 gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD2/suseboot/linux64.gz
+fi
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
 	mkdir -pv $CD1/ppc/netboot
@@ -34,44 +60,50 @@ if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
 	chmod 0755 $CD1/ppc/netboot/mkzimage_cmdline
 fi
 #
-/bin/mkzimage \
+if test "$do_64" = "true" ; then
+	/bin/mkzimage \
 	--board chrp \
 	--vmlinux /boot/vmlinux-*-ppc64 \
 	--initrd $bdir/initrd-kernel-ppc64 \
 	--output $CD1/suseboot/inst64
 #
-/bin/mkzimage \
+	/bin/mkzimage \
 	--board iseries \
 	--vmlinux /boot/vmlinux-*-ppc64 \
 	--initrd $bdir/initrd-kernel-ppc64 \
 	--output $CD1/ISERIES64
 #
-/bin/mkzimage \
+fi
+#
+if test "$do_32" = "true" ; then
+	/bin/mkzimage \
 	--board chrp \
 	--vmlinux /boot/vmlinux-*-default \
 	--initrd $bdir/initrd-kernel-default-ppc \
 	--output $CD1/suseboot/inst32
 #
-if test "42" = "false" ; then
-/bin/mkzimage \
-	--board prep \
-	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/initrd-kernel-default-ppc \
-	--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
-	--output $CD1/boot/ppc/zImage.prep.initrd
-fi
+	if test "42" = "false" ; then
+		/bin/mkzimage \
+		--board prep \
+		--vmlinux /boot/vmlinux-*-default \
+		--initrd $bdir/initrd-kernel-default-ppc \
+		--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
+		--output $CD1/boot/ppc/zImage.prep.initrd
+	fi
 #
-if test "42" = "false" ; then
-/bin/mkzimage \
-	--board pmaccoff \
-	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/initrd-kernel-default-ppc32_pmac_coff \
-	--output $CD1/boot/ppc/install-pmaccoff
+	if test "42" = "false" ; then
+		/bin/mkzimage \
+		--board pmaccoff \
+		--vmlinux /boot/vmlinux-*-default \
+		--initrd $bdir/initrd-kernel-default-ppc32_pmac_coff \
+		--output $CD1/boot/ppc/install-pmaccoff
 #
-/bin/mkzimage \
-	--board pmaccoff \
-	--vmlinux /boot/vmlinux-*-default \
-	--output $CD1/boot/ppc/vmlinux-pmaccoff
+		/bin/mkzimage \
+		--board pmaccoff \
+		--vmlinux /boot/vmlinux-*-default \
+		--output $CD1/boot/ppc/vmlinux-pmaccoff
+#
+	fi
 #
 fi
 #
@@ -100,28 +132,32 @@ cat > $CD1/suseboot/yaboot.txt <<EOF
 EOF
 cat $CD1/suseboot/yaboot.txt
 #
+if test "$do_32" = "true" ; then
+	do_bits="$do_bits 32"
+fi
+if test "$do_64" = "true" ; then
+	do_bits="$do_bits 64"
+fi
+#
 cat > $CD1/suseboot/yaboot.cnf <<EOF
 message=yaboot.txt
-image[64bit]=inst64
+EOF
+for i in $do_bits
+do
+cat >> $CD1/suseboot/yaboot.cnf <<EOF
+
+image[${i}bit]=inst${i}
   label=install
   append="quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
-image[64bit]=inst64
+image[${i}bit]=inst${i}
   label=slp
   append="quiet sysrq=1 install=slp           "
-image[64bit]=inst64
-  label=rescue
-  append="quiet sysrq=1 rescue=1              "
-image[32bit]=inst32
-  label=install
-  append="quiet sysrq=1                       "
-image[32bit]=inst32
-  label=slp
-  append="quiet sysrq=1 install=slp           "
-image[32bit]=inst32
+image[${i}bit]=inst${i}
   label=rescue
   append="quiet sysrq=1 rescue=1              "
 
 EOF
+done
 cat $CD1/suseboot/yaboot.cnf
 #
 
