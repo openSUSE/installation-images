@@ -1,3 +1,4 @@
+	- add arch ppc64 in addition to arch ppc (fate#304103)
 	- more xfs tools (#401954)
 
 9/6/2008:	v10.44

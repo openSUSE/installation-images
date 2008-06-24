@@ -68,7 +68,7 @@ coreutils:
   /usr/bin/sha1sum
   /usr/bin/nice
   # for show_of_path.sh
-  if arch eq 'ppc'
+  if arch eq 'ppc' || arch eq 'ppc64'
   /usr/bin/stat
   endif
 
@@ -286,7 +286,7 @@ util-linux:
     /sbin/{ctrlaltdel,hwclock}
   endif
 
-if arch eq 'ppc'
+if arch eq 'ppc' || arch eq 'ppc64'
 powerpc-utils:
     /sbin/nvsetenv
     /sbin/lsprop
@@ -539,7 +539,7 @@ libreiserfs:
 gawk:
   /bin
 
-if arch eq 'ppc'
+if arch eq 'ppc' || arch eq 'ppc64'
   pdisk:
     /sbin/pdisk
 

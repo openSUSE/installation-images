@@ -9,7 +9,7 @@ endif
 
 x module.help modules/module.config
 
-if arch eq 'ppc'
+if arch eq 'ppc' || arch eq 'ppc64'
 
   if initrd eq 'initrd_ppc'
     include gen/module.files.autoload

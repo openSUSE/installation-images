@@ -116,7 +116,7 @@ if arch ne 'sparc' && arch ne 'sparc64'
   m usr/share/kbd/keymaps/include/compose.latin1 usr/share/kbd/keymaps/include
 endif
 
-if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
+if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ppc64' || arch eq 'ia64' || arch eq 'mips'
   if !fewkeymaps
     g /usr/share/kbd/keymaps/i386/qwerty/Pl02.map.gz usr/share/kbd/keymaps/Pl02.map
     g /usr/share/kbd/keymaps/i386/qwerty/br-abnt2.map.gz usr/share/kbd/keymaps/br-abnt2.map
@@ -157,7 +157,7 @@ if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch
   g /usr/share/kbd/keymaps/i386/include/euro2.map.gz usr/share/kbd/keymaps/include/euro2.map
 endif
 
-if arch eq 'ppc'
+if arch eq 'ppc' || arch eq 'ppc64'
   m /usr/share/kbd/keymaps/mac/include/mac-{azerty-layout,qwert{y,z}-layout,linux-keys-bare}.inc usr/share/kbd/keymaps/include
   g /usr/share/kbd/keymaps/mac/include/mac-euro.map.gz usr/share/kbd/keymaps/include/mac-euro.map
   g /usr/share/kbd/keymaps/mac/include/mac-euro2.map.gz usr/share/kbd/keymaps/include/mac-euro2.map
@@ -704,7 +704,7 @@ if liveeval
   e echo "LiveConfig:	suselive.900" >>linuxrc.config
 endif
 
-if arch eq 'ppc' || arch eq 's390' || arch eq 's390x'
+if arch eq 'ppc' || arch eq 'ppc64 || arch eq 's390' || arch eq 's390x'
   e echo "Linemode:	1" >>linuxrc.config
 endif
 

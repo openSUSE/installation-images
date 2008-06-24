@@ -200,9 +200,9 @@ bzip2:
 libbz2-1:
   /lib*/libbz2.so*	
 
-if arch eq 'ia32' || arch eq 'ppc' || arch eq 'x86_64'
+if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ppc64' || arch eq 'x86_64'
   lilo:
-    if arch eq 'ppc'
+    if arch eq 'ppc' || arch eq 'ppc64'
       /lib/lilo
       /bin
     endif
@@ -212,7 +212,7 @@ if arch eq 'ia32' || arch eq 'ppc' || arch eq 'x86_64'
     endif
 endif
 
-if arch eq 'ppc'
+if arch eq 'ppc' || arch eq 'ppc64'
   pdisk:
     /sbin/pdisk
   iprutils:
@@ -544,7 +544,7 @@ libgssglue1:
 libevent:
   /usr/lib*/libevent-*.so.*
 
-if arch eq 'ppc'
+if arch eq 'ppc' || arch eq 'ppc64'
 librtas:
     /usr/lib
 powerpc-utils:
