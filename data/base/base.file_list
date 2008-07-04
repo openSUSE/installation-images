@@ -240,7 +240,7 @@ pam:
 audit-libs:
   /lib*/libaudit.so.*
 
-openldap2-client:
+libldap-2_4-2:
   /usr/lib*/liblber-*.so.*
   /usr/lib*/libldap-*.so.*
 

@@ -45,7 +45,7 @@ if with_yast2 ne 'no'
 
     xorg-x11-driver-video:
       /usr/lib*/xorg/modules/drivers/ati_drv.so
-      /usr/lib*/xorg/modules/drivers/atimisc_drv.so
+      /usr/lib*/xorg/modules/drivers/atimiscold_drv.so
       /usr/lib*/xorg/modules/drivers/fbdev_drv.so
       /usr/lib*/xorg/modules/drivers/i810_drv.so
       /usr/lib*/xorg/modules/drivers/intel_drv.so

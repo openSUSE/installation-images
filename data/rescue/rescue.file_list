@@ -330,7 +330,8 @@ icmpinfo:
   /usr/sbin/icmpinfo
 
 iputils:
-  /bin/ping
+  /bin
+  /sbin
 
 telnet:
   /usr/bin/telnet
@@ -457,7 +458,7 @@ pwdutils:
 login:
   /{etc,bin}
 
-openldap2-client:
+libldap-2_4-2:
   /usr/lib*/liblber-*.so.*
   /usr/lib*/libldap-*.so.*
 
@@ -710,6 +711,13 @@ openssh: prein
 
 dhcpcd:
   /sbin
+  /usr/sbin
+
+dhcpv6:
+  /usr/sbin
+  /etc
+  /var/lib/dhcpv6
+  x etc/dhcp6c.conf etc
 
 smartmontools:
   /etc
@@ -764,8 +772,29 @@ endif
 wget:
   /usr/bin/wget
 
+curl:
+  /usr/bin/curl
+
+libcurl4:
+  /usr/lib*/libcurl.so.*
+
+libidn:
+  /usr/lib*/libidn.so.*
+
+bind-utils:
+  /usr/bin
+
+bind-libs:
+  /usr/lib*
+
+libcap2:
+  /lib*
+
 kexec-tools:
   /sbin/kexec
+
+cifs-mount:
+  /sbin/mount.cifs
 
 if arch eq 'ia32' || arch eq 'x86_64'
   sbl:

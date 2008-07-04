@@ -418,7 +418,7 @@ libcares2:
 libidn:
   /usr/lib*/libidn.so.*
 
-openldap2-client:
+libldap-2_4-2:
   /usr/lib*/liblber-*.so.*
   /usr/lib*/libldap-*.so.*
 
@@ -465,6 +465,7 @@ libreadline5:
 
 libncurses5:
   /lib*/libncurses.so.5*
+  /lib*/libncursesw.so.*
 
 portmap:
   /sbin/portmap
@@ -475,9 +476,14 @@ tcpd:
 dhcpcd:
   /sbin/dhcpcd
 
+dhcpv6:
+  /usr/sbin
+  /var/lib/dhcpv6
+  x dhcp6c_update.sh usr/sbin
+
 iputils:
-  /bin/ping
-  /sbin/arping
+  /bin
+  /sbin
 
 net-tools:
   /sbin/ifconfig
@@ -568,6 +574,7 @@ x etc/80-drivers.rules /etc/udev/rules.d
 sysconfig:
   # for ipw3945d
   /etc/udev/rules.d/*-network.rules 
+  /sbin/modify_resolvconf
   e perl -ni -e "print if /^SUBSYSTEM.*ipw3945/" etc/udev/rules.d/*-network.rules
 
 ntfs-3g:
@@ -603,6 +610,22 @@ popt:
 
 squashfs:
   /usr/bin/mksquashfs
+
+bind-utils:
+  /usr/bin
+
+bind-libs:
+  /usr/lib*
+
+libcap2:
+  /lib*
+
+strace:
+  /usr/bin/strace
+
+joe:
+  /usr/bin/joe
+  /etc/joe/{joerc,ftyperc}
 
 if arch eq 'ia32' || arch eq 'x86_64'
   sbl:
