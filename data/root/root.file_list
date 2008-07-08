@@ -160,6 +160,7 @@ util-linux:
 nfs-client:
   /sbin/{u,}mount.nfs*
   /usr/sbin/rpc.statd
+  /usr/sbin/start-statd
 
 libncurses5:
   /lib*/libncurses.so.5*

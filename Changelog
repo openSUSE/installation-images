@@ -1,3 +1,5 @@
+	- add start-statd (bnc#399987)
+
 4/7/2008:	v10.46
 	- fixed library deps: libldap, libncursesw
 	- atimisc_drv gone
