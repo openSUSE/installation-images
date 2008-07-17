@@ -543,7 +543,7 @@ libevent:
 
 if arch eq 'ppc' || arch eq 'ppc64'
 librtas:
-    /usr/lib
+    /usr/lib*
 powerpc-utils:
   /sbin
   /usr/sbin
