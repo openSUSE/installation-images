@@ -30,7 +30,6 @@ if with_yast2 ne 'no'
 
   if arch ne 's390' && arch ne 's390x'
     xorg-x11-server:
-      /usr/lib*/xserver/SecurityPolicy
 
       /usr/bin/Xorg
 
@@ -45,9 +44,7 @@ if with_yast2 ne 'no'
 
     xorg-x11-driver-video:
       /usr/lib*/xorg/modules/drivers/ati_drv.so
-      /usr/lib*/xorg/modules/drivers/atimiscold_drv.so
       /usr/lib*/xorg/modules/drivers/fbdev_drv.so
-      /usr/lib*/xorg/modules/drivers/i810_drv.so
       /usr/lib*/xorg/modules/drivers/intel_drv.so
       /usr/lib*/xorg/modules/drivers/nv_drv.so
       /usr/lib*/xorg/modules/drivers/r128_drv.so

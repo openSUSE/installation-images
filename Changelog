@@ -1,3 +1,4 @@
+	- remove atimiscold_drv, i810_drv and SecurityPolicy
 	- add libpciaccess.so from xorg-x11-libs
 	- fix librtas installation for 64bit
 	- add start-statd (bnc#399987)
