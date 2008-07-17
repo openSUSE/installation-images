@@ -35,7 +35,6 @@ CD1=$targetdir/CD1
 CD2=$targetdir/FTP
 #
 mkdir -pv $CD1/ppc
-mkdir -pv $CD1/boot/ppc
 # move unused files to CD2 to reduce size of CD1
 mkdir -pv $CD2/suseboot
 # to trigger the HFS part, avoid 8.3 filenames and allow OF booting
