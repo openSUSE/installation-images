@@ -1,3 +1,6 @@
+21/7/2008:	v10.48
+	- added yast2-kdump (fate #303263, fate #303893)
+
 21/7/2008:	v10.47
 	- adjusted to various package changes
 	- new modules

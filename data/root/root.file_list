@@ -390,6 +390,8 @@ if with_yast2 ne 'no'
 
   yast2-iscsi-client:
     /
+  yast2-kdump:
+    /
   yast2-mouse:
     /
   yast2-ncurses:
