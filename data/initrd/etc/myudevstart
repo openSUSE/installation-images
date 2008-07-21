@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PATH="/sbin:/bin:/lbin"
+PATH="/sbin:/bin:/usr/bin:/usr/sbin:/lbin"
 
 # disable hotplug helper, udevd listens to netlink
 echo "" > /proc/sys/kernel/hotplug
@@ -23,8 +23,8 @@ mkdir /dev/.udev
 mkdir /dev/.udev/queue
 
 # create devices
-/sbin/udevtrigger
+/sbin/udevadm trigger
 
 # 10 min - just long enough
-/sbin/udevsettle --timeout=600
+/sbin/udevadm settle --timeout=600
 

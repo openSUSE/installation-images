@@ -30,7 +30,6 @@ if with_yast2 ne 'no'
 
   if arch ne 's390' && arch ne 's390x'
     xorg-x11-server:
-
       /usr/bin/Xorg
 
       /usr/lib*/xorg/modules/extensions/lib{dbe,extmod}.so
@@ -160,6 +159,7 @@ if with_yast2 ne 'no'
     /usr/lib*/libdmx.so.*
     /usr/lib*/libpciaccess.so.*
     /usr/lib*/libpixman-1.so.*
+    /usr/lib*/libpciaccess.so.*
 
   xorg-x11-libxcb:
     /usr/lib*/libxcb.so.*

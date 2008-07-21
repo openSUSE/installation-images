@@ -1,3 +1,7 @@
+21/7/2008:	v10.47
+	- adjusted to various package changes
+	- new modules
+	- fixed udev start script to use udevadm (bnc #406632)
 	- remove unneeded mkdir CD1/boot/ppc
 	- remove atimiscold_drv, i810_drv and SecurityPolicy
 	- add libpciaccess.so from xorg-x11-libs
