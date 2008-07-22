@@ -1,3 +1,6 @@
+22/7/2008:	v10.49
+	- fixed lib deps
+
 21/7/2008:	v10.48
 	- added yast2-kdump (fate #303263, fate #303893)
 

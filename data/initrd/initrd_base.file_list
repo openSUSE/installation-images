@@ -611,6 +611,8 @@ popt:
 squashfs:
   /usr/bin/mksquashfs
 
+if 0
+# requires libxml2!
 bind-utils:
   /usr/bin
 
@@ -619,6 +621,7 @@ bind-libs:
 
 libcap2:
   /lib*
+endif
 
 strace:
   /usr/bin/strace

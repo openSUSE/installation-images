@@ -790,6 +790,9 @@ bind-libs:
 libcap2:
   /lib*
 
+libxml2:
+  /usr/lib*/libxml2.so.*
+
 kexec-tools:
   /sbin/kexec
 
