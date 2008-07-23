@@ -1,3 +1,7 @@
+23/7/2008:	v10.50
+	- vnc needs Mesa
+	- added sax for mouse config
+
 22/7/2008:	v10.49
 	- fixed lib deps
 

@@ -67,6 +67,7 @@ coreutils:
   /usr/bin/mkfifo
   /usr/bin/sha1sum
   /usr/bin/nice
+  /usr/bin/whoami
   # for show_of_path.sh
   if arch eq 'ppc' || arch eq 'ppc64'
   /usr/bin/stat
@@ -157,6 +158,7 @@ util-linux:
     /sbin/sfdisk
   endif
   /usr/sbin/setctsid
+  /usr/bin/getopt
 
 nfs-client:
   /sbin/{u,}mount.nfs*
@@ -578,6 +580,7 @@ sysvinit:
   /sbin/pidofproc
   /sbin/startproc
   /sbin/showconsole
+  /sbin/{pidof,killall5}
   c 755 0 0 /sbin/showconsole
   /sbin/setconsole
   /sbin/{reboot,halt,poweroff,shutdown}
@@ -870,6 +873,12 @@ perl:
   /usr/lib/perl*/*/*/auto/Compress
   r /usr/lib/perl*/*/CPANPLUS
 
+  # sax2
+  /usr/lib/perl*/*/Env.pm
+  /usr/lib/perl*/*/Tie
+  /usr/lib/perl*/*/*/Storable.pm
+  /usr/lib/perl*/*/*/auto/Storable
+
 perl-Bootloader:
   /usr/lib
 
@@ -981,6 +990,9 @@ E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 
 # make passwords not expire
 e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
+
+# sax2
+e perl -pi -e "\$_ = undef if /^use Env;/" `grep -lr Env usr/share/sax`
 
 # copy empty dictionary
 #e cp -a /usr/lib*/cracklib_dict.* usr/lib
