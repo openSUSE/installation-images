@@ -873,12 +873,6 @@ perl:
   /usr/lib/perl*/*/*/auto/Compress
   r /usr/lib/perl*/*/CPANPLUS
 
-  # sax2
-  /usr/lib/perl*/*/Env.pm
-  /usr/lib/perl*/*/Tie
-  /usr/lib/perl*/*/*/Storable.pm
-  /usr/lib/perl*/*/*/auto/Storable
-
 perl-Bootloader:
   /usr/lib
 
@@ -990,9 +984,6 @@ E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 
 # make passwords not expire
 e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
-
-# sax2
-e perl -pi -e "\$_ = undef if /^use Env;/" `grep -lr Env usr/share/sax`
 
 # copy empty dictionary
 #e cp -a /usr/lib*/cracklib_dict.* usr/lib

@@ -272,14 +272,7 @@ if with_yast2 ne 'no'
     /
 
   libqt4:
-    /
-    /usr/lib*/libQtCore.so.*
-
-  libqt4-sql:
-    /
-
-  libqt4-qt3support:
-    /
+   /usr/lib*/libQtCore.so.*
  
   libqt4-x11:
    /usr/lib*/libQtGui.so.*
@@ -325,17 +318,8 @@ if with_yast2 ne 'no'
 
 endif
 
-  sax2:
-    /
-
-  sax2-libsax:
-    /
-
-  sax2-libsax-perl:
-    /
-
   sax2-tools:
-    /
+    /usr/sbin
 
 if !(arch eq 's390' || arch eq 's390x')
   sax2-ident:

@@ -1,19 +1,137 @@
 #! /usr/bin/perl
 
-# create an empty FAT image; just for testing
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some setup...
 
 BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
 use ReadConfig;
-use MakeFATImage;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
+use CompressImage;
 
-($i1, $i2) = split /\./, $ConfigData{suse_release};      
+die "usage: $Script\n" if @ARGV;
 
-$label = "SUSE${i1}${i2}_BOOT";
+# env vars:
+#
+# image, src, tmpdir, disjunct, keep, debug, fs, filelist, nolibs
+#
+#
 
-$image = shift;
 
-($blocks, $block_size) = MakeFATImage($image, $label, @ARGV);
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
 
-die "$Script: failed to create DOS disk image \"$image\"\n" unless defined $blocks;
+$imagename = $ENV{image};
+die "no image name\n" if $imagename eq "";
 
-printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $blocks, $block_size, $blocks * $block_size;
+$srcname = $ENV{src};
+$srcname = $imagename if $srcname eq "";
+
+$fl = $ENV{filelist};
+$fl = $imagename if $fl eq "";
+
+$srcdir = "${DataPath}$srcname";
+$tmpdir = "${BasePath}tmp/$imagename";
+$tmpdir = "${BasePath}$ENV{tmpdir}" if $ENV{tmpdir};
+$image = "${ImagePath}$imagename";
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+$ENV{YAST_IS_RUNNING} = 1 unless exists $ENV{YAST_IS_RUNNING};
+
+if($ENV{disjunct}) {
+  $tmpdisjunct = "${BasePath}tmp/$ENV{disjunct}";
+  die "$tmpdisjunct: so such directory" unless -d $tmpdisjunct;
+  $tmpdir2 = "$tmpdir.not_$ENV{disjunct}";
+  if(-d($tmpdir2)) {
+    SUSystem "rm -rf $tmpdir2" and die "$Script: failed to remove old $tmpdir2";
+  }
+}
+
+$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+$imagetype = $ENV{fs};
+$imagetype = "none" unless $imagetype;
+$use_gzip = 1 if $imagetype =~ s/\.gz$//;
+
+if($ENV{'keep'} != 1) {
+  # clean up
+  if(-d($tmpdir)) {
+    SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
+  }
+
+  mkdir $tmpdir || die "$Script: failed to create $tmpdir";
+
+  AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir or
+    die "$Script: failed to setup image";
+
+  if(-f "${BasePath}tmp/$imagename.rpmlog") {
+    SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' ${BasePath}tmp/$imagename.rpmlog | sort -u >$tmpdir/.packages.$imagename";
+  }
+
+#  print "fix locale...\n";
+#  SUSystem "fix_locale $tmpdir";
+
+  print "fix permissions of directories...\n";
+  SUSystem "fix_perms $tmpdir";
+  print "strip everything...\n";
+  SUSystem "strip_dir $tmpdir";
+
+  if($ENV{'nolibs'} != 1) {
+    print "running ldconfig...";
+    SUSystem "ldconfig -r $tmpdir";
+    die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
+
+    if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+      system "check_libs $tmpdir" and
+        warn "$Script: error in shared lib config, please fix\n";
+
+      if(-d "$tmpdir/usr/lib/perl5") {
+        system "perl_deps --check --dir $tmpdir/usr/lib/perl5" and
+          warn "$Script: error in perl module config, please fix\n";
+      }
+    }
+    else {
+      system "check_libs $tmpdir" and
+        die "$Script: error in shared lib config, please fix\n";
+
+      if(-d "$tmpdir/usr/lib/perl5") {
+        system "perl_deps --check --dir $tmpdir/usr/lib/perl5" and
+          die "$Script: error in perl module config, please fix\n";
+      }
+    }
+  }
+}
+
+if($tmpdir2) {
+  SUSystem "common_tree --dst $tmpdir2 $tmpdir $tmpdisjunct";
+  $tmpdir = "$tmpdir2/1";
+}
+
+if($imagetype ne 'none') {
+  $start_size = `du --apparent-size -k -s $tmpdir 2>/dev/null` + 0;
+  $start_inodes = `find $tmpdir | wc -l 2>/dev/null` + 0;
+
+  $start_inodes += 2000;
+  $start_size = ($start_size + $start_inodes * 4096) * 1.2;
+
+  # leave that much space
+  $extra_size = 1000;		# kbyte
+  $extra_inodes = 200;
+
+  if($ENV{theme} eq 'Zen') {
+    $extra_size = 20000;
+    $extra_inodes = 10000;
+  }
+
+  Conv2Image $image, $tmpdir, $imagetype, $start_size, $start_inodes, $extra_size, $extra_inodes;
+  $i = -s $image;
+  print "$Script: created \"$image\" ($i bytes)\n";
+
+  if($use_gzip) {
+    $i = CompressImage $image;
+    print "$Script: compressed \"$image\" ($i bytes)\n";
+  }
+}
+

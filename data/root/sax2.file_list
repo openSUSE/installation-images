@@ -1,0 +1,32 @@
+libqt4:
+  /
+
+libqt4-sql:
+  /
+
+libqt4-qt3support:
+  /
+  
+sax2:
+  /
+
+sax2-libsax:
+  /
+
+sax2-libsax-perl:
+  /
+
+sax2-tools:
+  /
+ 
+perl:
+#  /usr/lib/perl*/*/Env.pm
+#  /usr/lib/perl*/*/Tie
+  /usr/lib/perl*/*/*/Storable.pm
+  /usr/lib/perl*/*/*/auto/Storable
+
+# sax2
+e perl -pi -e "\$_ = undef if /^use Env;/" `grep -lr "use Env" usr/share/sax usr/sbin`
+
+r /usr/share/doc /usr/share/man
+

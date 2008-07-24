@@ -55,6 +55,15 @@ $start_inodes = 10000;
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
 
+if($ENV{disjunct}) {
+  $tmpdisjunct = "${BasePath}tmp/$ENV{disjunct}";
+  die "$tmpdisjunct: so such directory" unless -d $tmpdisjunct;
+  $tmpdir2 = "$tmpdir.not_$ENV{disjunct}";
+  if(-d($tmpdir2)) {
+    SUSystem "rm -rf $tmpdir2" and die "$Script: failed to remove old $tmpdir2";
+  }
+}
+
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
 $imagetype = $ENV{imagetype};
 $imagetype = "squashfs" unless $imagetype;
@@ -108,18 +117,11 @@ if($ENV{'keeproot'} != 1) {
         die "$Script: error in perl module config, please fix\n";
     }
   }
+}
 
-#  if(!exists($ENV{'with_yast2'}) || $ENV{'with_yast2'} ne 'no') {
-#    if($debug =~ /\bignore\b/) {
-#      system "yast2-deps" and
-#        warn "$Script: error in yast2 package list, please fix\n";
-#    }
-#    else {
-#      system "yast2-deps" and
-#        die "$Script: error in yast2 package list, please fix\n";
-#    }
-#  }
-
+if($tmpdir2) {
+  SUSystem "common_tree --dst $tmpdir2 $tmpdir $tmpdisjunct";
+  $tmpdir = "$tmpdir2/1";
 }
 
 if($imagetype ne 'none') {

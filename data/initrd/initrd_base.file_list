@@ -66,6 +66,7 @@ glibc:
     else
       m /usr/sbin/linuxrc /linuxrc
     endif
+    s /lbin/extend /bin
 
   if initramfs
     l linuxrc init

@@ -1,3 +1,6 @@
+	- started reworking scripts
+	- added sax2 image
+
 23/7/2008:	v10.50
 	- vnc needs Mesa
 	- added sax for mouse config

@@ -198,7 +198,7 @@ sub copy_files
 
   $tmp = new_tmp_file;
 
-  open F, "|cd $src ; cpio --quiet -pm $dst 2>$tmp";
+  open F, "|cd $src ; cpio --quiet -pml $dst 2>$tmp";
   print F "$_\n" for (@$files);
   close F;
 
