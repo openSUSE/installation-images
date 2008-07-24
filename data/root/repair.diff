@@ -28,3 +28,17 @@
  start_yast
  
  #=============================================
+--- usr/lib/YaST2/startup/YaST2.call
++++ usr/lib/YaST2/startup/YaST2.call
+@@ -252,6 +252,11 @@
+ 				;;
+ 			esac
+ 		fi
++		if [ "$UseSax2" = 1 ] ; then
++		  extend sax2
++		  sax2 -r -a -m 0=$XServer
++		  extend -r sax2
++		fi
+ 	fi
+ 	fi
+ 	fi
