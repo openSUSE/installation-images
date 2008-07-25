@@ -11,12 +11,12 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11/bin:/lbin
 chmod 755 /
 
 # gdb can't be symlink
-if [ -L /usr/bin/gdb ] ; then
-  i=`readlink /usr/bin/gdb`
-  rm -f /usr/bin/gdb
-  touch /usr/bin/gdb
-  mount --bind $i /usr/bin/gdb
-fi
+#if [ -L /usr/bin/gdb ] ; then
+#  i=`readlink /usr/bin/gdb`
+#  rm -f /usr/bin/gdb
+#  touch /usr/bin/gdb
+#  mount --bind $i /usr/bin/gdb
+#fi
 
 # see bug 61535
 [ -e /proc/sys/vm/local-oom-kill ] && echo 1 > /proc/sys/vm/local-oom-kill

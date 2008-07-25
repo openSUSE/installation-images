@@ -1,9 +1,5 @@
-
 ash:
   /bin/ash.static
-
-gdb:
-  /usr/bin/gdb
 
 freetype2:
   /usr/lib*

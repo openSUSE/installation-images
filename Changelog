@@ -1,5 +1,6 @@
+25/7/2008:	v10.51
 	- started reworking scripts
-	- added sax2 image
+	- added sax2 & gdb image
 
 23/7/2008:	v10.50
 	- vnc needs Mesa

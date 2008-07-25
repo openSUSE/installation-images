@@ -26,7 +26,7 @@ perl:
   /usr/lib/perl*/*/*/auto/Storable
 
 # sax2
-e perl -pi -e "\$_ = undef if /^use Env;/" `grep -lr "use Env" usr/share/sax usr/sbin`
+# e perl -pi -e "\$_ = undef if /^use Env;/" `grep -lr "use Env" usr/share/sax usr/sbin`
 
 r /usr/share/doc /usr/share/man
 

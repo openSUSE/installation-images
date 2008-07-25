@@ -1,0 +1,14 @@
+#! /bin/sh
+
+export PATH=/bin:/sbin:/usr/bin/:/usr/sbin
+
+# gdb can't be symlink
+
+gdb=/usr/bin/gdb
+
+if [ -L $gdb -o ! -e $gdb ] ; then
+  rm -f $gdb
+  touch $gdb
+  mount --bind "$1$gdb" $gdb
+fi
+

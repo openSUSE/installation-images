@@ -193,12 +193,8 @@ endif
 
 endif # not on s390
 
-if arch eq 's390' || arch eq 's390x' || with_smb
-
-    d bin lib
-
-    glibc:
-      /lib*/libpthread{.,-}*
+# really ???
+if (arch eq 's390' || arch eq 's390x') && 0
 
     pam:
       /lib*/libpam.so.*
@@ -208,19 +204,6 @@ if arch eq 's390' || arch eq 's390x' || with_smb
 
     cups-libs:
       m /usr/lib*/libcups.so.* /lib
-
-    libopenssl0_9_8:
-      m /usr/lib*/libcrypto.so.* /lib
-      m /usr/lib*/libssl.so.* /lib
-
-    krb5:
-      m /usr/lib*/libkrb5.so.* /lib
-      m /usr/lib*/libkrb5support.so.* /lib
-      m /usr/lib*/libgssapi_krb5.so.* /lib
-      m /usr/lib*/libk5crypto.so.* /lib
-
-    keyutils-libs:
-      /lib*/libkeyutils{.,-}*
 
     e2fsprogs:
       m /lib*/lib*.so.* /lib
@@ -235,10 +218,10 @@ if arch eq 's390' || arch eq 's390x' || with_smb
 endif
 
 if arch eq 's390' || arch eq 's390x'
-    s390-tools:
-      /sbin/zfcp_*_configure
-      /sbin/dasdinfo
-      /etc/udev
+  s390-tools:
+    /sbin/zfcp_*_configure
+    /sbin/dasdinfo
+    /etc/udev
 endif
 
 sed:

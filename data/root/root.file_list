@@ -13,8 +13,8 @@ r /etc/rpm/.svn
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
-R s/product_name/<product_name>/ /etc/motd
-R s/product_name/<product_name>/ /etc/issue
+R s/product_name/<product_name>/g /etc/motd
+R s/product_name/<product_name>/g /etc/issue
 
 fillup:
   /bin

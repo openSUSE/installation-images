@@ -1,0 +1,7 @@
+#! /bin/sh
+
+export PATH=/bin:/sbin:/usr/bin/:/usr/sbin
+
+umount /usr/bin/gdb 2>/dev/null
+rm -f /usr/bin/gdb
+

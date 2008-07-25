@@ -1,0 +1,5 @@
+gdb:
+  /usr/bin/gdb
+
+x gdb.init .init
+x gdb.done .done
