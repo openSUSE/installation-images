@@ -25,7 +25,6 @@ install:
 
 dirs:
 	@[ -d images ] || mkdir images
-	@[ -d test ] || mkdir test
 	@[ -d tmp ] || mkdir tmp
 
 base: dirs
@@ -85,7 +84,7 @@ mboot:
 clean:
 	-@make -C src/mboot clean
 	-@make -C src/eltorito clean
-	-@rm -rf images test tmp
+	-@rm -rf images tmp
 	-@rm -f `find -name '*~'`
 	-@rm -rf /tmp/mk_base_* /tmp/mk_initrd_* /tmp/mk_image_* 
 	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/demo/gen
