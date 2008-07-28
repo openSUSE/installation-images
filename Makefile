@@ -102,3 +102,7 @@ install: $(INSTSYS_PARTS) $(BOOT_PARTS)
 	  cp images/$$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH) ; \
 	  ln -s $$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH)/branding ; \
 	done
+	if [ -d images/boot.isolinux.floppy  ] ; then \
+	  mkdir -p $(DESTDIR)/ftp/boot/$(ARCH)/floppy ; \
+	  cp -a images/boot.isolinux.floppy/* $(DESTDIR)/ftp/boot/$(ARCH)/floppy ; \
+	fi
