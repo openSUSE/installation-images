@@ -1,0 +1,8 @@
+desktop-data-openSUSE:
+  /usr/share/desktop-data/qtrc
+
+yast2-theme-openSUSE:
+  /
+  s openSUSE usr/share/YaST2/theme/current
+
+

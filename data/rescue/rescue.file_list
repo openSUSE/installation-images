@@ -635,7 +635,7 @@ hal: prein,postin
   E postin
 
 if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ia64'
-  libsmbios-libs:
+  libsmbios2:
     /usr/lib*/libsmbios.so.*
 endif
 

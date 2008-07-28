@@ -1,8 +1,12 @@
 #! /usr/bin/perl
 
+use Getopt::Long;
+use File::Find;
+
 sub get_deps;
 sub ex;
 sub short_name;
+sub is_perl_script;
 
 @white_list{qw (
   sys/systeminfo.ph
@@ -23,37 +27,45 @@ sub short_name;
   Pod/Simple.pm
 )} = ();
 
-if($ARGV[0] eq '--check') {
-  shift;
-  $check = 1;
+GetOptions(
+  'check' => \$opt_check,
+) || exit 1;
+
+@opt_dirs = @ARGV;
+
+find(\&is_perl_script, @opt_dirs);
+
+for (@opt_dirs) {
+  $ver = (<$_/usr/lib/perl5/5.*>)[0];
+  $ver =~ s#.*/##;
+
+  undef $l;
+
+  if($ver) {
+    $l = (<$_/usr/lib/perl5/$ver/*-linux-*>)[0];
+    $l =~ s#.*/##;
+  }
+
+  push @inc, "$_/usr/lib/perl5/$ver/$l" if $l;
+  push @inc, "$_/usr/lib/perl5/$ver" if $ver;
+  push @inc, "$_/usr/lib/perl5/vendor_perl/$ver/$l" if $l;
+  push @inc, "$_/usr/lib/perl5/vendor_perl/$ver" if $ver;
+  push @inc, "$_/usr/lib/perl5/vendor_perl" if -d "$_/usr/lib/perl5/vendor_perl";
 }
 
-if($ARGV[0] eq '--dir') {
-  shift;
-  $dir = shift;
+# print "$_\n" for @inc;
+
+if(!@inc) {
+  print "no perl directories found\n";
+  exit 0;
 }
 
-$ver = (<$dir/5.*>)[0];
-$ver =~ s#.*/##;
-
-$l = (<$dir/$ver/*-linux-*>)[0];
-$l =~ s#.*/##;
-
-if(! -d "$dir/vendor_perl" || !$ver || !$l) {
-  die "$dir: not a perl directory\n"
-}
-
-@inc = ( "$dir/$ver/$l", "$dir/$ver", "$dir/vendor_perl/$ver/$l", "$dir/vendor_perl/$ver" );
-
-for $file (`find $dir`) {
-  chomp $file;
-  get_deps $file;
-}
+get_deps $_ for @perl_scripts;
 
 for (sort keys %dep) {
   next if exists $white_list{$_};
   if(ex $_) {
-    $buf .= "* $_\n" unless $check;
+    $buf .= "* $_\n" unless $opt_check;
   }
   else {
     $x = join ", ", sort(keys %{$dep{$_}});
@@ -61,7 +73,7 @@ for (sort keys %dep) {
   }
 }
 
-if($check) {
+if($opt_check) {
   print "missing perl libs:\n$buf" if $buf;
   exit($buf ne "" ? 1 : 0);
 }
@@ -117,6 +129,10 @@ sub ex
     return 1 if -f "$_/$file";
   }
 
+  for (@perl_scripts) {
+    return 1 if m#/$file$#;
+  }
+
   return 0;
 }
 
@@ -139,4 +155,20 @@ sub short_name
   return $file;
 }
 
+
+sub is_perl_script
+{
+  my ($is_perl, $f, $buf);
+
+  $is_perl = 1 if /\.(pl|pm|ph)$/;
+
+  if(!$is_perl && -f) {
+    open $f, $_;
+    sysread $f, $buf, 16;
+    close $f;
+    $is_perl = 1 if $buf =~ m:^#!\s*/usr/bin/perl$:;
+  }
+
+  push @perl_scripts, $File::Find::name if $is_perl;
+}
 

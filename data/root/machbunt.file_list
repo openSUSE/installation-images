@@ -277,13 +277,12 @@ if with_yast2 ne 'no'
   libgthread-2_0-0:
    /usr/lib*/libgthread-2.0.so.*
 
-  yast2-theme-<yast_theme>:
-    /
-    s <yast_theme> usr/share/YaST2/theme/current
-
   if arch ne 's390' && arch ne 's390x'
     yast2-x11:
       /
+      r usr/share/YaST2/modules/XLib.pm
+      # hack: remove 'Env'
+      # e perl -pi -e "\$_ = undef if /^use Env;/" usr/share/YaST2/modules/XLib.pm
   endif
 
   dejavu:
@@ -298,29 +297,9 @@ libpng12-0:
 libjpeg:
   /usr/lib*/libjpeg.so*
 
-if with_yast2 ne 'no'
-# would be only needed for libqmng plugin
-#  libmng:
-#    /usr/lib*/libmng.so*
-#  liblcms:
-#    /usr/lib*/liblcms.so*
-
-  if theme eq 'SuSE'
-    desktop-data-openSUSE:
-  else
-    desktop-data-NLD:
-  endif
-    /usr/share/desktop-data/qtrc
-
-endif
-
-  sax2-tools:
-    /usr/sbin
-
-if !(arch eq 's390' || arch eq 's390x')
-  sax2-ident:
-    /
-endif
+sax2-tools:
+  /usr/sbin
+  r /usr/sbin/isax
 
 xmset:
   /usr/sbin

@@ -129,7 +129,7 @@ hal: prein
   e restore_cfg etc/passwd etc/shadow etc/group
 
 if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ia64'
-  libsmbios-libs:
+  libsmbios2:
     /usr/lib*/libsmbios.so.*
 endif
 
@@ -368,6 +368,7 @@ if with_yast2 ne 'no'
     /sbin/save_y2logs
     /usr
     /var
+    r /usr/lib/YaST2/servers_non_y2/ag_cron
     s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast
     r /usr/lib/YaST2/bin/yast2
 
@@ -770,7 +771,7 @@ libusb:
   /usr/lib*/libusb-0.1.so.*
 
 checkmedia:
-  /usr/bin
+  /usr/bin/checkmedia
 
 perl-base:
   /usr/bin/perl
@@ -831,6 +832,9 @@ perl-base:
   /usr/lib/perl*/*/*/re.pm
 
 perl:
+  /usr/lib/perl*/*/English.pm
+  /usr/lib/perl*/*/Net/Ping.pm
+  /usr/lib/perl*/*/*/Time/HiRes.pm
   /usr/lib/perl*/*/Pod/InputObjects.pm
   /usr/lib/perl*/*/Pod/ParseLink.pm
   /usr/lib/perl*/*/Pod/Parser.pm

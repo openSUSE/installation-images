@@ -80,26 +80,29 @@ if($ENV{'keep'} != 1) {
 
   if($ENV{'nolibs'} != 1) {
     print "running ldconfig...";
-    SUSystem "ldconfig -r $tmpdir";
+    SUSystem "ldconfig -i -r $tmpdir";
     die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
 
     if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
       system "check_libs $tmpdir" and
         warn "$Script: error in shared lib config, please fix\n";
-
-      if(-d "$tmpdir/usr/lib/perl5") {
-        system "perl_deps --check --dir $tmpdir/usr/lib/perl5" and
-          warn "$Script: error in perl module config, please fix\n";
-      }
     }
     else {
       system "check_libs $tmpdir" and
         die "$Script: error in shared lib config, please fix\n";
+    }
+  }
 
-      if(-d "$tmpdir/usr/lib/perl5") {
-        system "perl_deps --check --dir $tmpdir/usr/lib/perl5" and
-          die "$Script: error in perl module config, please fix\n";
-      }
+  @perldeps = split ',', $ENV{perldeps};
+  if(@perldeps) {
+    $pdirs .= " ${BasePath}tmp/$_" for @perldeps;
+    if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+      system "perl_deps --check $pdirs" and
+        warn "$Script: error in perl module config, please fix\n";
+    }
+    else {
+      system "perl_deps --check $pdirs" and
+        die "$Script: error in perl module config, please fix\n";
     }
   }
 }
