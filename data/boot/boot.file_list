@@ -8,26 +8,13 @@ if arch eq 'ia32' || arch eq 'x86_64'
   <kernel_rpm>:
     a /boot/<kernel_img> /linux
 
-  if liveeval
-    x message-eval /message
-    x syslinux-eval.cfg /syslinux.cfg
-  endif
-
   if theme eq 'Zen'
     x message-zen /message
     x syslinux-zen.cfg /syslinux.cfg
   endif
 
-  if boot ne 'small'
-    R s/\ndisksize.*?\n/\n/s /syslinux.cfg
-  endif
-
-  if bootlogo eq 'no' || bootlogo eq '0'
-    R s/\ngfxboot.*?\n/\n/s /syslinux.cfg
-  else
-    e cp /<theme>/cdrom/* .
-    e gfxboot --config-file=gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/11.0/driverupdate
-  endif
+  e cp /<theme>/cdrom/* .
+  e gfxboot --config-file=gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/11.1/driverupdate
 
   if initramfs
     e cp /<theme>/gz/*.spl .
@@ -35,17 +22,8 @@ if arch eq 'ia32' || arch eq 'x86_64'
     e cp /<theme>/*.spl .
   endif
 
-  if ((arch ne 'ia32' && arch ne 'x86_64') || memtest eq 'no' || liveeval) && memtest ne 'yes'
-    R s/\n# memory.*memtest\n//s /syslinux.cfg
-    R s/.*memtest.*// /message
-  else
-    memtest86+:
-      m /boot/memtest.bin /memtest
-  endif
-
-  if arch eq 'x86_64'
-    R s/\n# apic.*apic\n//s /syslinux.cfg
-  endif
+  memtest86+:
+    m /boot/memtest.bin /memtest
 
   R s/product_name/<product_name>/ /message
 
@@ -53,34 +31,33 @@ if arch eq 'ia32' || arch eq 'x86_64'
     R s/\binitrd=initrd\b/initrd=$ENV{'initrd_name'}/ /syslinux.cfg
   endif
 
-else
-  <kernel_rpm>:
-endif		# arch eq 'ia32'
+  if boot eq 'isolinux'
+    syslinux:
+      m /usr/share/syslinux/isolinux.bin /
 
-if arch eq 'ia64'
-  d /efi/boot
-  a /boot/<kernel_img> /efi/boot/linux
-  elilo:
-    m /usr/lib/elilo/elilo.efi /efi/boot/bootia64.efi
-  x elilo.conf /efi/boot/
-  x textmenu /efi/boot/
-endif
+    if arch eq 'x86_64'
+      e isolinux-config --base=/boot/x86_64/loader isolinux.bin
+    else
+      e isolinux-config --base=/boot/i386/loader isolinux.bin
+    endif
 
-if arch eq 'alpha'
-  a /boot/<kernel_img> /vmlinux.gz
-endif
-
-
-if boot eq 'isolinux'
-  syslinux:
-    m /usr/share/syslinux/isolinux.bin /
-
-  if arch eq 'x86_64'
-    e isolinux-config --base=/boot/x86_64/loader isolinux.bin
-  else
-    e isolinux-config --base=/boot/i386/loader isolinux.bin
+    e mv syslinux.cfg isolinux.cfg
   endif
 
-  e mv syslinux.cfg isolinux.cfg
+endif		# arch eq 'ia32' || arch eq 'x86_64'
+
+
+if arch eq 'ia64'
+
+  <kernel_rpm>:
+    d /efi/boot
+    a /boot/<kernel_img> /efi/boot/linux
+
+  elilo:
+    m /usr/lib/elilo/elilo.efi /efi/boot/bootia64.efi
+    x elilo.conf /efi/boot/
+    x textmenu /efi/boot/
+
 endif
+
 
