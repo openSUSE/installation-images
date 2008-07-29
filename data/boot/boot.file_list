@@ -1,7 +1,5 @@
 if arch eq 'ia32' || arch eq 'x86_64'
 
-  x ../../images/biostest /
-
   x syslinux.cfg /
 
   <kernel_rpm>:
