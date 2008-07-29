@@ -150,9 +150,11 @@ gawk:
   /bin
   /usr/bin
 
-bootsplash:
-  /
-  r /sbin/fbtruetype
+if arch eq 'ia32' || arch eq 'x86_64'
+  bootsplash:
+    /
+    r /sbin/fbtruetype
+endif
 
 liblcms1:
   /usr/lib*/liblcms.so*
@@ -292,9 +294,15 @@ yast2-trans-allpacks: requires
   x mk_yast2_trans bin/mk_yast2_trans
   E mk_yast2_trans yast2-trans-allpacks.requires
 
-# create splash
-x mk_splash /mk_splash
-include gen/splash
+if arch eq 'ia32' || arch eq 'x86_64'
+  # create splash
+  #x mk_splash /mk_splash
+  #include gen/splash
+  bootsplash-branding-openSUSE:
+    /
+  bootsplash-branding-SLES:
+    /
+endif
 
 :
 

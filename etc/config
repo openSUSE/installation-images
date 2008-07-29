@@ -69,14 +69,14 @@ update	= /linux/suse/<arch>-<rel>
 image	= 350
 
 
-; [Theme SLES]
-; yast	= NLD
-; bsplash = SLES
-; ksplash = SuSE-SLES
-; product	= SUSE Linux Enterprise Server 10
-; version = 10.1
-; update	= /linux/suse/<arch>-<sles>
-; image	= 200
+[Theme SLES]
+yast	= NLD
+bsplash = openSUSE
+ksplash = SLES
+product	= SUSE Linux Enterprise Server 11
+version = 11.1
+update	= /linux/suse/<arch>-<sles>
+image	= 200
 
 
 ; [Theme NLD]

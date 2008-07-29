@@ -112,7 +112,10 @@ if($tmpdir2) {
   $tmpdir = "$tmpdir2/1";
 }
 
-if($imagetype ne 'none') {
+if($imagetype eq 'dir') {
+  SUSystem "rm -rf $image ; cp -a $tmpdir $image";
+}
+elsif($imagetype ne 'none') {
   $start_size = `du --apparent-size -k -s $tmpdir 2>/dev/null` + 0;
   $start_inodes = `find $tmpdir | wc -l 2>/dev/null` + 0;
 

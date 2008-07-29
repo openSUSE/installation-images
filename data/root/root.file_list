@@ -914,6 +914,7 @@ libzypp:
 
 boost:
   /usr/lib*/libboost_filesystem.so.*
+  /usr/lib*/libboost_signals-mt.so.*
 
 libidn:
   /usr/lib*/libidn.so.*

@@ -2,7 +2,6 @@ if arch eq 'ia32' || arch eq 'x86_64'
 
   x ../../images/biostest /
 
-  x message /
   x syslinux.cfg /
 
   <kernel_rpm>:
@@ -13,19 +12,8 @@ if arch eq 'ia32' || arch eq 'x86_64'
     x syslinux-zen.cfg /syslinux.cfg
   endif
 
-  e cp /<theme>/cdrom/* .
-  e gfxboot --config-file=gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/11.1/driverupdate
-
-  if initramfs
-    e cp /<theme>/gz/*.spl .
-  else
-    e cp /<theme>/*.spl .
-  endif
-
   memtest86+:
     m /boot/memtest.bin /memtest
-
-  R s/product_name/<product_name>/ /message
 
   if initrd_name
     R s/\binitrd=initrd\b/initrd=$ENV{'initrd_name'}/ /syslinux.cfg

@@ -1,0 +1,16 @@
+#! /bin/sh
+
+dst=$1
+theme=$2
+cfg=$3
+spl=$4
+
+mkdir -p $dst/xxx
+splash -s -f /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg >$dst/xxx/bootsplash
+cp -a --parents /etc/bootsplash/themes/$theme/config/*-$cfg.* $dst/xxx
+cp -a --parents /etc/bootsplash/themes/$theme/images/*-$cfg.* $dst/xxx
+[ -d /etc/bootsplash/themes/$theme/animations ] && cp -a --parents /etc/bootsplash/themes/$theme/animations/* $dst/xxx
+ln -s /etc/bootsplash/themes/$theme/config/bootsplash-$cfg.cfg $dst/xxx/etc/splash.cfg
+( cd $dst/xxx ; find | cpio --quiet -o -H newc ) | gzip -9 >$dst/$spl.spl
+rm -r $dst/xxx
+
