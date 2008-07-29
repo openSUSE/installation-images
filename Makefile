@@ -11,7 +11,7 @@ endif
 
 THEMES        := openSUSE SLES
 INSTSYS_PARTS := images/config images/rpmlist images/root images/common images/rescue images/sax2 images/gdb
-BOOT_PARTS    := images/boot.isolinux images/biostest images/initrd
+BOOT_PARTS    := images/boot.isolinux/* images/biostest
 DESTDIR       := images/instsys
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
@@ -102,7 +102,8 @@ install: $(INSTSYS_PARTS) $(BOOT_PARTS)
 	  mkdir -p $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH) ; \
 	done
 	cp $(INSTSYS_PARTS) $(DESTDIR)/cd1/boot/$(ARCH)
-	for i in $(BOOT_PARTS) ; do cp -r $$i $(DESTDIR)/cd1/boot/$(ARCH)/loader ; done
+	mkdir -p $(DESTDIR)/cd1/boot/$(ARCH)/loader
+	cp -r $(BOOT_PARTS) $(DESTDIR)/cd1/boot/$(ARCH)/loader
 	for theme in $(THEMES) ; do \
 	  cp -r images/boot-$$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH)/loader ; \
 	  cp images/instsys-$$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH)/$$theme ; \
