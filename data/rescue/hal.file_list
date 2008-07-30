@@ -74,7 +74,7 @@ udev:
   /lib*/libsysfs.so*
   r /sbin/*.static
 
-if arch eq 'ia64' || arch eq 'ia32' || arch eq 'x86_64'
+if arch eq 'ia64' || arch eq 'i386' || arch eq 'x86_64'
   pmtools:
     /usr/sbin/dmidecode
     /usr/sbin/acpidump

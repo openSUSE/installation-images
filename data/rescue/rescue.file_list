@@ -196,14 +196,14 @@ bzip2:
 libbz2-1:
   /lib*/libbz2.so*	
 
-if arch eq 'ia32' || arch eq 'ppc' || arch eq 'ppc64' || arch eq 'x86_64'
+if arch eq 'i386' || arch eq 'ppc' || arch eq 'ppc64' || arch eq 'x86_64'
   lilo:
     if arch eq 'ppc' || arch eq 'ppc64'
       /lib/lilo
       /bin
     endif
     /sbin
-    if arch eq 'ia32' || arch eq 'x86_64'
+    if arch eq 'i386' || arch eq 'x86_64'
       /usr/sbin
     endif
 endif
@@ -236,7 +236,7 @@ sdparm:
 smp_utils:
   /usr/bin
 
-if arch eq 'ia32' || arch eq 'x86_64'
+if arch eq 'i386' || arch eq 'x86_64'
   grub:
     /usr/{bin,sbin,lib}
 endif
@@ -634,7 +634,7 @@ hal: prein,postin
   e restore_cfg etc/passwd etc/shadow etc/group
   E postin
 
-if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ia64'
+if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ia64'
   libsmbios2:
     /usr/lib*/libsmbios.so.*
 endif
@@ -799,7 +799,7 @@ kexec-tools:
 cifs-mount:
   /sbin/mount.cifs
 
-if arch eq 'ia32' || arch eq 'x86_64'
+if arch eq 'i386' || arch eq 'x86_64'
   sbl:
     /etc
     /usr/sbin

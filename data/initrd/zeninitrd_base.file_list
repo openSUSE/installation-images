@@ -79,7 +79,7 @@ kbd:
   d usr/share/kbd/keymaps/include
   m usr/share/kbd/keymaps/include/compose.latin1 usr/share/kbd/keymaps/include
 
-##if arch eq 'ia32' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
+##if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ia64' || arch eq 'mips'
 ##  if !fewkeymaps
     g /usr/share/kbd/keymaps/i386/qwerty/Pl02.map.gz usr/share/kbd/keymaps/Pl02.map
     g /usr/share/kbd/keymaps/i386/qwerty/br-abnt2.map.gz usr/share/kbd/keymaps/br-abnt2.map
@@ -247,7 +247,7 @@ hal:
 hwinfo-devel:
   /usr/lib*/libhd_tiny.so.*
 
-##if arch eq 'ia32' || arch eq 'x86_64'
+##if arch eq 'i386' || arch eq 'x86_64'
 
   bootsplash:
     /sbin/splash

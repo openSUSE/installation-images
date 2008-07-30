@@ -1,4 +1,4 @@
-if arch eq 'ia32' || arch eq 'x86_64'
+if arch eq 'i386' || arch eq 'x86_64'
 
   x mk_splash .
 
