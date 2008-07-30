@@ -16,9 +16,9 @@ DESTDIR       := images/instsys
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
 	boot bootcd root rescue root+rescue sax2 gdb mboot clean \
-	boot-themes instsys-themes install
+	boot-themes root-themes install
 
-all: initrd biostest bootcd boot-themes rescue root root+rescue gdb sax2 instsys-themes
+all: initrd biostest bootcd boot-themes rescue root root+rescue gdb sax2 root-themes
 	@rm images/*.log
 
 install:
@@ -78,9 +78,9 @@ boot-themes: dirs base
 	  nolibs=1 image=boot-$$theme src=boot filelist=$$theme fs=dir bin/mk_image ; \
 	done
 
-instsys-themes: dirs base
+root-themes: dirs base
 	for theme in $(THEMES) ; do \
-	  nolibs=1 image=instsys-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
+	  nolibs=1 image=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
 	done
 
 mboot:
@@ -106,7 +106,7 @@ install: $(INSTSYS_PARTS) $(BOOT_PARTS)
 	cp -r $(BOOT_PARTS) $(DESTDIR)/cd1/boot/$(ARCH)/loader
 	for theme in $(THEMES) ; do \
 	  cp -r images/boot-$$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH)/loader ; \
-	  cp images/instsys-$$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH)/$$theme ; \
+	  cp images/root-$$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH)/$$theme ; \
 	  ln -s $$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH)/branding ; \
 	done
 	if [ -d images/boot.isolinux.floppy  ] ; then \
