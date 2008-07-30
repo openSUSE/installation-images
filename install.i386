@@ -1,0 +1,33 @@
+#! /bin/sh
+
+# gets ARCH, THEMES, DESTDIR, INSTSYS_PARTS, BOOT_PARTS, WITH_FLOPPY via env
+
+set -e
+
+# create directory layout
+mkdir -p $DESTDIR/cd1/boot/$ARCH/loader
+for theme in $THEMES ; do
+  mkdir -p $DESTDIR/branding/$theme/cd1/boot/$ARCH
+done
+
+# copy branding independent parts
+cp $INSTSYS_PARTS $DESTDIR/cd1/boot/$ARCH
+cp -r $BOOT_PARTS $DESTDIR/cd1/boot/$ARCH/loader
+
+# copy branding dependent parts
+for theme in $THEMES ; do
+  cp -r images/boot-$theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/loader
+
+  cp images/root-$theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/$theme
+  ln -s $theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/branding
+
+  # create boot floppies and put them in ftp tree
+  if [ "$WITH_FLOPPY" = 1 ] ; then
+    mkdir -p $DESTDIR/branding/$theme/ftp/boot/$ARCH/floppy
+    rm -rf tmp/floppy-$theme
+    mkdir -p tmp/floppy-$theme
+    cp -a images/instsys/cd1/boot/$ARCH/loader/* images/instsys/branding/openSUSE/cd1/boot/$ARCH/loader/* tmp/floppy-$theme
+    etc/mkbootdisk --syslinux=tmp/base/usr/bin/syslinux --out=$DESTDIR/branding/$theme/ftp/boot/$ARCH/floppy/bootdsk tmp/floppy-$theme
+  fi
+done
+
