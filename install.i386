@@ -21,13 +21,19 @@ for theme in $THEMES ; do
   cp images/root-$theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/$theme
   ln -s $theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/branding
 
+  cp etc/README $DESTDIR/branding/$theme/cd1/boot/$ARCH
+  recode utf8..ibmpc <$DESTDIR/branding/$theme/cd1/boot/$ARCH/README >$DESTDIR/branding/$theme/cd1/boot/$ARCH/README.DOS
+  cp etc/LIESMICH $DESTDIR/branding/$theme/cd1/boot/$ARCH
+  recode utf8..ibmpc <$DESTDIR/branding/$theme/cd1/boot/$ARCH/LIESMICH >$DESTDIR/branding/$theme/cd1/boot/$ARCH/LIESMICH.DOS
+  cp etc/mkbootdisk $DESTDIR/branding/$theme/cd1/boot/$ARCH
+
   # create boot floppies and put them in ftp tree
   if [ "$WITH_FLOPPY" = 1 ] ; then
     mkdir -p $DESTDIR/branding/$theme/ftp/boot/$ARCH/floppy
     rm -rf tmp/floppy-$theme
     mkdir -p tmp/floppy-$theme
     cp -a images/instsys/cd1/boot/$ARCH/loader/* images/instsys/branding/openSUSE/cd1/boot/$ARCH/loader/* tmp/floppy-$theme
-    etc/mkbootdisk --syslinux=tmp/base/usr/bin/syslinux --out=$DESTDIR/branding/$theme/ftp/boot/$ARCH/floppy/bootdsk tmp/floppy-$theme
+    etc/mkbootdisk --syslinux=tmp/base/usr/bin/syslinux --out=$DESTDIR/branding/$theme/ftp/boot/$ARCH/floppy/bootdisk tmp/floppy-$theme
   fi
 done
 

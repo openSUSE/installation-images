@@ -1,4 +1,4 @@
-openSUSE 11.0-Bootdisketten erstellen
+openSUSE 11.1-Bootdisketten erstellen
 -------------------------------------
 
 Die Bootdateien sind auf mehrere Disketten aufgeteilt.
@@ -12,13 +12,13 @@ diesem Verzeichnis) auf einem Linux-System:
 
      /media/cdrom/boot/mkbootdisk /media/cdrom
 
-   aus. Damit werden die Bootdateien bootdisk1 - bootdiskN erstellt.
+   aus. Damit werden die Bootdateien bootdisk01 - bootdiskNN erstellt.
 
 3. Schreiben Sie diese Dateien auf Disketten. z.B. mit
 
-     dd if=bootdisk1 of=/dev/fd0
+     dd if=bootdisk01 of=/dev/fd0
 
-   (und entsprechend auch bootdisk2 - bootdiskN).
+   (und entsprechend auch bootdisk02 - bootdiskNN).
 
 4. Einen kurzen Überblick über die Bedienung des Programms 'mkbootdisk' gibt
 

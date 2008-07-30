@@ -1,4 +1,4 @@
-Creating openSUSE 11.0 Boot Disks
+Creating openSUSE 11.1 Boot Disks
 ---------------------------------
 
 The boot files are split across several floppy disks.
@@ -11,13 +11,13 @@ a Linux system:
 2. Run
      /media/cdrom/boot/mkbootdisk /media/cdrom
 
-   to create boot disk image files bootdisk1 - bootdiskN.
+   to create boot disk image files bootdisk01 - bootdiskNN.
 
 3. Write these image files to floppies, using e.g. 
 
-     dd if=bootdisk1 of=/dev/fd0
+     dd if=bootdisk01 of=/dev/fd0
 
-   (and bootdisk2 - bootdiskN accordingly).
+   (and bootdisk02 - bootdiskNN accordingly).
 
 4. A short usage summary of 'mkbootdisk' gives
 
