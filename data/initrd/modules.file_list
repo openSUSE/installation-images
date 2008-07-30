@@ -1,8 +1,60 @@
-# definitions for the modules disk
-
-d modules
+d lib/modules/<kernel_ver>
+d lib/modules/<kernel_ver>/initrd
+s lib/modules/<kernel_ver>/initrd modules
 
 <kernel_rpm>:
 
-include gen/module.files.<items>
+x module.help modules/module.config
+
+if arch eq 'ppc' || arch eq 'ppc64'
+
+  if initrd eq 'initrd_ppc'
+    include gen/module.files.autoload
+    include gen/module.files.ppc
+    include gen/module.files.usb
+    include gen/module.files.firewire
+    include gen/module.files.fs
+    include gen/module.files.other
+    A gen/module.config.autoload modules/module.config
+    A gen/module.config.ppc modules/module.config
+    A gen/module.config.usb modules/module.config
+    A gen/module.config.firewire modules/module.config
+    A gen/module.config.fs modules/module.config
+    A gen/module.config.other modules/module.config
+  endif
+
+else
+
+  # all other archs
+
+  include gen/module.files.autoload
+  include gen/module.files.firewire
+  include gen/module.files.fs
+  include gen/module.files.net
+  include gen/module.files.pcmcia
+  include gen/module.files.WLAN
+  include gen/module.files.scsi
+  include gen/module.files.usb
+  include gen/module.files.other
+
+  # note: order _does_ matter
+  A gen/module.config.autoload modules/module.config
+  A gen/module.config.scsi modules/module.config
+  A gen/module.config.net modules/module.config
+  A gen/module.config.pcmcia modules/module.config
+  A gen/module.config.WLAN modules/module.config
+  A gen/module.config.usb modules/module.config
+  A gen/module.config.firewire modules/module.config
+  A gen/module.config.fs modules/module.config
+  A gen/module.config.other modules/module.config
+
+  if arch eq 's390' || arch eq 's390x'
+    include gen/module.files.s390
+    A gen/module.config.s390 modules/module.config
+  endif
+
+endif
+
+# add modules.alias, modules.dep
+e /sbin/depmod -a -b . -F /System.map <kernel_ver>
 

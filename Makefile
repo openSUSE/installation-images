@@ -46,10 +46,12 @@ zenroot: dirs base
 
 biostest: dirs base
 	nolibs=1 image=biostest src=initrd fs=cpio.gz disjunct=initrd bin/mk_image
-#	debug=$${debug},ignorelibs filelist=biostest initrd_name=biostest make initrd
 
 initrd: dirs base
-	initramfs=$${initramfs:-1} YAST_IS_RUNNING=1 bin/mk_initrd
+	image=initrd fs=cpio.gz bin/mk_image
+
+modules: dirs base
+	nolibs=1 image=modules src=initrd fs=cpio.gz bin/mk_image
 
 boot: initrd mboot
 	bin/mk_boot
