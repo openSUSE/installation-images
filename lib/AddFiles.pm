@@ -153,9 +153,7 @@ sub AddFiles
 
   die "$Script: no such file list: $file_list" unless open F, $file_list;
 
-  $arch = `uname -m`; chomp $arch;
-  $arch = "ia32" if $arch =~ /^i\d86$/;
-
+  $arch = $ConfigData{arch};
   $ENV{'___arch'} = $arch;
 
   $tag = "" unless defined $tag;

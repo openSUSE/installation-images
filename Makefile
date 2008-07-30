@@ -11,14 +11,14 @@ endif
 
 THEMES        := openSUSE SLES
 INSTSYS_PARTS := images/config images/rpmlist images/root images/common images/rescue images/sax2 images/gdb
-BOOT_PARTS    := images/boot.isolinux/* images/biostest
+BOOT_PARTS    := images/boot.isolinux/* images/initrd images/biostest
 DESTDIR       := images/instsys
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
 	boot bootcd root rescue root+rescue sax2 gdb mboot clean \
 	boot-themes instsys-themes install
 
-all: bootcd boot-themes rescue root root+rescue gdb sax2 instsys-themes
+all: initrd biostest bootcd boot-themes rescue root root+rescue gdb sax2 instsys-themes
 	@rm images/*.log
 
 install:
@@ -48,9 +48,8 @@ initrd: dirs base
 boot: initrd mboot
 	bin/mk_boot
 
-bootcd: biostest
-# with_floppy=1
-	initramfs=$${initramfs:-1} initrd=large boot=isolinux make boot
+bootcd:
+	nolibs=1 image=boot fs=dir bin/mk_image
 
 root: dirs base
 	root_i18n=1 root_gfx=1 perldeps=root image=root bin/mk_image
