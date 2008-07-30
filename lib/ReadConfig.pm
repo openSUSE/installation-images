@@ -403,6 +403,9 @@ my ($arch, $realarch, $susearch);
 $arch = `uname -m`;
 chomp $arch;
 $arch = "i386" if $arch =~ /^i.86$/;
+
+$arch = $ENV{TEST_ARCH} if exists $ENV{TEST_ARCH};
+
 $realarch = $arch;
 $arch = "sparc" if $arch eq 'sparc64';
 

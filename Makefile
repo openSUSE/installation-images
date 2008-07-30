@@ -11,7 +11,7 @@ endif
 
 THEMES        := openSUSE SLES
 INSTSYS_PARTS := images/config images/rpmlist images/root images/common images/rescue images/sax2 images/gdb
-BOOT_PARTS    := images/boot.isolinux/* images/initrd images/biostest
+BOOT_PARTS    := images/boot/* images/initrd images/biostest
 DESTDIR       := images/instsys
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
@@ -39,8 +39,9 @@ zenboot: zeninitrd mboot
 zenroot: dirs base
 	theme=Zen fs=$${fs:-ext2} image=zenroot src=root fs=squashfs bin/mk_image
 
-biostest:
-	debug=$${debug},ignorelibs filelist=biostest initrd_name=biostest make initrd
+biostest: dirs base
+	nolibs=1 image=biostest src=initrd fs=cpio.gz disjunct=initrd bin/mk_image
+#	debug=$${debug},ignorelibs filelist=biostest initrd_name=biostest make initrd
 
 initrd: dirs base
 	initramfs=$${initramfs:-1} YAST_IS_RUNNING=1 bin/mk_initrd
