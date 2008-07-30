@@ -9,10 +9,13 @@ ifeq "$(ARCH)" "i686"
 ARCH    := i386
 endif
 
+
 THEMES        := openSUSE SLES
 INSTSYS_PARTS := images/config images/rpmlist images/root images/common images/rescue images/sax2 images/gdb
 BOOT_PARTS    := images/boot/* images/initrd images/biostest
 DESTDIR       := images/instsys
+
+export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
 	boot bootcd root rescue root+rescue sax2 gdb mboot clean \
@@ -96,21 +99,5 @@ clean:
 
 install: $(INSTSYS_PARTS) $(BOOT_PARTS)
 	-@rm -rf $(DESTDIR)
-
-	mkdir -p $(DESTDIR)/cd1/boot/$(ARCH)
-	for theme in $(THEMES) ; do \
-	  mkdir -p $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH) ; \
-	done
-	cp $(INSTSYS_PARTS) $(DESTDIR)/cd1/boot/$(ARCH)
-	mkdir -p $(DESTDIR)/cd1/boot/$(ARCH)/loader
-	cp -r $(BOOT_PARTS) $(DESTDIR)/cd1/boot/$(ARCH)/loader
-	for theme in $(THEMES) ; do \
-	  cp -r images/boot-$$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH)/loader ; \
-	  cp images/root-$$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH)/$$theme ; \
-	  ln -s $$theme $(DESTDIR)/branding/$$theme/cd1/boot/$(ARCH)/branding ; \
-	done
-	if [ -d images/boot.isolinux.floppy  ] ; then \
-	  mkdir -p $(DESTDIR)/ftp/boot/$(ARCH)/floppy ; \
-	  cp -a images/boot.isolinux.floppy/* $(DESTDIR)/ftp/boot/$(ARCH)/floppy ; \
-	fi
+	./install.$(ARCH)
 

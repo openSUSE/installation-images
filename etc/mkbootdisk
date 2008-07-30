@@ -11,7 +11,7 @@
 use strict 'vars';
 use integer;
 
-%::ConfigData = ( full_product_name => "openSUSE 11.0" );
+%::ConfigData = ( full_product_name => "openSUSE 11.1" );
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -958,7 +958,6 @@ my $opt_64 = 0;
 my $opt_96 = 0;
 my $opt_keep = undef;
 my $opt_syslinux = -x "/usr/bin/mcopy" ? "/usr/bin/syslinux" : "/usr/bin/syslinux-nomtools";
-$opt_syslinux = "/usr/bin/syslinux-nomtools" if -x "/usr/bin/syslinux-nomtools";
 my $opt_disk = undef;
 my $opt_backup_mbr = undef;
 
@@ -991,7 +990,7 @@ $opt_src = shift;
 
 help unless $opt_src && -d($opt_src);
 
-die "error: must be root to run this script\n" if $<;
+die "error: must be root to run this script\n" if $< && $opt_disk;
 
 die "error: $opt_syslinux not found\nPlease install package \"syslinux\" first.\n" unless -f($opt_syslinux) && -x($opt_syslinux);
 
@@ -1157,29 +1156,18 @@ else {
 
   system "$opt_syslinux $tmp_dir/img" and die "error: syslinux failed\n";
 
-  system "mount -tmsdos -oloop $tmp_dir/img $tmp_dir/mp" and die "error: mount failed\n";
-  $mp = "$tmp_dir/mp";
   for (dir_sort $src) {
-    if($_ ne 'bootlogo') {
-      system "cp -r $src/$_ $mp" and die "error: copy failed\n";
-    }
-    else {
-      for my $i (unpack_bootlogo $src) {
-        system "cp -r $src/$i $mp" and die "error: copy failed\n";
-      }
-    }
+    system "mcopy -D o -s -i $tmp_dir/img $src/$_ ::" and die "error: copy failed\n";
   }
 
   my $size = 0;
-  for (`df -Pk $tmp_dir/mp`) {
-    $i = (split)[3];
-    if($i =~ /^\d+$/) {
-      $size = $i;
+  for (`mdir -i $tmp_dir/img ::`) {      
+    if(/^\s*((\d|\s)+)\s+bytes free\s*$/) {  
+      ($size = $1) =~ s/\s+//g;
+      $size >>= 10;
       last;
     }
-  }
-  system "umount $mp" and die "error: umount failed\n";
-  undef $mp;
+  }    
 
   $i = "32 bit";
   $i = "64 bit" if $opt_64;
@@ -1355,6 +1343,5 @@ sub unpack_bootlogo
 
   return ( 'bootlogo', @ext );
 }
-
 
 
