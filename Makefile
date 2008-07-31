@@ -33,7 +33,7 @@ dirs:
 	@[ -d tmp ] || mkdir tmp
 
 base: dirs
-	@[ -d tmp/base ] || YAST_IS_RUNNING=1 bin/mk_base
+	@[ -d tmp/base ] || nolibs=1 nostrip=1 image=base fs=none bin/mk_image
 
 zeninitrd: dirs base
 	initramfs=$${initramfs:-1} YAST_IS_RUNNING=1 theme=Zen filelist=zeninitrd bin/mk_initrd
@@ -51,7 +51,19 @@ initrd: dirs base
 	image=initrd fs=cpio.gz bin/mk_image
 
 modules: dirs base
-	nolibs=1 image=modules src=initrd fs=cpio.gz bin/mk_image
+	nolibs=1 image=modules-config src=initrd fs=none bin/mk_image
+	bin/mlist1
+	bin/mlist2
+	nolibs=1 image=modules src=initrd fs=none bin/mk_image
+	ls -I module.config tmp/modules/modules | sed -e 's#.*/##' >images/module.list
+
+initrd+modules: dirs base
+	nolibs=1 image=modules-config src=initrd fs=none bin/mk_image
+	bin/mlist1
+	bin/mlist2
+	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
+	nolibs=1 mode=keep,add image=initrd filelist=modules src=initrd fs=cpio.gz bin/mk_image
+	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module.list
 
 boot: initrd mboot
 	bin/mk_boot
@@ -68,9 +80,9 @@ rescue: dirs base
 root+rescue: dirs base
 	rm -rf tmp/tmp
 	bin/common_tree --dst tmp/tmp tmp/rescue tmp/root
-	keep=1 tmpdir=tmp/tmp/c image=common fs=squashfs bin/mk_image
-	keep=1 tmpdir=tmp/tmp/1 image=rescue fs=squashfs bin/mk_image
-	keep=1 tmpdir=tmp/tmp/2 image=root fs=squashfs bin/mk_image
+	mode=keep tmpdir=tmp/tmp/c image=common fs=squashfs bin/mk_image
+	mode=keep tmpdir=tmp/tmp/1 image=rescue fs=squashfs bin/mk_image
+	mode=keep tmpdir=tmp/tmp/2 image=root fs=squashfs bin/mk_image
 	cp data/root/config images
 	cat data/root/rpmlist tmp/base/yast2-trans-rpm.list >images/rpmlist
 

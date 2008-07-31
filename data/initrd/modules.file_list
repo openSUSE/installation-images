@@ -56,5 +56,7 @@ else
 endif
 
 # add modules.alias, modules.dep
-e /sbin/depmod -a -b . -F /System.map <kernel_ver>
+L boot/System.map* System.map
+e /sbin/depmod -a -b . -F System.map <kernel_ver>
+r System.map
 

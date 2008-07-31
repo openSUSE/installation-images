@@ -164,6 +164,10 @@ o <action> <arg1> <arg2> ...
 
     m <old_name> <new_name>
 
+  - same as 'm', but link files
+
+    L <old_name> <new_name>
+
   - same as 'm', but follows symlinks
 
     a <old_name> <new_name>

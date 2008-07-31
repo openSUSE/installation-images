@@ -165,15 +165,6 @@ libmng:
 libjpeg:
   /usr/lib*/libjpeg.so*
 
-<kernel_rpm>:
-  /lib/modules
-  a /boot/<kernel_img> /tmp/linux
-if arch eq 'alpha'
-  m /boot/System.map-*.default /System.map
-else
-  m /boot/System.map-* /System.map
-endif
-
 insserv:
   /etc
   /sbin
@@ -314,10 +305,10 @@ x restore_cfg bin/restore_cfg
 x unused_mos bin/unused_mos
 
 # run depmod
-E /sbin/depmod -a -F /System.map <kernel_ver> || true
-E cp /lib/modules/<kernel_ver>/modules.dep /
-E cp /lib/modules/<kernel_ver>/modules.pcimap /
-r /lib/modules
+#E /sbin/depmod -a -F /System.map <kernel_ver> || true
+#E cp /lib/modules/<kernel_ver>/modules.dep /
+#E cp /lib/modules/<kernel_ver>/modules.pcimap /
+#r /lib/modules
 
 # create locale
 x create_locale /create_locale
