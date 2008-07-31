@@ -40,8 +40,8 @@ default	= kernel-default
 ; extra kmps we need (',' separated list)
 [KMP]
 default	=
-i386	= iwlwifi,at76_usb,adm8211,rt2x00,wlan-ng
-x86_64	= iwlwifi,at76_usb,adm8211,rt2x00,wlan-ng
+i386	= at76_usb,wlan-ng
+x86_64	= at76_usb,wlan-ng
 
 
 ; lib directory
