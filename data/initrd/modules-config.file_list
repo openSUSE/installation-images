@@ -1,0 +1,10 @@
+<kernel_rpm>:
+
+  # generate modules.alias, modules.dep
+  L lib .
+  L boot/System.map* System.map
+  e /sbin/depmod -a -b . -F System.map <kernel_ver>
+  e cp lib/modules/<kernel_ver>/modules.dep .
+  e cp lib/modules/<kernel_ver>/modules.pcimap .
+  r System.map lib
+
