@@ -55,19 +55,14 @@ glibc:
   linuxrc:
     if linuxrc
       if linuxrc =~ m#^[^/]#
-        m /usr/sbin/<linuxrc> /linuxrc
+        m /usr/sbin/<linuxrc> /init
       else
-        X <linuxrc> /linuxrc
+        X <linuxrc> /init
       endif
     else
-      m /usr/sbin/linuxrc /linuxrc
+      m /usr/sbin/linuxrc /init
     endif
     s /lbin/extend /bin
-
-  if initramfs
-    l linuxrc init
-    r linuxrc
-  endif
 
   x etc/syslog.conf etc
 
