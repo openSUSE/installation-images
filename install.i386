@@ -32,7 +32,7 @@ for theme in $THEMES ; do
     mkdir -p $DESTDIR/branding/$theme/ftp/boot/$ARCH/floppy
     rm -rf tmp/floppy-$theme
     mkdir -p tmp/floppy-$theme
-    cp -a images/instsys/cd1/boot/$ARCH/loader/* images/instsys/branding/openSUSE/cd1/boot/$ARCH/loader/* tmp/floppy-$theme
+    cp -a $DESTDIR/cd1/boot/$ARCH/loader/* $DESTDIR/branding/openSUSE/cd1/boot/$ARCH/loader/* tmp/floppy-$theme
     etc/mkbootdisk --syslinux=tmp/base/usr/bin/syslinux --out=$DESTDIR/branding/$theme/ftp/boot/$ARCH/floppy/bootdisk tmp/floppy-$theme
   fi
 done
