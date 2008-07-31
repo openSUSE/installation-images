@@ -115,5 +115,7 @@ clean:
 
 install: $(INSTSYS_PARTS) $(BOOT_PARTS)
 	-@rm -rf $(DESTDIR)
+	@mkdir $(DESTDIR)
+	@cp README.package $(DESTDIR)/README
 	./install.$(ARCH)
 
