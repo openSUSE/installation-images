@@ -14,7 +14,7 @@ die "usage: $Script\n" if @ARGV;
 
 # env vars:
 #
-# image, src, tmpdir, disjunct, keep, debug, fs, filelist, nolibs
+# image, src, tmpdir, disjunct, mode, debug, fs, filelist, nolibs, nostrip
 #
 #
 
@@ -55,13 +55,18 @@ $imagetype = $ENV{fs};
 $imagetype = "none" unless $imagetype;
 $use_gzip = 1 if $imagetype =~ s/\.gz$//;
 
-if($ENV{'keep'} != 1) {
-  # clean up
-  if(-d($tmpdir)) {
-    SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
-  }
+# modes: keep, add, "" (default)
+@mode{split ",", $ENV{mode}} = ( 1 .. 10 );
 
-  mkdir $tmpdir || die "$Script: failed to create $tmpdir";
+if(!$mode{keep} || $mode{add}) {
+  if(!$mode{add}) {
+    # clean up
+    if(-d($tmpdir)) {
+      SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
+    }
+
+    mkdir $tmpdir || die "$Script: failed to create $tmpdir";
+  }
 
   AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir or
     die "$Script: failed to setup image";
@@ -75,8 +80,11 @@ if($ENV{'keep'} != 1) {
 
   print "fix permissions of directories...\n";
   SUSystem "fix_perms $tmpdir";
-  print "strip everything...\n";
-  SUSystem "strip_dir $tmpdir";
+
+  if(!$ENV{nostrip}) {
+    print "strip everything...\n";
+    SUSystem "strip_dir $tmpdir";
+  }
 
   if($ENV{'nolibs'} != 1) {
     print "running ldconfig...";

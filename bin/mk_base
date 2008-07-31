@@ -54,16 +54,5 @@ else {
 #SUSystem "sh -c 'cd $tmpdir/initrddevs; RPM_ARCH=$rpmarch ../makedevs.floppy >/dev/null'" and
 #  die "$Script: could not create all devices";
 
-system "mlist1" and die "$Script: base system broken\n";
-
-if($debug =~ /\bignore\b/) {
-  system "mlist2" and
-    warn "$Script: error in module config, please fix\n";
-}
-else {
-  system "mlist2" and
-    die "$Script: error in module config, please fix\n";
-}
-
 print "$Script: base system ready\n";
 

@@ -19,11 +19,11 @@ die "usage: $Script\n" if @ARGV;
 # some config data
 
 $cfg = "${CfgPath}module.config";
-$deps = "${BasePath}tmp/module_deps";
-$fnames = "${BasePath}tmp/module_list";
-$mdisk_c = "${BasePath}tmp/module_disks_create";
-$mdisk_l = "${BasePath}tmp/module_disks_list";
-$mdisk_i = "${BasePath}tmp/module_disks_images";
+$deps = "${BasePath}tmp/modules-config/module_deps";
+$fnames = "${BasePath}tmp/modules-config/module_list";
+$mdisk_c = "${BasePath}tmp/modules-config/module_disks_create";
+$mdisk_l = "${BasePath}tmp/modules-config/module_disks_list";
+$mdisk_i = "${BasePath}tmp/modules-config/module_disks_images";
 $dst = "${DataPath}initrd/gen/module.";
 $mod_type = $ConfigData{module_type};
 
@@ -32,7 +32,7 @@ $mod_type = $ConfigData{module_type};
 
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
 
-$arch = `uname -m`; chomp $arch; $arch = "ia32" if $arch =~ /^i\d86$/;
+$arch = `uname -m`; chomp $arch; $arch = "i386" if $arch =~ /^i\d86$/;
 
 $err = 0;
 

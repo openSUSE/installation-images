@@ -14,13 +14,13 @@ sub sort_deps;
 
 die "usage: $Script\n" if @ARGV;
 
-$md = "${BasePath}tmp/base/modules.dep";
+$md = "${BasePath}tmp/modules-config/modules.dep";
 $ex = "${CfgPath}module.list";
-$deps = "${BasePath}tmp/module_deps";
-$list = "${BasePath}tmp/module_list";
+$deps = "${BasePath}tmp/modules-config/module_deps";
+$list = "${BasePath}tmp/modules-config/module_list";
 $mod_type = $ConfigData{module_type};
 
-$arch = `uname -m`; chomp $arch; $arch = "ia32" if $arch =~ /^i\d86$/;
+$arch = `uname -m`; chomp $arch; $arch = "i386" if $arch =~ /^i\d86$/;
 
 print STDERR "checking module list...\n";
 
