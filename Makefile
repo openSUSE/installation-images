@@ -15,8 +15,6 @@ INSTSYS_PARTS := images/config images/rpmlist images/root images/common images/r
 BOOT_PARTS    := images/boot/* images/initrd images/biostest
 DESTDIR       := images/instsys
 
-WITH_FLOPPY   := 0
-
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
