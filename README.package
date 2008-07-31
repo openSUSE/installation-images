@@ -1,0 +1,7 @@
+- normal media layout:
+
+  cd1/* + branding/<theme>/cd1/*
+
+- extra ftp things:
+
+  ftp/* + branding/<theme>/ftp/*
