@@ -1,0 +1,169 @@
+#! /usr/bin/perl
+
+use strict 'vars';
+use integer;
+use Getopt::Long;
+
+sub help;
+sub cleanup;
+
+END { cleanup }
+$SIG{INT} = \&cleanup;
+$SIG{TERM} = \&cleanup;
+
+$ENV{PATH} = "/bin:/usr/bin:/sbin:/usr/sbin";
+
+my $lib_dir = "/usr/lib/install-initrd";
+
+my $opt_keep = undef;
+my $opt_style = undef;
+my $opt_kernel = undef;
+my $opt_kernel_rpm = undef;
+my $opt_base = "initrd-base";
+my $opt_kernel_style = undef;
+
+GetOptions(
+  'help|h'       => \&help,
+  'keep'         => \$opt_keep,
+  'kernel=s'     => \$opt_kernel,
+  'kernel-rpm=s' => \$opt_kernel_rpm,
+  'style=s'      => \$opt_style,
+  'initrd=s'     => \$opt_base,
+  'libdir=s'     => \$lib_dir,
+);
+
+my $opt_file = shift;
+
+help unless $opt_file ne "";
+
+chomp (my $tmp_dir = `mktemp -d /tmp/install-initrd.XXXXXXXXXX`);
+die "error: mktemp failed\n" if $?;
+
+die "oops, broken install-initrd package\n" unless -d "$lib_dir/default";
+
+die "base file \"$opt_base.gz\" missing\n" unless -f "$lib_dir/$opt_base.gz";
+
+mkdir "$tmp_dir/i", 0755;
+
+my $kernel_dir = "";
+
+if(defined $opt_kernel_rpm) {
+  die "rpm not found: $opt_kernel_rpm\n" unless -f $opt_kernel_rpm;
+
+  mkdir "$tmp_dir/k", 0755;
+
+  system "cd $tmp_dir/k; rpm2cpio $opt_kernel_rpm | cpio --quiet --extract --unconditional --preserve-modification-time --make-directories";
+  $kernel_dir = "$tmp_dir/k";
+
+  $_ = <$kernel_dir/lib/modules/*/kernel>;
+
+  if(m#/lib/modules/(.*?)/kernel#) {
+    $opt_kernel = $1;
+  }
+  else {
+    die "unusual kernel package layout\n";
+  }
+}
+
+if(!defined $opt_kernel) {
+  chomp ($opt_kernel = `uname -r`);
+}
+
+$opt_kernel =~ s/\-([^\-]+)$//;
+
+$opt_style = $1 unless defined $opt_style;
+$opt_kernel_style = $1 unless defined $opt_kernel_style;
+
+if($opt_style ne "" && ! -d "$lib_dir/$opt_style") {
+  $opt_style = "default";
+}
+
+die "style $opt_style not supported\n" unless $opt_style ne "" && -d "$lib_dir/$opt_style";
+
+(my $override = $opt_kernel) =~ s/\-.*//;
+$override .= "-override-$opt_kernel_style";
+
+open F, "$lib_dir/$opt_style/module.list";
+my @modules = (<F>);
+close F;
+
+my @mod_files;
+
+if(-d "$kernel_dir/lib/modules/$opt_kernel-$opt_kernel_style") {
+  for (@modules) {
+    push @mod_files, scalar(`cd $kernel_dir/ ; find lib/modules/$opt_kernel-$opt_kernel_style/ -name $_ 2>/dev/null`);
+  }
+}
+
+chomp @mod_files;
+
+@mod_files = grep { $_ ne "" } @mod_files;
+
+warn "warning: no modules\n" if @mod_files == 0;
+
+system "mkdir -p $tmp_dir/i/lib/modules/$override/initrd $tmp_dir/i/lib/modules/$opt_kernel-$opt_kernel_style";
+symlink "../$override", "$tmp_dir/i/lib/modules/$opt_kernel-$opt_kernel_style/updates";
+symlink "lib/modules/$override/initrd", "$tmp_dir/i/modules";
+
+for (@mod_files) {
+  system "cd $kernel_dir/ ; cp -a '$_' $tmp_dir/i/lib/modules/$override/initrd";
+}
+
+die "no kernel symbols\n" unless -f "$kernel_dir/boot/System.map-$opt_kernel-$opt_kernel_style";
+
+system "depmod -a -b $tmp_dir/i -F $kernel_dir/boot/System.map-$opt_kernel-$opt_kernel_style $opt_kernel-$opt_kernel_style";
+
+system "cp $lib_dir/$opt_style/module.config $tmp_dir/i/modules";
+
+system "gunzip -c $lib_dir/$opt_base.gz >$tmp_dir/initrd";
+
+system "cd $tmp_dir/i ; find . | cpio --quiet -o -H newc -A -F $tmp_dir/initrd";
+
+my $size = -s "$tmp_dir/initrd";
+
+my $initrd = sprintf("initrd %d", $size >> 10);
+
+rename "$tmp_dir/initrd", "$tmp_dir/$initrd";
+
+system "gzip -f9N '$tmp_dir/$initrd'";
+
+system "cp '$tmp_dir/$initrd'.gz $opt_file";
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+sub help
+{
+  (my $p = $0) =~ s:.*/::;
+
+  print STDERR
+  "Usage: $p [options] initrd_name\n" .
+  "Create initrd usable for installation.\n" .
+  "Options:\n" .
+  "  --kernel=kernel-version\tuse modules from this kernel (installed)\n" .
+  "  --kernel-rpm=rpm\t\tuse modules from this kernel rpm\n" .
+  "  --libdir=dir\t\t\tsearch files in directory dir\n" .
+  "  --initrd=foo\t\t\tuse /usr/lib/install-initrd/foo.gz as base\n\n" .
+  "Examples:\n" .
+  "  $p foo\n" .
+  "  - create initrd 'foo' based on current kernel\n\n" .
+  "  $p --kernel=2.6.11.4-20a-smp foo\n" .
+  "  - create initrd 'foo' based on 2.6.11.4-20a-smp (must be installed)\n\n" .
+  "  $p --kernel-rpm=kernel-xen.rpm bar\n" .
+  "  - create initrd 'bar' based on xen kernel\n";
+
+  exit 0;
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# Remove temorary files.
+#
+sub cleanup
+{
+  local $?;
+
+  system "rm -r $tmp_dir" if !$opt_keep && -d $tmp_dir;
+  undef $tmp_dir;
+}
+
+
