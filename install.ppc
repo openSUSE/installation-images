@@ -1,0 +1,23 @@
+#! /bin/sh
+
+# gets ARCH, THEMES, DESTDIR, INSTSYS_PARTS, BOOT_PARTS, WITH_FLOPPY via env
+
+set -e
+
+# create directory layout
+mkdir -p $DESTDIR/cd1/boot/$ARCH
+for theme in $THEMES ; do
+  mkdir -p $DESTDIR/branding/$theme/cd1/boot/$ARCH
+done
+
+# copy branding independent parts
+for i in $INSTSYS_PARTS ; do
+  cp images/$i $DESTDIR/cd1/boot/$ARCH
+done
+
+# copy branding dependent parts
+for theme in $THEMES ; do
+  cp images/root-$theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/$theme
+  ln -s $theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/branding
+done
+

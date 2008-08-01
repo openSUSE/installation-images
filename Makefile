@@ -3,8 +3,6 @@ ifneq ($(filter i386 i486 i586 i686, $(ARCH)),)
 ARCH := i386
 endif
 
-ARCH:=ia64
-
 ifneq ($(filter i386 x86_64, $(ARCH)),)
 ALL_TARGETS   := initrd biostest initrd+modules boot boot-themes rescue root root+rescue root-themes gdb sax2
 INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
@@ -21,6 +19,11 @@ ifneq ($(filter s390 s390x, $(ARCH)),)
 ALL_TARGETS   := initrd initrd+modules rescue root root+rescue root-themes gdb
 INSTSYS_PARTS := config rpmlist root common rescue gdb
 BOOT_PARTS    := initrd
+endif
+
+ifneq ($(filter ppc ppc64, $(ARCH)),)
+ALL_TARGETS   := initrd initrd+modules rescue root root+rescue root-themes gdb sax2
+INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
 endif
 
 THEMES        := openSUSE SLES
