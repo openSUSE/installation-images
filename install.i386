@@ -11,8 +11,13 @@ for theme in $THEMES ; do
 done
 
 # copy branding independent parts
-cp $INSTSYS_PARTS $DESTDIR/cd1/boot/$ARCH
-cp -r $BOOT_PARTS $DESTDIR/cd1/boot/$ARCH/loader
+for i in $INSTSYS_PARTS ; do
+  cp images/$i $DESTDIR/cd1/boot/$ARCH
+done
+
+for i in $BOOT_PARTS ; do
+  cp -r images/$i $DESTDIR/cd1/boot/$ARCH/loader
+done
 
 # copy branding dependent parts
 for theme in $THEMES ; do

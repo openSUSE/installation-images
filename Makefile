@@ -1,18 +1,21 @@
-ARCH    := $(shell uname -m)
-ifeq "$(ARCH)" "i486"
-ARCH    := i386
-endif
-ifeq "$(ARCH)" "i586"
-ARCH    := i386
-endif
-ifeq "$(ARCH)" "i686"
-ARCH    := i386
+ARCH := $(shell uname -m)
+ifneq ($(filter i386 i486 i586 i686, $(ARCH)),)
+ARCH := i386
 endif
 
+ARCH:=s390x
+
+ifneq ($(filter i386 x86_64, $(ARCH)),)
+INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
+BOOT_PARTS    := boot/* initrd biostest
+endif
+
+ifneq ($(filter s390 s390x, $(ARCH)),)
+INSTSYS_PARTS := config rpmlist root common rescue gdb
+BOOT_PARTS    := initrd
+endif
 
 THEMES        := openSUSE SLES
-INSTSYS_PARTS := images/config images/rpmlist images/root images/common images/rescue images/sax2 images/gdb
-BOOT_PARTS    := images/boot/* images/initrd images/biostest
 DESTDIR       := images/instsys
 
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
@@ -113,7 +116,7 @@ clean:
 	-@rm -rf /tmp/mk_base_* /tmp/mk_initrd_* /tmp/mk_image_* 
 	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/demo/gen
 
-install: $(INSTSYS_PARTS) $(BOOT_PARTS)
+install:
 	-@rm -rf $(DESTDIR)
 	@mkdir -p $(DESTDIR)
 	@cp README.package $(DESTDIR)/README
