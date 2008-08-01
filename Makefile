@@ -67,8 +67,9 @@ modules: base
 	bin/mlist1
 	bin/mlist2
 	nolibs=1 image=modules src=initrd fs=none bin/mk_image
-	ls -I module.config tmp/modules/modules | sed -e 's#.*/##' >images/module.list
-	cp tmp/modules/modules/module.config images
+	mkdir -p images/module-config/$${MOD_CFG:-default}
+	ls -I module.config tmp/modules/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
+	cp tmp/modules/modules/module.config images/module-config/$${MOD_CFG:-default}
 
 initrd+modules: base
 	nolibs=1 image=modules-config src=initrd fs=none bin/mk_image
@@ -76,8 +77,9 @@ initrd+modules: base
 	bin/mlist2
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
 	nolibs=1 mode=keep,add image=initrd filelist=modules src=initrd fs=cpio.gz bin/mk_image
-	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module.list
-	cp tmp/initrd/modules/module.config images
+	mkdir -p images/module-config/$${MOD_CFG:-default}
+	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
+	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
 
 boot-ia64: base
 	nolibs=1 image=boot fs=dir bin/mk_image
@@ -127,7 +129,7 @@ clean:
 	-@make -C src/eltorito clean
 	-@rm -rf images tmp
 	-@rm -f `find -name '*~'`
-	-@rm -rf /tmp/mk_base_* /tmp/mk_initrd_* /tmp/mk_image_* 
+	-@rm -rf /tmp/mk_initrd_* /tmp/mk_image_* 
 	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/demo/gen
 
 install:
@@ -140,5 +142,5 @@ install-initrd:
 	-@rm -rf $(DESTDIR)
 	@mkdir -p $(DESTDIR)/default
 	cp images/initrd-base.gz $(DESTDIR)
-	cp images/module.config images/module.list $(DESTDIR)/default
+	cp -a images/module-config/* $(DESTDIR)
 
