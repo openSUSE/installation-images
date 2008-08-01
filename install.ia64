@@ -19,20 +19,11 @@ for i in $BOOT_PARTS ; do
   cp -r images/$i $DESTDIR/cd1/boot/$ARCH
 done
 
+mv $DESTDIR/cd1/boot/$ARCH/initrd $DESTDIR/cd1/boot/$ARCH/initdisk.gz
+
 # copy branding dependent parts
 for theme in $THEMES ; do
   cp images/root-$theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/$theme
   ln -s $theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/branding
 done
-
-perl -e "print pack('N', -s '$DESTDIR/cd1/boot/$ARCH/initrd')" >$DESTDIR/cd1/boot/$ARCH/initrd.siz
-
-install -m 644 /boot/installation-kernel-tapeipl/image $DESTDIR/cd1/boot/$ARCH/tapeipl.ikr
-install -m 644 /boot/image-* $DESTDIR/cd1/boot/$ARCH/vmrdr.ikr
-
-install -m 644 data/initrd/s390/suse.ins.root.$ARCH $DESTDIR/cd1/suse.ins
-install -m 644 data/initrd/s390/suse.ins.images.$ARCH $DESTDIR/cd1/boot/$ARCH/suse.ins
-
-install -m 644 data/initrd/s390/suse.ins.parmfile $DESTDIR/cd1/boot/$ARCH/parmfile
-install -m 644 data/initrd/s390/suse.ins.parmfile.cd $DESTDIR/cd1/boot/$ARCH/parmfile.cd
 

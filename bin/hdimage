@@ -1,0 +1,453 @@
+#! /usr/bin/perl
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# package HDImage version 1.5
+#
+# Create disk image with partition table and a single partition.
+#
+# Copyright (c) 2008 Steffen Winterfeldt
+#
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+{
+  package HDImage;
+
+  use strict 'vars';
+  use bigint;
+
+  sub new
+  {
+    my $self = {};
+
+    bless $self;
+
+    return $self;
+  }
+
+  sub verbose
+  {
+    my $self = shift;
+
+    $self->{verbose} = shift;
+  }
+
+  sub mbr
+  {
+    my $self = shift;
+
+    if(@_) {
+      my $file = shift;
+      open F1, $file;
+      sysread F1, $self->{mbr}, 440;
+      close F1;
+
+      if(length($self->{mbr}) != 440) {
+        print STDERR "warning: $file: no valid MBR\n";
+      }
+    }
+    else {
+      undef $self->{mbr};
+    }
+  }
+
+  sub boot_fat12
+  {
+    my $self = shift;
+
+    if(@_) {
+      my $file = shift;
+      open F1, $file;
+      sysread F1, $self->{boot_fat12}, 512;
+      close F1;
+
+      if(length($self->{boot_fat12}) != 512 || substr($self->{boot_fat12}, 0x1fe, 2) ne "\x55\xaa") {
+        print STDERR "warning: $file: no valid boot block\n";
+      }
+    }
+    else {
+      undef $self->{boot_fat12};
+    }
+  }
+
+  sub boot_fat16
+  {
+    my $self = shift;
+
+    if(@_) {
+      my $file = shift;
+      open F1, $file;
+      sysread F1, $self->{boot_fat16}, 512;
+      close F1;
+
+      if(length($self->{boot_fat16}) != 512 || substr($self->{boot_fat16}, 0x1fe, 2) ne "\x55\xaa") {
+        print STDERR "warning: $file: no valid boot block\n";
+      }
+    }
+    else {
+      undef $self->{boot_fat16};
+    }
+  }
+
+  sub chs
+  {
+    my $self = shift;
+    my $c = shift;
+    my $h = shift;
+    my $s = shift;
+
+    $h = 255 if $h < 1 || $h > 255;
+    $s = 63 if $s < 1 || $s > 63;
+
+    $self->{h} = $h;
+    $self->{s} = $s;
+
+    if($c == 0 && $self->{size}) {
+      $c = ($self->{size} + $h * $s - 1) / $h / $s;
+    }
+
+    if($c > 0) {
+      $self->{c} = $c;
+      $self->{size} = $c * $h * $s;
+    }
+
+    return $self->{size};
+  }
+
+  sub size
+  {
+    my $self = shift;
+    my $size = $self->parse_size(shift);
+
+    $self->{size} = $size;
+    if($self->{h} && $self->{s}) {
+      $self->{c} = ($self->{size} + $self->{h} * $self->{s} - 1) / $self->{h} / $self->{s};
+      $self->{size} = $self->{c} * $self->{h} * $self->{s};
+    }
+
+    return $self->{size};
+  }
+
+  sub extra_size
+  {
+    my $self = shift;
+
+    $self->{extra_size} = $self->parse_size(shift);
+  }
+
+  sub type
+  {
+    my $self = shift;
+
+    $self->{type} = shift;
+  }
+
+  sub label
+  {
+    my $self = shift;
+
+    $self->{label} = shift;
+  }
+
+  sub fs
+  {
+    my $self = shift;
+
+    $self->{fs} = shift;
+  }
+
+  sub add_files
+  {
+    my $self = shift;
+    local $_;
+
+    for (@_) {
+      if(-f || -d) {
+        push @{$self->{files}}, $_;
+      }
+      else {
+        print STDERR "$_: no such file or directory\n";
+      }
+    }
+  }
+
+  sub tmp_file
+  {
+    my $self = shift;
+
+    chomp (my $t = `mktemp /tmp/HDImage.XXXXXXXXXX`);
+    die "error: mktemp failed\n" if $?;
+
+    eval 'END { unlink $t }';
+
+    my $s_t = $SIG{TERM};
+    $SIG{TERM} = sub { unlink $t; &$s_t if $s_t };
+
+    my $s_i = $SIG{INT};
+    $SIG{INT} = sub { unlink $t; &$s_i if $s_i };
+
+    return $t;
+  }
+
+  sub partition_ofs
+  {
+    my $self = shift;
+
+    $self->{part_ofs} = $self->parse_size(shift) if @_;
+
+    return defined($self->{part_ofs}) ? $self->{part_ofs} : $self->{s};
+  }
+
+  sub write
+  {
+    my $self = shift;
+    local $_;
+
+    return undef unless @_;
+
+    my $file = shift;
+    $self->{image_name} = $file;
+
+    $self->chs(0, 255, 63) unless $self->{s};
+
+    my $p_size = $self->{size} - $self->partition_ofs -  $self->{extra_size};
+    return undef if $p_size < 0;
+
+    my $c = $self->{c};
+    my $h = $self->{h};
+    my $s = $self->{s};
+    my $type = $self->{type};
+
+    my $pt_size = $self->partition_ofs;
+    my $p_end = $p_size + $pt_size - 1;
+
+    $type = 0x83 unless defined $type;
+
+    print "$file: chs = $c/$h/$s, size = $self->{size} blocks\n" if $self->{verbose};
+
+    print "- writing mbr\n" if $self->{verbose} && $self->{mbr};
+
+    $c = 1023 if $c > 1023;
+
+    my $s_0 = $pt_size % $s + 1;
+    my $h_0 = ($pt_size / $s) % $h;
+    my $c_0 = $pt_size / ($s * $h);
+    $c_0 = 1023 if $c_0 > 1023;
+
+    my $s_1 = $p_end % $s + 1;
+    my $h_1 = ($p_end / $s) % $h;
+    my $c_1 = $p_end / ($s * $h);
+    $c_1 = 1023 if $c_1 > 1023;
+
+    my $p_0 = $pt_size;
+    $p_0 = 0xffffffff if $p_0 > 0xffffffff;
+    my $p_1 = $p_size;
+    $p_1 = 0xffffffff if $p_1 > 0xffffffff;
+
+    open W1, ">$file";
+    if($pt_size) {
+      my $mbr = pack (
+        "Z446CCCCCCCCVVZ48v",
+        $self->{mbr},                 # boot code, if any
+        0x80,                         # bootflag
+        $h_0,                         # head start
+        (($c_0 >> 8) << 6) + $s_0,    # cyl/sector start, low
+        $c_0 & 0xff,                  # cyl/sector start, hi
+        $type,                        # partition type
+        $h_1,                         # head last
+        (($c_1 >> 8) << 6) + $s_1,    # cyl/sector last, low
+        $c_1 & 0xff,                  # cyl/sector last, hi
+        $p_0,                         # partition offset
+        $p_1,                         # partition size
+        "", 0xaa55
+      );
+
+      syswrite W1, $mbr;
+      if($pt_size > 1) {
+        sysseek W1, $pt_size * 512 - 1, 0;
+        syswrite W1, "\x00", 1;
+      }
+    }
+    close W1;
+
+    if($p_size) {
+      if($self->{fs}) {
+        my $f = $pt_size ? tmp_file() : $file;
+        open W1, ">$f";
+        sysseek W1, $p_size * 512 - 1, 0;
+        syswrite W1, "\x00", 1;
+        close W1;
+        if($self->{fs} eq 'fat') {
+          my $x = " -n '$self->{label}'" if $self->{label} ne "";
+          system "mkfs.vfat -h $pt_size$x $f >/dev/null";
+
+          my ($fat, $boot);
+
+          # mkfs.vfat is a bit stupid; fix FAT superblock
+          open W1, "+<$f";
+          sysseek W1, 0x18, 0;
+          syswrite W1, pack("vv", $s, $h);
+          sysseek W1, 0x24, 0;
+          syswrite W1, "\xff";
+          sysseek W1, 0x36, 0;
+          sysread W1, $fat, 5;
+          # FAT32: at ofs 0x52
+          close W1;
+
+          $boot = $self->{boot_fat12} if $fat eq "FAT12";
+          $boot = $self->{boot_fat16} if $fat eq "FAT16";
+
+          # write boot block ex bpb
+          if($boot) {
+            print "- writing \L$fat\E boot block\n" if $self->{verbose};
+            open W1, "+<$f";
+            syswrite W1, $boot, 11;
+            sysseek W1, 0x3e, 0;
+            syswrite W1, substr($boot, 0x3e);
+            close W1;
+          }
+
+          if($self->{files}) {
+            print "- copying:\n    " . join("\n    ", @{$self->{files}}) . "\n" if $self->{verbose};
+            system "mcopy -D o -s -i $f " . join(" ", @{$self->{files}}) . " ::";
+          }
+        }
+        elsif($self->{fs} eq 'ext2' || $self->{fs} eq 'ext3') {
+          my $x = " -L '$self->{label}'" if $self->{label} ne "";
+          system "mkfs.$self->{fs} -q -m 0 -F$x $f";
+          system "tune2fs -c 0 -i 0 $f >/dev/null 2>&1";
+        }
+        elsif($self->{fs} eq 'reiserfs') {
+          my $x = " -l '$self->{label}'" if $self->{label} ne "";
+          system "mkfs.reiserfs -q -ff$x $f";
+        }
+        elsif($self->{fs} eq 'xfs') {
+          my $x = " -L '$self->{label}'" if $self->{label} ne "";
+          system "mkfs.xfs -q$x $f";
+        }
+        else {
+          print STDERR "warning: $self->{fs}: unsupported file system\n";
+        }
+
+        if($pt_size) {
+          system "cat $f >>$file";
+          unlink $f;
+        }
+      }
+      else {
+        open W1, "+<$file";
+        sysseek W1, ($self->{size} - $self->{extra_size}) * 512 - 1, 0;
+        syswrite W1, "\x00", 1;
+        close W1;
+      }
+    }
+
+    if($self->{extra_size}) {
+      open W1, "+<$file";
+      sysseek W1, $self->{extra_size} * 512 - 1, 2;
+      syswrite W1, "\x00", 1;
+      close W1;
+    }
+  }
+
+  sub parse_size
+  {
+    my $self = shift;
+    my $s = shift;
+    my $bs = 0;
+
+    if($s =~ s/(b|k|M|G|T|P|E)$//) {
+      $bs =  0 if $1 eq 'b';
+      $bs =  1 if $1 eq 'k';
+      $bs = 11 if $1 eq 'M';
+      $bs = 21 if $1 eq 'G';
+      $bs = 31 if $1 eq 'T';
+      $bs = 41 if $1 eq 'P';
+      $bs = 51 if $1 eq 'E';
+    }
+
+    # note: 'bigint' works a bit differently when converting strings to numbers
+
+    $s = $s << $bs;
+
+    return $s + 1 == $s ? undef : $s;
+  }
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+use Getopt::Long;
+
+sub usage;
+sub parse_size;
+
+usage 0 if !@ARGV;
+
+GetOptions(
+  'help'            => sub { usage 0 },
+  'verbose+'        => \$opt_verbose,
+  'mbr=s'           => \$opt_mbr,
+  'part-ofs=s'      => \$opt_partition_ofs,
+  'type=o'          => \$opt_type,
+  'size=s'          => \$opt_size,
+  'extra-size=s'    => \$opt_extra_size,
+  'chs=o{3}'        => \@opt_chs,
+  'mkfs=s'          => \$opt_mkfs,
+  'label=s'         => \$opt_label,
+  'boot-fat12=s'    => \$opt_boot_fat12,
+  'boot-fat16=s'    => \$opt_boot_fat16,
+  'add-files=s{1,}' => \@opt_files,
+) || usage 1;
+
+usage 1 if @ARGV != 1;
+
+$file = shift;
+
+$hdimage = HDImage::new;
+$hdimage->verbose($opt_verbose);
+
+$hdimage->extra_size($opt_extra_size) if $opt_extra_size;
+$size = $hdimage->chs(@opt_chs) if (@opt_chs);
+$size = $hdimage->size($opt_size) if defined $opt_size;
+die "sorry, no disk size\n" unless defined $size;
+$hdimage->type($opt_type);
+$hdimage->partition_ofs($opt_partition_ofs) if defined $opt_partition_ofs;
+$hdimage->label($opt_label);
+$hdimage->fs($opt_mkfs);
+$hdimage->mbr($opt_mbr) if $opt_mbr;
+$hdimage->boot_fat12($opt_boot_fat12) if $opt_boot_fat12;
+$hdimage->boot_fat16($opt_boot_fat16) if $opt_boot_fat16;
+$hdimage->add_files(@opt_files) if @opt_files;
+
+$hdimage->write($file);
+
+sub usage
+{
+  print <<"  usage";
+Usage: hdimage [options] image_file
+Create disk image with partition table and a single bootable partition.
+
+Options:
+
+  --size SIZE                   Disk size. Will be rounded up to full cylinders.
+  --part-ofs SIZE               Start partition at SIZE (0 = no partition table).
+  --extra-size SIZE             Leave that much space after partition.
+  --type PARTITIONTYPE          Set partition type.
+  --chs CYLINDERS HEADS SECTORS Disk geometry.
+  --mbr FILE                    Add bootloader from FILE to MBR.
+  --mkfs FS                     Create file system FS (FS: ext2, ext3, fat, reiserfs, xfs).
+  --label LABEL                 Set file system label LABEL.
+  --boot-fat12 FILE             For FAT12 filesystem: add bootloader from FILE to FAT boot block.
+  --boot-fat16 FILE             For FAT16 filesystem: add bootloader from FILE to FAT boot block.
+  --add-files FILE1 FILE2 ...   Copy files to FAT partition.
+  --verbose                     Be more verbose.
+
+SIZE may include a unit (b, k, M, G, T, P, E). Default is b (512 bytes).
+
+  usage
+
+  exit shift;
+}
+
+
