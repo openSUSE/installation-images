@@ -46,7 +46,7 @@ biostest: base
 	nolibs=1 image=biostest src=initrd fs=cpio.gz disjunct=initrd bin/mk_image
 
 initrd: base
-	image=initrd fs=cpio.gz bin/mk_image
+	image=initrd-base.gz tmpdir=initrd src=initrd filelist=initrd fs=cpio.gz bin/mk_image
 
 modules: base
 	nolibs=1 image=modules-config src=initrd fs=none bin/mk_image
@@ -54,6 +54,7 @@ modules: base
 	bin/mlist2
 	nolibs=1 image=modules src=initrd fs=none bin/mk_image
 	ls -I module.config tmp/modules/modules | sed -e 's#.*/##' >images/module.list
+	cp tmp/modules/modules/module.config images
 
 initrd+modules: base
 	nolibs=1 image=modules-config src=initrd fs=none bin/mk_image
@@ -62,6 +63,7 @@ initrd+modules: base
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
 	nolibs=1 mode=keep,add image=initrd filelist=modules src=initrd fs=cpio.gz bin/mk_image
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module.list
+	cp tmp/initrd/modules/module.config images
 
 oldboot: initrd mboot
 	bin/mk_boot
@@ -76,11 +78,11 @@ rescue: base
 	image=rescue bin/mk_image
 
 root+rescue: base
-	rm -rf tmp/tmp
-	bin/common_tree --dst tmp/tmp tmp/rescue tmp/root
-	mode=keep tmpdir=tmp/tmp/c image=common fs=squashfs bin/mk_image
-	mode=keep tmpdir=tmp/tmp/1 image=rescue fs=squashfs bin/mk_image
-	mode=keep tmpdir=tmp/tmp/2 image=root fs=squashfs bin/mk_image
+	nolibs=1 image=root+rescue fs=none bin/mk_image
+	bin/common_tree --dst tmp/root+rescue tmp/rescue tmp/root
+	mode=keep tmpdir=root+rescue/c image=common fs=squashfs bin/mk_image
+	mode=keep tmpdir=root+rescue/1 image=rescue fs=squashfs bin/mk_image
+	mode=keep tmpdir=root+rescue/2 image=root fs=squashfs bin/mk_image
 	cp data/root/config images
 	cat data/root/rpmlist tmp/base/yast2-trans-rpm.list >images/rpmlist
 
@@ -116,4 +118,10 @@ install: $(INSTSYS_PARTS) $(BOOT_PARTS)
 	@mkdir -p $(DESTDIR)
 	@cp README.package $(DESTDIR)/README
 	./install.$(ARCH)
+
+install-initrd:
+	-@rm -rf $(DESTDIR)
+	@mkdir -p $(DESTDIR)/default
+	cp images/initrd-base.gz $(DESTDIR)
+	cp images/module.config images/module.list $(DESTDIR)/default
 

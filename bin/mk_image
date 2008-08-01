@@ -33,7 +33,7 @@ $fl = $imagename if $fl eq "";
 
 $srcdir = "${DataPath}$srcname";
 $tmpdir = "${BasePath}tmp/$imagename";
-$tmpdir = "${BasePath}$ENV{tmpdir}" if $ENV{tmpdir};
+$tmpdir = "${BasePath}tmp/$ENV{tmpdir}" if $ENV{tmpdir};
 $image = "${ImagePath}$imagename";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

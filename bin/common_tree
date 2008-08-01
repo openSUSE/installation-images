@@ -21,8 +21,10 @@ GetOptions(
 );
 
 die "usage: common_tree --dst dst_dir src_1 src_2 ...\n" unless $opt_dst;
-die "error: \"$opt_dst\" already exists; please delete\n" if -e $opt_dst;
-die "$opt_dst: $!\n" unless mkdir $opt_dst, 0755;
+die "error: \"$opt_dst\" already used; please cleanup\n" if -e "$opt_dst/c";
+if(! -d $opt_dst) {
+  die "$opt_dst: $!\n" unless mkdir $opt_dst, 0755;
+}
 
 @dir_list = @ARGV;
 
