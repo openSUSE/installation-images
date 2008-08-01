@@ -3,14 +3,14 @@ ifneq ($(filter i386 i486 i586 i686, $(ARCH)),)
 ARCH := i386
 endif
 
-ARCH:=s390x
-
 ifneq ($(filter i386 x86_64, $(ARCH)),)
+ALL_TARGETS   := initrd biostest initrd+modules boot boot-themes rescue root root+rescue root-themes gdb sax2
 INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
 BOOT_PARTS    := boot/* initrd biostest
 endif
 
 ifneq ($(filter s390 s390x, $(ARCH)),)
+ALL_TARGETS   := initrd initrd+modules rescue root root+rescue root-themes gdb
 INSTSYS_PARTS := config rpmlist root common rescue gdb
 BOOT_PARTS    := initrd
 endif
@@ -22,9 +22,9 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
 	oldboot boot root rescue root+rescue sax2 gdb mboot clean \
-	boot-themes root-themes install
+	boot-themes root-themes install install-initrd
 
-all: initrd biostest initrd+modules boot boot-themes rescue root root+rescue gdb sax2 root-themes
+all: $(ALL_TARGETS)
 	@rm images/*.log
 
 install:
