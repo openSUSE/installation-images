@@ -471,8 +471,8 @@ endif
   libcurl4:
     /usr/lib*/libcurl.so*
 
-  libcares2:
-    /usr/lib*/libcares.so.*
+#  libcares2:
+#    /usr/lib*/libcares.so.*
 
   resmgr:
     /lib*/libresmgr.so.*

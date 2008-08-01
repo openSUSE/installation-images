@@ -295,6 +295,7 @@ for (sort keys %moddisk_i) {
 }
 close W;
 
+$err = 0 if $ENV{debug} =~ /\bignore\b/;
 
 exit $err;
 
