@@ -1,3 +1,5 @@
+	- added s390 network config scripts to initrd
+
 25/7/2008:	v10.51
 	- reworked instsys scripts
 	- added sax2 & gdb image
