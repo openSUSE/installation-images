@@ -1,3 +1,7 @@
+*** this is 11.1-BETA, *NOT* 11.1-STABLE ***
+
+18/8/2008:	v10.52
+	- make /var/lock/libstorage writable (bnc #416276)
 	- added s390 network config scripts to initrd
 
 25/7/2008:	v10.51
