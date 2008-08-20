@@ -45,11 +45,11 @@ cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
 cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
 if test "$do_32" = "true" ; then
-cp -pfv $bdir/initrd-kernel-default-ppc $CD1/suseboot/initrd32
+cp -pfv $bdir/images/initrd             $CD1/suseboot/initrd32
 gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
 fi
 if test "$do_64" = "true" ; then
-cp -pfv $bdir/initrd-kernel-ppc64       $CD2/suseboot/initrd64
+cp -pfv $bdir/images/initrd-ppc64       $CD2/suseboot/initrd64
 gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD2/suseboot/linux64.gz
 fi
 
@@ -63,13 +63,13 @@ if test "$do_64" = "true" ; then
 	/bin/mkzimage \
 	--board chrp \
 	--vmlinux /boot/vmlinux-*-ppc64 \
-	--initrd $bdir/initrd-kernel-ppc64 \
+	--initrd $bdir/images/initrd-ppc64 \
 	--output $CD1/suseboot/inst64
 #
 	/bin/mkzimage \
 	--board iseries \
 	--vmlinux /boot/vmlinux-*-ppc64 \
-	--initrd $bdir/initrd-kernel-ppc64 \
+	--initrd $bdir/images/initrd-ppc64 \
 	--output $CD1/ISERIES64
 #
 fi
@@ -78,14 +78,14 @@ if test "$do_32" = "true" ; then
 	/bin/mkzimage \
 	--board chrp \
 	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/initrd-kernel-default-ppc \
+	--initrd $bdir/images/initrd \
 	--output $CD1/suseboot/inst32
 #
 	if test "42" = "false" ; then
 		/bin/mkzimage \
 		--board prep \
 		--vmlinux /boot/vmlinux-*-default \
-		--initrd $bdir/initrd-kernel-default-ppc \
+		--initrd $bdir/images/initrd \
 		--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 		--output $CD1/boot/ppc/zImage.prep.initrd
 	fi
@@ -94,7 +94,7 @@ if test "$do_32" = "true" ; then
 		/bin/mkzimage \
 		--board pmaccoff \
 		--vmlinux /boot/vmlinux-*-default \
-		--initrd $bdir/initrd-kernel-default-ppc32_pmac_coff \
+		--initrd $bdir/images/initrd-ppc32_pmac_coff \
 		--output $CD1/boot/ppc/install-pmaccoff
 #
 		/bin/mkzimage \
@@ -230,3 +230,6 @@ cat $CD1/suseboot/os-chooser
 
 find $CD1 $CD2 -ls
 du -sm $CD1 $CD2
+
+# no FTP dir
+rm -rf $targetdir/FTP

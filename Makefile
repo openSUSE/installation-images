@@ -26,14 +26,14 @@ ALL_TARGETS   := initrd initrd+modules rescue root root+rescue root-themes gdb s
 INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
 endif
 
-THEMES        := openSUSE SLES
+THEMES        := openSUSE SLES SLED
 DESTDIR       := images/instsys
 
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
 	boot boot-ia64 root rescue root+rescue sax2 gdb clean \
-	boot-themes root-themes install install-initrd
+	boot-themes root-themes install install-initrd debuginfo
 
 all: $(ALL_TARGETS)
 	@rm images/*.log
@@ -76,7 +76,7 @@ initrd+modules: base
 	bin/mlist1
 	bin/mlist2
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
-	nolibs=1 mode=keep,add image=initrd filelist=modules src=initrd fs=cpio.gz bin/mk_image
+	nolibs=1 mode=keep,add image=$${image:-initrd} tmpdir=initrd filelist=modules src=initrd fs=cpio.gz bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
@@ -124,6 +124,9 @@ root-themes: base
 mboot:
 	make -C src/mboot
 
+debuginfo:
+	./install.debuginfo
+
 clean:
 	-@make -C src/mboot clean
 	-@make -C src/eltorito clean
@@ -135,7 +138,6 @@ clean:
 install:
 	-@rm -rf $(DESTDIR)
 	@mkdir -p $(DESTDIR)
-	@cp README.package $(DESTDIR)/README
 	./install.$(ARCH)
 
 install-initrd:

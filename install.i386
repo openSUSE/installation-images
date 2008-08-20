@@ -5,40 +5,40 @@
 set -e
 
 # create directory layout
-mkdir -p $DESTDIR/cd1/boot/$ARCH/loader
+mkdir -p $DESTDIR/CD1/boot/$ARCH/loader
 for theme in $THEMES ; do
-  mkdir -p $DESTDIR/branding/$theme/cd1/boot/$ARCH
+  mkdir -p $DESTDIR/branding/$theme/CD1/boot/$ARCH
 done
 
 # copy branding independent parts
 for i in $INSTSYS_PARTS ; do
-  cp images/$i $DESTDIR/cd1/boot/$ARCH
+  cp images/$i $DESTDIR/CD1/boot/$ARCH
 done
 
 for i in $BOOT_PARTS ; do
-  cp -r images/$i $DESTDIR/cd1/boot/$ARCH/loader
+  cp -r images/$i $DESTDIR/CD1/boot/$ARCH/loader
 done
 
 # copy branding dependent parts
 for theme in $THEMES ; do
-  cp -r images/boot-$theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/loader
+  cp -r images/boot-$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader
 
-  cp images/root-$theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/$theme
-  ln -s $theme $DESTDIR/branding/$theme/cd1/boot/$ARCH/branding
+  cp images/root-$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/$theme
+  ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
 
-  cp etc/README $DESTDIR/branding/$theme/cd1/boot/$ARCH
-  recode utf8..ibmpc <$DESTDIR/branding/$theme/cd1/boot/$ARCH/README >$DESTDIR/branding/$theme/cd1/boot/$ARCH/README.DOS
-  cp etc/LIESMICH $DESTDIR/branding/$theme/cd1/boot/$ARCH
-  recode utf8..ibmpc <$DESTDIR/branding/$theme/cd1/boot/$ARCH/LIESMICH >$DESTDIR/branding/$theme/cd1/boot/$ARCH/LIESMICH.DOS
-  cp etc/mkbootdisk $DESTDIR/branding/$theme/cd1/boot/$ARCH
+  cp etc/README $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  recode utf8..ibmpc <$DESTDIR/branding/$theme/CD1/boot/$ARCH/README >$DESTDIR/branding/$theme/CD1/boot/$ARCH/README.DOS
+  cp etc/LIESMICH $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  recode utf8..ibmpc <$DESTDIR/branding/$theme/CD1/boot/$ARCH/LIESMICH >$DESTDIR/branding/$theme/CD1/boot/$ARCH/LIESMICH.DOS
+  cp etc/mkbootdisk $DESTDIR/branding/$theme/CD1/boot/$ARCH
 
   # create boot floppies and put them in ftp tree
   if [ "$WITH_FLOPPY" = 1 ] ; then
-    mkdir -p $DESTDIR/branding/$theme/ftp/boot/$ARCH/floppy
+    mkdir -p $DESTDIR/branding/$theme/FTP/boot/$ARCH/floppy
     rm -rf tmp/floppy-$theme
     mkdir -p tmp/floppy-$theme
-    cp -a $DESTDIR/cd1/boot/$ARCH/loader/* $DESTDIR/branding/openSUSE/cd1/boot/$ARCH/loader/* tmp/floppy-$theme
-    etc/mkbootdisk --syslinux=tmp/base/usr/bin/syslinux --out=$DESTDIR/branding/$theme/ftp/boot/$ARCH/floppy/bootdisk tmp/floppy-$theme
+    cp -a $DESTDIR/CD1/boot/$ARCH/loader/* $DESTDIR/branding/openSUSE/CD1/boot/$ARCH/loader/* tmp/floppy-$theme
+    etc/mkbootdisk --syslinux=tmp/base/usr/bin/syslinux --out=$DESTDIR/branding/$theme/FTP/boot/$ARCH/floppy/bootdisk tmp/floppy-$theme
   fi
 done
 

@@ -719,6 +719,9 @@ dhcpv6:
   /var/lib/dhcpv6
   x etc/dhcp6c.conf etc
 
+libnl:
+  /usr/lib*/libnl.so.*
+
 smartmontools:
   /etc
   /usr/sbin

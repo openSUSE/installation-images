@@ -1,8 +1,9 @@
-desktop-data-NLD:
+# desktop-data-SLED:
+desktop-data-openSUSE:
   /usr/share/desktop-data/qtrc
 
-yast2-theme-NLD:
+yast2-theme-SLED:
   /
-  s NLD usr/share/YaST2/theme/current
+  s SLED usr/share/YaST2/theme/current
 
 

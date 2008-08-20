@@ -215,6 +215,9 @@ e2fsprogs:
   /etc
   /sbin
 
+uuidgen:
+  /usr/bin/uuidgen
+
 libext2fs2:
   /lib*
 
@@ -398,6 +401,8 @@ if with_yast2 ne 'no'
     /
   yast2-mouse:
     /
+  yast2-multipath:
+    /
   yast2-ncurses:
     /
   yast2-network:
@@ -420,12 +425,9 @@ if arch eq 's390' || arch eq 's390x'
 endif
   yast2-slp:
     /
-  yast2-storage:
+  yast2-storage: postin
     /
-if 0
-  yast2-storage-evms:
-    /
-endif
+    E postin
   yast2-storage-lib:
     /
   yast2-transfer:
@@ -944,6 +946,18 @@ libcap2:
 
 satsolver-tools:
   /usr/bin
+
+bind-utils:
+  /usr/bin
+
+bind-libs:
+  /usr/lib*
+
+libcap2:
+  /lib*
+
+openldap2-client:
+  /usr/bin/ldapsearch
 
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale

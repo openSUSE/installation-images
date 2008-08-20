@@ -35,7 +35,7 @@ s390x	= image
 ;
 [KernelRPM]
 default	= kernel-default
-
+s390    = kernel-s390
 
 ; extra kmps we need (',' separated list)
 [KMP]
@@ -72,7 +72,7 @@ image	= 350
 
 
 [Theme SLES]
-yast	= NLD
+yast	= SLED
 bsplash = openSUSE
 ksplash = SLES
 product	= SUSE Linux Enterprise Server 11
@@ -81,14 +81,14 @@ update	= /linux/suse/<arch>-<sles>
 image	= 200
 
 
-; [Theme NLD]
-; yast	= NLD
-; bsplash = NLD
-; ksplash	= SuSE-NLD
-; product	= SUSE Linux Enterprise Desktop 10
-; version = 10.1
-; update	= /linux/suse/<arch>-<sled>
-; image	= 200
+[Theme SLED]
+yast	= SLED
+bsplash = openSUSE
+ksplash	= SLED
+product	= SUSE Linux Enterprise Desktop 11
+version = 11.1
+update	= /linux/suse/<arch>-<sled>
+image	= 200
 
 
 ; [Theme Zen]
