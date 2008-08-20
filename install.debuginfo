@@ -1,0 +1,17 @@
+#! /bin/sh -x
+
+# gets ARCH, THEMES, DESTDIR, INSTSYS_PARTS, BOOT_PARTS, WITH_FLOPPY via env
+
+set -e
+
+mkdir -p $DESTDIR/CD1/boot/$ARCH
+
+if [ -d /usr/lib/debug ] ; then
+  mkdir -p /xxx/usr/lib
+  mv /usr/lib/debug /xxx/usr/lib
+  mksquashfs /xxx $DESTDIR/CD1/boot/$ARCH/debuginfo -noappend
+  chmod 644 $DESTDIR/CD1/boot/$ARCH/debuginfo
+  mv /xxx/usr/lib/debug /usr/lib
+  rmdir /xxx/usr/lib /xxx/usr /xxx
+fi
+
