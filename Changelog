@@ -1,3 +1,4 @@
+	- remove unused InputDevices from xorg.conf, leave only /dev/input/mice
 	- remove unused ModulePath from xorg.conf, it breaks transition from 32 to 64 bit
 
 18/8/2008:	v11.0
