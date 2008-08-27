@@ -1,3 +1,5 @@
+	- remove unused ModulePath from xorg.conf, it breaks transition from 32 to 64 bit
+
 18/8/2008:	v11.0
 	- make /var/lock/libstorage writable (bnc #416276)
 	- added s390 network config scripts to initrd
