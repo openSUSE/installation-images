@@ -1,3 +1,4 @@
+	- uuidgen is in package uuidgen-runtime
 	- remove unused InputDevices from xorg.conf, leave only /dev/input/mice
 	- remove unused ModulePath from xorg.conf, it breaks transition from 32 to 64 bit
 

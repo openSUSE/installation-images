@@ -215,7 +215,7 @@ e2fsprogs:
   /etc
   /sbin
 
-uuidgen:
+uuidgen-runtime:
   /usr/bin/uuidgen
 
 libext2fs2:
