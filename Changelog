@@ -1,3 +1,6 @@
+1/9/2008:	v11.2
+	- load efivars module
+
 25/8/2008:	v11.1
 	- removed evms
 	- temporarily add alsa/sound to initrd (for blinux)

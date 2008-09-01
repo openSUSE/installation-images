@@ -430,6 +430,8 @@ coreutils:
   /bin/mkdir
   /bin/rmdir
   /bin/ln
+  /bin/true
+  /bin/false
 
 pcmciautils:
   /etc/udev/rules.d/60-pcmcia.rules
@@ -553,7 +555,7 @@ r /etc/init.d
 
 # our own rules file which loads only pnp subsystem mods
 # r /etc/udev/rules.d/*-drivers.rules
-# x etc/80-drivers.rules /etc/udev/rules.d
+  x etc/80-drivers.rules /lib/udev/80-drivers.rules.no_modprobe
 
 sysconfig:
   # for ipw3945d
