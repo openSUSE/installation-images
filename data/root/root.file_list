@@ -206,6 +206,12 @@ r /usr/sbin/{nscd,nscd_nischeck,utmpd}
   /lib*/libpthread{.,-}*
   /lib*/libthread_db{.,-}*
 
+libselinux1:
+  /
+
+libsepol1:
+  /
+
 if !(arch eq 's390' || arch eq 's390x')
   hdparm:
     /sbin/hdparm
@@ -215,7 +221,7 @@ e2fsprogs:
   /etc
   /sbin
 
-uuidgen-runtime:
+uuid-runtime:
   /usr/bin/uuidgen
 
 libext2fs2:
@@ -406,6 +412,8 @@ if with_yast2 ne 'no'
   yast2-ncurses:
     /
   yast2-network:
+    /
+  yast2-nfs-client:
     /
   yast2-ntp-client:
     /
@@ -745,18 +753,11 @@ ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
 
-if 0
-evms:
-  /etc/evms.conf
-  /lib*
-  /sbin
-endif
-
 sysconfig:
   # for modify_resolvconf
   d etc/sysconfig/network
   e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
-  /sbin/modify_resolvconf
+  # /sbin/modify_resolvconf
 
 pciutils:
   /sbin/lspci
@@ -793,6 +794,7 @@ perl-base:
   /usr/lib/perl*/*/SelectSaver.pm
   /usr/lib/perl*/*/Symbol.pm
   /usr/lib/perl*/*/Text/ParseWords.pm
+  /usr/lib/perl*/*/Tie/Hash.pm
   /usr/lib/perl*/*/base.pm
   /usr/lib/perl*/*/bytes.pm
   /usr/lib/perl*/*/bytes_heavy.pl
@@ -845,7 +847,6 @@ perl:
   /usr/lib/perl*/*/Pod/Text.pm
   /usr/lib/perl*/*/Pod/Usage.pm
   /usr/lib/perl*/*/Term/Cap.pm
-  /usr/lib/perl*/*/Tie/Hash.pm
   /usr/lib/perl*/*/Time/Local.pm
   /usr/lib/perl*/*/Time/localtime.pm
   /usr/lib/perl*/*/Time/tm.pm

@@ -1,4 +1,8 @@
-	- uuidgen is in package uuidgen-runtime
+25/8/2008:	v11.1
+	- removed evms
+	- temporarily add alsa/sound to initrd (for blinux)
+	- added yast2-nfs-client
+	- new kernel modules
 	- remove unused InputDevices from xorg.conf, leave only /dev/input/mice
 	- remove unused ModulePath from xorg.conf, it breaks transition from 32 to 64 bit
 

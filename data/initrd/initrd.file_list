@@ -66,6 +66,12 @@ glibc:
 
   x etc/syslog.conf etc
 
+libselinux1:
+  /
+
+libsepol1:
+  /
+
 module-init-tools:
   /etc/modprobe.conf
   /etc/modprobe.conf.local
@@ -546,13 +552,12 @@ r /etc/init.d
   b 9 15 /lib/udev/devices/md15
 
 # our own rules file which loads only pnp subsystem mods
-r /etc/udev/rules.d/*-drivers.rules
-x etc/80-drivers.rules /etc/udev/rules.d
+# r /etc/udev/rules.d/*-drivers.rules
+# x etc/80-drivers.rules /etc/udev/rules.d
 
 sysconfig:
   # for ipw3945d
   /etc/udev/rules.d/*-network.rules 
-  /sbin/modify_resolvconf
   e perl -ni -e "print if /^SUBSYSTEM.*ipw3945/" etc/udev/rules.d/*-network.rules
 
 ntfs-3g:
@@ -623,6 +628,49 @@ libstdc++43:
 
 libgcc43:
   /lib*
+
+
+if 1
+
+# add alsa
+alsa:
+  /
+
+alsa-utils:
+  /
+
+libasound2:
+  /
+
+espeak:
+  /
+
+portaudio:
+  /
+
+libjack0:
+  /
+
+speechd:
+  /
+
+libglib-2_0-0:
+  /
+
+libgthread-2_0-0:
+  /
+
+pcre:
+  /usr/lib*/libpcre.so.*
+
+dotconf-devel:
+  /usr/lib*/libdotconf-1.0.so.*
+
+libgmodule-2_0-0:
+  /
+
+endif
+
 
 # add hal & dbus
 if 0

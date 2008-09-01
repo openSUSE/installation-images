@@ -158,6 +158,12 @@ r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
 r /usr/bin/{db*,glibcbug,localedef,rpcgen}
   /usr/lib*/pt_chown
 
+libselinux1:
+  /
+
+libsepol1:
+  /
+
 gpart:
   /usr/bin
 
@@ -256,14 +262,6 @@ if arch eq 'ia64'
   libunwind:
     /lib/libunwind.so*
 endif
-
-evms:
-  /etc/evms.conf
-  /lib*
-  /sbin
-
-evms-gui:
-  /usr/sbin/evmsn
 
 glib:
   /usr/lib*/libglib-1.2.so*

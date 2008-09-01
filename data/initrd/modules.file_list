@@ -53,6 +53,11 @@ else
 
 endif
 
+if 1
+# add alsa modules
+  lib/modules/<kernel_ver>/kernel/sound
+endif
+
 # add modules.alias, modules.dep
 L boot/System.map* System.map
 e /sbin/depmod -a -b . -F System.map <kernel_ver>

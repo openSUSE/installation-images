@@ -49,6 +49,9 @@ coreutils:
   /usr/bin
   r /bin/su
 
+libselinux1:
+  /
+
 libexpat1:
   /lib*/libexpat.so.*
 
@@ -292,6 +295,8 @@ if arch eq 'i386' || arch eq 'x86_64'
   bootsplash-branding-openSUSE:
     /
   bootsplash-branding-SLES:
+    /
+  bootsplash-branding-SLED:
     /
 endif
 
