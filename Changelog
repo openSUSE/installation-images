@@ -1,3 +1,6 @@
+3/9/2008:	v11.3
+	- sd_mod needs crc-t10dif
+
 1/9/2008:	v11.2
 	- load efivars module
 

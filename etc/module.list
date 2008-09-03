@@ -125,6 +125,7 @@ kernel/lib/crc-ccitt.ko
 kernel/lib/libcrc32c.ko
 kernel/lib/crc-itu-t.ko
 kernel/lib/crc16.ko
+kernel/lib/crc-t10dif.ko
 
 kernel/crypto/aes.ko
 kernel/crypto/aes_generic.ko
