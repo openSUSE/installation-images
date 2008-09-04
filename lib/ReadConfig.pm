@@ -533,15 +533,16 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
   # print STDERR "abuild = $in_abuild\n";
 
   if($in_abuild) {
+    my $rpmdir;
 
     $dist = $ConfigData{buildenv}{BUILD_BASENAME};
 
-    if(!-d("$ConfigData{buildroot}/.rpm-cache/$dist")) {
-      system "ls -la $ConfigData{buildroot}/.rpm-cache";
-      die "No usable /.rpm-cache (looking for \"$dist\")!\n"
-    }
+    $rpmdir = "$ConfigData{buildroot}/.build.binaries";
+    $rpmdir = "$ConfigData{buildroot}/.rpm-cache/$dist" unless -d $rpmdir;
 
-    $ConfigData{suse_base} = $AutoBuild = "$ConfigData{buildroot}/.rpm-cache/$dist"
+    die "No rpm files found (looking for \"$dist\")!\n" unless -d $rpmdir;
+
+    $ConfigData{suse_base} = $AutoBuild = $rpmdir;
   }
   else {
     my ($work, $base, $xdist);
