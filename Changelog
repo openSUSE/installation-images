@@ -1,4 +1,6 @@
+8/9/2008:	v11.4
 	- look in /.build.binaries for rpms first
+	- added smartctrl (bnc #423661) 
 
 3/9/2008:	v11.3
 	- sd_mod needs crc-t10dif
