@@ -1,0 +1,11 @@
+/* REXX LOAD EXEC FOR SUSE LINUX S/390 VM GUESTS       */                       
+/* LOADS SUSE LINUX S/390 FILES INTO READER            */                       
+SAY ''                                                                          
+SAY 'LOADING FILES INTO READER...'                                              
+'CP CLOSE RDR'                                                                  
+'PURGE RDR ALL'                                                                 
+'SPOOL PUNCH * RDR'                                                             
+'PUNCH VMRDR IKR A (NOH'                                                        
+'PUNCH PARMFILE $DEFAULT  A (NOH'                                               
+'PUNCH INITRD $DEFAULT A (NOH'                                                  
+'I 00C'                                                                         

@@ -1,3 +1,5 @@
+	- s390: added inst.exec script (fate #304028)
+
 8/9/2008:	v11.4
 	- look in /.build.binaries for rpms first
 	- added smartctrl (bnc #423661) 

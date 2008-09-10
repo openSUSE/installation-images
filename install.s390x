@@ -36,3 +36,4 @@ install -m 644 data/initrd/s390/suse.ins.images.$ARCH $DESTDIR/CD1/boot/$ARCH/su
 install -m 644 data/initrd/s390/suse.ins.parmfile $DESTDIR/CD1/boot/$ARCH/parmfile
 install -m 644 data/initrd/s390/suse.ins.parmfile.cd $DESTDIR/CD1/boot/$ARCH/parmfile.cd
 
+install -m 644 data/initrd/s390/inst.exec $DESTDIR/CD1/boot/$ARCH/inst.exec
