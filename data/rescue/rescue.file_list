@@ -340,10 +340,6 @@ finger:
 rsh:
   /usr/bin
 
-resmgr:
-  /lib*/libresmgr.so.*
-  /lib*/security/pam_resmgr.so
-
 pam:
   /{etc,lib*,sbin}
   R s/(pam_unix2.so)\s*$/$1 nullok\n/ /etc/pam.d/common-auth

@@ -487,9 +487,6 @@ endif
 #  libcares2:
 #    /usr/lib*/libcares.so.*
 
-  resmgr:
-    /lib*/libresmgr.so.*
-
   openslp:
     /etc/slp.spi
     /etc/slp.conf
