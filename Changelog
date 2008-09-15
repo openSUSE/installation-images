@@ -1,3 +1,5 @@
+	- s390: added manual=1 to parmfile (but not to parmfile.cd)
+
 11/9/2008:	v11.5
 	- s390: added inst.exec script (fate #304028)
 	- merged resmgr patch from Autobuild
