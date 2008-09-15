@@ -1,6 +1,7 @@
 ; versions
 [Version]
 default	 = 11.1
+head     = 11.1
 beta     = 11.1,beta
 debug    = 11.1,debug
 11.1     = 11.1
