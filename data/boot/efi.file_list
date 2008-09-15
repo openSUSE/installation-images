@@ -1,0 +1,17 @@
+<kernel_rpm>:
+  d /efi/boot
+  a /boot/<kernel_img> /efi/boot/linux
+
+elilo:
+  if arch eq 'ia64'
+    m /usr/<lib>/efi/elilo.efi /efi/boot/bootia64.efi
+    x elilo.conf /efi/boot/
+    x textmenu /efi/boot/
+  elsif arch eq 'x86_64'
+    m /usr/<lib>/efi/elilo.efi /efi/boot/bootx64.efi
+    x elilo2.conf /efi/boot/elilo.conf
+  elsif arch eq 'i386'
+    m /usr/<lib>/efi/elilo.efi /efi/boot/bootia32.efi
+    x elilo2.conf /efi/boot/elilo.conf
+  endif
+

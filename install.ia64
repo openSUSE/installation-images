@@ -19,6 +19,8 @@ for i in $BOOT_PARTS ; do
   cp -r images/$i $DESTDIR/CD1/boot/$ARCH
 done
 
+mv $DESTDIR/CD1/boot/$ARCH/boot-efi $DESTDIR/CD1/boot/$ARCH/image
+
 mv $DESTDIR/CD1/boot/$ARCH/initrd $DESTDIR/CD1/boot/$ARCH/initdisk.gz
 
 # copy branding dependent parts

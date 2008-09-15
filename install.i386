@@ -19,6 +19,10 @@ for i in $BOOT_PARTS ; do
   cp -r images/$i $DESTDIR/CD1/boot/$ARCH/loader
 done
 
+if [ -f $DESTDIR/CD1/boot/$ARCH/loader/boot-efi ] ; then
+  mv $DESTDIR/CD1/boot/$ARCH/loader/boot-efi $DESTDIR/CD1/boot/$ARCH/efi
+fi
+
 # copy branding dependent parts
 for theme in $THEMES ; do
   cp -r images/boot-$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader

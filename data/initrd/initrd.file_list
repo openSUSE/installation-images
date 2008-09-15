@@ -525,7 +525,7 @@ suse-build-key:
   m /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
 
 # add udev
-libvolume_id:
+libvolume_id1:
   /lib*/libvolume_id.so*
 
 udev:

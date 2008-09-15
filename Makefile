@@ -3,16 +3,22 @@ ifneq ($(filter i386 i486 i586 i686, $(ARCH)),)
 ARCH := i386
 endif
 
-ifneq ($(filter i386 x86_64, $(ARCH)),)
+ifneq ($(filter i386, $(ARCH)),)
 ALL_TARGETS   := initrd biostest initrd+modules boot boot-themes rescue root root+rescue root-themes gdb sax2
 INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
 BOOT_PARTS    := boot/* initrd biostest
 endif
 
-ifneq ($(filter ia64, $(ARCH)),)
-ALL_TARGETS   := initrd initrd+modules boot-ia64 rescue root root+rescue root-themes gdb sax2
+ifneq ($(filter x86_64, $(ARCH)),)
+ALL_TARGETS   := initrd biostest initrd+modules boot-efi boot boot-themes rescue root root+rescue root-themes gdb sax2
 INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
-BOOT_PARTS    := image initrd
+BOOT_PARTS    := boot/* initrd biostest boot-efi
+endif
+
+ifneq ($(filter ia64, $(ARCH)),)
+ALL_TARGETS   := initrd initrd+modules boot-efi rescue root root+rescue root-themes gdb sax2
+INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
+BOOT_PARTS    := boot-efi initrd
 endif
 
 ifneq ($(filter s390 s390x, $(ARCH)),)
@@ -32,7 +38,7 @@ DESTDIR       := images/instsys
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
-	boot boot-ia64 root rescue root+rescue sax2 gdb clean \
+	boot boot-efi root rescue root+rescue sax2 gdb clean \
 	boot-themes root-themes install install-initrd debuginfo
 
 all: $(ALL_TARGETS)
@@ -81,11 +87,12 @@ initrd+modules: base
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
 
-boot-ia64: base
-	nolibs=1 image=boot fs=dir bin/mk_image
-	ln images/initrd tmp/boot/efi/boot/initrd
-	bin/hdimage --size=80000 --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot/* -- images/image
-	rm -f tmp/boot/efi/boot/initrd
+boot-efi: base
+	nolibs=1 image=boot-efi src=boot filelist=efi fs=dir bin/mk_image
+	ln images/initrd tmp/boot-efi/efi/boot/initrd
+	bin/hdimage --size=80000 --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi/* tmp/boot-efi/.p* -- images/boot-efi.img
+	rm -rf tmp/boot-efi/efi/boot/initrd images/boot-efi
+	mv images/boot-efi.img images/boot-efi
 
 boot: base
 	nolibs=1 image=boot fs=dir bin/mk_image

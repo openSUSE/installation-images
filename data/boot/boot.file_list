@@ -1,36 +1,17 @@
-if arch eq 'i386' || arch eq 'x86_64'
+x syslinux.cfg /isolinux.cfg
 
-  x syslinux.cfg /isolinux.cfg
+<kernel_rpm>:
+  a /boot/<kernel_img> /linux
 
-  <kernel_rpm>:
-    a /boot/<kernel_img> /linux
-
-  if theme eq 'Zen'
-    x message-zen /message
-    x syslinux-zen.cfg /isolinux.cfg
-  endif
-
-  memtest86+:
-    m /boot/memtest.bin /memtest
-
-  syslinux:
-    m /usr/share/syslinux/isolinux.bin /
-    e isolinux-config --base=/boot/<arch>/loader isolinux.bin
-
-endif		# arch eq 'i386' || arch eq 'x86_64'
-
-
-if arch eq 'ia64'
-
-  <kernel_rpm>:
-    d /efi/boot
-    a /boot/<kernel_img> /efi/boot/linux
-
-  elilo:
-    m /usr/lib/efi/elilo.efi /efi/boot/bootia64.efi
-    x elilo.conf /efi/boot/
-    x textmenu /efi/boot/
-
+if theme eq 'Zen'
+  x message-zen /message
+  x syslinux-zen.cfg /isolinux.cfg
 endif
 
+memtest86+:
+  m /boot/memtest.bin /memtest
+
+syslinux:
+  m /usr/share/syslinux/isolinux.bin /
+  e isolinux-config --base=/boot/<arch>/loader isolinux.bin
 

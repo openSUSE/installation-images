@@ -602,7 +602,7 @@ udev: postin
 sysfsutils:
   /lib*/libsysfs.so*
 
-libvolume_id:
+libvolume_id1:
   /lib*/libvolume_id.so*
 
 PolicyKit:
