@@ -3,7 +3,7 @@ product_name Installation
 
 - there are shells running on consoles 2, 5, 6, 9
 - use 'extend' to load extensions (remove with 'extend -r'); extensions are:
-    o gdb, sax2
+    o bind, gdb, sax2
 - network setup: run, e.g. 'dhcpcd eth0'
 - sshd: run 'rcsshd start' (don't forget to set a password with 'passwd')
 

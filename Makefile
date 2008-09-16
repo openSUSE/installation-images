@@ -3,33 +3,36 @@ ifneq ($(filter i386 i486 i586 i686, $(ARCH)),)
 ARCH := i386
 endif
 
+COMMON_TARGETS	     := rescue root root+rescue root-themes bind gdb
+COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
+
 ifneq ($(filter i386, $(ARCH)),)
-ALL_TARGETS   := initrd biostest initrd+modules boot boot-themes rescue root root+rescue root-themes gdb sax2
-INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
+ALL_TARGETS   := initrd biostest initrd+modules boot boot-themes $(COMMON_TARGETS) sax2
+INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
 BOOT_PARTS    := boot/* initrd biostest
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)
-ALL_TARGETS   := initrd biostest initrd+modules boot-efi boot boot-themes rescue root root+rescue root-themes gdb sax2
-INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
+ALL_TARGETS   := initrd biostest initrd+modules boot-efi boot boot-themes $(COMMON_TARGETS) sax2
+INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
 BOOT_PARTS    := boot/* initrd biostest boot-efi
 endif
 
 ifneq ($(filter ia64, $(ARCH)),)
-ALL_TARGETS   := initrd initrd+modules boot-efi rescue root root+rescue root-themes gdb sax2
-INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
+ALL_TARGETS   := initrd initrd+modules boot-efi $(COMMON_TARGETS) sax2
+INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
 BOOT_PARTS    := boot-efi initrd
 endif
 
 ifneq ($(filter s390 s390x, $(ARCH)),)
-ALL_TARGETS   := initrd initrd+modules rescue root root+rescue root-themes gdb
-INSTSYS_PARTS := config rpmlist root common rescue gdb
+ALL_TARGETS   := initrd initrd+modules $(COMMON_TARGETS)
+INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := initrd
 endif
 
 ifneq ($(filter ppc ppc64, $(ARCH)),)
-ALL_TARGETS   := initrd initrd+modules rescue root root+rescue root-themes gdb sax2
-INSTSYS_PARTS := config rpmlist root common rescue gdb sax2
+ALL_TARGETS   := initrd initrd+modules $(COMMON_TARGETS) sax2
+INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
 endif
 
 THEMES        := openSUSE SLES SLED
@@ -38,7 +41,7 @@ DESTDIR       := images/instsys
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
-	boot boot-efi root rescue root+rescue sax2 gdb clean \
+	boot boot-efi root rescue root+rescue sax2 gdb bind clean \
 	boot-themes root-themes install install-initrd debuginfo
 
 all: $(ALL_TARGETS)
@@ -118,6 +121,9 @@ sax2: base
 gdb: base
 	libdeps=root,gdb image=gdb src=root fs=squashfs disjunct=root bin/mk_image
 
+bind: base
+	libdeps=root,bind image=bind src=root fs=squashfs disjunct=root bin/mk_image
+
 boot-themes: base
 	for theme in $(THEMES) ; do \
 	  image=boot-$$theme src=boot filelist=$$theme fs=dir bin/mk_image ; \
@@ -125,7 +131,7 @@ boot-themes: base
 
 root-themes: base
 	for theme in $(THEMES) ; do \
-	  image=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
+	  theme=$$theme image=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
 	done
 
 mboot:

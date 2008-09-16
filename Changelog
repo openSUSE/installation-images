@@ -1,3 +1,6 @@
+	- split off 'bind' image (with bind tools) (bnc #425382)
+	- fix motd message (bnc #425403)
+
 16/9/2008:	v11.8
 	- follow cryptsetup package split
 

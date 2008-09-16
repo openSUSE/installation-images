@@ -5,4 +5,5 @@ yast2-theme-openSUSE:
   /
   s openSUSE usr/share/YaST2/theme/current
 
+include texts.file_list
 

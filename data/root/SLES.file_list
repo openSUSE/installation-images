@@ -6,4 +6,5 @@ yast2-theme-SLED:
   /
   s SLED usr/share/YaST2/theme/current
 
+include texts.file_list
 

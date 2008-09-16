@@ -1,0 +1,13 @@
+desktop-data-openSUSE:
+  /usr/share/desktop-data/qtrc
+
+yast2-theme-openSUSE:
+  /
+  s openSUSE usr/share/YaST2/theme/current
+
+d etc
+x /etc/motd /etc
+x /etc/issue /etc
+R s/product_name/<product_name>/g /etc/motd
+R s/product_name/<product_name>/g /etc/issue
+

@@ -13,8 +13,8 @@ r /etc/rpm/.svn
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
-R s/product_name/<product_name>/g /etc/motd
-R s/product_name/<product_name>/g /etc/issue
+r /etc/motd
+r /etc/issue
 
 fillup:
   /bin
@@ -949,18 +949,6 @@ libcap2:
 
 satsolver-tools:
   /usr/bin
-
-bind-utils:
-  /usr/bin
-
-bind-libs:
-  /usr/lib*
-
-libcap2:
-  /lib*
-
-openldap2-client:
-  /usr/bin/ldapsearch
 
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale

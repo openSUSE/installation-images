@@ -1,0 +1,12 @@
+bind-utils:
+  /usr/bin
+
+bind-libs:
+  /usr/lib*
+
+libcap2:
+  /lib*
+
+openldap2-client:
+  /usr/bin/ldapsearch
+
