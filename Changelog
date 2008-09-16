@@ -1,3 +1,6 @@
+16/9/2008:	v11.8
+	- follow cryptsetup package split
+
 15/9/2008:	v11.7
 	- adjust to autobuild changes ('head')
 
