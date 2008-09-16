@@ -86,17 +86,15 @@ if(!$mode{keep} || $mode{add}) {
     SUSystem "strip_dir $tmpdir";
   }
 
-  if($ENV{'nolibs'} != 1) {
-    print "running ldconfig...";
-    SUSystem "ldconfig -i -r $tmpdir";
-    die "$Script: failed to run ldconfig" unless -f "$tmpdir/etc/ld.so.cache";
-
+  @libdeps = split ',', $ENV{libdeps};
+  if(@libdeps) {
+    $ldirs .= " ${BasePath}tmp/$_" for @libdeps;
     if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
-      system "check_libs $tmpdir" and
+      system "check_libs $ldirs" and
         warn "$Script: error in shared lib config, please fix\n";
     }
     else {
-      system "check_libs $tmpdir" and
+      system "check_libs $ldirs" and
         die "$Script: error in shared lib config, please fix\n";
     }
   }
