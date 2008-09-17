@@ -47,6 +47,9 @@ echo  > /proc/sys/kernel/hotplug
 # /proc/self/fd/N will fail
 exec < /dev/console > /dev/console 2>&1 3>&1
 
+# fix mtab a bit
+sed -ie '/\/mounts/ d' /etc/mtab
+
 yast="$1"
 shift
 echo $yast > /tmp/linuxrc_installer_name

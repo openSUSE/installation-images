@@ -1,5 +1,7 @@
+17/9/2008:	v11.9
 	- split off 'bind' image (with bind tools) (bnc #425382)
 	- fix motd message (bnc #425403)
+	- always use openSUSE theme
 
 16/9/2008:	v11.8
 	- follow cryptsetup package split
