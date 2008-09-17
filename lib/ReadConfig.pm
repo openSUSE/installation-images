@@ -529,6 +529,7 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
   my ( $dist, $i, $j, $rel, $xrel );
 
   $in_abuild = $ConfigData{buildenv}{BUILD_BASENAME} ? 1 : 0;
+  $in_abuild = 1 if -d "$ConfigData{buildroot}/.build.binaries";
 
   # print STDERR "abuild = $in_abuild\n";
 

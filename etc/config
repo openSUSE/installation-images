@@ -62,6 +62,16 @@ cdrom	= 800x600,1024x768,1280x1024,1400x1050,1600x1200
 floppy	= 
 
 
+[Theme openSUSE]
+yast	= openSUSE
+bsplash = openSUSE
+ksplash = openSUSE
+product	= openSUSE
+version = 11.1
+update	= /linux/suse/<arch>-<rel>
+image	= 350
+
+
 [Theme SuSE]
 yast	= openSUSE
 bsplash = openSUSE

@@ -1,3 +1,7 @@
+17/9/2008:	v11.10
+	- fixed theme bug
+	- buildservice fix
+
 17/9/2008:	v11.9
 	- split off 'bind' image (with bind tools) (bnc #425382)
 	- fix motd message (bnc #425403)
