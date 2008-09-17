@@ -1,3 +1,6 @@
+17/9/2008:	v11.11
+	- avoid 'grep | head'
+
 17/9/2008:	v11.10
 	- fixed theme bug
 	- buildservice fix

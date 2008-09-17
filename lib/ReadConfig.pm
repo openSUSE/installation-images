@@ -646,7 +646,7 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
     }
     $ConfigData{kernel_rpm} = $k_rpms{$ConfigData{kernel_img}} if $k_rpms{$ConfigData{kernel_img}};
 
-    $kv = `rpm $i -ql $ConfigData{kernel_rpm} 2>/dev/null | grep modules | head -n 1 | cut -d / -f 4`;
+    $kv = `rpm $i -ql $ConfigData{kernel_rpm} 2>/dev/null | grep -m 1 modules | cut -d / -f 4`;
   }
   else {
     $i = RPMFileName $ConfigData{kernel_rpm};
@@ -663,7 +663,7 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
 
     $ConfigData{kernel_img} = $k_images[0];
 
-    $kv = `rpm -qlp $i 2>/dev/null | grep modules | head -n 1 | cut -d / -f 4`;
+    $kv = `rpm -qlp $i 2>/dev/null | grep -m 1 modules | cut -d / -f 4`;
   }
   chomp $kv;
 
