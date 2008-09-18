@@ -632,7 +632,7 @@ libgcc43:
   /lib*
 
 
-if 1
+if 0
 
 # add alsa
 alsa:

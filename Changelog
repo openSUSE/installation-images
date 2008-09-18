@@ -1,3 +1,6 @@
+18/9/2008:	v11.12
+	- EFI boot image size has 32MB limit (bnc #427303)
+
 17/9/2008:	v11.11
 	- avoid 'grep | head'
 

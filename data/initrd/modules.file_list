@@ -53,7 +53,7 @@ else
 
 endif
 
-if 1
+if 0
 # add alsa modules
   lib/modules/<kernel_ver>/kernel/sound
 endif
