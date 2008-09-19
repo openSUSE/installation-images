@@ -705,7 +705,7 @@ sub fixup_re
   my ($re, $re0, $val);
 
   $re0 = $re = shift;
-  $re0 =~ s/(('[^']*')|("[^"]*")|\b(defined|lt|gt|le|ge|eq|ne|cmp|not|and|or|xor)\b|(\(|\)))/' ' x length($1)/ge;
+  $re0 =~ s/(('[^']*')|("[^"]*")|\b(defined|lt|gt|le|ge|eq|ne|cmp|not|and|or|xor)\b|(\(|\)))|\bexists\([^)]*\)/' ' x length($1)/ge;
   while($re0 =~ s/^((.*)(\b[a-zA-Z]\w+\b))/$2 . (' ' x length($3))/e) {
 #    print "    >>$3<<\n";
     if(exists $ConfigData{$3}) {
@@ -717,6 +717,8 @@ sub fixup_re
     $val = $ENV{'___arch'} if $3 eq 'arch';
     substr($re, length($2), length($3)) = $val;
   }
+
+  $re =~ s/\bexists\(([^)]*)\)/-f(RPMFileName($1)) ? 1 : 0/eg;
 
   return $re;
 }

@@ -370,6 +370,16 @@ portmap: postin
   /var/adm/fillup-templates
 e postin
 
+rpcbind: postin
+  /etc
+  /sbin
+  /var/adm/fillup-templates
+e postin
+
+libtirpc1:
+  /etc
+  /lib*
+
 procps:
   /bin/ps
   /usr/bin/{free,top,vmstat}

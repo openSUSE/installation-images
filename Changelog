@@ -1,3 +1,9 @@
+19/9/2009:	v11.13
+	- added rpcbind (bnc #427428)
+	- use either suse-build-key or openSUSE-build-key (bnc #427678)
+	- start yast repair module with 'dvd' as arg (bnc #403472)
+	- s390x: added qeth_l{2,3} (bnc #427482)
+
 18/9/2008:	v11.12
 	- EFI boot image size has 32MB limit (bnc #427303)
 

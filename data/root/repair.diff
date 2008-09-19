@@ -6,7 +6,7 @@
  log "\tDelegate program call to YaST2.call installation initial"
 -/usr/lib/YaST2/startup/YaST2.call installation initial
 +if grep -q repair=1 /proc/cmdline ; then
-+  /usr/lib/YaST2/startup/YaST2.call repair
++  /usr/lib/YaST2/startup/YaST2.call repair dvd
 +else
 +  /usr/lib/YaST2/startup/YaST2.call installation initial
 +fi

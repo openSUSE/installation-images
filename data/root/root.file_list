@@ -282,8 +282,25 @@ net-tools:
     /sbin/plipconfig
   endif
 
-portmap:
-  /sbin/portmap
+portmap: postin
+  /etc
+  /sbin
+  /var/adm/fillup-templates
+e postin
+
+rpcbind: postin
+  /etc
+  /sbin
+  /var/adm/fillup-templates
+e postin
+
+libtirpc1:
+  /etc
+  /lib*
+
+libgssglue1:
+  /etc
+  /lib*/libgssglue.so.*
 
 if arch eq 'disabled'
 umsprogs:
