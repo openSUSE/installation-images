@@ -1,4 +1,7 @@
-19/9/2009:	v11.13
+22/9/2008:	v11.14
+	- add xen images
+
+19/9/2008:	v11.13
 	- added rpcbind (bnc #427428)
 	- use either suse-build-key or openSUSE-build-key (bnc #427678)
 	- start yast repair module with 'dvd' as arg (bnc #403472)

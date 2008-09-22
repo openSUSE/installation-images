@@ -3,6 +3,7 @@
 # gets ARCH, THEMES, DESTDIR, INSTSYS_PARTS, BOOT_PARTS, WITH_FLOPPY via env
 
 set -e
+shopt -s extglob
 
 # create directory layout
 mkdir -p $DESTDIR/CD1/boot/$ARCH/loader
@@ -22,6 +23,19 @@ done
 if [ -f $DESTDIR/CD1/boot/$ARCH/loader/boot-efi ] ; then
   mv $DESTDIR/CD1/boot/$ARCH/loader/boot-efi $DESTDIR/CD1/boot/$ARCH/efi
 fi
+
+# xen intrd & kernel
+for i in images/initrd-+([^.]) ; do
+  if [ -f "$i" ] ; then
+    cp $i $DESTDIR/CD1/boot/$ARCH
+  fi
+done
+
+for i in images/vmlinuz-+([^.]) ; do
+  if [ -d "$i" ] ; then
+    cp "$i/linux" $DESTDIR/CD1/boot/$ARCH/`basename $i`
+  fi
+done
 
 # copy branding dependent parts
 for theme in $THEMES ; do

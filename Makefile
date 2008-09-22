@@ -90,6 +90,9 @@ initrd+modules: base
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
 
+kernel: base
+	image=vmlinuz-$${MOD_CFG:-default} src=initrd filelist=kernel kernel=kernel-$${MOD_CFG:-default} fs=dir bin/mk_image
+
 boot-efi: base
 	image=boot-efi src=boot filelist=efi fs=dir bin/mk_image
 	ln images/initrd tmp/boot-efi/efi/boot/initrd
