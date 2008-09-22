@@ -551,10 +551,12 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
     $dist = $susearch;
 
     $work = $ENV{work};
-    $work = "/work" if !$work;
-    $work = "/mounts/work" if ! -d "$work/CDs";
-    $work .= "/CDs";
-    $work .= "/all" if -d "$work/all";
+    if(!$work) {
+      $work = "/work";
+      $work = "/mounts/work" if ! -d "$work/CDs";
+      $work .= "/CDs";
+      $work .= "/all" if -d "$work/all";
+    }
 
     $xdist = $ENV{dist} ? $ENV{dist} : $ENV{suserelease};
 
@@ -570,7 +572,7 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
       $base = "$work/full-$dist/suse";
     }
 
-    die "Sorry, could not locate packages for \"$dist\".\n" unless -d $base;
+    die "Sorry, could not locate packages for \"$dist\" ($base).\n" unless -d $base;
 
     $ConfigData{suse_base} = "$base/*";
 

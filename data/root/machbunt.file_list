@@ -301,6 +301,9 @@ sax2-tools:
   /usr/sbin
   r /usr/sbin/isax
 
+sax2-ident:
+  /usr/share/sax/sysp/maps
+
 xmset:
   /usr/sbin
 
