@@ -20,8 +20,9 @@ for i in $BOOT_PARTS ; do
 done
 
 mv $DESTDIR/CD1/boot/$ARCH/boot-efi $DESTDIR/CD1/boot/$ARCH/image
+ln -s image $DESTDIR/CD1/boot/$ARCH/efi
 
-mv $DESTDIR/CD1/boot/$ARCH/initrd $DESTDIR/CD1/boot/$ARCH/initdisk.gz
+# mv $DESTDIR/CD1/boot/$ARCH/initrd $DESTDIR/CD1/boot/$ARCH/initdisk.gz
 
 # copy branding dependent parts
 for theme in $THEMES ; do
