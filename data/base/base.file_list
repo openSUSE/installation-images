@@ -270,7 +270,7 @@ util-linux:
   /bin/mount
   /bin/umount
 
-libvolume_id:
+libvolume_id1:
   /lib*/libvolume_id.so.*
 
 fribidi:
