@@ -169,3 +169,6 @@ kernel/drivers/virtio/
 # kmps
 updates/
 
+# ofed-kmp
+-updates/drivers/infiniband/
+-updates/net/rds/
