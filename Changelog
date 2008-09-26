@@ -1,3 +1,5 @@
+	- remove /.buildenv usage, BUILD_DISTRIBUTION_NAME comes now from the rpm spec file
+
 23/9/2008:	v11.17
 	- ia64: link image -> efi, remove initdisk.gz
 

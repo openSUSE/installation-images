@@ -26,11 +26,10 @@ fi
 #
 bdir=$1
 targetdir=$2
-if [ -z "$bdir" -o -z "$targetdir" -o ! -f /.buildenv ] ; then
+if [ -z "$bdir" -o -z "$targetdir" ] ; then
 echo usage: $0 builddir targetdir
 exit 1
 fi
-. /.buildenv
 CD1=$targetdir/CD1
 CD2=$targetdir/FTP
 #
