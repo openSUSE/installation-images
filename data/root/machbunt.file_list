@@ -177,13 +177,15 @@ if with_yast2 ne 'no'
     /usr/bin/mkfontdir
     /usr/bin/mkfontscale
     /usr/bin/setxkbmap
-    /usr/bin/xauth
     /usr/bin/xdpyinfo
     /usr/bin/xhost
     /usr/bin/xkbcomp
     /usr/bin/xmodmap
     /usr/bin/xrefresh
     /usr/bin/xset
+
+  xorg-x11-xauth:
+    /usr/bin/xauth
 
   xorg-x11-fonts-core:
     # 'fixed' font

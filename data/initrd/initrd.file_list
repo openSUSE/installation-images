@@ -330,8 +330,11 @@ hal:
   /usr/lib*/libhal.so.*
   /var/cache/hald
 
-libusb:
-  /usr/lib*/libusb-0.1.so.*
+libusb-1_0-0:
+  /usr/lib*
+
+libusb-0_1-4:
+  /usr/lib*
 
 libuuid1:
   /lib*/libuuid.so.*
@@ -788,5 +791,5 @@ if instsys_build_id
 endif
 
 # look for driver updates on usb media (bnc #363650)
-e echo "dud:	disk:/?device=*usb*"
+e echo "dud:		disk:/?device=*usb*" >>linuxrc.config
 

@@ -73,8 +73,8 @@ opensc:
   /usr/lib*/libopensc.so*
   /usr/lib*/libscconf.so*
 
-libltdl-3:
-  /usr/lib*/libltdl.so*
+libltdl7:
+  /usr/lib*
 
 pcsc-lite:
   /usr/lib*/libpcsclite.so*

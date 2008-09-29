@@ -361,8 +361,11 @@ usbutils:
   /usr/sbin/lsusb
   /usr/share/usb.ids
 
-libusb:
-  /usr/lib*/libusb-0.1.so.*
+libusb-1_0-0:
+  /usr/lib*
+
+libusb-0_1-4:
+  /usr/lib*
 
 portmap: postin
   /etc
@@ -688,8 +691,8 @@ libopensc2:
   /usr/lib*/libopensc.so.*
   /usr/lib*/libscconf.so.*
 
-libltdl-3:
-  /usr/lib*/libltdl.so*
+libltdl7:
+  /usr/lib*
 
 endif
 
@@ -808,6 +811,9 @@ kexec-tools:
 
 cifs-mount:
   /sbin/mount.cifs
+
+chkrootkit:
+  /sbin  
 
 if arch eq 'i386' || arch eq 'x86_64'
   sbl:

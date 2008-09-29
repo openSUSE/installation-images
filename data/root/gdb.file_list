@@ -1,8 +1,8 @@
 gdb:
   /usr/bin/gdb
 
-python:
-  /usr/lib*/libpython*.so.*
+libpython2_6-1_0:
+  /usr/lib*
 
 x gdb.init .init
 x gdb.done .done

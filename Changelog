@@ -1,6 +1,7 @@
 29/9/2008:	v11.19
 	- added uname (bnc #429917)
 	- look for driver updates on usb media (bnc #363650)
+	- yast2-theme-openSUSE -> *-SLED
 
 26/9/2008:	v11.18
 	- provide PS3 bootloader only on openSuSE
