@@ -1,3 +1,7 @@
+29/9/2008:	v11.19
+	- added uname (bnc #429917)
+	- look for driver updates on usb media (bnc #363650)
+
 26/9/2008:	v11.18
 	- provide PS3 bootloader only on openSuSE
 	- remove /.buildenv usage, BUILD_DISTRIBUTION_NAME comes now from the rpm spec file

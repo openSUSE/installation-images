@@ -435,6 +435,7 @@ coreutils:
   /bin/ln
   /bin/true
   /bin/false
+  /bin/uname
 
 pcmciautils:
   /etc/udev/rules.d/60-pcmcia.rules
@@ -785,4 +786,7 @@ endif
 if instsys_build_id
   e echo "InitrdID:	<instsys_build_id>" >>linuxrc.config
 endif
+
+# look for driver updates on usb media (bnc #363650)
+e echo "dud:	disk:/?device=*usb*"
 
