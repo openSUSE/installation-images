@@ -545,7 +545,7 @@ libgssglue1:
   /etc
   /lib*/libgssglue.so.*
 
-libevent:
+libevent-1_4-2:
   /usr/lib*/libevent-*.so.*
 
 if arch eq 'ppc' || arch eq 'ppc64'

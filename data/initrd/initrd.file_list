@@ -443,7 +443,7 @@ coreutils:
 pcmciautils:
   /etc/udev/rules.d/60-pcmcia.rules
   /etc/pcmcia/config.opts
-  /sbin/pcmcia-socket-startup
+  /lib/udev/pcmcia-socket-startup
 
 bash:
   /bin/{sh,bash}
