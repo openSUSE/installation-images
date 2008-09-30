@@ -551,6 +551,8 @@ libevent-1_4-2:
 if arch eq 'ppc' || arch eq 'ppc64'
 librtas:
     /usr/lib*
+libservicelog-1_0-1:
+  /usr/lib*/libservicelog-*.so.*
 powerpc-utils:
   /sbin
   /usr/sbin

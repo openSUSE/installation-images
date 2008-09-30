@@ -1,3 +1,5 @@
+	- add libservicelog-1_0-1 to rescue image
+
 30/9/2008:	v11.21
 	- added yast2-reipl (fate #304960)
 
