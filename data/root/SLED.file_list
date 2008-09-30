@@ -2,9 +2,9 @@
 desktop-data-openSUSE:
   /usr/share/desktop-data/qtrc
 
-yast2-theme-SLED:
+yast2-theme-SLE:
   /
-  s SLED usr/share/YaST2/theme/current
+  s SLE usr/share/YaST2/theme/current
 
 include texts.file_list
 
