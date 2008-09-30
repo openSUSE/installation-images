@@ -1,4 +1,6 @@
+30/9/2008:	v11.20
 	- yast2-theme-SLED -> *-SLE
+	- adapt to split kernel package
 
 29/9/2008:	v11.19
 	- added uname (bnc #429917)

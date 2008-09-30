@@ -379,6 +379,24 @@ sub AddFiles
             warn "$Script: failed to extract $r";
 
           if($p eq $ConfigData{kernel_rpm}) {
+            my $r2 = RPMFileName "$p-base";
+            if($r2 && -f $r2) {
+              SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
+                warn "$Script: failed to extract $r2";
+            }
+            else {
+              print STDERR "$Script: no such package: ${p}-base.rpm\n";
+            }
+
+            $r2 = RPMFileName "$p-extra";
+            if($r2 && -f $r2) {
+              SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
+                warn "$Script: failed to extract $r2";
+            }
+            else {
+              print STDERR "$Script: no such package: ${p}-extra.rpm\n";
+            }
+
             my ($kmp, $kmp_name);
             for $kmp (split(',', $ConfigData{kmp_list})) {
               ($kmp_name = $p) =~ s/^kernel/$kmp-kmp/;

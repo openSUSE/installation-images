@@ -625,6 +625,7 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
       $j = `rpm $i -qf /boot/$_ | head -n 1 | sed 's/-[^-]*-[^-]*\$//'` if -f "$ConfigData{buildroot}/boot/$_";
       chomp $j;
       undef $j if $j =~ /^file /;	# avoid "file ... not owned by any package"
+      $j =~ s/\-base$//;
       $k_rpms{$_} = $j if $j;
       if($j && $j eq $ConfigData{kernel_rpm}) {
         push @k_images2, $_;
@@ -651,7 +652,7 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
     $kv = `rpm $i -ql $ConfigData{kernel_rpm} 2>/dev/null | grep -m 1 modules | cut -d / -f 4`;
   }
   else {
-    $i = RPMFileName $ConfigData{kernel_rpm};
+    $i = RPMFileName "$ConfigData{kernel_rpm}-base";
 
     my @k_images = KernelImg $ConfigData{kernel_img}, (`rpm -qlp $i 2>/dev/null | grep ^/boot`);
 
