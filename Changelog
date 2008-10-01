@@ -1,3 +1,5 @@
+	- add libsqlite3-0 to rescue image
+
 1/10/2008:	v11.22
 	- really use SLE themes for bootsplash
 	- add libservicelog-1_0-1 to rescue image
