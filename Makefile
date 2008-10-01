@@ -129,7 +129,7 @@ bind: base
 
 boot-themes: base
 	for theme in $(THEMES) ; do \
-	  image=boot-$$theme src=boot filelist=$$theme fs=dir bin/mk_image ; \
+	  theme=$$theme image=boot-$$theme src=boot filelist=$$theme fs=dir bin/mk_image ; \
 	done
 
 root-themes: base
