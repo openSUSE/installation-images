@@ -1,5 +1,7 @@
+6/10/2008:	v11.23
 	- add libsqlite3-0 to rescue image
 	- md5sum is in /bin now (bnc #431887)
+	- get efi image size right (bnc #431678)
 
 1/10/2008:	v11.22
 	- really use SLE themes for bootsplash

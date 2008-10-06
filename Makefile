@@ -96,7 +96,7 @@ kernel: base
 boot-efi: base
 	image=boot-efi src=boot filelist=efi fs=dir bin/mk_image
 	ln images/initrd tmp/boot-efi/efi/boot/initrd
-	bin/hdimage --size=65520 --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi/* tmp/boot-efi/.p* -- images/boot-efi.img
+	bin/hdimage --size 500k --fit-size --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi/* tmp/boot-efi/.p* -- images/boot-efi.img
 	rm -rf tmp/boot-efi/efi/boot/initrd images/boot-efi
 	mv images/boot-efi.img images/boot-efi
 

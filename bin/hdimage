@@ -1,7 +1,7 @@
 #! /usr/bin/perl
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# package HDImage version 1.5
+# package HDImage version 1.6
 #
 # Create disk image with partition table and a single partition.
 #
@@ -143,6 +143,13 @@
     $self->{type} = shift;
   }
 
+  sub fit_size
+  {
+    my $self = shift;
+
+    $self->{fit_size} = shift;
+  }
+
   sub label
   {
     my $self = shift;
@@ -160,11 +167,18 @@
   sub add_files
   {
     my $self = shift;
+    my $s;
     local $_;
 
     for (@_) {
       if(-f || -d) {
         push @{$self->{files}}, $_;
+        if($self->{fit_size}) {
+          $s = `du --apparent-size -k -s $_ 2>/dev/null`;
+          $s =~ s/\s.*$//;
+          $s <<= 1;
+          $self->size($self->{size} + $s);
+        }
       }
       else {
         print STDERR "$_: no such file or directory\n";
@@ -398,6 +412,7 @@ GetOptions(
   'boot-fat12=s'    => \$opt_boot_fat12,
   'boot-fat16=s'    => \$opt_boot_fat16,
   'add-files=s{1,}' => \@opt_files,
+  'fit-size'        => \$opt_fit_size,
 ) || usage 1;
 
 usage 1 if @ARGV != 1;
@@ -411,6 +426,7 @@ $hdimage->extra_size($opt_extra_size) if $opt_extra_size;
 $size = $hdimage->chs(@opt_chs) if (@opt_chs);
 $size = $hdimage->size($opt_size) if defined $opt_size;
 die "sorry, no disk size\n" unless defined $size;
+$hdimage->fit_size($opt_fit_size);
 $hdimage->type($opt_type);
 $hdimage->partition_ofs($opt_partition_ofs) if defined $opt_partition_ofs;
 $hdimage->label($opt_label);
@@ -441,6 +457,7 @@ Options:
   --boot-fat12 FILE             For FAT12 filesystem: add bootloader from FILE to FAT boot block.
   --boot-fat16 FILE             For FAT16 filesystem: add bootloader from FILE to FAT boot block.
   --add-files FILE1 FILE2 ...   Copy files to FAT partition.
+  --fit-size                    Increase file system size by size of added files.
   --verbose                     Be more verbose.
 
 SIZE may include a unit (b, k, M, G, T, P, E). Default is b (512 bytes).
