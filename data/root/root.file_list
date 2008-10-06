@@ -61,9 +61,11 @@ coreutils:
   /usr/bin/{expr,tee,dirname,chroot,test,tty}
   /bin/cat
   /usr/bin/{cut,head,md5sum,tail,tr,uniq,wc,od}
+  /bin/md5sum
   /bin/sort
   /bin/kill
   /usr/bin/readlink
+  /bin/readlink
   /usr/bin/mkfifo
   /usr/bin/sha1sum
   /usr/bin/nice
@@ -926,6 +928,7 @@ pcmciautils:
 open-iscsi:
   /sbin
   /etc/iscsi/iscsid.conf
+  /etc/init.d/open-iscsi
 
 gpg2:
   /usr/bin/gpg{,2}

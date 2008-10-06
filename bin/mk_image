@@ -10,6 +10,8 @@ use AddFiles;
 use Conv2Image;
 use CompressImage;
 
+sub check_link;
+
 die "usage: $Script\n" if @ARGV;
 
 # env vars:
@@ -86,6 +88,18 @@ if(!$mode{keep} || $mode{add}) {
     SUSystem "strip_dir $tmpdir";
   }
 
+  if(!$ENV{nolinkcheck}) {
+    print "checking for dangling symlinks...\n";
+    if(check_link $tmpdir) {
+      if(1 || $debug =~ /\bignore\b/) {
+        warn "$Script: please fix symlinks\n";
+      }
+      else {
+        die "$Script: please fix symlinks\n";
+      }
+    }
+  }
+
   @libdeps = split ',', $ENV{libdeps};
   if(@libdeps) {
     $ldirs .= " ${BasePath}tmp/$_" for @libdeps;
@@ -145,5 +159,23 @@ elsif($imagetype ne 'none') {
     $i = CompressImage $image;
     print "$Script: compressed \"$image\" ($i bytes)\n";
   }
+}
+
+
+sub check_link
+{
+  my $dir = shift;
+  my ($x, $err);
+  local $_;
+
+  for (`find $dir -xtype l`) {
+    chomp;
+    $x = readlink;
+    next if $x =~ /^\// && (-e("$dir$x") || $x =~ /\/lbin\//);
+    print STDERR "$_ -> $x\n";
+    $err = 1;
+  }
+
+  return $err;
 }
 

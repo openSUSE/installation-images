@@ -19,7 +19,7 @@ filesystem:
   /etc/init.d
   /usr/tmp
   /var
-r /var/{spool,squid,lib/YaST}
+r /var/{squid,lib/YaST}
 
 iproute2:
   /sbin/ip
