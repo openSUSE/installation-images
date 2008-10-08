@@ -1,7 +1,7 @@
 #! /usr/bin/perl
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# package HDImage version 1.6
+# package HDImage version 1.7
 #
 # Create disk image with partition table and a single partition.
 #
@@ -177,7 +177,7 @@
           $s = `du --apparent-size -k -s $_ 2>/dev/null`;
           $s =~ s/\s.*$//;
           $s <<= 1;
-          $self->size($self->{size} + $s);
+          $self->{fit_size_acc} += $s;
         }
       }
       else {
@@ -224,6 +224,8 @@
     $self->{image_name} = $file;
 
     $self->chs(0, 255, 63) unless $self->{s};
+
+    $self->size($self->{size} + $self->{fit_size_acc}) if $self->{fit_size_acc};
 
     my $p_size = $self->{size} - $self->partition_ofs -  $self->{extra_size};
     return undef if $p_size < 0;
