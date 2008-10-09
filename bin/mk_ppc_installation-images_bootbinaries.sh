@@ -31,11 +31,8 @@ echo usage: $0 builddir targetdir
 exit 1
 fi
 CD1=$targetdir/CD1
-CD2=$targetdir/FTP
 #
 mkdir -pv $CD1/ppc
-# move unused files to CD2 to reduce size of CD1
-mkdir -pv $CD2/suseboot
 # to trigger the HFS part, avoid 8.3 filenames and allow OF booting
 mkdir -pv $CD1/suseboot
 cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
@@ -49,8 +46,8 @@ cp -pfv $bdir/images/initrd             $CD1/suseboot/initrd32
 gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
 fi
 if test "$do_64" = "true" ; then
-cp -pfv $bdir/images/initrd-ppc64       $CD2/suseboot/initrd64
-gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD2/suseboot/linux64.gz
+cp -pfv $bdir/images/initrd-ppc64       $CD1/suseboot/initrd64
+gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD1/suseboot/linux64.gz
 fi
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
@@ -230,8 +227,6 @@ EOF
 cat $CD1/suseboot/os-chooser
 #
 
-find $CD1 $CD2 -ls
-du -sm $CD1 $CD2
+find $CD1 -ls
+du -sm $CD1
 
-# no FTP dir
-rm -rf $targetdir/FTP
