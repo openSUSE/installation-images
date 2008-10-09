@@ -66,11 +66,13 @@ if test "$do_64" = "true" ; then
 	--initrd $bdir/images/initrd-ppc64 \
 	--output $CD1/suseboot/inst64
 #
+	if test "42" = "false" ; then
 	/bin/mkzimage \
 	--board iseries \
 	--vmlinux /boot/vmlinux-*-ppc64 \
 	--initrd $bdir/images/initrd-ppc64 \
 	--output $CD1/ISERIES64
+	fi
 #
 fi
 #

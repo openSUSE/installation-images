@@ -1,3 +1,5 @@
+	- do not package ISERIES64 file anymore (bnc#433685)
+
 6/10/2008:	v11.24
 	- no ofed on ia64 for the moment 
 
