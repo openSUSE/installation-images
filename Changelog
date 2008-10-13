@@ -1,5 +1,8 @@
+13/10/2008:	v11.25
 	- the FTP dir was removed, move CD2 content to CD1 (bnc#431320)
 	- do not package ISERIES64 file anymore (bnc#433685)
+	- added all kbd keymaps to initrd (bnc #432581)
+	- various adjustments to new packages
 
 6/10/2008:	v11.24
 	- no ofed on ia64 for the moment 

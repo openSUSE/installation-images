@@ -447,10 +447,9 @@ rsync: postin
   /usr/{,s}bin
 E postin
 
-setserial: postin
+setserial:
   /etc
   /bin/setserial
-e postin
 
 libnscd:
   /lib*/libnscd.so*
@@ -731,7 +730,7 @@ dhcpv6:
   x etc/dhcp6c.conf etc
 
 libnl:
-  /usr/lib*/libnl.so.*
+  /lib*/libnl.so.*
 
 smartmontools:
   /etc

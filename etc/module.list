@@ -31,6 +31,7 @@ kernel/drivers/net/
 -kernel/drivers/net/wan/
 -kernel/drivers/net/ppp_async.ko
 -kernel/drivers/net/netconsole.ko
+kernel/drivers/dca/
 kernel/drivers/parport/
 kernel/drivers/pnp/
 kernel/drivers/scsi/
@@ -99,6 +100,8 @@ kernel/drivers/acpi/
 kernel/drivers/video/backlight/
 kernel/drivers/cpufreq/
 kernel/arch/x86/kernel/cpu/cpufreq/
+kernel/drivers/hwmon/hwmon.ko
+kernel/drivers/thermal/thermal_sys.ko
 
 # kernel pcmcia
 # see data/initrd/initrd_base.list
