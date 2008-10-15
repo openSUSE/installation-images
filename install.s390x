@@ -26,6 +26,7 @@ for theme in $THEMES ; do
 done
 
 perl -e "print pack('N', -s '$DESTDIR/CD1/boot/$ARCH/initrd')" >$DESTDIR/CD1/boot/$ARCH/initrd.siz
+perl -e "print pack('N', 0x800000)" >$DESTDIR/CD1/boot/$ARCH/initrd.off
 
 install -m 644 /boot/installation-kernel-tapeipl/image $DESTDIR/CD1/boot/$ARCH/tapeipl.ikr
 install -m 644 /boot/image-* $DESTDIR/CD1/boot/$ARCH/vmrdr.ikr

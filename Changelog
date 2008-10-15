@@ -1,3 +1,7 @@
+14/10/2008:	v11.26
+	- patch initrd offset in kernel when booting via suse.ins
+	  (bnc #432646)
+
 13/10/2008:	v11.25
 	- the FTP dir was removed, move CD2 content to CD1 (bnc#431320)
 	- do not package ISERIES64 file anymore (bnc#433685)
