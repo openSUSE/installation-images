@@ -1,0 +1,62 @@
+#! /bin/bash
+
+#
+# move parts of initrd into squashfs images
+#
+
+function err {
+  echo $1
+  exit 1
+}
+
+function squash {
+  mkdir -p parts
+  mksquashfs $1 parts/$2 -noappend
+  chmod 644 parts/$2
+}
+
+dir=$1
+
+[ -d "$dir" ] || err "$dir: not a directory"
+cd $dir
+
+[ -d "parts" ] && { echo "$dir: already gefrickelt" ; exit 1 ; }
+
+# lib vs. lib64
+lib_dir=`echo lib*/libc.so.*`
+lib_dir=${lib_dir%%/*}
+
+# - - -  lib/{modules,firmware}  - - -
+#
+# all mods ex loop & squashfs
+#
+m_dir=`echo lib/modules/*/initrd`
+[ -d "$m_dir" ] || err "no kernel module dir"
+mkdir -p "b/$m_dir"
+for i in loop squashfs ; do
+  [ -f $m_dir/$i.ko ] && mv $m_dir/$i.ko b/$m_dir
+done
+mkdir -p a/lib
+mv lib/modules a/lib
+[ -d lib/firmware ] && mv lib/firmware a/lib
+# but NOT udev
+# [ -d lib/udev ] && mv lib/udev a/lib
+mv b/lib/modules lib
+squash a 00_lib
+rm -rf a b
+
+# - - -  usr  - - -
+#
+# keep libs for linuxrc
+#
+mkdir -p "b/usr/$lib_dir"
+for i in usr/$lib_dir/lib* ; do
+  case $i in *librpm*) continue ;; esac
+  mv $i b/usr/$lib_dir
+done
+mkdir -p a
+mv usr a
+mv b/usr .
+squash a 01_usr
+rm -rf a b
+

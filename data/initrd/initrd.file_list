@@ -19,7 +19,7 @@ t var/run/utmp
 
 c 1777 0 0 tmp
 
-e cp -a /dev/{null,zero,console,ram0,tty[1349]} dev
+e cp -a /dev/{null,zero,console,ram0,tty[1349],loop*} dev
 C 4 4 /dev/tty4
 # historical static device nodes
 x devz /devz

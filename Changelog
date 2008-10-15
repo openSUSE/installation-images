@@ -1,3 +1,7 @@
+15/10/2008:	v11.27
+	- added sntp (bnc #431516)
+	- initrd can have parts in fs images (bnc #430140)
+
 14/10/2008:	v11.26
 	- patch initrd offset in kernel when booting via suse.ins
 	  (bnc #432646)

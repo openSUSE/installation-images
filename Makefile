@@ -31,7 +31,7 @@ BOOT_PARTS    := initrd
 endif
 
 ifneq ($(filter ppc ppc64, $(ARCH)),)
-ALL_TARGETS   := initrd initrd+modules $(COMMON_TARGETS) sax2
+ALL_TARGETS   := initrd initrd+modules+gefrickel $(COMMON_TARGETS) sax2
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
 endif
 
@@ -89,6 +89,18 @@ initrd+modules: base
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
+
+initrd+modules+gefrickel: base
+	image=modules-config src=initrd fs=none bin/mk_image
+	bin/mlist1
+	bin/mlist2
+	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
+	mode=keep,add image=$${image:-initrd} tmpdir=initrd filelist=modules src=initrd fs=none bin/mk_image
+	mkdir -p images/module-config/$${MOD_CFG:-default}
+	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
+	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
+	./gefrickel tmp/initrd
+	mode=keep image=$${image:-initrd} tmpdir=initrd src=initrd filelist=initrd fs=cpio.gz bin/mk_image
 
 kernel: base
 	image=vmlinuz-$${MOD_CFG:-default} src=initrd filelist=kernel kernel=kernel-$${MOD_CFG:-default} fs=dir bin/mk_image

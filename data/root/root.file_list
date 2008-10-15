@@ -966,6 +966,7 @@ libcryptsetup0:
 
 ntp:
   /usr/sbin/ntpdate
+  /usr/sbin/sntp
 
 libcap2:
   /lib*/libcap.so.*
