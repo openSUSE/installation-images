@@ -94,13 +94,15 @@ initrd+modules+gefrickel: base
 	image=modules-config src=initrd fs=none bin/mk_image
 	bin/mlist1
 	bin/mlist2
-	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
-	mode=keep,add image=$${image:-initrd} tmpdir=initrd filelist=modules src=initrd fs=none bin/mk_image
+	rm -rf tmp/initrd/modules tmp/initrd/lib/modules tmp/initrd_gefrickel
+	# work on a copy to not modify the origial tree
+	cp -a tmp/initrd tmp/initrd_gefrickel
+	mode=keep,add image=$${image:-initrd} tmpdir=initrd_gefrickel filelist=modules src=initrd fs=none bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
-	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
-	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
-	./gefrickel tmp/initrd
-	mode=keep image=$${image:-initrd} tmpdir=initrd src=initrd filelist=initrd fs=cpio.gz bin/mk_image
+	ls -I module.config tmp/initrd_gefrickel/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
+	cp tmp/initrd_gefrickel/modules/module.config images/module-config/$${MOD_CFG:-default}
+	./gefrickel tmp/initrd_gefrickel
+	mode=keep image=$${image:-initrd} tmpdir=initrd_gefrickel src=initrd filelist=initrd fs=cpio.gz bin/mk_image
 
 kernel: base
 	image=vmlinuz-$${MOD_CFG:-default} src=initrd filelist=kernel kernel=kernel-$${MOD_CFG:-default} fs=dir bin/mk_image

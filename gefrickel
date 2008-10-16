@@ -11,7 +11,7 @@ function err {
 
 function squash {
   mkdir -p parts
-  mksquashfs $1 parts/$2 -noappend
+  mksquashfs $1 parts/$2 -noappend -no-progress
   chmod 644 parts/$2
 }
 
