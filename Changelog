@@ -1,3 +1,5 @@
+	- add ibmvfc (bnc #438085)
+
 16/10/2008:	v11.28
 	- fixed initrd fs parts code (bnc #430140)
 
