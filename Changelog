@@ -1,4 +1,7 @@
+27/10/2008:	v11.29
 	- add ibmvfc (bnc #438085)
+	- adjust to boost package split
+	- added showmount (bnc #432951)
 
 16/10/2008:	v11.28
 	- fixed initrd fs parts code (bnc #430140)

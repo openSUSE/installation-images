@@ -166,6 +166,7 @@ nfs-client:
   /sbin/{u,}mount.nfs*
   /usr/sbin/rpc.statd
   /usr/sbin/start-statd
+  /usr/sbin/showmount
 
 libncurses5:
   /lib*/libncurses.so.5*
@@ -938,9 +939,8 @@ libzypp:
   /usr/share/zypp/schema
   /usr/share/locale
 
-boost:
-  /usr/lib*/libboost_filesystem.so.*
-  /usr/lib*/libboost_signals-mt.so.*
+libboost_signals-gcc43-mt-1_36-1_36_0:
+  /
 
 libidn:
   /usr/lib*/libidn.so.*
