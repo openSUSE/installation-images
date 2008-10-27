@@ -223,6 +223,7 @@ endif
 if arch eq 's390' || arch eq 's390x'
   s390-tools:
     /sbin/zfcp_*_configure
+    /sbin/zfcp_san_disc
     /sbin/iucv_configure
     /sbin/ctc_configure
     /sbin/qeth_configure
