@@ -154,6 +154,10 @@ root-themes: base
 mboot:
 	make -C src/mboot
 
+add-xxx-key:
+	gpg --homedir=gpg --no-default-keyring --keyring=./tmp/initrd/installkey.gpg --import ./gpg/pubring.gpg
+	rm -f tmp/initrd/installkey.gpg~
+
 debuginfo:
 	./install.debuginfo
 
@@ -164,6 +168,7 @@ clean:
 	-@rm -f `find -name '*~'`
 	-@rm -rf /tmp/mk_initrd_* /tmp/mk_image_* 
 	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/demo/gen
+	-@rm -f gpg/trustdb.gpg gpg/random_seed
 
 install:
 	-@rm -rf $(DESTDIR)
