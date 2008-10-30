@@ -1,0 +1,6 @@
+#! /bin/sh
+
+for i in $* ; do
+  gpg --homedir=gpg --batch --yes --armor --detach-sign $i
+done
+
