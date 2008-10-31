@@ -1,3 +1,6 @@
+31/10/2008:	v11.32
+	- added gpg key for testing
+
 27/10/2008:	v11.31
 	- added cxgb3 on ppc (bnc #434203)
 	- added zfcp_san_disc (bnc #432644)
