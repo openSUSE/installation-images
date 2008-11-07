@@ -1,3 +1,7 @@
+7/11/2008:	v11.33
+	- adapt mkinstallinitrd to kernel split (bnc #442177)
+	- prepare for initrd branding
+
 31/10/2008:	v11.32
 	- added gpg key for testing
 

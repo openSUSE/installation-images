@@ -1,0 +1,29 @@
+#! /bin/bash
+
+dir="$1"
+theme="$2"
+arch=`uname -m`
+case $arch in i?86) arch=i386 ;; esac
+
+[ -f "$dir/linuxrc.config" ] || {
+  echo "$dir: not an initrd directory"
+  exit 1
+}
+
+case "$theme" in
+  openSUSE) product="openSUSE" dud=$arch-11.1
+    ;;
+  SLES) product="SUSE Linux Enterprise Server 11" dud=$arch-sles11
+    ;;
+  SLED) product="SUSE Linux Enterprise Desktop 11" dud=$arch-sled11
+    ;;
+esac
+
+[ -z "$product" ] && {
+  echo "$theme: unsupported theme"
+  exit 2
+}
+
+perl -pi -e "s#^(Product:\s*).*#\$1$product#" $dir/linuxrc.config
+perl -pi -e "s#^(UpdateDir:\s*).*#\$1/linux/suse/$dud#" $dir/linuxrc.config
+

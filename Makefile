@@ -90,6 +90,13 @@ initrd+modules: base
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
 
+initrd+modules-themes: base
+	for theme in $(THEMES) ; do \
+	  ./brand-initrd tmp/initrd $$theme ; \
+	  make initrd+modules ; \
+	  mv images/initrd images/initrd-$$theme ; \
+	done
+
 initrd+modules+gefrickel: base
 	image=modules-config src=initrd fs=none bin/mk_image
 	bin/mlist1
@@ -103,6 +110,13 @@ initrd+modules+gefrickel: base
 	cp tmp/initrd_gefrickel/modules/module.config images/module-config/$${MOD_CFG:-default}
 	./gefrickel tmp/initrd_gefrickel
 	mode=keep image=$${image:-initrd} tmpdir=initrd_gefrickel src=initrd filelist=initrd fs=cpio.gz bin/mk_image
+
+initrd+modules+gefrickel-themes: base
+	for theme in $(THEMES) ; do \
+	  ./brand-initrd tmp/initrd $$theme ; \
+	  make initrd+modules+gefrickel ; \
+	  mv images/initrd images/initrd-$$theme ; \
+	done
 
 kernel: base
 	image=vmlinuz-$${MOD_CFG:-default} src=initrd filelist=kernel kernel=kernel-$${MOD_CFG:-default} fs=dir bin/mk_image
@@ -149,6 +163,11 @@ boot-themes: base
 root-themes: base
 	for theme in $(THEMES) ; do \
 	  theme=$$theme image=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
+	done
+
+install-initrd-themes: base
+	for theme in $(THEMES) ; do \
+	  perl -p -e 's/^(theme=).*/$$1'"$$theme"/ brand-initrd > images/brand-initrd-$$theme ; \
 	done
 
 mboot:

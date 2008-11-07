@@ -48,10 +48,15 @@ mkdir "$tmp_dir/i", 0755;
 my $kernel_dir = "";
 
 if(defined $opt_kernel_rpm) {
+  my $opt_kernel_base = $opt_kernel_rpm;
+  $opt_kernel_base =~ s/\.rpm/-base.rpm/;
+
   die "rpm not found: $opt_kernel_rpm\n" unless -f $opt_kernel_rpm;
+  die "rpm not found: $opt_kernel_base\n" unless -f $opt_kernel_base;
 
   mkdir "$tmp_dir/k", 0755;
 
+  system "cd $tmp_dir/k; rpm2cpio $opt_kernel_base | cpio --quiet --extract --unconditional --preserve-modification-time --make-directories";
   system "cd $tmp_dir/k; rpm2cpio $opt_kernel_rpm | cpio --quiet --extract --unconditional --preserve-modification-time --make-directories";
   $kernel_dir = "$tmp_dir/k";
 
