@@ -29,3 +29,5 @@ if [ "$ARCH" = ppc64 ] ; then
   bin/mk_ppc_installation-images_bootbinaries.sh -64 `pwd` $DESTDIR
 fi   
 
+mkdir -p $DESTDIR/usr/share
+cp images/mini-iso-rmlist $DESTDIR/usr/share

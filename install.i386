@@ -60,3 +60,6 @@ for theme in $THEMES ; do
   fi
 done
 
+mkdir -p $DESTDIR/usr/share
+cp images/mini-iso-rmlist $DESTDIR/usr/share
+

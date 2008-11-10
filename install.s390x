@@ -38,3 +38,6 @@ install -m 644 data/initrd/s390/suse.ins.parmfile $DESTDIR/CD1/boot/$ARCH/parmfi
 install -m 644 data/initrd/s390/suse.ins.parmfile.cd $DESTDIR/CD1/boot/$ARCH/parmfile.cd
 
 install -m 644 data/initrd/s390/inst.exec $DESTDIR/CD1/boot/$ARCH/inst.exec
+
+mkdir -p $DESTDIR/usr/share
+cp images/mini-iso-rmlist $DESTDIR/usr/share

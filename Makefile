@@ -3,7 +3,7 @@ ifneq ($(filter i386 i486 i586 i686, $(ARCH)),)
 ARCH := i386
 endif
 
-COMMON_TARGETS	     := rescue root root+rescue root-themes bind gdb
+COMMON_TARGETS	     := rescue root root+rescue root-themes bind gdb mini-iso-rmlist
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
 
 ifneq ($(filter i386, $(ARCH)),)
@@ -42,7 +42,8 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
 	boot boot-efi root rescue root+rescue sax2 gdb bind clean \
-	boot-themes root-themes install install-initrd debuginfo
+	boot-themes root-themes install install-initrd mini-iso-rmlist \
+	debuginfo
 
 all: $(ALL_TARGETS)
 	@rm images/*.log
@@ -169,6 +170,13 @@ install-initrd-themes: base
 	for theme in $(THEMES) ; do \
 	  perl -p -e 's/^(theme=).*/$$1'"$$theme"/ brand-initrd > images/brand-initrd-$$theme ; \
 	done
+
+mini-iso-rmlist: base
+	rm -f images/$@
+	for i in \
+	  common rescue root rpmlist branding initrd-xen vmlinuz-xen initrd-xenpae vmlinuz-xenpae efi \
+	  $(THEMES) $(INSTSYS_PARTS) \
+	; do echo boot/$(ARCH)/$$i >>images/$@ ; done
 
 mboot:
 	make -C src/mboot

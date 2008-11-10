@@ -1,3 +1,7 @@
+10/11/2008:	v11.35
+	- added libdrm_intel.so (bnc #442413)
+	- added mini-iso-rmlist (file that should not go to mini-iso, bnc #443400)
+
 10/11/2008:	v11.34
 	- added sg_luns & lsscsi to initrd (bnc #437633)
 	- added wireless-tools to rescue system (bnc #443199)

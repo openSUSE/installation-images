@@ -227,7 +227,7 @@ if with_yast2 ne 'no'
     /usr/lib*/dri/swrast_dri.so
 
   libdrm:
-    /usr/lib*/libdrm.so.*
+    /usr/lib*
 
   openslp-server:
     /etc/slp.reg
