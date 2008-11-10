@@ -1,3 +1,8 @@
+10/11/2008:	v11.34
+	- added sg_luns & lsscsi to initrd (bnc #437633)
+	- added wireless-tools to rescue system (bnc #443199)
+	- don't use kernel-extra
+
 7/11/2008:	v11.33
 	- adapt mkinstallinitrd to kernel split (bnc #442177)
 	- prepare for initrd branding

@@ -236,6 +236,10 @@ endif
 lsscsi:
   /usr/bin
 
+sg3_utils:
+  /usr/bin
+  /usr/lib*
+
 sdparm:
   /sbin
 
@@ -650,7 +654,9 @@ if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ia64'
 endif
 
 wireless-tools:
+  /etc
   /usr/lib*/libiw.so.*
+  /usr/sbin
 
 dmraid:
   /sbin
