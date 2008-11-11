@@ -255,6 +255,9 @@ if with_gdb
   gdb:
     /usr/bin/gdb
 
+  libpython2_6-1_0:
+    /usr/lib*
+
   libexpat1:
     /lib*/libexpat.so.*
 
@@ -270,8 +273,10 @@ if with_gdb
     /usr/bin/head
     /usr/bin/tail
 
-  linuxrc-debuginfo:
-    /
+  if linuxrc eq ""
+    linuxrc-debuginfo:
+      /
+  endif
 
   if with_gdb == 2
 

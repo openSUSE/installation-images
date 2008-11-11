@@ -1,3 +1,7 @@
+11/11/2008:	v11.36
+	- yast2-trans-xx: we need aliases for languages linuxrc doesn't
+	  know about (bnc #443283)
+
 10/11/2008:	v11.35
 	- added libdrm_intel.so (bnc #442413)
 	- added mini-iso-rmlist (file that should not go to mini-iso, bnc #443400)
