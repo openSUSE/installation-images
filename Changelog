@@ -1,3 +1,4 @@
+12/11/2008:	v11.37
 	- af_packet had to be a module on ppc, add it to the module list (bnc#433540)
 
 11/11/2008:	v11.36
