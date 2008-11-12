@@ -1,3 +1,5 @@
+	- af_packet had to be a module on ppc, add it to the module list (bnc#433540)
+
 11/11/2008:	v11.36
 	- yast2-trans-xx: we need aliases for languages linuxrc doesn't
 	  know about (bnc #443283)
