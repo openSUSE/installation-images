@@ -1,3 +1,10 @@
+13/11/2008:	v11.38
+	- added video=efifb to elilo.conf
+	- added iscsi_ibft.ko (bnc #443531)
+	- ensure /etc/sysconfig is writable (bnc #441664)
+	- add more sax2 config files to sax2 image
+	- reworked branding (bnc #427743)
+
 12/11/2008:	v11.37
 	- af_packet had to be a module on ppc, add it to the module list (bnc#433540)
 

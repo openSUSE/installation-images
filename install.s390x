@@ -11,24 +11,24 @@ for theme in $THEMES ; do
 done
 
 # copy branding independent parts
-for i in $INSTSYS_PARTS ; do
-  cp images/$i $DESTDIR/CD1/boot/$ARCH
-done
-
-for i in $BOOT_PARTS ; do
-  cp -r images/$i $DESTDIR/CD1/boot/$ARCH
+for i in $INSTSYS_PARTS $BOOT_PARTS ; do
+  [ -e images/$i ] && cp -r images/$i $DESTDIR/CD1/boot/$ARCH
 done
 
 # copy branding dependent parts
 for theme in $THEMES ; do
-  cp images/root-$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/$theme
+  for i in $INSTSYS_PARTS $BOOT_PARTS ; do
+    [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  done
+
+  cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
   ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
+
+  perl -e "print pack('N', -s '$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd')" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.siz
+  perl -e "print pack('N', 0x800000)" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.off
 done
 
-perl -e "print pack('N', -s '$DESTDIR/CD1/boot/$ARCH/initrd')" >$DESTDIR/CD1/boot/$ARCH/initrd.siz
-perl -e "print pack('N', 0x800000)" >$DESTDIR/CD1/boot/$ARCH/initrd.off
-
-install -m 644 /boot/installation-kernel-tapeipl/image $DESTDIR/CD1/boot/$ARCH/tapeipl.ikr
+[ -f /boot/installation-kernel-tapeipl/image ] && install -m 644 /boot/installation-kernel-tapeipl/image $DESTDIR/CD1/boot/$ARCH/tapeipl.ikr
 install -m 644 /boot/image-* $DESTDIR/CD1/boot/$ARCH/vmrdr.ikr
 
 install -m 644 data/initrd/s390/suse.ins.root.$ARCH $DESTDIR/CD1/suse.ins
@@ -41,3 +41,4 @@ install -m 644 data/initrd/s390/inst.exec $DESTDIR/CD1/boot/$ARCH/inst.exec
 
 mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
+

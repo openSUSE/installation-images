@@ -168,8 +168,8 @@ depmod -a 2>/dev/null
 
 test -x /etc/init.d/ia32el && /etc/init.d/ia32el start
 
-# ensure everything below /root & /etc/ssh is writable
-for i in /root /etc/ssh ; do
+# ensure everything below those dirs is writable
+for i in /root /etc/ssh /etc/sysconfig ; do
   cp -aL $i ${i}_tmp
   rm -rf $i
   mv ${i}_tmp $i
@@ -179,6 +179,7 @@ done
 # vnc=1 will override the install mode
 if grep -q "^UseSSH:.*1" /etc/install.inf ; then
   test -x /sbin/inst_setup_ssh && . /sbin/inst_setup_ssh
+cpio-2.9-dir_perm.patch
 fi
 
 # for yast debugging.

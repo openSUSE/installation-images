@@ -11,23 +11,28 @@ for theme in $THEMES ; do
 done
 
 # copy branding independent parts
-for i in $INSTSYS_PARTS ; do
-  cp images/$i $DESTDIR/CD1/boot/$ARCH
+for i in $INSTSYS_PARTS $BOOT_PARTS ; do
+  [ -e images/$i ] && cp -r images/$i $DESTDIR/CD1/boot/$ARCH
 done
 
 # copy branding dependent parts
 for theme in $THEMES ; do
-  cp images/root-$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/$theme
+  for i in $INSTSYS_PARTS $BOOT_PARTS ; do
+    [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  done
+
+  cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
   ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
+
+  if [ "$ARCH" = ppc ] ; then
+    bin/mk_ppc_installation-images_bootbinaries.sh -32 -64 `pwd` $DESTDIR/branding/$theme
+  fi   
+
+  if [ "$ARCH" = ppc64 ] ; then
+    bin/mk_ppc_installation-images_bootbinaries.sh -64 `pwd` $DESTDIR/branding/$theme
+  fi   
 done
-
-if [ "$ARCH" = ppc ] ; then
-  bin/mk_ppc_installation-images_bootbinaries.sh -32 -64 `pwd` $DESTDIR
-fi   
-
-if [ "$ARCH" = ppc64 ] ; then
-  bin/mk_ppc_installation-images_bootbinaries.sh -64 `pwd` $DESTDIR
-fi   
 
 mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
+

@@ -7,32 +7,33 @@ COMMON_TARGETS	     := rescue root root+rescue root-themes bind gdb mini-iso-rml
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
 
 ifneq ($(filter i386, $(ARCH)),)
-ALL_TARGETS   := initrd biostest initrd+modules boot boot-themes $(COMMON_TARGETS) sax2
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules boot boot-themes $(COMMON_TARGETS) sax2
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
 BOOT_PARTS    := boot/* initrd biostest
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)
-ALL_TARGETS   := initrd biostest initrd+modules boot-efi boot boot-themes $(COMMON_TARGETS) sax2
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules boot-efi boot boot-themes $(COMMON_TARGETS) sax2
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
-BOOT_PARTS    := boot/* initrd biostest boot-efi
+BOOT_PARTS    := boot/* initrd biostest efi
 endif
 
 ifneq ($(filter ia64, $(ARCH)),)
-ALL_TARGETS   := initrd initrd+modules boot-efi $(COMMON_TARGETS) sax2
+ALL_TARGETS   := initrd-themes initrd initrd+modules boot-efi $(COMMON_TARGETS) sax2
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
-BOOT_PARTS    := boot-efi initrd
+BOOT_PARTS    := initrd efi
 endif
 
 ifneq ($(filter s390 s390x, $(ARCH)),)
-ALL_TARGETS   := initrd initrd+modules $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd initrd+modules $(COMMON_TARGETS)
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := initrd
 endif
 
 ifneq ($(filter ppc ppc64, $(ARCH)),)
-ALL_TARGETS   := initrd initrd+modules+gefrickel $(COMMON_TARGETS) sax2
+ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel $(COMMON_TARGETS) sax2
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
+BOOT_PARTS    :=
 endif
 
 THEMES        := openSUSE SLES SLED
@@ -42,8 +43,8 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
 	boot boot-efi root rescue root+rescue sax2 gdb bind clean \
-	boot-themes root-themes install install-initrd mini-iso-rmlist \
-	debuginfo
+	boot-themes initrd-themes root-themes install \
+	install-initrd install-initrd-themes mini-iso-rmlist debuginfo
 
 all: $(ALL_TARGETS)
 	@rm images/*.log
@@ -51,7 +52,7 @@ all: $(ALL_TARGETS)
 install:
 
 dirs:
-	@[ -d images ] || mkdir images
+	@[ -d images ] || ( mkdir images ; cd images ; mkdir $(THEMES) )
 	@[ -d tmp ] || mkdir tmp
 
 base: dirs
@@ -70,7 +71,9 @@ biostest: base
 	libdeps=initrd,biostest image=biostest src=initrd fs=cpio.gz disjunct=initrd bin/mk_image
 
 initrd: base
-	libdeps=initrd image=initrd-base.gz tmpdir=initrd src=initrd filelist=initrd fs=cpio.gz bin/mk_image
+	libdeps=initrd image=initrd-base tmpdir=initrd src=initrd filelist=initrd fs=cpio bin/mk_image
+	i=`pwd` ; ( cd tmp/initrd-openSUSE ; find . | cpio --quiet -o -H newc -A -F $$i/images/initrd-base )
+	gzip -9 images/initrd-base
 
 modules: base
 	image=modules-config src=initrd fs=none bin/mk_image
@@ -86,17 +89,17 @@ initrd+modules: base
 	bin/mlist1
 	bin/mlist2
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
-	mode=keep,add image=$${image:-initrd} tmpdir=initrd filelist=modules src=initrd fs=cpio.gz bin/mk_image
+	mode=keep,add image=$${image:-initrd} tmpdir=initrd filelist=modules src=initrd fs=cpio bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
-
-initrd+modules-themes: base
+	# now theme it
 	for theme in $(THEMES) ; do \
-	  ./brand-initrd tmp/initrd $$theme ; \
-	  make initrd+modules ; \
-	  mv images/initrd images/initrd-$$theme ; \
+	  cp images/$${image:-initrd} images/$$theme/$${image:-initrd} ; \
+	  i=`pwd` ; ( cd tmp/initrd-$$theme ; find . | cpio --quiet -o -H newc -A -F $$i/images/$$theme/$${image:-initrd} ) ; \
+	  gzip -9 images/$$theme/$${image:-initrd} ; mv images/$$theme/$${image:-initrd}.gz images/$$theme/$${image:-initrd} ; \
 	done
+	rm -f images/$${image:-initrd}
 
 initrd+modules+gefrickel: base
 	image=modules-config src=initrd fs=none bin/mk_image
@@ -110,24 +113,25 @@ initrd+modules+gefrickel: base
 	ls -I module.config tmp/initrd_gefrickel/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd_gefrickel/modules/module.config images/module-config/$${MOD_CFG:-default}
 	./gefrickel tmp/initrd_gefrickel
-	mode=keep image=$${image:-initrd} tmpdir=initrd_gefrickel src=initrd filelist=initrd fs=cpio.gz bin/mk_image
-
-initrd+modules+gefrickel-themes: base
+	mode=keep image=$${image:-initrd} tmpdir=initrd_gefrickel src=initrd filelist=initrd fs=cpio bin/mk_image
+	# now theme it
 	for theme in $(THEMES) ; do \
-	  ./brand-initrd tmp/initrd $$theme ; \
-	  make initrd+modules+gefrickel ; \
-	  mv images/initrd images/initrd-$$theme ; \
+	  cp images/$${image:-initrd} images/$$theme/$${image:-initrd} ; \
+	  i=`pwd` ; ( cd tmp/initrd-$$theme ; find . | cpio --quiet -o -H newc -A -F $$i/images/$$theme/$${image:-initrd} ) ; \
+	  gzip -9 images/$$theme/$${image:-initrd} ; mv images/$$theme/$${image:-initrd}.gz images/$$theme/$${image:-initrd} ; \
 	done
+	rm -f images/$${image:-initrd}
 
 kernel: base
 	image=vmlinuz-$${MOD_CFG:-default} src=initrd filelist=kernel kernel=kernel-$${MOD_CFG:-default} fs=dir bin/mk_image
 
 boot-efi: base
-	image=boot-efi src=boot filelist=efi fs=dir bin/mk_image
-	ln images/initrd tmp/boot-efi/efi/boot/initrd
-	bin/hdimage --size 500k --fit-size --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi/* tmp/boot-efi/.p* -- images/boot-efi.img
-	rm -rf tmp/boot-efi/efi/boot/initrd images/boot-efi
-	mv images/boot-efi.img images/boot-efi
+	image=boot-efi src=boot filelist=efi fs=none bin/mk_image
+	for theme in $(THEMES) ; do \
+	  ln images/$$theme/initrd tmp/boot-efi/efi/boot/initrd ; \
+	  bin/hdimage --size 500k --fit-size --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi/* tmp/boot-efi/.p* -- images/$$theme/efi ; \
+	  rm -rf tmp/boot-efi/efi/boot/initrd ; \
+	done
 
 boot: base
 	image=boot fs=dir bin/mk_image
@@ -158,12 +162,17 @@ bind: base
 
 boot-themes: base
 	for theme in $(THEMES) ; do \
-	  theme=$$theme image=boot-$$theme src=boot filelist=$$theme fs=dir bin/mk_image ; \
+	  theme=$$theme image=$$theme/boot tmpdir=boot-$$theme src=boot filelist=$$theme fs=dir bin/mk_image ; \
+	done
+
+initrd-themes: base
+	for theme in $(THEMES) ; do \
+	  theme=$$theme image=$$theme/initrd tmpdir=initrd-$$theme src=initrd filelist=$$theme fs=none bin/mk_image ; \
 	done
 
 root-themes: base
 	for theme in $(THEMES) ; do \
-	  theme=$$theme image=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
+	  theme=$$theme image=$$theme/$$theme tmpdir=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
 	done
 
 install-initrd-themes: base

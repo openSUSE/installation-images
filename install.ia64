@@ -11,24 +11,22 @@ for theme in $THEMES ; do
 done
 
 # copy branding independent parts
-for i in $INSTSYS_PARTS ; do
-  cp images/$i $DESTDIR/CD1/boot/$ARCH
+for i in $INSTSYS_PARTS $BOOT_PARTS ; do
+  [ -e images/$i ] && cp -r images/$i $DESTDIR/CD1/boot/$ARCH
 done
-
-for i in $BOOT_PARTS ; do
-  cp -r images/$i $DESTDIR/CD1/boot/$ARCH
-done
-
-mv $DESTDIR/CD1/boot/$ARCH/boot-efi $DESTDIR/CD1/boot/$ARCH/image
-ln -s image $DESTDIR/CD1/boot/$ARCH/efi
-
-# mv $DESTDIR/CD1/boot/$ARCH/initrd $DESTDIR/CD1/boot/$ARCH/initdisk.gz
 
 # copy branding dependent parts
 for theme in $THEMES ; do
-  cp images/root-$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/$theme
+  for i in $INSTSYS_PARTS $BOOT_PARTS ; do
+    [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  done
+
+  cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
   ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
+
+  ln -s efi $DESTDIR/branding/$theme/CD1/boot/$ARCH/image
 done
 
 mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
+

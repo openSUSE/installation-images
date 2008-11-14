@@ -96,6 +96,7 @@ kernel/net/sunrpc/sunrpc.ko
 kernel/drivers/power/power_supply.ko
 kernel/drivers/firmware/edd.ko
 kernel/drivers/firmware/efivars.ko
+kernel/drivers/firmware/iscsi_ibft.ko
 kernel/drivers/acpi/
 kernel/drivers/video/backlight/
 kernel/drivers/cpufreq/

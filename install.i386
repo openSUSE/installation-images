@@ -12,17 +12,9 @@ for theme in $THEMES ; do
 done
 
 # copy branding independent parts
-for i in $INSTSYS_PARTS ; do
-  cp images/$i $DESTDIR/CD1/boot/$ARCH
+for i in $INSTSYS_PARTS $BOOT_PARTS ; do
+  [ -e images/$i ] && cp -r images/$i $DESTDIR/CD1/boot/$ARCH
 done
-
-for i in $BOOT_PARTS ; do
-  cp -r images/$i $DESTDIR/CD1/boot/$ARCH/loader
-done
-
-if [ -f $DESTDIR/CD1/boot/$ARCH/loader/boot-efi ] ; then
-  mv $DESTDIR/CD1/boot/$ARCH/loader/boot-efi $DESTDIR/CD1/boot/$ARCH/efi
-fi
 
 # xen intrd & kernel
 for i in images/initrd-+([^.]) ; do
@@ -39,9 +31,11 @@ done
 
 # copy branding dependent parts
 for theme in $THEMES ; do
-  cp -r images/boot-$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader
+  for i in $INSTSYS_PARTS $BOOT_PARTS ; do
+    [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  done
 
-  cp images/root-$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/$theme
+  cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
   ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
 
   cp etc/README $DESTDIR/branding/$theme/CD1/boot/$ARCH

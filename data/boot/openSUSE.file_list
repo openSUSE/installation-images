@@ -1,26 +1,28 @@
 if arch eq 'i386' || arch eq 'x86_64'
 
+  d loader
+
   x mk_splash .
 
   gfxboot-branding-openSUSE:
     /
-    e cp -a etc/bootsplash/themes/openSUSE/cdrom/* .
-    e gfxboot --config-file=gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/11.1/driverupdate
+    e cp -a etc/bootsplash/themes/openSUSE/cdrom/* loader
+    e gfxboot --config-file=loader/gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/11.1/driverupdate
 
   # mk_splash dst_dir theme config spl_name
-  e ./mk_splash . openSUSE   800x600 08000600
-  e ./mk_splash . openSUSE  1024x600 10240600
-  e ./mk_splash . openSUSE  1024x768 10240768
-  e ./mk_splash . openSUSE  1280x800 12800800
-  e ./mk_splash . openSUSE 1280x1024 12801024
-  e ./mk_splash . openSUSE 1400x1050 14001050
-  e ./mk_splash . openSUSE 1680x1050 16801050
-  e ./mk_splash . openSUSE 1600x1200 16001200
-  e ./mk_splash . openSUSE 1920x1200 19201200
+  e ./mk_splash loader openSUSE   800x600 08000600
+  e ./mk_splash loader openSUSE  1024x600 10240600
+  e ./mk_splash loader openSUSE  1024x768 10240768
+  e ./mk_splash loader openSUSE  1280x800 12800800
+  e ./mk_splash loader openSUSE 1280x1024 12801024
+  e ./mk_splash loader openSUSE 1400x1050 14001050
+  e ./mk_splash loader openSUSE 1680x1050 16801050
+  e ./mk_splash loader openSUSE 1600x1200 16001200
+  e ./mk_splash loader openSUSE 1920x1200 19201200
 
   r mk_splash etc var
 
-  x message .
-  R s/product_name/<product_name>/ message
+  x message loader
+  R s/product_name/<product_name>/ loader/message
 
 endif

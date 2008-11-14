@@ -1,17 +1,18 @@
-x syslinux.cfg /isolinux.cfg
+d loader
+x syslinux.cfg /loader/isolinux.cfg
 
 <kernel_rpm>:
-  a /boot/<kernel_img> /linux
+  a /boot/<kernel_img> /loader/linux
 
 if theme eq 'Zen'
-  x message-zen /message
-  x syslinux-zen.cfg /isolinux.cfg
+  x message-zen /loader/message
+  x syslinux-zen.cfg /loader/isolinux.cfg
 endif
 
 memtest86+:
-  m /boot/memtest.bin /memtest
+  m /boot/memtest.bin /loader/memtest
 
 syslinux:
-  m /usr/share/syslinux/isolinux.bin /
-  e isolinux-config --base=/boot/<arch>/loader isolinux.bin
+  m /usr/share/syslinux/isolinux.bin /loader
+  e isolinux-config --base=/boot/<arch>/loader loader/isolinux.bin
 
