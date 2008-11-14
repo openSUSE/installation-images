@@ -1,4 +1,4 @@
-13/11/2008:	v11.38
+14/11/2008:	v11.38
 	- added video=efifb to elilo.conf
 	- added iscsi_ibft.ko (bnc #443531)
 	- ensure /etc/sysconfig is writable (bnc #441664)
