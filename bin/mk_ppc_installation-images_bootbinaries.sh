@@ -42,11 +42,11 @@ if test "$do_32" = "true" ; then
 mkdir -pv $CD1/PS3/otheros
 cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
 #
-cp -pfv $bdir/images/initrd             $CD1/suseboot/initrd32
+cp -pfv $bdir/initrd             $CD1/suseboot/initrd32
 gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
 fi
 if test "$do_64" = "true" ; then
-cp -pfv $bdir/images/initrd-ppc64       $CD1/suseboot/initrd64
+cp -pfv $bdir/initrd-ppc64       $CD1/suseboot/initrd64
 gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD1/suseboot/linux64.gz
 fi
 
@@ -60,14 +60,14 @@ if test "$do_64" = "true" ; then
 	/bin/mkzimage \
 	--board chrp \
 	--vmlinux /boot/vmlinux-*-ppc64 \
-	--initrd $bdir/images/initrd-ppc64 \
+	--initrd $bdir/initrd-ppc64 \
 	--output $CD1/suseboot/inst64
 #
 	if test "42" = "false" ; then
 	/bin/mkzimage \
 	--board iseries \
 	--vmlinux /boot/vmlinux-*-ppc64 \
-	--initrd $bdir/images/initrd-ppc64 \
+	--initrd $bdir/initrd-ppc64 \
 	--output $CD1/ISERIES64
 	fi
 #
@@ -77,14 +77,14 @@ if test "$do_32" = "true" ; then
 	/bin/mkzimage \
 	--board chrp \
 	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/images/initrd \
+	--initrd $bdir/initrd \
 	--output $CD1/suseboot/inst32
 #
 	if test "42" = "false" ; then
 		/bin/mkzimage \
 		--board prep \
 		--vmlinux /boot/vmlinux-*-default \
-		--initrd $bdir/images/initrd \
+		--initrd $bdir/initrd \
 		--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
 		--output $CD1/boot/ppc/zImage.prep.initrd
 	fi
@@ -93,7 +93,7 @@ if test "$do_32" = "true" ; then
 		/bin/mkzimage \
 		--board pmaccoff \
 		--vmlinux /boot/vmlinux-*-default \
-		--initrd $bdir/images/initrd-ppc32_pmac_coff \
+		--initrd $bdir/initrd-ppc32_pmac_coff \
 		--output $CD1/boot/ppc/install-pmaccoff
 #
 		/bin/mkzimage \

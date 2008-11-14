@@ -25,11 +25,11 @@ for theme in $THEMES ; do
   ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
 
   if [ "$ARCH" = ppc ] ; then
-    bin/mk_ppc_installation-images_bootbinaries.sh -32 -64 `pwd` $DESTDIR/branding/$theme
+    bin/mk_ppc_installation-images_bootbinaries.sh -32 -64 `pwd`/images/$theme $DESTDIR/branding/$theme
   fi   
 
   if [ "$ARCH" = ppc64 ] ; then
-    bin/mk_ppc_installation-images_bootbinaries.sh -64 `pwd` $DESTDIR/branding/$theme
+    bin/mk_ppc_installation-images_bootbinaries.sh -64 `pwd`/images/$theme $DESTDIR/branding/$theme
   fi   
 done
 

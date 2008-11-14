@@ -16,17 +16,9 @@ for i in $INSTSYS_PARTS $BOOT_PARTS ; do
   [ -e images/$i ] && cp -r images/$i $DESTDIR/CD1/boot/$ARCH
 done
 
-# xen intrd & kernel
-for i in images/initrd-+([^.]) ; do
-  if [ -f "$i" ] ; then
-    cp $i $DESTDIR/CD1/boot/$ARCH
-  fi
-done
-
+# xen kernel
 for i in images/vmlinuz-+([^.]) ; do
-  if [ -d "$i" ] ; then
-    cp "$i/linux" $DESTDIR/CD1/boot/$ARCH/`basename $i`
-  fi
+  [ -d "$i" ] && cp "$i/linux" $DESTDIR/CD1/boot/$ARCH/`basename $i`
 done
 
 # copy branding dependent parts
@@ -37,6 +29,11 @@ for theme in $THEMES ; do
 
   cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
   ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
+
+  # xen initrd
+  for i in images/$theme/initrd-+([^.]) ; do
+    [ -f "$i" ] && cp $i $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  done
 
   cp etc/README $DESTDIR/branding/$theme/CD1/boot/$ARCH
   recode utf8..ibmpc <$DESTDIR/branding/$theme/CD1/boot/$ARCH/README >$DESTDIR/branding/$theme/CD1/boot/$ARCH/README.DOS
