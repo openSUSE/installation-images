@@ -41,8 +41,8 @@ s390    = kernel-s390
 ; extra kmps we need (',' separated list)
 [KMP]
 default	=
-i386	= at76_usb,wlan-ng,ofed
-x86_64	= at76_usb,wlan-ng,ofed
+i386	= ofed
+x86_64	= ofed
 ppc     = ofed
 ppc64   = ofed
 

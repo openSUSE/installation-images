@@ -1,3 +1,7 @@
+17/11/2008:	v11.40
+	- added branding to install-initrd
+	- removed references to at76_usb & wlan-ng kmps
+
 14/11/2008:	v11.39
 	- fix mkbootdisk (bnc #444861)
 

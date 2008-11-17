@@ -83,7 +83,7 @@ if($opt_style ne "" && ! -d "$lib_dir/$opt_style") {
   $opt_style = "default";
 }
 
-die "style $opt_style not supported\n" unless $opt_style ne "" && -d "$lib_dir/$opt_style";
+die "style $opt_style not supported\n" unless $opt_style ne "" && -d "$lib_dir/$opt_style/module.list";
 
 (my $override = $opt_kernel) =~ s/\-.*//;
 $override .= "-override-$opt_kernel_style";
@@ -119,6 +119,9 @@ die "no kernel symbols\n" unless -f "$kernel_dir/boot/System.map-$opt_kernel-$op
 system "depmod -a -b $tmp_dir/i -F $kernel_dir/boot/System.map-$opt_kernel-$opt_kernel_style $opt_kernel-$opt_kernel_style";
 
 system "cp $lib_dir/$opt_style/module.config $tmp_dir/i/modules";
+
+# add branding
+system "cp -a $lib_dir/branding/* $tmp_dir/i" if -d "$lib_dir/branding";
 
 system "gunzip -c $lib_dir/$opt_base.gz >$tmp_dir/initrd";
 

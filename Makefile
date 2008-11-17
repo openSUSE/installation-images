@@ -71,9 +71,7 @@ biostest: base
 	libdeps=initrd,biostest image=biostest src=initrd fs=cpio.gz disjunct=initrd bin/mk_image
 
 initrd: base
-	libdeps=initrd image=initrd-base tmpdir=initrd src=initrd filelist=initrd fs=cpio bin/mk_image
-	i=`pwd` ; ( cd tmp/initrd-openSUSE ; find . | cpio --quiet -o -H newc -A -F $$i/images/initrd-base )
-	gzip -9 images/initrd-base
+	libdeps=initrd image=initrd-base.gz tmpdir=initrd src=initrd filelist=initrd fs=cpio.gz bin/mk_image
 
 modules: base
 	image=modules-config src=initrd fs=none bin/mk_image
@@ -97,7 +95,7 @@ initrd+modules: base
 	for theme in $(THEMES) ; do \
 	  cp images/$${image:-initrd} images/$$theme/$${image:-initrd} ; \
 	  i=`pwd` ; ( cd tmp/initrd-$$theme ; find . | cpio --quiet -o -H newc -A -F $$i/images/$$theme/$${image:-initrd} ) ; \
-	  gzip -9 images/$$theme/$${image:-initrd} ; mv images/$$theme/$${image:-initrd}.gz images/$$theme/$${image:-initrd} ; \
+	  gzip -9f images/$$theme/$${image:-initrd} ; mv images/$$theme/$${image:-initrd}.gz images/$$theme/$${image:-initrd} ; \
 	done
 	rm -f images/$${image:-initrd}
 
@@ -118,7 +116,7 @@ initrd+modules+gefrickel: base
 	for theme in $(THEMES) ; do \
 	  cp images/$${image:-initrd} images/$$theme/$${image:-initrd} ; \
 	  i=`pwd` ; ( cd tmp/initrd-$$theme ; find . | cpio --quiet -o -H newc -A -F $$i/images/$$theme/$${image:-initrd} ) ; \
-	  gzip -9 images/$$theme/$${image:-initrd} ; mv images/$$theme/$${image:-initrd}.gz images/$$theme/$${image:-initrd} ; \
+	  gzip -9f images/$$theme/$${image:-initrd} ; mv images/$$theme/$${image:-initrd}.gz images/$$theme/$${image:-initrd} ; \
 	done
 	rm -f images/$${image:-initrd}
 
@@ -167,17 +165,12 @@ boot-themes: base
 
 initrd-themes: base
 	for theme in $(THEMES) ; do \
-	  theme=$$theme image=$$theme/initrd tmpdir=initrd-$$theme src=initrd filelist=$$theme fs=none bin/mk_image ; \
+	  theme=$$theme image=$$theme/install-initrd tmpdir=initrd-$$theme src=initrd filelist=$$theme fs=dir bin/mk_image ; \
 	done
 
 root-themes: base
 	for theme in $(THEMES) ; do \
 	  theme=$$theme image=$$theme/$$theme tmpdir=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
-	done
-
-install-initrd-themes: base
-	for theme in $(THEMES) ; do \
-	  perl -p -e 's/^(theme=).*/$$1'"$$theme"/ brand-initrd > images/brand-initrd-$$theme ; \
 	done
 
 mini-iso-rmlist: base
