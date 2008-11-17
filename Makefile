@@ -44,7 +44,7 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
 	boot boot-efi root rescue root+rescue sax2 gdb bind clean \
 	boot-themes initrd-themes root-themes install \
-	install-initrd install-initrd-themes mini-iso-rmlist debuginfo
+	install-initrd mini-iso-rmlist debuginfo
 
 all: $(ALL_TARGETS)
 	@rm images/*.log
