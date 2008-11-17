@@ -209,4 +209,7 @@ install-initrd:
 	@mkdir -p $(DESTDIR)/default
 	cp images/initrd-base.gz $(DESTDIR)
 	cp -a images/module-config/* $(DESTDIR)
+	for theme in $(THEMES) ; do \
+	  cp -a images/$$theme/install-initrd $(DESTDIR)/$$theme ; \
+	done
 
