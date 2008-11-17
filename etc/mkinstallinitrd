@@ -83,7 +83,7 @@ if($opt_style ne "" && ! -d "$lib_dir/$opt_style") {
   $opt_style = "default";
 }
 
-die "style $opt_style not supported\n" unless $opt_style ne "" && -d "$lib_dir/$opt_style/module.list";
+die "style $opt_style not supported\n" unless $opt_style ne "" && -f "$lib_dir/$opt_style/module.list";
 
 (my $override = $opt_kernel) =~ s/\-.*//;
 $override .= "-override-$opt_kernel_style";
