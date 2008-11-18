@@ -21,6 +21,7 @@ my $opt_kernel = undef;
 my $opt_kernel_rpm = undef;
 my $opt_base = "initrd-base";
 my $opt_kernel_style = undef;
+my $opt_theme = "branding";
 
 GetOptions(
   'help|h'       => \&help,
@@ -28,6 +29,7 @@ GetOptions(
   'kernel=s'     => \$opt_kernel,
   'kernel-rpm=s' => \$opt_kernel_rpm,
   'style=s'      => \$opt_style,
+  'theme=s'      => \$opt_theme,
   'initrd=s'     => \$opt_base,
   'libdir=s'     => \$lib_dir,
 );
@@ -121,7 +123,7 @@ system "depmod -a -b $tmp_dir/i -F $kernel_dir/boot/System.map-$opt_kernel-$opt_
 system "cp $lib_dir/$opt_style/module.config $tmp_dir/i/modules";
 
 # add branding
-system "cp -a $lib_dir/branding/* $tmp_dir/i" if -d "$lib_dir/branding";
+system "cp -a $lib_dir/$opt_theme/* $tmp_dir/i" if -d "$lib_dir/$opt_theme";
 
 system "gunzip -c $lib_dir/$opt_base.gz >$tmp_dir/initrd";
 
@@ -149,7 +151,8 @@ sub help
   "  --kernel=kernel-version\tuse modules from this kernel (installed)\n" .
   "  --kernel-rpm=rpm\t\tuse modules from this kernel rpm\n" .
   "  --libdir=dir\t\t\tsearch files in directory dir\n" .
-  "  --initrd=foo\t\t\tuse /usr/lib/install-initrd/foo.gz as base\n\n" .
+  "  --initrd=foo\t\t\tuse /usr/lib/install-initrd/foo.gz as base\n" .
+  "  --theme=foo\t\t\tuse theme foo\n\n" .
   "Examples:\n" .
   "  $p foo\n" .
   "  - create initrd 'foo' based on current kernel\n\n" .

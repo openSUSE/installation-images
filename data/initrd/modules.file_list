@@ -33,6 +33,7 @@ else
   include gen/module.files.WLAN
   include gen/module.files.scsi
   include gen/module.files.usb
+  include gen/module.files.acpi
   include gen/module.files.other
 
   # note: order _does_ matter
@@ -44,6 +45,7 @@ else
   A gen/module.config.usb modules/module.config
   A gen/module.config.firewire modules/module.config
   A gen/module.config.fs modules/module.config
+  A gen/module.config.acpi modules/module.config
   A gen/module.config.other modules/module.config
 
   if arch eq 's390' || arch eq 's390x'

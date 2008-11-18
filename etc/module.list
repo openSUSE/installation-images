@@ -100,7 +100,7 @@ kernel/drivers/firmware/iscsi_ibft.ko
 kernel/drivers/acpi/
 kernel/drivers/video/backlight/
 kernel/drivers/cpufreq/
-kernel/arch/x86/kernel/cpu/cpufreq/
+kernel/arch/x86/kernel/
 kernel/drivers/hwmon/hwmon.ko
 kernel/drivers/thermal/thermal_sys.ko
 

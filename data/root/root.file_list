@@ -795,7 +795,7 @@ usbutils:
 libusb-1_0-0:
   /usr/lib*
 
-libusb-0_1-4:
+libusb-0_1-5:
   /usr/lib*
 
 checkmedia:

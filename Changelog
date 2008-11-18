@@ -1,3 +1,8 @@
+18/11/2008:	v11.42
+	- libusb-0_1-4 -> libusb-0_1-5
+	- some more modules (bnc #445754)
+	- added 'theme' option to mkinstallinitrd
+
 18/11/2008:	v11.41
 	- fixed mkbootdisk to work with > 16 floppies (bnc #445946)
 
