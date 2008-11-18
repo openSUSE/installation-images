@@ -793,7 +793,7 @@ use integer;
     $fat->drive_id(0x00);
 
     $fat->serial($serial + 0);
-    $fat->volume_id("BOOTDISK1");
+    $fat->volume_id("BOOTDISK01");
     $fat->manuf_id("SUSE");
 
     $fat->fs_date(time);
@@ -831,11 +831,11 @@ use integer;
     $fat->media_id(0xf0);
     $fat->drive_id(0x00);
 
-    $fat->serial($serial + ($disk & 0xf));
+    $fat->serial($serial + $disk);
 
     $dsk = $disk + 1;
 
-    $fat->volume_id("BOOTDISK$dsk");
+    $fat->volume_id(sprintf "BOOTDISK%02u", $dsk);
     $fat->manuf_id("SUSE");
 
     $i = $boot_msg;
