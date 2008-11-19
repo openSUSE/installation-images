@@ -349,9 +349,6 @@ hal:
   /usr/lib*/libhal.so.*
   /var/cache/hald
 
-libusb-1_0-0:
-  /usr/lib*
-
 libusb-0_1-4:
   /usr/lib*
 

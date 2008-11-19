@@ -792,9 +792,6 @@ usbutils:
   /usr/sbin/lsusb
   /usr/share/usb.ids
 
-libusb-1_0-0:
-  /usr/lib*
-
 libusb-0_1-4:
   /usr/lib*
 
