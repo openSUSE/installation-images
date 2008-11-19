@@ -1,5 +1,5 @@
 19/11/2008:	v11.44
-	- drop libusb1
+	- drop libusb1, glib
 
 19/11/2008:	v11.43
 	- libusb-0_1-5 -> libusb-0_1-4

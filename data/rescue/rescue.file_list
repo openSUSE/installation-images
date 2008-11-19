@@ -267,9 +267,6 @@ if arch eq 'ia64'
     /lib/libunwind.so*
 endif
 
-glib:
-  /usr/lib*/libglib-1.2.so*
-
 lvm2: postin
   /etc
   /sbin
