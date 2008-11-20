@@ -1,3 +1,6 @@
+20/11/2008:	v11.46
+	- turn kexec off for SLES & SLED (bnc #447095)
+
 20/11/2008:	v11.45
 	- move initrd to correct place
 

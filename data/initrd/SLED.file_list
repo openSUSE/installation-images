@@ -50,3 +50,5 @@ endif
 # look for driver updates on usb media (bnc #363650)
 e echo "dud:		disk:/?device=*usb*" >>linuxrc.config
 
+e echo "KexecReboot:    0" >>linuxrc.config
+
