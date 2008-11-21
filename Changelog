@@ -1,3 +1,6 @@
+21/11/2008:	v11.47
+	- add t3fw firmware (bnc #441595)
+
 20/11/2008:	v11.46
 	- turn kexec off for SLES & SLED (bnc #447095)
 

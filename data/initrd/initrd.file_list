@@ -510,6 +510,11 @@ qlogic-firmware:
 adaptec-firmware:
   /lib/firmware
 
+if exists(ofed)
+  ofed:
+    /lib/firmware
+endif
+
 open-iscsi:
   # must be writable
   /etc/iscsi/iscsid.conf
