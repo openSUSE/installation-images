@@ -1,3 +1,7 @@
+24/11/2008:	v11.48
+	- t3fw firmware is now in cxgb3-firmware (bnc #442117)
+	- added brocade-bfa
+
 21/11/2008:	v11.47
 	- add t3fw firmware (bnc #441595)
 

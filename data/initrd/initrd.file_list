@@ -510,8 +510,8 @@ qlogic-firmware:
 adaptec-firmware:
   /lib/firmware
 
-if exists(ofed)
-  ofed:
+if exists(cxgb3-firmware)
+  cxgb3-firmware:
     /lib/firmware
 endif
 
