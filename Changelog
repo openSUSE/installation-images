@@ -1,3 +1,6 @@
+24/11/2008:	v11.49
+	- added modules.order (bnc #448203)
+
 24/11/2008:	v11.48
 	- t3fw firmware is now in cxgb3-firmware (bnc #442117)
 	- added brocade-bfa
