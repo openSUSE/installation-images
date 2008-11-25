@@ -72,6 +72,7 @@ biostest: base
 
 initrd: base
 	libdeps=initrd image=initrd-base.gz tmpdir=initrd src=initrd filelist=initrd fs=cpio.gz bin/mk_image
+	[ -s tmp/initrd/bin/bash ]
 
 modules: base
 	image=modules-config src=initrd fs=none bin/mk_image

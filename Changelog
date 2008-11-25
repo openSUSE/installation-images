@@ -1,3 +1,6 @@
+25/11/2008:	v11.50
+	- check /bin/bash size in initrd
+
 24/11/2008:	v11.49
 	- added modules.order (bnc #448203)
 
