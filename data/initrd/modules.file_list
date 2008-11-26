@@ -4,7 +4,8 @@ s lib/modules/<kernel_ver>/initrd modules
 
 <kernel_rpm>:
 
-  /lib/modules/*/modules.order
+  /lib/modules/<kernel_ver>/modules.order
+  e perl -pi -e "s#.*/#initrd/#" lib/modules/<kernel_ver>/modules.order
 
 x module.help modules/module.config
 

@@ -1,3 +1,7 @@
+26/11/2008:	v11.51
+	- rewrite modules.order (bnc #448203)
+	- adjust to some dm-xxx renaming
+
 25/11/2008:	v11.50
 	- check /bin/bash size in initrd
 
