@@ -21,6 +21,11 @@ for i in images/vmlinuz-+([^.]) ; do
   [ -d "$i" ] && cp "$i/linux" $DESTDIR/CD1/boot/$ARCH/`basename $i`
 done
 
+# biostest goes to 'loader' dir
+if [ -e $DESTDIR/CD1/boot/$ARCH/biostest ] ; then
+  mv $DESTDIR/CD1/boot/$ARCH/biostest $DESTDIR/CD1/boot/$ARCH/loader/biostest
+fi
+
 # copy branding dependent parts
 for theme in $THEMES ; do
   for i in $INSTSYS_PARTS $BOOT_PARTS ; do
@@ -35,12 +40,10 @@ for theme in $THEMES ; do
     [ -f "$i" ] && cp $i $DESTDIR/branding/$theme/CD1/boot/$ARCH
   done
 
-  # initrd & biostest go to 'loader' dir
-  for i in initrd biostest ; do
-    if [ -e $DESTDIR/branding/$theme/CD1/boot/$ARCH/$i ] ; then
-      mv $DESTDIR/branding/$theme/CD1/boot/$ARCH/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader/$i
-    fi
-  done
+  # initrd goes to 'loader' dir
+  if [ -e $DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd ] ; then
+    mv $DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader/initrd
+  fi
 
   cp etc/README $DESTDIR/branding/$theme/CD1/boot/$ARCH
   recode utf8..ibmpc <$DESTDIR/branding/$theme/CD1/boot/$ARCH/README >$DESTDIR/branding/$theme/CD1/boot/$ARCH/README.DOS
