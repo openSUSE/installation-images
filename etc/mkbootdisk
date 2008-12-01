@@ -659,8 +659,8 @@ use integer;
     $clusters = $self->clusters;
 
     if(!$self->fat_bits && !$self->fat_size) {
-      for(my $i = 0; $i < 2; $i++) {
-        # two iterations should be enough
+      for(my $i = 0; $i < 3; $i++) {
+        # might not converge; use odd number of iterations to get lower limit
         $self->fat_bits($clusters <= 0xff5 ? 12 : 16);
         $self->fat_size((($self->fat_bits * ($clusters + 2) + 7) / 8 + $self->sector_size - 1) / $self->sector_size);
         $clusters = $self->clusters;

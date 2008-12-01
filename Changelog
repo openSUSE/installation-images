@@ -1,3 +1,6 @@
+1/12/2008:	v11.53
+	- mkbootdisk could create an invalid FAT fs (bnc #450182)
+
 1/12/2008:	v11.52
 	- move biostest to correct place (bnc #450144)
 
