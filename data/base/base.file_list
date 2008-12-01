@@ -52,6 +52,9 @@ coreutils:
 libselinux1:
   /
 
+libsepol1:
+  /
+
 libexpat1:
   /lib*/libexpat.so.*
 

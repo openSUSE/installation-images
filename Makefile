@@ -56,7 +56,7 @@ dirs:
 	@[ -d tmp ] || mkdir tmp
 
 base: dirs
-	@[ -d tmp/base ] || nostrip=1 image=base fs=none bin/mk_image
+	@[ -d tmp/base ] || nostrip=1 libdeps=base image=base fs=none bin/mk_image
 
 zeninitrd: base
 	initramfs=$${initramfs:-1} YAST_IS_RUNNING=1 theme=Zen filelist=zeninitrd bin/mk_initrd

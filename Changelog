@@ -1,3 +1,6 @@
+1/12/2008:	v11.52
+	- move biostest to correct place (bnc #450144)
+
 26/11/2008:	v11.51
 	- rewrite modules.order (bnc #448203)
 	- adjust to some dm-xxx renaming
