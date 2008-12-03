@@ -99,6 +99,8 @@ initrd+modules: base
 	  gzip -9f images/$$theme/$${image:-initrd} ; mv images/$$theme/$${image:-initrd}.gz images/$$theme/$${image:-initrd} ; \
 	done
 	rm -f images/$${image:-initrd}
+	# still ok?
+	[ -s tmp/initrd/bin/bash ]
 
 initrd+modules+gefrickel: base
 	image=modules-config src=initrd fs=none bin/mk_image
