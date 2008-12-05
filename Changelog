@@ -1,3 +1,6 @@
+5/12/2008:	v11.55
+	- added enic & fnic (bnc #455742)
+
 3/12/2008:	v11.54
 	- check /bin/bash size again at the end
 

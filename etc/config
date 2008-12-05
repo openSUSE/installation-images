@@ -41,11 +41,11 @@ s390    = kernel-s390
 ; extra kmps we need (',' separated list)
 [KMP]
 default	=
-i386	= ofed,brocade-bfa
-x86_64	= ofed,brocade-bfa
-ia64    = ofed,brocade-bfa
-ppc     = ofed
-ppc64   = ofed
+i386	= ofed,brocade-bfa,enic,fnic
+x86_64	= ofed,brocade-bfa,enic,fnic
+ia64    = ofed,brocade-bfa,enic,fnic
+ppc     = ofed,enic,fnic
+ppc64   = ofed,enic,fnic
 
 
 ; lib directory
