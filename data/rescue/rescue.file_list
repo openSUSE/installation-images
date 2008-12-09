@@ -652,8 +652,11 @@ wireless-tools:
   /usr/lib*/libiw.so.*
   /usr/sbin
 
-dmraid:
+dmraid: postin
+  /lib*
+  /etc
   /sbin
+E postin
 
 parted:
   /usr/lib*

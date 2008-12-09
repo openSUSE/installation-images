@@ -1,3 +1,6 @@
+9/12/2008:	v11.56
+	- added dmraid script to rescue system (bnc #456801)
+
 5/12/2008:	v11.55
 	- added enic & fnic (bnc #455742)
 
