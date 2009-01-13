@@ -869,6 +869,7 @@ perl:
   /usr/lib/perl*/*/Pod/Text.pm
   /usr/lib/perl*/*/Pod/Usage.pm
   /usr/lib/perl*/*/Term/Cap.pm
+  /usr/lib/perl*/*/Tie/Hash
   /usr/lib/perl*/*/Time/Local.pm
   /usr/lib/perl*/*/Time/localtime.pm
   /usr/lib/perl*/*/Time/tm.pm

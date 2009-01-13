@@ -19,6 +19,9 @@ sax2-libsax-perl:
 sax2-tools:
   /
 
+sax2-ident:
+  /usr/share/sax/profile
+
 xorg-x11-driver-video:
   /usr/share/sax
 

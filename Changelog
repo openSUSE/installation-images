@@ -1,3 +1,6 @@
+13/1/2009:	v11.59
+	- update sax2 package deps (bnc #461898)
+
 12/1/2009:	v11.58
 	- added qt translations (bnc #460214)
 	- adjusted module config to latest kernel
