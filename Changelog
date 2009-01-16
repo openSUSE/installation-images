@@ -1,3 +1,6 @@
+16/1/2009:	v11.60
+	- fixed sles11.exec (aka inst.exec) (bnc #447527)
+
 13/1/2009:	v11.59
 	- update sax2 package deps (bnc #461898)
 
