@@ -1,6 +1,9 @@
 
 ******  This is NOT sle11/11.1!  ******
 
+19/1/2009:	v11.61
+	- use kernel-extra (bnc #460812)
+
 16/1/2009:	v11.60
 	- fixed sles11.exec (aka inst.exec) (bnc #447527)
 
