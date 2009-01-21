@@ -1,6 +1,8 @@
 
 ******  This is NOT sle11/11.1!  ******
 
+	- make it build in sle11-xxx
+
 19/1/2009:	v11.61
 	- use kernel-extra (bnc #460812)
 
