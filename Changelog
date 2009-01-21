@@ -1,3 +1,6 @@
+21/1/2009:	v11.61
+	- make it build in sle11-xxx
+
 16/1/2009:	v11.60
 	- fixed sles11.exec (aka inst.exec) (bnc #447527)
 
