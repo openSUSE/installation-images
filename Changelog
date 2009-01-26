@@ -1,3 +1,4 @@
+	- add airport,b43,cfg80211,hermes,mac80211,orinoco,pcmcia,pcmcia_core,rfkill,ssb on ppc
 
 ******  This is NOT sle11/11.1!  ******
 
