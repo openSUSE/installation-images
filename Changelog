@@ -1,3 +1,6 @@
+29/1/2009:	v11.62
+	- check that insserv worked properly for rescue system (bnc #457947)
+
 21/1/2009:	v11.61
 	- make it build in sle11-xxx
 
