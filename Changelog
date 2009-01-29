@@ -1,9 +1,11 @@
-	- add airport,b43,cfg80211,hermes,mac80211,orinoco,pcmcia,pcmcia_core,rfkill,ssb on ppc
 
 ******  This is NOT sle11/11.1!  ******
 
 	- make it build in sle11-xxx
 	- check that insserv worked properly for rescue system (bnc #457947)
+	- add airport,b43,cfg80211,hermes,mac80211,orinoco,pcmcia,pcmcia_core,rfkill,ssb on ppc
+	- update module config
+	- add bonding module (bnc #470217)
 
 19/1/2009:	v11.61
 	- use kernel-extra (bnc #460812)

@@ -176,3 +176,6 @@ updates/
 # ofed-kmp
 -updates/drivers/infiniband/
 -updates/net/rds/
+-updates/net/sunrpc/
+-updates/fs/lockd/
+-updates/fs/nfs*
