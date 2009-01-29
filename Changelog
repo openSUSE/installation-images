@@ -1,3 +1,7 @@
+29/1/2009:	v11.63
+	- update module config
+	- add bonding module (bnc #470217)
+
 29/1/2009:	v11.62
 	- check that insserv worked properly for rescue system (bnc #457947)
 
