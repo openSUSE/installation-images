@@ -1,3 +1,6 @@
+4/2/2009:	v11.64
+	- print message to cause build to fail
+
 29/1/2009:	v11.63
 	- update module config
 	- add bonding module (bnc #470217)
