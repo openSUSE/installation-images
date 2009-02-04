@@ -265,8 +265,9 @@ endif
 if with_yast2 ne 'no'
   yast2-qt:
     /
-
   yast2-qt-pkg:
+    /
+  yast2-qt-graph:
     /
 
   libqt4:
@@ -336,6 +337,12 @@ desktop-data-openSUSE:
 
 multipath-tools:
   /sbin
+
+graphviz: postin
+  /etc
+  /usr/bin/dot
+  /usr/lib*
+  E postin
 
 #netpbm:
 #  /usr/bin/jpegtopnm
