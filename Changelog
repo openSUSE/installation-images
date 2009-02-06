@@ -1,3 +1,6 @@
+5/2/2009:	v11.65
+	- copy modprobe config from initrd to rescue system (bnc #471211)
+
 4/2/2009:	v11.64
 	- print message to cause build to fail
 
