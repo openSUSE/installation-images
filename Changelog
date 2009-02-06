@@ -1,3 +1,5 @@
+	- copy modprobe config from initrd to rescue system (bnc #471211)
+
 4/2/2009:	v12.0
 	- make it build in sle11-xxx
 	- check that insserv worked properly for rescue system (bnc #457947)

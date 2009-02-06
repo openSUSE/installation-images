@@ -15,6 +15,11 @@ if [ -f /mounts/initrd/etc/suse-blinux.conf ] ; then
   }
 fi
 
+# keep some initrd config files for rescue system
+for i in etc/modprobe.d/blacklist etc/modprobe.d/noload ; do
+  [ -f /mounts/initrd/$i ] && cp -f /mounts/initrd/$i /$i
+done
+
 rm -f /mounts/initrd/{*,.*}
 rmdir /mounts/initrd/* 2>/dev/null
 rm -rf /mounts/initrd/{bin,download,etc,lbin,lib,modules,oldroot,root,sbin,tmp,usr,var}
