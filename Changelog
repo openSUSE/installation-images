@@ -1,4 +1,6 @@
+9/2/2009:	v12.1
 	- copy modprobe config from initrd to rescue system (bnc #471211)
+	- elilo: add extra options for broken firmware (bnc #466570)
 
 4/2/2009:	v12.0
 	- make it build in sle11-xxx
