@@ -1,3 +1,6 @@
+9/2/2009:	v11.66
+	- elilo: add extra options for broken firmware (bnc #466570)
+
 5/2/2009:	v11.65
 	- copy modprobe config from initrd to rescue system (bnc #471211)
 
