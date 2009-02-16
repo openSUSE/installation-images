@@ -749,11 +749,11 @@ libbz2-1:
 unzip:
   /usr/bin/unzip
 
-lzma:
-  /usr/bin/lzmadec
+xz:
+  /usr/bin/xzdec
 
-liblzmadec0:
-  /usr/lib*/liblzmadec.so.*
+liblzma0:
+  /lib*/liblzma.so.*
 
 mdadm:
   /sbin

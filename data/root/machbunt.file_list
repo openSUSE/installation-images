@@ -153,8 +153,11 @@ if with_yast2 ne 'no'
     /usr/lib*/libXxf86misc.so.*
     /usr/lib*/libXxf86vm.so.*
     /usr/lib*/libdmx.so.*
-    /usr/lib*/libpciaccess.so.*
+
+  libpixman-1-0:
     /usr/lib*/libpixman-1.so.*
+
+  libpciaccess0:
     /usr/lib*/libpciaccess.so.*
 
   xorg-x11-libxcb:

@@ -1,3 +1,8 @@
+16/2/2009:	v12.2
+	- switch to use xz
+	- package libpixmap and libpciaccess, that moved out of xorg libs
+	- adjust modules.dep parser
+
 9/2/2009:	v12.1
 	- copy modprobe config from initrd to rescue system (bnc #471211)
 	- elilo: add extra options for broken firmware (bnc #466570)
