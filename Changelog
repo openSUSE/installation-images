@@ -1,4 +1,7 @@
 18/2/2009:	v11.67
+	- install.s390x: patched to look for kernel-installation-tapeipl
+	  instead of installation-kernel-tapeipl in the /boot directory in
+	  order to accomodate package name change (bnc#471566)
 	- added xen-kmp (bnc #468265)
 
 9/2/2009:	v11.66
