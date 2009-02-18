@@ -1,3 +1,6 @@
+18/2/2009:	v11.67
+	- added xen-kmp (bnc #468265)
+
 9/2/2009:	v11.66
 	- elilo: add extra options for broken firmware (bnc #466570)
 
