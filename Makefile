@@ -39,6 +39,10 @@ endif
 THEMES        := openSUSE SLES SLED
 DESTDIR       := images/instsys
 
+ifneq ($(filter i386, $(ARCH)),)
+THEMES        += Zen
+endif
+
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
@@ -177,6 +181,9 @@ root-themes: base
 	for theme in $(THEMES) ; do \
 	  theme=$$theme image=$$theme/$$theme tmpdir=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
 	done
+ifneq ($(filter i386, $(ARCH)),)
+	libdeps=zenroot image=Zen/root tmpdir=zenroot src=root filelist=zenroot fs=squashfs bin/mk_image
+endif
 
 mini-iso-rmlist: base
 	rm -f images/$@

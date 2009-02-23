@@ -106,13 +106,13 @@ update	= /linux/suse/<arch>-<sled>
 image	= 200
 
 
-; [Theme Zen]
-; yast    = SuSELinux
-; bsplash = Zen
-; ksplash = SuSE
-; product = ZENworks
-; version = 10.1
-; update  = /linux/suse/<arch>-<sles>
-; image   = 200
+[Theme Zen]
+yast    = SLED
+bsplash = SLES
+ksplash = SLES
+product = ZENworks
+version = 11.1
+update  = /linux/suse/<arch>-<sles>
+image   = 200
 
 

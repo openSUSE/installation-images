@@ -1,3 +1,6 @@
+23/2/2009:	v11.68
+	- enabled Zen theme (bnc #476443)
+
 18/2/2009:	v11.67
 	- install.s390x: patched to look for kernel-installation-tapeipl
 	  instead of installation-kernel-tapeipl in the /boot directory in
