@@ -668,6 +668,11 @@ gzip:
   /bin/gzip
   /bin/gunzip
 
+if exists(xen-kmp-default)
+  xen-kmp-default:
+    /etc
+endif
+
 if 0
 
 # add alsa

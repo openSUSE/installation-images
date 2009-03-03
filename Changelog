@@ -1,3 +1,6 @@
+3/3/2009:	v11.69
+	- add modprobe rules from xen kmp (bnc #468265)
+
 23/2/2009:	v11.68
 	- enabled Zen theme (bnc #476443)
 
