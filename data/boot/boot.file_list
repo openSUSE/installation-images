@@ -4,11 +4,6 @@ x syslinux.cfg /loader/isolinux.cfg
 <kernel_rpm>:
   a /boot/<kernel_img> /loader/linux
 
-if theme eq 'Zen'
-  x message-zen /loader/message
-  x syslinux-zen.cfg /loader/isolinux.cfg
-endif
-
 memtest86+:
   m /boot/memtest.bin /loader/memtest
 

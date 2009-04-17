@@ -40,7 +40,7 @@ tar:
 bash:
   /bin
 
-libreadline5:
+libreadline6:
   /lib*
 
 coreutils:
@@ -87,6 +87,7 @@ r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
 r /usr/bin/{db*,glibcbug,rpcgen}
 
 module-init-tools:
+  /etc
   /sbin/depmod
 
 procps:
@@ -280,12 +281,11 @@ fribidi:
   /usr/bin/fribidi
   /usr/lib*/libfribidi.so.*
 
-if 0
-busybox:
-  /usr/bin
-  /usr/share/busybox
-E cd /usr/bin ; busybox.install /tmp/bb --hardlinks
-endif
+liblzma0:
+  /lib*/liblzma.so.*
+
+libcap2:
+  /lib*/libcap.so.*
 
 yast2-trans-allpacks: requires
   x mk_yast2_trans bin/mk_yast2_trans

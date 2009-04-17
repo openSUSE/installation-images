@@ -1,3 +1,14 @@
+16/4/2009:	v12.3
+	- add modprobe rules from xen kmp (bnc #468265)
+	- enabled Zen theme (bnc #476443)
+	- install.s390x: patched to look for kernel-installation-tapeipl
+	  instead of installation-kernel-tapeipl in the /boot directory in
+	  order to accomodate package name change (bnc#471566)
+	- added xen-kmp (bnc #468265)
+	- added iconv (bnc #495038)
+	- adjust module config
+	- adjust to various package changes
+
 16/2/2009:	v12.2
 	- switch to use xz
 	- package libpixmap and libpciaccess, that moved out of xorg libs

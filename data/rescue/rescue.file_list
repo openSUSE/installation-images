@@ -70,7 +70,7 @@ star:
 bash:
   /bin
 
-libreadline5:
+libreadline6:
   /lib*
 
 cpio:
@@ -365,12 +365,6 @@ usbutils:
 libusb-0_1-4:
   /usr/lib*
 
-portmap: postin
-  /etc
-  /sbin
-  /var/adm/fillup-templates
-e postin
-
 rpcbind: postin
   /etc
   /sbin
@@ -439,6 +433,9 @@ rpm:
   /usr/lib*/librpm*.so
 r /usr/lib/rpm/rpm{get,put}text
 r /usr/bin/rpmqpack
+
+liblzma0:
+  /lib*/liblzma.so.*
 
 rsync: postin
   /etc
@@ -607,7 +604,6 @@ udev: postin
   # to avoid hardlink in cramfs
   t /lib/udev/devices/pts/.xxx
   /sbin
-  /usr/bin
   # for running SuSEconfig below
   m /lib/udev/devices/* /dev
 

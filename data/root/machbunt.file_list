@@ -219,8 +219,10 @@ if with_yast2 ne 'no'
       /lib/libm.so.6
   endif
 
+if 0
   xorg-x11-Xvnc:
     /usr/bin/Xvnc
+endif
 
   tightvnc:
     /usr/bin/vncpasswd.arg

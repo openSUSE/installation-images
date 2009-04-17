@@ -28,7 +28,7 @@ for theme in $THEMES ; do
   perl -e "print pack('N', 0x800000)" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.off
 done
 
-[ -f /boot/installation-kernel-tapeipl/image ] && install -m 644 /boot/installation-kernel-tapeipl/image $DESTDIR/CD1/boot/$ARCH/tapeipl.ikr
+[ -f /boot/kernel-installation-tapeipl/image ] && install -m 644 /boot/kernel-installation-tapeipl/image $DESTDIR/CD1/boot/$ARCH/tapeipl.ikr
 install -m 644 /boot/image-* $DESTDIR/CD1/boot/$ARCH/vmrdr.ikr
 
 install -m 644 data/initrd/s390/suse.ins.root.$ARCH $DESTDIR/CD1/suse.ins

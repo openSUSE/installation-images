@@ -48,7 +48,7 @@ bash:
   /bin/bash
 s bash /bin/sh
 
-libreadline5:
+libreadline6:
   /lib*/libreadline.so.*
   /lib*/libhistory.so.*
 
@@ -102,7 +102,6 @@ libgobject-2_0-0:
 udev:
   /etc
   /sbin
-  /usr/bin
 
 sysfsutils:
   /lib*/libsysfs.so*
@@ -204,7 +203,7 @@ glibc:
   /usr/sbin/rpcinfo
   /usr/bin
   /etc/rpc
-r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
+r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
   /lib*/libpthread{.,-}*
   /lib*/libthread_db{.,-}*
@@ -284,12 +283,6 @@ net-tools:
   if !(arch eq 's390' || arch eq 's390x')
     /sbin/plipconfig
   endif
-
-portmap: postin
-  /etc
-  /sbin
-  /var/adm/fillup-templates
-e postin
 
 rpcbind: postin
   /etc
@@ -938,7 +931,7 @@ libzypp:
   /usr/share/zypp/schema
   /usr/share/locale
 
-libboost_signals1_36_0:
+libboost_signals1_38_0:
   /
 
 libidn:

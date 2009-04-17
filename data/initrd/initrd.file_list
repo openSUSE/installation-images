@@ -73,9 +73,7 @@ libsepol1:
   /
 
 module-init-tools:
-  /etc/modprobe.conf
-  /etc/modprobe.conf.local
-  d /etc/modprobe.d
+  /etc
   /sbin/insmod
   /sbin/modprobe
 
@@ -465,16 +463,13 @@ bash:
   /bin/{sh,bash}
   s bash /bin/lsh
 
-libreadline5:
+libreadline6:
   /lib*/libreadline.so*
   /lib*/libhistory.so*
 
 libncurses5:
   /lib*/libncurses.so.5*
   /lib*/libncursesw.so.*
-
-portmap:
-  /sbin/portmap
 
 tcpd:
   /lib*/libwrap.so.*
@@ -565,7 +560,6 @@ udev:
   /etc
   /lib/udev
   /sbin
-  /usr/bin
 x etc/myudevstart /bin
 r /etc/init.d
   # add some md devices statically
@@ -623,6 +617,9 @@ rpm:
   /usr/lib*/librpmdb-*.so
   /usr/lib*/librpmio-*.so
 
+liblzma0:
+  /lib*/liblzma.so.*
+
 popt:
   /lib*/libpopt.so*
 
@@ -667,6 +664,13 @@ libgcc43:
 gzip:
   /bin/gzip
   /bin/gunzip
+
+if 0
+if exists(xen-kmp-default)
+  xen-kmp-default:
+    /etc
+endif
+endif
 
 if 0
 
