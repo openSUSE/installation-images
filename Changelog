@@ -1,3 +1,6 @@
+27/4/2009:	v8.129
+	- s390: added CMS installation script (fate #306082)
+
 5/5/2008:	v8.128
 	- create_interface: use 'search' instead of 'domain' in resolv.conf
 	  (bnc #376410)
