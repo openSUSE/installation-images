@@ -394,6 +394,14 @@ s /usr/bin/pftp /usr/bin/ftp
 tftp:
   /usr/bin/tftp
 
+if arch eq 'x86_64'
+  glibc-32bit:
+    /
+
+  ncurses-32bit:
+    /
+endif
+
 x etc/inst_setup /sbin/inst_setup
 x etc/create_interface /sbin/create_interface
 x etc/adddir /sbin/adddir

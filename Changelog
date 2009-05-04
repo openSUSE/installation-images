@@ -1,3 +1,9 @@
+4/5/2009:	v8.130
+	- find the binaries if building in BS
+	- fix Zen build on x86_64
+	- make sp3 known
+	- adjusted to new elilo package
+
 27/4/2009:	v8.129
 	- s390: added CMS installation script (fate #306082)
 
