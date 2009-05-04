@@ -304,7 +304,7 @@ gpm:
   /etc/*
   /usr/bin/*
   /usr/sbin/*
-  /usr/lib/*
+  /usr/lib*/*
 
 # copy bootsplash files
 e cp -a /Zen/unpacked/08000600/* .

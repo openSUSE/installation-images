@@ -58,7 +58,7 @@ if arch eq 'ia64'
   d /efi/boot
   a /boot/<kernel_img> /efi/boot/linux
   elilo:
-    m /usr/lib/elilo/elilo.efi /efi/boot/bootia64.efi
+    m /usr/lib/efi/elilo.efi /efi/boot/bootia64.efi
   x elilo.conf /efi/boot/
   x textmenu /efi/boot/
 endif
