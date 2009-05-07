@@ -446,6 +446,10 @@ x etc/myudevstart /bin
   b 9 14 /lib/udev/devices/md14
   b 9 15 /lib/udev/devices/md15
 
+gzip:
+  /bin/gzip
+  /bin/gunzip
+
 # add hal & dbus
 if 0
   e echo /opt/gnome/lib >etc/ld.so.conf
@@ -548,4 +552,7 @@ e echo "InstallDir:	/boot/<arch>/inst-sys" >>linuxrc.config
 e echo "RescueImage:	/boot/<arch>/rescue" >>linuxrc.config
 e echo "RootImage:	/boot/<arch>/root" >>linuxrc.config
 endif
+
+# look for driver updates on usb media (bnc #363650, fate #302851)
+e echo "dud:		disk:/?device=*usb*" >>linuxrc.config
 

@@ -1,3 +1,7 @@
+7/5/2009:	v8.131
+	- automatically search DUDs on USB disks (fate #302851)
+	- add gzip to initrd, needed by new linuxrc (v2.0.83)
+
 4/5/2009:	v8.130
 	- find the binaries if building in BS
 	- fix Zen build on x86_64
