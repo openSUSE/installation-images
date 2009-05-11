@@ -350,6 +350,9 @@ hal:
 libusb-0_1-4:
   /usr/lib*
 
+libusb-1_0-0:
+  /usr/lib*
+
 libuuid1:
   /lib*/libuuid.so.*
 

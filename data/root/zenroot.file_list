@@ -329,8 +329,7 @@ lvm2:
 
 device-mapper:
   /lib*
-  /sbin/devmap_mknod.sh
-  /sbin/dmsetup
+  /sbin
 
 reiserfs:
   /sbin
@@ -410,7 +409,10 @@ usbutils:
   /usr/share/usb.ids
 
 libusb-0_1-4:
-  /usr/lib*/libusb-0.1.so.*
+  /usr/lib*
+
+libusb-1_0-0:
+  /usr/lib*
 
 checkmedia:
   /usr/bin

@@ -287,6 +287,9 @@ liblzma0:
 libcap2:
   /lib*/libcap.so.*
 
+squashfs:
+  /usr/bin/mksquashfs
+
 yast2-trans-allpacks: requires
   x mk_yast2_trans bin/mk_yast2_trans
   E mk_yast2_trans yast2-trans-allpacks.requires

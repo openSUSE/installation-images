@@ -27,6 +27,10 @@ sub is_perl_script;
   Pod/Simple.pm
 )} = ();
 
+@no_check = qw (
+  Bootloader/Library.pm
+);
+
 GetOptions(
   'check' => \$opt_check,
 ) || exit 1;
@@ -158,7 +162,7 @@ sub short_name
 
 sub is_perl_script
 {
-  my ($is_perl, $f, $buf);
+  my ($is_perl, $f, $buf, $x);
 
   $is_perl = 1 if /\.(pl|pm|ph)$/;
 
@@ -167,6 +171,16 @@ sub is_perl_script
     sysread $f, $buf, 16;
     close $f;
     $is_perl = 1 if $buf =~ m:^#!\s*/usr/bin/perl$:;
+  }
+
+  if($is_perl) {
+    $f = $File::Find::name;
+    for $x (@no_check) {
+      if($f =~ /$x$/) {
+        $is_perl = 0;
+        last;
+      }
+    }
   }
 
   push @perl_scripts, $File::Find::name if $is_perl;

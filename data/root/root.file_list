@@ -554,8 +554,7 @@ lvm2:
 
 device-mapper:
   /lib*
-  /sbin/devmap_mknod.sh
-  /sbin/dmsetup
+  /sbin
 
 reiserfs:
   /sbin
@@ -788,6 +787,9 @@ usbutils:
 libusb-0_1-4:
   /usr/lib*
 
+libusb-1_0-0:
+  /usr/lib*
+
 checkmedia:
   /usr/bin/checkmedia
 
@@ -936,6 +938,9 @@ libboost_signals1_38_0:
 
 libidn:
   /usr/lib*/libidn.so.*
+
+aria2:
+  /usr/bin/aria2c
 
 multipath-tools:
   /lib*
