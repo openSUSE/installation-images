@@ -71,6 +71,7 @@ kernel/fs/nfs_common/
 kernel/fs/lockd/
 kernel/net/sunrpc/sunrpc.ko
 kernel/drivers/firmware/edd.ko
+kernel/drivers/firmware/efivars.ko
 kernel/drivers/acpi/
 
 # kernel pcmcia

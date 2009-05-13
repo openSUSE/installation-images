@@ -1,19 +1,181 @@
 #! /usr/bin/perl
 
-# create an empty FAT image; just for testing
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some setup...
 
 BEGIN { unshift @INC, ( $0 =~ /(.*?)((?<![^\/])bin\/)?[^\/]+$/ )[0] . "lib" }
 use ReadConfig;
-use MakeFATImage;
+use MakeExt2Image;
+use AddFiles;
+use Conv2Image;
+use CompressImage;
 
-($i1, $i2) = split /\./, $ConfigData{suse_release};      
+sub check_link;
 
-$label = "SUSE${i1}${i2}_BOOT";
+die "usage: $Script\n" if @ARGV;
 
-$image = shift;
+# env vars:
+#
+# image, src, tmpdir, disjunct, mode, debug, fs, filelist, nolibs, nostrip
+#
+#
 
-($blocks, $block_size) = MakeFATImage($image, $label, @ARGV);
 
-die "$Script: failed to create DOS disk image \"$image\"\n" unless defined $blocks;
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# some config data
 
-printf "$Script: image \"%s\", %u blocks a %u bytes (%u total)\n", $image, $blocks, $block_size, $blocks * $block_size;
+$imagename = $ENV{image};
+die "no image name\n" if $imagename eq "";
+
+$srcname = $ENV{src};
+$srcname = $imagename if $srcname eq "";
+
+$fl = $ENV{filelist};
+$fl = $imagename if $fl eq "";
+
+$srcdir = "${DataPath}$srcname";
+$tmpdir = "${BasePath}tmp/$imagename";
+$tmpdir = "${BasePath}tmp/$ENV{tmpdir}" if $ENV{tmpdir};
+$image = "${ImagePath}$imagename";
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# now we really start...
+
+$ENV{YAST_IS_RUNNING} = 1 unless exists $ENV{YAST_IS_RUNNING};
+
+if($ENV{disjunct}) {
+  $tmpdisjunct = "${BasePath}tmp/$ENV{disjunct}";
+  die "$tmpdisjunct: so such directory" unless -d $tmpdisjunct;
+  $tmpdir2 = "$tmpdir.not_$ENV{disjunct}";
+  if(-d($tmpdir2)) {
+    SUSystem "rm -rf $tmpdir2" and die "$Script: failed to remove old $tmpdir2";
+  }
+}
+
+$debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
+$imagetype = $ENV{fs};
+$imagetype = "none" unless $imagetype;
+$use_gzip = 1 if $imagetype =~ s/\.gz$//;
+
+# modes: keep, add, "" (default)
+@mode{split ",", $ENV{mode}} = ( 1 .. 10 );
+
+if(!$mode{keep} || $mode{add}) {
+  if(!$mode{add}) {
+    # clean up
+    if(-d($tmpdir)) {
+      SUSystem "rm -rf $tmpdir" and die "$Script: failed to remove old $tmpdir";
+    }
+
+    mkdir $tmpdir || die "$Script: failed to create $tmpdir";
+  }
+
+  AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir or
+    die "$Script: failed to setup image";
+
+  if(-f "${BasePath}tmp/$imagename.rpmlog") {
+    SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' ${BasePath}tmp/$imagename.rpmlog | sort -u >$tmpdir/.packages.$imagename";
+  }
+
+#  print "fix locale...\n";
+#  SUSystem "fix_locale $tmpdir";
+
+  print "fix permissions of directories...\n";
+  SUSystem "fix_perms $tmpdir";
+
+  if(!$ENV{nostrip}) {
+    print "strip everything...\n";
+    SUSystem "strip_dir $tmpdir";
+  }
+
+  if(!$ENV{nolinkcheck}) {
+    print "checking for dangling symlinks...\n";
+    if(check_link $tmpdir) {
+      if(1 || $debug =~ /\bignore\b/) {
+        warn "$Script: please fix symlinks\n";
+      }
+      else {
+        die "$Script: please fix symlinks\n";
+      }
+    }
+  }
+
+  @libdeps = split ',', $ENV{libdeps};
+  if(@libdeps) {
+    $ldirs .= " ${BasePath}tmp/$_" for @libdeps;
+    if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+      system "check_libs $ldirs" and
+        warn "$Script: error in shared lib config, please fix\n";
+    }
+    else {
+      system "check_libs $ldirs" and
+        die "$Script: error in shared lib config, please fix\n";
+    }
+  }
+
+  @perldeps = split ',', $ENV{perldeps};
+  if(@perldeps) {
+    $pdirs .= " ${BasePath}tmp/$_" for @perldeps;
+    if($debug =~ /\bignore\b/ || $debug =~ /\bignorelibs\b/) {
+      system "perl_deps --check $pdirs" and
+        warn "$Script: error in perl module config, please fix\n";
+    }
+    else {
+      system "perl_deps --check $pdirs" and
+        die "$Script: error in perl module config, please fix\n";
+    }
+  }
+}
+
+if($tmpdir2) {
+  SUSystem "common_tree --dst $tmpdir2 $tmpdir $tmpdisjunct";
+  $tmpdir = "$tmpdir2/1";
+}
+
+if($imagetype eq 'dir') {
+  SUSystem "rm -rf $image ; cp -a $tmpdir $image";
+}
+elsif($imagetype ne 'none') {
+  $start_size = `du --apparent-size -k -s $tmpdir 2>/dev/null` + 0;
+  $start_inodes = `find $tmpdir | wc -l 2>/dev/null` + 0;
+
+  $start_inodes += 2000;
+  $start_size = ($start_size + $start_inodes * 4096) * 1.2;
+
+  # leave that much space
+  $extra_size = 1000;		# kbyte
+  $extra_inodes = 200;
+
+  if($ENV{theme} eq 'Zen') {
+    $extra_size = 20000;
+    $extra_inodes = 10000;
+  }
+
+  Conv2Image $image, $tmpdir, $imagetype, $start_size, $start_inodes, $extra_size, $extra_inodes;
+  $i = -s $image;
+  print "$Script: created \"$image\" ($i bytes)\n";
+
+  if($use_gzip) {
+    $i = CompressImage $image;
+    print "$Script: compressed \"$image\" ($i bytes)\n";
+  }
+}
+
+
+sub check_link
+{
+  my $dir = shift;
+  my ($x, $err);
+  local $_;
+
+  for (`find $dir -xtype l`) {
+    chomp;
+    $x = readlink;
+    next if $x =~ /^\// && (-e("$dir$x") || $x =~ /\/lbin\//);
+    print STDERR "$_ -> $x\n";
+    $err = 1;
+  }
+
+  return $err;
+}
+

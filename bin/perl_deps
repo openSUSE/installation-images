@@ -1,0 +1,188 @@
+#! /usr/bin/perl
+
+use Getopt::Long;
+use File::Find;
+
+sub get_deps;
+sub ex;
+sub short_name;
+sub is_perl_script;
+
+@white_list{qw (
+  sys/systeminfo.ph
+  asm/unistd.ph
+  unistd_32.ph
+  unistd_64.ph
+  File/BSDGlob.pm
+  IO/Compress/Bzip2.pm
+  Mac/InternetConfig.pm
+  VMS/Filespec.pm
+  XML/SAX.pm
+  LWP.pm
+  URI.pm
+  URI/file.pm
+  CPANPLUS.pm
+  CPANPLUS/Error.pm
+  CPANPLUS/Internals/Constants.pm
+  Pod/Simple.pm
+)} = ();
+
+@no_check = qw (
+  Bootloader/Library.pm
+);
+
+GetOptions(
+  'check' => \$opt_check,
+) || exit 1;
+
+@opt_dirs = @ARGV;
+
+find(\&is_perl_script, @opt_dirs);
+
+for (@opt_dirs) {
+  $ver = (<$_/usr/lib/perl5/5.*>)[0];
+  $ver =~ s#.*/##;
+
+  undef $l;
+
+  if($ver) {
+    $l = (<$_/usr/lib/perl5/$ver/*-linux-*>)[0];
+    $l =~ s#.*/##;
+  }
+
+  push @inc, "$_/usr/lib/perl5/$ver/$l" if $l;
+  push @inc, "$_/usr/lib/perl5/$ver" if $ver;
+  push @inc, "$_/usr/lib/perl5/vendor_perl/$ver/$l" if $l;
+  push @inc, "$_/usr/lib/perl5/vendor_perl/$ver" if $ver;
+  push @inc, "$_/usr/lib/perl5/vendor_perl" if -d "$_/usr/lib/perl5/vendor_perl";
+}
+
+# print "$_\n" for @inc;
+
+if(!@inc) {
+  print "no perl directories found\n";
+  exit 0;
+}
+
+get_deps $_ for @perl_scripts;
+
+for (sort keys %dep) {
+  next if exists $white_list{$_};
+  if(ex $_) {
+    $buf .= "* $_\n" unless $opt_check;
+  }
+  else {
+    $x = join ", ", sort(keys %{$dep{$_}});
+    $buf .= "  $_: $x\n";
+  }
+}
+
+if($opt_check) {
+  print "missing perl libs:\n$buf" if $buf;
+  exit($buf ne "" ? 1 : 0);
+}
+else {
+  print $buf;
+}
+
+
+sub get_deps
+{
+  my ($file, $comment);
+  local $_;
+
+  $file = shift;
+
+  open G, $file;
+
+  # print STDERR "[$file]\n";
+
+  while(<G>) {
+    $comment = 1 if /^=head\d/;
+    $comment = 0 if /^=cut/;
+
+    next if $comment;
+
+    if(s/^\s*(use|require)\s+([^\s;]+).*?;//) {
+      $m = $2;
+      next if $m =~ /^\d/;
+      # print STDERR "  <$m>\n";
+      if($m =~ /^"(.*)"$/) {
+        $m = $1;
+        $dep{$m}{short_name $file} = 1 unless $m =~ /\$/;
+      }
+      elsif($m =~ /^'(.*)'$/) {
+        $dep{$1}{short_name $file} = 1
+      }
+      else {
+        $m =~ s/::/\//g;
+        $dep{"${m}.pm"}{short_name $file} = 1;
+      }
+    }
+  }
+  close G;
+}
+
+
+sub ex
+{
+  my $file = shift;
+  local $_;
+
+  for (@inc) {
+    return 1 if -f "$_/$file";
+  }
+
+  for (@perl_scripts) {
+    return 1 if m#/$file$#;
+  }
+
+  return 0;
+}
+
+
+sub short_name
+{
+  my $file = shift;
+  my ($i);
+  local $_;
+
+  chomp $file;
+
+  for (@inc) {
+    $i = length($_) + 1;
+    if(substr($file, 0, $i) eq "$_/") {
+      return substr $file, $i;
+    }
+  }
+
+  return $file;
+}
+
+
+sub is_perl_script
+{
+  my ($is_perl, $f, $buf, $x);
+
+  $is_perl = 1 if /\.(pl|pm|ph)$/;
+
+  if(!$is_perl && -f) {
+    open $f, $_;
+    sysread $f, $buf, 16;
+    close $f;
+    $is_perl = 1 if $buf =~ m:^#!\s*/usr/bin/perl$:;
+  }
+
+  if($is_perl) {
+    $f = $File::Find::name;
+    for $x (@no_check) {
+      if($f =~ /$x$/) {
+        $is_perl = 0;
+        last;
+      }
+    }
+  }
+
+  push @perl_scripts, $File::Find::name if $is_perl;
+}
+

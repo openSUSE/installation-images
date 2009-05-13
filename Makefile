@@ -75,6 +75,12 @@ boot_axp: initrd
 install_xx: initrd
 	bin/mk_install_xx
 
+boot-efi: base
+	image=boot-efi src=boot filelist=efi fs=none bin/mk_image
+	ln images/initrd tmp/boot-efi/efi/boot/initrd
+	bin/hdimage --size 500k --fit-size --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi/* tmp/boot-efi/.p* -- images/efi
+	rm -f tmp/boot-efi/efi/boot/initrd
+
 root: dirs base
 	# just for now
 	root_i18n=1 root_gfx=1 \
