@@ -706,6 +706,7 @@ sysconfig:
   /sbin/modify_resolvconf
 
 pciutils:
+  /lib*
   /sbin/lspci
 
 pciutils-ids:

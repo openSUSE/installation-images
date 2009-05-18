@@ -326,6 +326,7 @@ pam-modules:
   R s/^(password:.*?)\s+use_cracklib\b/$1/ /etc/security/pam_pwcheck.conf
 
 pciutils:
+  /lib*
   /sbin
 
 pciutils-ids:

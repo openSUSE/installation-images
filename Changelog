@@ -1,3 +1,6 @@
+18/5/2009:	v8.133
+	- adjust to new pciutils package
+
 13/5/2009:	v8.132
 	- load efivars module (fate #306032)
 	- create efi image
