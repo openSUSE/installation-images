@@ -145,7 +145,7 @@ nscd:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc43:
+libgcc44:
   /lib*
 
 glibc:
@@ -738,7 +738,7 @@ smartmontools:
   /etc
   /usr/sbin
 
-libstdc++43:
+libstdc++44:
   /usr/<lib>/libstdc++*.so*
 
 kpartx:
