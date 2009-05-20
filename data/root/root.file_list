@@ -388,6 +388,8 @@ if with_yast2 ne 'no'
 if arch eq 's390' || arch eq 's390x'
   yast2-s390:
     /
+  yast2-reipl:
+    /
 endif
   yast2-slp:
     /
