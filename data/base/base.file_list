@@ -87,6 +87,7 @@ r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
 r /usr/bin/{db*,glibcbug,rpcgen}
 
 module-init-tools:
+  /etc
   /sbin/depmod
 
 procps:

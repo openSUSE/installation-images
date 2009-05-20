@@ -1,3 +1,6 @@
+21/4/2009:	v11.70
+	- fix Zen theme, enable it for x86_64 (bnc #476443)
+
 3/3/2009:	v11.69
 	- add modprobe rules from xen kmp (bnc #468265)
 

@@ -59,8 +59,14 @@ for theme in $THEMES ; do
     cp -a $DESTDIR/CD1/boot/$ARCH/loader/* $DESTDIR/branding/openSUSE/CD1/boot/$ARCH/loader/* tmp/floppy-$theme
     etc/mkbootdisk --syslinux=tmp/base/usr/bin/syslinux --out=$DESTDIR/branding/$theme/FTP/boot/$ARCH/floppy/bootdisk tmp/floppy-$theme
   fi
+
+  if [ $theme = Zen ] ; then
+    rm -f $DESTDIR/branding/$theme/CD1/boot/$ARCH/{LIESMICH*,README*,mkbootdisk,Zen,branding}
+    cp -a $DESTDIR/CD1/boot/$ARCH/loader/{isolinux.bin,linux} $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader
+  fi
 done
 
 mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
+
 

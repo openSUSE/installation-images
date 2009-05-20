@@ -39,7 +39,7 @@ endif
 THEMES        := openSUSE SLES SLED
 DESTDIR       := images/instsys
 
-ifneq ($(filter i386, $(ARCH)),)
+ifneq ($(filter i386 x86_64, $(ARCH)),)
 THEMES        += Zen
 endif
 
@@ -181,7 +181,7 @@ root-themes: base
 	for theme in $(THEMES) ; do \
 	  theme=$$theme image=$$theme/$$theme tmpdir=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
 	done
-ifneq ($(filter i386, $(ARCH)),)
+ifneq ($(filter Zen, $(THEMES)),)
 	libdeps=zenroot image=Zen/root tmpdir=zenroot src=root filelist=zenroot fs=squashfs bin/mk_image
 endif
 

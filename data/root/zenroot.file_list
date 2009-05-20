@@ -66,17 +66,6 @@ coreutils:
   /bin/sort
   /bin/kill
 
-gzip:
-  bin/g{un,}zip
-
-joe:
-  /usr/bin/joe
-  /etc/joe/joerc
-
-hwinfo:
-  /usr/lib*
-  /usr/sbin
-
 libxml2:
   /usr/lib*/libxml2.so.*
 
@@ -88,14 +77,6 @@ libglib-2_0-0:
 
 libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
-
-udev:
-  /etc
-  /sbin
-  /usr/bin
-
-cifs-mount:
-  /sbin/mount.cifs
 
 dbus-1-glib:
   /
@@ -117,9 +98,6 @@ wireless-tools:
 
 dmraid:
   /sbin
-
-iputils:
-  /bin/ping
 
 util-linux:
   /bin/dmesg
@@ -425,14 +403,35 @@ ftp:
 tftp:
   /usr/bin/tftp
 
+kbd:
+  /usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz
+  /usr/share/kbd/consolefonts/lat1-16.psfu.gz
+  /usr/share/kbd/consolefonts/lat2-16.psfu.gz
+  /usr/share/kbd/consolefonts/iso07u-16.psfu.gz
+  /usr/share/kbd/consolefonts/Cyr_a8x16.psfu.gz
+
+sysvinit:
+  /sbin/{reboot,halt,poweroff,shutdown}
+
+grub:
+  /usr/{bin,sbin,lib}
+  /boot
+
+if arch eq 'x86_64'
+# for grub
+  glibc-32bit:
+    /lib
+
+  libncurses5-32bit:
+    /lib/libncurses.so.*
+endif
+
 x etc/inst_setup /sbin/inst_setup
 x etc/create_interface /sbin/create_interface
 x etc/adddir /sbin/adddir
 c 755 0 0 /sbin/inst_setup
 c 755 0 0 /sbin/create_interface
 c 755 0 0 /sbin/adddir
-
-
 
 # final clean up
 
