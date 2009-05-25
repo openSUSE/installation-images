@@ -5,6 +5,9 @@ ash:
 gdb:
   /usr/bin/gdb
 
+python:
+  /usr/lib*/libpython*.so.*
+
 freetype2:
   /usr/lib*
 

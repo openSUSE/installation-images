@@ -1,3 +1,7 @@
+25/5/2009:	v8.135
+	- adjust module config to new kernel
+	- gdb needs libpython now
+
 19/5/2009:	v8.134
 	- added yast2-reipl (fate #305938)
 
