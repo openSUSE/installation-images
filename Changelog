@@ -1,3 +1,4 @@
+2/6/2009:	v12.5
 	- take gcc44 libraries
 	- pmtools gets split into dmidecode and acpica -> adjust BuildRequires
 	  and whatever else is needed
