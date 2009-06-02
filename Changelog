@@ -1,3 +1,7 @@
+2/6/2009:	v8.136
+	- adjust module config to new kernel
+	- avoid 'grep | head'
+
 25/5/2009:	v8.135
 	- adjust module config to new kernel
 	- gdb needs libpython now
