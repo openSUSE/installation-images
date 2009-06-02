@@ -75,8 +75,9 @@ udev:
   r /sbin/*.static
 
 if arch eq 'ia64' || arch eq 'i386' || arch eq 'x86_64'
-  pmtools:
+  dmidecode:
     /usr/sbin/dmidecode
+  acpica:
     /usr/sbin/acpidump
 endif
 

@@ -1,4 +1,7 @@
 	- take gcc44 libraries
+	- pmtools gets split into dmidecode and acpica -> adjust BuildRequires
+	  and whatever else is needed
+	- adjust to new kernel
 
 11/5/2009:	v12.4
 	- added aria2c to instsys

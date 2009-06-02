@@ -386,8 +386,10 @@ ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
 
-pmtools:
+dmidecode:
   /usr/sbin/dmidecode
+
+acpica:
   /usr/sbin/acpidump
 
 sysconfig:

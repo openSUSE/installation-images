@@ -21,6 +21,7 @@ kernel/drivers/input/mouse/appletouch.ko
 kernel/drivers/input/input-polldev.ko
 kernel/drivers/iseries/
 kernel/drivers/md/
+kernel/drivers/mmc/
 kernel/drivers/net/
 -kernel/drivers/net/aironet
 -kernel/drivers/net/appletalk/
@@ -131,6 +132,7 @@ kernel/lib/libcrc32c.ko
 kernel/lib/crc-itu-t.ko
 kernel/lib/crc16.ko
 kernel/lib/crc-t10dif.ko
+kernel/lib/crc7.ko
 
 kernel/crypto/aes.ko
 kernel/crypto/aes_generic.ko
@@ -146,6 +148,7 @@ kernel/crypto/twofish_common.ko
 kernel/crypto/twofish.ko
 kernel/crypto/xor.ko
 kernel/crypto/async_tx/
+kernel/crypto/cryptd.ko
 kernel/arch/[^/]*/crypto/
 kernel/drivers/crypto/geode-aes.ko
 
@@ -162,7 +165,8 @@ kernel/net/ieee80211/
 
 kernel/net/mac80211/mac80211.ko
 kernel/net/mac80211/rc80211_simple.ko
-kernel/net/wireless/cfg80211.ko
+kernel/net/wireless/
+
 
 kernel/drivers/rtc/
 kernel/drivers/mfd/wm8350.ko
@@ -175,6 +179,14 @@ kernel/drivers/virtio/
 kernel/net/wimax/
 kernel/drivers/usb/wusbcore/
 kernel/drivers/uwb/
+kernel/fs/fscache/
+kernel/net/802/tr.ko
+kernel/net/802/fddi.ko
+
+kernel/drivers/misc/tifm_core.ko
+kernel/drivers/usb/misc/ftdi-elan.ko
+
+kernel/drivers/mfd/pcf50633-core.ko
 
 # kmps
 updates/

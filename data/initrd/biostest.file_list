@@ -35,7 +35,7 @@ dhcp-client:
   /sbin/dhclient
   /var/lib/dhcp
 
-pmtools:
+acpica:
   /usr/bin/acpixtract
   /usr/bin/iasl
 
