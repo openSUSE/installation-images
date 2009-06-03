@@ -587,7 +587,7 @@ libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
 
 pcre:
-  /usr/lib*/libpcre*.so.*
+  /lib*/libpcre*.so.*
 
 sysconfig: postin
   /etc

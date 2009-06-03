@@ -1,3 +1,6 @@
+3/6/2009:	v12.6
+	- handle firmware files automatically
+	- yast2-storage-lib is now libstorage
 	- fix Zen theme, enable it for x86_64 (bnc #476443)
 
 2/6/2009:	v12.5

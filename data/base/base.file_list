@@ -88,7 +88,7 @@ r /usr/bin/{db*,glibcbug,rpcgen}
 
 module-init-tools:
   /etc
-  /sbin/depmod
+  /sbin
 
 procps:
   /bin/ps
@@ -314,6 +314,7 @@ endif
 x save_cfg bin/save_cfg
 x restore_cfg bin/restore_cfg
 x unused_mos bin/unused_mos
+x mlist3 bin/mlist3
 
 # run depmod
 #E /sbin/depmod -a -F /System.map <kernel_ver> || true

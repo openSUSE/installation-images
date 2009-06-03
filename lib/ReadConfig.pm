@@ -510,6 +510,15 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# firmware list
+#
+
+$ConfigData{fw_list} = "";
+$ConfigData{fw_list} = $ConfigData{ini}{Firmware}{default} if $ConfigData{ini}{Firmware}{default};
+$ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Firmware}{$arch};
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 # print STDERR "kernel_rpm = $ConfigData{kernel_rpm}, kernel_img = $ConfigData{kernel_img}\n";

@@ -1,0 +1,43 @@
+#! /usr/bin/perl
+
+$modules_dir = "modules";
+$fw_list = "/tmp/module_firmware";
+
+$kv = shift;
+$fw_dir = shift;
+
+$err = 0;
+
+for $m (<$modules_dir/*>) {
+  chomp $m;
+
+  chomp(@l = `modinfo -F firmware $m`);
+
+  $m =~ s#.*/##;
+  $m =~ s#.ko$##;
+
+  $fw{$m} = [ @l ] if @l;
+}
+
+open F, ">$fw_list";
+print F "$_: ", join(' ', @{$fw{$_}}), "\n" for (sort keys %fw);
+close F;
+
+for $m (sort keys %fw) {
+  for $fw (@{$fw{$m}}) {
+    $f = undef;
+    $f = "$fw" if -f "$fw_dir/$fw";
+    $f = "$kv/$fw" if -f "$fw_dir/$kv/$fw";
+
+    if($f) {
+      system "install -m 644 -D $fw_dir/$f lib/firmware/$f\n";
+    }
+    else {
+      $err = 1;
+      print "missing firmware: $fw ($m.ko)\n";
+    }
+  }
+}
+
+exit $err;
+

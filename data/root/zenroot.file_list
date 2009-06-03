@@ -147,9 +147,6 @@ libselinux1:
 libsepol1:
   /
 
-pcre:
-  /usr/lib*/libpcre*.so.*
-
 libncurses5:
   /lib*/libncurses.so.5*
   /lib*/libncursesw.so.5*

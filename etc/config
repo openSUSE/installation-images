@@ -40,6 +40,7 @@ s390x	= image
 default	= kernel-default
 s390    = kernel-s390
 
+
 ; extra kmps we need (',' separated list)
 [KMP]
 default	=
@@ -48,6 +49,13 @@ x86_64	= ofed,brocade-bfa,enic,fnic
 ia64    = ofed,brocade-bfa,enic,fnic
 ppc     = ofed,enic,fnic
 ppc64   = ofed,enic,fnic
+
+
+; extra firmware packages
+[Firmware]
+default = kernel-firmware,qlogic-firmware,adaptec-firmware,cxgb3-firmware
+i386    = kernel-firmware,qlogic-firmware,adaptec-firmware,cxgb3-firmware,ipw-firmware,iwl3945-ucode,iwl4965-ucode,iwl5000-ucode,atmel-firmware,ralink-firmware
+x86_64  = kernel-firmware,qlogic-firmware,adaptec-firmware,cxgb3-firmware,ipw-firmware,iwl3945-ucode,iwl4965-ucode,iwl5000-ucode,atmel-firmware,ralink-firmware
 
 
 ; lib directory

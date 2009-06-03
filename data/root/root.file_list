@@ -454,7 +454,11 @@ endif
   yast2-storage: postin
     /
     E postin
+if exists(libstorage)
+  libstorage:
+else
   yast2-storage-lib:
+endif
     /
   yast2-transfer:
     /
@@ -512,7 +516,7 @@ endif
     /usr/lib*/libblocxx.so.*
 
   pcre:
-    /usr/lib*/libpcre.so.*
+    /lib*/libpcre.so.*
 
   limal:
     /
