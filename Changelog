@@ -1,3 +1,6 @@
+4/6/2009:	v8.137
+	- added e1000e for all archs (bnc #509876)
+
 2/6/2009:	v8.136
 	- adjust module config to new kernel
 	- avoid 'grep | head'
