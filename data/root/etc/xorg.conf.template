@@ -1,208 +1,61 @@
-# generic XFree86 4.x configuration file
-
-Section "Files"
-  FontPath		"/usr/share/fonts/truetype/"
-  FontPath		"/usr/share/fonts/uni/"
-  FontPath		"/usr/share/fonts/misc/"
-  InputDevices	"/dev/input/mice"
-EndSection
-
-Section "ServerFlags"
-  Option	"AllowMouseOpenFail"
-  Option	"BlankTime"	"0"
-EndSection
-
-Section "Module"
-  Load	"dbe"
-  Load	"extmod"
-EndSection
-
-Section "InputDevice"
-  Driver		"kbd"
-  Identifier	"Keyboard[0]"
-  Option		"Protocol"		"Standard"
-  Option		"XkbRules"		"xfree86"
-  Option		"XkbKeycodes"	"xfree86"
-  Option		"XkbModel"		"pc104"
-  Option		"XkbLayout"		"us"
-EndSection
-
-Section "InputDevice"
-  Driver		"mouse"
-  Identifier	"Mouse[1]"
-  Option		"Device"	"/dev/input/mice"
-  Option		"Protocol"	"Auto"
-EndSection
-
-Section "Monitor"
-  HorizSync		25-40
-  Identifier	"Monitor[0]"
-  ModelName		"Initial"
-  VendorName	"Initial"
-  VertRefresh	47-75
-  UseModes		"Modes[0]"
-EndSection
-
-Section "Modes"
-  Identifier	"Modes[0]"
-  Modeline      "800x600" 40.0   800 840 968 1056 600 601 605 628 +hsync +vsync
-  Modeline		"640x480" 31.5   640 656 720 840  480 481 484 500 # 6. Try
-  Modeline		"640x480" 31.5   640 680 720 864  480 488 491 521 # 5. Try
-  Modeline		"640x480" 28     640 664 760 800  480 491 493 525 # 4. Try
-  Modeline		"640x480" 28.32  640 664 760 800  480 491 493 525 # 3. Try
-  Modeline		"640x480" 25.18  640 664 760 800  480 491 493 525 # 2. Try
-  Modeline		"640x480" 25.175 640 664 760 800  480 491 493 525 # 1. Try
-EndSection
-
-Section "Monitor"
-  HorizSync		28-33
-  Identifier	"Monitor[vmware]"
-  ModelName		"Initial"
-  VendorName	"Initial"
-  VertRefresh	43-72
-  UseModes		"Modes[vmware]"
-EndSection
-    
-Section "Modes"
-  Identifier	"Modes[vmware]"
-  Modeline		"800x600" 29.38 800 816 896 992 600 601 604 617
-EndSection
-
-Section "Monitor"
-  HorizSync		31-48
-  Identifier	"Monitor[vesa]"
-  ModelName		"VESA"
-  VendorName	"VESA"
-  VertRefresh	50-60
-EndSection
-
-# Screen Section for module X support
-# -------------------------------------
-Section "Screen"
-  DefaultDepth 16
-  SubSection "Display"
-    Depth		16
-    Modes		"800x600" 
-  EndSubSection
-  SubSection "Display"
-    Depth		24
-    Modes		"800x600" 
-  EndSubSection
-  SubSection "Display"
-    Depth		32
-    Modes		"800x600" 
-  EndSubSection
-  SubSection "Display"
-    Depth		8
-    Modes		"800x600" 
-  EndSubSection
-  Device		"Device[0]"
-  Identifier	"Screen[0]"
-  Monitor		"Monitor[0]"
-EndSection
-
-# Screen Section for fbdev support
-# vesafb defaults to 16bit
-# others default to 8bit, force a higher colordepth
-# on Apple onboard controllers, remove the default #207338
-# changes for DefaultDepth have to be made in /usr/lib/YaST2/startup/YaST2.call as well
-# ----------------------------------
-Section "Screen"
-#@DefaultDepth@
-  SubSection "Display"
-    Depth		16
-    Modes		"default"            
-  EndSubSection
-  SubSection "Display"
-    Depth		15
-    Modes		"default"            
-  EndSubSection
-  SubSection "Display"
-    Depth		24
-    Modes		"default"  
-  EndSubSection
-  SubSection "Display"
-    Depth		32
-    Modes		"default"  
-  EndSubSection
-  SubSection "Display"
-    Depth		8
-    Modes		"default"  
-  EndSubSection
-  Device		"Device[fbdev]"
-  Identifier	"Screen[fbdev]"
-  Monitor		"Monitor[0]"
-EndSection
-
-# Screen Section for vesa support
-# ----------------------------------
-Section "Screen"
-  SubSection "Display"
-    Depth		16
-    Modes		"default"            
-  EndSubSection
-  SubSection "Display"
-    Depth		8
-    Modes		"default"  
-  EndSubSection
-  Device		"Device[vesa]"
-  Identifier	"Screen[vesa]"
-  Monitor       "Monitor[vesa]"
-EndSection
-
-# Screen Section for vmware support
-# ----------------------------------
-Section "Screen"
-  SubSection "Display"
-    Depth		8
-    Modes		"800x600"
-  EndSubSection
-  SubSection "Display"
-    Depth		16
-    Modes		"800x600"
-  EndSubSection
-  SubSection "Display"
-    Depth		24
-    Modes		"800x600"
-  EndSubSection
-  Device		"Device[vmware]"
-  Identifier	"Screen[vmware]"
-  Monitor		"Monitor[vmware]"
-EndSection
-
-# Device Sections...
-# -------------------
 Section "Device"
-  #BusID        "1:0:0"
-  Driver		"ChangeMe"
-  Identifier	"Device[0]"
-  # device_options
-  Option		"sw_cursor"	"on"
+  Identifier "vboxvideo"
+  Driver  "vboxvideo"
 EndSection
+
+Section "Screen"
+  Identifier "vboxvideo"
+  Device "vboxvideo"
+EndSection
+
 
 Section "Device"
-  Driver		"fbdev"
-  Identifier	"Device[fbdev]"
-  # fbdev_options
+  Identifier "vmware"
+  Driver  "vmware"
 EndSection
 
-Section "Device"
-  Driver		"vesa"
-  #Option        "DefaultRefresh"
-  Option        "ModeSetClearScreen" "no"
-  Identifier	"Device[vesa]"
+Section "Screen"
+  Identifier "vmware"
+  Device "vmware"
 EndSection
 
+
 Section "Device"
-  Driver		"vmware"
-  Identifier	"Device[vmware]"
+  Identifier "cirrus"
+  Driver  "cirrus"
 EndSection
+Section "Screen"
+  Identifier "cirrus"
+  Device "cirrus"
+EndSection
+
+
+Section "Device"
+  Identifier "fbdev"
+  Driver  "fbdev"
+EndSection
+Section "Screen"
+  Identifier "fbdev"
+  Device "fbdev"
+EndSection
+
+
+Section "Device"
+  Identifier "vesa"
+  Driver  "vesa"
+EndSection
+
+Section "Screen"
+  Identifier "vesa"
+  Device "vesa"
+EndSection
+
 
 Section "ServerLayout"
-  Identifier	"Layout[all]"
-  InputDevice	"Keyboard[0]"	"CoreKeyboard"
-  InputDevice	"Mouse[1]"		"CorePointer"
-  Option		"Xinerama"		"off"
-  Screen		"Screen[0]"
+  Identifier "Layout"
+  Screen  "vboxvideo"
+  Screen  "vmware"
+  Screen  "cirrus"
+  Screen  "fbdev"
+  Screen  "vesa"
 EndSection
-

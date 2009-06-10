@@ -363,6 +363,10 @@ hwinfo:
   /usr/lib*/libhd.so.*
   /usr/sbin/hwinfo
 
+if exists(libx86emu1)
+  /usr/lib*
+endif
+
 if arch eq 'ia64' || arch eq 'i386' || arch eq 'x86_64'
   acpica:
     /usr/sbin/acpidump

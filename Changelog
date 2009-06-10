@@ -1,3 +1,8 @@
+10/6/2009:	v12.7
+	- qlogic-firmware conflicts with kernel-firmware; removed
+	- new xorg.conf (bnc #510015)
+	- adjust to some new lib dependencies
+
 3/6/2009:	v12.6
 	- handle firmware files automatically
 	- yast2-storage-lib is now libstorage

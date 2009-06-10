@@ -87,6 +87,10 @@ hwinfo:
   /usr/lib*
   /usr/sbin
 
+if exists(libx86emu1)
+  /usr/lib*
+endif
+
 libxml2:
   /usr/lib*/libxml2.so.*
 
@@ -892,6 +896,7 @@ perl:
   /usr/lib/perl*/*/*/auto/Sys/Hostname
   /usr/lib/perl*/vendor_perl/*/*/_h2ph_pre.ph
   /usr/lib/perl*/vendor_perl/*/*/bits/syscall.ph
+  /usr/lib/perl*/vendor_perl/*/*/bits/wordsize.ph
   /usr/lib/perl*/vendor_perl/*/*/sys/syscall.ph
   /usr/lib/perl*/vendor_perl/*/*/syscall.ph
 #  /usr/lib/perl*/vendor_perl/*/*/sys/unistd.ph

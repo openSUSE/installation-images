@@ -64,6 +64,9 @@ libacl:
 libattr:
   /lib*
 
+pcre:
+  /lib*/libpcre*.so.*
+
 findutils:
   /usr/bin/{find,xargs}
 

@@ -50,6 +50,9 @@ e postin
 # r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
 t /etc/fstab
 
+pcre:
+  /lib*/libpcre*.so.*
+
 mkinitrd:
   /
 
@@ -573,6 +576,10 @@ hwinfo:
   /usr/lib*
   /usr/sbin
 
+if exists(libx86emu1)
+  /usr/lib*
+endif
+
 initviocons:
   /bin/initviocons
   /usr/bin/termprobes
@@ -585,9 +592,6 @@ libglib-2_0-0:
 
 libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
-
-pcre:
-  /lib*/libpcre*.so.*
 
 sysconfig: postin
   /etc
