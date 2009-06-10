@@ -1,3 +1,6 @@
+10/6/2009:	v11.71
+	- no motd & issue for zenworks
+
 21/4/2009:	v11.70
 	- fix Zen theme, enable it for x86_64 (bnc #476443)
 
