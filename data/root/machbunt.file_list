@@ -313,9 +313,6 @@ sax2-tools:
 sax2-ident:
   /usr/share/sax/sysp/maps
 
-xmset:
-  /usr/sbin
-
 vim:
   m /bin/vim-normal /bin/vim
   s vim /bin/vi
