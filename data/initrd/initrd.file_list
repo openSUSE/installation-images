@@ -364,6 +364,7 @@ hwinfo:
   /usr/sbin/hwinfo
 
 if exists(libx86emu1)
+libx86emu1:
   /usr/lib*
 endif
 

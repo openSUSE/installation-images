@@ -53,9 +53,9 @@ ppc64   = ofed,enic,fnic
 
 ; extra firmware packages
 [Firmware]
-default = kernel-firmware,adaptec-firmware,cxgb3-firmware
-i386    = kernel-firmware,adaptec-firmware,cxgb3-firmware,ipw-firmware,iwl4965-ucode,iwl5000-ucode,atmel-firmware,ralink-firmware
-x86_64  = kernel-firmware,adaptec-firmware,cxgb3-firmware,ipw-firmware,iwl4965-ucode,iwl5000-ucode,atmel-firmware,ralink-firmware
+default = kernel-firmware,adaptec-firmware
+i386    = kernel-firmware,adaptec-firmware,ipw-firmware,iwl4965-ucode,iwl5000-ucode,atmel-firmware,ralink-firmware
+x86_64  = kernel-firmware,adaptec-firmware,ipw-firmware,iwl4965-ucode,iwl5000-ucode,atmel-firmware,ralink-firmware
 
 
 ; lib directory

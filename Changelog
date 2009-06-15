@@ -1,3 +1,7 @@
+15/6/2009:	v12.9
+	- cxgb3-firmware
+	- fix libx86emu deps
+
 10/6/2009:	v12.8
 	- remove xmset
 	- iwl3945-ucode conflicts with kernel-firmware; removed
