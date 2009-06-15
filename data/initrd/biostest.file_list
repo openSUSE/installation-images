@@ -10,7 +10,7 @@ libglib-2_0-0:
   /usr/lib*/libglib-2.0.so.*
 
 pcre:
-  /usr/lib*/libpcre.so.*
+  /lib*/libpcre.so.*
 
 libnewt0_52:
   /usr/lib*/libnewt.so.*
