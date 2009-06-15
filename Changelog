@@ -1,3 +1,6 @@
+15/6/2009:	v8.138
+	- adjust module config to new kernel
+
 4/6/2009:	v8.137
 	- added e1000e for all archs (bnc #509876)
 	- added ibmvfc to module config (on ppc only)
