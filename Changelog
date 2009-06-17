@@ -1,3 +1,5 @@
+	- add nls modules (bnc #510987)
+
 15/6/2009:	v12.10
 	- no motd & issue for zenworks
 	- firmware test image needs libpcre
