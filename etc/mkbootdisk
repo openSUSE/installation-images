@@ -1093,7 +1093,7 @@ if($opt_disk) {
 
   my ($bpc, $fatsize);
 
-  for (`fsck.vfat -v $part 2>/dev/null`) {
+  for (`fsck.vfat -vn $part 2>/dev/null`) {
     if(/(\d+)\s+bytes\s+per\s+cluster/) {
       $bpc = $1;
       next;
