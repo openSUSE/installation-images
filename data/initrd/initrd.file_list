@@ -536,6 +536,10 @@ libvolume_id1:
   /lib*/libvolume_id.so*
 
 udev:
+  e save_cfg etc/passwd etc/shadow etc/group
+  e groupadd -r tape
+  e restore_cfg etc/passwd etc/shadow etc/group
+
   /etc
   /lib/udev
   /sbin

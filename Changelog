@@ -1,4 +1,5 @@
 	- add nls modules (bnc #510987)
+	- add tape group for udev (bnc #499094)
 
 15/6/2009:	v12.10
 	- no motd & issue for zenworks
