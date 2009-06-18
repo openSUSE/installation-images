@@ -382,9 +382,11 @@ if arch eq 'i386' || arch eq 'x86_64'
   wpa_supplicant:
     /usr/sbin
 
+  libiw30:
+    /usr/lib*
+
   wireless-tools:
     /usr/sbin
-    /usr/lib*/libiw.so.*
     /etc
     r /usr/sbin/switch_prism_driver
     r /usr/sbin/install_acx100_firmware

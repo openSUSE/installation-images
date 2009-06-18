@@ -1,5 +1,8 @@
+18/6/2009:	v12.12
 	- avoid mkbootdisk hang (bnc #486791)
 	- mkbootdisk should not depend on lilo (bnc #485528)
+	- branding for mkbootdisk script (bnc #483790)
+	- wireless-tools got splitted
 
 18/6/2009:	v12.11
 	- add nls modules (bnc #510987)

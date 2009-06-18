@@ -29,7 +29,9 @@ fi
 # copy branding dependent parts
 for theme in $THEMES ; do
   for i in $INSTSYS_PARTS $BOOT_PARTS ; do
-    [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
+    for ii in images/$theme/$i ; do
+      [ -e $ii ] && cp -r $ii $DESTDIR/branding/$theme/CD1/boot/$ARCH
+    done
   done
 
   cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
@@ -49,7 +51,6 @@ for theme in $THEMES ; do
   recode utf8..ibmpc <$DESTDIR/branding/$theme/CD1/boot/$ARCH/README >$DESTDIR/branding/$theme/CD1/boot/$ARCH/README.DOS
   cp etc/LIESMICH $DESTDIR/branding/$theme/CD1/boot/$ARCH
   recode utf8..ibmpc <$DESTDIR/branding/$theme/CD1/boot/$ARCH/LIESMICH >$DESTDIR/branding/$theme/CD1/boot/$ARCH/LIESMICH.DOS
-  cp etc/mkbootdisk $DESTDIR/branding/$theme/CD1/boot/$ARCH
 
   # create boot floppies and put them in ftp tree
   if [ "$WITH_FLOPPY" = 1 ] ; then
@@ -57,7 +58,7 @@ for theme in $THEMES ; do
     rm -rf tmp/floppy-$theme
     mkdir -p tmp/floppy-$theme
     cp -a $DESTDIR/CD1/boot/$ARCH/loader/* $DESTDIR/branding/openSUSE/CD1/boot/$ARCH/loader/* tmp/floppy-$theme
-    etc/mkbootdisk --syslinux=tmp/base/usr/bin/syslinux --out=$DESTDIR/branding/$theme/FTP/boot/$ARCH/floppy/bootdisk tmp/floppy-$theme
+    $DESTDIR/branding/$theme/CD1/boot/$ARCH/mkbootdisk --syslinux=tmp/base/usr/bin/syslinux --out=$DESTDIR/branding/$theme/FTP/boot/$ARCH/floppy/bootdisk tmp/floppy-$theme
   fi
 done
 

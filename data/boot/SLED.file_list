@@ -25,4 +25,7 @@ if arch eq 'i386' || arch eq 'x86_64'
   x message loader
   R s/product_name/<product_name>/ loader/message
 
+  x mkbootdisk .
+  R s/product_X/<product_name>/ mkbootdisk
+
 endif

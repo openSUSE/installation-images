@@ -119,9 +119,6 @@ hal: prein
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
 
-wireless-tools:
-  /usr/lib*/libiw.so.*
-
 dmraid:
   /sbin
 
