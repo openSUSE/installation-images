@@ -950,6 +950,7 @@ sub help;
 sub dir_size;
 sub get_disk_number;
 sub unpack_bootlogo;
+sub set_boot_flag;
 
 my $opt_file = "./bootdisk";
 my $opt_verbose = 0;
@@ -1112,7 +1113,7 @@ if($opt_disk) {
 
   system "$opt_syslinux $part" and die "error: syslinux failed\n";
 
-  system "activate $opt_disk $pn" and die "error: activate failed\n";
+  die "error: activate failed\n" if set_boot_flag $opt_disk, $pn;
 
   system "mount -tmsdos $part $tmp_dir/mp" and die "error: mount failed\n";
   $mp = "$tmp_dir/mp";
@@ -1344,4 +1345,22 @@ sub unpack_bootlogo
   return ( 'bootlogo', @ext );
 }
 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+sub set_boot_flag
+{
+  my $disk = shift;
+  my $part = shift;
+  my $err = 1;
+
+  if(-x('/sbin/activate')) {
+    $err = 0 unless system "/sbin/activate $disk $part";
+  }
+
+  if($err && -x('/usr/sbin/parted')) {
+    $err = 0 unless system "/usr/sbin/parted $disk set $part boot on";
+  }
+
+  return $err;
+}
 
