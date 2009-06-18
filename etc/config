@@ -44,11 +44,9 @@ s390    = kernel-s390
 ; extra kmps we need (',' separated list)
 [KMP]
 default	=
-i386	= ofed,brocade-bfa,enic,fnic
-x86_64	= ofed,brocade-bfa,enic,fnic
-ia64    = ofed,brocade-bfa,enic,fnic
-ppc     = ofed,enic,fnic
-ppc64   = ofed,enic,fnic
+i386	= brocade-bfa
+x86_64	= brocade-bfa
+ia64    = brocade-bfa
 
 
 ; extra firmware packages
