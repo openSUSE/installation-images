@@ -1,3 +1,6 @@
+	- adjtimex moved to /sbin (bnc #511226)
+	- added all crypto modules (bnc #484910)
+
 18/6/2009:	v12.12
 	- avoid mkbootdisk hang (bnc #486791)
 	- mkbootdisk should not depend on lilo (bnc #485528)

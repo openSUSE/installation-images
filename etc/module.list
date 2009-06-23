@@ -130,23 +130,10 @@ kernel/lib/crc16.ko
 kernel/lib/crc-t10dif.ko
 kernel/lib/crc7.ko
 
-kernel/crypto/aes.ko
-kernel/crypto/aes_generic.ko
-kernel/crypto/arc4.ko
-kernel/crypto/blkcipher.ko
-kernel/crypto/crypto_blkcipher.ko
-kernel/crypto/cbc.ko
-kernel/crypto/crc32c.ko
-kernel/crypto/ecb.ko
-kernel/crypto/sha256.ko
-kernel/crypto/sha256_generic.ko
-kernel/crypto/twofish_common.ko
-kernel/crypto/twofish.ko
-kernel/crypto/xor.ko
-kernel/crypto/async_tx/
-kernel/crypto/cryptd.ko
+kernel/crypto/
 kernel/arch/[^/]*/crypto/
 kernel/drivers/crypto/geode-aes.ko
+kernel/lib/lzo/
 
 kernel/drivers/video/vga16fb.ko
 kernel/drivers/video/vgastate.ko

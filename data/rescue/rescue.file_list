@@ -516,18 +516,10 @@ e postin
 
 util-linux: postin
   /etc
-  /bin/{dmesg,logger,mount,umount}
-if arch ne 's390' && arch ne 's390x'
-  /sbin/hwclock
-endif
-  /sbin/{blockdev,ctrlaltdel,elvtune,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
-  if arch ne 'ia64'
-    /sbin/fdisk
-    /sbin/sfdisk
-    /sbin/cfdisk
-  endif
-  /sbin/agetty
-  /usr/{bin,sbin}
+  /bin
+  /sbin
+  /usr/bin
+  /usr/sbin
 e postin
 
 nfs-client:
