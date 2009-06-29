@@ -205,16 +205,10 @@ bzip2:
 libbz2-1:
   /lib*/libbz2.so*	
 
-if arch eq 'i386' || arch eq 'ppc' || arch eq 'ppc64' || arch eq 'x86_64'
+if arch eq 'i386' || arch eq 'x86_64'
   lilo:
-    if arch eq 'ppc' || arch eq 'ppc64'
-      /lib/lilo
-      /bin
-    endif
     /sbin
-    if arch eq 'i386' || arch eq 'x86_64'
-      /usr/sbin
-    endif
+    /usr/sbin
 endif
 
 if arch eq 'ppc' || arch eq 'ppc64'
