@@ -406,6 +406,9 @@ qlogic-firmware:
 adaptec-firmware:
   /lib/firmware
 
+cxgb3-firmware:
+  /lib/firmware
+
 open-iscsi:
   # must be writable
   /etc/iscsi*

@@ -549,10 +549,12 @@ $ConfigData{kmp_list} = $ConfigData{ini}{KMP}{$arch}
     $dist = $susearch;
 
     $work = $ENV{work};
-    $work = "/work" if !$work;
-    $work = "/mounts/work" if ! -d "$work/CDs";
-    $work .= "/CDs";
-    $work .= "/all" if -d "$work/all";
+    if(!$work) {
+      $work = "/work";
+      $work = "/mounts/work" if ! -d "$work/CDs";
+      $work .= "/CDs";
+      $work .= "/all" if -d "$work/all";
+    }
 
     $xdist = $ENV{dist} ? $ENV{dist} : $ENV{suserelease};
 
