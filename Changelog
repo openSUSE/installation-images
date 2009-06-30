@@ -1,3 +1,6 @@
+30/6/2009:	v8.140
+	- adjust module config to new kernel
+
 29/6/2009:	v8.139
 	- added iw_cxgb3.ko from ofed kmp (bnc #501740)
 
