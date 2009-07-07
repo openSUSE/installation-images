@@ -1,3 +1,6 @@
+7/7/2009:	v8.142
+	- really remove ofed
+
 7/7/2009:	v8.141
 	- disabled ofed for now (bnc #519451, bnc #501740)
 
