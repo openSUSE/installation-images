@@ -1,4 +1,4 @@
-16/7/2009	v12.13
+16/7/2009:	v12.13
 	- adjtimex moved to /sbin (bnc #511226)
 	- added all crypto modules (bnc #484910)
 	- removed ppc lilo from rescue system (bnc #437793)
