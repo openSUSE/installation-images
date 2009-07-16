@@ -9,8 +9,8 @@ firmwarekit:
 libglib-2_0-0:
   /usr/lib*/libglib-2.0.so.*
 
-pcre:
-  /lib*/libpcre.so.*
+libpcre0:
+  /lib*
 
 libnewt0_52:
   /usr/lib*/libnewt.so.*

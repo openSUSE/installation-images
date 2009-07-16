@@ -104,6 +104,9 @@ libglib-2_0-0:
 libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
 
+libudev0:
+  /lib*
+
 udev:
   /etc
   /sbin
@@ -111,8 +114,11 @@ udev:
 sysfsutils:
   /lib*/libsysfs.so*
 
-libvolume_id1:
-  /lib*/libvolume_id.so*
+libblkid1:
+  /lib*
+
+libuuid1:
+  /lib*
 
 PolicyKit:
   /etc/PolicyKit/PolicyKit.conf
@@ -231,8 +237,10 @@ e2fsprogs:
   /etc
   /sbin
 
+if exists(uuid-runtime)
 uuid-runtime:
   /usr/bin/uuidgen
+endif
 
 libext2fs2:
   /lib*
@@ -520,8 +528,8 @@ endif
   libblocxx6:
     /usr/lib*/libblocxx.so.*
 
-  pcre:
-    /lib*/libpcre.so.*
+  libpcre0:
+    /lib*
 
   limal:
     /

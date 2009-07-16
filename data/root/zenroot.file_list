@@ -36,8 +36,8 @@ e echo set bell-style none >>etc/inputrc
 e postin
 r /var/adm/fillup-templates
 
-pcre:
-  /lib*/libpcre.so.*
+libpcre0:
+  /lib*
 
 tar:
   /bin/tar
@@ -97,6 +97,9 @@ libglib-2_0-0:
 libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
 
+libudev0:
+  /lib*
+
 udev:
   /etc
   /sbin
@@ -137,8 +140,11 @@ util-linux:
 sysfsutils:
   /lib*/libsysfs.so*
 
-libvolume_id1:
-  /lib*/libvolume_id.so*
+libblkid1:
+  /lib*
+
+libuuid1:
+  /lib*
 
 PolicyKit:
   /etc/PolicyKit/PolicyKit.conf

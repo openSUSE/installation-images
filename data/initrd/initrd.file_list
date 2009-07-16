@@ -533,9 +533,23 @@ elsif exists(openSUSE-build-key)
     m /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
 endif
 
-# add udev
-libvolume_id1:
-  /lib*/libvolume_id.so*
+libblkid1:
+  /lib*
+
+libuuid1:
+  /lib*
+
+libacl:
+  /lib*
+
+libattr:
+  /lib*
+
+libglib-2_0-0:
+  /usr/lib*/libglib-2.0.so.*
+
+libudev0:
+  /lib*
 
 udev:
   e save_cfg etc/passwd etc/shadow etc/group
@@ -650,8 +664,8 @@ gzip:
   /bin/gzip
   /bin/gunzip
 
-pcre:
-  /lib*/libpcre.so.*
+libpcre0:
+  /lib*
 
 if 0
 if exists(xen-kmp-default)

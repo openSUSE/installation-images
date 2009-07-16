@@ -50,8 +50,8 @@ e postin
 # r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
 t /etc/fstab
 
-pcre:
-  /lib*/libpcre*.so.*
+libpcre0:
+  /lib*
 
 mkinitrd:
   /
@@ -606,8 +606,14 @@ udev: postin
 sysfsutils:
   /lib*/libsysfs.so*
 
-libvolume_id1:
-  /lib*/libvolume_id.so*
+libblkid1:
+  /lib*
+
+libuuid1:
+  /lib*
+
+libudev0:
+  /lib*
 
 PolicyKit:
   /etc/PolicyKit/PolicyKit.conf
