@@ -153,6 +153,7 @@ if with_yast2 ne 'no'
     /usr/lib*/libXxf86misc.so.*
     /usr/lib*/libXxf86vm.so.*
     /usr/lib*/libdmx.so.*
+    /usr/lib*/libxcb-render-util.so.*
 
   libpixman-1-0:
     /usr/lib*/libpixman-1.so.*
@@ -345,6 +346,22 @@ graphviz: postin
   /usr/bin/dot
   /usr/lib*
   E postin
+
+graphviz-gnome:
+  /usr/lib*/graphviz/libgvplugin_pango.so.*
+
+pango:
+  /etc
+  /usr/lib*
+
+cairo:
+  /usr/lib*
+
+libgmodule-2_0-0:
+  /
+
+xorg-x11-libxcb:
+  /usr/lib*/libxcb-render.so.*
 
 #netpbm:
 #  /usr/bin/jpegtopnm
