@@ -467,12 +467,9 @@ endif
   yast2-storage: postin
     /
     E postin
-if exists(libstorage)
-  libstorage:
-else
-  yast2-storage-lib:
-endif
+  libstorage: postin
     /
+    E postin
   yast2-transfer:
     /
   yast2-tune:
