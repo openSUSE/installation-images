@@ -101,7 +101,7 @@ ntfsprogs:
 
 ntfs-3g:
   /sbin
-  /bin
+  /usr/bin
   /lib*/libntfs-3g.so.*
 
 libfuse2:
