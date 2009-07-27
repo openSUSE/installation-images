@@ -37,9 +37,9 @@ default	= kernel-default
 ; extra kmps we need (',' separated list)
 [KMP]
 default =
-i386    =
-x86_64  =
-ppc64   =
+i386    = ofed-cxgb3-NIC
+x86_64  = ofed-cxgb3-NIC
+ppc64   = ofed-cxgb3-NIC
 
 ; lib directory
 [lib]

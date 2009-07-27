@@ -1,3 +1,7 @@
+7/7/2009:	v8.143
+	- use only ofed-cxgb3-NIC
+	- add qlge to ppc (bnc # 516043)
+
 7/7/2009:	v8.142
 	- really remove ofed
 
