@@ -404,6 +404,7 @@ tftp:
   /usr/bin/tftp
 
 kbd:
+  /bin/setleds
   /usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz
   /usr/share/kbd/consolefonts/lat1-16.psfu.gz
   /usr/share/kbd/consolefonts/lat2-16.psfu.gz
