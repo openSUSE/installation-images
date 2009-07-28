@@ -341,12 +341,6 @@ desktop-data-openSUSE:
 multipath-tools:
   /sbin
 
-graphviz: postin
-  /etc
-  /usr/bin/dot
-  /usr/lib*
-  E postin
-
 graphviz-gnome:
   /usr/lib*/graphviz/libgvplugin_pango.so.*
 
@@ -363,12 +357,11 @@ libgmodule-2_0-0:
 xorg-x11-libxcb:
   /usr/lib*/libxcb-render.so.*
 
-#netpbm:
-#  /usr/bin/jpegtopnm
-#  /usr/bin/pnmtopng
-
-#libnetpbm:
-#  /usr/lib*/libnetpbm.so.*
+graphviz: postin
+  /etc
+  /usr/bin/dot
+  /usr/lib*
+  E postin
 
 x etc/suse-post-user.conf etc/fonts/
 

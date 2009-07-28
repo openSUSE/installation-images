@@ -1,3 +1,5 @@
+	- install libs before running graphiz postin
+
 27/7/2009:	v12.15
 	- run postin for libstorage
 	- added btrfsprogs
