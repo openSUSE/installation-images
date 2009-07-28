@@ -1,3 +1,4 @@
+28/7/2009:	v12.16
 	- install libs before running graphviz postin
 	- btrfsprogs are in /sbin now
 	- readded /sbin/blkid
