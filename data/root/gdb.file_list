@@ -6,3 +6,10 @@ libpython2_6-1_0:
 
 x gdb.init .init
 x gdb.done .done
+
+if exists(valgrind)
+valgrind:
+  /usr/bin
+  /usr/lib*
+endif
+

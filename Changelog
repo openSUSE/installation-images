@@ -1,4 +1,7 @@
-	- install libs before running graphiz postin
+	- install libs before running graphviz postin
+	- btrfsprogs are in /sbin now
+	- readded /sbin/blkid
+	- added valgrind to gdb image
 
 27/7/2009:	v12.15
 	- run postin for libstorage

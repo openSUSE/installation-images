@@ -391,7 +391,6 @@ reiserfs:
   /sbin
 
 btrfsprogs:
-  /usr/bin
   /sbin
 
 jfsutils:

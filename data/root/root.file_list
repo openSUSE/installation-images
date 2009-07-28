@@ -578,7 +578,6 @@ libreiserfs:
   /usr/lib*/libdal-*.so.*
 
 btrfsprogs:
-  /usr/bin
   /sbin
 
 gawk:
