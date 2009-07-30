@@ -593,11 +593,7 @@ ntfs-3g:
   /sbin
   /usr/bin
   /lib*/libntfs-3g.so.*
-
-if 0
-libfuse2:
-  /lib*/libfuse.so.*
-endif
+  s mount.ntfs-3g /sbin/mount.ntfs
 
 kexec-tools:
   /sbin/kexec

@@ -36,6 +36,7 @@ if with_yast2 ne 'no'
 
     xorg-x11-driver-input:
       /usr/lib*/xorg/modules/input
+      /usr/share/hal
 
     xorg-x11-driver-video:
       /usr/lib*/xorg/modules/drivers/ati_drv.so

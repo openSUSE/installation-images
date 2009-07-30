@@ -1,3 +1,7 @@
+30/7/2009:	v12.17
+	- added xorg-x11-driver-input fdi files (bnc #510739)
+	- fix ntfs mount (bnc #518724)
+
 28/7/2009:	v12.16
 	- install libs before running graphviz postin
 	- btrfsprogs are in /sbin now
