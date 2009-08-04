@@ -171,6 +171,11 @@ kernel/drivers/usb/misc/ftdi-elan.ko
 
 kernel/drivers/mfd/pcf50633-core.ko
 
+kernel/drivers/connector/
+kernel/drivers/uio/uio.ko
+kernel/drivers/misc/cb710/
+kernel/net/phonet/phonet.ko
+
 # kmps
 updates/
 

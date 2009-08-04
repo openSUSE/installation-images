@@ -951,7 +951,7 @@ libzypp:
   /usr/share/zypp/schema
   /usr/share/locale
 
-libboost_signals1_38_0:
+libboost_signals1_39_0:
   /
 
 libidn:

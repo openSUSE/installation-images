@@ -1,3 +1,7 @@
+4/8/2009:	v12.18
+	- adjust to new kernel
+	- new libboost
+
 30/7/2009:	v12.17
 	- added xorg-x11-driver-input fdi files (bnc #510739)
 	- fix ntfs mount (bnc #518724)
