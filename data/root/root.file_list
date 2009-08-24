@@ -419,6 +419,11 @@ endif
     /
   liby2util:
    /
+if arch eq 'x86_64'
+  sap-media-changer:
+    /
+endif
+
 
   gpart:
     /usr/bin
