@@ -1,3 +1,9 @@
+24/8/2009:	v8.144
+	- autoload xen PV drivers (bnc #529797)
+	- added brocade-firmware (bnc #533730)
+	- add libreiserfs to root image (for parted) 
+	- sap-media-changer added for SAP Enterprise Search Appliance
+
 7/7/2009:	v8.143
 	- use only ofed-cxgb3-NIC
 	- add qlge to ppc (bnc # 516043)

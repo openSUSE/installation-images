@@ -409,6 +409,9 @@ adaptec-firmware:
 cxgb3-firmware:
   /lib/firmware
 
+brocade-firmware:
+  /lib/firmware
+
 open-iscsi:
   # must be writable
   /etc/iscsi*
