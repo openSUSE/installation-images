@@ -632,6 +632,10 @@ parted:
   /usr/sbin
   /usr/lib*
 
+libreiserfs:
+  /usr/lib*/libdal-*.so.*
+  /usr/lib*/libreiserfs-*.so.*
+
 jfsutils:
   /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump}
 
