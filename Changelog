@@ -1,3 +1,6 @@
+25/8/2009:	v12.20
+	- adapt for latest gfxboot.com (bnc #530255)
+
 24/8/2009:	v12.19
 	- added btrfs.ko (bnc #529795)
 
