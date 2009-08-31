@@ -1,3 +1,5 @@
+	- uuidgen is in util-linux (bnc #418568)
+
 25/8/2009:	v12.20
 	- adapt for latest gfxboot.com (bnc #530255)
 
