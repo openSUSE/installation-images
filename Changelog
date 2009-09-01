@@ -1,4 +1,6 @@
+1/9/2009:	v12.21
 	- uuidgen is in util-linux (bnc #418568)
+	- adjust module config
 
 25/8/2009:	v12.20
 	- adapt for latest gfxboot.com (bnc #530255)
