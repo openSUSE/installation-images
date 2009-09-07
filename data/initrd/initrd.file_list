@@ -69,9 +69,6 @@ glibc:
 libselinux1:
   /
 
-libsepol1:
-  /
-
 module-init-tools:
   /etc
   /sbin/insmod
@@ -609,7 +606,7 @@ PolicyKit:
 
 rpm:
   /usr/bin/rpm2cpio
-  /usr/lib*/librpm*.so.*
+  /usr/lib*/librpm{,io}.so.*
 
 liblzma0:
   /lib*/liblzma.so.*
@@ -622,9 +619,6 @@ libelf1:
 
 liblua5_1:
   /
-
-file:
-  /usr/lib*/libmagic.so.*
 
 squashfs:
   /usr/bin/mksquashfs

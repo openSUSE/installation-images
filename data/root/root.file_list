@@ -227,9 +227,6 @@ r /usr/sbin/{nscd,nscd_nischeck,utmpd}
 libselinux1:
   /
 
-libsepol1:
-  /
-
 if !(arch eq 's390' || arch eq 's390x')
   hdparm:
     /sbin/hdparm

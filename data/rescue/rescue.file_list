@@ -164,9 +164,6 @@ r /usr/bin/{db*,glibcbug,localedef,rpcgen}
 libselinux1:
   /
 
-libsepol1:
-  /
-
 gpart:
   /usr/bin
 
