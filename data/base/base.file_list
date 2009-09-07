@@ -110,12 +110,21 @@ rpm:
   /bin
   /usr/bin
   /{usr,var}/lib/rpm
-  /usr/lib*/librpm*.so
+  /usr/lib*/librpm*.so.*
 r /usr/lib/rpm/rpm{get,put}text
 r /usr/bin/rpmqpack
 
-popt:
-  /lib*/libpopt.so*
+libpopt0:
+  /lib*
+
+libelf1:
+  /
+
+liblua5_1:
+  /
+
+file:
+  /usr/lib*/libmagic.so.*
 
 libncurses5:
   /lib*/libncurses.so.5*

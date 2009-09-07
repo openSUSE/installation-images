@@ -609,15 +609,22 @@ PolicyKit:
 
 rpm:
   /usr/bin/rpm2cpio
-  /usr/lib*/librpm-*.so
-  /usr/lib*/librpmdb-*.so
-  /usr/lib*/librpmio-*.so
+  /usr/lib*/librpm*.so.*
 
 liblzma0:
   /lib*/liblzma.so.*
 
-popt:
-  /lib*/libpopt.so*
+libpopt0:
+  /lib*
+
+libelf1:
+  /
+
+liblua5_1:
+  /
+
+file:
+  /usr/lib*/libmagic.so.*
 
 squashfs:
   /usr/bin/mksquashfs

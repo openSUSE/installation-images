@@ -166,8 +166,8 @@ ncurses-utils:
   /usr/bin/reset
   /usr/bin/tset
 
-popt:
-  /lib*/libpopt.so*
+libpopt0:
+  /lib*
 
 tcpd:
   /lib*/libwrap.so*

@@ -1,3 +1,6 @@
+7/9/2009:	v12.22
+	- adapt to new rpm
+
 1/9/2009:	v12.21
 	- uuidgen is in util-linux (bnc #418568)
 	- adjust module config

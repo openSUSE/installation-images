@@ -155,9 +155,13 @@ rpm:
   /bin/rpm
   /usr/lib/rpm/{rpmrc,macros}
   /usr/lib/rpm/rpmpopt*
-  /usr/lib*/librpm-*.so
-  /usr/lib*/librpmdb-*.so
-  /usr/lib*/librpmio-*.so
+  /usr/lib*/librpm*.so.*
+
+libelf1:
+  /
+
+liblua5_1:
+  /
 
 util-linux:
   /bin/{u,}mount
@@ -196,8 +200,8 @@ s ../share/terminfo /usr/lib/terminfo
 terminfo:
   /usr/share/terminfo/i/ibm3151
 
-popt:
-  /lib*/libpopt.so*
+libpopt0:
+  /lib*
 
 tcpd:
   /lib*/libwrap.so*
