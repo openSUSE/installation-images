@@ -104,9 +104,6 @@ libglib-2_0-0:
 libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
 
-libudev0:
-  /lib*
-
 udev:
   /etc
   /sbin
