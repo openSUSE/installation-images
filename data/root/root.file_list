@@ -948,9 +948,6 @@ libzypp:
   /usr/share/zypp/schema
   /usr/share/locale
 
-libboost_signals1_39_0:
-  /
-
 libidn:
   /usr/lib*/libidn.so.*
 

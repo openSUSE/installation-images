@@ -546,9 +546,6 @@ libattr:
 libglib-2_0-0:
   /usr/lib*/libglib-2.0.so.*
 
-libudev0:
-  /lib*
-
 udev:
   e save_cfg etc/passwd etc/shadow etc/group
   e groupadd -r tape

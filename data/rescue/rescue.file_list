@@ -608,9 +608,6 @@ libblkid1:
 libuuid1:
   /lib*
 
-libudev0:
-  /lib*
-
 PolicyKit:
   /etc/PolicyKit/PolicyKit.conf
   /usr/lib*/libpolkit.so.*
