@@ -1,3 +1,6 @@
+9/9/2009:	v12.25
+	- start nscd in instsys (bnc #530440)
+
 8/9/2009:	v12.24
 	- more cleanups
 

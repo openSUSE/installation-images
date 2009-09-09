@@ -159,6 +159,9 @@ if [ -x /sbin/klogd ] ; then
   }
 fi
 
+# start nscd (bnc #530440)
+rcnscd start
+
 # Update module config.
 #
 # Note: modules are all from initrd, but new ones might have come in via
@@ -252,6 +255,8 @@ fi
 
 # start shell, useful on iSeries or via serial console
 [ "$START_SHELL" ] && start_shell
+
+rcnscd stop
 
 # stop various daemons
 killall hald >/dev/null 2>&1

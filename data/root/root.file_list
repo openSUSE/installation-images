@@ -767,6 +767,10 @@ iproute2:
 libnscd:
   /lib*/libnscd.so*
 
+unscd:
+  /etc
+  /usr/sbin
+
 pwdutils:
   /etc/pam.d/passwd
   /etc/pam.d/shadow

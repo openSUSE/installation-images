@@ -662,6 +662,10 @@ gzip:
 libpcre0:
   /lib*
 
+unscd:
+  # remaining files are in root image
+  /var/run/nscd
+
 if 0
 if exists(xen-kmp-default)
   xen-kmp-default:
