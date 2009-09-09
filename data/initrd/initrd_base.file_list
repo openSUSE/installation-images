@@ -560,5 +560,8 @@ e echo "RootImage:	/boot/<arch>/root" >>linuxrc.config
 endif
 
 # look for driver updates on usb media (bnc #363650, fate #302851)
+# ... but not for s390x (bnc #528440)
+if arch ne 's390' && arch ne 's390x'
 e echo "dud:		disk:/?device=*usb*" >>linuxrc.config
+endif
 
