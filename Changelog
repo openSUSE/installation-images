@@ -1,5 +1,5 @@
 9/9/2009:	v8.145
-	- don't check for DUDs on s390x (bnc #528440)
+	- don't check for DUDs on USB media on s390x (bnc #528440)
 
 24/8/2009:	v8.144
 	- autoload xen PV drivers (bnc #529797)
