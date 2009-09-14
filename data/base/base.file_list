@@ -75,9 +75,6 @@ if arch eq 'alpha' || suse_xrelease eq 'beta'
     /lib
 endif
 
-nscd:
-  /etc/nscd.conf
-
 glibc:
   /etc/ld.so.conf
   /{lib*,sbin}

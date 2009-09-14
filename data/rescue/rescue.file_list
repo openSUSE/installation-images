@@ -142,8 +142,9 @@ libacl:
 libpopt0:
   /lib*
 
-nscd:
-  /etc/nscd.conf
+unscd:
+  /etc
+  /usr/sbin
 
 tcpd:
   /lib*/libwrap.so*

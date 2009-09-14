@@ -1,3 +1,6 @@
+14/9/2009:	v12.26
+	- drop nscd
+
 9/9/2009:	v12.25
 	- start nscd in instsys (bnc #530440)
 
