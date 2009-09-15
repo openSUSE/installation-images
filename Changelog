@@ -1,3 +1,6 @@
+15/9/2009:	v8.146
+	- change some s390 message (bnc #537217)
+
 9/9/2009:	v8.145
 	- don't check for DUDs on USB media on s390x (bnc #528440)
 
