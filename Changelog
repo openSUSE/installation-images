@@ -1,3 +1,6 @@
+17/9/2009:	v12.27
+	- keep initrd mostly compressed for i386 & x86_64
+
 14/9/2009:	v12.26
 	- drop nscd
 

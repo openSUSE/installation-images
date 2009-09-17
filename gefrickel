@@ -11,7 +11,7 @@ function err {
 
 function squash {
   mkdir -p parts
-  mksquashfs $1 parts/$2 -noappend -no-progress
+  $mksquashfs $1 parts/$2 -noappend -no-progress
   chmod 644 parts/$2
 }
 
@@ -21,6 +21,11 @@ dir=$1
 cd $dir
 
 [ -d "parts" ] && { echo "$dir: already gefrickelt" ; exit 1 ; }
+
+[ -x "/usr/bin/mksquashfs" ] && mksquashfs="/usr/bin/mksquashfs"
+[ -x "/usr/bin/mksquashfs4" ] && mksquashfs="/usr/bin/mksquashfs4"
+
+[ -z "$mksquashfs" ] && err "mksquashfs missing"
 
 # lib vs. lib64
 lib_dir=`echo lib*/libc.so.*`

@@ -7,13 +7,13 @@ COMMON_TARGETS	     := rescue root root+rescue root-themes bind gdb mini-iso-rml
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
 
 ifneq ($(filter i386, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules boot boot-themes $(COMMON_TARGETS) sax2
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot boot-themes $(COMMON_TARGETS) sax2
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
 BOOT_PARTS    := boot/* initrd biostest
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules boot-efi boot boot-themes $(COMMON_TARGETS) sax2
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot-efi boot boot-themes $(COMMON_TARGETS) sax2
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
 BOOT_PARTS    := boot/* initrd biostest efi
 endif
