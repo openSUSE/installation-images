@@ -1,3 +1,6 @@
+24/9/2009:	v12.28
+	- we need more perl modules
+
 17/9/2009:	v12.27
 	- keep initrd mostly compressed for i386 & x86_64
 

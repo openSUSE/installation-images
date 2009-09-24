@@ -826,6 +826,7 @@ perl-base:
   /usr/lib/perl*/*/SelectSaver.pm
   /usr/lib/perl*/*/Symbol.pm
   /usr/lib/perl*/*/Text/ParseWords.pm
+  /usr/lib/perl*/*/Text/Balanced.pm
   /usr/lib/perl*/*/Tie/Hash.pm
   /usr/lib/perl*/*/base.pm
   /usr/lib/perl*/*/bytes.pm
@@ -837,6 +838,7 @@ perl-base:
   /usr/lib/perl*/*/utf8.pm
   /usr/lib/perl*/*/utf8_heavy.pl
   /usr/lib/perl*/*/vars.pm
+  /usr/lib/perl*/*/version.pm
   /usr/lib/perl*/*/warnings.pm
   /usr/lib/perl*/*/warnings/register.pm
   /usr/lib/perl*/*/*/B/Deparse.pm
@@ -878,6 +880,8 @@ perl:
   /usr/lib/perl*/*/Pod/Select.pm
   /usr/lib/perl*/*/Pod/Text.pm
   /usr/lib/perl*/*/Pod/Usage.pm
+  /usr/lib/perl*/*/SelfLoader.pm
+  /usr/lib/perl*/*/Switch.pm
   /usr/lib/perl*/*/Term/Cap.pm
   /usr/lib/perl*/*/Tie/Hash
   /usr/lib/perl*/*/Time/Local.pm
@@ -897,6 +901,7 @@ perl:
   /usr/lib/perl*/*/*/Encode/Config.pm
   /usr/lib/perl*/*/*/Encode/Encoding.pm
   /usr/lib/perl*/*/*/Encode/MIME/Name.pm
+  /usr/lib/perl*/*/*/Filter/Util/Call.pm
   /usr/lib/perl*/*/*/Storable.pm
   /usr/lib/perl*/*/*/Sys/Hostname.pm
   /usr/lib/perl*/*/*/auto/POSIX
