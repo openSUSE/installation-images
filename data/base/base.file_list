@@ -307,12 +307,21 @@ if arch eq 'i386' || arch eq 'x86_64'
   # create splash
   #x mk_splash /mk_splash
   #include gen/splash
-  bootsplash-branding-openSUSE:
+
+  if exists(bootsplash-branding-openSUSE)
+    bootsplash-branding-openSUSE:
     /
-  bootsplash-branding-SLES:
-    /
-  bootsplash-branding-SLED:
-    /
+  endif
+
+  if exists(bootsplash-branding-SLES)
+    bootsplash-branding-SLES:
+      /
+  endif
+
+  if exists(bootsplash-branding-SLED)
+    bootsplash-branding-SLED:
+      /
+  endif
 endif
 
 :
