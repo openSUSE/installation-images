@@ -28,8 +28,7 @@ if with_yast2 ne 'no'
     xorg-x11-server:
       /usr/bin/Xorg
 
-      /usr/lib*/xorg/modules/extensions/lib{dbe,extmod}.so
-      # /usr/X11R6/lib*/modules/fonts/libbitmap.so
+      /usr/lib*/xorg/modules/extensions
       /usr/lib*/xorg/modules/linux/lib*.so
 
       /usr/lib*/xorg/modules/lib*.so
@@ -46,7 +45,7 @@ if with_yast2 ne 'no'
       /usr/lib*/xorg/modules/drivers/r128_drv.so
       /usr/lib*/xorg/modules/drivers/radeon_drv.so
       /usr/lib*/xorg/modules/drivers/sis_drv.so
-#      /usr/lib*/xorg/modules/drivers/via_drv.so
+      /usr/lib*/xorg/modules/drivers/cirrus*.so
 
       if arch eq 'i386' || arch eq 'ia64' || arch eq 'x86_64'
         /usr/lib*/xorg/modules/drivers/vesa_drv.so
@@ -62,8 +61,8 @@ if with_yast2 ne 'no'
 
       if arch eq 'i386' || arch eq 'x86_64'
         xorg-x11-driver-virtualbox-ose:
-          /usr/lib*/xorg/modules/input/vboxmouse_drv.so
-          /usr/lib*/xorg/modules/drivers/vboxvideo_drv.so
+          /usr/lib*/xorg/modules
+          /usr/share/hal
       endif
 
     xterm:
@@ -220,11 +219,6 @@ if with_yast2 ne 'no'
       /lib/libdl.so.2
       /lib/libm.so.6
   endif
-
-if 0
-  xorg-x11-Xvnc:
-    /usr/bin/Xvnc
-endif
 
   tightvnc:
     /usr/bin/vncpasswd.arg

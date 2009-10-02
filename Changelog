@@ -1,3 +1,7 @@
+2/10/2009:	v12.30
+	- added vbox stuff (bnc #543517)
+	- more xorg modules (bnc #543517)
+
 28/9/2009:	v12.29
 	- don't depend on all branding files
 
