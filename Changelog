@@ -1,3 +1,8 @@
+13/10/2009:	v12.31
+	- adjust to new sbl package
+	- fix missing ntfs link (bnc #540511)
+	- added /sbin/splash to rescue (bnc #511227)
+
 2/10/2009:	v12.30
 	- added vbox stuff (bnc #543517)
 	- more xorg modules (bnc #543517)
