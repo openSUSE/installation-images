@@ -822,8 +822,8 @@ if arch eq 'i386' || arch eq 'x86_64'
     /etc
     /usr/sbin
     /usr/lib*
-    r /usr/lib/suse-blinux/profile/default
-    s y2base /usr/lib/suse-blinux/profile/default
+    r /etc/sbl/profile/default
+    s y2base /etc/sbl/profile/default
 
 endif
 

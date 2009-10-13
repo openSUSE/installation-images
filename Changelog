@@ -1,3 +1,6 @@
+13/10/2009:	v12.32
+	- adjust to new sbl package, part 2
+
 13/10/2009:	v12.31
 	- adjust to new sbl package
 	- fix missing ntfs link (bnc #540511)
