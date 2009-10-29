@@ -868,6 +868,9 @@ perl-base:
   /usr/lib/perl*/*/*/auto/POSIX
   /usr/lib/perl*/*/*/lib.pm
   /usr/lib/perl*/*/*/re.pm
+  /usr/lib/perl*/*/*/Scalar/Util/PP.pm
+  /usr/lib/perl*/*/*/List/Util/PP.pm
+  /usr/lib/perl*/*/*/B.pm
 
 perl:
   /usr/lib/perl*/*/English.pm
@@ -896,6 +899,7 @@ perl:
   /usr/lib/perl*/*/unicore/lib/gc_sc/SpacePer.pl
   /usr/lib/perl*/*/*/CORE/libperl.so
   /usr/lib/perl*/*/*/Config.pm
+  /usr/lib/perl*/*/*/Config_git.pl
   /usr/lib/perl*/*/*/Encode.pm
   /usr/lib/perl*/*/*/Encode/Alias.pm
   /usr/lib/perl*/*/*/Encode/Config.pm

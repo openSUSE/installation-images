@@ -366,9 +366,6 @@ if with_yast2 ne 'no'
 
   e mkfontscale usr/share/fonts/truetype
   e mkfontdir usr/share/fonts/truetype
-
-  e mkfontscale usr/share/fonts/uni
-  e mkfontdir usr/share/fonts/uni
 endif
 
 if arch ne 's390' && arch ne 's390x'

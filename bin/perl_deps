@@ -25,6 +25,7 @@ sub is_perl_script;
   CPANPLUS/Error.pm
   CPANPLUS/Internals/Constants.pm
   Pod/Simple.pm
+  Encode/ConfigLocal.pm
 )} = ();
 
 @no_check = qw (
