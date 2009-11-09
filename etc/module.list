@@ -80,6 +80,7 @@ kernel/fs/vfat/
 kernel/fs/xfs/
 kernel/fs/dmapi/
 kernel/fs/exportfs/
+kernel/fs/fscache/
 kernel/fs/ncpfs/
 kernel/fs/nls/nls_cp437.ko
 kernel/fs/nls/nls_cp936.ko
@@ -93,6 +94,7 @@ kernel/fs/lockd/
 kernel/fs/mbcache.ko
 kernel/fs/configfs/
 kernel/net/sunrpc/sunrpc.ko
+kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
 kernel/drivers/power/power_supply.ko
 kernel/drivers/firmware/edd.ko
 kernel/drivers/firmware/efivars.ko
@@ -103,6 +105,9 @@ kernel/drivers/cpufreq/
 kernel/arch/x86/kernel/
 kernel/drivers/hwmon/hwmon.ko
 kernel/drivers/thermal/thermal_sys.ko
+kernel/net/802/tr.ko
+kernel/net/802/fddi.ko
+kernel/drivers/misc/eeprom/eeprom_93cx6.ko
 
 # kernel pcmcia
 # see data/initrd/initrd_base.list
@@ -131,22 +136,10 @@ kernel/lib/crc-itu-t.ko
 kernel/lib/crc16.ko
 kernel/lib/crc-t10dif.ko
 
-kernel/crypto/aes.ko
-kernel/crypto/aes_generic.ko
-kernel/crypto/arc4.ko
-kernel/crypto/blkcipher.ko
-kernel/crypto/crypto_blkcipher.ko
-kernel/crypto/cbc.ko
-kernel/crypto/crc32c.ko
-kernel/crypto/ecb.ko
-kernel/crypto/sha256.ko
-kernel/crypto/sha256_generic.ko
-kernel/crypto/twofish_common.ko
-kernel/crypto/twofish.ko
-kernel/crypto/xor.ko
-kernel/crypto/async_tx/
+kernel/crypto/
 kernel/arch/[^/]*/crypto/
 kernel/drivers/crypto/geode-aes.ko
+kernel/lib/lzo/
 
 kernel/drivers/video/vga16fb.ko
 kernel/drivers/video/vgastate.ko
