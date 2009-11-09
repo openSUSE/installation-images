@@ -414,6 +414,8 @@ if with_yast2 ne 'no'
     /
   yast2-country-data:
     /
+  yast2-dbus-server:
+    /
   yast2-devtools:
     /usr/bin/y2tool
     /usr/share/YaST2/data/devtools/bin/showy2log
@@ -815,6 +817,7 @@ perl-base:
   /usr/lib/perl*/*/*/Scalar/Util.pm
   /usr/lib/perl*/*/SelectSaver.pm
   /usr/lib/perl*/*/Symbol.pm
+  /usr/lib/perl*/*/Text/Balanced.pm
   /usr/lib/perl*/*/Text/ParseWords.pm
   /usr/lib/perl*/*/Tie/Hash.pm
   /usr/lib/perl*/*/base.pm
@@ -827,6 +830,7 @@ perl-base:
   /usr/lib/perl*/*/utf8.pm
   /usr/lib/perl*/*/utf8_heavy.pl
   /usr/lib/perl*/*/vars.pm
+  /usr/lib/perl*/*/version.pm
   /usr/lib/perl*/*/warnings.pm
   /usr/lib/perl*/*/warnings/register.pm
   /usr/lib/perl*/*/*/B/Deparse.pm
@@ -902,6 +906,9 @@ perl:
   /usr/lib/perl*/*/*/IO/Compress
   /usr/lib/perl*/*/*/IO/Uncompress
   /usr/lib/perl*/*/*/auto/Compress
+  /usr/lib/perl*/*/Switch.pm
+  /usr/lib/perl*/*/SelfLoader.pm
+  /usr/lib/perl*/*/*/Filter/Util/Call.pm
   r /usr/lib/perl*/*/CPANPLUS
 
 perl-Bootloader:
