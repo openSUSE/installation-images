@@ -1,3 +1,6 @@
+12/11/2009:	v11.74
+	- ia64 needs libunwind
+
 9/11/2009:	v11.73
 	- adjust to new kernel/module-init-tools
 	- add yast2-dbus-server and perl module Switch.pm

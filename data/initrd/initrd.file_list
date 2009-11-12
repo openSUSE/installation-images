@@ -664,6 +664,11 @@ libstdc++43:
 libgcc43:
   /lib*
 
+if arch eq 'ia64'
+  libunwind:
+    /lib/libunwind.so.*
+endif
+
 gzip:
   /bin/gzip
   /bin/gunzip
