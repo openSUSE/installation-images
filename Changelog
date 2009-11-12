@@ -1,3 +1,7 @@
+9/11/2009:	v12.34
+	- added Xvnc back (bnc #530111)
+	- update dud url for 11.2
+
 29/10/2009:	v12.33
 	 - adjust perl module deps
 
