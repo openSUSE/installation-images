@@ -1,3 +1,6 @@
+16/11/2009:	v11.76
+	- adjust config to new syslinux (bnc #545692)
+
 16/11/2009:	v11.75
 	- added syconfig package to instsys (fate #303069)
 
