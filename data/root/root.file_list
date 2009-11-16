@@ -777,11 +777,14 @@ ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
 
-sysconfig:
+sysconfig: postin
+  /etc
+  /lib
+  /sbin
+  /var
+  E postin
   # for modify_resolvconf
-  d etc/sysconfig/network
-  e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
-  # /sbin/modify_resolvconf
+  e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >>etc/sysconfig/network/config
 
 pciutils:
   /sbin/lspci

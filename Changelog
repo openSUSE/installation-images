@@ -1,3 +1,6 @@
+16/11/2009:	v11.75
+	- added syconfig package to instsys (fate #303069)
+
 12/11/2009:	v11.74
 	- ia64 needs libunwind
 

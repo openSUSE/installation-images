@@ -591,8 +591,8 @@ pcre:
 
 sysconfig: postin
   /etc
+  /lib
   /sbin
-  /var
   /var
   E postin
 
