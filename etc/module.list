@@ -154,7 +154,7 @@ kernel/net/ieee80211/
 
 kernel/net/mac80211/mac80211.ko
 kernel/net/mac80211/rc80211_simple.ko
-kernel/net/wireless/cfg80211.ko
+kernel/net/wireless/
 
 kernel/drivers/rtc/
 

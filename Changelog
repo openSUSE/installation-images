@@ -1,3 +1,8 @@
+20/11/2009:	v11.78
+	- librpcsecgss no longer needed
+	- ensure 'build log failed' is not always logged
+	- more module fixes
+
 20/11/2009:	v11.77
 	- updated kernel module config (bnc #555793)
 	- follow Xorg package changes
