@@ -92,6 +92,9 @@ if with_yast2 ne 'no'
     gpm:
       /usr/sbin/gpm
 
+    libpciaccess0:
+      /usr/lib*/libpciaccess.so.*
+
   endif
 
   xorg-x11-libX11:
@@ -156,9 +159,6 @@ if with_yast2 ne 'no'
 
   libpixman-1-0:
     /usr/lib*/libpixman-1.so.*
-
-  libpciaccess0:
-    /usr/lib*/libpciaccess.so.*
 
   xorg-x11-libxcb:
     /usr/lib*/libxcb.so.*
@@ -307,8 +307,10 @@ sax2-tools:
   /usr/sbin
   r /usr/sbin/isax
 
-sax2-ident:
-  /usr/share/sax/sysp/maps
+if arch ne 's390' && arch ne 's390x'
+  sax2-ident:
+    /usr/share/sax/sysp/maps
+endif
 
 xmset:
   /usr/sbin
