@@ -32,6 +32,7 @@ kernel/drivers/net/
 -kernel/drivers/net/ppp_async.ko
 kernel/drivers/dca/
 kernel/drivers/parport/
+-kernel/drivers/parport/parport_serial.ko
 kernel/drivers/pnp/
 kernel/drivers/scsi/
 -kernel/drivers/scsi/ses.ko
