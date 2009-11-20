@@ -320,8 +320,8 @@ util-linux:
 
 if arch eq 'ppc' || arch eq 'ppc64'
 powerpc-utils:
-    /sbin/nvsetenv
-    /sbin/lsprop
+    /usr/sbin/nvsetenv
+    /usr/sbin/lsprop
     /usr/sbin/nvram
     /usr/sbin/update_flash
 endif

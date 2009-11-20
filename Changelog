@@ -3,6 +3,7 @@
 	- ensure 'build log failed' is not always logged
 	- more module fixes
 	- no sax2-ident on s390x
+	- powerpc-utils: /sbin -> /usr/sbin
 
 20/11/2009:	v11.77
 	- updated kernel module config (bnc #555793)
