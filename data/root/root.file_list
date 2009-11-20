@@ -319,6 +319,15 @@ util-linux:
   endif
 
 if arch eq 'ppc' || arch eq 'ppc64'
+librtas:
+    /usr/lib*
+
+libsqlite3-0:
+  /usr/lib*/libsqlite3*.so.*
+
+libservicelog-1_0-1:
+  /usr/lib*/libservicelog-*.so.*
+
 powerpc-utils:
     /usr/sbin/nvsetenv
     /usr/sbin/lsprop
