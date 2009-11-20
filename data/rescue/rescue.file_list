@@ -535,9 +535,6 @@ nfs-client:
 nfsidmap:
   /usr/lib*/libnfsidmap.so.*
 
-librpcsecgss:
-  /usr/lib*/librpcsecgss.so.*
-
 libgssglue1:
   /etc
   /lib*/libgssglue.so.*
