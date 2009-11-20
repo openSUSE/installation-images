@@ -1,3 +1,8 @@
+20/11/2009:	v11.77
+	- updated kernel module config (bnc #555793)
+	- follow Xorg package changes
+	- remove brocade-bfa, enic, fnic KMPs
+
 16/11/2009:	v11.76
 	- adjust config to new syslinux (bnc #545692)
 

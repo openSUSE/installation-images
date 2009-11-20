@@ -777,6 +777,9 @@ ntfsprogs:
   /usr/sbin/ntfsresize
   /usr/lib*/libntfs.so*
 
+sed:
+  /bin/sed
+
 sysconfig: postin
   /etc
   /lib
