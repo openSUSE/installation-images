@@ -1,3 +1,8 @@
+23/11/2009:	v11.79
+	- added hpsa.ko
+	- mount used libblkid now
+	- remove xfsdump
+
 20/11/2009:	v11.78
 	- librpcsecgss no longer needed
 	- ensure 'build log failed' is not always logged

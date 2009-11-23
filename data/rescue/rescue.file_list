@@ -414,10 +414,6 @@ xfsprogs:
   /usr/sbin
   /sbin
 
-xfsdump:
-  /usr/sbin
-  /sbin
-
 openslp:
   /etc
   /usr/bin

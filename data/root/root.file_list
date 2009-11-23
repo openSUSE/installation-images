@@ -734,10 +734,6 @@ xfsprogs:
   /usr/sbin
   /sbin
 
-xfsdump:
-  /usr/sbin
-  /sbin
-
 wget:
   /etc
   /usr/bin

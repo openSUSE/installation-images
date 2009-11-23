@@ -274,8 +274,11 @@ util-linux:
   /bin/mount
   /bin/umount
 
-libvolume_id1:
-  /lib*/libvolume_id.so.*
+libblkid1:
+  /lib*
+
+libuuid1:
+  /lib*
 
 fribidi:
   /usr/bin/fribidi
