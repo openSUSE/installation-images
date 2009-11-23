@@ -1,3 +1,7 @@
+23/11/2009:	v11.80
+	- ia32el: boot script renamed
+	- uuidgen moved to util-linux
+
 23/11/2009:	v11.79
 	- added hpsa.ko
 	- mount used libblkid now

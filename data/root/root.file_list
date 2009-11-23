@@ -161,6 +161,7 @@ util-linux:
   endif
   /usr/sbin/setctsid
   /usr/bin/getopt
+  /usr/bin/uuidgen
 
 nfs-client:
   /sbin/{u,}mount.nfs*
@@ -226,9 +227,6 @@ smartmontools:
 e2fsprogs:
   /etc
   /sbin
-
-uuid-runtime:
-  /usr/bin/uuidgen
 
 libext2fs2:
   /lib*
