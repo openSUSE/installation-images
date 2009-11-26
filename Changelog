@@ -1,3 +1,8 @@
+25/11/2009:	v11.81
+	- add qlge to ppc (fate #307038)
+	- add blkid (bnc #558370)
+	- also pack libs for dmraid
+
 23/11/2009:	v11.80
 	- ia32el: boot script renamed
 	- uuidgen moved to util-linux

@@ -532,6 +532,7 @@ util-linux:
   /bin/umount
   /usr/sbin/setctsid
   /sbin/losetup
+  /sbin/blkid
 
 nfs-client:
   /var/lib/nfs
