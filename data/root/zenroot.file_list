@@ -97,7 +97,7 @@ wireless-tools:
   /usr/lib*/libiw.so.*
 
 dmraid:
-  /<lib>
+  /lib*/lib*.so*
   /sbin
 
 util-linux:
