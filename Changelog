@@ -1,3 +1,6 @@
+4/12/2009:	v11.82
+	- added bna.ko (fate #307397)
+
 25/11/2009:	v11.81
 	- add qlge to ppc (fate #307038)
 	- add blkid (bnc #558370)
