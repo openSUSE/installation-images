@@ -1,3 +1,6 @@
+8/12/2009:	v11.83
+	- adjust kernel module config
+
 4/12/2009:	v11.82
 	- added bna.ko (fate #307397)
 
