@@ -372,25 +372,6 @@ if arch eq 'i386' || arch eq 'x86_64'
   bootsplash:
     /sbin/splash
 
-  # wlan
-  ipw-firmware:
-    /lib/firmware
-
-  iwl3945-ucode:
-    /lib/firmware/iwlwifi-*
-
-  iwl4965-ucode:
-    /lib/firmware/iwlwifi-*
-
-  iwl5000-ucode:
-    /lib/firmware/iwlwifi-*
-
-  atmel-firmware:
-    /lib/firmware
-
-  ralink-firmware:
-    /lib/firmware
-
   wpa_supplicant:
     /usr/sbin
 
@@ -503,17 +484,6 @@ iproute2:
 
 ethtool:
   /sbin/ethtool
-
-qlogic-firmware:
-  /lib/firmware
-
-adaptec-firmware:
-  /lib/firmware
-
-if exists(cxgb3-firmware)
-  cxgb3-firmware:
-    /lib/firmware
-endif
 
 open-iscsi:
   # must be writable
