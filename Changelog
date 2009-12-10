@@ -1,3 +1,6 @@
+10/12/2009:	v11.86
+	- remove empty resolv.conf (bnc #560405)
+
 9/12/2009:	v11.85
 	- handle firmware files automatically
 

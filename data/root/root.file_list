@@ -1030,6 +1030,9 @@ r /sbin/insserv
 # some scripts write to /dev/null...
 r /dev
 
+# remove empty resolv.conf (bnc #560405)
+r /etc/resolv.conf
+
 E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 
 # make passwords not expire
