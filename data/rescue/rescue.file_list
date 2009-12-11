@@ -509,17 +509,8 @@ e postin
 
 util-linux: postin
   /etc
-  /bin/{dmesg,logger,mount,umount}
-if arch ne 's390' && arch ne 's390x'
-  /sbin/hwclock
-endif
-  /sbin/{blockdev,ctrlaltdel,elvtune,losetup,mkfs,mkfs.bfs,mkswap,pivot_root,swapon,swapoff}
-  if arch ne 'ia64'
-    /sbin/fdisk
-    /sbin/sfdisk
-    /sbin/cfdisk
-  endif
-  /sbin/agetty
+  /bin
+  /sbin
   /usr/{bin,sbin}
 e postin
 
@@ -822,6 +813,9 @@ if arch eq 'i386' || arch eq 'x86_64'
     r /usr/lib/suse-blinux/profile/default
     s y2base /usr/lib/suse-blinux/profile/default
 
+  bootsplash:
+    /sbin/splash
+
 endif
 
 :
@@ -838,6 +832,9 @@ e echo RC_LANG=\"en_US.UTF-8\" >>etc/sysconfig/language
 if arch eq 's390' || arch eq 's390x'
   e sed -i '/getty/d' etc/inittab
 endif
+
+# bnc #509181
+e echo "echo -n >/fastboot" >>etc/init.d/halt.local
 
 e echo "cons:1235:respawn:/sbin/smart_agetty -L 42 console" >>etc/inittab
 
