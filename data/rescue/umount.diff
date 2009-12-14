@@ -1,0 +1,11 @@
+--- etc/init.d/boot.localfs
++++ etc/init.d/boot.localfs
+@@ -254,6 +254,8 @@
+ 	test -r /proc/mounts && mounts=/proc/mounts
+ 	reverse < $mounts > /dev/shm/mtab
+ 
++	sed -i -re '/^\S+\s+\/mounts\/mp_/d' /dev/shm/mtab
++
+ 	mtab=
+ 	test "$2" = "nomtab" && mtab=-n
+ 

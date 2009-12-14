@@ -834,7 +834,7 @@ if arch eq 's390' || arch eq 's390x'
 endif
 
 # bnc #509181
-e echo "echo -n >/fastboot" >>etc/init.d/halt.local
+p umount.diff
 
 e echo "cons:1235:respawn:/sbin/smart_agetty -L 42 console" >>etc/inittab
 
@@ -854,8 +854,6 @@ E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 E /sbin/SuSEconfig --force --norestarts
 
 d lib/firmware usr/lib/microcode
-E echo "firmware /lib/firmware tmpfs defaults 0 0" >>/etc/fstab
-E echo "microcode /usr/lib/microcode tmpfs defaults 0 0" >>/etc/fstab
 
 r /var/adm/fillup-templates
 
