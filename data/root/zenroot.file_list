@@ -101,13 +101,13 @@ dmraid:
   /sbin
 
 util-linux:
-  /bin/dmesg
-  /bin/logger
-  /sbin/losetup
-  /sbin/blockdev
-  /sbin/fdisk
-  /sbin/sfdisk
-  /usr/sbin/setctsid
+  /bin
+  /sbin
+  /usr/{bin,sbin}
+  c 755 0 0 /usr/sbin/klogconsole
+
+audit-libs:
+  /lib*/libaudit.so.*
 
 sysfsutils:
   /lib*/libsysfs.so*
@@ -209,8 +209,19 @@ net-tools:
 portmap:
   /sbin/portmap
 
-util-linux:
-  /sbin/{mkfs,mkfs.minix,fsck.minix,mkswap,swapoff,swapon}
+nfs-client:
+  /sbin/{u,}mount.nfs*
+  /usr/sbin/rpc.statd
+  /usr/sbin/start-statd
+  /usr/sbin/showmount
+
+libtirpc1:
+  /etc
+  /lib*
+
+libgssglue1:
+  /etc
+  /lib*/libgssglue.so.*
 
 d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys

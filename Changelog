@@ -1,3 +1,7 @@
+8/1/2010:	v11.88
+	- added all of util-linux & nfs-client to zen image (bnc #568314,
+	  bnc #568575)
+
 11/12/2009:	v11.87
 	- add all of util-linux to rescue system (bnc #563949)
 	- fix halt/reboot in rescue system (bnc #509181)
