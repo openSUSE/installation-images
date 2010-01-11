@@ -587,6 +587,9 @@ sysconfig: postin
 
 # d /var/run/sysconfig/tmp
 
+libudev0:
+  /lib*
+
 udev: postin
   # ******* FIXME: where does it come from???
   r /dev/null

@@ -104,6 +104,9 @@ libglib-2_0-0:
 libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
 
+libudev0:
+  /lib*
+
 udev:
   /etc
   /sbin
@@ -960,6 +963,9 @@ libzypp:
 
 libidn:
   /usr/lib*/libidn.so.*
+
+libsqlite3-0:
+  /usr/lib*/libsqlite3*.so.*
 
 aria2:
   /usr/bin/aria2c

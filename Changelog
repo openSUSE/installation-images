@@ -1,4 +1,7 @@
+11/1/2010:	v12.35
 	- remove empty resolv.conf (bnc #560405)
+	- adjust kernel module config
+	- fix lib deps
 
 9/11/2009:	v12.34
 	- added Xvnc back (bnc #530111)
