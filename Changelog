@@ -1,3 +1,6 @@
+11/1/2010:	v11.89
+	- adjust kernel module config
+
 8/1/2010:	v11.88
 	- added all of util-linux & nfs-client to zen image (bnc #568314,
 	  bnc #568575)

@@ -109,6 +109,8 @@ kernel/drivers/thermal/thermal_sys.ko
 kernel/net/802/tr.ko
 kernel/net/802/fddi.ko
 kernel/drivers/misc/eeprom/eeprom_93cx6.ko
+kernel/drivers/char/hw_random/rng-core.ko
+kernel/drivers/char/hw_random/virtio-rng.ko
 
 # kernel pcmcia
 # see data/initrd/initrd_base.list
@@ -164,6 +166,14 @@ kernel/arch/powerpc/sysdev/bestcomm/bestcomm-fec.ko
 kernel/drivers/uio/uio.ko
 
 kernel/drivers/virtio/
+
+kernel/net/wimax/
+kernel/drivers/usb/wusbcore/
+kernel/drivers/uwb/
+kernel/net/phonet/phonet.ko
+kernel/lib/crc7.ko
+kernel/drivers/usb/misc/ftdi-elan.ko
+kernel/drivers/mfd/ab3100-core.ko
 
 # kmps
 updates/
