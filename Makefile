@@ -138,7 +138,7 @@ root: base
 rescue: base
 	libdeps=rescue image=rescue bin/mk_image
 	# rescue ok? (bnc #457947)
-	[ -s tmp/rescue/etc/init.d/boot.d/S*.udev ] || ( echo "build does not work on xxx" ; false )
+	@[ -s tmp/rescue/etc/init.d/boot.d/S*.udev ] || ( echo "build does not work on xxx" ; false )
 
 root+rescue: base
 	image=root+rescue fs=none bin/mk_image
