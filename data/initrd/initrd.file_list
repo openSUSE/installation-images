@@ -570,6 +570,7 @@ ntfs-3g:
   /sbin
   /bin
   /lib*/libntfs-3g.so.*
+  s mount.ntfs-3g /sbin/mount.ntfs
 
 if 0
 libfuse2:

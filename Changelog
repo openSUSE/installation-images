@@ -1,3 +1,7 @@
+14/1/2010:	v11.90
+	- add missing ntfs link (bnc #570626)
+	- add xterm to s390x (bnc #570636)
+
 11/1/2010:	v11.89
 	- adjust kernel module config
 

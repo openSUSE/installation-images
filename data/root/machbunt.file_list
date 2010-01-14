@@ -65,11 +65,6 @@ if with_yast2 ne 'no'
           /usr/lib*/xorg/modules/drivers/vboxvideo_drv.so
       endif
 
-    xterm:
-      /usr/share/X11/app-defaults/XTerm
-      R s/nil2/fixed/ /usr/share/X11/app-defaults/XTerm
-      /usr/bin/xterm
-
     utempter:
       /usr/sbin/utempter
 
@@ -96,6 +91,11 @@ if with_yast2 ne 'no'
       /usr/lib*/libpciaccess.so.*
 
   endif
+
+  xterm:
+    /usr/share/X11/app-defaults/XTerm
+    R s/nil2/fixed/ /usr/share/X11/app-defaults/XTerm
+    /usr/bin/xterm
 
   xorg-x11-libX11:
     /usr/lib*/libX11.so.*
