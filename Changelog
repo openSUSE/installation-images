@@ -1,3 +1,6 @@
+21/1/2010:	v11.92
+	- added cxgb3i to ppc module list (bnc #571724)
+
 20/1/2010:	v11.91
 	- fix module config to include some ex-ppc-only modules (bnc #565623)
 
