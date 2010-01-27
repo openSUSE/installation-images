@@ -538,7 +538,7 @@ libservicelog-1_0-1:
 libsqlite3-0:
   /usr/lib*/libsqlite3*.so.*
 powerpc-utils:
-  /sbin
+  /usr/bin
   /usr/sbin
 endif
 mingetty:

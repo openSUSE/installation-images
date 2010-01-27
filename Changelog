@@ -1,3 +1,11 @@
+27/1/2010:	v11.93
+	- fix build on ppc/ppc64: powerpc-utils moved binaries back
+	  to /usr/sbin
+	- fix build on s390/s390x: using old libqt4 for the moment
+	- adapt to qt4 filelist changes
+	  (translations moved from libqt4-x11 to libqt4)
+	- mdadm has udev rules now (bnc #573088)
+
 21/1/2010:	v11.92
 	- added cxgb3i to ppc module list (bnc #571724)
 

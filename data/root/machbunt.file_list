@@ -274,11 +274,16 @@ if with_yast2 ne 'no'
 
   libqt4:
    /usr/lib*/libQtCore.so.*
+  if arch ne 's390' && arch ne 's390x'
+   /usr/share/qt4/translations/qt_*.qm
+  endif
  
   libqt4-x11:
    /usr/lib*/libQtGui.so.*
    /usr/lib*/qt4/plugins/imageformats/libqjpeg.so
+  if arch eq 's390' || arch eq 's390x'
    /usr/share/qt4/translations/qt_*.qm
+  endif
 
   libgthread-2_0-0:
    /usr/lib*/libgthread-2.0.so.*

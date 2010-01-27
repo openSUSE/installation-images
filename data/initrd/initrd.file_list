@@ -650,6 +650,11 @@ if exists(xen-kmp-default)
     /etc
 endif
 
+mdadm:
+  /sbin
+  /etc/udev
+  /lib/udev
+
 if 0
 
 # add alsa
