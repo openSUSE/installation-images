@@ -641,12 +641,14 @@ if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ia64'
     /usr/lib*/libsmbios.so.*
 endif
 
+if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ppc64'
 libiw30:
   /usr/lib*
 
 wireless-tools:
   /etc
   /usr/sbin
+endif
 
 dmraid: postin
   /lib*
@@ -756,7 +758,7 @@ cryptsetup:
   /sbin
   /lib*
 
-libcryptsetup0:
+libcryptsetup1:
   /lib*/libcryptsetup.so.*
 
 libgcrypt11:

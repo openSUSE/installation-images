@@ -139,8 +139,12 @@ if with_yast2 ne 'no'
   xorg-x11-libfontenc:
     /usr/lib*/libfontenc.so.*
 
+  libXi6:
+    /usr/lib*/libXi.so.*
+
   xorg-x11-libs:
     /usr/lib*/libXaw8.so.*
+    /usr/lib*/libXcomposite.so.*
     /usr/lib*/libXcursor.so.*
     /usr/lib*/libXfontcache.so.*
     /usr/lib*/libXft.so.*

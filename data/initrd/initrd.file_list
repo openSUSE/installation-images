@@ -375,7 +375,9 @@ endif
 if arch eq 'i386' || arch eq 'x86_64'
   bootsplash:
     /sbin/splash
+endif
 
+if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ppc64'
   wpa_supplicant:
     /usr/sbin
 
@@ -390,7 +392,7 @@ if arch eq 'i386' || arch eq 'x86_64'
     r /usr/sbin/install_intersil_firmware
 
 endif
-# i386/x86_64
+# i386/x86_64/ppc
 
 libopenssl0_9_8:
   /usr/lib*/libcrypto.so.*
