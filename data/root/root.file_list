@@ -510,6 +510,11 @@ endif
   autoyast2-installation:
     /
 
+  if exists(sap-media-changer)
+    sap-media-changer:
+      /
+  endif
+
   gpart:
     /usr/bin
 
