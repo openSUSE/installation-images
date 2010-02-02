@@ -1,3 +1,6 @@
+2/2/2010:	v11.94
+	- add brocade-firmware package
+
 27/1/2010:	v11.93
 	- fix build on ppc/ppc64: powerpc-utils moved binaries back
 	  to /usr/sbin
