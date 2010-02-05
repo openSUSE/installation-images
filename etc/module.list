@@ -111,8 +111,7 @@ kernel/drivers/thermal/thermal_sys.ko
 
 kernel/net/packet/
 kernel/net/rfkill/rfkill.ko
-# for pcilynx
-kernel/lib/zlib_deflate/
+kernel/lib/
 kernel/drivers/i2c/i2c-core.ko
 kernel/drivers/i2c/algos/i2c-algo-bit.ko
 kernel/arch/ia64/sn/kernel
@@ -123,18 +122,10 @@ kernel/arch/s390/
 kernel/drivers/s390/
 kernel/net/iucv/
 kernel/net/ipv6/ipv6.ko
-kernel/lib/zlib_inflate/
-kernel/lib/crc-ccitt.ko
-kernel/lib/libcrc32c.ko
-kernel/lib/crc-itu-t.ko
-kernel/lib/crc16.ko
-kernel/lib/crc-t10dif.ko
-kernel/lib/crc7.ko
 
 kernel/crypto/
 kernel/arch/[^/]*/crypto/
 kernel/drivers/crypto/geode-aes.ko
-kernel/lib/lzo/
 
 kernel/drivers/video/vga16fb.ko
 kernel/drivers/video/vgastate.ko
@@ -155,6 +146,7 @@ kernel/net/wireless/
 kernel/drivers/rtc/
 kernel/drivers/mfd/wm8350.ko
 kernel/drivers/misc/eeprom/eeprom_93cx6.ko
+kernel/drivers/mfd/mc13783-core.ko
 
 kernel/arch/powerpc/sysdev/bestcomm/bestcomm-fec.ko
 

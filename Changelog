@@ -1,10 +1,11 @@
-29/1/2010:	v12.37
+5/2/2010:	v12.37
 	- xorg-x11-driver-radeonhd is only on x86 and x86_64, require it there
 	- wlan is everywhere (ppc,ppc64,ia64 are candidates, we could filter
 	  it on s390), added wpa_supplicant and wireless-tools
 	- various indirectly required things are not pulled in correctly in ppc.
 	- libcryptsetup0 was renamed to libcryptsetup1
 	- added libXi6 and xorg-x11-libs for xdpyinfo dependencies.
+	- adjust kernel module config
 
 12/1/2010:	v12.36
 	- more kernel module fixes
