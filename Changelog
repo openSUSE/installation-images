@@ -1,3 +1,6 @@
+15/2/2010:	v12.38
+	- adjust new lib deps
+
 5/2/2010:	v12.37
 	- xorg-x11-driver-radeonhd is only on x86 and x86_64, require it there
 	- wlan is everywhere (ppc,ppc64,ia64 are candidates, we could filter

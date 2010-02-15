@@ -175,7 +175,7 @@ liblcms1:
 libmng:
   /usr/lib*/libmng.so*
 
-libjpeg:
+libjpeg7:
   /usr/lib*/libjpeg.so*
 
 insserv:

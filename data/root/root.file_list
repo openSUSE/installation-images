@@ -104,6 +104,9 @@ libglib-2_0-0:
 libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
 
+libgthread-2_0-0:
+  /
+
 libudev0:
   /lib*
 
@@ -147,6 +150,7 @@ endif
 
 dmraid:
   /sbin
+  /lib*
 
 iputils:
   /bin/ping
