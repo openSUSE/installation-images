@@ -1,5 +1,6 @@
 16/2/2010:	v11.96
 	- adjust kernel module config
+	- remove qt4 hack
 
 2/2/2010:	v11.95
 	- sap-media-changer added for SAP APL
