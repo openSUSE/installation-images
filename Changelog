@@ -1,3 +1,6 @@
+17/2/2010:	v11.97
+	- added iwl5150 firmware (bnc #580299)
+
 16/2/2010:	v11.96
 	- adjust kernel module config
 	- remove qt4 hack
