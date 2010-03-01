@@ -597,7 +597,7 @@ ntfs-3g:
 kexec-tools:
   /sbin/kexec
 
-sysvinit:
+sysvinit-tools:
   /sbin/showconsole
   c 755 0 0 /sbin/showconsole
   /sbin/startproc
@@ -654,10 +654,7 @@ if arch eq 'i386' || arch eq 'x86_64'
 
 endif
 
-libstdc++44:
-  /usr/<lib>/libstdc++*.so*
-
-libgcc44:
+libgcc45:
   /lib*
 
 gzip:

@@ -180,6 +180,8 @@ util-linux:
   /usr/sbin/setctsid
   /usr/bin/getopt
   /usr/bin/uuidgen
+  /usr/sbin/addpart
+  /usr/sbin/delpart
 
 nfs-client:
   /sbin/{u,}mount.nfs*
@@ -210,7 +212,7 @@ libpopt0:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc44:
+libgcc45:
   /lib*
 
 glibc:
@@ -545,8 +547,8 @@ zlib:
 
 c 0755 0 0 /usr
 
-libstdc++44:
-  /usr/<lib>/libstdc++*.so*
+libstdc++45:
+  /usr/<lib>
 
 eject:
   /bin/eject
@@ -617,7 +619,7 @@ initviocons:
   /bin/initviocons
   /usr/bin/termprobes
 
-sysvinit:
+sysvinit-tools:
   /sbin/checkproc
   /sbin/killproc
   /sbin/pidofproc
@@ -626,6 +628,8 @@ sysvinit:
   /sbin/{pidof,killall5}
   c 755 0 0 /sbin/showconsole
   /sbin/setconsole
+
+sysvinit:
   /sbin/{reboot,halt,poweroff,shutdown}
 
 klogd:

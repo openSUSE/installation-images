@@ -150,7 +150,7 @@ unscd:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc44:
+libgcc45:
   /lib*
 
 glibc:
@@ -494,7 +494,10 @@ syslogd: postin
   /sbin/syslogd
 e postin
 
-sysvinit: postin
+sysvinit:
+  /sbin
+
+sysvinit-tools: postin
 n /dev/initctl
 c 600 0 0 /dev/initctl
   /sbin
@@ -740,8 +743,8 @@ smartmontools:
   /etc
   /usr/sbin
 
-libstdc++44:
-  /usr/<lib>/libstdc++*.so*
+libstdc++45:
+  /usr/<lib>
 
 kpartx:
   /etc/udev

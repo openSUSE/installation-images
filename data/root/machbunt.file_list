@@ -305,7 +305,7 @@ endif
 libpng12-0:
   /usr/lib*/libpng*.so*
 
-libjpeg7:
+libjpeg8:
   /usr/lib*/libjpeg.so*
 
 sax2-tools:
