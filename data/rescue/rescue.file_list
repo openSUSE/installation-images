@@ -676,6 +676,8 @@ libreiserfs-devel:
 
 gawk:
   /bin
+# uses update-alternatives now
+s gawk bin/awk
 
 ddrescue:
   /bin

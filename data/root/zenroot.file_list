@@ -342,6 +342,8 @@ reiserfs:
 
 gawk:
   /bin
+# uses update-alternatives now
+s gawk bin/awk
 
 initviocons:
   /bin/initviocons

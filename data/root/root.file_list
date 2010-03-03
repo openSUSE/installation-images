@@ -585,6 +585,8 @@ btrfsprogs:
 
 gawk:
   /bin
+# uses update-alternatives now
+s gawk bin/awk
 
 if arch eq 'ppc' || arch eq 'ppc64'
   pdisk:
