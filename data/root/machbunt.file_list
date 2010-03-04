@@ -28,7 +28,7 @@ if with_yast2 ne 'no'
     xorg-x11-server:
       /usr/bin/Xorg
 
-      /usr/lib*/xorg/modules/extensions/lib{dbe,extmod}.so
+      /usr/lib*/xorg/modules/extensions
       # /usr/X11R6/lib*/modules/fonts/libbitmap.so
       /usr/lib*/xorg/modules/linux/lib*.so
 
@@ -38,6 +38,7 @@ if with_yast2 ne 'no'
       /usr/lib*/xorg/modules/input
 
     xorg-x11-driver-video:
+      /var/lib/hardware
       /usr/lib*/xorg/modules/drivers/ati_drv.so
       /usr/lib*/xorg/modules/drivers/fbdev_drv.so
       /usr/lib*/xorg/modules/drivers/intel_drv.so
@@ -309,6 +310,7 @@ sax2-tools:
 
 if arch ne 's390' && arch ne 's390x'
   sax2-ident:
+    /var/lib/hardware
     /usr/share/sax/sysp/maps
 endif
 

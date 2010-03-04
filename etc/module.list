@@ -175,6 +175,8 @@ kernel/lib/crc7.ko
 kernel/drivers/usb/misc/ftdi-elan.ko
 kernel/drivers/mfd/ab3100-core.ko
 
+kernel/drivers/gpu/drm/
+
 # kmps
 updates/
 
