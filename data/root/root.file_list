@@ -1050,7 +1050,8 @@ e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 d /usr/lib/debug /usr/src/debug
 
 # rebuild hd.ids
-e cat var/lib/hardware/ids/* >var/lib/hardware/hd.ids
+d var/lib/hardware
+e cat var/lib/hardware/ids/* >var/lib/hardware/hd.ids || true
 
 # find used yast2 gettext domains
 e unused_mos --domains --dir usr/share/YaST2 >/yast2-trans.domains
