@@ -655,6 +655,9 @@ mdadm:
   /etc/udev
   /lib/udev
 
+vlan:
+  /sbin
+
 if 0
 
 # add alsa

@@ -1,3 +1,6 @@
+5/3/2010:	v11.99
+	- add vlan support
+
 4/3/2010:	v11.98
 	- add drm modules, create hd.ids (bnc #583161)
 
