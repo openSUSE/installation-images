@@ -3,6 +3,9 @@ d media/{cdrom,floppy}
 d lib/modules
 c 1777 0 0 tmp
 
+# some basic devices
+e cp -a /dev/* dev
+
 fillup:
   /bin
 
@@ -79,6 +82,9 @@ libreadline6:
 cpio:
   /bin
   /usr/bin
+
+libcrack2:
+  /
 
 cracklib:
   /usr/lib*
@@ -597,17 +603,9 @@ libudev0:
   /lib*
 
 udev: postin
-  # ******* FIXME: where does it come from???
-  r /dev/null
-
   /etc
   /lib/udev
-  # to avoid hardlink in cramfs
-  t /lib/udev/devices/pts/.xxx
   /sbin
-  # for running SuSEconfig below
-  m /lib/udev/devices/* /dev
-
   E postin
 
 sysfsutils:

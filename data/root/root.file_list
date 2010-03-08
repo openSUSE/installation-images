@@ -708,6 +708,9 @@ cracklib-dict-full:
   /usr/share/cracklib
 endif
 
+libcrack2:
+  /
+
 cracklib:
   /usr/sbin/cracklib-check
   /usr/lib*
