@@ -1053,6 +1053,10 @@ d /usr/lib/debug /usr/src/debug
 d var/lib/hardware
 e cat var/lib/hardware/ids/* >var/lib/hardware/hd.ids || true
 
+# copy ssl certificates
+d etc/ssl
+e cp -a /etc/ssl/certs etc/ssl
+
 # find used yast2 gettext domains
 e unused_mos --domains --dir usr/share/YaST2 >/yast2-trans.domains
 

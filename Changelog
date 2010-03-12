@@ -1,3 +1,6 @@
+12/3/2010:	v11.102
+	- add ssl certificates (#bnc 587821)
+
 11/3/2010:	v11.101
 	- adjust to mdadm changes
 
