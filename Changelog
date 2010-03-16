@@ -1,3 +1,6 @@
+16/3/2010:	v11.103
+	- ia32el: boot script renamed (bnc #588609)
+
 12/3/2010:	v11.102
 	- add ssl certificates (#bnc 587821)
 

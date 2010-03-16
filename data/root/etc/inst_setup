@@ -166,7 +166,7 @@ fi
 #
 depmod -a 2>/dev/null
 
-test -x /etc/init.d/ia32el && /etc/init.d/ia32el start
+test -x /etc/init.d/boot.ia32el && /etc/init.d/boot.ia32el start
 
 # ensure everything below those dirs is writable
 for i in /root /etc/ssh /etc/sysconfig ; do
