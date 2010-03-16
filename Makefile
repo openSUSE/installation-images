@@ -3,6 +3,8 @@ ifneq ($(filter i386 i486 i586 i686, $(ARCH)),)
 ARCH := i386
 endif
 
+GIT2LOG = $(shell [ -x ./git2log ] && echo ./git2log )
+
 COMMON_TARGETS	     := rescue root root+rescue root-themes bind gdb mini-iso-rmlist
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
 
@@ -50,8 +52,16 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 	boot-themes initrd-themes root-themes install \
 	install-initrd mini-iso-rmlist debuginfo
 
-all: $(ALL_TARGETS)
+all: $(ALL_TARGETS) VERSION changelog
 	@rm images/*.log
+
+ifneq ($(GIT2LOG),)
+changelog: .git/HEAD .git/refs/heads .git/refs/tags
+	$(GIT2LOG) --log >changelog
+
+VERSION: .git/HEAD .git/refs/heads .git/refs/tags
+	$(GIT2LOG) --version >VERSION
+endif
 
 install:
 
