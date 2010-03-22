@@ -361,7 +361,7 @@ glibc:
   /lib*/librt{.,-}*
   /lib*/libpthread{.,-}*
 
-cifs-mount:
+cifs-utils:
   /sbin/mount.cifs
 
 sysfsutils:
@@ -434,8 +434,8 @@ curl:
 libcurl4:
   /usr/lib*/libcurl.so.*
 
-#libcares2:
-#  /usr/lib*/libcares.so.*
+libcares2:
+  /usr/lib*/libcares.so.*
 
 libidn:
   /usr/lib*/libidn.so.*

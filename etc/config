@@ -1,9 +1,9 @@
 ; versions
 [Version]
-default	 = 11.1
-head     = 11.1
-beta     = 11.1,beta
-debug    = 11.1,debug
+default	 = 11.3
+head     = 11.3
+beta     = 11.3,beta
+debug    = 11.3,debug
 11.1     = 11.1
 11.2     = 11.2
 11.3     = 11.3

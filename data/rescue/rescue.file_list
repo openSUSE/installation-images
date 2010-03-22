@@ -801,6 +801,9 @@ curl:
 libcurl4:
   /usr/lib*/libcurl.so.*
 
+libcares2:
+  /usr/lib*/libcares.so.*
+
 libidn:
   /usr/lib*/libidn.so.*
 
@@ -819,7 +822,7 @@ libxml2:
 kexec-tools:
   /sbin/kexec
 
-cifs-mount:
+cifs-utils:
   /sbin/mount.cifs
 
 chkrootkit:
@@ -835,6 +838,9 @@ if arch eq 'i386' || arch eq 'x86_64'
     /usr/lib*
     r /etc/sbl/profile/default
     s y2base /etc/sbl/profile/default
+
+  bootsplash:
+    /sbin/splash
 
 endif
 
@@ -852,6 +858,9 @@ e echo RC_LANG=\"en_US.UTF-8\" >>etc/sysconfig/language
 if arch eq 's390' || arch eq 's390x'
   e sed -i '/getty/d' etc/inittab
 endif
+
+# bnc #509181
+p umount.diff
 
 e echo "cons:1235:respawn:/sbin/smart_agetty -L 42 console" >>etc/inittab
 
@@ -871,8 +880,6 @@ E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 E /sbin/SuSEconfig --force --norestarts
 
 d lib/firmware usr/lib/microcode
-E echo "firmware /lib/firmware tmpfs defaults 0 0" >>/etc/fstab
-E echo "microcode /usr/lib/microcode tmpfs defaults 0 0" >>/etc/fstab
 
 r /var/adm/fillup-templates
 

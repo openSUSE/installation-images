@@ -104,7 +104,7 @@ udev:
   /etc
   /sbin
 
-cifs-mount:
+cifs-utils:
   /sbin/mount.cifs
 
 dbus-1-glib:
