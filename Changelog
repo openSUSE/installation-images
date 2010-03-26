@@ -1,3 +1,6 @@
+26/3/2010:	v11.105
+	- use rpcbind instead of portmap in rescue system (bnc #590594)
+
 25/3/2010:	v11.104
 	- remove "console=ttyS1" statement from parmfile.cd (bnc#502877)
 
