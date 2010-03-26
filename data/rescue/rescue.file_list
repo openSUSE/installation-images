@@ -366,11 +366,10 @@ usbutils:
 libusb-0_1-4:
   /usr/lib*
 
-portmap: postin
+portmap:
   /etc
   /sbin
   /var/adm/fillup-templates
-e postin
 
 rpcbind: postin
   /etc
