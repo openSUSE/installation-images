@@ -464,6 +464,7 @@ dhcpcd:
   /sbin/dhcpcd
 
 dhcpv6:
+  /sbin
   /usr/sbin
   /var/lib/dhcpv6
   x dhcp6c_update.sh usr/sbin

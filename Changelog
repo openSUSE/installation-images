@@ -1,3 +1,6 @@
+29/3/2010:	v11.106
+	- dhcpv6 client moved to /sbin (bnc #591095)
+
 26/3/2010:	v11.105
 	- use rpcbind instead of portmap in rescue system (bnc #590594)
 
