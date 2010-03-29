@@ -1,3 +1,6 @@
+29/3/2010:	v11.107
+	- added missing /var/run/dhcpv6 (bnc #591095)
+
 29/3/2010:	v11.106
 	- dhcpv6 client moved to /sbin (bnc #591095)
 

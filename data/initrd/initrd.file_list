@@ -467,6 +467,7 @@ dhcpv6:
   /sbin
   /usr/sbin
   /var/lib/dhcpv6
+  /var/run/dhcpv6
   x dhcp6c_update.sh usr/sbin
 
 libnl:
