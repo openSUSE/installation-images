@@ -232,6 +232,7 @@ if with_yast2 ne 'no'
 
   Mesa:
     /usr/lib*/dri/swrast_dri.so
+    /usr/lib*/libEGL.so.*
 
   libdrm:
     /usr/lib*

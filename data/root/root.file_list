@@ -516,6 +516,9 @@ endif
   libcurl4:
     /usr/lib*/libcurl.so*
 
+  libssh2-1:
+    /
+
   libcares2:
     /usr/lib*/libcares.so.*
 
