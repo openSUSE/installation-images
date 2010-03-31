@@ -1,3 +1,6 @@
+31/3/2010:	v11.109
+	- use mksquashfs -processors 1
+
 31/3/2010:	v11.108
 	- added /dev/shm (bnc #584484)
 
