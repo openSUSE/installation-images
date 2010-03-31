@@ -1,3 +1,6 @@
+31/3/2010:	v11.108
+	- added /dev/shm (bnc #584484)
+
 29/3/2010:	v11.107
 	- added missing /var/run/dhcpv6 (bnc #591095)
 
