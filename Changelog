@@ -1,3 +1,6 @@
+31/3/2010:	v11.110
+	- mksquashfs needs options at the end
+
 31/3/2010:	v11.109
 	- use mksquashfs -processors 1
 
