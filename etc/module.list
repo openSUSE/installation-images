@@ -147,6 +147,8 @@ kernel/drivers/rtc/
 kernel/drivers/mfd/wm8350.ko
 kernel/drivers/misc/eeprom/eeprom_93cx6.ko
 kernel/drivers/mfd/mc13783-core.ko
+kernel/drivers/mfd/mfd-core.ko
+
 
 kernel/arch/powerpc/sysdev/bestcomm/bestcomm-fec.ko
 

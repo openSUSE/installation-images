@@ -45,8 +45,8 @@ s390    = kernel-s390
 ; extra kmps we need (',' separated list)
 [KMP]
 default	=
-i386	= brocade-bfa,virtualbox-ose
-x86_64	= brocade-bfa,virtualbox-ose
+i386	= brocade-bfa,virtualbox-ose-guest
+x86_64	= brocade-bfa,virtualbox-ose-guest
 ia64    = brocade-bfa
 
 

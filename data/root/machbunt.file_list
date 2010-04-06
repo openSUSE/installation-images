@@ -1,7 +1,7 @@
 ash:
   /bin/ash.static
 
-freetype2:
+libfreetype6:
   /usr/lib*
 
 ltrace:
@@ -303,18 +303,14 @@ if with_yast2 ne 'no'
 
 endif
 
-libpng12-0:
+libpng14-14:
   /usr/lib*/libpng*.so*
 
 libjpeg8:
   /usr/lib*/libjpeg.so*
 
 sax2-tools:
-  /usr/sbin
-  r /usr/sbin/isax
-
-sax2-ident:
-  /usr/share/sax/sysp/maps
+  /usr/sbin/testX
 
 vim:
   m /bin/vim-normal /bin/vim

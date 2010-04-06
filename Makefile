@@ -9,20 +9,20 @@ COMMON_TARGETS	     := rescue root root+rescue root-themes bind gdb mini-iso-rml
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
 
 ifneq ($(filter i386, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot boot-themes $(COMMON_TARGETS) sax2
-INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot boot-themes $(COMMON_TARGETS)
+INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := boot/* initrd biostest
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot-efi boot boot-themes $(COMMON_TARGETS) sax2
-INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot-efi boot boot-themes $(COMMON_TARGETS)
+INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := boot/* initrd biostest efi
 endif
 
 ifneq ($(filter ia64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules boot-efi $(COMMON_TARGETS) sax2
-INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
+ALL_TARGETS   := initrd-themes initrd initrd+modules boot-efi $(COMMON_TARGETS)
+INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := initrd efi
 endif
 
@@ -33,8 +33,8 @@ BOOT_PARTS    := initrd
 endif
 
 ifneq ($(filter ppc ppc64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel $(COMMON_TARGETS) sax2
-INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
+ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel $(COMMON_TARGETS)
+INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    :=
 endif
 
@@ -48,7 +48,7 @@ endif
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base biostest initrd \
-	boot boot-efi root rescue root+rescue sax2 gdb bind clean \
+	boot boot-efi root rescue root+rescue gdb bind clean \
 	boot-themes initrd-themes root-themes install \
 	install-initrd mini-iso-rmlist debuginfo
 

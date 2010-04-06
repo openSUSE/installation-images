@@ -558,6 +558,9 @@ libgcrypt11:
 libgpg-error0:
  /lib*/libgpg-error.so*
 
+libassuan0:
+  /usr/lib*
+
 if exists(suse-build-key)
   suse-build-key:
     m /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg

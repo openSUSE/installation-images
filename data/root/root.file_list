@@ -834,8 +834,8 @@ perl-base:
   /usr/lib/perl*/*/Class/Struct.pm
   /usr/lib/perl*/*/Exporter{,.pm}
   /usr/lib/perl*/*/File/Basename.pm
-  /usr/lib/perl*/*/File/Spec.pm
-  /usr/lib/perl*/*/File/Spec
+  /usr/lib/perl*/*/*/File/Spec.pm
+  /usr/lib/perl*/*/*/File/Spec
   /usr/lib/perl*/*/FileHandle.pm
   /usr/lib/perl*/*/Getopt/Long.pm
   /usr/lib/perl*/*/Getopt/Std.pm
@@ -860,7 +860,7 @@ perl-base:
   /usr/lib/perl*/*/version.pm
   /usr/lib/perl*/*/warnings.pm
   /usr/lib/perl*/*/warnings/register.pm
-  /usr/lib/perl*/*/*/B/Deparse.pm
+  /usr/lib/perl*/*/B/Deparse.pm
   /usr/lib/perl*/*/*/Config.pm
   /usr/lib/perl*/*/*/Config_heavy.pl
   /usr/lib/perl*/*/*/Cwd.pm
@@ -869,7 +869,7 @@ perl-base:
   /usr/lib/perl*/*/*/Errno.pm
   /usr/lib/perl*/*/*/Fcntl.pm
   /usr/lib/perl*/*/*/File/Glob.pm
-  /usr/lib/perl*/*/*/File/GlobMapper.pm
+  /usr/lib/perl*/*/File/GlobMapper.pm
   /usr/lib/perl*/*/*/IO.pm
   /usr/lib/perl*/*/*/IO/File.pm
   /usr/lib/perl*/*/*/IO/Handle.pm
@@ -877,7 +877,7 @@ perl-base:
   /usr/lib/perl*/*/*/IO/Seekable.pm
   /usr/lib/perl*/*/*/POSIX.pm
   /usr/lib/perl*/*/*/Socket.pm
-  /usr/lib/perl*/*/*/XSLoader.pm
+  /usr/lib/perl*/*/XSLoader.pm
   /usr/lib/perl*/*/*/auto/Data/Dumper
   /usr/lib/perl*/*/*/auto/DynaLoader
   /usr/lib/perl*/*/*/auto/Fcntl
@@ -910,6 +910,8 @@ perl:
   /usr/lib/perl*/*/Time/localtime.pm
   /usr/lib/perl*/*/Time/tm.pm
   /usr/lib/perl*/*/diagnostics.pm
+  /usr/lib/perl*/*/if.pm
+  /usr/lib/perl*/*/*/mro.pm
   /usr/lib/perl*/*/pod/perldiag.pod
   /usr/lib/perl*/*/sigtrap.pm
   /usr/lib/perl*/*/unicore/Canonical.pl
@@ -971,6 +973,9 @@ open-iscsi:
 
 gpg2:
   /usr/bin/gpg{,2}
+
+libassuan0:
+  /usr/lib*
 
 libzypp:
   /usr/lib*/libzypp.so.*
