@@ -7,7 +7,7 @@ if arch eq 'i386' || arch eq 'x86_64'
   gfxboot-branding-openSUSE:
     /
     e cp -a etc/bootsplash/themes/openSUSE/cdrom/* loader
-    e gfxboot --config-file=loader/gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/11.2/driverupdate
+    e gfxboot --config-file=loader/gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/<suse_release>/driverupdate
 
   # mk_splash dst_dir theme config spl_name
   e ./mk_splash loader openSUSE   800x600 08000600
