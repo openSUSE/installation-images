@@ -143,7 +143,7 @@ if with_yast2 ne 'no'
     /usr/lib*/libXi.so.*
 
   xorg-x11-libs:
-    /usr/lib*/libXaw8.so.*
+    /usr/lib*/libXaw*.so.7*
     /usr/lib*/libXcomposite.so.*
     /usr/lib*/libXcursor.so.*
     /usr/lib*/libXfontcache.so.*
