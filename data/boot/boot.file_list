@@ -9,6 +9,6 @@ memtest86+:
 
 syslinux:
   m /usr/share/syslinux/isolinux.bin /loader
-  m /usr/share/syslinux/gfxboot.com /loader
+  m /usr/share/syslinux/gfxboot.c32 /loader
   e isolinux-config --base=/boot/<arch>/loader loader/isolinux.bin
 
