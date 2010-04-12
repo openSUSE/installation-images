@@ -704,6 +704,14 @@ unscd:
   # remaining files are in root image
   /var/run/nscd
 
+if exists(xorg-x11-driver-input)
+  /lib/udev/rules.d
+endif
+
+if exists(xorg-x11-server)
+  /etc/modprobe.d
+endif
+
 if 0
 if exists(xen-kmp-default)
   xen-kmp-default:

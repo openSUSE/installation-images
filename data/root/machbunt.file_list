@@ -26,6 +26,7 @@ if with_yast2 ne 'no'
 
   if arch ne 's390' && arch ne 's390x'
     xorg-x11-server:
+      /etc/X11/xorg.conf.d
       /usr/bin/Xorg
 
       /usr/lib*/xorg/modules/extensions
@@ -34,6 +35,7 @@ if with_yast2 ne 'no'
       /usr/lib*/xorg/modules/lib*.so
 
     xorg-x11-driver-input:
+      /etc/X11/xorg.conf.d
       /usr/lib*/xorg/modules/input
       /usr/share/hal
 
@@ -61,6 +63,7 @@ if with_yast2 ne 'no'
 
       if arch eq 'i386' || arch eq 'x86_64'
         xorg-x11-driver-virtualbox-ose:
+          /etc/X11/xorg.conf.d
           /usr/lib*/xorg/modules
           /usr/share/hal
       endif
