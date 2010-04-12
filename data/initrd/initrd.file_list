@@ -349,6 +349,11 @@ hal:
   /usr/lib*/libhal.so.*
   /var/cache/hald
 
+if exists(libsmbios2)
+  libsmbios2:
+    /
+endif
+
 libusb-0_1-4:
   /usr/lib*
 
