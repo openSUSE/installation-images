@@ -79,7 +79,6 @@ EndSection
 # Screen Section for module X support
 # -------------------------------------
 Section "Screen"
-  DefaultDepth 16
   SubSection "Display"
     Depth		16
     Modes		"800x600" 

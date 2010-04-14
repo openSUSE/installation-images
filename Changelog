@@ -1,3 +1,6 @@
+14/4/2010:	v11.112
+	- remove DefaultDepth from xorg.conf (bnc #589106)
+
 12/4/2010:	v11.111
 	- hal needs libsmbios2
 
