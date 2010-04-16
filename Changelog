@@ -1,3 +1,6 @@
+16/4/2010:	v11.113
+	- add pgrep (bnc #597242)
+
 14/4/2010:	v11.112
 	- remove DefaultDepth from xorg.conf (bnc #589106)
 

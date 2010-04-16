@@ -369,7 +369,7 @@ module-init-tools:
 
 procps:
   /bin/ps
-  /usr/bin/{free,top,vmstat}
+  /usr/bin/{free,top,vmstat,pgrep}
 
 psmisc:
   m /bin/fuser /usr/bin
