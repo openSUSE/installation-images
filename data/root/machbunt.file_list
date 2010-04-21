@@ -37,7 +37,6 @@ if with_yast2 ne 'no'
     xorg-x11-driver-input:
       /etc/X11/xorg.conf.d
       /usr/lib*/xorg/modules/input
-      /usr/share/hal
 
     xorg-x11-driver-video:
       /usr/lib*/xorg/modules/drivers/ati_drv.so
@@ -65,7 +64,6 @@ if with_yast2 ne 'no'
         xorg-x11-driver-virtualbox-ose:
           /etc/X11/xorg.conf.d
           /usr/lib*/xorg/modules
-          /usr/share/hal
       endif
 
     xterm:

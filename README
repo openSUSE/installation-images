@@ -146,6 +146,9 @@ o <package_name>: [script1,script2]
   <package_name> may be empty, which matters only for disk usage accounting.
   Files are still taken from the last non-empty <package_name>.
 
+  <package_name> can contain '*'s. In that case the latest package version
+  is used. If <package_name> ends in '~' the last but one version is used.
+
   examples:
   
     k_delft:

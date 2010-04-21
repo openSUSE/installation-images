@@ -165,7 +165,7 @@ require Exporter;
 @ISA = qw ( Exporter );
 @EXPORT = qw (
   $Script $BasePath $LibPath $BinPath $CfgPath $ImagePath $DataPath
-  $TmpBase %ConfigData RPMFileName $SUBinary SUSystem Print2File $MToolsCfg $AutoBuild
+  $TmpBase %ConfigData RPMFileName RealRPM $SUBinary SUSystem Print2File $MToolsCfg $AutoBuild
 );
 
 use strict 'vars';
@@ -267,6 +267,32 @@ sub RPMFileName
   # print "$rpm: $file\n" if $file;
 
   return $file;
+}
+
+
+sub RealRPM
+{ 
+  my $rpm = shift;
+  my ($f, @f, $p, $back);
+  local $_;
+
+  my $dir = $ConfigData{'suse_base'};
+
+  $back = 1 if $rpm =~ s/~$//;
+
+  @f = <$dir/$rpm.rpm>;
+  s#^.*/|\.rpm$##g for @f;
+  # @f = grep { !/(-32bit|-debuginfo|-debugsource|-devel)$/ } @f;
+  $p = $rpm;
+  $p = "\Q$p";
+  $p =~ s/\\\*/([0-9_]+)/g;
+  @f = grep { /^$p$/ } @f;
+  @f = sort @f;
+  # for (@f) { print ">$_<\n"; }
+  $f = pop @f;
+  $f = pop @f if $back;
+
+  return $f;
 }
 
 

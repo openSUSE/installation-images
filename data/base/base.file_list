@@ -273,7 +273,7 @@ libldap-2_4-2:
   /usr/lib*/liblber-*.so.*
   /usr/lib*/libldap-*.so.*
 
-libopenssl0_9_8:
+libopenssl*:
   /usr/lib*/libcrypto.so.*
   /usr/lib*/libssl.so.*
 

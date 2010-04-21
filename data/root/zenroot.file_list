@@ -371,7 +371,7 @@ parted:
   /usr/sbin
   /usr/lib*
 
-libopenssl0_9_8:
+libopenssl*:
   /usr/lib*/libcrypto.so.*
   /usr/lib*/libssl.so.*
 

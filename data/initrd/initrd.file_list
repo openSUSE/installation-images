@@ -424,7 +424,7 @@ if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ppc64'
 endif
 # i386/x86_64/ppc
 
-libopenssl0_9_8:
+libopenssl*:
   /usr/lib*/libcrypto.so.*
   /usr/lib*/libssl.so.*
 
@@ -669,9 +669,10 @@ bind-utils:
 bind-libs:
   /usr/lib*
 
+endif
+
 libcap2:
   /lib*
-endif
 
 strace:
   /usr/bin/strace
@@ -705,11 +706,13 @@ unscd:
   /var/run/nscd
 
 if exists(xorg-x11-driver-input)
-  /lib/udev/rules.d
+  xorg-x11-driver-input:
+    /lib/udev/rules.d
 endif
 
 if exists(xorg-x11-server)
-  /etc/modprobe.d
+  xorg-x11-server:
+    /etc/modprobe.d
 endif
 
 if 0

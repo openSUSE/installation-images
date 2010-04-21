@@ -753,8 +753,14 @@ wget:
   /etc
   /usr/bin
 
-libopenssl0_9_8:
+libopenssl*:
   /usr/lib*
+
+# FIXME
+if exists(libopenssl*~)
+  libopenssl*~:
+    /usr/lib*
+endif
 
 openssl:
   /usr/share/ssl

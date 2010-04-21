@@ -277,6 +277,11 @@ sub AddFiles
 
       undef $rc;
       undef $r;
+
+      $r = RealRPM $p;
+      warn("$Script: no such package: $p"), next unless $r;
+      $p = $r;
+
       if($p =~ /^\//) {
         $r = $p;
         warn("$Script: no such package: $r"), next unless -f $r;
@@ -747,7 +752,7 @@ sub fixup_re
     substr($re, length($2), length($3)) = $val;
   }
 
-  $re =~ s/\bexists\(([^)]*)\)/-f(RPMFileName($1)) ? 1 : 0/eg;
+  $re =~ s/\bexists\(([^)]*)\)/RealRPM($1) ? 1 : 0/eg;
 
   return $re;
 }
