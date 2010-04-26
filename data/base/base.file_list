@@ -88,7 +88,8 @@ libpcre0:
   /lib*
 
 findutils:
-  /usr/bin/{find,xargs}
+  /bin
+  /usr/bin
 
 diffutils:
   /usr/bin

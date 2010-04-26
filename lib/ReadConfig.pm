@@ -165,13 +165,14 @@ require Exporter;
 @ISA = qw ( Exporter );
 @EXPORT = qw (
   $Script $BasePath $LibPath $BinPath $CfgPath $ImagePath $DataPath
-  $TmpBase %ConfigData RPMFileName RealRPM $SUBinary SUSystem Print2File $MToolsCfg $AutoBuild
+  $TmpBase %ConfigData ReadFile RealRPM ReadRPM $SUBinary SUSystem Print2File $MToolsCfg $AutoBuild
 );
 
 use strict 'vars';
 use vars qw (
   $Script $BasePath $LibPath $BinPath $CfgPath $ImagePath $DataPath
   $TmpBase %ConfigData $SUBinary &RPMFileName &SUSystem &Print2File $MToolsCfg $AutoBuild
+  $rpmData
 );
 
 sub DebugInfo
@@ -194,95 +195,44 @@ sub DebugInfo
   }
 }
 
-#
-#
-#
-sub RPMFileName
+
+sub ReadFile
 {
-  my ($rpm, $file, @f, $x);
-  local $_;
+  my ($f, $buf);
 
-  $rpm = shift;
+  open $f, $_[0];
+  sysread($f, $buf, -s $_[0]);
+  close $f;
 
-  $file = $ConfigData{'cache_dir'};
-
-  if($ConfigData{'use_cache'} && $file && -f "$file/$rpm.rpm") {
-
-    # print "*$rpm: $file/$rpm.rpm\n";
-
-    return "$file/$rpm.rpm";
-  }
-
-  $file = $ConfigData{'tmp_cache_dir'};
-
-  if($file && -d $file) {
-    $file .= "/.rpms";
-    mkdir $file, 0755 unless -d $file;
-    $file .= "/$rpm.rpm";
-
-    # print "#$rpm: $file\n" if -f $file;
-
-    return $file if -f $file;
-  }
-
-  undef $file;
-
-  for (`cat $ConfigData{'suse_base'}/find-name-rpm 2>/dev/null`) {
-    chomp;
-    s/^\.\///;
-    if(m#/(\Q$rpm\E|\Q$rpm\E\-[^\-]+\-[^\-]+\.[^.\-]+)\.rpm$#) {
-      $file = "$ConfigData{'suse_base'}/$_";
-      last;
-    }
-  }
-
-  if(!$file) {
-    @f = glob "$ConfigData{'suse_base'}/$rpm.rpm";
-    if($f[0] && -f $f[0]) {
-      $file = $f[0];
-    }
-  }
-
-  if(!$file) {
-    @f = glob "$ConfigData{'suse_base'}/$rpm-*-*.rpm";
-    for (@f) {
-      next if /\.src\.rpm$/;
-      if($_ && -f $_ && m#/\Q$rpm\E\-[^\-]+\-[^\-]+\.[^.\-]+\.rpm$#) {
-        $file = $_;
-        last;
-      }
-    }
-  }
-
-  $x = $ConfigData{'tmp_cache_dir'};
-
-  if($file && $x && -d($x)) {
-    $x .= "/.rpms";
-    mkdir $x, 0755 unless -d $x;
-    if(-d $x) {
-      symlink($file, "$x/$rpm.rpm");
-    }
-  }
-
-  # print "$rpm: $file\n" if $file;
-
-  return $file;
+  return $buf;
 }
 
 
+#
+# Returns hash with 'name' and 'file' keys or undef if package does not
+# exist.
+#
 sub RealRPM
 { 
-  my $rpm = shift;
-  my ($f, @f, $p, $back);
   local $_;
+  my $rpm = shift;
+  my ($f, @f, @ff, $p, $back, $n, %n);
+
+  return $rpmData->{$rpm} if exists $rpmData->{$rpm};
 
   my $dir = $ConfigData{'suse_base'};
 
   $back = 1 if $rpm =~ s/~$//;
 
-  @f = <$dir/$rpm.rpm>;
-  s#^.*/|\.rpm$##g for @f;
-  # @f = grep { !/(-32bit|-debuginfo|-debugsource|-devel)$/ } @f;
+  @f = grep { -f } <$dir/$rpm.rpm>;
+  for (@f) {
+    $n = $_;
+    s#^.*/|\.rpm$##g;
+    $n{$_} = $n;
+  }
+
+  return $rpmData->{$rpm} = undef if @f == 0;
+
   $p = $rpm;
   $p = "\Q$p";
   $p =~ s/\\\*/([0-9_]+)/g;
@@ -292,7 +242,114 @@ sub RealRPM
   $f = pop @f;
   $f = pop @f if $back;
 
-  return $f;
+  return $rpmData->{$f} = $rpmData->{$rpm} = { name => $f, file => $n{$f} } ;
+}
+
+
+#
+# 'rpm' is hash as returned from RealRPM().
+#
+sub UnpackRPM
+{
+  my $rpm = shift;
+  my $dir = shift;
+
+  return 1 unless $rpm;
+
+  if(SUSystem "sh -c 'cd $dir ; rpm2cpio $rpm->{file} | cpio --quiet --sparse -dimu --no-absolute-filenames'") {
+    warn "$Script: failed to extract $rpm->{name}";
+    return 1;
+  }
+
+  return 0;
+}
+
+
+#
+# Unpack rpm to cache dir and return path to dir or undef if failed.
+#
+sub ReadRPM
+{
+  local $_;
+  my ($s, $f, @s);
+
+  my $rpm = RealRPM $_[0];
+
+  if(!$rpm) {
+    warn "$Script: no such package: $_[0]";
+    return undef;
+  }
+
+  my $rpm_cmd = "rpm --nosignature";
+  my $dir = "$ConfigData{tmp_cache_dir}/$rpm->{name}";
+  my $tdir = "$dir/rpm";
+
+  return $dir if -d $dir;
+
+  die "$Script: failed to create $dir ($!)" unless mkdir $dir, 0777;
+  die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
+
+  my $err = UnpackRPM $rpm, $tdir;
+
+  if(!$err) {
+    $_ = `$rpm_cmd -qp --qf '%{VERSION}-%{RELEASE}.%{ARCH}' $rpm->{file} 2>/dev/null`;
+    open $f, ">$dir/version";
+    print $f $_;
+    close $f;
+
+    $_ = `$rpm_cmd -qp --requires $rpm->{file} 2>/dev/null`;
+    open $f, ">$dir/requires";
+    print $f $_;
+    close $f;
+
+    @s = `$rpm_cmd -qp --qf '%|PREIN?{PREIN\n}:{}|%|POSTIN?{POSTIN\n}:{}|%|PREUN?{PREUN\n}:{}|%|POSTUN?{POSTUN\n}:{}|' $rpm->{file} 2>/dev/null`;
+    for (@s) {
+      chomp;
+      $_ = "\L$_";
+      $s = `$rpm_cmd -qp --qf '%{\U$_\E}' $rpm->{file} 2>/dev/null`;
+      open $f, ">$dir/$_";
+      print $f $s;
+      close $f;
+    }
+    if(@s) {
+      $s = join ",", @s;
+      open $f, ">$dir/scripts";
+      print $f "\L$s";
+      close $f;
+    }
+  }
+
+  if(!$err && $rpm->{name} eq $ConfigData{kernel_rpm}) {
+    SUSystem "find $tdir -type d -exec chmod a+rx '{}' \\;";
+
+    $_ = <$tdir/lib/modules/*>;
+    if(-d) {
+      s#.*/##;
+      open $f, ">$dir/kernel";
+      print $f $_;
+      close $f;
+    }
+    
+    UnpackRPM RealRPM("$rpm-base"), $tdir;
+    UnpackRPM RealRPM("$rpm-extra"), $tdir;
+
+    my $kmp;
+    for (split(',', $ConfigData{kmp_list})) {
+      ($kmp = $rpm->{name}) =~ s/^kernel/$_-kmp/;
+      print "adding kmp $kmp\n";
+      UnpackRPM RealRPM($kmp), $tdir;
+    }
+
+    for (split(',', $ConfigData{fw_list})) {
+      print "adding firmware $_\n";
+      UnpackRPM RealRPM($_), $tdir;
+    }
+
+    # keep it readable
+    SUSystem "find $tdir -type d -exec chmod a+rx '{}' \\;";
+  }
+
+  return $err ? undef : $dir;
 }
 
 
@@ -330,16 +387,16 @@ sub Print2File
 sub KernelImg
 {
   local $_;
-  my ($k_regexp, @k_files, @k_images, @kernels);
+  my ($k_files, @k_images);
 
-  ($k_regexp, @k_files) = @_;
+  $k_files = shift;
 
-  chomp @k_files;
+  chomp @$k_files;
 
-  for (@k_files) {
-    s#^/boot/##;
+  for (@$k_files) {
+    s#.*/boot/##;
     next if /autoconf|config|shipped|version/;		# skip obvious garbage
-    push @k_images, $_ if m#$k_regexp#;
+    push @k_images, $_ if m#$ConfigData{kernel_img}#;
   }
 
   return @k_images;
@@ -639,57 +696,10 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $tmp_cache_dir .= "/${BasePath}tmp/cache/$ConfigData{dist}";
   $ConfigData{'tmp_cache_dir'} = $tmp_cache_dir;
   system "mkdir -p $tmp_cache_dir" unless -d $tmp_cache_dir;
-  my $use_cache = 0;
 
-  $ENV{'cache'} = 4 unless exists $ENV{'cache'};
-  $use_cache = $ENV{'cache'} if exists $ENV{'cache'};
-  $ConfigData{'use_cache'} = $use_cache;
-
-  if($in_abuild) {
-    my (@k_images2, %k_rpms);
-
-    my @k_images = KernelImg $ConfigData{kernel_img}, (`find $ConfigData{buildroot}/boot -type f`);
-
-    if(!@k_images) {
-      die "Error: No kernel image identified! (Looking for \"$ConfigData{kernel_img}\" in \"$ConfigData{kernel_rpm}\".)\n\n";
-    }
-
-    $i = $ConfigData{buildroot} ? "-r $ConfigData{buildroot}" : "";
-
-    for (@k_images) {
-      $j = `rpm $i -qf /boot/$_ | head -n 1 | sed 's/-[^-]*-[^-]*\$//'` if -f "$ConfigData{buildroot}/boot/$_";
-      chomp $j;
-      undef $j if $j =~ /^file /;	# avoid "file ... not owned by any package"
-      $j =~ s/\-base$//;
-      $k_rpms{$_} = $j if $j;
-      if($j && $j eq $ConfigData{kernel_rpm}) {
-        push @k_images2, $_;
-      }
-    }
-
-    if(@k_images == 1) {
-      # ok, use just this one
-      $ConfigData{kernel_img} = $k_images[0];
-    }
-    else {
-      if(!@k_images2) {
-        die "Error: No kernel image identified! (Looking for \"$ConfigData{kernel_img}\" in \"$ConfigData{kernel_rpm}\".)\n\n";
-      }
-      elsif(@k_images2 > 1) {
-        warn
-          "Warning: Can't identify the real kernel image, choosing the first:\n",
-          join(", ", @k_images2), "\n\n";
-      }
-      $ConfigData{kernel_img} = $k_images2[0];
-    }
-    $ConfigData{kernel_rpm} = $k_rpms{$ConfigData{kernel_img}} if $k_rpms{$ConfigData{kernel_img}};
-
-    $kv = `rpm $i -ql $ConfigData{kernel_rpm} 2>/dev/null | grep -m 1 modules | cut -d / -f 4`;
-  }
-  else {
-    $i = RPMFileName "$ConfigData{kernel_rpm}-base";
-
-    my @k_images = KernelImg $ConfigData{kernel_img}, (`rpm -qlp $i 2>/dev/null | grep ^/boot`);
+  my $k_dir = ReadRPM $ConfigData{kernel_rpm};
+  if($k_dir) {
+    my @k_images = KernelImg [ `find $k_dir/rpm/boot -type f` ];
 
     if(!@k_images) {
       die "Error: No kernel image identified! (Looking for \"$ConfigData{kernel_img}\".)\n\n";
@@ -700,14 +710,9 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     }
 
     $ConfigData{kernel_img} = $k_images[0];
-
-    $kv = `rpm -qlp $i 2>/dev/null | grep -m 1 modules | cut -d / -f 4`;
+    $ConfigData{kernel_ver} = ReadFile "$k_dir/kernel";
+    $ConfigData{module_type} = 'ko';
   }
-  chomp $kv;
-
-  $ConfigData{kernel_ver} = $kv;
-
-  $ConfigData{module_type} = $kv =~ /^2\.[0-4]\./ ? "o" : "ko";
 
   # print STDERR "kernel_img = $ConfigData{kernel_img}\n";
   # print STDERR "kernel_rpm = $ConfigData{kernel_rpm}\n";

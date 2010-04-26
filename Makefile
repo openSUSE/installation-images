@@ -42,7 +42,8 @@ THEMES        := openSUSE
 DESTDIR       := images/instsys
 
 ifneq ($(filter i386 x86_64, $(ARCH)),)
-THEMES        += Zen
+# needs SLES themes
+# THEMES        += Zen
 endif
 
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
