@@ -657,6 +657,11 @@ if exists(xen-kmp-default)
     /etc
 endif
 
+if exists(hyper-v-kmp-default)
+  hyper-v-kmp-default:
+    /etc
+endif
+
 mdadm:
   /sbin
   /lib/udev

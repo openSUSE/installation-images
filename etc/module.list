@@ -183,6 +183,7 @@ kernel/net/llc/
 
 # kmps
 updates/
+extra/
 
 # ofed-kmp
 -updates/drivers/infiniband/
