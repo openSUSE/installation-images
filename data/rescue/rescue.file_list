@@ -700,6 +700,7 @@ mdadm: postin
   /sbin
   /usr/sbin
   /etc
+  /lib
   /var/adm/fillup-templates
   E postin
 

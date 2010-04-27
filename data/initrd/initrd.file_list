@@ -722,6 +722,10 @@ if exists(xen-kmp-default)
 endif
 endif
 
+mdadm:
+  /sbin
+  /lib/udev
+
 if 0
 
 # add alsa
