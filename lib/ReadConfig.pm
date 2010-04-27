@@ -175,6 +175,9 @@ use vars qw (
   $rpmData
 );
 
+use Cwd;
+
+
 sub DebugInfo
 {
   local $_;
@@ -224,11 +227,11 @@ sub RealRPM
 
   $back = 1 if $rpm =~ s/~$//;
 
-  @f = grep { -f } <$dir/$rpm.rpm>;
+  @f = grep { -f } <$ConfigData{cache_dir}/$rpm.rpm $dir/$rpm.rpm>;
   for (@f) {
     $n = $_;
     s#^.*/|\.rpm$##g;
-    $n{$_} = $n;
+    $n{$_} = $n unless exists $n{$_};
   }
 
   return $rpmData->{$rpm} = undef if @f == 0;
@@ -260,6 +263,8 @@ sub UnpackRPM
     warn "$Script: failed to extract $rpm->{name}";
     return 1;
   }
+
+  symlink($rpm->{file}, "$ConfigData{tmp_cache_dir}/.rpms/$rpm->{name}");
 
   return 0;
 }
@@ -688,14 +693,9 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $ConfigData{suse_release} = $rel;
   $ConfigData{suse_xrelease} = $xrel;
 
-  my $cache_dir = `pwd`;
-  chomp $cache_dir;
-  my $tmp_cache_dir = $cache_dir;
-  $cache_dir .= "/${BasePath}cache/$ConfigData{dist}";
-  $ConfigData{'cache_dir'} = $cache_dir;
-  $tmp_cache_dir .= "/${BasePath}tmp/cache/$ConfigData{dist}";
-  $ConfigData{'tmp_cache_dir'} = $tmp_cache_dir;
-  system "mkdir -p $tmp_cache_dir" unless -d $tmp_cache_dir;
+  $ConfigData{cache_dir} = getcwd() . "/${BasePath}cache/$ConfigData{dist}";
+  $ConfigData{tmp_cache_dir} = getcwd() . "/${BasePath}tmp/cache/$ConfigData{dist}";
+  system "mkdir -p $ConfigData{tmp_cache_dir}/.rpms" unless -d "$ConfigData{tmp_cache_dir}/.rpms";
 
   my $k_dir = ReadRPM $ConfigData{kernel_rpm};
   if($k_dir) {
