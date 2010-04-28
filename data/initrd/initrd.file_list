@@ -645,6 +645,7 @@ PolicyKit:
 rpm:
   /usr/bin/rpm2cpio
   /usr/lib*/librpm{,io}.so.*
+  /usr/lib/rpm/rpmrc
 
 liblzma0:
   /lib*/liblzma.so.*
