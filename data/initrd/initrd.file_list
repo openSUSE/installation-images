@@ -1,7 +1,7 @@
 d bin dev etc mnt proc sys tmp
 d var/run var/spool var/lock/libstorage var/tmp var/log/YaST2 var/adm/mount
 d var/lib/YaST2 var/lib/dhcpcd var/lib/hardware/unique-keys var/lib/autoinstall
-d var/run/dbus var/run/hal var/run/hotplug var/cache/fontconfig
+d var/run/dbus var/run/hotplug var/cache/fontconfig
 d var/lib/sshd var/lib/empty var/run/ntp var/lib/rpcbind
 d var/cache/sax/files var/cache/sax/sysp/rdbms var/cache/xfine var/lib/sax
 
@@ -64,11 +64,6 @@ aaa_base: prein
   /etc/rc.status
 
 dbus-1: prein
-  e save_cfg etc/passwd etc/shadow etc/group
-  e prein
-  e restore_cfg etc/passwd etc/shadow etc/group
-
-hal: prein
   e save_cfg etc/passwd etc/shadow etc/group
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
@@ -227,7 +222,7 @@ if (arch eq 's390' || arch eq 's390x') && 0
     pam:
       /lib*/libpam.so.*
 
-    audit-libs:
+    libaudit*:
       /lib*/libaudit.so.*
 
     cups-libs:
@@ -370,10 +365,6 @@ sysfsutils:
 dbus-1:
   /lib*/libdbus-1.so.*
 
-hal:
-  /usr/lib*/libhal.so.*
-  /var/cache/hald
-
 libusb-0_1-4:
   /usr/lib*
 
@@ -479,9 +470,7 @@ coreutils:
   /bin/uname
 
 pcmciautils:
-  /etc/udev/rules.d/60-pcmcia.rules
-  /etc/pcmcia/config.opts
-  /lib/udev/pcmcia-socket-startup
+  /
 
 bash:
   /bin/{sh,bash}
@@ -596,7 +585,6 @@ udev:
   /lib/udev
   /sbin
 x etc/myudevstart /bin
-r /etc/init.d
   # add some md devices statically
   b 9  0 /lib/udev/devices/md0
   b 9  1 /lib/udev/devices/md1
@@ -616,7 +604,6 @@ r /etc/init.d
   b 9 15 /lib/udev/devices/md15
 
 # our own rules file which loads only pnp subsystem mods
-# r /etc/udev/rules.d/*-drivers.rules
   x etc/80-drivers.rules /lib/udev/80-drivers.rules.no_modprobe
 
 sysconfig:
@@ -706,6 +693,11 @@ unscd:
   # remaining files are in root image
   /var/run/nscd
 
+if exists(virtualbox-ose-guest-tools)
+  virtualbox-ose-guest-tools:
+    /etc/udev/rules.d
+endif
+
 if exists(xorg-x11-driver-input)
   xorg-x11-driver-input:
     /lib/udev/rules.d
@@ -724,8 +716,17 @@ endif
 endif
 
 mdadm:
-  /sbin
-  /lib/udev
+  /
+
+kpartx:
+  /
+
+device-mapper:
+  /
+
+multipath-tools:
+  /etc/udev/rules.d
+  /var/cache/multipath
 
 if 0
 
@@ -766,51 +767,10 @@ libgmodule-2_0-0:
 endif
 
 
-# add hal & dbus
-if 0
-
-  glibc:
-    /lib*/libpthread{.,-}*
-
-  libxml2:
-    /usr/lib*/libxml2.so.*
-
-  libexpat1:
-    /lib*/libexpat.so.*
-
-  glib2:
-    /usr/lib*/libglib-2.0.so.*
-    /usr/lib*/libgobject-2.0.so.*
-
-  dbus-1-glib:
-    /lib*/libdbus-glib-1.so.*
-    /bin/dbus-monitor
-
-  e cp /etc/{passwd,shadow,group} etc
-  dbus-1: prein
-    /etc
-    /usr/bin/dbus-daemon
-
-    e save_cfg etc/passwd etc/shadow etc/group
-    e prein
-    e restore_cfg etc/passwd etc/shadow etc/group
-
-  hal: prein
-    /etc
-    /usr/bin/lshal
-    /usr/sbin/hald*
-    
-    e save_cfg etc/passwd etc/shadow etc/group
-    e prein
-    e restore_cfg etc/passwd etc/shadow etc/group
-
-
-  # + bash for testing
-
-endif
-
-
 :
+
+# remove, ehm, things...
+r /usr/share/doc /usr/share/man /var/adm/fillup-templates
 
 x etc/prepare_rescue bin
 

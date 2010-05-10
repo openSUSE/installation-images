@@ -105,11 +105,11 @@ done
 
 ldconfig
 
-# start dbus & hal
-if [ -x /bin/dbus-daemon -a -x /usr/sbin/hald ] ; then
-  rm -f /var/run/dbus/pid /var/run/hal/haldaemon.pid
-  echo -n "starting hald..."
-  if /bin/dbus-daemon --system && /usr/sbin/hald ; then
+# start dbus
+if [ -x /bin/dbus-daemon ] ; then
+  rm -f /var/run/dbus/pid
+  echo -n "starting dbus..."
+  if /bin/dbus-daemon --system ; then
     echo " ok"
   else
     echo " failed"
@@ -259,7 +259,6 @@ fi
 rcnscd stop
 
 # stop various daemons
-killall hald >/dev/null 2>&1
 killall dbus-daemon >/dev/null 2>&1
 killall slpd >/dev/null 2>&1
 killall Xvnc >/dev/null 2>&1

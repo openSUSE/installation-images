@@ -110,10 +110,6 @@ libgthread-2_0-0:
 libudev0:
   /lib*
 
-udev:
-  /etc
-  /sbin
-
 sysfsutils:
   /lib*/libsysfs.so*
 
@@ -133,12 +129,6 @@ dbus-1-glib:
 
 dbus-1: prein
   /
-  e save_cfg etc/passwd etc/shadow etc/group
-  e prein
-  e restore_cfg etc/passwd etc/shadow etc/group
-
-hal: prein
- /
   e save_cfg etc/passwd etc/shadow etc/group
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
@@ -573,8 +563,7 @@ lvm2:
   /sbin/vg*
 
 device-mapper:
-  /lib*
-  /sbin
+  /<lib>
 
 reiserfs:
   /sbin
@@ -697,7 +686,7 @@ pam:
   /lib*
   /sbin
 
-audit-libs:
+libaudit*:
   /lib*/libaudit.so.*
 
 pam-modules:
@@ -756,12 +745,6 @@ wget:
 libopenssl*:
   /usr/lib*
 
-# FIXME
-if exists(libopenssl*~)
-  libopenssl*~:
-    /usr/lib*
-endif
-
 openssl:
   /usr/share/ssl
 
@@ -782,9 +765,6 @@ xz:
 
 liblzma0:
   /lib*/liblzma.so.*
-
-mdadm:
-  /sbin
 
 iproute2:
   /sbin/ip
@@ -969,9 +949,6 @@ perl-XML-NamespaceSupport:
 perl-XML-Bare:
   /usr/lib
 
-pcmciautils:
-  /
-
 open-iscsi:
   /sbin
   /etc/iscsi/iscsid.conf
@@ -1003,12 +980,6 @@ multipath-tools:
 
 libaio:
   /lib*/libaio.so.*
-
-kpartx:
-  /etc/udev
-  /lib/udev
-  /sbin/kpartx*
-  /sbin/activate_dm_linear
 
 cryptsetup:
   /sbin

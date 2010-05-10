@@ -327,14 +327,21 @@ sub ReadRPM
   if(!$err && $rpm->{name} eq $ConfigData{kernel_rpm}) {
     SUSystem "find $tdir -type d -exec chmod a+rx '{}' \\;";
 
-    $_ = <$tdir/lib/modules/*>;
-    if(-d) {
-      s#.*/##;
+    my $kv;
+
+    $kv = <$tdir/lib/modules/*>;
+
+    if(-d $kv) {
+      $kv =~ s#.*/##;
       open $f, ">$dir/kernel";
-      print $f $_;
+      print $f $kv;
       close $f;
     }
-    
+    else {
+      $err = 1;
+      undef $kv;
+    }
+
     UnpackRPM RealRPM("$rpm-base"), $tdir;
     UnpackRPM RealRPM("$rpm-extra"), $tdir;
 
@@ -352,6 +359,15 @@ sub ReadRPM
 
     # keep it readable
     SUSystem "find $tdir -type d -exec chmod a+rx '{}' \\;";
+
+    # if kmp version differs, copy files to real kernel tree
+    for (<$tdir/lib/modules/*>) {
+      s#.*/##;
+      next if $_ eq $kv;
+      print "warning: kmp/firmware version mismatch: $_\n";
+      SUSystem "sh -c 'tar -C $tdir/lib/modules/$_ -cf - . | tar -C $tdir/lib/modules/$kv -xf -'";
+    }
+
   }
 
   return $err ? undef : $dir;

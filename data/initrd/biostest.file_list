@@ -56,13 +56,6 @@ libopensc2:
   /usr/lib*/libopensc.so.*
   /usr/lib*/libscconf.so.*
 
-# FIXME
-if exists(libopenssl*~)
-  libopenssl*~:
-    /usr/lib*/libcrypto.so.*
-    /usr/lib*/libssl.so.*
-endif
-
 krb5:
   /etc
   /usr/lib*/libkrb5.so.*

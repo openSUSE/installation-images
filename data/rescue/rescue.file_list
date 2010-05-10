@@ -347,7 +347,7 @@ pam:
   /{etc,lib*,sbin}
   R s/(pam_unix2.so)\s*$/$1 nullok\n/ /etc/pam.d/common-auth
 
-audit-libs:
+libaudit*:
   /lib*/libaudit.so.*
 
 pam-modules:
@@ -470,13 +470,6 @@ libldap-2_4-2:
 libopenssl*:
   /usr/lib*/libcrypto.so.*
   /usr/lib*/libssl.so.*
-
-# FIXME
-if exists(libopenssl*~)
-  libopenssl*~:
-    /usr/lib*/libcrypto.so.*
-    /usr/lib*/libssl.so.*
-endif
 
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*

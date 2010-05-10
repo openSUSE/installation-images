@@ -267,7 +267,7 @@ pwdutils:
 pam:
   /{etc,lib*,sbin}
 
-audit-libs:
+libaudit*:
   /lib*/libaudit.so.*
 
 libldap-2_4-2:
