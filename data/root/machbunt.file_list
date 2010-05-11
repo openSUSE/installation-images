@@ -312,6 +312,10 @@ libjpeg8:
 
 sax2-tools:
   /usr/sbin/testX
+  /usr/sbin/xkbctrl
+
+sax2-ident:
+  /usr/share/sax/sysp/maps/Keyboard.map
 
 vim:
   m /bin/vim-normal /bin/vim
