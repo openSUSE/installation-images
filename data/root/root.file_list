@@ -179,11 +179,15 @@ nfs-client:
   /usr/sbin/start-statd
   /usr/sbin/showmount
 
-libncurses5:
-  /lib*/libncurses.so.5*
-  /lib*/libncursesw.so.5*
-  /usr/lib*/libpanelw.so.5*
-  /usr/lib*/libtic.so.5.*
+libncurses*:
+  /lib*/libncurses.so.*
+  /lib*/libncursesw.so.*
+  /usr/lib*/libpanelw.so.*
+  /usr/lib*/libtic.so.*
+
+libncurses*~:
+  /lib*/libncurses.so.*
+  /lib*/libncursesw.so.*
 
 ncurses-utils:
   /usr/bin/reset
@@ -759,6 +763,19 @@ libbz2-1:
 
 unzip:
   /usr/bin/unzip
+
+librcc*:
+  /usr/lib*/librcc.so.*
+
+librcd*:
+  /
+
+libenca*:
+  /
+
+# only for librcc
+aspell:
+  /usr/lib64/libaspell.so.*
 
 xz:
   /usr/bin/xzdec
