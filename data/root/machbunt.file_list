@@ -180,6 +180,7 @@ if with_yast2 ne 'no'
     /var/cache/fontconfig
 
   xorg-x11:
+    /etc/X11/xdm/Keyboard.map
     /usr/share/X11/rgb.txt
 
     /usr/bin/mkfontdir
@@ -313,9 +314,6 @@ libjpeg8:
 sax2-tools:
   /usr/sbin/testX
   /usr/sbin/xkbctrl
-
-sax2-ident:
-  /usr/share/sax/sysp/maps/Keyboard.map
 
 vim:
   m /bin/vim-normal /bin/vim
