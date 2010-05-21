@@ -775,7 +775,7 @@ libenca*:
 
 # only for librcc
 aspell:
-  /usr/lib64/libaspell.so.*
+  /usr/lib*/libaspell.so.*
 
 xz:
   /usr/bin/xzdec

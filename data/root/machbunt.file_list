@@ -291,14 +291,6 @@ if with_yast2 ne 'no'
   libgthread-2_0-0:
    /usr/lib*/libgthread-2.0.so.*
 
-  if arch ne 's390' && arch ne 's390x'
-    yast2-x11:
-      /
-      r usr/share/YaST2/modules/XLib.pm
-      # hack: remove 'Env'
-      # e perl -pi -e "\$_ = undef if /^use Env;/" usr/share/YaST2/modules/XLib.pm
-  endif
-
   dejavu:
     /usr/share/fonts/truetype/DejaVuSans*.ttf
     r /usr/share/fonts/truetype/DejaVuSansCondensed*
