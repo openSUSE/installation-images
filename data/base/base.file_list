@@ -275,8 +275,8 @@ libldap-2_4-2:
   /usr/lib*/libldap-*.so.*
 
 libopenssl*:
-  /usr/lib*/libcrypto.so.*
-  /usr/lib*/libssl.so.*
+  /lib*/libcrypto.so.*
+  /lib*/libssl.so.*
 
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*

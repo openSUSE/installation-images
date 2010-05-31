@@ -747,7 +747,7 @@ wget:
   /usr/bin
 
 libopenssl*:
-  /usr/lib*
+  /lib*
 
 openssl:
   /usr/share/ssl

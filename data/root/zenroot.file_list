@@ -372,8 +372,8 @@ parted:
   /usr/lib*
 
 libopenssl*:
-  /usr/lib*/libcrypto.so.*
-  /usr/lib*/libssl.so.*
+  /lib*/libcrypto.so.*
+  /lib*/libssl.so.*
 
 hex:
   /usr/bin/hex

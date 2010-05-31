@@ -416,8 +416,8 @@ endif
 # i386/x86_64/ppc
 
 libopenssl*:
-  /usr/lib*/libcrypto.so.*
-  /usr/lib*/libssl.so.*
+  /lib*/libcrypto.so.*
+  /lib*/libssl.so.*
 
 curl:
   /usr/bin/curl
