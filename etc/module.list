@@ -171,7 +171,8 @@ kernel/drivers/uio/uio.ko
 kernel/drivers/misc/cb710/
 kernel/net/phonet/phonet.ko
 kernel/drivers/mfd/ab3100-core.ko
-kernel/drivers/gpu/drm/
+# kernel/drivers/gpu/drm/
+kernel/drivers/gpu/drm/drm.ko
 kernel/drivers/video/sis/
 
 # kmps
