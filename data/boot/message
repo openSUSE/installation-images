@@ -4,21 +4,17 @@
 
 
 
-0fTo start the installation enter 'linux' and press <return>.07
+To start the installation enter 'linux' and press <return>.
 
 
 Available boot options:
 
-  harddisk  - Boot from Harddisk (this is default)
+  harddisk  - Boot from Hard Disk (this is default)
   linux     - Installation
-  noacpi    - Installation - ACPI Disabled
-  nolapic   - Installation - Local APIC Disabled
-  failsafe  - Installation - Safe Settings
   rescue    - Rescue System
+  mediachk  - Check Installation Media
   firmware  - Firmware Test
   memtest   - Memory Test
-
-'noacpi', 'nolapic', or 'failsafe' may be necessary on some tricky hardware.
 
 Have a lot of fun...
 
