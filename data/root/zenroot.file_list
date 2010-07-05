@@ -186,6 +186,9 @@ libblkid1:
 libsmbios2:
   /usr/lib*/libsmbios.so.*
 
+libsmbios-bin:
+  /
+
 libreiserfs:
   /usr/lib*/libdal-*.so.*
   /usr/lib*/libreiserfs-*.so.*
