@@ -1,6 +1,7 @@
-2/7/2010:	v11.115
+5/7/2010:	v11.115
 	- add libsmbios-bin to Zenworks image
 	- new HyperV modules
+	- added VMware theme
 
 26/4/2010:	v11.114
 	- add MS HyperV PV drivers

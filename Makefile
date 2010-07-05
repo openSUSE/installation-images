@@ -40,6 +40,7 @@ THEMES        := openSUSE SLES SLED
 DESTDIR       := images/instsys
 
 ifneq ($(filter i386 x86_64, $(ARCH)),)
+THEMES        += SLES-for-VMware
 THEMES        += Zen
 endif
 

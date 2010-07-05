@@ -111,6 +111,16 @@ update	= /linux/suse/<arch>-<sled>
 image	= 200
 
 
+[Theme SLES-for-VMware]
+yast	= SLED
+bsplash = openSUSE
+ksplash	= SLES
+product	= SUSE Linux Enterprise for VMware
+version = 11.1
+update	= /linux/suse/<arch>-<sled>
+image	= 200
+
+
 [Theme Zen]
 yast    = SLED
 bsplash = SLES
