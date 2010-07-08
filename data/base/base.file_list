@@ -314,6 +314,8 @@ if arch eq 'i386' || arch eq 'x86_64'
     /
   bootsplash-branding-SLED:
     /
+  bootsplash-branding-SLES-for-VMware:
+    /
 endif
 
 :

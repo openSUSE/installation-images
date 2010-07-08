@@ -113,8 +113,8 @@ image	= 200
 
 [Theme SLES-for-VMware]
 yast	= SLED
-bsplash = openSUSE
-ksplash	= SLES
+bsplash = SLES-for-VMware
+ksplash	= SLES-for-VMware
 product	= SUSE Linux Enterprise for VMware
 version = 11.1
 update	= /linux/suse/<arch>-<sled>
