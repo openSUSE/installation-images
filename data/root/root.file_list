@@ -510,6 +510,11 @@ endif
   autoyast2-installation:
     /
 
+  if exists(yast2-vmware-warning)
+    yast2-vmware-warning:
+      /
+  endif
+
   if exists(sap-media-changer)
     sap-media-changer:
       /
