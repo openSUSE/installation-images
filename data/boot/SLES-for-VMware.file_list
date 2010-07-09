@@ -20,7 +20,7 @@ if arch eq 'i386' || arch eq 'x86_64'
   e ./mk_splash loader SLES-for-VMware 1600x1200 16001200
   e ./mk_splash loader SLES-for-VMware 1920x1200 19201200
 
-  r mk_splash etc var
+  r mk_splash etc var usr
 
   x message loader
   R s/product_name/<product_name>/ loader/message
