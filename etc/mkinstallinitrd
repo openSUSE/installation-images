@@ -91,14 +91,14 @@ die "style $opt_style not supported\n" unless $opt_style ne "" && -f "$lib_dir/$
 $override .= "-override-$opt_kernel_style";
 
 open F, "$lib_dir/$opt_style/module.list";
-my @modules = (<F>);
+chomp (my @modules = (<F>));
 close F;
 
 my @mod_files;
 
 if(-d "$kernel_dir/lib/modules/$opt_kernel-$opt_kernel_style") {
   for (@modules) {
-    push @mod_files, scalar(`cd $kernel_dir/ ; find lib/modules/$opt_kernel-$opt_kernel_style/ -name $_ 2>/dev/null`);
+    push @mod_files, scalar(`cd $kernel_dir/ ; find lib/modules/$opt_kernel-$opt_kernel_style/{updates,weak-updates,extra,} -name $_ 2>/dev/null | head -n 1`);
   }
 }
 
