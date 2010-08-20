@@ -327,8 +327,10 @@ utempter:
 efont-unicode:
   /usr/share/fonts/misc/b16.pcf.gz
 
-desktop-data-openSUSE:
+dmz-icon-theme-cursors:
   /usr/share/icons/DMZ
+
+desktop-data-openSUSE:
   /usr/share/icons/hicolor/32x32/apps/package_utility_desktop.png
 
 multipath-tools:
@@ -341,10 +343,13 @@ pango:
   /etc
   /usr/lib*
 
-cairo:
-  /usr/lib*
+xorg-x11-libxcb:
+  /usr/lib*/libxcb-shm.so.*  
 
-libgmodule-2_0-0:
+libcairo*:
+  /
+
+libgmodule-2_0-*:
   /
 
 xorg-x11-libxcb:

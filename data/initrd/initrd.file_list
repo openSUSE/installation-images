@@ -372,18 +372,19 @@ libusb-1_0-0:
   /usr/lib*
 
 libuuid1:
-  /lib*/libuuid.so.*
+  /
 
 libblkid1:
-  /lib*/libblkid.so.*
+  /
 
 hwinfo:
-  /usr/lib*/libhd.so.*
+  /usr/lib*
   /usr/sbin/hwinfo
+  /var
 
 if exists(libx86emu1)
-libx86emu1:
-  /usr/lib*
+  libx86emu1:
+    /
 endif
 
 if arch eq 'ia64' || arch eq 'i386' || arch eq 'x86_64'
@@ -721,6 +722,9 @@ mdadm:
 kpartx:
   /
 
+libsepol*:
+  /
+
 device-mapper:
   /
 
@@ -770,7 +774,7 @@ endif
 :
 
 # remove, ehm, things...
-r /usr/share/doc /usr/share/man /var/adm/fillup-templates
+r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
 
 x etc/prepare_rescue bin
 

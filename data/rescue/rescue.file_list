@@ -275,6 +275,9 @@ lvm2: postin
   /var
 e postin
 
+libsepol1:
+  /
+
 device-mapper: postin
   /etc
   /lib*
@@ -515,18 +518,15 @@ endif
   /bin/usleep
 e postin
 
+libmount*:
+  /
+
 util-linux: postin
-  /etc
-  /bin
-  /sbin
-  /usr/bin
-  /usr/sbin
+  /
 e postin
 
 nfs-client:
-  /sbin
-  /usr/sbin
-  /var/lib/nfs
+  /
 
 nfsidmap:
   /usr/lib*/libnfsidmap.so.*
@@ -534,12 +534,11 @@ nfsidmap:
 librpcsecgss:
   /usr/lib*/librpcsecgss.so.*
 
-libgssglue1:
-  /etc
-  /lib*/libgssglue.so.*
+libgssglue*:
+  /
 
-libevent-1_4-2:
-  /usr/lib*/libevent-*.so.*
+libevent-1_4-*:
+  /
 
 if arch eq 'ppc' || arch eq 'ppc64'
 librtas:
@@ -850,6 +849,9 @@ endif
 
 :
 
+# remove, ehm, things...
+r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+
 e insserv -f -r etc/init.d/boot.rootfsck
 r etc/init.d/boot.rootfsck
 
@@ -884,6 +886,4 @@ E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 E /sbin/SuSEconfig --force --norestarts
 
 d lib/firmware usr/lib/microcode
-
-r /var/adm/fillup-templates
 

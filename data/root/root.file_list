@@ -85,11 +85,10 @@ joe:
 
 hwinfo:
   /usr/lib*
-  /usr/sbin
 
 if exists(libx86emu1)
-libx86emu1:
-  /usr/lib*
+  libx86emu1:
+    /
 endif
 
 libxml2:
@@ -157,21 +156,11 @@ libelf1:
 liblua5_1:
   /
 
+libmount*:
+  /
+
 util-linux:
-  /bin/{u,}mount
-  /bin/dmesg
-  /bin/logger
-  /sbin/losetup
-  /sbin/blockdev
-  if arch ne 'ia64'
-    /sbin/fdisk
-    /sbin/sfdisk
-  endif
-  /usr/sbin/setctsid
-  /usr/bin/getopt
-  /usr/bin/uuidgen
-  /usr/sbin/addpart
-  /usr/sbin/delpart
+  /
 
 nfs-client:
   /sbin/{u,}mount.nfs*
@@ -566,6 +555,9 @@ lvm2:
   /sbin/pv* 
   /sbin/vg*
 
+libsepol*:
+  /
+
 device-mapper:
   /<lib>
 
@@ -917,10 +909,6 @@ perl:
   /usr/lib/perl*/*/*/mro.pm
   /usr/lib/perl*/*/pod/perldiag.pod
   /usr/lib/perl*/*/sigtrap.pm
-  /usr/lib/perl*/*/unicore/Canonical.pl
-  /usr/lib/perl*/*/unicore/Exact.pl
-  /usr/lib/perl*/*/unicore/PVA.pl
-  /usr/lib/perl*/*/unicore/lib/gc_sc/SpacePer.pl
   /usr/lib/perl*/*/*/CORE/libperl.so
   /usr/lib/perl*/*/*/Config.pm
   /usr/lib/perl*/*/*/Config_git.pl
@@ -943,8 +931,6 @@ perl:
 #  /usr/lib/perl*/vendor_perl/*/*/bits/unistd.ph
 #  /usr/lib/perl*/vendor_perl/*/*/unistd.ph
   /usr/lib/perl*/*/*/Compress
-  /usr/lib/perl*/*/*/IO/Compress
-  /usr/lib/perl*/*/*/IO/Uncompress
   /usr/lib/perl*/*/*/auto/Compress
   r /usr/lib/perl*/*/CPANPLUS
 
@@ -1037,6 +1023,9 @@ endif
 
 :
 
+# remove, ehm, things...
+r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+
 if instsys_complain_root
   e echo "InstsysComplain:	<instsys_complain_root>" >>.instsys.config
 endif
@@ -1047,8 +1036,6 @@ endif
 
 # final clean up
 r /etc/X11/xserver/C
-r /usr/share/doc /usr/share/man
-
 r /sbin/insserv
 
 # some scripts write to /dev/null...
