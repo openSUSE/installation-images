@@ -1,3 +1,7 @@
+25/8/2010:	v11.116
+	- use new all=1 tag to url to keep searching duds on all usb devices (bnc #596456)
+	- use quiet=1 to redirect dud url message to log
+
 5/7/2010:	v11.115
 	- add libsmbios-bin to Zenworks image
 	- new HyperV modules
