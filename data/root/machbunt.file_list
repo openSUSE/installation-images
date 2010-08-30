@@ -225,12 +225,14 @@ if with_yast2 ne 'no'
       /lib/libm.so.6
   endif
 
-  xorg-x11-Xvnc:
-    /usr/bin/Xvnc
+  if exists(xorg-x11-Xvnc)
+    xorg-x11-Xvnc:
+      /usr/bin/Xvnc
 
-  tightvnc:
-    /usr/bin/vncpasswd.arg
-    /usr/share/vnc/classes
+    tightvnc:
+      /usr/bin/vncpasswd.arg
+      /usr/share/vnc/classes
+  endif
 
   Mesa:
     /usr/lib*/dri/swrast_dri.so
