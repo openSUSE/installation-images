@@ -1,3 +1,6 @@
+7/9/2010:	v8.147
+	- use all=1 tag to keep searching on all usb devices (bnc #596456)
+
 15/9/2009:	v8.146
 	- change some s390 message (bnc #537217)
 
