@@ -47,10 +47,10 @@ for theme in $THEMES ; do
     mv $DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader/initrd
   fi
 
-  cp etc/README $DESTDIR/branding/$theme/CD1/boot/$ARCH
-  recode utf8..ibmpc <$DESTDIR/branding/$theme/CD1/boot/$ARCH/README >$DESTDIR/branding/$theme/CD1/boot/$ARCH/README.DOS
-  cp etc/LIESMICH $DESTDIR/branding/$theme/CD1/boot/$ARCH
-  recode utf8..ibmpc <$DESTDIR/branding/$theme/CD1/boot/$ARCH/LIESMICH >$DESTDIR/branding/$theme/CD1/boot/$ARCH/LIESMICH.DOS
+  # cp etc/README $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  # recode utf8..ibmpc <$DESTDIR/branding/$theme/CD1/boot/$ARCH/README >$DESTDIR/branding/$theme/CD1/boot/$ARCH/README.DOS
+  # cp etc/LIESMICH $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  # recode utf8..ibmpc <$DESTDIR/branding/$theme/CD1/boot/$ARCH/LIESMICH >$DESTDIR/branding/$theme/CD1/boot/$ARCH/LIESMICH.DOS
 
   # create boot floppies and put them in ftp tree
   if [ "$WITH_FLOPPY" = 1 ] ; then
