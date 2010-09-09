@@ -1,3 +1,6 @@
+9/9/2010:	v8.148
+	- add some perl packages needed by the new sap-media-changer
+
 7/9/2010:	v8.147
 	- use all=1 tag to keep searching on all usb devices (bnc #596456)
 

@@ -422,6 +422,36 @@ endif
 if arch eq 'x86_64'
   sap-media-changer:
     /
+  perl:
+    /usr/lib/perl*/*/Carp.pm
+    /usr/lib/perl*/*/Fatal.pm
+    /usr/lib/perl*/*/File/Find.pm
+    /usr/lib/perl*/*/File/Basename.pm
+    /usr/lib/perl*/*/*/Cwd.pm
+    /usr/lib/perl*/*/*/auto/Cwd/Cwd.so
+    /usr/lib/perl*/*/*/re.pm
+    /usr/lib/perl*/*/Scalar/Util.pm
+    /usr/lib/perl*/*/List/Util.pm
+    /usr/lib/perl*/*/*/auto/List/Util/Util.so
+    /usr/lib/perl*/*/File/Spec.pm
+    /usr/lib/perl*/*/File/Spec/Unix.pm
+  yast2-perl-bindings:
+    /usr/lib/perl*/*/*/*/YaST/YCP.pm
+    /usr/lib/perl*/*/*/*/auto/YaST/YCP
+  perl-XML-LibXML:
+    /usr/lib/perl*/*/*/*/XML/LibXML*
+    /usr/lib/perl*/*/*/*/*/XML/LibXML
+  perl-XML-LibXML-Common:
+    /usr/lib/perl*/*/*/*/XML/LibXML*
+    /usr/lib/perl*/*/*/*/*/XML/LibXML
+  perl-XML-NamespaceSupport:
+    /usr/lib/perl*/*/*/*/*/XML/NamespaceSupport
+    /usr/lib/perl*/*/*/XML/NamespaceSupport.pm
+  perl-XML-SAX:
+    /usr/lib/perl*/*/*/*/*/XML/SAX
+    /usr/lib/perl*/*/*/XML/SAX.pm
+    /usr/lib/perl*/*/*/XML/SAX/Exception.pm
+  
 endif
 
 
