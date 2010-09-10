@@ -43,6 +43,7 @@ kernel/drivers/usb/net/
 kernel/drivers/usb/serial/
 kernel/drivers/usb/input/usbhid.ko
 kernel/drivers/hid/
+-kernel/drivers/hid/hid-prodikeys.ko
 kernel/drivers/input/ff-memless.ko
 kernel/drivers/char/nvram.ko
 kernel/drivers/char/agp/
@@ -130,6 +131,10 @@ kernel/drivers/crypto/geode-aes.ko
 kernel/drivers/video/vga16fb.ko
 kernel/drivers/video/vgastate.ko
 kernel/drivers/video/output.ko
+kernel/drivers/video/fb_sys_fops.ko
+kernel/drivers/video/sysimgblt.ko
+kernel/drivers/video/sysfillrect.ko
+kernel/drivers/video/syscopyarea.ko
 
 kernel/arch/i386/kernel/msr.ko
 
