@@ -1,10 +1,16 @@
-d bin dev etc home lib mnt proc sys sbin tmp var
+d bin dev etc home lib mnt proc sys sbin tmp var root
 d media/{cdrom,floppy}
 d lib/modules
 c 1777 0 0 tmp
 
 # some basic devices
 e cp -a /dev/* dev
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# packages without scripts
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 fillup:
   /bin
@@ -30,28 +36,6 @@ iproute2:
 insserv:
   /etc
   /sbin
-
-aaa_base: prein,postin
-e prein
-  /etc
-r /etc/{csh*,default*,mailcap,mime.types,permissions*}
-r /etc/{rc.d.README,runlevel.fallback,zshrc,cron.daily}
-  /sbin
-r /sbin/quick_*
-  /root
-r /etc/init.d/rc?.d/*kerneld
-r /etc/init.d/rc?.d/*cron
-r /etc/init.d/rc?.d/*pcnfsd
-r /etc/init.d/rc?.d/*routed
-r /etc/init.d/rc?.d/*nfs
-r /etc/init.d/rc?.d/*xdm
-  /usr/bin
-r /usr/bin/ChangeSymlinks
-  /lib/YaST/SuSEconfig.functions
-  /var/adm/fillup-templates
-e postin
-# r /etc/init.d/{README,boot.d/S10serial,cron,kerneld,nfs,pcnfsd,powerfail,routed,serial,skeleton,xdm}
-t /etc/fstab
 
 libpcre0:
   /lib*
@@ -175,7 +159,7 @@ libselinux1:
 gpart:
   /usr/bin
 
-if arch eq 'sparc' || arch eq 'sparc64'
+if exists(silo)
   silo:
     /sbin/silo
 endif
@@ -210,27 +194,29 @@ bzip2:
 libbz2-1:
   /lib*/libbz2.so*	
 
-if arch eq 'i386' || arch eq 'x86_64'
+if exists(lilo)
   lilo:
-    /sbin
-    /usr/sbin
+    /
 endif
 
-if arch eq 'ppc' || arch eq 'ppc64'
+if exists(pdisk)
   pdisk:
     /sbin/pdisk
+
   iprutils:
     /sbin
     /usr/sbin
+
   libncurses5:
     /usr/lib*/libpanel.so.*
     /usr/lib*/libform.so.*
     /usr/lib*/libmenu.so.*
+
   eject:
     /bin
 endif
 
-if arch eq 's390' || arch eq 's390x'
+if exists(s390-tools)
   s390-tools:
     /sbin
 endif
@@ -248,9 +234,9 @@ sdparm:
 smp_utils:
   /usr/bin
 
-if arch eq 'i386' || arch eq 'x86_64'
+if exists(grub)
   grub:
-    /usr/{bin,sbin,lib}
+    /
 endif
 
 if arch eq 'x86_64'
@@ -261,28 +247,13 @@ if arch eq 'x86_64'
     /lib/libncurses.so.*
 endif
 
-if arch eq 'ia64'
+if exists(efibootmgr)
   efibootmgr:
-    /usr/sbin
+    /
 
   libunwind:
-    /lib/libunwind.so*
+    /lib*/libunwind.so.*
 endif
-
-lvm2: postin
-  /etc
-  /sbin
-  /var
-e postin
-
-libsepol1:
-  /
-
-device-mapper: postin
-  /etc
-  /lib*
-  /sbin
-e postin
 
 libncurses5:
   /lib*/libncurses.so.*
@@ -300,12 +271,6 @@ ncurses-utils:
 terminfo:
   /usr/share/terminfo/i/ibm3151
 
-module-init-tools: postin
-  /etc
-  /sbin/{insmod,modprobe,rmmod,depmod,modinfo}
-  /bin/lsmod
-E postin
-
 net-tools:
   /{,s}bin
   /usr/sbin
@@ -320,15 +285,6 @@ netcfg:
   /etc
 r /etc/{diphosts,ftpusers,hosts.*}
 e echo Rescue.local >etc/HOSTNAME
-
-if 0
-# conflicts with nfs-utils
-nfs-server: postin
-  /etc/init.d
-  /usr/sbin/{rpc.*,showmount}
-  /var/lib/nfs
-e postin
-endif
 
 icmpinfo:
   /usr/sbin/icmpinfo
@@ -347,7 +303,7 @@ rsh:
   /usr/bin
 
 pam:
-  /{etc,lib*,sbin}
+  /
   R s/(pam_unix2.so)\s*$/$1 nullok\n/ /etc/pam.d/common-auth
 
 libaudit*:
@@ -372,12 +328,6 @@ libusb-0_1-4:
 
 libusb-1_0-0:
   /usr/lib*
-
-rpcbind: postin
-  /etc
-  /sbin
-  /var/adm/fillup-templates
-e postin
 
 libtirpc1:
   /etc
@@ -444,10 +394,8 @@ libelf1:
 liblua5_1:
   /
 
-rsync: postin
-  /etc
-  /usr/{,s}bin
-E postin
+libsepol1:
+  /
 
 setserial:
   /etc
@@ -461,7 +409,12 @@ pwdutils:
   /usr/bin
   /usr/sbin/pwunconv
   /usr/sbin/chpasswd
+  /usr/sbin/groupadd
+  /usr/sbin/groupadd.local
+  /usr/sbin/useradd
+  /usr/sbin/useradd.local
   /usr/lib*/pwdutils/liblog_syslog.so.*
+  d /etc/skel
 
 login:
   /{etc,bin}
@@ -498,41 +451,17 @@ klogd:
   /sbin/klogd
   /var/adm/fillup-templates/sysconfig.syslog
 
-syslogd: postin
-  /etc
-  /sbin/syslogd
-e postin
-
 sysvinit:
   /sbin
 
-sysvinit-tools: postin
-n /dev/initctl
-c 600 0 0 /dev/initctl
-  /sbin
-if arch ne 's390' && arch ne 's390x'
-  /etc
-endif
-# r /sbin/{powerd,runlevel,setserialbits,start-stop-daemon,sulogin}
-  /usr/bin
-  /bin/usleep
-e postin
-
 libmount*:
   /
-
-util-linux: postin
-  /
-e postin
 
 nfs-client:
   /
 
 nfsidmap:
   /usr/lib*/libnfsidmap.so.*
-
-librpcsecgss:
-  /usr/lib*/librpcsecgss.so.*
 
 libgssglue*:
   /
@@ -551,6 +480,7 @@ powerpc-utils:
   /sbin
   /usr/sbin
 endif
+
 mingetty:
   /sbin
 
@@ -589,23 +519,8 @@ libgobject-2_0-0:
 libgthread-2_0-0:
   /
 
-sysconfig: postin
-  /etc
-  /sbin
-  /var
-  /var
-  E postin
-
-# d /var/run/sysconfig/tmp
-
 libudev0:
   /lib*
-
-udev: postin
-  /etc
-  /lib/udev
-  /sbin
-  E postin
 
 sysfsutils:
   /lib*/libsysfs.so*
@@ -625,20 +540,6 @@ PolicyKit:
 dbus-1-glib:
   /
 
-dbus-1: prein,postin
-  /
-  e save_cfg etc/passwd etc/shadow etc/group
-  e prein
-  e restore_cfg etc/passwd etc/shadow etc/group
-  E postin
-
-hal: prein,postin
- /
-  e save_cfg etc/passwd etc/shadow etc/group
-  e prein
-  e restore_cfg etc/passwd etc/shadow etc/group
-  E postin
-
 if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ia64'
   libsmbios2:
     /usr/lib*/libsmbios.so.*
@@ -653,15 +554,11 @@ wireless-tools:
   /usr/sbin
 endif
 
-dmraid: postin
-  /lib*
-  /etc
-  /sbin
-E postin
+libparted0:
+  /
 
 parted:
-  /usr/lib*
-  /usr/sbin
+  /
 
 libreiserfs:
   /usr/lib*/libdal-*.so.*
@@ -688,14 +585,6 @@ checkmedia:
 hex:
   /usr/bin/hex
 
-mdadm: postin
-  /sbin
-  /usr/sbin
-  /etc
-  /lib
-  /var/adm/fillup-templates
-  E postin
-
 if arch ne 's390' && arch ne 's390x'
 libopensc2:
   /usr/lib*/libopensc.so.*
@@ -712,29 +601,11 @@ pcsc-lite:
 libopenct1:
   /usr/lib*/libopenct.so*
 
-openssh: prein
-  /etc/ssh
-  /etc/pam.d/sshd
-  /etc/init.d/sshd
-  d /etc/sysconfig
-  t /etc/sysconfig/ssh
-  /usr/bin
-  /usr/sbin
-  /usr/lib*
-  /var/lib
-  e save_cfg etc/passwd etc/shadow etc/group
-  e prein
-  e restore_cfg etc/passwd etc/shadow etc/group
-
 dhcpcd:
-  /sbin
-  /usr/sbin
+  /
 
 dhcpv6:
-  /usr/sbin
-  /etc
-  /var/lib/dhcpv6
-  x etc/dhcp6c.conf etc
+  /
 
 libnl:
   /lib*/libnl.so.*
@@ -750,12 +621,6 @@ kpartx:
   /etc/udev
   /lib/udev
   /sbin
-
-multipath-tools: postin
-  /etc
-  /sbin
-  /lib*
-e postin
 
 libaio:
   /lib*/libaio.so.*
@@ -782,15 +647,6 @@ glibc-locale:
   # built in base system
   d usr/lib/locale
   e cp /tmp/usr/lib/locale/locale-archive usr/lib/locale
-
-if arch eq 'ia64'
-  ia32el:
-    /etc/init.d/ia32el
-    /usr/lib/ia32el
-  r /usr/lib/ia32el/cpuid
-  r /usr/lib/ia32el/auxapp 
-  e insserv etc/init.d/ia32el
-endif
 
 wget:
   /usr/bin/wget
@@ -844,13 +700,112 @@ if arch eq 'i386' || arch eq 'x86_64'
 
   bootsplash:
     /sbin/splash
-
 endif
+
+# to keep postin scripts happy
+r /sbin/mkinitrd_setup
+s /bin/true /sbin/mkinitrd_setup
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# packages with scripts
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+aaa_base: prein,postin
+E prein
+  /
+t /etc/fstab
+E postin
+
+lvm2: postin
+  /
+E postin
+
+device-mapper: postin
+  /
+E postin
+
+module-init-tools: postin
+  /
+E postin
+
+rpcbind: postin
+  /
+E postin
+
+rsync: postin
+  /
+E postin
+
+syslogd: postin
+  /
+E postin
+
+sysvinit-tools: postin
+n /dev/initctl
+c 600 0 0 /dev/initctl
+  /
+E postin
+
+util-linux: postin
+  /
+E postin
+
+sysconfig: postin
+  /
+E postin
+
+udev: postin
+  /
+E postin
+
+dbus-1: prein,postin
+  /
+E prein
+E postin
+
+hal: prein,postin
+ /
+E prein
+E postin
+
+dmraid: postin
+  /
+E postin
+
+mdadm: postin
+  /
+E postin
+
+openssh: prein
+  /
+  d /etc/sysconfig
+  t /etc/sysconfig/ssh
+E prein
+
+multipath-tools: postin
+  /
+E postin
+
+if arch eq 'ia64'
+  ia32el:
+    /etc/init.d/ia32el
+    /usr/lib/ia32el
+  r /usr/lib/ia32el/cpuid
+  r /usr/lib/ia32el/auxapp 
+  E insserv etc/init.d/ia32el
+endif
+
 
 :
 
 # remove, ehm, things...
 r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+
+# our own dhcp6c config
+x etc/dhcp6c.conf etc
 
 e insserv -f -r etc/init.d/boot.rootfsck
 r etc/init.d/boot.rootfsck
