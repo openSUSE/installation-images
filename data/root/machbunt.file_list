@@ -2,14 +2,16 @@ ash:
   /bin/ash.static
 
 libfreetype6:
-  /usr/lib*
+  /
 
 ltrace:
-  /usr/bin/ltrace
-  /etc/ltrace.conf
+  /
 
 libelf0:
-  /usr/lib*/libelf.so.*
+  /
+
+libtalloc2:
+  /
 
 if with_yast2 ne 'no'
   if arch eq 's390' || arch eq 's390x'
@@ -28,11 +30,7 @@ if with_yast2 ne 'no'
     xorg-x11-server:
       /etc/X11/xorg.conf.d
       /usr/bin/Xorg
-
-      /usr/lib*/xorg/modules/extensions
-      /usr/lib*/xorg/modules/linux/lib*.so
-
-      /usr/lib*/xorg/modules/lib*.so
+      /usr/lib*/xorg/modules
 
     xorg-x11-driver-input:
       /etc/X11/xorg.conf.d
@@ -97,7 +95,8 @@ if with_yast2 ne 'no'
 
   xorg-x11-libX11:
     /usr/lib*/libX11.so.*
-    /usr/share/X11/{XErrorDB,XKeysymDB}
+    /usr/share/X11/XErrorDB 
+    # /usr/share/X11/XKeysymDB
     /usr/share/X11/locale
 
   xorg-x11-libXau:

@@ -15,8 +15,8 @@ libpcre0:
 libnewt0_52:
   /usr/lib*/libnewt.so.*
 
-slang:
-  /usr/lib*/libslang.so.*
+libslang2:
+  /
 
 terminfo-base:
   /usr/share/terminfo/l/linux

@@ -3,8 +3,25 @@
 # the 'root' system
 #
 
-d bin dev etc lib mnt root sbin tmp usr var
+d bin dev etc lib mnt root sbin tmp usr var proc
 c 1777 0 0 tmp
+
+d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
+d /var/lock/subsys
+d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
+
+s ../lock /var/spool/locks
+
+t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
+t /var/log/news/news.{crit,err,notice}
+
+c 1777 0 0 /var/tmp
+
+d /usr/{bin,lib,lib64,libexec,sbin,share}
+
+s ../var/spool /usr/spool
+s ../var/tmp /usr/tmp
+
 
 # add some /etc files
 x /etc/* /etc
@@ -16,24 +33,18 @@ r /etc/create_interface
 r /etc/motd
 r /etc/issue
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# packages without scripts
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 fillup:
   /bin
 
 insserv:
   /etc
   /sbin
-
-aaa_base: prein,postin
-e prein
-  /etc/init.d
-  /etc/inputrc
-e echo set bell-style none >>etc/inputrc
-  /etc/rc.status
-  /usr/bin/old
-  # /root/.gnupg/suse_build_key
-  /var/adm/fillup-templates
-e postin
-r /var/adm/fillup-templates
 
 tar:
   /bin/tar
@@ -74,7 +85,6 @@ coreutils:
   if arch eq 'ppc' || arch eq 'ppc64'
   /usr/bin/stat
   endif
-
 
 gzip:
   bin/g{un,}zip
@@ -126,15 +136,9 @@ PolicyKit:
 dbus-1-glib:
   /
 
-dbus-1: prein
-  /
-  e save_cfg etc/passwd etc/shadow etc/group
-  e prein
-  e restore_cfg etc/passwd etc/shadow etc/group
-
-if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ia64'
+if exists(libsmbios2)
   libsmbios2:
-    /usr/lib*/libsmbios.so.*
+    /
 endif
 
 dmraid:
@@ -208,7 +212,7 @@ glibc:
   /usr/sbin/rpcinfo
   /usr/bin
   /etc/rpc
-r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,lddlibc4,mtrace,rpcgen,sprof}
+r /usr/bin/{catchsegv,gencat,getconf,glibcbug,lddlibc4,mtrace,rpcgen,sprof}
 r /usr/sbin/{nscd,nscd_nischeck,utmpd}
   /lib*/libpthread{.,-}*
   /lib*/libthread_db{.,-}*
@@ -216,7 +220,7 @@ r /usr/sbin/{nscd,nscd_nischeck,utmpd}
 libselinux1:
   /
 
-if !(arch eq 's390' || arch eq 's390x')
+if exists(hdparm)
   hdparm:
     /sbin/hdparm
 endif
@@ -251,26 +255,12 @@ if arch eq 'i386' || arch eq 'x86_64'
     /sbin/activate
 endif
 
-if arch eq 'ia64'
+if exists(efibootmgr)
   efibootmgr:
-    /usr/sbin/efibootmgr
+    /
 
   libunwind:
-    /lib/libunwind.so*
-endif
-
-if arch eq 's390' || arch eq 's390x'
-  s390-tools: postin
-    /sbin/zipl
-    /etc
-    /sbin/dasdfmt
-    /sbin/dasdview
-    /sbin/fdasd
-    /sbin/dasd_configure
-    /sbin/dasd_reload
-    /sbin/dasdro
-    /sbin/vmcp
-    e postin
+    /
 endif
 
 dosfstools:
@@ -282,12 +272,6 @@ net-tools:
   if !(arch eq 's390' || arch eq 's390x')
     /sbin/plipconfig
   endif
-
-rpcbind: postin
-  /etc
-  /sbin
-  /var/adm/fillup-templates
-e postin
 
 libtirpc1:
   /etc
@@ -317,22 +301,6 @@ powerpc-utils:
     /usr/sbin/nvram
     /usr/sbin/update_flash
 endif
-
-d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
-d /var/lock/subsys
-d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
-
-s ../lock /var/spool/locks
-
-t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
-t /var/log/news/news.{crit,err,notice}
-
-c 1777 0 0 /var/tmp
-
-d /usr/{bin,lib,lib64,libexec,sbin,share}
-
-s ../var/spool /usr/spool
-s ../var/tmp /usr/tmp
 
 grep:
   /bin/{,e,f}grep
@@ -378,160 +346,164 @@ if arch eq 'ia64'
   r /usr/lib/ia32el/auxapp
 endif
 
-c 0755 0 0 /usr/bin
-c 0755 0 0 /usr/lib*
-c 0755 0 0 /usr/sbin
-c 0755 0 0 /usr/share
+yast2:
+  /etc/YaST2
+  /sbin/save_y2logs
+  /usr
+  /var
+  r /usr/lib/YaST2/servers_non_y2/ag_cron
+  s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast
+  r /usr/lib/YaST2/bin/yast2
 
-x /etc/ld.so.conf /etc
+yast2-add-on:
+  /
 
+yast2-bootloader:
+  /
 
-if with_yast2 ne 'no'
-  yast2:
-    /etc/YaST2
-    /sbin/save_y2logs
-    /usr
-    /var
-    r /usr/lib/YaST2/servers_non_y2/ag_cron
-    s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast
-    r /usr/lib/YaST2/bin/yast2
+yast2-core:
+  /
 
-  yast2-add-on:
-    /
-  yast2-bootloader:
-    /
-  yast2-core:
-    /
-  yast2-country:
-    /
-  yast2-country-data:
-    /
-  yast2-devtools:
-    /usr/bin/y2tool
-    /usr/share/YaST2/data/devtools/bin/showy2log
-  yast2-installation:
-    /
-    # back to fullscreen - netpbm tools are in machbunt.file_list
-    r /usr/lib/YaST2/startup/InstallImages/*
-    # hack to make 'repair' option work
-    # p repair.diff
+yast2-country:
+  /
 
-  yast2-iscsi-client:
-    /
-  yast2-kdump:
-    /
-  yast2-mouse:
-    /
-  yast2-multipath:
-    /
-  yast2-ncurses:
-    /
-  yast2-network:
-    /
-  yast2-nfs-client:
-    /
-  yast2-ntp-client:
-    /
-  yast2-packager:
-    /
-  yast2-perl-bindings:
-    /
-  yast2-pkg-bindings:
-    /
-#  yast2-repair:
-#    /
-  yast2-runlevel:
-    /
+yast2-country-data:
+  /
+
+yast2-devtools:
+  /usr/bin/y2tool
+  /usr/share/YaST2/data/devtools/bin/showy2log
+
+yast2-installation:
+  /
+  # back to fullscreen - netpbm tools are in machbunt.file_list
+  r /usr/lib/YaST2/startup/InstallImages/*
+  # hack to make 'repair' option work
+  # p repair.diff
+
+yast2-iscsi-client:
+  /
+
+yast2-kdump:
+  /
+
+yast2-mouse:
+  /
+
+yast2-multipath:
+  /
+
+yast2-ncurses:
+  /
+
+yast2-network:
+  /
+
+yast2-nfs-client:
+  /
+
+yast2-ntp-client:
+  /
+
+yast2-packager:
+  /
+
+yast2-perl-bindings:
+  /
+
+yast2-pkg-bindings:
+  /
+
+yast2-runlevel:
+  /
+
 if arch eq 's390' || arch eq 's390x'
   yast2-s390:
     /
   yast2-reipl:
     /
 endif
-  yast2-slp:
-    /
-  yast2-storage: postin
-    /
-    E postin
-  libstorage: postin
-    /
-    E postin
-  yast2-transfer:
-    /
-  yast2-tune:
-    /
+
+yast2-slp:
+  /
+
+yast2-transfer:
+  /
+
+yast2-tune:
+  /
+
 if arch eq 'i386' || arch eq 'x86_64'
   yast2-vm:
     /
 endif
-  yast2-xml:
-    /
-  yast2-update:
-    /
-  yast2-users:
-    /usr/share/YaST2/clients/inst_root_first.ycp
-    /usr/share/YaST2/clients/inst_user_first.ycp
-    /usr/share/YaST2/clients/users_finish.ycp
-    /usr/share/YaST2/clients/users_proposal.ycp
-    /usr/share/YaST2/modules/UsersSimple.pm
-    /usr/share/YaST2/modules/UsersUI.*
-    /usr/share/YaST2/scrconf/crack.scr
-    /usr/lib*/YaST2/plugin/libpy2ag_crack.so*
 
-  yast2-libyui:
-    /usr/lib*/libyui*
+yast2-xml:
+  /
 
-  yast2-ycp-ui-bindings:
-    /usr/lib*/YaST2/plugin/libpy2UI.so.*
+yast2-update:
+  /
 
-  yast2-ncurses-pkg:
-    /
+yast2-users:
+  /usr/share/YaST2/clients/inst_root_first.ycp
+  /usr/share/YaST2/clients/inst_user_first.ycp
+  /usr/share/YaST2/clients/users_finish.ycp
+  /usr/share/YaST2/clients/users_proposal.ycp
+  /usr/share/YaST2/modules/UsersSimple.pm
+  /usr/share/YaST2/modules/UsersUI.*
+  /usr/share/YaST2/scrconf/crack.scr
+  /usr/lib*/YaST2/plugin/libpy2ag_crack.so*
 
-  yast2-hardware-detection:
-    /
+yast2-libyui:
+  /usr/lib*/libyui*
 
-  autoyast2-installation:
-    /
+yast2-ycp-ui-bindings:
+  /usr/lib*/YaST2/plugin/libpy2UI.so.*
 
-  gpart:
-    /usr/bin
+yast2-ncurses-pkg:
+  /
 
-  libcurl4:
-    /usr/lib*/libcurl.so*
+yast2-hardware-detection:
+  /
 
-  libssh2-1:
-    /
+autoyast2-installation:
+  /
 
-  libcares2:
-    /usr/lib*/libcares.so.*
+gpart:
+  /usr/bin
 
-  openslp:
-    /etc/slp.spi
-    /etc/slp.conf
-    /usr/bin/slptool
-    /usr/lib*/libslp.so.*
+libcurl4:
+  /usr/lib*/libcurl.so*
 
-  libblocxx6:
-    /usr/lib*/libblocxx.so.*
+libssh2-1:
+  /
 
-  libpcre0:
-    /lib*
+libcares2:
+  /usr/lib*/libcares.so.*
 
-  limal:
-    /
+openslp:
+  /etc/slp.spi
+  /etc/slp.conf
+  /usr/bin/slptool
+  /usr/lib*/libslp.so.*
 
-  limal-perl:
-    /
+libblocxx6:
+  /usr/lib*/libblocxx.so.*
 
-  libblocxx6:
-    /
+libpcre0:
+  /lib*
 
-endif
+limal:
+  /
+
+limal-perl:
+  /
+
+libblocxx6:
+  /
 
 zlib:
   /lib*/libz.so.1*
-
-c 0755 0 0 /usr
 
 libstdc++45:
   /usr/<lib>
@@ -539,10 +511,7 @@ libstdc++45:
 eject:
   /bin/eject
 
-# remove these:
-r root mnt tmp usr/libexec
-
-if arch eq 'i386'
+if exists(syslinux)
   syslinux:
     /usr/bin/syslinux
 endif
@@ -573,8 +542,8 @@ btrfsprogs:
 
 gawk:
   /bin
-# uses update-alternatives now
-s gawk bin/awk
+  # uses update-alternatives now
+  s gawk bin/awk
 
 if arch eq 'ppc' || arch eq 'ppc64'
   pdisk:
@@ -630,13 +599,12 @@ syslogd:
   x etc/syslogd /sbin/syslogd
 
 if arch ne 's390' && arch ne 's390x'
-libopensc2:
-  /usr/lib*/libopensc.so.*
-  /usr/lib*/libscconf.so.*
+  libopensc2:
+    /usr/lib*/libopensc.so.*
+    /usr/lib*/libscconf.so.*
 
-libltdl7:
-  /usr/lib*
-
+  libltdl7:
+    /usr/lib*
 endif
 
 pcsc-lite:
@@ -644,17 +612,6 @@ pcsc-lite:
 
 libopenct1:
   /usr/lib*/libopenct.so*
-
-openssh: prein
-  /etc/ssh
-  /etc/pam.d/sshd
-  /etc/init.d/sshd
-  d /etc/sysconfig
-  t /etc/sysconfig/ssh
-  /usr/bin
-  /usr/sbin
-  /usr/lib*
-  e prein
 
 krb5:
   /etc
@@ -691,11 +648,6 @@ pam-modules:
 libxcrypt:
   /lib*
 
-if 0
-cracklib-dict-full:
-  /usr/share/cracklib
-endif
-
 libcrack2:
   /
 
@@ -718,9 +670,11 @@ cracklib:
  x root/.bash_login /root
  x root/.vimrc /root
 
+libparted0:
+  /
+
 parted:
-  /usr/sbin
-  /usr/lib*
+  /
 
 jfsutils:
   /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump,jfs_tune}
@@ -786,11 +740,16 @@ unscd:
   /usr/sbin
 
 pwdutils:
-  /etc/pam.d/passwd
-  /etc/pam.d/shadow
+  /etc
+  /usr/bin
+  /usr/sbin/pwunconv
   /usr/sbin/chpasswd
-  /usr/bin/passwd
-c 644 0 0 /etc/shadow
+  /usr/sbin/groupadd
+  /usr/sbin/groupadd.local
+  /usr/sbin/useradd
+  /usr/sbin/useradd.local
+  /usr/lib*/pwdutils/liblog_syslog.so.*
+  d /etc/skel
 
 ntfsprogs:
   /usr/sbin/ntfsresize
@@ -829,6 +788,8 @@ perl-base:
   /usr/lib/perl*/*/Class/Struct.pm
   /usr/lib/perl*/*/Exporter{,.pm}
   /usr/lib/perl*/*/File/Basename.pm
+  /usr/lib/perl*/*/File/Path.pm
+  /usr/lib/perl*/*/File/Temp.pm
   /usr/lib/perl*/*/*/File/Spec.pm
   /usr/lib/perl*/*/*/File/Spec
   /usr/lib/perl*/*/FileHandle.pm
@@ -997,15 +958,63 @@ libcap2:
 satsolver-tools:
   /usr/bin
 
-r /usr/X11R6/bin/mkfontdir
-r /usr/X11R6/bin/mkfontscale
-r /usr/X11R6/bin/fc-cache
+sed:
+  /bin/sed
 
-x /usr/lib/YaST/.Reh /usr/lib/YaST2
-x etc/inst_setup /sbin/inst_setup
-x etc/adddir /sbin/adddir
-c 755 0 0 /sbin/inst_setup
-c 755 0 0 /sbin/adddir
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# packages with scripts
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+aaa_base: prein,postin
+  E prein
+  /
+  E postin
+
+dbus-1: prein
+  /
+  E prein
+
+if exists(s390-tools)
+  s390-tools: postin
+    /sbin/zipl
+    /etc
+    /sbin/dasdfmt
+    /sbin/dasdview
+    /sbin/fdasd
+    /sbin/dasd_configure
+    /sbin/dasd_reload
+    /sbin/dasdro
+    /sbin/vmcp
+    E postin
+endif
+
+rpcbind: postin
+  /etc
+  /sbin
+  /var/adm/fillup-templates
+  E postin
+
+yast2-storage: postin
+  /
+  E postin
+
+libstorage: postin
+  /
+  E postin
+
+openssh: prein
+  /etc/ssh
+  /etc/pam.d/sshd
+  /etc/init.d/sshd
+  d /etc/sysconfig
+  t /etc/sysconfig/ssh
+  /usr/bin
+  /usr/sbin
+  /usr/lib*
+  E prein
 
 if root_i18n
   include rooti18n.file_list
@@ -1023,6 +1032,20 @@ endif
 # remove, ehm, things...
 r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
 
+# remove these: ########### ???
+r root mnt tmp proc usr/libexec
+
+# ????
+#r /usr/X11R6/bin/mkfontdir
+#r /usr/X11R6/bin/mkfontscale
+#r /usr/X11R6/bin/fc-cache
+
+x /usr/lib/YaST/.Reh /usr/lib/YaST2
+x etc/inst_setup /sbin/inst_setup
+x etc/adddir /sbin/adddir
+c 755 0 0 /sbin/inst_setup
+c 755 0 0 /sbin/adddir
+
 if instsys_complain_root
   e echo "InstsysComplain:	<instsys_complain_root>" >>.instsys.config
 endif
@@ -1030,6 +1053,8 @@ endif
 if instsys_build_id
   e echo "InstsysID:	<instsys_build_id>" >>.instsys.config
 endif
+
+x /etc/ld.so.conf /etc
 
 # final clean up
 r /etc/X11/xserver/C
