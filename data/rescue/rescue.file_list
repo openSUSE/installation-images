@@ -587,11 +587,10 @@ hex:
 
 if arch ne 's390' && arch ne 's390x'
 libopensc2:
-  /usr/lib*/libopensc.so.*
-  /usr/lib*/libscconf.so.*
+  /
 
 libltdl7:
-  /usr/lib*
+  /
 
 endif
 
@@ -599,7 +598,7 @@ pcsc-lite:
   /usr/lib*/libpcsclite.so*
 
 libopenct1:
-  /usr/lib*/libopenct.so*
+  /
 
 dhcpcd:
   /
@@ -608,35 +607,34 @@ dhcpv6:
   /
 
 libnl:
-  /lib*/libnl.so.*
+  /
+
+libcap-ng0:
+  /
 
 smartmontools:
-  /etc
-  /usr/sbin
+  /
 
-libstdc++45:
-  /usr/<lib>
+libstdc++*:
+  /
 
 kpartx:
-  /etc/udev
-  /lib/udev
-  /sbin
+  /
 
 libaio:
-  /lib*/libaio.so.*
+  /
 
 cryptsetup:
-  /sbin
-  /lib*
+  /
 
 libcryptsetup1:
-  /lib*/libcryptsetup.so.*
+  /
 
 libgcrypt11:
-  /lib*/libgcrypt.so*
+  /
 
 libgpg-error0:
- /lib*/libgpg-error.so*
+ /
 
 glibc-locale:
   /usr/lib*/gconv/ISO8859*
@@ -649,19 +647,19 @@ glibc-locale:
   e cp /tmp/usr/lib/locale/locale-archive usr/lib/locale
 
 wget:
-  /usr/bin/wget
+  /
 
 curl:
-  /usr/bin/curl
+  /
 
 libcurl4:
-  /usr/lib*/libcurl.so.*
+  /
 
 libssh2-1:
   /
 
 libcares2:
-  /usr/lib*/libcares.so.*
+  /
 
 libidn:
   /usr/lib*/libidn.so.*
