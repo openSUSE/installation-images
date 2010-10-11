@@ -1,3 +1,7 @@
+11/10/2010:	v8.149
+	- add HyperV drivers (fate #310076)
+	- add virtio drivers (fate #310326)
+
 9/9/2010:	v8.148
 	- add some perl packages needed by the new sap-media-changer
 
