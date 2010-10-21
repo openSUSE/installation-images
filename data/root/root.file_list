@@ -107,13 +107,13 @@ libxml2:
 libexpat1:
   /lib*/libexpat.so.*
 
-libglib-2_0-0:
-  /usr/lib*/libglib-2.0.so.*
+libglib-*-*:
+  /
 
-libgobject-2_0-0:
-  /usr/lib*/libgobject-2.0.so.*
+libgobject-*-*:
+  /
 
-libgthread-2_0-0:
+libgthread-*-*:
   /
 
 libudev0:
@@ -688,9 +688,14 @@ xfsdump:
   /usr/sbin
   /sbin
 
+libmodman*:
+  /
+
+libproxy*:
+  /
+
 wget:
-  /etc
-  /usr/bin
+  /
 
 libopenssl*:
   /lib*
@@ -960,6 +965,9 @@ satsolver-tools:
 
 sed:
   /bin/sed
+
+libcap-ng*:
+  /
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

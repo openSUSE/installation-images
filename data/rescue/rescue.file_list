@@ -430,8 +430,8 @@ libopenssl*:
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*
 
-libdb-4_5:
-  /usr/lib*/libdb*.so  
+libdb-*:
+  /
 
 krb5:
   /etc
@@ -510,13 +510,13 @@ initviocons:
 libexpat1:
   /lib*/libexpat.so.*
 
-libglib-2_0-0:
-  /usr/lib*/libglib-2.0.so.*
+libglib-*-*:
+  /
 
-libgobject-2_0-0:
-  /usr/lib*/libgobject-2.0.so.*
+libgobject-*-*:
+  /
 
-libgthread-2_0-0:
+libgthread-*-*:
   /
 
 libudev0:
@@ -535,7 +535,7 @@ PolicyKit:
   /etc/PolicyKit/PolicyKit.conf
   /usr/lib*/libpolkit.so.*
   /var/lib
-  /var/run
+  d /var/run/PolicyKit
 
 dbus-1-glib:
   /
@@ -646,13 +646,19 @@ glibc-locale:
   d usr/lib/locale
   e cp /tmp/usr/lib/locale/locale-archive usr/lib/locale
 
+libmodman*:
+  /
+
+libproxy*:
+  /
+
 wget:
   /
 
 curl:
   /
 
-libcurl4:
+libcurl*:
   /
 
 libssh2-1:

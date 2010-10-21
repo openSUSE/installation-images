@@ -347,8 +347,8 @@ libacl:
 libattr:
   /lib*
 
-libglib-2_0-0:
-  /usr/lib*/libglib-2.0.so.*
+libglib-*-*:
+  /
 
 libudev0:
   /lib*
@@ -374,7 +374,7 @@ sysvinit-tools:
 
 PolicyKit:
   /var/lib
-  /var/run
+  d /var/run/PolicyKit
 
 rpm:
   /usr/bin/rpm2cpio

@@ -233,8 +233,8 @@ perl:
 perl-HTML-Parser:
   /usr/lib
 
-libdb-4_5:
-  /usr/lib*/libdb*.so
+libdb-*:
+  /
 
 gdbm:
   /usr/lib*/libgdbm.so.*
