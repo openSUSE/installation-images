@@ -1,3 +1,7 @@
+9/11/2010:	v8.150
+	- s390: compute initrd offset dynamically to accommodate large
+	  kernels (bnc#652062)
+
 11/10/2010:	v8.149
 	- add HyperV drivers (fate #310076)
 	- add virtio drivers (fate #310326)

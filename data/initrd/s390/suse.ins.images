@@ -1,5 +1,6 @@
 * SuSE Linux for S/390 and zSeries Installation/Rescue System
 vmrdr.ikr 0x00000000
+initrd.off 0x0001040c
 initrd.siz 0x00010414
-initrd 0x00800000
+initrd @INITRD_OFFSET@
 parmfile 0x00010480
