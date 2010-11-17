@@ -1,3 +1,11 @@
+16/11/2010:	v8.151
+	- added /usr/bin/lscpu to root file_list
+	- added qlcnic to module.config to fix build
+	- add cxgb4 to module.config to fix build
+	- add raid_class (needed by mpt2sas)
+	- ia32el init script is now boot.ia32el
+	- added be2net & mpt2sas modules to ppc (bnc #653990, bnc #654253)
+
 9/11/2010:	v8.150
 	- s390: compute initrd offset dynamically to accommodate large
 	  kernels (bnc#652062)

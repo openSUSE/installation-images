@@ -166,7 +166,7 @@ fi
 #
 depmod -a 2>/dev/null
 
-test -x /etc/init.d/ia32el && /etc/init.d/ia32el start
+test -x /etc/init.d/boot.ia32el && /etc/init.d/boot.ia32el start
 
 # boot with usessh=1 or use linuxrc to enable ssh 
 # vnc=1 will override the install mode

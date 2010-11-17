@@ -144,6 +144,7 @@ util-linux:
     /sbin/sfdisk
   endif
   /usr/sbin/setctsid
+  /usr/bin/lscpu
 
 util-linux-crypto:
   /sbin
@@ -333,7 +334,7 @@ cpio:
 
 if arch eq 'ia64'
   ia32el:
-    /etc/init.d/ia32el
+    /etc/init.d/boot.ia32el
     /usr/lib/ia32el
   r /usr/lib/ia32el/cpuid
   r /usr/lib/ia32el/auxapp
