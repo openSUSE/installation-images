@@ -69,6 +69,9 @@ coreutils:
   /usr/bin
   r /bin/su
 
+liblzma*:
+  /
+
 libselinux1:
   /
 
@@ -313,9 +316,6 @@ libuuid1:
 fribidi:
   /usr/bin/fribidi
   /usr/lib*/libfribidi.so.*
-
-liblzma0:
-  /lib*/liblzma.so.*
 
 libcap2:
   /lib*/libcap.so.*

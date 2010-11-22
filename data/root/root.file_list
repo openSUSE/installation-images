@@ -731,8 +731,8 @@ aspell:
 xz:
   /usr/bin/xzdec
 
-liblzma0:
-  /lib*/liblzma.so.*
+liblzma*:
+  /
 
 iproute2:
   /sbin/ip

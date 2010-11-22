@@ -385,8 +385,8 @@ rpm:
 r /usr/lib/rpm/rpm{get,put}text
 r /usr/bin/rpmqpack
 
-liblzma0:
-  /lib*/liblzma.so.*
+liblzma*:
+  /
 
 libelf1:
   /

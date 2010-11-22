@@ -381,8 +381,8 @@ rpm:
   /usr/lib*/librpm{,io}.so.*
   /usr/lib/rpm/rpmrc
 
-liblzma0:
-  /lib*/liblzma.so.*
+liblzma*:
+  /
 
 libpopt0:
   /lib*
