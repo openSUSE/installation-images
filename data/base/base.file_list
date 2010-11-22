@@ -69,9 +69,6 @@ coreutils:
   /usr/bin
   r /bin/su
 
-liblzma*:
-  /
-
 libselinux1:
   /
 
@@ -268,15 +265,13 @@ pam:
   /{etc,lib*,sbin}
 
 libaudit*:
-  /lib*/libaudit.so.*
+  /
 
 libldap-2_4-2:
-  /usr/lib*/liblber-*.so.*
-  /usr/lib*/libldap-*.so.*
+  /
 
 libopenssl*:
-  /lib*/libcrypto.so.*
-  /lib*/libssl.so.*
+  /
 
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*
@@ -290,9 +285,9 @@ openslp:
   /usr/lib*
 
 libxcrypt:
-  /lib*
+  /
 
-libcrack2:
+libcrack*:
   /
 
 cracklib:
@@ -307,18 +302,21 @@ util-linux:
   /bin/mount
   /bin/umount
 
-libblkid1:
-  /lib*
+libblkid*:
+  /
 
-libuuid1:
-  /lib*
+libuuid*:
+  /
 
 fribidi:
   /usr/bin/fribidi
   /usr/lib*/libfribidi.so.*
 
-libcap2:
-  /lib*/libcap.so.*
+liblzma*:
+  /
+
+libcap*:
+  /
 
 squashfs:
   /usr/bin/mksquashfs

@@ -384,20 +384,20 @@ rpm:
 liblzma*:
   /
 
-libpopt0:
+libpopt*:
   /lib*
 
-libelf1:
+libelf*:
   /
 
-liblua5_1:
+liblua5_*:
   /
 
 squashfs:
   /usr/bin/mksquashfs
 
-libcap2:
-  /lib*
+libcap*:
+  /
 
 strace:
   /usr/bin/strace
