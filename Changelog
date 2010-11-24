@@ -1,3 +1,7 @@
+24/11/2010:	v8.152
+	- added hv drivers by their new names (prefixed by hv_)
+	- added ixgbevf to module.config to fix build
+
 16/11/2010:	v8.151
 	- added /usr/bin/lscpu to root file_list
 	- added qlcnic to module.config to fix build
