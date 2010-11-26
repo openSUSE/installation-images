@@ -1,3 +1,6 @@
+26/11/2010:	v11.118
+	- fix install script
+
 26/11/2010:	v11.117
 	- include modules from kernel-extra
 	- add all of ntfsprogs to zenworks image
