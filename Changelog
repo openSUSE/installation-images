@@ -1,3 +1,8 @@
+26/11/2010:	v11.117
+	- include modules from kernel-extra
+	- add all of ntfsprogs to zenworks image
+	- adjusted module config
+
 25/8/2010:	v11.116
 	- use new all=1 tag to url to keep searching duds on all usb devices (bnc #596456)
 	- use quiet=1 to redirect dud url message to log
