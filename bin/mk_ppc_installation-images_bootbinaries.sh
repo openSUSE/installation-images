@@ -39,8 +39,8 @@ cp -pfv /lib/lilo/pmac/yaboot           $CD1/suseboot/yaboot
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
 if test "$do_32" = "true" ; then
 # provide PS3 bootloader only on openSuSE
-mkdir -pv $CD1/PS3/otheros
-cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
+#mkdir -pv $CD1/PS3/otheros
+#cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
 #
 cp -pfv $bdir/initrd             $CD1/suseboot/initrd32
 gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
