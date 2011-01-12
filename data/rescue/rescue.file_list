@@ -585,15 +585,6 @@ checkmedia:
 hex:
   /usr/bin/hex
 
-if arch ne 's390' && arch ne 's390x'
-libopensc2:
-  /
-
-libltdl7:
-  /
-
-endif
-
 pcsc-lite:
   /usr/lib*/libpcsclite.so*
 

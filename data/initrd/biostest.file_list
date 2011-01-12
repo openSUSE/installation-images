@@ -52,10 +52,6 @@ libacl:
 libattr:
   /lib*
 
-libopensc2:
-  /usr/lib*/libopensc.so.*
-  /usr/lib*/libscconf.so.*
-
 krb5:
   /etc
   /usr/lib*/libkrb5.so.*
@@ -68,10 +64,6 @@ keyutils-libs:
 
 libcom_err2:
   /lib*/libcom_err.so.*
-
-opensc:
-  /usr/lib*/libopensc.so*
-  /usr/lib*/libscconf.so*
 
 libltdl7:
   /usr/lib*

@@ -59,7 +59,7 @@ if with_yast2 ne 'no'
       endif
 
       if arch eq 'i386' || arch eq 'x86_64'
-        xorg-x11-driver-virtualbox-ose:
+        virtualbox-guest-x11:
           /etc/X11/xorg.conf.d
           /usr/lib*/xorg/modules
       endif
@@ -298,7 +298,7 @@ endif
 libpng14-14:
   /usr/lib*/libpng*.so*
 
-libjpeg8:
+libjpeg62:
   /usr/lib*/libjpeg.so*
 
 sax2-tools:

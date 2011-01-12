@@ -429,8 +429,8 @@ unscd:
   # remaining files are in root image
   d /var/run/nscd
 
-if exists(virtualbox-ose-guest-tools)
-  virtualbox-ose-guest-tools:
+if exists(virtualbox-guest-tools)
+  virtualbox-guest-tools:
     /etc/udev/rules.d
 endif
 
