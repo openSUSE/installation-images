@@ -116,12 +116,6 @@ dbus-1: prein
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
 
-hal: prein
-  /
-  e save_cfg etc/passwd etc/shadow etc/group
-  e prein
-  e restore_cfg etc/passwd etc/shadow etc/group
-
 dmraid:
   /sbin
   /lib*

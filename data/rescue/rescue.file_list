@@ -761,11 +761,6 @@ dbus-1: prein,postin
 E prein
 E postin
 
-hal: prein,postin
- /
-E prein
-E postin
-
 dmraid: postin
   /
 E postin
