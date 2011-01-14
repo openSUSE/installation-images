@@ -460,6 +460,9 @@ multipath-tools:
   /etc/udev/rules.d
   /var/cache/multipath
 
+libmount*:
+  /
+
 # - - -
 
 pwdutils:

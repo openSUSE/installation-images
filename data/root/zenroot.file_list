@@ -16,6 +16,9 @@ r /etc/create_interface
 r /etc/motd
 r /etc/issue
 
+libmount*:
+  /
+
 fillup:
   /bin
 
