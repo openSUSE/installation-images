@@ -52,3 +52,5 @@ e echo "dud:		disk:/?device=*usb*&all=1&quiet=1" >>linuxrc.config
 
 e echo "KexecReboot:	0" >>linuxrc.config
 
+e echo "PTOptions:	AutoUpgrade" >>linuxrc.config
+
