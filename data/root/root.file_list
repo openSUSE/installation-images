@@ -703,22 +703,6 @@ bzip2:
 libbz2-*:
   /
 
-unzip:
-  /usr/bin/unzip
-
-librcc*:
-  /usr/lib*/librcc.so.*
-
-librcd*:
-  /
-
-libenca*:
-  /
-
-# only for librcc
-aspell:
-  /usr/lib*/libaspell.so.*
-
 xz:
   /usr/bin/xzdec
 
