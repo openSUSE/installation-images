@@ -1,3 +1,6 @@
+1/2/2011:	v8.153
+	- added Mellanox mlx4 module (bnc #657936)
+
 24/11/2010:	v8.152
 	- added hv drivers by their new names (prefixed by hv_)
 	- added ixgbevf to module.config to fix build
