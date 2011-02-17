@@ -4,6 +4,9 @@ gdb:
 libpython*-*:
   /
 
+python-base:
+  /
+
 if exists(valgrind)
   valgrind:
     /

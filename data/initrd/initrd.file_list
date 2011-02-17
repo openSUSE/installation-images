@@ -508,7 +508,6 @@ aaa_base: prein
   # keep only passwd & group
   r boot
   r etc/init.d
-  r etc/mtab
   r var/adm/fillup-templates
   /etc/rc.status
 
@@ -640,6 +639,10 @@ r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
 
 # historical static device nodes
 x devz /devz
+
+# mtab is symlink now
+r /etc/mtab
+s /proc/self/mounts /etc/mtab
 
 # our own rules file which loads only pnp subsystem mods
 x etc/80-drivers.rules /lib/udev/80-drivers.rules.no_modprobe
