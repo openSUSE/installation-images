@@ -2,83 +2,30 @@
 
 # vim: syntax=sh
 
-nosshkey=false
-if [ "$1" = "-n" ] ; then
-nosshkey=true
-shift
-fi
-#
 if grep -qwi nosshkey < /proc/cmdline ; then
-nosshkey=true
+  nosshkey=true
 fi
 
-#
-if ! test -z "$1" ; then
-	sshpassword=$1
-fi
-
-echo 'sshd found, prepare remote login'
-#
-if test ! -z "$nameserver" ; then
-	 echo "nameserver $nameserver" >> /etc/resolv.conf
-fi
-if test ! -z "$domain" ; then
-	echo "search $domain" >> /etc/resolv.conf
-fi
-mkdir -p /dev/pts
-mkdir -p /dev/shm
-grep -q devpts /proc/mounts || \
-mount -n -t devpts -o mode=0620,gid=5 devpts /dev/pts
-#
 if [ "$nosshkey" = "true" ] ; then
-	# for inst-sys testing
-	echo using built-in ssh keys
-	cp -a --remove-destination /lib/ssh/*key* /etc/ssh/
-
-else
-	#
-	echo "generating SSH keys  ...  "
-	#
-	if ! test -f /etc/ssh/ssh_host_key ; then
-	    echo Generating /etc/ssh/ssh_host_key.
-	    ssh-keygen -t rsa1 -b 1024 -f /etc/ssh/ssh_host_key -N ''
-	fi
-	if ! test -f /etc/ssh/ssh_host_dsa_key ; then
-	    echo Generating /etc/ssh/ssh_host_dsa_key.
-
-	    ssh-keygen -t dsa -b 1024 -f /etc/ssh/ssh_host_dsa_key -N ''
-	fi
-	if ! test -f /etc/ssh/ssh_host_rsa_key ; then
-	    echo Generating /etc/ssh/ssh_host_rsa_key.
-
-	    ssh-keygen -t rsa -b 1024 -f /etc/ssh/ssh_host_rsa_key -N ''
-	fi
+  # for inst-sys testing
+  echo using built-in ssh keys
+  cp -a --remove-destination /lib/ssh/*key* /etc/ssh/
 fi
-if [ ! -z "$sshpassword" ] ; then
-	mv -f /etc/passwd /etc/passwd.
-	mv -f /etc/shadow /etc/shadow.
-	cat /etc/passwd. > /etc/passwd
-	cat /etc/shadow. > /etc/shadow
-	echo "setting root pwd to '$sshpassword'"
-	echo "root:$sshpassword" | chpasswd
-fi
-chmod -R og-rxw  /etc/ssh /root /etc/shadow 2>/dev/null
-chown -R 0.0  /etc/ssh /root /etc/shadow 2>/dev/null
-echo "Starting SSH daemon  ...  "
-#
-/usr/sbin/sshd || {
-export SSH_FAILED=true
-export YAST2_SSH=false
-echo 'sshd did NOT start!'
+
+rcsshd start || {
+  export SSH_FAILED=true
+  export YAST2_SSH=false
+  echo 'sshd did NOT start!'
 }
+
 if [ ! "$SSH_FAILED" ] ; then
-	echo
-	ip -oneline -family inet link show up | \
-	sed -n '/link\/\(ether\|ieee1394\|tr\)/s@^[^ ]\+[ ]\+\([^:]\+\).*@\1@p' | \
-	xargs --no-run-if-empty -n1 ip addr show dev | \
-	sed 's@^[0-9]\+: *@@'
-	export YAST2_SSH=true
-	cat <<EOF
+  echo
+  ip -oneline -family inet link show up | \
+  sed -n '/link\/\(ether\|ieee1394\|tr\)/s@^[^ ]\+[ ]\+\([^:]\+\).*@\1@p' | \
+  xargs --no-run-if-empty -n1 ip addr show dev | \
+  sed 's@^[0-9]\+: *@@'
+  export YAST2_SSH=true
+  cat <<EOF
 
       ***  sshd has been started  ***
 

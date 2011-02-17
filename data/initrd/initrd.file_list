@@ -11,6 +11,7 @@ d var/lib/xkb/compiled etc/X11
 d mounts
 d root
 d download
+d dev/pts dev/shm
 
 t var/run/utmp
 
