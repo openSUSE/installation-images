@@ -574,9 +574,7 @@ sysconfig:
   e perl -ni -e "print if /^SUBSYSTEM.*ipw3945/" etc/udev/rules.d/*-network.rules
 
 ntfs-3g:
-  /sbin
-  /bin
-  /lib*/libntfs-3g.so.*
+  /
   s mount.ntfs-3g /sbin/mount.ntfs
 
 if 0
@@ -757,13 +755,11 @@ endif
 
 :
 
-x etc/prepare_rescue bin
+# remove, ehm, things...
+r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
 
-# busybox is mostly broken
-## get busybox
-#d usr/local/bin
-#e cp -a /tmp/bb/{,usr/}{bin,sbin}/* usr/local/bin
-#e rm usr/local/bin/init
+# script neeeded for rescue startup
+x etc/prepare_rescue bin
 
 e ldconfig -r .
 

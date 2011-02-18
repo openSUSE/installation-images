@@ -1,3 +1,6 @@
+18/2/2011:	v11.119
+	- add all xfs & ntfs tools to rescue (bnc #663064)
+
 26/11/2010:	v11.118
 	- fix install script
 
