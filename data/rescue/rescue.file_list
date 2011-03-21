@@ -576,8 +576,8 @@ gawk:
 # uses update-alternatives now
 s gawk bin/awk
 
-ddrescue:
-  /bin
+dd_rescue:
+  /
 
 bc:
   /usr/bin/bc
