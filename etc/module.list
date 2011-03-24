@@ -94,15 +94,20 @@ kernel/fs/btrfs/
 kernel/net/sunrpc/sunrpc.ko
 kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
 kernel/drivers/power/power_supply.ko
-kernel/drivers/firmware/edd.ko
-kernel/drivers/firmware/efivars.ko
-kernel/drivers/firmware/iscsi_ibft.ko
+kernel/drivers/firmware/
 kernel/drivers/acpi/
+kernel/drivers/char/ipmi/
 kernel/drivers/video/backlight/
 kernel/drivers/cpufreq/
 kernel/arch/x86/kernel/
+kernel/drivers/platform/
+kernel/drivers/input/sparse-keymap.ko
+kernel/drivers/pci/hotplug/pci_hotplug.ko
+kernel/sound/soundcore.ko
+kernel/sound/core/snd.ko
 kernel/drivers/hwmon/hwmon.ko
 kernel/drivers/thermal/thermal_sys.ko
+
 
 # kernel pcmcia
 # see data/initrd/initrd_base.list
@@ -123,6 +128,7 @@ kernel/arch/s390/
 kernel/drivers/s390/
 kernel/net/iucv/
 kernel/net/ipv6/ipv6.ko
+kernel/net/ipv4/gre.ko
 
 kernel/crypto/
 kernel/arch/[^/]*/crypto/
@@ -152,6 +158,7 @@ kernel/drivers/rtc/
 kernel/drivers/mfd/wm8350.ko
 kernel/drivers/misc/eeprom/eeprom_93cx6.ko
 kernel/drivers/mfd/mc13783-core.ko
+kernel/drivers/mfd/mc13xxx-core.ko
 kernel/drivers/mfd/mfd-core.ko
 
 
