@@ -352,6 +352,9 @@ libgmodule-2_0-*:
 xorg-x11-libxcb:
   /usr/lib*/libxcb-render.so.*
 
+libltdl*:
+  /
+
 graphviz: postin
   /etc
   /usr/bin/dot
