@@ -469,7 +469,7 @@ nfsidmap:
 libgssglue*:
   /
 
-libevent-1_4-*:
+libevent-*-*:
   /
 
 if arch eq 'ppc' || arch eq 'ppc64'

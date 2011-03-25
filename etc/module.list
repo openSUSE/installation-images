@@ -33,6 +33,7 @@ kernel/drivers/net/
 -kernel/drivers/net/ppp_async.ko
 kernel/drivers/dca/
 kernel/drivers/parport/
+-kernel/drivers/parport/parport_serial.ko
 kernel/drivers/pnp/
 kernel/drivers/scsi/
 -kernel/drivers/scsi/ses.ko
@@ -144,8 +145,9 @@ kernel/drivers/video/syscopyarea.ko
 
 kernel/arch/i386/kernel/msr.ko
 
-kernel/drivers/xen/blkfront/xenblk.ko
-kernel/drivers/xen/netfront/xennet.ko
+kernel/drivers/xen/blkfront/
+kernel/drivers/xen/netfront/
+kernel/drivers/xen/core/
 
 kernel/net/ieee80211/
 
