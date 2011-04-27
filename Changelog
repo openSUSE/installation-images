@@ -1,5 +1,8 @@
+27/4/2011:	v11.120
+	- added AutoUpgrade & WithFCoE options (fate #310481, fate #307445)
+
 18/2/2011:	v11.119
-	- add all xfs & ntfs tools to rescue (bnc #663064)
+	- add all xfs & ntfs tools to rescue (bnc #663064, fate #311050)
 
 26/11/2010:	v11.118
 	- fix install script
