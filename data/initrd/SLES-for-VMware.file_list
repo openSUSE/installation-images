@@ -48,7 +48,9 @@ if instsys_build_id
 endif
 
 # look for driver updates on usb media (bnc #363650)
-e echo "dud:		disk:/?device=*usb*" >>linuxrc.config
+e echo "dud:		disk:/?device=*usb*&all=1&quiet=1" >>linuxrc.config
 
-e echo "KexecReboot:    0" >>linuxrc.config
+e echo "KexecReboot:	0" >>linuxrc.config
+
+e echo "PTOptions:	AutoUpgrade,WithFCoE,productprofile" >>linuxrc.config
 

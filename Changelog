@@ -1,3 +1,6 @@
+17/10/2011:	v11.121
+	- added productprofile option (fate #312035)
+
 27/4/2011:	v11.120
 	- added AutoUpgrade & WithFCoE options (fate #310481, fate #307445)
 
