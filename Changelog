@@ -1,4 +1,7 @@
-17/10/2011:	v11.121
+12/5/2011:	v11.122
+	- add btrfsprogs (fate #311050, fate #306587)
+
+29/4/2011:	v11.121
 	- added productprofile option (fate #312035)
 
 27/4/2011:	v11.120

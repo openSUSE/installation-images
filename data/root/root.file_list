@@ -591,6 +591,9 @@ libreiserfs:
   /usr/lib*/libreiserfs-*.so.*
   /usr/lib*/libdal-*.so.*
 
+btrfsprogs:
+  /sbin
+
 gawk:
   /bin
 

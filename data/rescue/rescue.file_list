@@ -394,6 +394,9 @@ procinfo:
 reiserfs:
   /sbin
 
+btrfsprogs:
+  /sbin
+
 if 0
 reiser4progs:
   /usr/sbin
