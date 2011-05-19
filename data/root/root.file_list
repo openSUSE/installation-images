@@ -1003,6 +1003,21 @@ libcap2:
 satsolver-tools:
   /usr/bin
 
+open-fcoe:
+  /
+
+lldpad:
+  /
+
+libHBAAPI2:
+  /
+
+libhbalinux2:
+  /
+
+libpciaccess0:
+  /
+
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale
 r /usr/X11R6/bin/fc-cache
@@ -1026,6 +1041,9 @@ endif
 
 :
 
+# remove, ehm, things...
+r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+
 if instsys_complain_root
   e echo "InstsysComplain:	<instsys_complain_root>" >>.instsys.config
 endif
@@ -1036,8 +1054,6 @@ endif
 
 # final clean up
 r /etc/X11/xserver/C
-r /usr/share/doc /usr/share/man
-
 r /sbin/insserv
 
 # some scripts write to /dev/null...
