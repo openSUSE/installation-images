@@ -94,6 +94,7 @@ kernel/fs/nfs_common/
 kernel/fs/lockd/
 kernel/fs/mbcache.ko
 kernel/fs/configfs/
+kernel/fs/btrfs/
 kernel/net/sunrpc/sunrpc.ko
 kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
 kernel/drivers/power/power_supply.ko

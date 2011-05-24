@@ -427,6 +427,8 @@ if with_yast2 ne 'no'
   yast2-devtools:
     /usr/bin/y2tool
     /usr/share/YaST2/data/devtools/bin/showy2log
+  yast2-fcoe-client:
+    /
   yast2-installation:
     /
     # back to fullscreen - netpbm tools are in machbunt.file_list

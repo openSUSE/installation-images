@@ -1,3 +1,7 @@
+24/5/2011:	v11.124
+	- added btrfs module
+	- added yast2-fcoe-client
+
 19/5/2011:	v11.123
 	- added open-fcoe
 
