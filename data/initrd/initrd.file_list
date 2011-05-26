@@ -511,7 +511,16 @@ util-linux:
   /sbin/losetup
   /sbin/blkid
 
+libtirpc1:
+  /etc
+  /lib*
+
+libgssglue1:
+  /etc
+  /lib*/libgssglue.so.*
+
 nfs-client:
+  /sbin
   /var/lib/nfs
 
 gpg2:
