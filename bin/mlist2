@@ -24,6 +24,7 @@ $fnames = "${BasePath}tmp/modules-config/module_list";
 $mdisk_c = "${BasePath}tmp/modules-config/module_disks_create";
 $mdisk_l = "${BasePath}tmp/modules-config/module_disks_list";
 $mdisk_i = "${BasePath}tmp/modules-config/module_disks_images";
+$modinfo = "${BasePath}tmp/modules-config/modules.info";
 $dst = "${DataPath}initrd/gen/module.";
 $mod_type = $ConfigData{module_type};
 
@@ -56,6 +57,23 @@ while(<F>) {
 }
 close F;
 
+@fname_list = (sort keys %fname);
+
+die "$Script: $modinfo: $!\n" unless open F, $modinfo;
+undef $f;
+while(<F>) {
+  chomp;
+  if(/^filename:.*\/(\S+?)\.ko/) {
+    $f = $1;
+    next;
+  }
+  if(m#^description:\s*(.+?)\s*$#) {
+    $descr{$f} = $1 if defined $f;
+    undef $f;
+    next;
+  }
+}
+close F;
 
 die "$Script: $cfg: $!\n" unless open(F, "$cfg.$arch") || open(F, $cfg);
 
@@ -103,12 +121,40 @@ while(<F>) {
 
   @l = lsplit $_;
   $r = $l[0] =~ s/^-// ? 1 : 0;
-  if(defined $fname{$l[0]}) {
-    $all{$l[0]} = 1;
-    if($sect eq 'notuseful') {
-      $notuseful{$l[0]} = 1;
+  if($l[0] =~ m#/#) {
+    $l0 = $l[0];
+    for $m1 (@fname_list) {
+      $l[0] = $m1;
+      if($fname{$l[0]} =~ m#^$l0$#) {
+        # print "$l0 - $fname{$l[0]} - $l[0]\n";
+
+        $all{$l[0]} = 1;
+
+        $notuseful{$l[0]} = 1 if $sect eq 'notuseful';
+
+        $old_d = $l[1];
+        $l[1] = $descr{$l[0]} if $old_d eq '' && $descr{$l[0]};
+        print "dup: $l[0] ($sect - $l0)\n" if $sect{$sect}{'ref'}{$l[0]};
+        push @{$sect{$sect}{'m'}}, [ @l ] unless $sect{$sect}{'ref'}{$l[0]};
+        $l[1] = $old_d;
+
+        $sect{$sect}{'ref'}{$l[0]} = 1;
+      }
     }
-    push @{$sect{$sect}{'m'}}, [ @l ];
+  }
+  elsif(defined $fname{$l[0]}) {
+    $all{$l[0]} = 1;
+
+    $notuseful{$l[0]} = 1 if $sect eq 'notuseful';
+
+    $old_d = $l[1];
+    $l[1] = $descr{$l[0]} if $old_d eq '' && $descr{$l[0]};
+    print "dup: $l[0] ($sect - )\n" if $sect{$sect}{'ref'}{$l[0]};
+    push @{$sect{$sect}{'m'}}, [ @l ] unless $sect{$sect}{'ref'}{$l[0]};
+    $l[1] = $old_d;
+
+    $sect{$sect}{'ref'}{$l[0]} = 1;
+
     $sect{$sect}{'r'}{$l[0]} = 1 if $r;
   }
   else {

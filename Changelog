@@ -1,3 +1,11 @@
+27/5/2011:	v11.125
+	- updated build scripts to version from oS 11.4:
+	  * faster package build
+	  * more flexible module config (wildcards, auto-adding of module descriptions)
+	  * detects more inconsistencies
+	  * fixed handling of kmp modules
+	- adjusted module config
+
 24/5/2011:	v11.124
 	- added btrfs module
 	- added yast2-fcoe-client

@@ -6,5 +6,6 @@
   e /sbin/depmod -a -b . -F System.map <kernel_ver>
   e cp lib/modules/<kernel_ver>/modules.dep .
   e cp lib/modules/<kernel_ver>/modules.pcimap .
+  e find lib/modules/<kernel_ver> -name *.ko | xargs modinfo >modules.info
   r System.map lib
 

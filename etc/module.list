@@ -148,6 +148,7 @@ kernel/lib/lzo/
 kernel/drivers/video/vga16fb.ko
 kernel/drivers/video/vgastate.ko
 kernel/drivers/video/output.ko
+kernel/drivers/video/sis/sisfb.ko
 
 kernel/arch/i386/kernel/msr.ko
 
@@ -188,7 +189,5 @@ extra/
 
 # ofed-kmp
 -updates/drivers/infiniband/
+-updates/net/sunrpc/xprtrdma/
 -updates/net/rds/
--updates/net/sunrpc/
--updates/fs/lockd/
--updates/fs/nfs*

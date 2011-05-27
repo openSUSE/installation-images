@@ -59,6 +59,7 @@ use ReadConfig;
 
 sub fixup_re;
 
+
 sub AddFiles
 {
   local $_;
@@ -66,9 +67,9 @@ sub AddFiles
   my ($rpms, $tdir, $tfile, $p, $r, $rc, $d, $u, $g, $files);
   my ($mod_list, @mod_list, %mod_list);
   my ($inc_file, $inc_it, $debug, $ifmsg, $ignore);
-  my ($old_warn, $ver, $i, $cache_dir, $tmp_cache_dir, $tmp_rpm);
-  my (@scripts, $s, @s, %script, $use_cache);
-  my (@packs, $sl, $rpm_cmd);
+  my ($old_warn, $ver, $i);
+  my (@scripts, $s, @s, %script);
+  my (@packs, $sl, $rpm_dir);
   my (@plog, $current_pack, %acc_all_files, %acc_pack_files, $account);
   my ($su, @requires);
 
@@ -98,13 +99,6 @@ sub AddFiles
   $debug = "pkg";
   $debug = $ENV{'debug'} if exists $ENV{'debug'};
 
-  $use_cache = 0;
-  $use_cache = $ENV{'cache'} if exists $ENV{'cache'};
-  if($use_cache) {
-    $cache_dir = $ConfigData{'cache_dir'};
-    $tmp_cache_dir = $ConfigData{'tmp_cache_dir'};
-  }
-
   $ignore = $debug =~ /\bignore\b/ ? 1 : 0;
 
   $account = $debug =~ /\baccount\b/ ? 1 : 0;
@@ -123,30 +117,11 @@ sub AddFiles
 
   $debug .= ',pkg';
 
-#  if(!$AutoBuild) {
-#    $rpms = "$ConfigData{suse_base}/suse";
-#    die "$Script: where are the rpms?" unless $ConfigData{suse_base} && -d $rpms;
-#    $rpms = "$rpms/*";
-#  }
-# else {
-#    $rpms = $AutoBuild;
-#    die "$Script: where are the rpms?" unless -d $rpms;
-#    print "running in autobuild environment\n";
-#  }
-
   if(! -d $dir) {
     die "$Script: failed to create $dir ($!)" unless mkdir $dir, 0755;
   }
 
-  if(!($use_cache & 4)) {
-    $tdir = "${TmpBase}.dir";
-    die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
-  }
   $tfile = "${TmpBase}.afile";
-
-  # see if our rpm understands --nosignature
-  $rpm_cmd = "rpm";
-  $rpm_cmd .= " --nosignature" if `$rpm_cmd --help` =~ /--nosignature/s;
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # now we really start...
@@ -199,16 +174,6 @@ sub AddFiles
       print "*$ifmsg" if $debug =~ /\bif\b/;
       next
     }
-
-# drop these
-#    if(/^ifarch\s+/)  { $if_val <<= 1; $if_val |= 1 if !/\b$arch\b/ || $arch eq ""; next }
-#    if(/^ifnarch\s+/) { $if_val <<= 1; $if_val |= 1 if  /\b$arch\b/ && $arch ne ""; next }
-#    if(/^ifdef\s+/)   { $if_val <<= 1; $if_val |= 1 if !/\b$tag\b/  || $tag  eq ""; next }
-#    if(/^ifndef\s+/)  { $if_val <<= 1; $if_val |= 1 if  /\b$tag\b/  && $tag  ne ""; next }
-#    if(/^ifabuild/)   { $if_val <<= 1; $if_val |= 1 if !$AutoBuild;                 next }
-#    if(/^ifnabuild/)  { $if_val <<= 1; $if_val |= 1 if  $AutoBuild;                 next }
-#    if(/^ifenv\s+(\S+)\s+(\S+)/)  { $if_val <<= 1; $if_val |= 1 if $ENV{$1} ne $2;  next }
-#    if(/^ifnenv\s+(\S+)\s+(\S+)/) { $if_val <<= 1; $if_val |= 1 if $ENV{$1} eq $2;  next }
 
     if(/^(els)?if\s+(.+)/) {
       no integer;
@@ -277,151 +242,44 @@ sub AddFiles
 
       undef $rc;
       undef $r;
-      if($p =~ /^\//) {
-        $r = $p;
-        warn("$Script: no such package: $r"), next unless -f $r;
-      }
-      else {
-        $r = RPMFileName $p;
 
-        if($use_cache) {
-          $rc = "$cache_dir/$p.rpm";
-          $tmp_rpm = "$tmp_cache_dir/$p";
-        }
-        warn("$Script: no such package: $p.rpm"), next unless $r && -f $r;
+      $rpm_dir = ReadRPM $p;
 
-        if(($use_cache & 2) && $rc && $r && -f($r) && $rc ne $r) {
-          if(! -d($cache_dir)) {
-            SUSystem("mkdir -p $cache_dir");
-          }
-          if(-d $cache_dir) {
-            SUSystem("cp -a $r $rc");
-            if(-f $rc) {
-              $r = $rc;
-            }
-            else {
-              warn "$Script: failed to cache package $r";
-            }
-          }
-          else {
-            warn "$Script: failed to create cache dir $cache_dir";
-            $use_cache = 0;
-          }
-        }
-      }
+      next unless $rpm_dir;
 
-      $current_pack = $p;
+      $current_pack = RealRPM($p)->{name};
 
-      $ver = (`$rpm_cmd -qp $r`)[0];
-      $ver = "" unless defined $ver;
-      $ver =~ s/\s*$//;
-      if($ver =~ /^(\S+)-([^-]+-[^-]+)$/) {
-        $ver = $1 eq $p ? " [$2]" : "";
-      }
-      else {
-        $ver = "";
-      }
-      if($use_cache) {
-        if(-d $tmp_rpm) {
-          $ver .= '#';
-        }
-        elsif(defined($rc) && $rc eq $r) {
-          $ver .= '*';
-        }
-      }
+      $ver = ReadFile "$rpm_dir/version";
+      $ver = "[$ver]";
 
-      undef $sl;
+      push @plog, "$current_pack $ver\n";
 
-      @s = `$rpm_cmd -qp --qf '%|PREIN?{PREIN\n}:{}|%|POSTIN?{POSTIN\n}:{}|%|PREUN?{PREUN\n}:{}|%|POSTUN?{POSTUN\n}:{}|' $r 2>/dev/null`;
-      for $s (@s) {
-        chomp $s;
-        $sl .= "," if $sl;
-        $sl .= "\L$s";
-      }
-      $ver .= " \{$sl\}" if $sl;
+      $_ = ReadFile "$rpm_dir/scripts";
+      $ver .= " {$_}" if $_;
 
-      push @plog, "$p$ver\n";
+      print "adding package $current_pack $ver\n" if $debug =~ /\bpkg\b/;
 
-      print "adding package $p$ver\n" if $debug =~ /\bpkg\b/;
-
-      push @packs, "$p\n";
+      push @packs, "$current_pack\n";
 
       for $s (@scripts) {
-        @{$script{$s}} =
-        @s = `$rpm_cmd --queryformat '%{\U$s\E}' -qp $r 2>/dev/null`;
-        if(@s == 0 || $s[0] =~ /^\(none\)\s*$/) {
-          warn "$Script: no \"$s\" script in $r";
+        $_ = ReadFile "$rpm_dir/$s";
+        if(!$_) {
+          warn "$Script: no \"$s\" script in $current_pack";
         }
         else {
           print "  got \"$s\" script\n" if $debug =~ /\bscripts\b/;
-          @{$script{$s}} = @s;
+          $script{$s} = $_;
         }
       }
 
       if(@requires) {
-        @requires = `$rpm_cmd --requires -qp $r 2>/dev/null`;
+        $_ = ReadFile "$rpm_dir/requires";
         open R, ">$dir/$p.requires";
-        print R @requires;
+        print R $_;
         close R;
       }
 
-      if(!($use_cache & 4)) {
-        SUSystem "rm -rf $tdir" and die "$Script: failed to remove $tdir";
-        die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
-        SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
-          warn "$Script: failed to extract $r";
-      }
-      else {
-        $tdir = $tmp_rpm;
-        if(!-d($tdir)) {
-          die "$Script: failed to create $tdir ($!)" unless mkdir $tdir, 0777;
-          SUSystem "sh -c 'cd $tdir ; rpm2cpio $r | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
-            warn "$Script: failed to extract $r";
-
-          if($p eq $ConfigData{kernel_rpm}) {
-            my $r2 = RPMFileName "$p-base";
-            if($r2 && -f $r2) {
-              SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
-                warn "$Script: failed to extract $r2";
-            }
-            else {
-              print STDERR "$Script: no such package: ${p}-base.rpm\n";
-            }
-
-            $r2 = RPMFileName "$p-extra";
-            if($r2 && -f $r2) {
-              SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
-                warn "$Script: failed to extract $r2";
-            }
-            else {
-              print STDERR "$Script: no such package: ${p}-extra.rpm\n";
-            }
-
-            my ($kmp, $kmp_name);
-            for $kmp (split(',', $ConfigData{kmp_list})) {
-              ($kmp_name = $p) =~ s/^kernel/$kmp-kmp/;
-              my $r2 = RPMFileName "$kmp_name";
-              (print STDERR "$Script: no such package: ${kmp_name}.rpm\n"), next unless $r2 && -f $r2;
-              print "adding kmp $kmp_name\n";
-              SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
-                warn "$Script: failed to extract $r2";
-            }
-
-            my $fw;
-            for $fw (split(',', $ConfigData{fw_list})) {
-              my $r2 = RPMFileName $fw;
-              if($r2 && -f $r2) {
-                print "adding firmware $fw\n";
-                SUSystem "sh -c 'cd $tdir ; rpm2cpio $r2 | cpio --quiet --sparse -dimu --no-absolute-filenames'" and
-                  warn "$Script: failed to extract $r2";
-              }
-              else {
-                print STDERR "$Script: no such package: $fw.rpm\n";
-              }
-            }
-          }
-        }
-      }
+      $tdir = "$rpm_dir/rpm";
     }
     elsif(!/^[a-zA-Z]\s+/ && /^(.*)$/) {
       $files = $1;
@@ -609,7 +467,7 @@ sub AddFiles
         SUSystem "sh -c 'mkdir $dir/install && chmod 777 $dir/install'" and
           die "$Script: failed to create $dir/install";
         die "$Script: unable to create $pm" unless open W, ">$dir/install/inst.sh";
-        print W @{$script{$cmd}};
+        print W $script{$cmd};
         close W;
 
         $e = 'E' if $xdir eq 'base';
@@ -685,9 +543,6 @@ sub AddFiles
 
   $account_size->($dir);
 
-  if(!($use_cache & 4)) {
-    SUSystem "rm -rf $tdir";
-  }
   SUSystem "rm -f $tfile";
 
   open F, ">${dir}.rpms";
@@ -750,7 +605,7 @@ sub fixup_re
     substr($re, length($2), length($3)) = $val;
   }
 
-  $re =~ s/\bexists\(([^)]*)\)/-f(RPMFileName($1)) ? 1 : 0/eg;
+  $re =~ s/\bexists\(([^)]*)\)/RealRPM($1) ? 1 : 0/eg;
 
   return $re;
 }

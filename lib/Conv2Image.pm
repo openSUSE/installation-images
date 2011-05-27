@@ -52,10 +52,11 @@ sub Conv2Image
   }
   if($fs eq 'squashfs') {
     $mksquashfs = "/usr/bin/mksquashfs" if -x "/usr/bin/mksquashfs";
+    $mksquashfs = "/usr/bin/mksquashfs4" if -x "/usr/bin/mksquashfs4";
     die "$Script: no mksquashfs\n" unless $mksquashfs;
     SUSystem "rm -f $image";
     system "touch $image $image.log";	# just to ensure the image gets the correct owner
-    SUSystem "sh -c '$mksquashfs $dir $image -noappend -no-progress -processors 1 >$image.log'" and die "$Script: mksquashfs failed";
+    SUSystem "sh -c '$mksquashfs $dir $image -noappend -no-progress >$image.log'" and die "$Script: mksquashfs failed";
     $size = -s $image;
     die "$Script: no image?" if $size == 0;
     return;
