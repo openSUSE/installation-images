@@ -1,3 +1,6 @@
+30/5/2011:	v11.126
+	- update lib dependencies
+
 27/5/2011:	v11.125
 	- updated build scripts to version from oS 11.4:
 	  * faster package build

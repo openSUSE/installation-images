@@ -744,16 +744,17 @@ jfsutils:
   /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump,jfs_tune}
 
 xfsprogs:
-  /lib*
-  /usr/sbin
-  /sbin
+  /
+
+libproxy*:
+  /
 
 wget:
   /etc
   /usr/bin
 
-libopenssl0_9_8:
-  /usr/lib*
+libopenssl*:
+  /
 
 openssl:
   /usr/share/ssl
