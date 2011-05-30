@@ -133,7 +133,7 @@ findutils:
 libacl:
   /lib*
 
-libpopt0:
+libpopt*:
   /lib*
 
 unscd:
@@ -143,8 +143,8 @@ unscd:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc45:
-  /lib*
+libgcc*:
+  /
 
 glibc:
   /etc/ld.so.conf

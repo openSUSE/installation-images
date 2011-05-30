@@ -193,14 +193,14 @@ s ../share/terminfo /usr/lib/terminfo
 terminfo:
   /usr/share/terminfo/i/ibm3151
 
-libpopt0:
+libpopt*:
   /lib*
 
 tcpd:
   /lib*/libwrap.so*
 
-libgcc45:
-  /lib*
+libgcc*:
+  /
 
 glibc:
   /sbin/ldconfig
@@ -455,10 +455,10 @@ yast2-users:
   /usr/lib*/YaST2/plugin/libpy2ag_crack.so*
 
 yast2-libyui:
-  /usr/lib*/libyui*
+  /
 
 yast2-ycp-ui-bindings:
-  /usr/lib*/YaST2/plugin/libpy2UI.so.*
+  /
 
 yast2-ncurses-pkg:
   /
@@ -470,28 +470,22 @@ autoyast2-installation:
   /
 
 gpart:
-  /usr/bin
-
-libcurl4:
-  /usr/lib*/libcurl.so*
-
-libssh2-1:
   /
 
-libcares2:
-  /usr/lib*/libcares.so.*
+libcurl*:
+  /
+
+libssh2-*:
+  /
+
+libcares*:
+  /
 
 openslp:
-  /etc/slp.spi
-  /etc/slp.conf
-  /usr/bin/slptool
-  /usr/lib*/libslp.so.*
+  /
 
-libblocxx6:
-  /usr/lib*/libblocxx.so.*
-
-libpcre0:
-  /lib*
+libpcre*:
+  /
 
 limal:
   /
@@ -499,14 +493,14 @@ limal:
 limal-perl:
   /
 
-libblocxx6:
+libblocxx*:
   /
 
 zlib:
-  /lib*/libz.so.1*
+  /
 
-libstdc++45:
-  /usr/<lib>
+libstdc++*:
+  /
 
 eject:
   /bin/eject
@@ -528,17 +522,16 @@ libsepol*:
   /
 
 device-mapper:
-  /<lib>
+  /
 
 reiserfs:
-  /sbin
+  /
 
 libreiserfs:
-  /usr/lib*/libreiserfs-*.so.*
-  /usr/lib*/libdal-*.so.*
+  /
 
 btrfsprogs:
-  /sbin
+  /
 
 gawk:
   /bin
@@ -612,7 +605,7 @@ krb5:
   /usr/lib*/libk5crypto.so.*
 
 keyutils-libs:
-  /lib*/libkeyutils{.,-}*
+  /
 
 libldap-2_4-2:
   /usr/lib*/liblber-*.so.*
@@ -749,14 +742,13 @@ pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
 usbutils:
-  /usr/sbin/lsusb
-  /usr/share/usb.ids
+  /
 
 libusb-0_1-4:
   /usr/lib*
 
-libusb-1_0-0:
-  /usr/lib*
+libusb-*-*:
+  /
 
 checkmedia:
   /usr/bin/checkmedia
@@ -787,6 +779,7 @@ perl-base:
   /usr/lib/perl*/*/bytes.pm
   /usr/lib/perl*/*/bytes_heavy.pl
   /usr/lib/perl*/*/constant.pm
+  /usr/lib/perl*/*/feature.pm
   /usr/lib/perl*/*/integer.pm
   /usr/lib/perl*/*/overload.pm
   /usr/lib/perl*/*/strict.pm
@@ -879,6 +872,9 @@ perl-Bootloader:
   /usr/lib
 
 perl-gettext:
+  /usr/lib
+
+perl-Switch:
   /usr/lib
 
 perl-XML-Simple:
@@ -986,7 +982,7 @@ yast2-storage: postin
   /
   E postin
 
-libstorage: postin
+libstorage*: postin
   /
   E postin
 

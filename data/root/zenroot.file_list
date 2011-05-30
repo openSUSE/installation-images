@@ -167,8 +167,8 @@ libpopt0:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc45:
-  /lib*
+libgcc*:
+  /
 
 glibc:
   /sbin/ldconfig
@@ -312,8 +312,8 @@ zlib:
 
 c 0755 0 0 /usr
 
-libstdc++45:
-  /usr/<lib>
+libstdc++*:
+  /
 
 eject:
   /bin/eject

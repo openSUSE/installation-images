@@ -194,30 +194,29 @@ libopenssl*:
   /lib*/libssl.so.*
 
 curl:
-  /usr/bin/curl
+  /
 
-libcurl4:
-  /usr/lib*/libcurl.so.*
+libcurl*:
+  /
 
-libssh2-1:
+libssh2-*:
   /
 
 libcares2:
-  /usr/lib*/libcares.so.*
+  /
 
 libidn:
-  /usr/lib*/libidn.so.*
+  /usr/lib*
 
-libldap-2_4-2:
+libldap-*-*:
   /usr/lib*/liblber-*.so.*
   /usr/lib*/libldap-*.so.*
 
 cyrus-sasl:
   /usr/lib*/libsasl2.so.*
 
-libcom_err2:
-  /lib*/libcom_err.so.*
-  /lib*/libss.so.*
+libcom_err*:
+  /
 
 krb5:
   /etc
@@ -227,10 +226,10 @@ krb5:
   /usr/lib*/libk5crypto.so.*
 
 keyutils-libs:
-  /lib*/libkeyutils{.,-}*
+  /
 
 zlib:
-  /lib*/libz.so.1*
+  /
 
 coreutils:
   /bin/rm
@@ -336,28 +335,23 @@ elsif exists(openSUSE-build-key)
     m /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
 endif
 
-libblkid1:
-  /lib*
+libblkid*:
+  /
 
-libuuid1:
-  /lib*
+libuuid*:
+  /
 
 libacl:
-  /lib*
+  /
 
 libattr:
-  /lib*
+  /
 
 libglib-*-*:
   /
 
-libudev0:
-  /lib*
-
-sysconfig:
-  # for ipw3945d
-  /etc/udev/rules.d/*-network.rules 
-  e perl -ni -e "print if /^SUBSYSTEM.*ipw3945/" etc/udev/rules.d/*-network.rules
+libudev*:
+  /
 
 ntfs-3g:
   /sbin
@@ -416,15 +410,15 @@ if exists(sbl)
     s y2base /etc/sbl/profile/default
 endif
 
-libgcc45:
-  /lib*
+libgcc*:
+  /
 
 gzip:
   /bin/gzip
   /bin/gunzip
 
-libpcre0:
-  /lib*
+libpcre*:
+  /
 
 unscd:
   # remaining files are in root image
