@@ -342,8 +342,8 @@ sub ReadRPM
       undef $kv;
     }
 
-    UnpackRPM RealRPM("$rpm-base"), $tdir;
-    UnpackRPM RealRPM("$rpm-extra"), $tdir;
+    UnpackRPM RealRPM("$rpm->{name}-base"), $tdir;
+    UnpackRPM RealRPM("$rpm->{name}-extra"), $tdir;
 
     my $kmp;
     for (split(',', $ConfigData{kmp_list})) {
