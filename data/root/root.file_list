@@ -874,9 +874,6 @@ perl-Bootloader:
 perl-gettext:
   /usr/lib
 
-perl-Switch:
-  /usr/lib
-
 perl-XML-Simple:
   /usr/lib
 

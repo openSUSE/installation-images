@@ -280,7 +280,7 @@ sub ReadRPM
 
   my $rpm = RealRPM $_[0];
 
-  if(!$rpm) {
+  if(!$rpm || !$rpm->{name}) {
     warn "$Script: no such package: $_[0]";
     return undef;
   }

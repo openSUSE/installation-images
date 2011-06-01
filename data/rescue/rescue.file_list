@@ -444,7 +444,7 @@ krb5:
   /usr/lib*/libk5crypto.so.*
 
 keyutils-libs:
-  /lib*/libkeyutils{.,-}*
+  /
 
 strace:
   /usr/bin/strace
