@@ -939,6 +939,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $full_product_name .= (" " . $ConfigData{ini}{"Theme $theme"}{version}) if $ConfigData{ini}{"Theme $theme"}{version};
 
   my $suse_release = $ConfigData{ini}{"Theme $theme"}{version};
+  my $sle_release = "sle" . $ConfigData{ini}{"Theme $theme"}{sle};
   my $sles_release = "sles" . $ConfigData{ini}{"Theme $theme"}{sle};
   my $sled_release = "sled" . $ConfigData{ini}{"Theme $theme"}{sle};
 
@@ -983,7 +984,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
       $kmp = "";
     }
 
-    print "--- Building for $product_name $suse_release $ConfigData{arch} [$ConfigData{lib}] ($sles_release, $sled_release), theme $ConfigData{theme}\n";
+    print "--- Building for $product_name $suse_release $ConfigData{arch} ($sle_release) [$ConfigData{lib}], theme $ConfigData{theme}\n";
     print "--- Kernel: $ConfigData{kernel_rpm}$kmp, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
 
     $r = $ConfigData{suse_base};

@@ -190,6 +190,8 @@ kernel/drivers/mfd/ab3100-core.ko
 kernel/drivers/gpu/drm/drm.ko
 kernel/drivers/video/sis/
 
+kernel/drivers/misc/lis3lv02d/lis3lv02d.ko
+
 # kmps
 updates/
 
