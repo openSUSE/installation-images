@@ -591,11 +591,11 @@ syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
   x etc/syslogd /sbin/syslogd
 
-pcsc-lite:
-  /usr/lib*/libpcsclite.so*
+libpcsclite*:
+  /
 
-libopenct1:
-  /usr/lib*/libopenct.so*
+libopenct*:
+  /
 
 krb5:
   /etc
@@ -808,7 +808,6 @@ perl-base:
   /usr/lib/perl*/*/*/Socket.pm
   /usr/lib/perl*/*/XSLoader.pm
   /usr/lib/perl*/*/*/auto/Data/Dumper
-  /usr/lib/perl*/*/*/auto/DynaLoader
   /usr/lib/perl*/*/*/auto/Fcntl
   /usr/lib/perl*/*/*/auto/File/Glob
   /usr/lib/perl*/*/*/auto/IO
@@ -832,9 +831,7 @@ perl:
   /usr/lib/perl*/*/Pod/Text.pm
   /usr/lib/perl*/*/Pod/Usage.pm
   /usr/lib/perl*/*/SelfLoader.pm
-  /usr/lib/perl*/*/Switch.pm
   /usr/lib/perl*/*/Term/Cap.pm
-  /usr/lib/perl*/*/Tie/Hash
   /usr/lib/perl*/*/Time/Local.pm
   /usr/lib/perl*/*/Time/localtime.pm
   /usr/lib/perl*/*/Time/tm.pm

@@ -797,14 +797,14 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
 
 {
-  # set suse_release, suse_base, suse_xrelease
+  # set suse_base
   # kernel_ver
   # (used to be in etc/config)
 
   my ( $r, $r0, $rx, $in_abuild, $a, $v, $kv, $rf, $ki, @f );
-  my ( $theme, $sles_release, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir, $sled_release );
+  my ( $theme, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir);
 
-  my ( $dist, $i, $j, $rel, $xrel );
+  my ( $dist, $i, $j, $rel );
 
   $in_abuild = $ConfigData{buildenv}{BUILD_BASENAME} ? 1 : 0;
   $in_abuild = 1 if -d "$ConfigData{buildroot}/.build.binaries";
@@ -882,21 +882,13 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   if($ConfigData{obs}) {
     ($rel = $ConfigData{obs_proj}) =~ s/^.*://;
-    $xrel = "";
   }
   else {
     while(!($rel = $ConfigData{ini}{Version}{$i}) && $i =~ s/-[^\-]+$//) {}
     $rel = $ConfigData{ini}{Version}{default} if !$rel && $dist !~ /-/;
 
     die "Sorry, \"$ConfigData{dist}\" is not supported.\n" unless $rel;
-
-    $xrel = $1 if $rel =~ s/,([^,]+)//;
   }
-
-  # print STDERR "rel = $rel ($xrel)\n";
-
-  $ConfigData{suse_release} = $rel;
-  $ConfigData{suse_xrelease} = $xrel;
 
   $ConfigData{cache_dir} = getcwd() . "/${BasePath}cache/$ConfigData{dist}";
   $ConfigData{tmp_cache_dir} = getcwd() . "/${BasePath}tmp/cache/$ConfigData{dist}";
@@ -930,20 +922,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   # print STDERR "kernel_rpm = $ConfigData{kernel_rpm}\n";
   # print STDERR "kernel_ver = $ConfigData{kernel_ver}\n";
 
-  $theme = $ENV{theme} ? $ENV{theme} : "SuSE";
-
-  for $i (sort version_sort keys %{$ConfigData{ini}{Version}}) {
-    $j = $ConfigData{ini}{Version}{$i};
-    $j =~ s/,([^,]+)//;
-    if($j <= $ConfigData{suse_release}) {
-      $sles_release = $i if $i =~ /^sles/;
-      $sled_release = $i if $i =~ /^sled/;
-    }
-  }
-
-  warn "Oops, no SLES release number found\n" unless $sles_release;
-
-  # print STDERR "sles = $sles_release\n";
+  $theme = $ENV{theme} ? $ENV{theme} : "openSUSE";
 
   die "Don't know theme \"$theme\"\n" unless exists $ConfigData{ini}{"Theme $theme"};
 
@@ -958,10 +937,15 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $product_name = $ConfigData{ini}{"Theme $theme"}{product};
   my $full_product_name = $product_name;
   $full_product_name .= (" " . $ConfigData{ini}{"Theme $theme"}{version}) if $ConfigData{ini}{"Theme $theme"}{version};
+
+  my $suse_release = $ConfigData{ini}{"Theme $theme"}{version};
+  my $sles_release = "sles" . $ConfigData{ini}{"Theme $theme"}{sle};
+  my $sled_release = "sled" . $ConfigData{ini}{"Theme $theme"}{sle};
+
   $update_dir = $ConfigData{ini}{"Theme $theme"}{update};
   $update_dir =~ s/<sles>/$sles_release/g;
   $update_dir =~ s/<sled>/$sled_release/g;
-  $update_dir =~ s/<rel>/$rel/g;
+  $update_dir =~ s/<rel>/$suse_release/g;
   $update_dir =~ s/<arch>/$realarch/g;
   $load_image = $ConfigData{ini}{"Theme $theme"}{image};
   $load_image = $load_image * 1024 if $load_image;
@@ -992,9 +976,6 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   if(!$ENV{silent}) {
     my ($r, $kmp);
 
-    $r = $ConfigData{suse_release};
-    $r .= " $ConfigData{suse_xrelease}" if $ConfigData{suse_xrelease};
-
     if($ConfigData{kmp_list}) {
       $kmp = ' (' . join(', ', map { $_ .= "-kmp" } (split(',', $ConfigData{kmp_list}))) . ')';
     }
@@ -1002,7 +983,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
       $kmp = "";
     }
 
-    print "--- Building for $product_name $r $ConfigData{arch} [$ConfigData{lib}] ($sles_release,$sled_release), theme $ConfigData{theme}\n";
+    print "--- Building for $product_name $suse_release $ConfigData{arch} [$ConfigData{lib}] ($sles_release, $sled_release), theme $ConfigData{theme}\n";
     print "--- Kernel: $ConfigData{kernel_rpm}$kmp, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
 
     $r = $ConfigData{suse_base};

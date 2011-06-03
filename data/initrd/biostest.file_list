@@ -57,7 +57,7 @@ krb5:
   /usr/lib*/libk5crypto.so.*
 
 keyutils-libs:
-  /lib*/libkeyutils{.,-}*
+  /
 
 libcom_err2:
   /lib*/libcom_err.so.*
@@ -65,8 +65,8 @@ libcom_err2:
 libltdl7:
   /usr/lib*
 
-pcsc-lite:
-  /usr/lib*/libpcsclite.so*
+libpcsclite1:
+  /
 
 libopenct1:
   /usr/lib*/libopenct.so*

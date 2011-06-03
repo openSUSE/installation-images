@@ -588,10 +588,10 @@ checkmedia:
 hex:
   /usr/bin/hex
 
-pcsc-lite:
-  /usr/lib*/libpcsclite.so*
+libpcsclite*:
+  /
 
-libopenct1:
+libopenct*:
   /
 
 dhcpcd:

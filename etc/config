@@ -1,27 +1,4 @@
-; versions
-[Version]
-default	 = 11.4
-head     = 11.4
-beta     = 11.4,beta
-debug    = 11.4,debug
-11.1     = 11.1
-11.2     = 11.2
-11.3     = 11.3
-11.4     = 11.4
-12.1     = 12.1
-sles11   = 11.1
-sled11   = 11.1
-sle11    = 11.1
-11.0     = 11.0
-10.3     = 10.3
-10.2     = 10.2
-sles10   = 10.1
-sled10   = 10.1
-sle10-sp = 10.1
-10.1     = 10.1
-
-
-; obs
+; OBS access data
 [OBS]
 server     = http://buildservice:5352
 ; server     = https://user:password@api.opensuse.org
@@ -89,16 +66,7 @@ bsplash = openSUSE
 ksplash = openSUSE
 product	= openSUSE
 version = 12.1
-update	= /linux/suse/<arch>-<rel>
-image	= 350
-
-
-[Theme SuSE]
-yast	= openSUSE
-bsplash = openSUSE
-ksplash = openSUSE
-product	= openSUSE
-version = 12.1
+sle     = 12
 update	= /linux/suse/<arch>-<rel>
 image	= 350
 
@@ -107,8 +75,9 @@ image	= 350
 yast	= SLED
 bsplash = openSUSE
 ksplash = SLES
-product	= SUSE Linux Enterprise Server 11
+product	= SUSE Linux Enterprise Server 12
 version = 12.1
+sle     = 12
 update	= /linux/suse/<arch>-<sles>
 image	= 200
 
@@ -117,8 +86,9 @@ image	= 200
 yast	= SLED
 bsplash = openSUSE
 ksplash	= SLED
-product	= SUSE Linux Enterprise Desktop 11
+product	= SUSE Linux Enterprise Desktop 12
 version = 12.1
+sle     = 12
 update	= /linux/suse/<arch>-<sled>
 image	= 200
 
@@ -129,6 +99,7 @@ bsplash = SLES
 ksplash = SLES
 product = ZENworks
 version = 12.1
+sle     = 12
 update  = /linux/suse/<arch>-<sles>
 image   = 200
 

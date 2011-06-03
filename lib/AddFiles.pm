@@ -156,7 +156,7 @@ sub AddFiles
 
     $ifmsg = sprintf " [%x|%x] %s\n", $if_val, $if_taken, $_;
 
-    s/<(kernel_ver|kernel_mods|kernel_rpm|kernel_img|suse_release|theme|product|product_name|yast_theme|splash_theme|update_dir|load_image|min_memory|instsys_build_id|instsys_complain|instsys_complain_root|arch|lib)>/$ConfigData{$1}/g;
+    s/<(kernel_ver|kernel_mods|kernel_rpm|kernel_img|theme|product|product_name|yast_theme|splash_theme|update_dir|load_image|min_memory|instsys_build_id|instsys_complain|instsys_complain_root|arch|lib)>/$ConfigData{$1}/g;
     for $i (qw( linuxrc lang extramod items )) {
       s/<$i>/$ENV{$i}/g if exists $ENV{$i};
     }
