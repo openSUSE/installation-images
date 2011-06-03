@@ -176,6 +176,12 @@ use vars qw (
 );
 
 use Cwd;
+use File::Path 'make_path';
+use File::Spec 'abs2rel';
+
+sub get_repo_list;
+sub read_meta;
+sub read_packages;
 
 
 sub DebugInfo
@@ -219,7 +225,7 @@ sub RealRPM
 { 
   local $_;
   my $rpm = shift;
-  my ($f, @f, @ff, $p, $back, $n, %n);
+  my ($f, @f, @ff, $p, $back, $n, %n, $r);
 
   return $rpmData->{$rpm} if exists $rpmData->{$rpm};
 
@@ -229,7 +235,7 @@ sub RealRPM
     $p = $rpm;
     $p = "\Q$p";
     $p =~ s/\\\*/([0-9_]+)/g;
-    @f = grep { /^$p$/ } @{$ConfigData{packages}};
+    @f = grep { /^$p / } @{$ConfigData{packages}};
 
     return $rpmData->{$rpm} = undef if @f == 0;
 
@@ -238,7 +244,12 @@ sub RealRPM
     $f = pop @f;
     $f = pop @f if $back;
 
-    return $rpmData->{$f} = $rpmData->{$rpm} = { name => $f, file => "$ConfigData{tmp_cache_dir}/.rpms/$f.rpm", obs => "$f.rpm" };
+    if($f =~ m/^(\S+) (.+)$/) {
+      return $rpmData->{$1} = $rpmData->{$rpm} = { name => $1, file => "$ConfigData{tmp_cache_dir}/.obs/$2/$1.rpm", rfile => "../.obs/$2/$1.rpm", obs => "$2" };
+    }
+    else {
+      return $rpmData->{$rpm} = undef;
+    }
   }
   else {
     my $dir = $ConfigData{suse_base};
@@ -277,7 +288,9 @@ sub UnpackRPM
   return 1 unless $rpm;
 
   if($rpm->{obs} && ! -f $rpm->{file}) {
-    system "curl -s -o '$rpm->{file}' '$ConfigData{obs_url}/$rpm->{obs}'";
+
+    system "curl -s -o '$rpm->{file}' '$ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm'";
+    # system "curl -s -o '$rpm->{file}' '$ConfigData{obs_url}/$rpm->{obs}'";
     if(! -f $rpm->{file}) {
       warn "$Script: failed to download $rpm->{name}";
       return 1
@@ -289,7 +302,7 @@ sub UnpackRPM
     return 1;
   }
 
-  symlink($rpm->{file}, "$ConfigData{tmp_cache_dir}/.rpms/$rpm->{name}") unless $rpm->{obs};
+  symlink($rpm->{rfile} ? $rpm->{rfile} : $rpm->{file}, "$ConfigData{tmp_cache_dir}/.rpms/$rpm->{name}");
 
   return 0;
 }
@@ -459,6 +472,133 @@ sub version_sort
   $j =~ s/,([^,]+)//;
 
   return $i <=> $j;
+}
+
+
+sub get_repo_list
+{
+  local $_;
+
+  my $prj = shift;
+  my $repo = shift;
+  my $inrepo;
+  my $r = [ ];
+
+  # print "($prj, $repo)\n";
+
+  for (`curl -s '$ConfigData{obs_server}/source/$prj/_meta'`) {
+    if($inrepo) {
+      if(/<path/) {
+        my $x;
+        $x->[0] = $1 if /\sproject="([^"]+)"/;
+        $x->[1] = $1 if /\srepository="([^"]+)"/;
+        push @$r, $x if @$x == 2;
+        next;
+      }
+      elsif(/<\/repository>/) {
+        last;
+      }
+    }
+    elsif(/<repository.*\sname="\Q$repo\E"/) {
+      $inrepo = 1;
+      next;
+    }
+  }
+
+  # for (@$r) { print "> $_->[0] - $_->[1]\n"; }
+
+  return $r;
+}
+
+
+sub read_meta
+{
+  local $_;
+
+  my $prj = shift;
+  my $repo = shift;
+  my $list = [[ $prj, $repo ]];
+  my %seen;
+  my $cnt;
+
+  do {
+    $cnt = 0;
+    for (@{get_repo_list(@{$list->[-1]})}) {
+      if(!$seen{"$_->[0]/$_->[1]"}) {
+        push @$list, $_;
+        $cnt++;
+      }
+      $seen{"$_->[0]/$_->[1]"} = 1;
+    }
+  } while($cnt);
+
+  # for (@$list) { print ">> $_->[0] - $_->[1]\n"; }
+
+  return $list;
+}
+
+
+sub read_packages
+{
+  local $_;
+
+  my $prj = shift;
+  my $repo = shift;
+  my ($list, %seen, $l, @packages, $f, $p, $r);
+
+  if(-f "$ConfigData{tmp_cache_dir}/.obs/packages") {
+    open $f, "$ConfigData{tmp_cache_dir}/.obs/packages";
+    while(<$f>) {
+      chomp;
+      push @packages, $_;
+    }
+    close $f;
+    if(@packages) {
+      $ConfigData{packages} = [ @packages ];
+    }
+    else {
+      die "no packages in $ConfigData{suse_base}\n";
+    }
+
+    return;
+  }
+
+  print STDERR "Reading OBS meta data...";
+
+  $list = read_meta($prj, $repo);
+
+  open $f, ">", "$ConfigData{tmp_cache_dir}/.obs/repositories";
+
+  for $l (@$list) {
+    $p = $l->[0];
+    $r = $l->[1];
+
+    print $f "$p $r\n";
+    die "$Script: failed to create $ConfigData{tmp_cache_dir}/.obs/$p/$r ($!)" unless make_path "$ConfigData{tmp_cache_dir}/.obs/$p/$r";
+
+    for (`curl -s '$ConfigData{obs_server}/build/$p/$r/$ConfigData{obs_arch}/_repository?view=binaryversions&nometa=1'`) {
+      if(/<binary\s+name="([^"]+)\.rpm"/) {
+        push @packages, "$1 $p/$r" unless $seen{$1};
+        $seen{$1} = 1;
+      }
+    }
+  }
+
+  close $f;
+
+  # for (@packages) { print "$_\n"; }
+
+  if(@packages) {
+    open $f, ">", "$ConfigData{tmp_cache_dir}/.obs/packages";
+    for (@packages) { print $f "$_\n" }
+    close $f;
+    $ConfigData{packages} = [ @packages ];
+  }
+  else {
+    die "no packages in $ConfigData{suse_base}\n";
+  }
+
+  print STDERR "\n";
 }
 
 
@@ -766,35 +906,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     my ($f, @rpms);
     system "mkdir -p $ConfigData{tmp_cache_dir}/.obs" unless -d "$ConfigData{tmp_cache_dir}/.obs";
 
-    if(-f "$ConfigData{tmp_cache_dir}/.obs/packages") {
-      open $f, "$ConfigData{tmp_cache_dir}/.obs/packages";
-      while(<$f>) {
-        chomp;
-        push @rpms, $_;
-      }
-      close $f;
-      if(@rpms) {
-        $ConfigData{packages} = [ @rpms ];
-      }
-      else {
-        die "no packages in $ConfigData{suse_base}\n";
-      }
-    }
-    else {
-      for (`curl -s $ConfigData{tmp_cache_dir}/.obs/rpmlist '$ConfigData{obs_url}?view=binaryversions&nometa=1'`) {
-        push @rpms, $1 if /<binary\s+name="([^"]+)\.rpm"/;
-      }
-
-      if(@rpms) {
-        open $f, ">", "$ConfigData{tmp_cache_dir}/.obs/packages";
-        for (@rpms) { print $f "$_\n" }
-        close $f;
-        $ConfigData{packages} = [ @rpms ];
-      }
-      else {
-        die "no packages in $ConfigData{suse_base}\n";
-      }
-    }
+    read_packages($ConfigData{obs_proj}, $ConfigData{obs_repo});
   }
 
   my $k_dir = ReadRPM $ConfigData{kernel_rpm};
