@@ -88,7 +88,7 @@ yast	= openSUSE
 bsplash = openSUSE
 ksplash = openSUSE
 product	= openSUSE
-version = 11.4
+version = 12.1
 update	= /linux/suse/<arch>-<rel>
 image	= 350
 
@@ -98,7 +98,7 @@ yast	= openSUSE
 bsplash = openSUSE
 ksplash = openSUSE
 product	= openSUSE
-version = 11.4
+version = 12.1
 update	= /linux/suse/<arch>-<rel>
 image	= 350
 
@@ -108,7 +108,7 @@ yast	= SLED
 bsplash = openSUSE
 ksplash = SLES
 product	= SUSE Linux Enterprise Server 11
-version = 11.1
+version = 12.1
 update	= /linux/suse/<arch>-<sles>
 image	= 200
 
@@ -118,7 +118,7 @@ yast	= SLED
 bsplash = openSUSE
 ksplash	= SLED
 product	= SUSE Linux Enterprise Desktop 11
-version = 11.1
+version = 12.1
 update	= /linux/suse/<arch>-<sled>
 image	= 200
 
@@ -128,7 +128,7 @@ yast    = SLED
 bsplash = SLES
 ksplash = SLES
 product = ZENworks
-version = 11.1
+version = 12.1
 update  = /linux/suse/<arch>-<sles>
 image   = 200
 

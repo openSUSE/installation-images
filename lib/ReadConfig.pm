@@ -302,7 +302,7 @@ sub UnpackRPM
     return 1;
   }
 
-  symlink($rpm->{rfile} ? $rpm->{rfile} : $rpm->{file}, "$ConfigData{tmp_cache_dir}/.rpms/$rpm->{name}");
+  symlink($rpm->{rfile} ? $rpm->{rfile} : $rpm->{file}, "$ConfigData{tmp_cache_dir}/.rpms/$rpm->{name}.rpm");
 
   return 0;
 }
