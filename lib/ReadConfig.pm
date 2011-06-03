@@ -804,7 +804,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   my ( $r, $r0, $rx, $in_abuild, $a, $v, $kv, $rf, $ki, @f );
   my ( $theme, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir);
 
-  my ( $dist, $i, $j, $rel );
+  my ( $dist, $i, $j );
 
   $in_abuild = $ConfigData{buildenv}{BUILD_BASENAME} ? 1 : 0;
   $in_abuild = 1 if -d "$ConfigData{buildroot}/.build.binaries";
@@ -823,14 +823,13 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
     $ConfigData{suse_base} = $AutoBuild = $rpmdir;
   }
-  elsif($ENV{work}) {
+  elsif($ENV{work} || $ENV{dist}) {
     my ($work, $base, $xdist);
 
     $dist = $susearch;
 
-    $work = $ENV{work};
-
-    $xdist = $ENV{dist} ? $ENV{dist} : $ENV{suserelease};
+    $work = $ENV{work} ? $ENV{work} : "/mounts/dist/full";
+    $xdist = $ENV{dist} ? $ENV{dist} : "head-$dist";
 
     if($xdist) {
       $base = "$work/full-$xdist/suse";
@@ -879,16 +878,6 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   # print STDERR "base = $ConfigData{suse_base}\n";
 
   $i = $dist;
-
-  if($ConfigData{obs}) {
-    ($rel = $ConfigData{obs_proj}) =~ s/^.*://;
-  }
-  else {
-    while(!($rel = $ConfigData{ini}{Version}{$i}) && $i =~ s/-[^\-]+$//) {}
-    $rel = $ConfigData{ini}{Version}{default} if !$rel && $dist !~ /-/;
-
-    die "Sorry, \"$ConfigData{dist}\" is not supported.\n" unless $rel;
-  }
 
   $ConfigData{cache_dir} = getcwd() . "/${BasePath}cache/$ConfigData{dist}";
   $ConfigData{tmp_cache_dir} = getcwd() . "/${BasePath}tmp/cache/$ConfigData{dist}";
