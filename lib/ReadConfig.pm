@@ -882,7 +882,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   if($ConfigData{obs}) {
     ($rel = $ConfigData{obs_proj}) =~ s/^.*://;
-    $xrel = $rel;
+    $xrel = "";
   }
   else {
     while(!($rel = $ConfigData{ini}{Version}{$i}) && $i =~ s/-[^\-]+$//) {}
