@@ -223,29 +223,46 @@ sub RealRPM
 
   return $rpmData->{$rpm} if exists $rpmData->{$rpm};
 
-  my $dir = $ConfigData{'suse_base'};
-
   $back = 1 if $rpm =~ s/~$//;
 
-  @f = grep { -f } <$ConfigData{cache_dir}/$rpm.rpm $dir/$rpm.rpm>;
-  for (@f) {
-    $n = $_;
-    s#^.*/|\.rpm$##g;
-    $n{$_} = $n unless exists $n{$_};
+  if($ConfigData{obs}) {
+    $p = $rpm;
+    $p = "\Q$p";
+    $p =~ s/\\\*/([0-9_]+)/g;
+    @f = grep { /^$p$/ } @{$ConfigData{packages}};
+
+    return $rpmData->{$rpm} = undef if @f == 0;
+
+    @f = sort @f;
+    # for (@f) { print ">$_<\n"; }
+    $f = pop @f;
+    $f = pop @f if $back;
+
+    return $rpmData->{$f} = $rpmData->{$rpm} = { name => $f, file => "$ConfigData{tmp_cache_dir}/.rpms/$f.rpm", obs => "$f.rpm" };
   }
+  else {
+    my $dir = $ConfigData{suse_base};
 
-  return $rpmData->{$rpm} = undef if @f == 0;
+    @f = grep { -f } <$ConfigData{cache_dir}/$rpm.rpm $dir/$rpm.rpm>;
+    for (@f) {
+      $n = $_;
+      s#^.*/|\.rpm$##g;
+      $n{$_} = $n unless exists $n{$_};
+    }
 
-  $p = $rpm;
-  $p = "\Q$p";
-  $p =~ s/\\\*/([0-9_]+)/g;
-  @f = grep { /^$p$/ } @f;
-  @f = sort @f;
-  # for (@f) { print ">$_<\n"; }
-  $f = pop @f;
-  $f = pop @f if $back;
+    return $rpmData->{$rpm} = undef if @f == 0;
 
-  return $rpmData->{$f} = $rpmData->{$rpm} = { name => $f, file => $n{$f} } ;
+    $p = $rpm;
+    $p = "\Q$p";
+    $p =~ s/\\\*/([0-9_]+)/g;
+    @f = grep { /^$p$/ } @f;
+    @f = sort @f;
+    # for (@f) { print ">$_<\n"; }
+    $f = pop @f;
+    $f = pop @f if $back;
+
+    return $rpmData->{$f} = $rpmData->{$rpm} = { name => $f, file => $n{$f} } ;
+  }
 }
 
 
@@ -259,12 +276,20 @@ sub UnpackRPM
 
   return 1 unless $rpm;
 
+  if($rpm->{obs} && ! -f $rpm->{file}) {
+    system "curl -s -o '$rpm->{file}' '$ConfigData{obs_url}/$rpm->{obs}'";
+    if(! -f $rpm->{file}) {
+      warn "$Script: failed to download $rpm->{name}";
+      return 1
+    }
+  }
+
   if(SUSystem "sh -c 'cd $dir ; rpm2cpio $rpm->{file} | cpio --quiet --sparse -dimu --no-absolute-filenames'") {
     warn "$Script: failed to extract $rpm->{name}";
     return 1;
   }
 
-  symlink($rpm->{file}, "$ConfigData{tmp_cache_dir}/.rpms/$rpm->{name}");
+  symlink($rpm->{file}, "$ConfigData{tmp_cache_dir}/.rpms/$rpm->{name}") unless $rpm->{obs};
 
   return 0;
 }
@@ -367,7 +392,6 @@ sub ReadRPM
       print "warning: kmp/firmware version mismatch: $_\n";
       SUSystem "sh -c 'tar -C $tdir/lib/modules/$_ -cf - . | tar -C $tdir/lib/modules/$kv -xf -'";
     }
-
   }
 
   return $err ? undef : $dir;
@@ -517,6 +541,7 @@ $susearch = $arch;
 $susearch = 'axp' if $arch eq 'alpha';
 
 $ConfigData{arch} = $arch;
+$ConfigData{obs_arch} = $arch eq 'i386' ? 'i586' : $arch;
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -658,18 +683,12 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
     $ConfigData{suse_base} = $AutoBuild = $rpmdir;
   }
-  else {
+  elsif($ENV{work}) {
     my ($work, $base, $xdist);
 
     $dist = $susearch;
 
     $work = $ENV{work};
-    if(!$work) {
-      $work = "/work";
-      $work = "/mounts/work" if ! -d "$work/CDs";
-      $work .= "/CDs";
-      $work .= "/all" if -d "$work/all";
-    }
 
     $xdist = $ENV{dist} ? $ENV{dist} : $ENV{suserelease};
 
@@ -688,7 +707,31 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     die "Sorry, could not locate packages for \"$dist\" ($base).\n" unless -d $base;
 
     $ConfigData{suse_base} = "$base/*";
+  }
+  else {
+    # OBS
 
+    $ConfigData{obs} = 1;
+
+    my ($obs_proj, $obs_repo);
+
+    $ConfigData{obs_proj} = $ConfigData{ini}{OBS}{project};
+    $ConfigData{obs_repo} = $ConfigData{ini}{OBS}{repository};
+    $ConfigData{obs_server} = $ConfigData{ini}{OBS}{server};
+
+    if($ENV{obs} =~ m#^([^/]+)/([^/]+)-([^/-]+)$#) {
+      $ConfigData{obs_proj} = $1;
+      $ConfigData{obs_repo} = $2;
+      $ConfigData{obs_arch} = $3;
+    }
+
+    $ConfigData{obs_url} = "$ConfigData{obs_server}/build/$ConfigData{obs_proj}/$ConfigData{obs_repo}/$ConfigData{obs_arch}/_repository";
+
+    $ConfigData{suse_base} = "$ConfigData{obs_proj}/$ConfigData{obs_repo}-$ConfigData{obs_arch}";
+
+    ($dist = $ConfigData{suse_base}) =~ tr#/#-#;
+
+    # print "$ConfigData{suse_base}\n";
   }
 
   $ConfigData{dist} = $dist;
@@ -697,12 +740,18 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   $i = $dist;
 
-  while(!($rel = $ConfigData{ini}{Version}{$i}) && $i =~ s/-[^\-]+$//) {}
-  $rel = $ConfigData{ini}{Version}{default} if !$rel && $dist !~ /-/;
+  if($ConfigData{obs}) {
+    ($rel = $ConfigData{obs_proj}) =~ s/^.*://;
+    $xrel = $rel;
+  }
+  else {
+    while(!($rel = $ConfigData{ini}{Version}{$i}) && $i =~ s/-[^\-]+$//) {}
+    $rel = $ConfigData{ini}{Version}{default} if !$rel && $dist !~ /-/;
 
-  die "Sorry, \"$ConfigData{dist}\" is not supported.\n" unless $rel;
+    die "Sorry, \"$ConfigData{dist}\" is not supported.\n" unless $rel;
 
-  $xrel = $1 if $rel =~ s/,([^,]+)//;
+    $xrel = $1 if $rel =~ s/,([^,]+)//;
+  }
 
   # print STDERR "rel = $rel ($xrel)\n";
 
@@ -712,6 +761,41 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $ConfigData{cache_dir} = getcwd() . "/${BasePath}cache/$ConfigData{dist}";
   $ConfigData{tmp_cache_dir} = getcwd() . "/${BasePath}tmp/cache/$ConfigData{dist}";
   system "mkdir -p $ConfigData{tmp_cache_dir}/.rpms" unless -d "$ConfigData{tmp_cache_dir}/.rpms";
+
+  if($ConfigData{obs}) {
+    my ($f, @rpms);
+    system "mkdir -p $ConfigData{tmp_cache_dir}/.obs" unless -d "$ConfigData{tmp_cache_dir}/.obs";
+
+    if(-f "$ConfigData{tmp_cache_dir}/.obs/packages") {
+      open $f, "$ConfigData{tmp_cache_dir}/.obs/packages";
+      while(<$f>) {
+        chomp;
+        push @rpms, $_;
+      }
+      close $f;
+      if(@rpms) {
+        $ConfigData{packages} = [ @rpms ];
+      }
+      else {
+        die "no packages in $ConfigData{suse_base}\n";
+      }
+    }
+    else {
+      for (`curl -s $ConfigData{tmp_cache_dir}/.obs/rpmlist '$ConfigData{obs_url}?view=binaryversions&nometa=1'`) {
+        push @rpms, $1 if /<binary\s+name="([^"]+)\.rpm"/;
+      }
+
+      if(@rpms) {
+        open $f, ">", "$ConfigData{tmp_cache_dir}/.obs/packages";
+        for (@rpms) { print $f "$_\n" }
+        close $f;
+        $ConfigData{packages} = [ @rpms ];
+      }
+      else {
+        die "no packages in $ConfigData{suse_base}\n";
+      }
+    }
+  }
 
   my $k_dir = ReadRPM $ConfigData{kernel_rpm};
   if($k_dir) {
@@ -745,7 +829,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     }
   }
 
-  die "Oops, no SLES release number found\n" unless $sles_release;
+  warn "Oops, no SLES release number found\n" unless $sles_release;
 
   # print STDERR "sles = $sles_release\n";
 
