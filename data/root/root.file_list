@@ -637,6 +637,7 @@ sysvinit:
   /sbin/killproc
   /sbin/pidofproc
   /sbin/startproc
+  /sbin/start_daemon
   /sbin/showconsole
   /sbin/{pidof,killall5}
   c 755 0 0 /sbin/showconsole
@@ -1006,11 +1007,16 @@ libcap2:
 satsolver-tools:
   /usr/bin
 
+# not /etc - it's in initrd to keep it writable
 open-fcoe:
-  /
+  /lib*
+  /sbin
+  /usr
 
 lldpad:
   /
+  # must be writable -> initrd
+  r /var/lib/lldpad
 
 libHBAAPI2:
   /
