@@ -947,6 +947,9 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $ConfigData{full_product_name} = $full_product_name;
   $ConfigData{update_dir} = $update_dir;
   $ConfigData{load_image} = $load_image;
+  $ConfigData{suse_release} = $suse_release;
+  $ConfigData{sles_release} = $sles_release;
+  $ConfigData{sled_release} = $sled_release;
 
   $ConfigData{min_memory} = $ConfigData{ini}{"Theme $theme"}{memory};
 
