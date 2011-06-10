@@ -278,7 +278,7 @@ net-tools:
   /{,s}bin
   /usr/sbin
 
-netcat:
+netcat-openbsd:
   /usr/bin
 
 socat:

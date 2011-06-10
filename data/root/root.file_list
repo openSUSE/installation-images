@@ -745,7 +745,7 @@ usbutils:
   /
 
 libusb-0_1-4:
-  /usr/lib*
+  /
 
 libusb-*-*:
   /

@@ -132,16 +132,16 @@ cifs-utils:
   /sbin/mount.cifs
 
 sysfsutils:
-  /lib*/libsysfs.so.*
+  /<lib>
 
 dbus-1:
-  /lib*/libdbus-1.so.*
+  /<lib>
 
 libusb-0_1-4:
-  /usr/lib*
+  /
 
-libusb-1_0-0:
-  /usr/lib*
+libusb-*-*:
+  /
 
 libuuid1:
   /
