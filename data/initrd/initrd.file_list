@@ -135,7 +135,7 @@ sysfsutils:
   /<lib>
 
 dbus-1:
-  /<lib>
+  /lib*/libdbus-1.so.*
 
 libusb-0_1-4:
   /

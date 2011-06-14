@@ -1,7 +1,9 @@
 ; OBS access data
+; looks at ~/.oscrc for user & password if necessary
 [OBS]
 server     = http://buildservice:5352
-; server     = https://user:password@api.opensuse.org
+# server     = https://api.opensuse.org
+# server     = https://user:password@api.opensuse.org
 project    = openSUSE:Factory
 repository = standard
 

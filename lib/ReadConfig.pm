@@ -284,20 +284,25 @@ sub UnpackRPM
 {
   my $rpm = shift;
   my $dir = shift;
+  my $log;
+  my $f;
 
   return 1 unless $rpm;
 
-  if($rpm->{obs} && ! -f $rpm->{file}) {
+  open $f, ">$log";
 
-    system "curl -s -o '$rpm->{file}' '$ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm'";
+  if($rpm->{obs} && ! -f $rpm->{file}) {
+    $log = `curl -o '$rpm->{file}' '$ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm' 2>&1`;
     # system "curl -s -o '$rpm->{file}' '$ConfigData{obs_url}/$rpm->{obs}'";
     if(! -f $rpm->{file}) {
+      print STDERR "$rpm->{file}:\n" . $log;
       warn "$Script: failed to download $rpm->{name}";
       return 1
     }
   }
 
   if(SUSystem "sh -c 'cd $dir ; rpm2cpio $rpm->{file} | cpio --quiet --sparse -dimu --no-absolute-filenames'") {
+    print STDERR "$rpm->{file}:\n" . $log;
     warn "$Script: failed to extract $rpm->{name}";
     return 1;
   }
@@ -863,6 +868,28 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
       $ConfigData{obs_repo} = $2;
       $ConfigData{obs_arch} = $3;
     }
+
+    my ($f, $u, $p, $s);
+
+    if($ConfigData{obs_server} !~ /\@/ && -f "$ENV{HOME}/.oscrc") {
+      open $f, "$ENV{HOME}/.oscrc";
+      while(<$f>) {
+        undef $s if /^\s*\[/;
+        $s = 1 if /^\s*\[\Q$ConfigData{obs_server}\E\/?\]/;
+        $u = $1 if $s && /^\s*user\s*=\s*(\S+)/;
+        $p = $1 if $s && /^\s*pass\s*=\s*(\S+)/;
+      }
+      close $f;
+
+      if(defined($u) && defined($p)) {
+        $u =~ s/(\W)/sprintf("%%%02X", ord $1)/ge;
+        $p =~ s/(\W)/sprintf("%%%02X", ord $1)/ge;
+        $ConfigData{obs_server} =~ s#(://)#$1$u:$p@#;
+      }
+
+      # print "$ConfigData{obs_server}\n";
+    }
+
 
     $ConfigData{obs_url} = "$ConfigData{obs_server}/build/$ConfigData{obs_proj}/$ConfigData{obs_repo}/$ConfigData{obs_arch}/_repository";
 
