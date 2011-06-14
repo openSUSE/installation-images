@@ -1,3 +1,10 @@
+14/6/2011:	v11.128
+	- add subscription-tools (fate #310730) and required packages
+	- finally gave up on perl module dependency checking - including all
+	  of perl & perl-base now
+	- updated build scripts to latest factory versions that allow direct
+	  test builds with build service repos
+
 7/6/2011:	v11.127
 	- fix instsys layout for fcoe tools
 

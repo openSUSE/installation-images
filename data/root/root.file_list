@@ -827,6 +827,8 @@ libusb-0_1-4:
 checkmedia:
   /usr/bin/checkmedia
 
+if 0
+
 perl-base:
   /usr/bin/perl
   /usr/lib/perl*/*/AutoLoader.pm
@@ -938,6 +940,15 @@ perl:
   /usr/lib/perl*/*/*/Filter/Util/Call.pm
   r /usr/lib/perl*/*/CPANPLUS
 
+endif
+
+perl-base:
+  /usr/bin/perl
+  /usr/lib/perl*
+
+perl:
+  /usr/lib/perl*
+
 perl-Bootloader:
   /usr/lib
 
@@ -955,6 +966,15 @@ perl-XML-NamespaceSupport:
 
 perl-XML-Bare:
   /usr/lib
+
+perl-Config-IniFiles:
+  /
+
+libdb-4_5:
+  /
+
+gdbm:
+  /
 
 pcmciautils:
   /
@@ -1025,6 +1045,9 @@ libhbalinux2:
   /
 
 libpciaccess0:
+  /
+
+subscription-tools:
   /
 
 r /usr/X11R6/bin/mkfontdir

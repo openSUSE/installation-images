@@ -143,7 +143,7 @@ boot: base
 	image=boot fs=dir bin/mk_image
 
 root: base
-	libdeps=root root_i18n=1 root_gfx=1 perldeps=root image=root bin/mk_image
+	libdeps=root root_i18n=1 root_gfx=1 image=root bin/mk_image
 
 rescue: base
 	libdeps=rescue image=rescue bin/mk_image
@@ -160,7 +160,7 @@ root+rescue: base
 	cat data/root/rpmlist tmp/base/yast2-trans-rpm.list >images/rpmlist
 
 sax2: base
-	libdeps=root,sax2 perldeps=root,sax2 image=sax2 src=root fs=squashfs disjunct=root bin/mk_image
+	libdeps=root,sax2 image=sax2 src=root fs=squashfs disjunct=root bin/mk_image
 
 gdb: base
 	libdeps=root,gdb image=gdb src=root fs=squashfs disjunct=root bin/mk_image

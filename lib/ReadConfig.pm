@@ -176,6 +176,12 @@ use vars qw (
 );
 
 use Cwd;
+use File::Path 'make_path';
+use File::Spec 'abs2rel';
+
+sub get_repo_list;
+sub read_meta;
+sub read_packages;
 
 
 sub DebugInfo
@@ -219,33 +225,55 @@ sub RealRPM
 { 
   local $_;
   my $rpm = shift;
-  my ($f, @f, @ff, $p, $back, $n, %n);
+  my ($f, @f, @ff, $p, $back, $n, %n, $r);
 
   return $rpmData->{$rpm} if exists $rpmData->{$rpm};
 
-  my $dir = $ConfigData{'suse_base'};
-
   $back = 1 if $rpm =~ s/~$//;
 
-  @f = grep { -f } <$ConfigData{cache_dir}/$rpm.rpm $dir/$rpm.rpm>;
-  for (@f) {
-    $n = $_;
-    s#^.*/|\.rpm$##g;
-    $n{$_} = $n unless exists $n{$_};
+  if($ConfigData{obs}) {
+    $p = $rpm;
+    $p = "\Q$p";
+    $p =~ s/\\\*/([0-9_]+)/g;
+    @f = grep { /^$p / } @{$ConfigData{packages}};
+
+    return $rpmData->{$rpm} = undef if @f == 0;
+
+    @f = sort @f;
+    # for (@f) { print ">$_<\n"; }
+    $f = pop @f;
+    $f = pop @f if $back;
+
+    if($f =~ m/^(\S+) (.+)$/) {
+      return $rpmData->{$1} = $rpmData->{$rpm} = { name => $1, file => "$ConfigData{tmp_cache_dir}/.obs/$2/$1.rpm", rfile => "../.obs/$2/$1.rpm", obs => "$2" };
+    }
+    else {
+      return $rpmData->{$rpm} = undef;
+    }
   }
+  else {
+    my $dir = $ConfigData{suse_base};
 
-  return $rpmData->{$rpm} = undef if @f == 0;
+    @f = grep { -f } <$ConfigData{cache_dir}/$rpm.rpm $dir/$rpm.rpm>;
+    for (@f) {
+      $n = $_;
+      s#^.*/|\.rpm$##g;
+      $n{$_} = $n unless exists $n{$_};
+    }
 
-  $p = $rpm;
-  $p = "\Q$p";
-  $p =~ s/\\\*/([0-9_]+)/g;
-  @f = grep { /^$p$/ } @f;
-  @f = sort @f;
-  # for (@f) { print ">$_<\n"; }
-  $f = pop @f;
-  $f = pop @f if $back;
+    return $rpmData->{$rpm} = undef if @f == 0;
 
-  return $rpmData->{$f} = $rpmData->{$rpm} = { name => $f, file => $n{$f} } ;
+    $p = $rpm;
+    $p = "\Q$p";
+    $p =~ s/\\\*/([0-9_]+)/g;
+    @f = grep { /^$p$/ } @f;
+    @f = sort @f;
+    # for (@f) { print ">$_<\n"; }
+    $f = pop @f;
+    $f = pop @f if $back;
+
+    return $rpmData->{$f} = $rpmData->{$rpm} = { name => $f, file => $n{$f} } ;
+  }
 }
 
 
@@ -256,15 +284,31 @@ sub UnpackRPM
 {
   my $rpm = shift;
   my $dir = shift;
+  my ($log, $i);
 
   return 1 unless $rpm;
 
+  if($rpm->{obs} && ! -f $rpm->{file}) {
+    # retry up to 3 times
+    for ($i = 0; $i < 3; $i++) {
+      $log .= `curl -o '$rpm->{file}' '$ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm' 2>&1`;
+      # system "curl -s -o '$rpm->{file}' '$ConfigData{obs_url}/$rpm->{obs}'";
+      last if -f $rpm->{file};
+    }
+    if(! -f $rpm->{file}) {
+      print STDERR "$rpm->{file}: $ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm\n" . $log;
+      warn "$Script: failed to download $rpm->{name}";
+      return 1
+    }
+  }
+
   if(SUSystem "sh -c 'cd $dir ; rpm2cpio $rpm->{file} | cpio --quiet --sparse -dimu --no-absolute-filenames'") {
+    print STDERR "$rpm->{file}: $ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm\n" . $log;
     warn "$Script: failed to extract $rpm->{name}";
     return 1;
   }
 
-  symlink($rpm->{file}, "$ConfigData{tmp_cache_dir}/.rpms/$rpm->{name}");
+  symlink($rpm->{rfile} ? $rpm->{rfile} : $rpm->{file}, "$ConfigData{tmp_cache_dir}/.rpms/$rpm->{name}.rpm");
 
   return 0;
 }
@@ -280,7 +324,7 @@ sub ReadRPM
 
   my $rpm = RealRPM $_[0];
 
-  if(!$rpm) {
+  if(!$rpm || !$rpm->{name}) {
     warn "$Script: no such package: $_[0]";
     return undef;
   }
@@ -367,7 +411,6 @@ sub ReadRPM
       print "warning: kmp/firmware version mismatch: $_\n";
       SUSystem "sh -c 'tar -C $tdir/lib/modules/$_ -cf - . | tar -C $tdir/lib/modules/$kv -xf -'";
     }
-
   }
 
   return $err ? undef : $dir;
@@ -435,6 +478,133 @@ sub version_sort
   $j =~ s/,([^,]+)//;
 
   return $i <=> $j;
+}
+
+
+sub get_repo_list
+{
+  local $_;
+
+  my $prj = shift;
+  my $repo = shift;
+  my $inrepo;
+  my $r = [ ];
+
+  # print "($prj, $repo)\n";
+
+  for (`curl -s '$ConfigData{obs_server}/source/$prj/_meta'`) {
+    if($inrepo) {
+      if(/<path/) {
+        my $x;
+        $x->[0] = $1 if /\sproject="([^"]+)"/;
+        $x->[1] = $1 if /\srepository="([^"]+)"/;
+        push @$r, $x if @$x == 2;
+        next;
+      }
+      elsif(/<\/repository>/) {
+        last;
+      }
+    }
+    elsif(/<repository.*\sname="\Q$repo\E"/) {
+      $inrepo = 1;
+      next;
+    }
+  }
+
+  # for (@$r) { print "> $_->[0] - $_->[1]\n"; }
+
+  return $r;
+}
+
+
+sub read_meta
+{
+  local $_;
+
+  my $prj = shift;
+  my $repo = shift;
+  my $list = [[ $prj, $repo ]];
+  my %seen;
+  my $cnt;
+
+  do {
+    $cnt = 0;
+    for (@{get_repo_list(@{$list->[-1]})}) {
+      if(!$seen{"$_->[0]/$_->[1]"}) {
+        push @$list, $_;
+        $cnt++;
+      }
+      $seen{"$_->[0]/$_->[1]"} = 1;
+    }
+  } while($cnt);
+
+  # for (@$list) { print ">> $_->[0] - $_->[1]\n"; }
+
+  return $list;
+}
+
+
+sub read_packages
+{
+  local $_;
+
+  my $prj = shift;
+  my $repo = shift;
+  my ($list, %seen, $l, @packages, $f, $p, $r);
+
+  if(-f "$ConfigData{tmp_cache_dir}/.obs/packages") {
+    open $f, "$ConfigData{tmp_cache_dir}/.obs/packages";
+    while(<$f>) {
+      chomp;
+      push @packages, $_;
+    }
+    close $f;
+    if(@packages) {
+      $ConfigData{packages} = [ @packages ];
+    }
+    else {
+      die "no packages in $ConfigData{suse_base}\n";
+    }
+
+    return;
+  }
+
+  print STDERR "Reading OBS meta data...";
+
+  $list = read_meta($prj, $repo);
+
+  open $f, ">", "$ConfigData{tmp_cache_dir}/.obs/repositories";
+
+  for $l (@$list) {
+    $p = $l->[0];
+    $r = $l->[1];
+
+    print $f "$p $r\n";
+    die "$Script: failed to create $ConfigData{tmp_cache_dir}/.obs/$p/$r ($!)" unless make_path "$ConfigData{tmp_cache_dir}/.obs/$p/$r";
+
+    for (`curl -s '$ConfigData{obs_server}/build/$p/$r/$ConfigData{obs_arch}/_repository?view=binaryversions&nometa=1'`) {
+      if(/<binary\s+name="([^"]+)\.rpm"/) {
+        push @packages, "$1 $p/$r" unless $seen{$1};
+        $seen{$1} = 1;
+      }
+    }
+  }
+
+  close $f;
+
+  # for (@packages) { print "$_\n"; }
+
+  if(@packages) {
+    open $f, ">", "$ConfigData{tmp_cache_dir}/.obs/packages";
+    for (@packages) { print $f "$_\n" }
+    close $f;
+    $ConfigData{packages} = [ @packages ];
+  }
+  else {
+    die "no packages in $ConfigData{suse_base}\n";
+  }
+
+  print STDERR "\n";
 }
 
 
@@ -517,6 +687,7 @@ $susearch = $arch;
 $susearch = 'axp' if $arch eq 'alpha';
 
 $ConfigData{arch} = $arch;
+$ConfigData{obs_arch} = $arch eq 'i386' ? 'i586' : $arch;
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -632,14 +803,14 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
 
 {
-  # set suse_release, suse_base, suse_xrelease
+  # set suse_base
   # kernel_ver
   # (used to be in etc/config)
 
   my ( $r, $r0, $rx, $in_abuild, $a, $v, $kv, $rf, $ki, @f );
-  my ( $theme, $sles_release, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir, $sled_release );
+  my ( $theme, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir);
 
-  my ( $dist, $i, $j, $rel, $xrel );
+  my ( $dist, $i, $j );
 
   $in_abuild = $ConfigData{buildenv}{BUILD_BASENAME} ? 1 : 0;
   $in_abuild = 1 if -d "$ConfigData{buildroot}/.build.binaries";
@@ -658,20 +829,13 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
     $ConfigData{suse_base} = $AutoBuild = $rpmdir;
   }
-  else {
+  elsif($ENV{work} || $ENV{dist}) {
     my ($work, $base, $xdist);
 
     $dist = $susearch;
 
-    $work = $ENV{work};
-    if(!$work) {
-      $work = "/work";
-      $work = "/mounts/work" if ! -d "$work/CDs";
-      $work .= "/CDs";
-      $work .= "/all" if -d "$work/all";
-    }
-
-    $xdist = $ENV{dist} ? $ENV{dist} : $ENV{suserelease};
+    $work = $ENV{work} ? $ENV{work} : "/mounts/dist/full";
+    $xdist = $ENV{dist} ? $ENV{dist} : "head-$dist";
 
     if($xdist) {
       $base = "$work/full-$xdist/suse";
@@ -688,7 +852,62 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     die "Sorry, could not locate packages for \"$dist\" ($base).\n" unless -d $base;
 
     $ConfigData{suse_base} = "$base/*";
+  }
+  else {
+    # OBS
 
+    $ConfigData{obs} = 1;
+
+    my ($obs_proj, $obs_repo);
+
+    $ConfigData{obs_proj} = $ConfigData{ini}{OBS}{project};
+    $ConfigData{obs_repo} = $ConfigData{ini}{OBS}{repository};
+    $ConfigData{obs_server} = $ConfigData{ini}{OBS}{server};
+
+    if($ENV{obs} =~ m#^([^/]+)/([^/]+)-([^/-]+)$#) {
+      $ConfigData{obs_proj} = $1;
+      $ConfigData{obs_repo} = $2;
+      $ConfigData{obs_arch} = $3;
+    }
+
+    my ($f, $u, $p, $s);
+
+    if($ConfigData{obs_server} !~ /\@/ && -f "$ENV{HOME}/.oscrc") {
+      if($< == 0) {
+        # to avoid problems with restrictive .oscrc permissions
+        open $f, "su `stat -c %U $ENV{HOME}/.oscrc` -c 'cat $ENV{HOME}/.oscrc' |";
+      }
+      else {
+        open $f, "$ENV{HOME}/.oscrc";
+      }
+      while(<$f>) {
+        undef $s if /^\s*\[/;
+        $s = 1 if /^\s*\[\Q$ConfigData{obs_server}\E\/?\]/;
+        $u = $1 if $s && /^\s*user\s*=\s*(\S+)/;
+        $p = $1 if $s && /^\s*pass\s*=\s*(\S+)/;
+      }
+      close $f;
+
+      if(defined($u) && defined($p)) {
+        $u =~ s/(\W)/sprintf("%%%02X", ord $1)/ge;
+        $p =~ s/(\W)/sprintf("%%%02X", ord $1)/ge;
+        $ConfigData{obs_server} =~ s#(://)#$1$u:$p@#;
+      }
+      elsif($ConfigData{obs_server} =~ /^https:/) {
+        warn "\nWarning: *** no auth data for $ConfigData{obs_server}! ***\n\n";
+        sleep 2;
+      }
+
+      # print "$ConfigData{obs_server}\n";
+    }
+
+    $ConfigData{obs_url} = "$ConfigData{obs_server}/build/$ConfigData{obs_proj}/$ConfigData{obs_repo}/$ConfigData{obs_arch}/_repository";
+
+    $ConfigData{suse_base} = "$ConfigData{obs_proj}/$ConfigData{obs_repo}-$ConfigData{obs_arch}";
+
+    ($dist = $ConfigData{suse_base}) =~ tr#/#-#;
+
+    # print "$ConfigData{suse_base}\n";
   }
 
   $ConfigData{dist} = $dist;
@@ -697,21 +916,16 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   $i = $dist;
 
-  while(!($rel = $ConfigData{ini}{Version}{$i}) && $i =~ s/-[^\-]+$//) {}
-  $rel = $ConfigData{ini}{Version}{default} if !$rel && $dist !~ /-/;
-
-  die "Sorry, \"$ConfigData{dist}\" is not supported.\n" unless $rel;
-
-  $xrel = $1 if $rel =~ s/,([^,]+)//;
-
-  # print STDERR "rel = $rel ($xrel)\n";
-
-  $ConfigData{suse_release} = $rel;
-  $ConfigData{suse_xrelease} = $xrel;
-
   $ConfigData{cache_dir} = getcwd() . "/${BasePath}cache/$ConfigData{dist}";
   $ConfigData{tmp_cache_dir} = getcwd() . "/${BasePath}tmp/cache/$ConfigData{dist}";
   system "mkdir -p $ConfigData{tmp_cache_dir}/.rpms" unless -d "$ConfigData{tmp_cache_dir}/.rpms";
+
+  if($ConfigData{obs}) {
+    my ($f, @rpms);
+    system "mkdir -p $ConfigData{tmp_cache_dir}/.obs" unless -d "$ConfigData{tmp_cache_dir}/.obs";
+
+    read_packages($ConfigData{obs_proj}, $ConfigData{obs_repo});
+  }
 
   my $k_dir = ReadRPM $ConfigData{kernel_rpm};
   if($k_dir) {
@@ -734,20 +948,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   # print STDERR "kernel_rpm = $ConfigData{kernel_rpm}\n";
   # print STDERR "kernel_ver = $ConfigData{kernel_ver}\n";
 
-  $theme = $ENV{theme} ? $ENV{theme} : "SuSE";
-
-  for $i (sort version_sort keys %{$ConfigData{ini}{Version}}) {
-    $j = $ConfigData{ini}{Version}{$i};
-    $j =~ s/,([^,]+)//;
-    if($j <= $ConfigData{suse_release}) {
-      $sles_release = $i if $i =~ /^sles/;
-      $sled_release = $i if $i =~ /^sled/;
-    }
-  }
-
-  die "Oops, no SLES release number found\n" unless $sles_release;
-
-  # print STDERR "sles = $sles_release\n";
+  $theme = $ENV{theme} ? $ENV{theme} : "openSUSE";
 
   die "Don't know theme \"$theme\"\n" unless exists $ConfigData{ini}{"Theme $theme"};
 
@@ -762,10 +963,16 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $product_name = $ConfigData{ini}{"Theme $theme"}{product};
   my $full_product_name = $product_name;
   $full_product_name .= (" " . $ConfigData{ini}{"Theme $theme"}{version}) if $ConfigData{ini}{"Theme $theme"}{version};
+
+  my $suse_release = $ConfigData{ini}{"Theme $theme"}{version};
+  my $sle_release = "sle" . $ConfigData{ini}{"Theme $theme"}{sle};
+  my $sles_release = "sles" . $ConfigData{ini}{"Theme $theme"}{sle};
+  my $sled_release = "sled" . $ConfigData{ini}{"Theme $theme"}{sle};
+
   $update_dir = $ConfigData{ini}{"Theme $theme"}{update};
   $update_dir =~ s/<sles>/$sles_release/g;
   $update_dir =~ s/<sled>/$sled_release/g;
-  $update_dir =~ s/<rel>/$rel/g;
+  $update_dir =~ s/<rel>/$suse_release/g;
   $update_dir =~ s/<arch>/$realarch/g;
   $load_image = $ConfigData{ini}{"Theme $theme"}{image};
   $load_image = $load_image * 1024 if $load_image;
@@ -777,6 +984,9 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $ConfigData{full_product_name} = $full_product_name;
   $ConfigData{update_dir} = $update_dir;
   $ConfigData{load_image} = $load_image;
+  $ConfigData{suse_release} = $suse_release;
+  $ConfigData{sles_release} = $sles_release;
+  $ConfigData{sled_release} = $sled_release;
 
   $ConfigData{min_memory} = $ConfigData{ini}{"Theme $theme"}{memory};
 
@@ -796,9 +1006,6 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   if(!$ENV{silent}) {
     my ($r, $kmp);
 
-    $r = $ConfigData{suse_release};
-    $r .= " $ConfigData{suse_xrelease}" if $ConfigData{suse_xrelease};
-
     if($ConfigData{kmp_list}) {
       $kmp = ' (' . join(', ', map { $_ .= "-kmp" } (split(',', $ConfigData{kmp_list}))) . ')';
     }
@@ -806,7 +1013,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
       $kmp = "";
     }
 
-    print "--- Building for $product_name $r $ConfigData{arch} [$ConfigData{lib}] ($sles_release,$sled_release), theme $ConfigData{theme}\n";
+    print "--- Building for $product_name $suse_release $ConfigData{arch} ($sle_release) [$ConfigData{lib}], theme $ConfigData{theme}\n";
     print "--- Kernel: $ConfigData{kernel_rpm}$kmp, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
 
     $r = $ConfigData{suse_base};
