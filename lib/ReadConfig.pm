@@ -284,25 +284,26 @@ sub UnpackRPM
 {
   my $rpm = shift;
   my $dir = shift;
-  my $log;
-  my $f;
+  my ($log, $i);
 
   return 1 unless $rpm;
 
-  open $f, ">$log";
-
   if($rpm->{obs} && ! -f $rpm->{file}) {
-    $log = `curl -o '$rpm->{file}' '$ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm' 2>&1`;
-    # system "curl -s -o '$rpm->{file}' '$ConfigData{obs_url}/$rpm->{obs}'";
+    # retry up to 3 times
+    for ($i = 0; $i < 3; $i++) {
+      $log .= `curl -o '$rpm->{file}' '$ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm' 2>&1`;
+      # system "curl -s -o '$rpm->{file}' '$ConfigData{obs_url}/$rpm->{obs}'";
+      last if -f $rpm->{file};
+    }
     if(! -f $rpm->{file}) {
-      print STDERR "$rpm->{file}:\n" . $log;
+      print STDERR "$rpm->{file}: $ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm\n" . $log;
       warn "$Script: failed to download $rpm->{name}";
       return 1
     }
   }
 
   if(SUSystem "sh -c 'cd $dir ; rpm2cpio $rpm->{file} | cpio --quiet --sparse -dimu --no-absolute-filenames'") {
-    print STDERR "$rpm->{file}:\n" . $log;
+    print STDERR "$rpm->{file}: $ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm\n" . $log;
     warn "$Script: failed to extract $rpm->{name}";
     return 1;
   }
@@ -872,7 +873,13 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     my ($f, $u, $p, $s);
 
     if($ConfigData{obs_server} !~ /\@/ && -f "$ENV{HOME}/.oscrc") {
-      open $f, "$ENV{HOME}/.oscrc";
+      if($< == 0) {
+        # to avoid problems with restrictive .oscrc permissions
+        open $f, "su `stat -c %U $ENV{HOME}/.oscrc` -c 'cat $ENV{HOME}/.oscrc' |";
+      }
+      else {
+        open $f, "$ENV{HOME}/.oscrc";
+      }
       while(<$f>) {
         undef $s if /^\s*\[/;
         $s = 1 if /^\s*\[\Q$ConfigData{obs_server}\E\/?\]/;
@@ -886,10 +893,13 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
         $p =~ s/(\W)/sprintf("%%%02X", ord $1)/ge;
         $ConfigData{obs_server} =~ s#(://)#$1$u:$p@#;
       }
+      elsif($ConfigData{obs_server} =~ /^https:/) {
+        warn "\nWarning: *** no auth data for $ConfigData{obs_server}! ***\n\n";
+        sleep 2;
+      }
 
       # print "$ConfigData{obs_server}\n";
     }
-
 
     $ConfigData{obs_url} = "$ConfigData{obs_server}/build/$ConfigData{obs_proj}/$ConfigData{obs_repo}/$ConfigData{obs_arch}/_repository";
 
