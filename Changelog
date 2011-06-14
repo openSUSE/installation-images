@@ -1,3 +1,6 @@
+14/6/2011:	v11.129
+	- added hyper-v modules
+
 14/6/2011:	v11.128
 	- add subscription-tools (fate #310730) and required packages
 	- finally gave up on perl module dependency checking - including all
