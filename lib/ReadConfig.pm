@@ -903,7 +903,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
     $ConfigData{obs_url} = "$ConfigData{obs_server}/build/$ConfigData{obs_proj}/$ConfigData{obs_repo}/$ConfigData{obs_arch}/_repository";
 
-    $ConfigData{suse_base} = "$ConfigData{obs_proj}/$ConfigData{obs_repo}-$ConfigData{obs_arch}";
+    $ConfigData{suse_base} = "$ConfigData{obs_proj}/$ConfigData{obs_repo}/$ConfigData{obs_arch}";
 
     ($dist = $ConfigData{suse_base}) =~ tr#/#-#;
 

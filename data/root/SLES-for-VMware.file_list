@@ -2,7 +2,7 @@
 desktop-data-openSUSE:
   /usr/share/desktop-data/qtrc
 
-yast2-theme-SLE:
+yast2-theme-SLES-for-VMware:
   /
   s SLE usr/share/YaST2/theme/current
 
