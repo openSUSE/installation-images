@@ -682,11 +682,13 @@ open-fcoe:
 lldpad:
   /var
 
-biosdevname:
-  /sbin
+if exists(biosdevname)
+  biosdevname:
+    /sbin
 
-pciutils:
-  /lib*/libpci.so.*
+  pciutils:
+    /lib*/libpci.so.*
+endif
 
 if 0
 
