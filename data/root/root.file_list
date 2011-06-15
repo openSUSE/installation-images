@@ -149,10 +149,11 @@ iputils:
   /bin/ping
 
 rpm:
-  /bin/rpm
-  /usr/lib/rpm/{rpmrc,macros}
-  /usr/lib/rpm/rpmpopt*
-  /usr/lib*/librpm*.so.*
+  /bin
+  /etc
+  /usr/bin
+  /usr/lib*
+  r /usr/lib*/rpm-plugins/sepolicy.so
 
 libelf1:
   /
