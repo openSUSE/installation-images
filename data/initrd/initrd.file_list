@@ -682,6 +682,12 @@ open-fcoe:
 lldpad:
   /var
 
+biosdevname:
+  /sbin
+
+pciutils:
+  /lib*/libpci.so.*
+
 if 0
 
 # add alsa
