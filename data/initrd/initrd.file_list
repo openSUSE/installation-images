@@ -729,6 +729,9 @@ dotconf-devel:
 libgmodule-2_0-0:
   /
 
+liblzma*:
+  /
+
 endif
 
 

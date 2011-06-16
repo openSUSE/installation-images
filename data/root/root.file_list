@@ -778,6 +778,9 @@ lzma:
 liblzmadec0:
   /usr/lib*/liblzmadec.so.*
 
+liblzma*:
+  /
+
 mdadm:
   /sbin
 
