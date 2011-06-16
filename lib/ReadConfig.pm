@@ -176,7 +176,7 @@ use vars qw (
 );
 
 use Cwd;
-use File::Path 'make_path';
+use File::Path 'mkpath';
 use File::Spec 'abs2rel';
 
 sub get_repo_list;
@@ -580,7 +580,7 @@ sub read_packages
     $r = $l->[1];
 
     print $f "$p $r\n";
-    die "$Script: failed to create $ConfigData{tmp_cache_dir}/.obs/$p/$r ($!)" unless make_path "$ConfigData{tmp_cache_dir}/.obs/$p/$r";
+    die "$Script: failed to create $ConfigData{tmp_cache_dir}/.obs/$p/$r ($!)" unless mkpath "$ConfigData{tmp_cache_dir}/.obs/$p/$r";
 
     for (`curl -s '$ConfigData{obs_server}/build/$p/$r/$ConfigData{obs_arch}/_repository?view=binaryversions&nometa=1'`) {
       if(/<binary\s+name="([^"]+)\.rpm"/) {
