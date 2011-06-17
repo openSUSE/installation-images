@@ -1,3 +1,7 @@
+17/6/2011:	v11.133
+	- make vbox xorg drivers optional
+	- added cxgb4 & bna modules
+
 16/6/2011:	v11.132
 	- use old File::Path interface
 	- rpm needs liblzma

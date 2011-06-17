@@ -60,7 +60,7 @@ if with_yast2 ne 'no'
         /usr/lib*/xorg/modules/*.uc
       endif
 
-      if arch eq 'i386' || arch eq 'x86_64'
+      if exists(xorg-x11-driver-virtualbox-ose)
         xorg-x11-driver-virtualbox-ose:
           /usr/lib*/xorg/modules/input/vboxmouse_drv.so
           /usr/lib*/xorg/modules/drivers/vboxvideo_drv.so
