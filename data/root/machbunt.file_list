@@ -1,6 +1,3 @@
-ash:
-  /bin/ash.static
-
 libfreetype6:
   /
 
