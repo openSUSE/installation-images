@@ -430,6 +430,9 @@ attr:
 dmapi:
   /lib*
 
+liblzma*:
+  /
+
 rpm:
   /bin
   /usr/bin
@@ -593,7 +596,6 @@ udev: postin
   # to avoid hardlink in cramfs
   t /lib/udev/devices/pts/.xxx
   /sbin
-  /usr/bin
   # for running SuSEconfig below
   m /lib/udev/devices/* /dev
 

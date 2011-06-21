@@ -102,7 +102,6 @@ libgobject-2_0-0:
 udev:
   /etc
   /sbin
-  /usr/bin
 
 sysfsutils:
   /lib*/libsysfs.so*
@@ -583,8 +582,7 @@ lvm2:
 
 device-mapper:
   /lib*
-  /sbin/devmap_mknod.sh
-  /sbin/dmsetup
+  /sbin
 
 reiserfs:
   /sbin
@@ -779,6 +777,9 @@ liblzmadec0:
   /usr/lib*/liblzmadec.so.*
 
 liblzma*:
+  /
+
+libtalloc*:
   /
 
 mdadm:

@@ -309,8 +309,7 @@ lvm2:
 
 device-mapper:
   /lib*
-  /sbin/devmap_mknod.sh
-  /sbin/dmsetup
+  /sbin
 
 reiserfs:
   /sbin

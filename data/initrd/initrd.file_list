@@ -552,7 +552,6 @@ udev:
   /etc
   /lib/udev
   /sbin
-  /usr/bin
 x etc/myudevstart /bin
 r /etc/init.d
   # add some md devices statically
@@ -690,6 +689,9 @@ if exists(biosdevname)
     /lib*/libpci.so.*
 endif
 
+liblzma*:
+  /
+
 if 0
 
 # add alsa
@@ -727,9 +729,6 @@ dotconf-devel:
   /usr/lib*/libdotconf-1.0.so.*
 
 libgmodule-2_0-0:
-  /
-
-liblzma*:
   /
 
 endif

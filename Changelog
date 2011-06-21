@@ -1,3 +1,8 @@
+21/6/2011:	v11.134
+	- more liblzma
+	- adjust module config
+	- adjust to some package changes
+
 17/6/2011:	v11.133
 	- make vbox xorg drivers optional
 	- added cxgb4 & bna modules

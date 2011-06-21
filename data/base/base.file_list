@@ -102,6 +102,8 @@ psmisc:
 procinfo:
   /usr/bin/socklist
 
+liblzma*:
+  /
 
 rpm:
   /bin
