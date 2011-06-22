@@ -1,3 +1,6 @@
+22/6/2011:	v11.135
+	- disable hyper-v (broken)
+
 21/6/2011:	v11.134
 	- more liblzma
 	- adjust module config

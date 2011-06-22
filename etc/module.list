@@ -183,7 +183,7 @@ kernel/net/802/garp.ko
 kernel/net/802/stp.ko
 kernel/net/llc/
 
-kernel/drivers/staging/hv/
+# kernel/drivers/staging/hv/
 
 # kmps
 updates/
