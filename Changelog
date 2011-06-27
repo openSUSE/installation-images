@@ -1,3 +1,6 @@
+27/6/2011:	v11.136
+	- make /var/lib/rpm writable
+
 22/6/2011:	v11.135
 	- disable hyper-v (broken)
 
