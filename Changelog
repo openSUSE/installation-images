@@ -1,3 +1,7 @@
+30/6/2011:	v11.137
+	- fix SLES-for-VMware theme
+	- add 'tape' group (bnc #703121)
+
 27/6/2011:	v11.136
 	- make /var/lib/rpm writable
 

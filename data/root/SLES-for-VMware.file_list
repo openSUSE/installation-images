@@ -4,7 +4,7 @@ desktop-data-openSUSE:
 
 yast2-theme-SLES-for-VMware:
   /
-  s SLE usr/share/YaST2/theme/current
+  s SLES-for-VMware usr/share/YaST2/theme/current
 
 include texts.file_list
 
