@@ -1,3 +1,7 @@
+4/7/2011:	v11.138
+	- adjust module config
+	- adjust to package changes
+
 30/6/2011:	v11.137
 	- fix SLES-for-VMware theme
 	- add 'tape' group (bnc #703121)

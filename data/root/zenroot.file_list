@@ -16,6 +16,9 @@ r /etc/create_interface
 r /etc/motd
 r /etc/issue
 
+libudev0:
+  /
+
 fillup:
   /bin
 
@@ -361,6 +364,9 @@ unzip:
 
 iproute2:
   /sbin/ip
+
+ntfs-3g:
+  /lib*
 
 ntfsprogs:
   /

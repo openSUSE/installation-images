@@ -93,8 +93,7 @@ hdparm:
   /sbin
 
 ntfsprogs:
-  /usr/lib*/libntfs.so.*
-  /usr/{,s}bin
+  /
 
 ntfs-3g:
   /
@@ -586,6 +585,9 @@ sysconfig: postin
   E postin
 
 # d /var/run/sysconfig/tmp
+
+libudev0:
+  /
 
 udev: postin
   # ******* FIXME: where does it come from???

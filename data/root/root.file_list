@@ -99,6 +99,9 @@ libglib-2_0-0:
 libgobject-2_0-0:
   /usr/lib*/libgobject-2.0.so.*
 
+libudev0:
+  /
+
 udev:
   /etc
   /sbin
@@ -384,6 +387,9 @@ strace:
 cpio:
   /usr/bin/mt
   /bin/cpio
+
+libpython*-*:
+  /
 
 if arch eq 'ia64'
   ia32el:
@@ -798,9 +804,11 @@ pwdutils:
   /usr/bin/passwd
 c 644 0 0 /etc/shadow
 
+ntfs-3g:
+  /lib*
+
 ntfsprogs:
   /usr/sbin/ntfsresize
-  /usr/lib*/libntfs.so*
 
 sed:
   /bin/sed
@@ -1036,6 +1044,9 @@ open-fcoe:
   /lib*
   /sbin
   /usr
+
+libnl:
+  /
 
 lldpad:
   /
