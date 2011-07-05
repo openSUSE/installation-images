@@ -1,6 +1,9 @@
 d bin dev etc lib mnt proc sbin tmp var
 c 1777 0 0 tmp
 
+libcap*:
+  /
+
 udev:
   m /lib/udev/devices/* /dev
   b 1 0 /dev/ram0
