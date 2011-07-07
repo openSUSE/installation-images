@@ -323,11 +323,11 @@ if arch eq 'ppc' || arch eq 'ppc64'
 librtas:
     /usr/lib*
 
-libsqlite3-0:
-  /usr/lib*/libsqlite3*.so.*
+libsqlite*-*:
+  /
 
-libservicelog-1_0-1:
-  /usr/lib*/libservicelog-*.so.*
+libservicelog-*-*:
+  /
 
 powerpc-utils:
     /usr/sbin/nvsetenv
