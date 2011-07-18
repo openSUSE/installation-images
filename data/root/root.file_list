@@ -582,23 +582,19 @@ netcfg:
   /etc/{services,protocols}
 
 lvm2:
-  /sbin/lv*  
-  /sbin/pv* 
-  /sbin/vg*
+  /
 
 device-mapper:
-  /lib*
-  /sbin
+  /
 
 reiserfs:
-  /sbin
+  /
 
 libreiserfs:
-  /usr/lib*/libreiserfs-*.so.*
-  /usr/lib*/libdal-*.so.*
+  /
 
 btrfsprogs:
-  /sbin
+  /
 
 gawk:
   /bin
@@ -1039,11 +1035,8 @@ libcap2:
 satsolver-tools:
   /usr/bin
 
-# not /etc - it's in initrd to keep it writable
 open-fcoe:
-  /lib*
-  /sbin
-  /usr
+  /
 
 libnl:
   /

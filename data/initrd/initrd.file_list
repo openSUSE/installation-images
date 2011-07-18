@@ -49,6 +49,9 @@ openssh: prein
   e restore_cfg etc/passwd etc/shadow etc/group
   d etc/ssh
 
+lvm2:
+  /etc
+
 glibc:
   /etc/nsswitch.conf
 
