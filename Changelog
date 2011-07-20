@@ -1,3 +1,7 @@
+20/7/2011:	v11.145
+	- keep /var/lock/lvm writable
+	- added add-/delpart (bnc #706483)
+
 18/7/2011:	v11.144
 	- add lvm config files
 

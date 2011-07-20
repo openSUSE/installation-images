@@ -153,18 +153,7 @@ rpm:
   /usr/lib*/librpmio-*.so
 
 util-linux:
-  /bin/{u,}mount
-  /bin/dmesg
-  /bin/logger
-  /sbin/losetup
-  /sbin/blockdev
-  if arch ne 'ia64'
-    /sbin/fdisk
-    /sbin/sfdisk
-  endif
-  /usr/sbin/setctsid
-  /usr/bin/getopt
-  /usr/bin/uuidgen
+  /
 
 nfs-client:
   /sbin/{u,}mount.nfs*
