@@ -12,6 +12,15 @@ e cp -a /dev/* dev
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+libffi*:
+  /
+
+libgio-*-*:
+  /
+
+libgmodule-*-*:
+  /
+
 aaa_base-extras:
   /
 
@@ -310,7 +319,7 @@ pam:
   R s/(pam_unix2.so)\s*$/$1 nullok\n/ /etc/pam.d/common-auth
 
 libaudit*:
-  /lib*/libaudit.so.*
+  /
 
 pam-modules:
   /{lib*,sbin}

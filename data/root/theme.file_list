@@ -1,9 +1,9 @@
 desktop-data-openSUSE:
   /usr/share/desktop-data/qtrc
 
-yast2-theme-openSUSE:
+yast2-theme-<yast_theme>:
   /
-  s openSUSE usr/share/YaST2/theme/current
+  s <yast_theme> usr/share/YaST2/theme/current
 
 include texts.file_list
 

@@ -16,8 +16,32 @@ r /etc/create_interface
 r /etc/motd
 r /etc/issue
 
+libaudit*:
+  /
+
+libsepol*:
+  /
+
+libcap-ng*:
+  /
+
+libparted*:
+  /
+
+libffi*:
+  /
+
+libgio-*-*:
+  /
+
+libgmodule-*-*:
+  /
+
 libmount*:
   /
+
+libudev*:
+  /lib*
 
 fillup:
   /bin
@@ -95,10 +119,10 @@ libexpat1:
   /lib*/libexpat.so.*
 
 libglib-2_0-0:
-  /usr/lib*/libglib-2.0.so.*
+  /
 
 libgobject-2_0-0:
-  /usr/lib*/libgobject-2.0.so.*
+  /
 
 libgthread-2_0-0:
   /
@@ -145,10 +169,7 @@ libuuid1:
   /lib*
 
 PolicyKit:
-  /etc/PolicyKit/PolicyKit.conf
-  /usr/lib*/libpolkit.so.*
-  /var/lib
-  /var/run
+  /
 
 libselinux1:
   /
@@ -365,8 +386,7 @@ syslogd:
  x root/.vimrc /root
 
 parted:
-  /usr/sbin
-  /usr/lib*
+  /
 
 libopenssl*:
   /lib*/libcrypto.so.*
@@ -412,14 +432,13 @@ pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
 usbutils:
-  /usr/sbin/lsusb
-  /usr/share/usb.ids
+  /
 
 libusb-0_1-4:
-  /usr/lib*
+  /
 
 libusb-1_0-0:
-  /usr/lib*
+  /
 
 checkmedia:
   /usr/bin
@@ -455,17 +474,10 @@ c 755 0 0 /sbin/create_interface
 c 755 0 0 /sbin/adddir
 
 
+:
 
-# final clean up
-
-r /usr/X11R6
-r /etc/X11/xserver/C
-r /usr/share/doc/packages/*
-
-r /sbin/insserv
-
-# some scripts write to /dev/null...
-r /dev
+# remove, ehm, things...
+r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
 
 E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 

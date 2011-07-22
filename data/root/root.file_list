@@ -39,6 +39,15 @@ r /etc/issue
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+libffi*:
+  /
+
+libgio-*-*:
+  /
+
+libgmodule-*-*:
+  /
+
 fillup:
   /bin
 
@@ -321,8 +330,7 @@ module-init-tools:
  /bin/lsmod
 
 procps:
-  /bin/ps
-  /usr/bin/{free,top,vmstat}
+  /
 
 psmisc:
   m /bin/fuser /usr/bin
@@ -625,7 +633,7 @@ pam:
   /sbin
 
 libaudit*:
-  /lib*/libaudit.so.*
+  /
 
 pam-modules:
   /{lib*,sbin}
@@ -1002,6 +1010,11 @@ endif
 if root_gfx
   include machbunt.file_list
 endif
+
+pango-tools:
+  /
+  E [ -x /usr/bin/pango-querymodules ] && pango-querymodules >/etc/pango/pango.modules || true
+  E [ -x /usr/bin/pango-querymodules-64 ] && pango-querymodules-64 >/etc/pango/pango64.modules || true
 
 :
 

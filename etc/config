@@ -63,9 +63,8 @@ floppy	=
 
 
 [Theme openSUSE]
-yast	= openSUSE
-bsplash = openSUSE
-ksplash = openSUSE
+splash  = openSUSE
+yast    = openSUSE
 product	= openSUSE
 version = 12.1
 sle     = 12
@@ -74,9 +73,8 @@ image	= 350
 
 
 [Theme SLES]
-yast	= SLED
-bsplash = openSUSE
-ksplash = SLES
+splash  = SLES
+yast    = SLE
 product	= SUSE Linux Enterprise Server 12
 version = 12.1
 sle     = 12
@@ -85,9 +83,8 @@ image	= 200
 
 
 [Theme SLED]
-yast	= SLED
-bsplash = openSUSE
-ksplash	= SLED
+splash  = SLED
+yast    = SLE
 product	= SUSE Linux Enterprise Desktop 12
 version = 12.1
 sle     = 12
@@ -96,9 +93,8 @@ image	= 200
 
 
 [Theme Zen]
-yast    = SLED
-bsplash = SLES
-ksplash = SLES
+splash  = SLES
+yast    = SLE
 product = ZENworks
 version = 12.1
 sle     = 12

@@ -808,7 +808,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   # (used to be in etc/config)
 
   my ( $r, $r0, $rx, $in_abuild, $a, $v, $kv, $rf, $ki, @f );
-  my ( $theme, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir);
+  my ( $theme, $load_image, $product_name, $update_dir);
 
   my ( $dist, $i, $j );
 
@@ -958,8 +958,6 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     die "Theme \"$theme\" not supported\n" unless exists $t{$theme};
   }
 
-  $yast_theme = $ConfigData{ini}{"Theme $theme"}{yast};
-  $splash_theme = $ConfigData{ini}{"Theme $theme"}{ksplash};
   $product_name = $ConfigData{ini}{"Theme $theme"}{product};
   my $full_product_name = $product_name;
   $full_product_name .= (" " . $ConfigData{ini}{"Theme $theme"}{version}) if $ConfigData{ini}{"Theme $theme"}{version};
@@ -978,8 +976,8 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $load_image = $load_image * 1024 if $load_image;
 
   $ConfigData{theme} = $theme;
-  $ConfigData{yast_theme} = $yast_theme;
-  $ConfigData{splash_theme} = $splash_theme;
+  $ConfigData{splash_theme} = $ConfigData{ini}{"Theme $theme"}{splash};
+  $ConfigData{yast_theme} = $ConfigData{ini}{"Theme $theme"}{yast};
   $ConfigData{product_name} = $product_name;
   $ConfigData{full_product_name} = $full_product_name;
   $ConfigData{update_dir} = $update_dir;
@@ -990,8 +988,6 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   $ConfigData{min_memory} = $ConfigData{ini}{"Theme $theme"}{memory};
 
-  # print STDERR "yast_theme = $ConfigData{yast_theme}\n";
-  # print STDERR "splash_theme = $ConfigData{splash_theme}\n";
   # print STDERR "product_name = $ConfigData{product_name}\n";
   # print STDERR "update_dir = $ConfigData{update_dir}\n";
   # print STDERR "load_image = $ConfigData{load_image}\n";
