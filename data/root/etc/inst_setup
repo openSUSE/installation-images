@@ -105,6 +105,11 @@ done
 
 ldconfig
 
+# start haveged
+if [ -x /etc/init.d/haveged ] ; then
+  /etc/init.d/haveged start
+fi
+
 # start dbus & hal
 if [ -x /bin/dbus-daemon -a -x /usr/sbin/hald ] ; then
   rm -f /var/run/dbus/pid /var/run/hal/haldaemon.pid
@@ -259,6 +264,7 @@ killall dbus-daemon >/dev/null 2>&1
 killall slpd >/dev/null 2>&1
 killall Xvnc >/dev/null 2>&1
 killall sshd >/dev/null 2>&1
+killall haveged >/dev/null 2>&1
 
 umount /usr/bin/gdb 2>/dev/null
 umount devpts 2>/dev/null

@@ -1047,6 +1047,11 @@ libpciaccess0:
 subscription-tools:
   /
 
+if exists(haveged)
+  haveged:
+    /
+endif
+
 r /usr/X11R6/bin/mkfontdir
 r /usr/X11R6/bin/mkfontscale
 r /usr/X11R6/bin/fc-cache
