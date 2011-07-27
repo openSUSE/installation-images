@@ -55,7 +55,7 @@ Section "Modes"
 EndSection
 
 Section "Monitor"
-  HorizSync		28-33
+  HorizSync		31-48
   Identifier	"Monitor[vmware]"
   ModelName		"Initial"
   VendorName	"Initial"

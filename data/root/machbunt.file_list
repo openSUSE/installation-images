@@ -54,6 +54,7 @@ if with_yast2 ne 'no'
 
       if arch eq 'i386' || arch eq 'x86_64'
         /usr/lib*/xorg/modules/drivers/vmware_drv.so
+        /usr/lib*/xorg/modules/drivers/vmwlegacy_drv.so
       endif
 
       if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc' && arch ne 'ppc64'

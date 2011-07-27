@@ -1,3 +1,6 @@
+26/7/2011:	v11.147
+	- fixing vmware xorg config (bnc #708149)
+
 26/7/2011:	v11.146
 	- added haveged (bnc #692799)
 
