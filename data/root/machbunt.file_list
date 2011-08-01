@@ -242,7 +242,7 @@ if with_yast2 ne 'no'
     /etc/slp.reg.d
     /usr/sbin/slpd
 
-  libxslt:
+  libxslt1:
     /usr/lib*
     /usr/bin
 

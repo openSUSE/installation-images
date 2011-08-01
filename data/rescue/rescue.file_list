@@ -707,6 +707,23 @@ if arch eq 'i386' || arch eq 'x86_64'
 
   bootsplash:
     /sbin/splash
+
+  firmwarekit:
+    /
+
+  acpica:
+    /
+
+  powertop:
+    /
+
+  libnewt*:
+    /
+  libslang2:
+    /
+
+
+
 endif
 
 libmount*:
@@ -714,21 +731,6 @@ libmount*:
 
 
 ###
-firmwarekit:
-  /
-
-acpica:
-  /
-
-powertop:
-  /
-
-libnewt*:
-  /
-
-libslang2:
-  /
-
 # to keep postin scripts happy
 r /sbin/mkinitrd_setup
 s /bin/true /sbin/mkinitrd_setup
