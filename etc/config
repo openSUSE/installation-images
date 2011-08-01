@@ -32,8 +32,8 @@ s390    = kernel-s390
 ; extra kmps we need (',' separated list)
 [KMP]
 default	=
-i386	= ofed,xen,hyper-v,brocade-bna,drm
-x86_64	= ofed,xen,hyper-v,brocade-bna,drm
+i386	= ofed,xen,hyper-v,drm
+x86_64	= ofed,xen,hyper-v,drm
 ia64    = ofed
 ppc     = ofed
 ppc64   = ofed
