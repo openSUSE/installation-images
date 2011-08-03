@@ -1,3 +1,6 @@
+3/8/2011:	v11.149
+	- added be2net to ppc (bnc #707775)
+
 1/8/2011:	v11.148
 	- removed brocade-bna-kmp
 	- added ixgbevf
