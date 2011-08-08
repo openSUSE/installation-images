@@ -257,14 +257,6 @@ if arch eq 'x86_64'
     /lib/libncurses.so.*
 endif
 
-if arch eq 'ia64'
-  efibootmgr:
-    /usr/sbin
-
-  libunwind:
-    /lib/libunwind.so*
-endif
-
 lvm2: postin
   /etc
   /sbin
@@ -844,6 +836,15 @@ libhbalinux2:
 libpciaccess0:
   /
 
+if exists(elilo)
+  elilo:
+  /
+endif
+
+if exists(efibootmgr)
+  efibootmgr:
+  /
+endif
 
 :
 

@@ -243,12 +243,14 @@ if arch eq 'i386' || arch eq 'x86_64'
     /sbin/activate
 endif
 
-if arch eq 'ia64'
-  efibootmgr:
-    /usr/sbin/efibootmgr
+if exists(elilo)
+  elilo:
+    /
+endif
 
-  libunwind:
-    /lib/libunwind.so*
+if exists(efibootmgr)
+  efibootmgr:
+    /
 endif
 
 if arch eq 's390' || arch eq 's390x'
