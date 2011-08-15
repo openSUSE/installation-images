@@ -773,6 +773,9 @@ if arch eq 'ia64'
   r /usr/lib/ia32el/cpuid
   r /usr/lib/ia32el/auxapp 
   e insserv etc/init.d/boot.ia32el
+
+  libunwind:
+    /lib/libunwind.so*
 endif
 
 wget:
