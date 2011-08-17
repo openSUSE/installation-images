@@ -733,9 +733,11 @@ pwdutils:
   /usr/lib*/pwdutils/liblog_syslog.so.*
   d /etc/skel
 
+libntfs-3g*:
+  /
+
 ntfsprogs:
   /usr/sbin/ntfsresize
-  /usr/lib*/libntfs.so*
 
 sysconfig:
   # for modify_resolvconf

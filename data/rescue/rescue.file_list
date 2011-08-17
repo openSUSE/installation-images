@@ -98,13 +98,13 @@ hdparm:
   /sbin
 
 ntfsprogs:
-  /usr/lib*/libntfs.so.*
-  /usr/{,s}bin
+  /
+
+libntfs-3g*:
+  /
 
 ntfs-3g:
-  /sbin
-  /usr/bin
-  /lib*/libntfs-3g.so.*
+  /
   s mount.ntfs-3g /sbin/mount.ntfs
 
 libfuse2:
@@ -219,11 +219,6 @@ if exists(pdisk)
     /sbin
     /usr/sbin
 
-  libncurses5:
-    /usr/lib*/libpanel.so.*
-    /usr/lib*/libform.so.*
-    /usr/lib*/libmenu.so.*
-
   eject:
     /bin
 endif
@@ -267,12 +262,11 @@ if exists(efibootmgr)
     /lib*/libunwind.so.*
 endif
 
-libncurses5:
-  /lib*/libncurses.so.*
-  /lib*/libncursesw.so.*
-  /usr/lib*/libpanel.so.*
-  /usr/lib*/libpanelw.so.*
-  /usr/lib*/libtic.so.5.*
+libncurses*~:
+  /
+
+libncurses*:
+  /
 
 terminfo-base:
   /

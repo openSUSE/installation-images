@@ -364,10 +364,11 @@ libglib-*-*:
 libudev*:
   /
 
+libntfs-3g*:
+  /
+
 ntfs-3g:
-  /sbin
-  /usr/bin
-  /lib*/libntfs-3g.so.*
+  /
   s mount.ntfs-3g /sbin/mount.ntfs
 
 kexec-tools:
