@@ -614,7 +614,6 @@ rpm:
   /usr/lib*/librpm-*.so
   /usr/lib*/librpmdb-*.so
   /usr/lib*/librpmio-*.so
-  /var/lib/rpm
 
 popt:
   /lib*/libpopt.so*

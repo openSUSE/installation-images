@@ -43,6 +43,7 @@ kernel/drivers/usb/net/
 kernel/drivers/usb/serial/
 kernel/drivers/usb/input/usbhid.ko
 kernel/drivers/hid/
+-kernel/drivers/hid/hid-prodikeys.ko
 kernel/drivers/input/ff-memless.ko
 kernel/drivers/char/nvram.ko
 kernel/drivers/char/agp/
@@ -56,7 +57,7 @@ kernel/drivers/mtd/mtdblock.ko
 kernel/drivers/misc/ioc4.ko
 kernel/drivers/ssb/
 kernel/drivers/leds/led-class.ko
-kernel/drivers/mmc/core/
+kernel/drivers/mmc/
 kernel/fs/cramfs/
 kernel/fs/ext2/
 kernel/fs/ext3/
@@ -98,13 +99,17 @@ kernel/fs/btrfs/
 kernel/net/sunrpc/sunrpc.ko
 kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
 kernel/drivers/power/power_supply.ko
-kernel/drivers/firmware/edd.ko
-kernel/drivers/firmware/efivars.ko
-kernel/drivers/firmware/iscsi_ibft.ko
+kernel/drivers/firmware/
 kernel/drivers/acpi/
+kernel/drivers/char/ipmi/
 kernel/drivers/video/backlight/
 kernel/drivers/cpufreq/
 kernel/arch/x86/kernel/
+kernel/drivers/platform/
+kernel/drivers/input/sparse-keymap.ko
+kernel/drivers/pci/hotplug/pci_hotplug.ko
+kernel/sound/soundcore.ko
+kernel/sound/core/snd.ko
 kernel/drivers/hwmon/hwmon.ko
 kernel/drivers/thermal/thermal_sys.ko
 kernel/net/802/tr.ko
@@ -122,7 +127,7 @@ kernel/drivers/char/hw_random/virtio-rng.ko
 kernel/net/packet/
 kernel/net/rfkill/rfkill.ko
 # for pcilynx
-kernel/lib/zlib_deflate/
+kernel/lib/
 kernel/drivers/i2c/i2c-core.ko
 kernel/drivers/i2c/algos/i2c-algo-bit.ko
 kernel/arch/ia64/sn/kernel
@@ -133,22 +138,20 @@ kernel/arch/s390/
 kernel/drivers/s390/
 kernel/net/iucv/
 kernel/net/ipv6/ipv6.ko
-kernel/lib/zlib_inflate/
-kernel/lib/crc-ccitt.ko
-kernel/lib/libcrc32c.ko
-kernel/lib/crc-itu-t.ko
-kernel/lib/crc16.ko
-kernel/lib/crc-t10dif.ko
+kernel/net/ipv4/gre.ko
 
 kernel/crypto/
 kernel/arch/[^/]*/crypto/
 kernel/drivers/crypto/geode-aes.ko
-kernel/lib/lzo/
 
 kernel/drivers/video/vga16fb.ko
 kernel/drivers/video/vgastate.ko
 kernel/drivers/video/output.ko
-kernel/drivers/video/sis/sisfb.ko
+kernel/drivers/video/fb_sys_fops.ko
+kernel/drivers/video/sysimgblt.ko
+kernel/drivers/video/sysfillrect.ko
+kernel/drivers/video/syscopyarea.ko
+
 
 kernel/arch/i386/kernel/msr.ko
 
@@ -162,8 +165,13 @@ kernel/net/mac80211/rc80211_simple.ko
 kernel/net/wireless/
 
 kernel/drivers/rtc/
+kernel/drivers/mfd/wm8350.ko
+kernel/drivers/misc/eeprom/eeprom_93cx6.ko
+kernel/drivers/mfd/mc13783-core.ko
+kernel/drivers/mfd/mc13xxx-core.ko
+kernel/drivers/mfd/mfd-core.ko
+kernel/drivers/mfd/ab3100-core.ko
 
-kernel/drivers/misc/eeprom_93cx6.ko
 kernel/arch/powerpc/sysdev/bestcomm/bestcomm-fec.ko
 kernel/drivers/uio/uio.ko
 
@@ -173,15 +181,20 @@ kernel/net/wimax/
 kernel/drivers/usb/wusbcore/
 kernel/drivers/uwb/
 kernel/net/phonet/phonet.ko
-kernel/lib/crc7.ko
 kernel/drivers/usb/misc/ftdi-elan.ko
-kernel/drivers/mfd/ab3100-core.ko
 
 kernel/drivers/gpu/drm/
+kernel/drivers/video/sis/
+
+kernel/drivers/misc/lis3lv02d/lis3lv02d.ko
+kernel/drivers/misc/cb710/
+kernel/drivers/misc/tifm_core.ko
+
 kernel/net/8021q/
 kernel/net/802/garp.ko
 kernel/net/802/stp.ko
 kernel/net/llc/
+kernel/net/ceph/
 
 kernel/drivers/staging/hv/
 
