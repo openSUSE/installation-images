@@ -225,9 +225,11 @@ sub RealRPM
 { 
   local $_;
   my $rpm = shift;
-  my ($f, @f, @ff, $p, $back, $n, %n, $r);
+  my ($f, @f, @ff, $p, $back, $n, %n, $r, $rpm_orig);
 
   return $rpmData->{$rpm} if exists $rpmData->{$rpm};
+
+  $rpm_orig = $rpm;
 
   $back = 1 if $rpm =~ s/~$//;
 
@@ -237,7 +239,7 @@ sub RealRPM
     $p =~ s/\\\*/([0-9_]+)/g;
     @f = grep { /^$p / } @{$ConfigData{packages}};
 
-    return $rpmData->{$rpm} = undef if @f == 0;
+    return $rpmData->{$rpm_orig} = undef if @f == 0;
 
     @f = sort @f;
     # for (@f) { print ">$_<\n"; }
@@ -245,10 +247,10 @@ sub RealRPM
     $f = pop @f if $back;
 
     if($f =~ m/^(\S+) (.+)$/) {
-      return $rpmData->{$1} = $rpmData->{$rpm} = { name => $1, file => "$ConfigData{tmp_cache_dir}/.obs/$2/$1.rpm", rfile => "../.obs/$2/$1.rpm", obs => "$2" };
+      return $rpmData->{$1} = $rpmData->{$rpm_orig} = { name => $1, file => "$ConfigData{tmp_cache_dir}/.obs/$2/$1.rpm", rfile => "../.obs/$2/$1.rpm", obs => "$2" };
     }
     else {
-      return $rpmData->{$rpm} = undef;
+      return $rpmData->{$rpm_orig} = undef;
     }
   }
   else {
@@ -261,7 +263,7 @@ sub RealRPM
       $n{$_} = $n unless exists $n{$_};
     }
 
-    return $rpmData->{$rpm} = undef if @f == 0;
+    return $rpmData->{$rpm_orig} = undef if @f == 0;
 
     $p = $rpm;
     $p = "\Q$p";
@@ -272,7 +274,7 @@ sub RealRPM
     $f = pop @f;
     $f = pop @f if $back;
 
-    return $rpmData->{$f} = $rpmData->{$rpm} = { name => $f, file => $n{$f} } ;
+    return $rpmData->{$f} = $rpmData->{$rpm_orig} = { name => $f, file => $n{$f} } ;
   }
 }
 
