@@ -151,7 +151,8 @@ kernel/drivers/video/fb_sys_fops.ko
 kernel/drivers/video/sysimgblt.ko
 kernel/drivers/video/sysfillrect.ko
 kernel/drivers/video/syscopyarea.ko
-
+kernel/drivers/video/cfbcopyarea.ko
+kernel/drivers/video/cfbfillrect.ko
 
 kernel/arch/i386/kernel/msr.ko
 
@@ -195,6 +196,8 @@ kernel/net/802/garp.ko
 kernel/net/802/stp.ko
 kernel/net/llc/
 kernel/net/ceph/
+
+kernel/drivers/of/
 
 kernel/drivers/staging/hv/
 

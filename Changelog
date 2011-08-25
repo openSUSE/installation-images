@@ -1,3 +1,6 @@
+26/8/2011:	v11.156
+	- adjust module config
+
 24/8/2011:	v11.155
 	- make /var/lib/rpm read-only again
 	- adjust module config

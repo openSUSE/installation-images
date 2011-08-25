@@ -866,7 +866,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     $ConfigData{obs_repo} = $ConfigData{ini}{OBS}{repository};
     $ConfigData{obs_server} = $ConfigData{ini}{OBS}{server};
 
-    if($ENV{obs} =~ m#^([^/]+)/([^/]+)-([^/-]+)$#) {
+    if($ENV{obs} =~ m#^([^/]+)/([^/]+)[/\-]([^/-]+)$#) {
       $ConfigData{obs_proj} = $1;
       $ConfigData{obs_repo} = $2;
       $ConfigData{obs_arch} = $3;
