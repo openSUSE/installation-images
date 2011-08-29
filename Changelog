@@ -1,3 +1,6 @@
+29/8/2011:	v11.158
+	- adjust module config
+
 25/8/2011:	v11.157
 	- fix halt script in rescue system (bnc #707530)
 
