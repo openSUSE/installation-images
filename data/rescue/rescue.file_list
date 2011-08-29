@@ -37,6 +37,7 @@ filesystem:
   /etc/{ppp,rc.d,uucp}
   /etc/sysconfig
   /root
+  /run
   /etc/init.d
   /usr/tmp
   /var
@@ -257,9 +258,16 @@ endif
 if exists(efibootmgr)
   efibootmgr:
     /
+endif
 
+if exists(elilo)
+  elilo:
+    /
+endif
+
+if arch eq 'ia64'
   libunwind:
-    /lib*/libunwind.so.*
+    /
 endif
 
 libncurses*~:
@@ -453,9 +461,7 @@ strace:
   /usr/bin/strace
 
 klogd:
-  /etc
-  /sbin/klogd
-  /var/adm/fillup-templates/sysconfig.syslog
+  /
 
 sysvinit:
   /sbin

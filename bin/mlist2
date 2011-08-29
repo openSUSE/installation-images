@@ -25,6 +25,7 @@ $mdisk_c = "${BasePath}tmp/modules-config/module_disks_create";
 $mdisk_l = "${BasePath}tmp/modules-config/module_disks_list";
 $mdisk_i = "${BasePath}tmp/modules-config/module_disks_images";
 $modinfo = "${BasePath}tmp/modules-config/modules.info";
+$mod_no = "${BasePath}tmp/modules-config/module_missing";
 $dst = "${DataPath}initrd/gen/module.";
 $mod_type = $ConfigData{module_type};
 
@@ -76,6 +77,8 @@ while(<F>) {
 close F;
 
 die "$Script: $cfg: $!\n" unless open(F, "$cfg.$arch") || open(F, $cfg);
+
+open NO_MOD, ">$mod_no";
 
 while(<F>) {
   chomp;
@@ -160,11 +163,13 @@ while(<F>) {
   else {
     # once per module is enough
     # print STDERR "warning: no such module: $l[0]\n" unless $mod_warned{$l[0]};
+    print NO_MOD "$l[0]\n" unless $mod_warned{$l[0]};
     $mod_warned{$l[0]} = 1;
   }
 }
 close F;
 
+close NO_MOD;
 
 # fix pre/post install fields
 for (@sect) {

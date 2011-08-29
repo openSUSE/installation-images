@@ -39,6 +39,12 @@ r /etc/issue
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+libdb-*:
+  /
+
+gdbm:
+  /
+
 libffi*:
   /
 
@@ -219,7 +225,6 @@ glibc:
   /lib*/{libcrypt,libdl,libnsl}{.,-}*
   /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
   /lib*/{libnss_nis,libnss_nisplus,libresolv,librt,libutil}{.,-}*
-  /usr/sbin/rpcinfo
   /usr/bin
   /etc/rpc
 r /usr/bin/{catchsegv,gencat,getconf,glibcbug,lddlibc4,mtrace,rpcgen,sprof}
@@ -268,7 +273,14 @@ endif
 if exists(efibootmgr)
   efibootmgr:
     /
+endif
 
+if exists(elilo)
+  elilo:
+    /
+endif
+
+if arch eq 'ia64'
   libunwind:
     /
 endif
@@ -764,6 +776,8 @@ libusb-*-*:
 checkmedia:
   /usr/bin/checkmedia
 
+if 0
+
 perl-base:
   /usr/bin/perl
   /usr/lib/perl*/*/AutoLoader.pm
@@ -875,6 +889,15 @@ perl:
   /usr/lib/perl*/*/*/Compress
   /usr/lib/perl*/*/*/auto/Compress
   r /usr/lib/perl*/*/CPANPLUS
+
+endif
+
+perl-base:
+  /usr/bin/perl
+  /usr/lib/perl*
+
+perl:
+  /usr/lib/perl*
 
 perl-Bootloader:
   /usr/lib
