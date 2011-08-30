@@ -26,7 +26,9 @@ $mdisk_l = "${BasePath}tmp/modules-config/module_disks_list";
 $mdisk_i = "${BasePath}tmp/modules-config/module_disks_images";
 $modinfo = "${BasePath}tmp/modules-config/modules.info";
 $mod_no = "${BasePath}tmp/modules-config/module_missing";
+$mod_no_all = "${BasePath}tmp/modules-config/module_missing_all";
 $dst = "${DataPath}initrd/gen/module.";
+$all_mods = "${DataPath}initrd/all_modules";
 $mod_type = $ConfigData{module_type};
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -76,9 +78,17 @@ while(<F>) {
 }
 close F;
 
+if(open F, $all_mods) {
+  while(<F>) {
+    $all_mods{$1} = 1 if /^([^# ]\S+)/;
+  }
+  close F;
+}
+
 die "$Script: $cfg: $!\n" unless open(F, "$cfg.$arch") || open(F, $cfg);
 
 open NO_MOD, ">$mod_no";
+open NO_MOD_ALL, ">$mod_no_all";
 
 while(<F>) {
   chomp;
@@ -164,6 +174,7 @@ while(<F>) {
     # once per module is enough
     # print STDERR "warning: no such module: $l[0]\n" unless $mod_warned{$l[0]};
     print NO_MOD "$l[0]\n" unless $mod_warned{$l[0]};
+    print NO_MOD_ALL "$l[0]\n" unless $mod_warned{$l[0]} || $all_mods{$l[0]};
     $mod_warned{$l[0]} = 1;
   }
 }
