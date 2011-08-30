@@ -768,6 +768,10 @@ rsync: postin
   /
 E postin
 
+syslog-service: postin
+  /
+E postin
+
 syslogd: postin
   /
 E postin
