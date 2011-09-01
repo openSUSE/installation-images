@@ -34,6 +34,17 @@ Section "InputDevice"
   Option		"Protocol"	"Auto"
 EndSection
 
+# bnc #670465 comment #79
+Section "InputDevice"
+  Identifier "Mouse[xen_pv_guest]"
+  Driver "evdev"
+  Option "Name" "Xen Virtual Pointer"
+  Option "InputFashion" "Mouse"
+  Option "Pass" "3"
+  Option "Vendor" "0x5853"
+  Option "Product" "0xfffe"
+EndSection
+
 Section "Monitor"
   HorizSync		25-40
   Identifier	"Monitor[0]"
@@ -201,6 +212,7 @@ Section "ServerLayout"
   Identifier	"Layout[all]"
   InputDevice	"Keyboard[0]"	"CoreKeyboard"
   InputDevice	"Mouse[1]"		"CorePointer"
+  InputDevice	"Mouse[xen_pv_guest]"		"SendCoreEvents"
   Option		"Xinerama"		"off"
   Screen		"Screen[0]"
 EndSection
