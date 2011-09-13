@@ -1,3 +1,6 @@
+13/9/2011:	v11.160
+	- adjust module config (bnc #717179, bnc #717180)
+
 1/9/2011:	v11.159
 	- added xen section to xorg.xonf (bnc #670465)
 

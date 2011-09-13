@@ -138,6 +138,7 @@ kernel/arch/s390/
 kernel/drivers/s390/
 kernel/net/iucv/
 kernel/net/ipv6/ipv6.ko
+kernel/net/ipv6/ipv6_lib.ko
 kernel/net/ipv4/gre.ko
 
 kernel/crypto/
