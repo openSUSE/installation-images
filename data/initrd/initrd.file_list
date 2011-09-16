@@ -278,12 +278,7 @@ tcpd:
 dhcpcd:
   /sbin/dhcpcd
 
-dhcpv6:
-  /usr/sbin
-  /var/lib/dhcpv6
-  x dhcp6c_update.sh usr/sbin
-
-libnl:
+libnl-1_1:
   /lib*/libnl.so.*
 
 iputils:

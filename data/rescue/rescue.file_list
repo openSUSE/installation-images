@@ -606,10 +606,10 @@ libopenct*:
 dhcpcd:
   /
 
-dhcpv6:
+libedit*:
   /
 
-libnl:
+libnl-1_1:
   /
 
 libcap-ng0:

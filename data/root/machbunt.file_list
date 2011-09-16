@@ -89,6 +89,8 @@ if with_yast2 ne 'no'
 
   xorg-x11-libX11:
     /usr/lib*/libX11.so.*
+    /usr/lib*/libX11-xcb.so.*
+
     /usr/share/X11/XErrorDB 
     # /usr/share/X11/XKeysymDB
     /usr/share/X11/locale
@@ -161,6 +163,9 @@ if with_yast2 ne 'no'
   xorg-x11-libxcb:
     /usr/lib*/libxcb.so.*
     /usr/lib*/libxcb-xlib.so.*
+    /usr/lib*/libxcb-dri2.so.*
+    /usr/lib*/libxcb-xfixes.so.*
+
 
   fontconfig:
     /etc/fonts/*.conf

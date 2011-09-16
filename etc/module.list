@@ -156,6 +156,7 @@ kernel/net/mac80211/mac80211.ko
 kernel/net/mac80211/rc80211_simple.ko
 kernel/net/wireless/
 
+kernel/drivers/bcma/
 
 kernel/drivers/rtc/
 kernel/drivers/mfd/wm8350.ko
@@ -163,7 +164,7 @@ kernel/drivers/misc/eeprom/eeprom_93cx6.ko
 kernel/drivers/mfd/mc13783-core.ko
 kernel/drivers/mfd/mc13xxx-core.ko
 kernel/drivers/mfd/mfd-core.ko
-
+kernel/drivers/mfd/sm501.ko
 
 kernel/arch/powerpc/sysdev/bestcomm/bestcomm-fec.ko
 
@@ -186,8 +187,8 @@ kernel/drivers/uio/uio.ko
 kernel/drivers/misc/cb710/
 kernel/net/phonet/phonet.ko
 kernel/drivers/mfd/ab3100-core.ko
-# kernel/drivers/gpu/drm/
-kernel/drivers/gpu/drm/drm.ko
+kernel/drivers/gpu/drm/
+# kernel/drivers/gpu/drm/drm.ko
 kernel/drivers/video/sis/
 
 kernel/drivers/misc/lis3lv02d/lis3lv02d.ko
