@@ -12,7 +12,7 @@ kernel/drivers/i2o/
 kernel/drivers/ide/
 kernel/drivers/ata/
 #-kernel/drivers/ata/pata_
-kernel/drivers/ieee1394/
+kernel/drivers/firewire/
 # kernel/drivers/input/
 -kernel/drivers/input/joystick
 -kernel/drivers/input/gameport
