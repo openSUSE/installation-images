@@ -140,7 +140,7 @@ dosfstools:
 findutils:
   /usr/bin/{find,xargs}
 
-libacl:
+libacl*:
   /lib*
 
 libpopt*:
@@ -382,14 +382,11 @@ openslp:
   /usr/bin
   /usr/lib*
 
-libattr:
+libattr*:
   /lib*
 
 attr:
   /usr/bin
-
-dmapi:
-  /lib*
 
 rpm:
   /bin
@@ -454,7 +451,7 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
-keyutils-libs:
+libkeyutils*:
   /
 
 strace:

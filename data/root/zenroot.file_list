@@ -70,11 +70,11 @@ tar:
   /bin/tar
 
 #samba
-libacl:
+libacl*:
   /lib*
 
 #samba
-libattr:
+libattr*:
   /lib*
 
 bash:

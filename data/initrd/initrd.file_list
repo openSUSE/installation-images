@@ -236,7 +236,7 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
-keyutils-libs:
+libkeyutils*:
   /
 
 zlib:
@@ -347,10 +347,10 @@ libblkid*:
 libuuid*:
   /
 
-libacl:
+libacl*:
   /
 
-libattr:
+libattr*:
   /
 
 libglib-*-*:

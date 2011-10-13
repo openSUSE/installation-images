@@ -64,7 +64,7 @@ floppy	=
 
 [Theme openSUSE]
 splash  = openSUSE
-yast    = openSUSE
+yast    = openSUSE-Oxygen
 product	= openSUSE
 version = 12.1
 sle     = 12
