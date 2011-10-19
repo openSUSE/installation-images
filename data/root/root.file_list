@@ -962,7 +962,7 @@ ntp:
 libcap2:
   /lib*/libcap.so.*
 
-satsolver-tools:
+libsolv-tools:
   /usr/bin
 
 sed:

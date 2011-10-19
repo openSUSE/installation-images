@@ -461,7 +461,10 @@ klogd:
   /
 
 sysvinit:
-  /sbin
+  /
+
+sysvinit-init:
+  /
 
 libmount*:
   /
