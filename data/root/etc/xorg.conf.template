@@ -45,6 +45,17 @@ Section "InputDevice"
   Option "Product" "0xfffe"
 EndSection
 
+# bnc #723929
+Section "InputDevice"
+  Identifier "Mouse[hyperv_guest]"
+  Driver "evdev"
+  Option "Name" "Microsoft Vmbus HID-compliant Mouse"
+  Option "InputFashion" "Mouse"
+  Option "Pass" "3"
+  Option "Vendor" "0x45e"
+  Option "Product" "0x621"
+EndSection
+
 Section "Monitor"
   HorizSync		25-40
   Identifier	"Monitor[0]"
@@ -213,6 +224,7 @@ Section "ServerLayout"
   InputDevice	"Keyboard[0]"	"CoreKeyboard"
   InputDevice	"Mouse[1]"		"CorePointer"
   InputDevice	"Mouse[xen_pv_guest]"		"SendCoreEvents"
+  InputDevice	"Mouse[hyperv_guest]"		"SendCoreEvents"
   Option		"Xinerama"		"off"
   Screen		"Screen[0]"
 EndSection
