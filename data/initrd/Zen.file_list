@@ -69,5 +69,5 @@ e echo "KexecReboot:	0" >>linuxrc.config
 
 e echo "Insecure:	1" >>linuxrc.config
 
-e echo "PTOptions:	AutoUpgrade,WithFCoE,productprofile" >>linuxrc.config
+e echo "PTOptions:	AutoUpgrade,productprofile" >>linuxrc.config
 

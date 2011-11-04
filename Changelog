@@ -1,3 +1,6 @@
+4/11/2011:	v11.165
+	- withfcoe is now a native linuxrc option
+
 26/10/2011:	v11.164
 	- added hyper-v mouse support (bnc #723929)
 
