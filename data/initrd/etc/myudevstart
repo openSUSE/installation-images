@@ -26,5 +26,5 @@ mkdir /dev/.udev/queue
 /sbin/udevadm trigger
 
 # 10 min - just long enough
-/sbin/udevadm settle --timeout=600
+/sbin/udevadm settle --timeout=100
 
