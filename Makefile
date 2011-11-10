@@ -158,6 +158,9 @@ root+rescue: base
 	mode=keep tmpdir=root+rescue/2 image=root fs=squashfs bin/mk_image
 	cp data/root/config images
 	cat data/root/rpmlist tmp/base/yast2-trans-rpm.list >images/rpmlist
+	@unsquashfs -l images/common >/dev/null 2>&1 || ( echo "build does not work on squashfs" ; false )
+	@unsquashfs -l images/rescue >/dev/null 2>&1 || ( echo "build does not work on squashfs" ; false )
+	@unsquashfs -l images/root >/dev/null 2>&1 || ( echo "build does not work on squashfs" ; false )
 
 sax2: base
 	libdeps=root,sax2 image=sax2 src=root fs=squashfs disjunct=root bin/mk_image

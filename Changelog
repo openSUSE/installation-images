@@ -1,3 +1,6 @@
+10/11/2011:	v11.166
+	- add check for broken squashfs images
+
 4/11/2011:	v11.165
 	- withfcoe is now a native linuxrc option
 
