@@ -36,6 +36,7 @@ kernel/drivers/parport/
 kernel/drivers/pnp/
 kernel/drivers/scsi/
 -kernel/drivers/scsi/ses.ko
+kernel/drivers/usb/usb-common.ko
 kernel/drivers/usb/storage/
 kernel/drivers/usb/host/
 kernel/drivers/usb/core/
