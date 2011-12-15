@@ -1,5 +1,6 @@
 15/12/2011:	v11.168
 	- dud should use sles11 in SLES-for-VMware theme (bnc #736773)
+	- btrfsprogs needs now liblzo2-2
 
 14/11/2011:	v11.167
 	- add usb-common.ko
