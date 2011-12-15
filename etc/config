@@ -101,7 +101,7 @@ ksplash	= SLES-for-VMware
 product	= SUSE Linux Enterprise for VMware
 version = 11.1
 sle     = 11
-update	= /linux/suse/<arch>-<sled>
+update	= /linux/suse/<arch>-<sles>
 image	= 200
 
 
