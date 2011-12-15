@@ -388,6 +388,9 @@ reiserfs:
 btrfsprogs:
   /sbin
 
+liblzo2-2:
+  /lib*/liblzo2.so.*
+
 if 0
 reiser4progs:
   /usr/sbin

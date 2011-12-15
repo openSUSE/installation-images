@@ -590,6 +590,9 @@ libreiserfs:
 btrfsprogs:
   /
 
+liblzo2-2:
+  /lib*/liblzo2.so.*
+
 gawk:
   /bin
 
