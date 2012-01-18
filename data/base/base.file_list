@@ -152,7 +152,7 @@ file:
   /usr/lib*/libmagic.so.*
 
 libncurses5:
-  /lib*/libncurses.so.5*
+  /
 
 terminfo-base:
   /usr/share/terminfo/d/dumb

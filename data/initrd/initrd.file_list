@@ -3,7 +3,7 @@ d var/run var/spool var/lock/libstorage var/tmp var/log/YaST2 var/adm/mount
 d var/lib/YaST2 var/lib/dhcpcd var/lib/hardware/unique-keys var/lib/autoinstall
 d var/run/dbus var/run/hotplug var/cache/fontconfig
 d var/lib/sshd var/lib/empty var/run/ntp var/lib/rpcbind
-d var/cache/sax/files var/cache/sax/sysp/rdbms var/cache/xfine var/lib/sax
+d var/cache/sax/files var/cache/sax/sysp/rdbms var/cache/xfine var/cache/zypp var/lib/sax 
 d etc/sysconfig
 d etc/sysconfig/hardware
 d etc/YaST2
@@ -12,6 +12,7 @@ d mounts
 d root
 d download
 d dev/pts dev/shm
+d var/lib/systemd/migrated
 
 t var/run/utmp
 
@@ -271,8 +272,9 @@ libreadline6:
   /lib*/libhistory.so*
 
 libncurses5:
-  /lib*/libncurses.so.5*
+  /lib*/libncurses.so.*
   /lib*/libncursesw.so.*
+  /lib*/libtinfo.so.*
 
 tcpd:
   /lib*/libwrap.so.*
@@ -376,9 +378,8 @@ sysvinit-tools:
   c 755 0 0 /sbin/showconsole
   /sbin/startproc
 
-PolicyKit:
+polkit:
   /var/lib
-  d /var/run/PolicyKit
 
 rpm:
   /usr/bin/rpm2cpio
@@ -392,6 +393,9 @@ libpopt*:
   /lib*
 
 libelf*:
+  /
+
+liblua5_*~:
   /
 
 liblua5_*:

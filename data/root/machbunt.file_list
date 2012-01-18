@@ -54,7 +54,7 @@ if with_yast2 ne 'no'
 
       if arch eq 'i386' || arch eq 'x86_64'
         virtualbox-guest-x11:
-          /etc/X11/xorg.conf.d
+          /etc
           /usr/lib*/xorg/modules
       endif
 
@@ -152,7 +152,6 @@ if with_yast2 ne 'no'
     /usr/lib*/libXxf86misc.so.*
     /usr/lib*/libXxf86vm.so.*
     /usr/lib*/libdmx.so.*
-    /usr/lib*/libxcb-render-util.so.*
 
   libpixman-1-0:
     /usr/lib*/libpixman-1.so.*

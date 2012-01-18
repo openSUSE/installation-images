@@ -2,6 +2,7 @@ d bin dev etc home lib mnt proc sys sbin tmp var root
 d media/{cdrom,floppy}
 d lib/modules
 c 1777 0 0 tmp
+d var/lib/systemd/migrated
 
 # some basic devices
 e cp -a /dev/* dev
@@ -304,8 +305,7 @@ icmpinfo:
   /usr/sbin/icmpinfo
 
 iputils:
-  /bin
-  /sbin
+  /
 
 telnet:
   /usr/bin/telnet
@@ -405,12 +405,14 @@ libelf*:
 liblua5_*:
   /
 
+liblua5_*~:
+  /
+
 libsepol*:
   /
 
 setserial:
-  /etc
-  /bin/setserial
+  /
 
 libnscd:
   /lib*/libnscd.so*
@@ -519,8 +521,8 @@ initviocons:
   /bin/initviocons
   /usr/bin/termprobes
 
-libexpat1:
-  /lib*/libexpat.so.*
+libexpat*:
+  /
 
 libglib-*-*:
   /
@@ -531,23 +533,23 @@ libgobject-*-*:
 libgthread-*-*:
   /
 
-libudev0:
-  /lib*
+libudev*:
+  /
 
 sysfsutils:
   /lib*/libsysfs.so*
 
-libblkid1:
-  /lib*
+libblkid*:
+  /
 
-libuuid1:
-  /lib*
+libuuid*:
+  /
 
-PolicyKit:
-  /etc/PolicyKit/PolicyKit.conf
-  /usr/lib*/libpolkit.so.*
-  /var/lib
-  d /var/run/PolicyKit
+libpolkit*:
+  /
+
+polkit:
+  /
 
 dbus-1-glib:
   /
@@ -609,10 +611,10 @@ dhcpcd:
 libedit*:
   /
 
-libnl-1_1:
+libnl-*:
   /
 
-libcap-ng0:
+libcap-ng*:
   /
 
 smartmontools:
@@ -630,13 +632,13 @@ libaio:
 cryptsetup:
   /
 
-libcryptsetup1:
+libcryptsetup*:
   /
 
-libgcrypt11:
+libgcrypt*:
   /
 
-libgpg-error0:
+libgpg-error*:
  /
 
 glibc-locale:

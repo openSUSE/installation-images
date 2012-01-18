@@ -10,6 +10,8 @@ d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
 d /var/lock/subsys
 d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
 
+d var/lib/systemd/migrated
+
 s ../lock /var/spool/locks
 
 t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
@@ -116,11 +118,11 @@ if exists(libx86emu1)
     /
 endif
 
-libxml2:
-  /usr/lib*/libxml2.so.*
+libxml*:
+  /
 
-libexpat1:
-  /lib*/libexpat.so.*
+libexpat*:
+  /
 
 libglib-*-*:
   /
@@ -131,22 +133,23 @@ libgobject-*-*:
 libgthread-*-*:
   /
 
-libudev0:
-  /lib*
+libudev*:
+  /
 
 sysfsutils:
   /lib*/libsysfs.so*
 
-libblkid1:
-  /lib*
+libblkid*:
+  /
 
-libuuid1:
-  /lib*
+libuuid*:
+  /
 
-PolicyKit:
-  /etc/PolicyKit/PolicyKit.conf
-  /usr/lib*/libpolkit.so.*
-  /usr/lib*/libpolkit-dbus.so.*
+libpolkit*:
+  /
+
+polkit:
+  /
 
 dbus-1-glib:
   /
@@ -173,7 +176,10 @@ rpm:
 libelf1:
   /
 
-liblua5_1:
+liblua*~:
+  /
+
+liblua*:
   /
 
 libmount*:
@@ -188,15 +194,11 @@ nfs-client:
   /usr/sbin/start-statd
   /usr/sbin/showmount
 
-libncurses*:
-  /lib*/libncurses.so.*
-  /lib*/libncursesw.so.*
-  /usr/lib*/libpanelw.so.*
-  /usr/lib*/libtic.so.*
-
 libncurses*~:
-  /lib*/libncurses.so.*
-  /lib*/libncursesw.so.*
+  /
+
+libncurses*:
+  /
 
 ncurses-utils:
   /usr/bin/reset
@@ -264,11 +266,6 @@ file:
   m /usr/share/misc/magic /etc/magic
   /usr/lib*/libmagic.so*
   /usr/bin/file
-
-if arch eq 'i386' || arch eq 'x86_64'
-  lilo:
-    /sbin/activate
-endif
 
 if exists(efibootmgr)
   efibootmgr:
@@ -589,24 +586,20 @@ if arch eq 'ppc' || arch eq 'ppc64'
 endif
 
 initviocons:
-  /bin/initviocons
-  /usr/bin/termprobes
+  /
 
 sysvinit-tools:
-  /sbin/checkproc
-  /sbin/killproc
-  /sbin/pidofproc
-  /sbin/startproc
-  /sbin/showconsole
-  /sbin/{pidof,killall5}
+  /
   c 755 0 0 /sbin/showconsole
-  /sbin/setconsole
+
+sysvinit-init:
+  /
 
 sysvinit:
-  /sbin/{reboot,halt,poweroff,shutdown}
+  /
 
 klogd:
-  /sbin/klogd
+  /
 
 syslogd:
   m /sbin/syslogd /sbin/syslogd.bin
@@ -921,49 +914,44 @@ perl-XML-Bare:
   /usr/lib
 
 open-iscsi:
-  /sbin
-  /etc/iscsi/iscsid.conf
-  /etc/init.d/open-iscsi
+  /
 
 gpg2:
   /usr/bin/gpg{,2}
 
-libassuan0:
-  /usr/lib*
+libassuan*:
+  /
 
 libzypp:
-  /usr/lib*/libzypp.so.*
-  /usr/share/zypp/schema
-  /usr/share/locale
+  /
 
 libidn:
-  /usr/lib*/libidn.so.*
+  /
 
-libsqlite3-0:
-  /usr/lib*/libsqlite3*.so.*
+libsqlite*-*:
+  /
 
 multipath-tools:
-  /lib*
-  /sbin/multipath
+  /
 
 libaio:
-  /lib*/libaio.so.*
+  /
 
 cryptsetup:
-  /sbin
+  /
 
-libcryptsetup1:
-  /lib*/libcryptsetup.so.*
+libcryptsetup*:
+  /
 
 ntp:
   /usr/sbin/ntpdate
   /usr/sbin/sntp
 
-libcap2:
-  /lib*/libcap.so.*
+libcap*:
+  /
 
 libsolv-tools:
-  /usr/bin
+  /
 
 sed:
   /bin/sed
