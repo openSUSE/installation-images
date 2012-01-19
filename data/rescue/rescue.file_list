@@ -402,10 +402,7 @@ liblzma*:
 libelf*:
   /
 
-liblua5_*:
-  /
-
-liblua5_*~:
+liblua5_1:
   /
 
 libsepol*:

@@ -176,10 +176,7 @@ rpm:
 libelf1:
   /
 
-liblua*~:
-  /
-
-liblua*:
+liblua5_1:
   /
 
 libmount*:
