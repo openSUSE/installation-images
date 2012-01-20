@@ -579,6 +579,9 @@ r /etc/init.d
 # r /etc/udev/rules.d/*-drivers.rules
   x etc/80-drivers.rules /lib/udev/80-drivers.rules.no_modprobe
 
+# remove this rule to enable KMS module loading (bnc #740517)
+  r /lib/udev/rules.d/79-kms.rules
+
   e save_cfg etc/group
   e groupadd -r tape
   e restore_cfg etc/group
