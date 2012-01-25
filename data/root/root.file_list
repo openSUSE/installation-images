@@ -130,9 +130,6 @@ libglib-*-*:
 libgobject-*-*:
   /
 
-libgthread-*-*:
-  /
-
 libudev*:
   /
 

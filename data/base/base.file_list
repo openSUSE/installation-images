@@ -328,6 +328,9 @@ liblzma*:
 libcap*:
   /
 
+liblzo*-*:
+  /
+
 squashfs:
   /usr/bin/mksquashfs
 

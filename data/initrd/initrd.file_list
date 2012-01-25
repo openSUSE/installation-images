@@ -398,6 +398,9 @@ libelf*:
 liblua5_1:
   /
 
+liblzo*-*:
+  /
+
 squashfs:
   /usr/bin/mksquashfs
 

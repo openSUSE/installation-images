@@ -527,9 +527,6 @@ libglib-*-*:
 libgobject-*-*:
   /
 
-libgthread-*-*:
-  /
-
 libudev*:
   /
 
@@ -726,6 +723,12 @@ if arch eq 'i386' || arch eq 'x86_64'
 endif
 
 libmount*:
+  /
+
+liblzo*-*:
+  /
+
+squashfs:
   /
 
 
