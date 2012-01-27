@@ -94,8 +94,7 @@ libpcre0:
   /lib*
 
 findutils:
-  /bin
-  /usr/bin
+  /
 
 diffutils:
   /usr/bin

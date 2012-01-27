@@ -139,7 +139,7 @@ dosfstools:
   /sbin
 
 findutils:
-  /usr/bin/{find,xargs}
+  /
 
 libacl*:
   /lib*

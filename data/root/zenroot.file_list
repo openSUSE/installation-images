@@ -293,7 +293,7 @@ diffutils:
   /usr/bin/{cmp,diff}
 
 findutils:
-  /usr/bin/{find,xargs}
+  /
 
 less:
   /etc/lesskey
