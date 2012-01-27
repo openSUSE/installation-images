@@ -481,15 +481,14 @@ libevent-*-*:
   /
 
 if arch eq 'ppc' || arch eq 'ppc64'
-librtas:
-    /usr/lib*
-libservicelog-1_0-1:
-  /usr/lib*/libservicelog-*.so.*
-libsqlite3-0:
-  /usr/lib*/libsqlite3*.so.*
-powerpc-utils:
-  /sbin
-  /usr/sbin
+  librtas*:
+    /
+  libservicelog-*-*:
+    /
+  libsqlite*-*:
+    /
+  powerpc-utils:
+    /
 endif
 
 mingetty:
