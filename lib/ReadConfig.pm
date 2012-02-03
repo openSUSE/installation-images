@@ -293,8 +293,8 @@ sub UnpackRPM
   if($rpm->{obs} && ! -f $rpm->{file}) {
     # retry up to 3 times
     for ($i = 0; $i < 3; $i++) {
-      $log .= `curl -o '$rpm->{file}' '$ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm' 2>&1`;
-      # system "curl -s -o '$rpm->{file}' '$ConfigData{obs_url}/$rpm->{obs}'";
+      $log .= `curl -k -o '$rpm->{file}' '$ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm' 2>&1`;
+      # system "curl -k -s -o '$rpm->{file}' '$ConfigData{obs_url}/$rpm->{obs}'";
       last if -f $rpm->{file};
     }
     if(! -f $rpm->{file}) {
@@ -494,7 +494,7 @@ sub get_repo_list
 
   # print "($prj, $repo)\n";
 
-  for (`curl -s '$ConfigData{obs_server}/source/$prj/_meta'`) {
+  for (`curl -k -s '$ConfigData{obs_server}/source/$prj/_meta'`) {
     if($inrepo) {
       if(/<path/) {
         my $x;
@@ -584,7 +584,7 @@ sub read_packages
     print $f "$p $r\n";
     die "$Script: failed to create $ConfigData{tmp_cache_dir}/.obs/$p/$r ($!)" unless mkpath "$ConfigData{tmp_cache_dir}/.obs/$p/$r";
 
-    for (`curl -s '$ConfigData{obs_server}/build/$p/$r/$ConfigData{obs_arch}/_repository?view=binaryversions&nometa=1'`) {
+    for (`curl -k -s '$ConfigData{obs_server}/build/$p/$r/$ConfigData{obs_arch}/_repository?view=binaryversions&nometa=1'`) {
       if(/<binary\s+name="([^"]+)\.rpm"/) {
         push @packages, "$1 $p/$r" unless $seen{$1};
         $seen{$1} = 1;

@@ -54,3 +54,11 @@ e echo "KexecReboot:	0" >>linuxrc.config
 
 e echo "PTOptions:	AutoUpgrade,productprofile" >>linuxrc.config
 
+# load scshi_dh modules early
+e echo "Exec:		insmod /modules/scsi_mod.ko" >>linuxrc.config
+e echo "Exec:		insmod /modules/scsi_dh.ko" >>linuxrc.config
+e echo "Exec:		insmod /modules/scsi_dh_alua.ko" >>linuxrc.config
+e echo "Exec:		insmod /modules/scsi_dh_emc.ko" >>linuxrc.config
+e echo "Exec:		insmod /modules/scsi_dh_hp_sw.ko" >>linuxrc.config
+e echo "Exec:		insmod /modules/scsi_dh_rdac.ko" >>linuxrc.config
+
