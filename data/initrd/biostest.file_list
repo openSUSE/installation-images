@@ -71,6 +71,9 @@ libpcsclite1:
 libopenct1:
   /usr/lib*/libopenct.so*
 
+libstdc++*:
+  /
+
 powertop:
   /usr/bin/powertop
 

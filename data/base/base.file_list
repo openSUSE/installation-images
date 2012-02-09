@@ -202,7 +202,7 @@ endif
 liblcms1:
   /usr/lib*/liblcms.so*
 
-libmng:
+libmng*:
   /usr/lib*/libmng.so*
 
 libjpeg62:
