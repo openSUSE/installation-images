@@ -370,7 +370,3 @@ if with_yast2 ne 'no'
   e mkfontdir usr/share/fonts/truetype
 endif
 
-if arch ne 's390' && arch ne 's390x'
-  s /bin/smbmount /sbin/mount.smbfs
-  s /lbin/smbmnt /bin/smbmnt
-endif

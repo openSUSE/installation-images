@@ -43,34 +43,28 @@ libmount*:
   /
 
 filesystem:
-  /etc/{ppp,rc.d,uucp,skel}
-  /etc/sysconfig
-  /root
-  /etc/init.d
-  /usr/tmp
-  /var
-r /var/{spool,squid,lib/YaST}
+  /
 
 fillup:
-  /bin/fillup
+  /
 
 grep:
-  /bin
+  /
 
 make:
-  /usr/bin
+  /
 
 sed:
-  /bin
+  /
 
 tar:
-  /bin
+  /
 
 bash:
-  /bin
+  /
 
 libreadline6:
-  /lib*
+  /
 
 coreutils:
   /etc
@@ -82,22 +76,22 @@ libselinux1:
   /
 
 libexpat1:
-  /lib*/libexpat.so.*
+  /
 
 libacl*:
-  /lib*
+  /
 
 libattr*:
-  /lib*
+  /
 
 libpcre0:
-  /lib*
+  /
 
 findutils:
   /
 
 diffutils:
-  /usr/bin
+  /
 
 libgcc*:
   /
@@ -114,8 +108,7 @@ r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
 r /usr/bin/{db*,glibcbug,rpcgen}
 
 module-init-tools:
-  /etc
-  /sbin
+  /
 
 procps:
   /bin/ps
@@ -359,6 +352,9 @@ if arch eq 'i386' || arch eq 'x86_64'
 endif
 
 :
+
+# remove things we don't need
+r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
 
 # x ../../src/gkv/gkv bin
 # E gkv /tmp/linux >tmp/kernel_version

@@ -9,6 +9,7 @@ use MakeExt2Image;
 use AddFiles;
 use Conv2Image;
 use CompressImage;
+use Cwd "realpath";
 
 sub check_link;
 
@@ -168,12 +169,24 @@ sub check_link
   my ($x, $err);
   local $_;
 
-  for (`find $dir -xtype l`) {
+  for (`find $dir -type l`) {
     chomp;
+
+    next if m#^$dir/usr/lib/cracklib_dict#;
+    next if m#^$dir/usr/share/applications/defaults.list#;
+
     $x = readlink;
-    next if $x =~ /^\// && (-e("$dir$x") || $x =~ /\/lbin\//);
-    print STDERR "$_ -> $x\n";
+    if($x =~ /^\//) {
+      next if $x =~ m#^/lbin/#;
+      next if $x =~ m#^/proc/#;
+
+      next if -e "$dir$x";
+    }
+    else {
+      next if -e;
+    }
     $err = 1;
+    print STDERR "$_ -> $x\n";
   }
 
   return $err;

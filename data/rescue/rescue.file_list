@@ -13,6 +13,9 @@ e cp -a /dev/* dev
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+libfreetype6:
+  /
+
 libffi*:
   /
 
@@ -58,18 +61,16 @@ mkinitrd:
   /
 
 grep:
-  /bin
+  /
 
 sed:
-  /bin
+  /
 
 tar:
-  /bin
+  /
 
 star:
-  /etc
-  /usr/bin
-  /sbin
+  /
 
 bash:
   /bin

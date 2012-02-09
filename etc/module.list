@@ -194,6 +194,7 @@ kernel/drivers/video/sis/
 
 kernel/drivers/misc/lis3lv02d/lis3lv02d.ko
 
+kernel/drivers/hv/
 kernel/drivers/staging/hv/
 
 # kmps

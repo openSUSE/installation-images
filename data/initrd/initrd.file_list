@@ -416,9 +416,7 @@ joe:
 
 if exists(sbl)
   sbl:
-    /etc
-    /usr/sbin
-    /usr/lib*
+    /
     r /etc/sbl/profile/default
     s y2base /etc/sbl/profile/default
 endif
@@ -513,10 +511,7 @@ libxcrypt:
 
 aaa_base: prein
   E prein
-  # keep only passwd & group
   r boot
-  r etc/init.d
-  r var/adm/fillup-templates
   /etc/rc.status
 
 dbus-1: prein

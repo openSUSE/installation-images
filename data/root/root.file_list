@@ -316,7 +316,7 @@ powerpc-utils:
 endif
 
 grep:
-  /bin/{,e,f}grep
+  /
 
 diffutils:
   /usr/bin/{cmp,diff}
