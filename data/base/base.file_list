@@ -256,7 +256,7 @@ libbz2-1:
   /lib*/libbz2.so.*
 
 cpio:
-  /bin
+  /
 
 glibc-i18ndata:
   /

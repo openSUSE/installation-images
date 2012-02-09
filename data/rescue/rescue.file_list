@@ -78,8 +78,7 @@ libreadline6:
   /lib*
 
 cpio:
-  /bin
-  /usr/bin
+  /
 
 libcrack2:
   /
@@ -263,6 +262,16 @@ endif
 
 if exists(elilo)
   elilo:
+    /
+endif
+
+if exists(grub2)
+  grub2:
+    /
+endif
+
+if exists(grub2-efi)
+  grub2-efi:
     /
 endif
 

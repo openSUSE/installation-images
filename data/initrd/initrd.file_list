@@ -306,7 +306,7 @@ open-iscsi:
   # /var/lib/open-iscsi
 
 cpio:
-  /bin/cpio
+  /
 
 util-linux:
   /sbin/mkswap

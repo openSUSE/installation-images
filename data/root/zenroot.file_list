@@ -316,7 +316,7 @@ procinfo:
   /usr/bin/socklist
 
 cpio:
-  /bin/cpio
+  /
 
 c 0755 0 0 /usr/bin
 c 0755 0 0 /usr/lib*

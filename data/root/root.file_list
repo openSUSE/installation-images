@@ -347,8 +347,7 @@ strace:
   /usr/bin/strace
 
 cpio:
-  /usr/bin/mt
-  /bin/cpio
+  /
 
 if arch eq 'ia64'
   ia32el:
