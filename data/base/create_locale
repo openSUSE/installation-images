@@ -1,89 +1,20 @@
 #! /usr/bin/perl
 
-sub build_archive;
+# link everything to en_US.utf8
 
-# make all locales links to en_US, cs_CZ or ru_RU
-# according to the needed iso...
+$tmp_locale = "tmp/locale";
 
-@real_locales = qw (
-  en_US/ISO-8859-1
-  en_US.UTF-8/UTF-8
-  cs_CZ/ISO-8859-2
-  ru_RU.KOI8-R/KOI8-R
-);
+system "rm -rf $tmp_locale";
+mkdir $tmp_locale, 0755;
+system "cp -a usr/lib/locale/en_US.utf8 $tmp_locale";
 
-if(-f "/usr/lib/locale/locale-archive") {
-  print "using locale archive\n";
-}
-elsif(-d "/usr/lib/locale/en_US") {
-  print "using locale directories\n";
-}
-else {
-  die "no locale found\n";
-}
-
-build_archive 0;
-
-chomp(@l = `localedef --prefix=/tmp --list-archive`);
-@real_locales{@l} = ();
-
-if(-f "/usr/lib/locale/locale-archive") {
-  chomp(@l = `localedef --list-archive`);
-}
-else {
-  chomp(@l = `ls /usr/lib/locale/`);
-}
-
-push @l, ( 'km_KH.utf8' );
-
-@all_locales{@l} = ();
-
-for (sort keys %real_locales) {
-  print "$_\n";
-}
-
-for (sort keys %all_locales) {
-  if(!exists($real_locales{$_})) {
-    if(/\.utf8$/) {
-      push @aliases, "$_\ten_US.utf8\n";
-    }
-    else {
-      if(/^(hr_HR|hu_HU|ro_RO|sk_SK|sl_SI|pl_PL)/) {
-        push @aliases, "$_\tcs_CZ\n";
-      }
-      else {
-        push @aliases, "$_\ten_US\n";
-      }
-    }
-  }
-}
-
-open F, ">/tmp/locale.alias";
-print F @aliases;
-close F;
-
-build_archive 1;
-
-
-sub build_archive
-{
-  my ($with_aliases, $localedef);
-
-  $with_aliases = shift;
-
-  $localedef = "localedef --archive";
-  $localedef .= " --alias-file=/tmp/locale.alias" if $with_aliases;
-
-  system "mkdir -p /tmp/usr/lib/locale";
-  system "rm -f /tmp/usr/lib/locale/locale-archive";
-
-  for (@real_locales) {
-    @l = split /\//;
-    die "oops, wrong locale data" unless @l == 2;
-    $l = $l[0];
-    $l =~ s/\..*$//;
-    print "$localedef --prefix=/tmp -c -i $l -f $l[1] $l[0]\n";
-    die "oops, locale build failed" if system "$localedef --prefix=/tmp -c -i $l -f $l[1] $l[0]";
+for (<usr/lib/locale/*>) {
+  s#^.*/##;
+  symlink "en_US.utf8", "$tmp_locale/$_";
+  if(!/@/) {
+    s#\..*$##;
+    $_ .= ".utf8";
+    symlink "en_US.utf8", "$tmp_locale/$_";
   }
 }
 

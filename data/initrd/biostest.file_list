@@ -6,8 +6,8 @@ firmwarekit:
   /var/log/firmwarekit
   x run_biostest /bin
 
-libpcre0:
-  /lib*
+libpcre*:
+  /
 
 libnewt0_52:
   /usr/lib*/libnewt.so.*

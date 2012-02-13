@@ -84,7 +84,7 @@ libacl*:
 libattr*:
   /
 
-libpcre0:
+libpcre*:
   /
 
 findutils:
@@ -183,8 +183,7 @@ fontconfig:
   /usr/bin/fc-cache
 
 gawk:
-  /bin
-  /usr/bin
+  /
 
 if arch eq 'i386' || arch eq 'x86_64'
   bootsplash:
@@ -192,14 +191,14 @@ if arch eq 'i386' || arch eq 'x86_64'
     r /sbin/fbtruetype
 endif
 
-liblcms1:
-  /usr/lib*/liblcms.so*
+liblcms*:
+  /
 
 libmng*:
-  /usr/lib*/libmng.so*
+  /
 
 libjpeg62:
-  /usr/lib*/libjpeg.so*
+  /
 
 insserv:
   /etc
@@ -238,15 +237,14 @@ perl-HTML-Parser:
 libdb-*:
   /
 
-gdbm:
-  /usr/lib*/libgdbm.so.*
-  /usr/lib*/libgdbm_compat.so.*
+libgdbm*:
+  /
 
 gzip:
-  /bin
+  /
 
-libbz2-1:
-  /lib*/libbz2.so.*
+libbz2-*:
+  /
 
 cpio:
   /
@@ -258,33 +256,37 @@ glibc-locale:
   /
 
 pwdutils:
-  /etc
-  /usr/bin
-  /usr/sbin
-  /usr/lib*
+  /
 
 pam:
-  /{etc,lib*,sbin}
+  /
 
 libaudit*:
   /
 
-libldap-2_4-2:
+libldap-*-*:
   /
 
 libopenssl*:
   /
 
 cyrus-sasl:
-  /usr/lib*/libsasl2.so.*
+  /
+
+libkeyutils*:
+  /
+
+libcom_err*:
+  /
+
+krb5:
+  /
 
 libnscd:
-  /lib*/libnscd.so*
+  /
 
 openslp:
-  /etc
-  /usr/bin
-  /usr/lib*
+  /
 
 libxcrypt:
   /
@@ -293,12 +295,10 @@ libcrack*:
   /
 
 cracklib:
-  /usr/sbin
-  /usr/lib*
-  /usr/share/cracklib
+  /
 
 strace:
-  /usr/bin/strace
+  /
 
 util-linux:
   /bin/mount

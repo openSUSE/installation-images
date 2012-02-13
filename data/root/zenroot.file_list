@@ -63,8 +63,8 @@ e echo set bell-style none >>etc/inputrc
 e postin
 r /var/adm/fillup-templates
 
-libpcre0:
-  /lib*
+libpcre*:
+  /
 
 tar:
   /bin/tar

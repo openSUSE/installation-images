@@ -407,6 +407,9 @@ squashfs:
 libcap*:
   /
 
+libcap-ng*:
+  /
+
 strace:
   /usr/bin/strace
 

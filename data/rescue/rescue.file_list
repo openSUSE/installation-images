@@ -54,8 +54,8 @@ insserv:
   /etc
   /sbin
 
-libpcre0:
-  /lib*
+libpcre*:
+  /
 
 mkinitrd:
   /
@@ -422,7 +422,7 @@ setserial:
   /
 
 libnscd:
-  /lib*/libnscd.so*
+  /
 
 pwdutils:
   /etc
@@ -511,8 +511,8 @@ vim:
 vim-base:
   /usr/bin/xxd
 
-gdbm:
-  /usr/lib*/libgdbm.so*
+libgdbm*:
+  /
 
 hwinfo:
   /usr/lib*
@@ -651,8 +651,8 @@ glibc-locale:
   /usr/lib*/gconv/gconv-modules*
 
   # built in base system
-  d usr/lib/locale
-  e cp /tmp/usr/lib/locale/locale-archive usr/lib/locale
+  d usr/lib
+  e cp -a /tmp/locale usr/lib
 
 libmodman*:
   /

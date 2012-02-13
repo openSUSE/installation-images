@@ -8,8 +8,8 @@ glibc-locale:
   /usr/lib*/gconv/gconv-modules*
 
   # built in base system
-  d usr/lib/locale
-  e cp /tmp/usr/lib/locale/locale-archive usr/lib/locale
+  d usr/lib
+  e cp -a /tmp/locale usr/lib
 
 timezone:
   /usr

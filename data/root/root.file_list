@@ -44,7 +44,7 @@ r /etc/issue
 libdb-*:
   /
 
-gdbm:
+libgdbm*:
   /
 
 libffi*:
@@ -716,7 +716,7 @@ iproute2:
   /sbin/ip
 
 libnscd:
-  /lib*/libnscd.so*
+  /
 
 unscd:
   /etc
@@ -947,7 +947,8 @@ libsolv-tools:
   /
 
 sed:
-  /bin/sed
+  /bin
+  /usr/bin
 
 libcap-ng*:
   /
