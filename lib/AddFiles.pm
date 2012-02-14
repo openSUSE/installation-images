@@ -69,7 +69,7 @@ sub AddFiles
   my ($inc_file, $inc_it, $debug, $ifmsg, $ignore);
   my ($old_warn, $ver, $i);
   my (@scripts, $s, @s, %script);
-  my (@packs, $sl, $rpm_dir);
+  my (@packs, $sl, $rpm_dir, $rpm_file);
   my (@plog, $current_pack, %acc_all_files, %acc_pack_files, $account);
   my ($su, @requires);
 
@@ -156,6 +156,7 @@ sub AddFiles
 
     $ifmsg = sprintf " [%x|%x] %s\n", $if_val, $if_taken, $_;
 
+    s/<rpm_file>/$rpm_file/g;
     s/<(kernel_ver|kernel_mods|kernel_rpm|kernel_img|(suse|sles|sled)_release|theme|splash_theme|yast_theme|product|product_name|update_dir|load_image|min_memory|instsys_build_id|instsys_complain|instsys_complain_root|arch|lib)>/$ConfigData{$1}/g;
     for $i (qw( linuxrc lang extramod items )) {
       s/<$i>/$ENV{$i}/g if exists $ENV{$i};
@@ -246,6 +247,9 @@ sub AddFiles
       $rpm_dir = ReadRPM $p;
 
       next unless $rpm_dir;
+
+      $rpm_file = $rpm_dir;
+      $rpm_file =~ s#(/[^/]+)$#/.rpms$1.rpm#;
 
       $current_pack = RealRPM($p)->{name};
 
@@ -390,7 +394,7 @@ sub AddFiles
         warn "$Script: failed to move $1 to $2";
     }
     elsif(/^X\s+(\S+)\s+(\S+)$/) {
-      SUSystem "cp -dR $1 $dir/$2 2>/dev/null" and
+      SUSystem "cp -Lpr $1 $dir/$2 2>/dev/null" and
         print "$Script: $1 not copied to $2 (ignored)\n";
     }
     elsif(/^g\s+(\S+)\s+(\S+)$/) {

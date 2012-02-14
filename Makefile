@@ -51,7 +51,7 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 .PHONY: all dirs base biostest initrd \
 	boot boot-efi root rescue root+rescue gdb bind clean \
 	boot-themes initrd-themes root-themes install \
-	install-initrd mini-iso-rmlist debuginfo
+	install-initrd mini-iso-rmlist debuginfo cd1
 
 all: $(ALL_TARGETS) VERSION changelog
 	@rm images/*.log
@@ -187,6 +187,17 @@ ifneq ($(filter Zen, $(THEMES)),)
 	libdeps=zenroot image=Zen/root tmpdir=zenroot src=root filelist=zenroot fs=squashfs bin/mk_image
 endif
 
+cd1: base
+	mkdir -p data/cd1/gen
+	rm -f data/cd1/gen/rpm.file_list
+	for i in `cat images/rpmlist` ; do \
+	  echo -e "$$i:\n  X <rpm_file> CD1/boot/<arch>\n" >> data/cd1/gen/rpm.file_list; \
+	done
+	nostrip=1 image=cd1 fs=none sw 0 bin/mk_image
+	cp -a images/instsys/CD1 tmp/cd1
+	rm -f tmp/cd1/CD1/boot/*/rpmlist
+	cp -a images/instsys/branding/openSUSE/CD1 tmp/cd1
+
 mini-iso-rmlist: base
 	rm -f images/$@
 	for i in \
@@ -210,7 +221,7 @@ clean:
 	-@rm -rf images tmp
 	-@rm -f `find -name '*~'`
 	-@rm -rf /tmp/mk_initrd_* /tmp/mk_image_* 
-	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/demo/gen
+	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/cd1/gen
 	-@rm -f gpg/trustdb.gpg gpg/random_seed
 
 install:
