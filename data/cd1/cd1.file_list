@@ -1,0 +1,10 @@
+skelcd-openSUSE:
+  /
+
+skelcd-control-openSUSE:
+  /
+
+d CD1/boot/<arch>
+
+include gen/rpm.file_list
+
