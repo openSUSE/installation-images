@@ -29,7 +29,7 @@ aaa_base-extras:
   /
 
 fillup:
-  /bin
+  /
 
 file:
   /etc
@@ -469,6 +469,9 @@ strace:
 klogd:
   /
 
+systemd:
+  /
+
 sysvinit:
   /
 
@@ -753,6 +756,11 @@ s /bin/true /sbin/mkinitrd_setup
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+dbus-1: prein,postin
+  /
+E prein
+E postin
+
 aaa_base: prein,postin
 E prein
   /
@@ -803,11 +811,6 @@ E postin
 
 udev: postin
   /
-E postin
-
-dbus-1: prein,postin
-  /
-E prein
 E postin
 
 dmraid: postin

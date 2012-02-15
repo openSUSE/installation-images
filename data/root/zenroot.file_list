@@ -44,7 +44,7 @@ libudev*:
   /lib*
 
 fillup:
-  /bin
+  /
 
 insserv:
   /etc

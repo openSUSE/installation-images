@@ -41,6 +41,9 @@ r /etc/issue
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+systemd:
+  /usr/<lib>
+
 libdb-*:
   /
 
@@ -57,7 +60,7 @@ libgmodule-*-*:
   /
 
 fillup:
-  /bin
+  /
 
 insserv:
   /etc
