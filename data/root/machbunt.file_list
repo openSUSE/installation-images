@@ -248,11 +248,11 @@ if with_yast2 ne 'no'
     /usr/lib*
     /usr/bin
 
-  libgcrypt11:
-    /lib*/libgcrypt.so*
+  libgcrypt*:
+    /
 
-  libgpg-error0:
-   /lib*/libgpg-error.so*
+  libgpg-error*:
+   /
 
   fvwm2:
     /usr/bin/fvwm{,2}

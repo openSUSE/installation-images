@@ -131,10 +131,10 @@ rpm:
 r /usr/lib/rpm/rpm{get,put}text
 r /usr/bin/rpmqpack
 
-libpopt0:
-  /lib*
+libpopt*:
+  /
 
-libelf1:
+libelf*:
   /
 
 liblua5_1:

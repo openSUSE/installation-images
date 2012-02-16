@@ -142,10 +142,10 @@ findutils:
   /
 
 libacl*:
-  /lib*
+  /
 
 libpopt*:
-  /lib*
+  /
 
 unscd:
   /etc
@@ -200,13 +200,13 @@ t /usr/bin/lessclose.sh
 c 0755 0 0 /usr/bin/lessclose.sh
 
 zlib:
-  /lib*/libz.so*
+  /
 
 bzip2:
-  /usr/bin
+  /
 
-libbz2-1:
-  /lib*/libbz2.so*	
+libbz2-*:
+  /
 
 if exists(lilo)
   lilo:

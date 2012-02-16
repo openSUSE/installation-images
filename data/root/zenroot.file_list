@@ -179,8 +179,8 @@ ncurses-utils:
   /usr/bin/reset
   /usr/bin/tset
 
-libpopt0:
-  /lib*
+libpopt*:
+  /
 
 tcpd:
   /lib*/libwrap.so*
@@ -390,13 +390,13 @@ libopenssl*:
   /lib*/libssl.so.*
 
 hex:
-  /usr/bin/hex
+  /
 
 bzip2:
-  /usr/bin/b{,un}zip2
+  /
 
-libbz2-1:
-  /lib*/libbz2.so*
+libbz2-*:
+  /
 
 unzip:
   /usr/bin/unzip

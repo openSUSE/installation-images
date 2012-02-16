@@ -209,7 +209,7 @@ terminfo:
   /usr/share/terminfo/i/ibm3151
 
 libpopt*:
-  /lib*
+  /
 
 tcpd:
   /lib*/libwrap.so*
@@ -695,22 +695,22 @@ wget:
   /
 
 libopenssl*:
-  /lib*
+  /
 
 openssl:
   /usr/share/ssl
 
 hex:
-  /usr/bin/hex
+  /
 
 bzip2:
-  /usr/bin/b{,un}zip2
+  /
 
 libbz2-*:
   /
 
 xz:
-  /usr/bin/xzdec
+  /
 
 liblzma*:
   /
