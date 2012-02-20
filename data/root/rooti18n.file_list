@@ -45,6 +45,5 @@ libiterm:
   /usr/lib*/libiterm.so*
   /usr/share/terminfo/i
 
-xorg-x11-libs:
-  /usr/lib*/libXfont.so.*
-
+libXfont*:
+  /

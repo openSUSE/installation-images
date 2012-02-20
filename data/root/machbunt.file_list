@@ -1,10 +1,7 @@
-libfreetype6:
+libfreetype*:
   /
 
 ltrace:
-  /
-
-libelf0:
   /
 
 if with_yast2 ne 'no'
@@ -87,84 +84,113 @@ if with_yast2 ne 'no'
 
   endif
 
-  xorg-x11-libX11:
-    /usr/lib*/libX11.so.*
-    /usr/lib*/libX11-xcb.so.*
+  libX11-6:
+    /
 
-    /usr/share/X11/XErrorDB 
-    # /usr/share/X11/XKeysymDB
-    /usr/share/X11/locale
+  libX11-xcb1:
+    /
 
-  xorg-x11-libXau:
-    /usr/lib*/libXau.so.*
+  libX11-data:
+    /
 
-  xorg-x11-libXdmcp:
-    /usr/lib*/libXdmcp.so.*
+  libXau*:
+    /
 
-  xorg-x11-libXext:
-    /usr/lib*/libXext.so.*
+  libXdmcp*:
+    /
 
-  xorg-x11-libXfixes:
-    /usr/lib*/libXfixes.so.*
+  libXext*:
+    /
 
-  xorg-x11-libXmu:
-    /usr/lib*/libXmu.so.*
-    /usr/lib*/libXmuu.so.*
+  libXfixes*:
+    /
 
-  xorg-x11-libXp:
-    /usr/lib*/libXp.so.*
+  libXmu*:
+    /
 
-  xorg-x11-libXpm:
-    /usr/lib*/libXpm.so.*
+  libXmuu*:
+    /
 
-  xorg-x11-libXrender:
-    /usr/lib*/libXrender.so.*
+  libXp*:
+    /
 
-  xorg-x11-libXt:
-    /usr/lib*/libXt.so.*
+  libXpm*:
+    /
 
-  xorg-x11-libSM:
-    /usr/lib*/libSM.so.*
+  libXrender*:
+    /
 
-  xorg-x11-libICE:
-    /usr/lib*/libICE.so.*
+  libXt*:
+    /
 
-  xorg-x11-libxkbfile:
-    /usr/lib*/libxkbfile.so.*
+  libSM*:
+    /
 
-  xorg-x11-libfontenc:
-    /usr/lib*/libfontenc.so.*
+  libICE*:
+    /
+
+  libxkbfile*:
+    /
+
+  libfontenc*:
+    /
 
   libXi6:
-    /usr/lib*/libXi.so.*
+    /
 
-  xorg-x11-libs:
-    /usr/lib*/libXaw*.so.7*
-    /usr/lib*/libXcomposite.so.*
-    /usr/lib*/libXcursor.so.*
-    /usr/lib*/libXfontcache.so.*
-    /usr/lib*/libXft.so.*
-    /usr/lib*/libXinerama.so.*
-    /usr/lib*/libXrandr.so.*
-    /usr/lib*/libXss.so.*
-    /usr/lib*/libXtst.so.*
-    /usr/lib*/libXxf86dga.so.*
-    /usr/lib*/libXxf86misc.so.*
-    /usr/lib*/libXxf86vm.so.*
-    /usr/lib*/libdmx.so.*
+  libXaw7:
+    /
 
-  libpixman-1-0:
-    /usr/lib*/libpixman-1.so.*
+  libXcomposite*:
+    /
 
-  libpciaccess0:
-    /usr/lib*/libpciaccess.so.*
+  libXcursor*:
+    /
 
-  xorg-x11-libxcb:
-    /usr/lib*/libxcb.so.*
-    /usr/lib*/libxcb-xlib.so.*
-    /usr/lib*/libxcb-dri2.so.*
-    /usr/lib*/libxcb-xfixes.so.*
+  libXfontcache*:
+    /
 
+  libXft*:
+    /
+
+  libXinerama*:
+    /
+
+  libXrandr*:
+    /
+
+  libXss*:
+    /
+
+  libXtst*:
+    /
+
+  libXxf86dga*:
+    /
+
+  libXxf86misc*:
+    /
+
+  libXxf86vm*:
+    /
+
+  libdmx*:
+    /
+
+  libpixman-*-*:
+    /
+
+  libpciaccess*:
+    /
+
+  libxcb*:
+    /
+
+  libxcb-dri2-*:
+    /
+
+  libxcb-xfixes*:
+    /
 
   fontconfig:
     /etc/fonts/*.conf
@@ -236,8 +262,8 @@ if with_yast2 ne 'no'
     /usr/lib*/libEGL.so.*
     /usr/lib*/libgbm.so.*
 
-  libdrm:
-    /usr/lib*
+  libdrm*:
+    /
 
   openslp-server:
     /etc/slp.reg
@@ -339,8 +365,8 @@ graphviz-gnome:
 libpango-*-*:
   /
 
-xorg-x11-libxcb:
-  /usr/lib*/libxcb-shm.so.*  
+libxcb-shm*:
+  /
 
 libcairo*:
   /
@@ -348,8 +374,8 @@ libcairo*:
 libgmodule-2_0-*:
   /
 
-xorg-x11-libxcb:
-  /usr/lib*/libxcb-render.so.*
+libxcb-render*:
+  /
 
 libltdl*:
   /

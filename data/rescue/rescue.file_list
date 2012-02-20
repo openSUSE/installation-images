@@ -13,7 +13,10 @@ e cp -a /dev/* dev
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-libfreetype6:
+libkmod*:
+  /
+
+libfreetype*:
   /
 
 libffi*:
@@ -136,7 +139,7 @@ coreutils:
   /usr/bin
 
 dosfstools:
-  /sbin
+  /
 
 findutils:
   /
@@ -179,8 +182,7 @@ if exists(silo)
 endif
 
 gzip:
-  /bin
-  /usr/bin
+  /
 
 joe:
   /usr/bin/{joe,jmacs}
@@ -221,14 +223,16 @@ if exists(pdisk)
     /sbin
     /usr/sbin
 
-  eject:
-    /bin
 endif
 
 if exists(s390-tools)
   s390-tools:
     /sbin
 endif
+
+eject:
+  /bin
+  /usr/bin
 
 lsscsi:
   /usr/bin
@@ -632,7 +636,7 @@ libstdc++*:
 kpartx:
   /
 
-libaio:
+libaio*:
   /
 
 cryptsetup:

@@ -107,7 +107,7 @@ coreutils:
   endif
 
 gzip:
-  bin/g{un,}zip
+  /
 
 joe:
   /usr/bin/joe
@@ -173,7 +173,7 @@ rpm:
   /usr/lib*
   r /usr/lib*/rpm-plugins/sepolicy.so
 
-libelf1:
+libelf*:
   /
 
 liblua5_1:
@@ -280,7 +280,7 @@ if arch eq 'ia64'
 endif
 
 dosfstools:
-  /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
+  /
 
 net-tools:
   /bin/{domain,host}name
@@ -517,7 +517,8 @@ libstdc++*:
   /
 
 eject:
-  /bin/eject
+  /bin
+  /usr/bin
 
 if exists(syslinux)
   syslinux:
@@ -930,7 +931,7 @@ libsqlite*-*:
 multipath-tools:
   /
 
-libaio:
+libaio*:
   /
 
 cryptsetup:
