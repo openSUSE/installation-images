@@ -13,6 +13,15 @@ e cp -a /dev/* dev
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+libwbclient*:
+  /
+
+libtalloc*:
+  /usr/lib*/libtalloc.so.*
+
+libxtables*:
+  /
+
 libkmod*:
   /
 
@@ -51,11 +60,10 @@ filesystem:
 r /var/{squid,lib/YaST}
 
 iproute2:
-  /sbin/ip
+  /
 
 insserv:
-  /etc
-  /sbin
+  /
 
 libpcre*:
   /
@@ -76,31 +84,31 @@ star:
   /
 
 bash:
-  /bin
+  /
 
-libreadline6:
-  /lib*
+libreadline*:
+  /
 
 cpio:
   /
 
-libcrack2:
+libcrack*:
   /
 
 cracklib:
-  /usr/lib*
+  /
 
 libxcrypt:
-  /lib*
+  /
 
 diffutils:
-  /usr/bin
+  /
 
 dump:
-  /sbin/{dump,restore}
+  /
 
 hdparm:
-  /sbin
+  /
 
 ntfsprogs:
   /
@@ -112,31 +120,26 @@ ntfs-3g:
   /
   s mount.ntfs-3g /sbin/mount.ntfs
 
-libfuse2:
-  /lib*
+libfuse*:
+  /
 
 e2fsprogs:
-  /etc
-  /sbin
-  /usr/{,s}bin
+  /
 
-libext2fs2:
-  /lib*
+libext2fs*:
+  /
 
-libcom_err2:
-  /lib*/libcom_err.so.*
-  /lib*/libss.so.*
+libcom_err*:
+  /
 
-libuuid1:
-  /lib*/libuuid.so.*
+libuuid*:
+  /
 
-libblkid1:
-  /lib*/libblkid.so.*
+libblkid*:
+  /
 
 coreutils:
-  /etc
-  /bin
-  /usr/bin
+  /
 
 dosfstools:
   /
@@ -151,11 +154,10 @@ libpopt*:
   /
 
 unscd:
-  /etc
-  /usr/sbin
+  /
 
 tcpd:
-  /lib*/libwrap.so*
+  /<lib>
 
 libgcc*:
   /
@@ -170,16 +172,14 @@ r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
 r /usr/bin/{db*,glibcbug,localedef,rpcgen}
   /usr/lib*/pt_chown
 
-libselinux1:
+libselinux*:
   /
 
 gpart:
-  /usr/bin
+  /
 
-if exists(silo)
-  silo:
-    /sbin/silo
-endif
+?silo:
+  /
 
 gzip:
   /
@@ -210,75 +210,57 @@ bzip2:
 libbz2-*:
   /
 
-if exists(lilo)
-  lilo:
-    /
-endif
+?lilo:
+  /
 
 if exists(pdisk)
   pdisk:
-    /sbin/pdisk
+    /
 
   iprutils:
-    /sbin
-    /usr/sbin
-
-endif
-
-if exists(s390-tools)
-  s390-tools:
-    /sbin
-endif
-
-eject:
-  /bin
-  /usr/bin
-
-lsscsi:
-  /usr/bin
-
-sg3_utils:
-  /usr/bin
-  /usr/lib*
-
-sdparm:
-  /sbin
-
-smp_utils:
-  /usr/bin
-
-if exists(grub)
-  grub:
     /
 endif
+
+?s390-tools:
+  /
+
+eject:
+  /
+
+lsscsi:
+  /
+
+sg3_utils:
+  /
+
+sdparm:
+  /
+
+smp_utils:
+  /
+
+?grub:
+  /
 
 if arch eq 'x86_64'
   glibc-32bit:
-    /lib
+    /
 
   libncurses5-32bit:
-    /lib/libncurses.so.*
-endif
-
-if exists(efibootmgr)
-  efibootmgr:
     /
 endif
 
-if exists(elilo)
-  elilo:
-    /
-endif
+?efibootmgr:
+  /
 
-if exists(grub2)
-  grub2:
-    /
-endif
+?elilo:
+  /
 
-if exists(grub2-efi)
-  grub2-efi:
-    /
-endif
+?grub2:
+  /
+
+?grub2-efi:
+  /
 
 if arch eq 'ia64'
   libunwind:
@@ -295,20 +277,19 @@ terminfo-base:
   /
 
 ncurses-utils:
-  /usr/bin/{clear,tset,reset}
+  /
 
 terminfo:
   /usr/share/terminfo/i/ibm3151
 
 net-tools:
-  /{,s}bin
-  /usr/sbin
+  /
 
 netcat-openbsd:
-  /usr/bin
+  /
 
 socat:
-  /usr/bin
+  /
 
 netcfg:
   /etc
@@ -316,19 +297,19 @@ r /etc/{diphosts,ftpusers,hosts.*}
 e echo Rescue.local >etc/HOSTNAME
 
 icmpinfo:
-  /usr/sbin/icmpinfo
+  /
 
 iputils:
   /
 
 telnet:
-  /usr/bin/telnet
+  /
 
 finger:
-  /usr/bin/finger
+  /
 
 rsh:
-  /usr/bin
+  /
 
 pam:
   /
@@ -338,11 +319,10 @@ libaudit*:
   /
 
 pam-modules:
-  /{lib*,sbin}
+  /
 
 pciutils:
-  /sbin
-  /lib*/libpci.so.*
+  /
 
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
@@ -357,50 +337,41 @@ libusb-0_1-4:
 libusb-*-*:
   /
 
-libtirpc1:
-  /etc
-  /lib*
+libtirpc*:
+  /
 
 procps:
-  /bin/ps
-  /usr/bin/{free,top,vmstat}
+  /
 
 psmisc:
-  m /bin/fuser /usr/bin
-  /usr/bin/killall
-  /usr/bin/pstree
+  /
 
 procinfo:
-  /usr/bin/socklist
+  /
 
 reiserfs:
-  /sbin
+  /
 
 btrfsprogs:
-  /sbin
+  /
 
 jfsutils:
-  /sbin
+  /
 
 xfsprogs:
-  /lib*
-  /usr/sbin
-  /sbin
+  /
 
 xfsdump:
-  /usr/sbin
-  /sbin
+  /
 
 openslp:
-  /etc
-  /usr/bin
-  /usr/lib*
+  /
 
 libattr*:
-  /lib*
+  /
 
 attr:
-  /usr/bin
+  /
 
 rpm:
   /bin
@@ -429,46 +400,32 @@ libnscd:
   /
 
 pwdutils:
-  /etc
-  /usr/bin
-  /usr/sbin/pwunconv
-  /usr/sbin/chpasswd
-  /usr/sbin/groupadd
-  /usr/sbin/groupadd.local
-  /usr/sbin/useradd
-  /usr/sbin/useradd.local
-  /usr/lib*/pwdutils/liblog_syslog.so.*
+  /
   d /etc/skel
 
 login:
-  /{etc,bin}
+  /
 
-libldap-2_4-2:
-  /usr/lib*/liblber-*.so.*
-  /usr/lib*/libldap-*.so.*
+libldap-*-*:
+  /
 
 libopenssl*:
-  /lib*/libcrypto.so.*
-  /lib*/libssl.so.*
+  /
 
 cyrus-sasl:
-  /usr/lib*/libsasl2.so.*
+  /
 
 libdb-*:
   /
 
 krb5:
-  /etc
-  /usr/lib*/libkrb5.so.*
-  /usr/lib*/libkrb5support.so.*
-  /usr/lib*/libgssapi_krb5.so.*
-  /usr/lib*/libk5crypto.so.*
+  /
 
 libkeyutils*:
   /
 
 strace:
-  /usr/bin/strace
+  /
 
 klogd:
   /
@@ -489,7 +446,7 @@ nfs-client:
   /
 
 nfsidmap:
-  /usr/lib*/libnfsidmap.so.*
+  /
 
 libgssglue*:
   /
@@ -500,16 +457,19 @@ libevent-*-*:
 if arch eq 'ppc' || arch eq 'ppc64'
   librtas*:
     /
+
   libservicelog-*-*:
     /
+
   libsqlite*-*:
     /
+
   powerpc-utils:
     /
 endif
 
 mingetty:
-  /sbin
+  /
 
 vim:
   m /bin/vim-normal /bin/vim
@@ -522,17 +482,13 @@ libgdbm*:
   /
 
 hwinfo:
-  /usr/lib*
-  /usr/sbin
+  /
 
-if exists(libx86emu1)
-libx86emu1:
-  /usr/lib*
-endif
+?libx86emu1:
+  /
 
 initviocons:
-  /bin/initviocons
-  /usr/bin/termprobes
+  /
 
 libexpat*:
   /
@@ -547,7 +503,7 @@ libudev*:
   /
 
 sysfsutils:
-  /lib*/libsysfs.so*
+  /usr/<lib>
 
 libblkid*:
   /
@@ -564,50 +520,46 @@ polkit:
 dbus-1-glib:
   /
 
-if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ia64'
-  libsmbios2:
-    /usr/lib*/libsmbios.so.*
+?libsmbios*:
+  /
+
+if exists(wireless-tools)
+  libiw*:
+    /
+
+  wireless-tools:
+    /
 endif
 
-if arch eq 'i386' || arch eq 'x86_64' || arch eq 'ppc' || arch eq 'ppc64'
-libiw30:
-  /usr/lib*
-
-wireless-tools:
-  /etc
-  /usr/sbin
-endif
-
-libparted0:
+libparted*:
   /
 
 parted:
   /
 
 libreiserfs:
-  /usr/lib*/libdal-*.so.*
-  /usr/lib*/libreiserfs-*.so.*
+  /
 
-libreiserfs-devel:
-  /usr/lib*/libdal.so
-  /usr/lib*/libreiserfs.so
+#libreiserfs-devel:
+#  /usr/lib*/libdal.so
+#  /usr/lib*/libreiserfs.so
 
 gawk:
-  /bin
+  /usr/bin/gawk
 # uses update-alternatives now
-s gawk bin/awk
+s gawk usr/bin/awk
 
 dd_rescue:
   /
 
 bc:
-  /usr/bin/bc
+  /
 
 checkmedia:
-  /usr/bin/checkmedia
+  /
 
 hex:
-  /usr/bin/hex
+  /
 
 libpcsclite*:
   /
@@ -676,44 +628,39 @@ curl:
 libcurl*:
   /
 
-libssh2-1:
+libssh2-*:
   /
 
-libcares2:
+libcares*:
   /
 
 libidn:
-  /usr/lib*/libidn.so.*
+  /
 
 bind-utils:
-  /usr/bin
+  /
 
 bind-libs:
-  /usr/lib*
+  /
 
-libcap2:
-  /lib*
+libcap*:
+  /
 
-libxml2:
-  /usr/lib*/libxml2.so.*
+libxml*:
+  /
 
 kexec-tools:
-  /sbin/kexec
+  /
 
 cifs-utils:
-  /sbin/mount.cifs
+  /
 
 chkrootkit:
-  /sbin  
+  /
 
 if arch eq 'i386' || arch eq 'x86_64'
-  bootsplash:
-    /sbin/splash
-
   sbl:
-    /etc
-    /usr/sbin
-    /usr/lib*
+    /
     r /etc/sbl/profile/default
     s y2base /etc/sbl/profile/default
 
@@ -731,11 +678,9 @@ if arch eq 'i386' || arch eq 'x86_64'
 
   libnewt*:
     /
-  libslang2:
+
+  libslang*:
     /
-
-
-
 endif
 
 libmount*:
@@ -751,7 +696,7 @@ squashfs:
 ###
 # to keep postin scripts happy
 r /sbin/mkinitrd_setup
-s /bin/true /sbin/mkinitrd_setup
+s /usr/bin/true /sbin/mkinitrd_setup
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -848,7 +793,7 @@ endif
 :
 
 # remove, ehm, things...
-r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+r /usr/share/doc /usr/share/info /usr/share/man /usr/share/locale /var/adm/fillup-templates
 
 # our own dhcp6c config
 x etc/dhcp6c.conf etc

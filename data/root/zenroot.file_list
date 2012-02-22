@@ -107,10 +107,8 @@ hwinfo:
   /usr/lib*
   /usr/sbin
 
-if exists(libx86emu1)
-libx86emu1:
-  /usr/lib*
-endif
+?libx86emu1:
+  /
 
 libxml2:
   /usr/lib*/libxml2.so.*

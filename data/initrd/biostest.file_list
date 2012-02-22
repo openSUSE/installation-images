@@ -41,7 +41,7 @@ openssh:
   /usr/bin/ssh
 
 coreutils:
-  /bin/cp
+  /usr/bin/cp
 
 libacl*:
   /lib*

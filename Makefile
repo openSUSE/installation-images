@@ -144,7 +144,7 @@ boot: base
 	image=boot fs=dir bin/mk_image
 
 root: base
-	libdeps=root root_i18n=1 root_gfx=1 image=root bin/mk_image
+	libdeps=root image=root bin/mk_image
 
 rescue: base
 	libdeps=rescue image=rescue bin/mk_image

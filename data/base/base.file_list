@@ -335,20 +335,14 @@ if arch eq 'i386' || arch eq 'x86_64'
   #x mk_splash /mk_splash
   #include gen/splash
 
-  if exists(bootsplash-branding-openSUSE)
-    bootsplash-branding-openSUSE:
+  ?bootsplash-branding-openSUSE:
     /
-  endif
 
-  if exists(bootsplash-branding-SLES)
-    bootsplash-branding-SLES:
-      /
-  endif
+  ?bootsplash-branding-SLES:
+    /
 
-  if exists(bootsplash-branding-SLED)
-    bootsplash-branding-SLED:
-      /
-  endif
+  ?bootsplash-branding-SLED:
+    /
 endif
 
 :

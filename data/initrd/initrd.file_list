@@ -59,10 +59,8 @@ c 660 0 6 /dev/loop7
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-if exists(xorg-x11-driver-input)
-  xorg-x11-driver-input:
-    /usr/bin/vmmouse_detect
-endif
+?xorg-x11-driver-input:
+  /usr/bin/vmmouse_detect
 
 libtirpc*:
   /
@@ -133,7 +131,7 @@ endif
 
 
 sed:
-  /bin/sed
+  /usr/bin/sed
 
 sg3_utils:
   /usr/lib*
@@ -146,7 +144,7 @@ cifs-utils:
   /sbin/mount.cifs
 
 sysfsutils:
-  /<lib>
+  /usr/<lib>
 
 dbus-1:
   /lib*/libdbus-1.so.*
@@ -168,32 +166,24 @@ hwinfo:
   /usr/sbin/hwinfo
   /var
 
-if exists(libx86emu1)
-  libx86emu1:
-    /
-endif
+?libx86emu1:
+  /
 
-if exists(acpica)
-  acpica:
-    /usr/sbin/acpidump
-endif
+?acpica:
+  /usr/sbin/acpidump
 
-if exists(dmidecode)
-  dmidecode:
-    /usr/sbin/dmidecode
-endif
+?dmidecode:
+  /usr/sbin/dmidecode
 
-if exists(bootsplash)
-  bootsplash:
-    /sbin/splash
-endif
+?bootsplash:
+  /sbin/splash
 
 if exists(wpa_supplicant)
   wpa_supplicant:
     /usr/sbin
 
   libiw30:
-    /usr/lib*
+    /
 
   wireless-tools:
     /usr/sbin
@@ -246,19 +236,20 @@ zlib:
   /
 
 coreutils:
-  /bin/rm
-  /bin/sleep
-  /bin/cat
-  /bin/mkdir
-  /bin/rmdir
-  /bin/ln
-  /bin/true
-  /bin/false
-  /bin/uname
-  /bin/touch
-  /bin/date
-  /bin/mv
-  /bin/chmod
+  /usr/bin/cat
+  /usr/bin/chmod
+  /usr/bin/date
+  /usr/bin/false
+  /usr/bin/ln
+  /usr/bin/mkdir
+  /usr/bin/mv
+  /usr/bin/rmdir
+  /usr/bin/sleep
+  /usr/bin/touch
+  /usr/bin/true
+  /usr/bin/uname
+  # linuxrc needs it in /bin
+  m /usr/bin/rm bin
 
 pcmciautils:
   /
@@ -268,8 +259,7 @@ bash:
   s bash /bin/lsh
 
 libreadline6:
-  /lib*/libreadline.so*
-  /lib*/libhistory.so*
+  /
 
 libncurses5:
   /lib*/libncurses.so.*
@@ -286,8 +276,8 @@ libnl-1_1:
   /lib*/libnl.so.*
 
 iputils:
-  /bin
-  /sbin
+  /usr/bin
+  /usr/sbin
 
 net-tools:
   /sbin/ifconfig
@@ -297,7 +287,7 @@ iproute2:
   /sbin/ip
 
 ethtool:
-  /sbin/ethtool
+  /usr/sbin/ethtool
 
 open-iscsi:
   # must be writable
@@ -417,19 +407,17 @@ joe:
   /usr/bin/joe
   /etc/joe/{joerc,ftyperc}
 
-if exists(sbl)
-  sbl:
-    /
-    r /etc/sbl/profile/default
-    s y2base /etc/sbl/profile/default
-endif
+?sbl:
+  /
+  r /etc/sbl/profile/default
+  s y2base /etc/sbl/profile/default
 
 libgcc*:
   /
 
 gzip:
-  /bin/gzip
-  /bin/gunzip
+  /usr/bin/gzip
+  /usr/bin/gunzip
 
 libpcre*:
   /
@@ -438,20 +426,14 @@ unscd:
   # remaining files are in root image
   d /var/run/nscd
 
-if exists(virtualbox-guest-tools)
-  virtualbox-guest-tools:
-    /etc/udev/rules.d
-endif
+?virtualbox-guest-tools:
+  /etc/udev/rules.d
 
-if exists(xorg-x11-driver-input)
-  xorg-x11-driver-input:
-    /lib/udev/rules.d
-endif
+?xorg-x11-driver-input:
+  /lib/udev/rules.d
 
-if exists(xorg-x11-server)
-  xorg-x11-server:
-    /etc/modprobe.d
-endif
+?xorg-x11-server:
+  /etc/modprobe.d
 
 mdadm:
   /
