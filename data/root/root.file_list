@@ -102,7 +102,7 @@ hwinfo:
 ?libx86emu1:
   /
 
-libxml*:
+libxml2-*:
   /
 
 libexpat*:
@@ -622,23 +622,20 @@ cracklib:
  x root/.bash_login /root
  x root/.vimrc /root
 
-libparted0:
+libparted*:
   /
 
 parted:
   /
 
 jfsutils:
-  /sbin/{fsck.jfs,mkfs.jfs,jfs_logdump,jfs_tune}
+  /
 
 xfsprogs:
-  /lib*
-  /usr/sbin
-  /sbin
+  /
 
 xfsdump:
-  /usr/sbin
-  /sbin
+  /
 
 libmodman*:
   /
@@ -1203,8 +1200,12 @@ if arch ne 's390' && arch ne 's390x'
 
   Mesa:
     /usr/lib*/dri/swrast_dri.so
-    /usr/lib*/libEGL.so.*
-    /usr/lib*/libgbm.so.*
+
+  Mesa-libEGL*:
+    /
+
+  libgbm*:
+    /
 
   libdrm*:
     /
