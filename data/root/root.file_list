@@ -214,7 +214,7 @@ libselinux*:
   /
 
 ?hdparm:
-  /sbin/hdparm
+  /usr/sbin/hdparm
 
 smartmontools:
   /usr/sbin/smartctl
@@ -669,9 +669,6 @@ xz:
 
 liblzma*:
   /
-
-iproute2:
-  /sbin/ip
 
 libnscd:
   /
@@ -1200,6 +1197,8 @@ if arch ne 's390' && arch ne 's390x'
 
   Mesa:
     /usr/lib*/dri/swrast_dri.so
+    /usr/lib*/dri/libdricore.so
+    /usr/lib*/dri/libglsl.so
 
   Mesa-libEGL*:
     /
@@ -1318,8 +1317,11 @@ libcairo*:
 libgmodule-2_0-*:
   /
 
-#libxcb-render*:
-#  /
+libxcb-render*:
+  /
+
+libxcb-shape*:
+  /
 
 libltdl*:
   /

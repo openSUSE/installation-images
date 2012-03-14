@@ -92,7 +92,7 @@ if(!$mode{keep} || $mode{add}) {
   if(!$ENV{nolinkcheck}) {
     print "checking for dangling symlinks...\n";
     if(check_link $tmpdir) {
-      if(1 || $debug =~ /\bignore\b/) {
+      if($debug =~ /\bignore\b/) {
         warn "$Script: please fix symlinks\n";
       }
       else {
