@@ -1006,11 +1006,9 @@ if arch ne 's390' && arch ne 's390x'
       /usr/lib*/xorg/modules/*.uc
     endif
 
-    if arch eq 'i386' || arch eq 'x86_64'
-      virtualbox-guest-x11:
-        /etc
-        /usr/lib*/xorg/modules
-    endif
+  ?virtualbox-guest-x11:
+    /etc
+    /usr/lib*/xorg/modules
 
   xterm:
     /usr/share/X11/app-defaults/XTerm
