@@ -323,6 +323,7 @@ yast2:
   /var
   r /usr/lib/YaST2/servers_non_y2/ag_cron
   s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast
+  s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast.ssh
   r /usr/lib/YaST2/bin/yast2
 
 yast2-add-on:
