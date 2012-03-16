@@ -1316,11 +1316,11 @@ libcairo*:
 libgmodule-2_0-*:
   /
 
-libxcb-render*:
-  /
+#libxcb-render*:
+#  /
 
-libxcb-shape*:
-  /
+#libxcb-shape*:
+#  /
 
 libltdl*:
   /
