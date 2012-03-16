@@ -41,12 +41,11 @@ r /etc/issue
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# FIXME: for ltrace
-libelf0:
+libkmod*:
   /
 
 systemd:
-  /usr/<lib>
+  /
 
 libdb-*:
   /

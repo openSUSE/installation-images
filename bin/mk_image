@@ -179,6 +179,7 @@ sub check_link
     if($x =~ /^\//) {
       next if $x =~ m#^/lbin/#;
       next if $x =~ m#^/proc/#;
+      next if $x =~ m#^/dev/#;
 
       next if -e "$dir$x";
     }
