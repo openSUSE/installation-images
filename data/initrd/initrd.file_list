@@ -299,14 +299,14 @@ cpio:
   /
 
 util-linux:
-  /sbin/mkswap
-  /sbin/swapon
-  /bin/more
-  /bin/mount
-  /bin/umount
+  /usr/sbin/mkswap
+  /usr/sbin/swapon
+  /usr/bin/more
+  /usr/bin/mount
+  /usr/bin/umount
   /usr/sbin/setctsid
-  /sbin/losetup
-  /sbin/blkid
+  /usr/sbin/losetup
+  /usr/sbin/blkid
 
 nfs-client:
   /var/lib/nfs
@@ -483,9 +483,6 @@ libnscd:
 
 libaudit1:
   /
-
-libxcrypt:
-  /lib*/libxcrypt.so.*
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

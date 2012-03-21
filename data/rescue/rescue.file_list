@@ -98,9 +98,6 @@ libcrack*:
 cracklib:
   /
 
-libxcrypt:
-  /
-
 diffutils:
   /
 
@@ -402,9 +399,6 @@ libnscd:
 pwdutils:
   /
   d /etc/skel
-
-login:
-  /
 
 libldap-*-*:
   /

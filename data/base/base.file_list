@@ -288,9 +288,6 @@ libnscd:
 openslp:
   /
 
-libxcrypt:
-  /
-
 libcrack*:
   /
 
@@ -301,8 +298,8 @@ strace:
   /
 
 util-linux:
-  /bin/mount
-  /bin/umount
+  /usr/bin/mount
+  /usr/bin/umount
 
 libblkid*:
   /

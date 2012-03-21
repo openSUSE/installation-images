@@ -597,9 +597,6 @@ libaudit*:
 pam-modules:
   /{lib*,sbin}
 
-libxcrypt:
-  /lib*
-
 libcrack2:
   /
 
