@@ -1209,9 +1209,8 @@ if arch ne 's390' && arch ne 's390x'
     /etc/slp.reg.d
     /usr/sbin/slpd
 
-  libxslt1:
-    /usr/lib*
-    /usr/bin
+  libxslt*:
+    /
 
   libgcrypt*:
     /
@@ -1303,8 +1302,8 @@ graphviz-gnome:
 libpango-*-*:
   /
 
-#libxcb-shm*:
-#  /
+libxcb-shm*:
+  /
 
 libcairo*:
   /
@@ -1312,8 +1311,8 @@ libcairo*:
 libgmodule-2_0-*:
   /
 
-#libxcb-render*:
-#  /
+libxcb-render*:
+  /
 
 #libxcb-shape*:
 #  /
