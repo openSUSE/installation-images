@@ -1,0 +1,17 @@
+#! /bin/bash
+
+exec >&2
+
+chmod 700 /root/.gnupg
+
+if [ -d /usr/lib/rpm/gnupg/keys ] ; then
+  touch /installkey.gpg
+  gpg --batch --homedir /root/.gnupg --no-default-keyring --ignore-time-conflict --ignore-valid-from --keyring /installkey.gpg --import /usr/lib/rpm/gnupg/keys/*
+elif [ -f /usr/lib/rpm/gnupg/suse-build-key.gpg ] ; then
+  cp /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
+fi
+
+if [ ! -s /installkey.gpg ] ; then
+  echo "warning: no build keys!"
+fi
+

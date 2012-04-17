@@ -11,6 +11,7 @@ d var/lib/xkb/compiled etc/X11
 d mounts
 d root
 d download
+d scripts
 d dev/pts dev/shm
 d var/lib/systemd/migrated
 
@@ -332,10 +333,10 @@ libassuan*:
 
 if exists(suse-build-key)
   suse-build-key:
-    m /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
+    /usr/lib/rpm/gnupg/suse-build-key.gpg
 elsif exists(openSUSE-build-key)
   openSUSE-build-key:
-    m /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
+    /usr/lib/rpm/gnupg/keys/*
 endif
 
 libblkid*:
@@ -644,8 +645,8 @@ x etc/host.conf etc
 # log to console 4
 x etc/syslog.conf etc
 
-# script neeeded for rescue startup
-x etc/prepare_rescue bin
+# additional scripts for linuxrc
+x scripts /
 
 e ldconfig -r .
 

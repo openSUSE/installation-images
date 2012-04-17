@@ -699,15 +699,19 @@ s /usr/bin/true /sbin/mkinitrd_setup
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-dbus-1: prein,postin
+# need to break circular dependecy dbus-1 <-> aaa_base
+dbus-1:
   /
-E prein
-E postin
 
 aaa_base: prein,postin
 E prein
   /
 t /etc/fstab
+E postin
+
+dbus-1: prein,postin
+  /
+E prein
 E postin
 
 lvm2: postin
@@ -788,6 +792,10 @@ endif
 
 # remove, ehm, things...
 r /usr/share/doc /usr/share/info /usr/share/man /usr/share/locale /var/adm/fillup-templates
+r /run/*
+
+# we better have one...
+e touch etc/sysconfig/kernel
 
 # our own dhcp6c config
 x etc/dhcp6c.conf etc
