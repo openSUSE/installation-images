@@ -1284,7 +1284,7 @@ screen:
 utempter:
   /usr/lib*/libutempter.so.*
 
-efont-unicode:
+efont-unicode-bitmap-fonts:
   /usr/share/fonts/misc/b16.pcf.gz
 
 dmz-icon-theme-cursors:
@@ -1325,6 +1325,10 @@ libltdl*:
 # packages with scripts
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# until we have libdbus-1
+dbus-1:
+  /
 
 aaa_base: prein,postin
   E prein
