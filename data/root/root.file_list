@@ -222,7 +222,7 @@ e2fsprogs:
   /
 
 libext2fs*:
-  /lib*
+  /
 
 libcom_err*:
   /
