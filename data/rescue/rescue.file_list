@@ -686,6 +686,9 @@ liblzo*-*:
 squashfs:
   /
 
+libdbus-1-*:
+  /
+
 
 ###
 # to keep postin scripts happy
@@ -698,10 +701,6 @@ s /usr/bin/true /sbin/mkinitrd_setup
 # packages with scripts
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# need to break circular dependecy dbus-1 <-> aaa_base
-dbus-1:
-  /
 
 aaa_base: prein,postin
 E prein

@@ -63,7 +63,7 @@ c 660 0 6 /dev/loop7
 libkmod*:
   /
 
-?xorg-x11-driver-input:
+?xf86-input-vmmouse:
   /usr/bin/vmmouse_detect
 
 libtirpc*:
@@ -124,9 +124,9 @@ if arch eq 's390' || arch eq 's390x'
 else
 
   kbd:
-    /bin/dumpkeys
-    /bin/loadkeys
-    /bin/setfont
+    /usr/bin/dumpkeys
+    /usr/bin/loadkeys
+    /usr/bin/setfont
     /usr/share/kbd/keymaps
     /usr/share/kbd/consoletrans/koi2alt
     /usr/share/kbd/consoletrans/trivial
@@ -150,8 +150,8 @@ cifs-utils:
 sysfsutils:
   /usr/<lib>
 
-dbus-1:
-  /lib*/libdbus-1.so.*
+libdbus-1-*:
+  /
 
 libusb-0_1-4:
   /
@@ -433,7 +433,10 @@ unscd:
 ?virtualbox-guest-tools:
   /etc/udev/rules.d
 
-?xorg-x11-driver-input:
+?xf86-input-vmmouse:
+  /lib/udev/rules.d
+
+?xf86-input-wacom:
   /lib/udev/rules.d
 
 ?xorg-x11-server:

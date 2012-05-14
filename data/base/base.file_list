@@ -170,9 +170,11 @@ libfreetype*:
 libXfont*:
   /
 
-xorg-x11:
-  /usr/bin/mkfontscale
-  /usr/bin/mkfontdir
+mkfontscale:
+  /
+
+mkfontdir:
+  /
 
 libfontenc*:
   /

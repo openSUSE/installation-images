@@ -94,6 +94,7 @@ kernel/fs/lockd/
 kernel/fs/mbcache.ko
 kernel/fs/configfs/
 kernel/fs/btrfs/
+kernel/fs/exofs/libore.ko
 kernel/net/sunrpc/sunrpc.ko
 kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
 kernel/drivers/power/power_supply.ko
@@ -193,6 +194,11 @@ kernel/drivers/gpu/drm/
 kernel/drivers/video/sis/
 
 kernel/drivers/misc/lis3lv02d/lis3lv02d.ko
+kernel/drivers/misc/cs5535-mfgpt.ko
+kernel/drivers/gpio/gpio-cs5535.ko
+kernel/drivers/ptp/
+kernel/drivers/pps/pps_core.ko
+kernel/drivers/usb/class/cdc-wdm.ko
 
 kernel/drivers/hv/
 kernel/drivers/staging/hv/

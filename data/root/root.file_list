@@ -929,20 +929,18 @@ timezone:
   r /usr/share/zoneinfo/right
 
 if !(arch eq 's390' || arch eq 's390x')
-kbd:
-  /usr/share/kbd
-  /bin/{loadkeys,dumpkeys}
-  /bin/{loadunimap,kbd_mode}
-  /bin/{chvt,loadkeys}
-  /bin/{chvt,loadkeys}
-  /bin/unicode_st{art,op}
-  /bin/testutf8
-  m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
-
-  /bin/setfont
-# temporary fix for yast's setfont problems
-# m /bin/setfont /bin/setfont.bin
-# x /usr/bin/setfont /bin
+  kbd:
+    /usr/share/kbd
+    /usr/bin/chvt
+    /usr/bin/dumpkeys
+    /usr/bin/kbd_mode
+    /usr/bin/loadkeys
+    /usr/bin/loadunimap
+    /usr/bin/setfont
+    /usr/bin/testutf8
+    /usr/bin/unicode_start
+    /usr/bin/unicode_stop
+    m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
 endif
 
 yast2-trans-stats:
@@ -979,31 +977,58 @@ if arch ne 's390' && arch ne 's390x'
     /usr/bin/Xorg
     /usr/lib*/xorg/modules
 
-  xorg-x11-driver-input:
-    /etc/X11/xorg.conf.d
-    /usr/lib*/xorg/modules/input
+  xf86-input-evdev:
+    /
 
-  xorg-x11-driver-video:
-    /usr/lib*/xorg/modules/drivers/ati_drv.so
-    /usr/lib*/xorg/modules/drivers/fbdev_drv.so
-    /usr/lib*/xorg/modules/drivers/intel_drv.so
-    /usr/lib*/xorg/modules/drivers/nv_drv.so
-    /usr/lib*/xorg/modules/drivers/r128_drv.so
-    /usr/lib*/xorg/modules/drivers/radeon_drv.so
-    /usr/lib*/xorg/modules/drivers/sis_drv.so
-    /usr/lib*/xorg/modules/drivers/cirrus*.so
+  xf86-input-joystick:
+    /
 
-    if arch eq 'i386' || arch eq 'ia64' || arch eq 'x86_64'
-      /usr/lib*/xorg/modules/drivers/vesa_drv.so
-    endif
+  xf86-input-keyboard:
+    /
 
-    if arch eq 'i386' || arch eq 'x86_64'
-      /usr/lib*/xorg/modules/drivers/vmware_drv.so
-    endif
+  xf86-input-mouse:
+    /
 
-    if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc' && arch ne 'ppc64'
-      /usr/lib*/xorg/modules/*.uc
-    endif
+  xf86-input-synaptics:
+    /
+
+  xf86-input-vmmouse:
+    /
+
+  xf86-input-void:
+    /
+
+  xf86-input-wacom:
+    /
+
+  xf86-video-ati:
+    /
+
+  xf86-video-cirrus:
+    /
+
+  xf86-video-fbdev:
+    /
+
+  xf86-video-intel:
+    /usr/<lib>/xorg
+
+  xf86-video-nv:
+    /
+
+  xf86-video-r128:
+    /
+
+  xf86-video-sis:
+    /
+
+  ?xf86-video-vesa:
+    /
+
+  ?xf86-video-vmware:
+    /
+
+   # /usr/lib*/xorg/modules/*.uc
 
   ?virtualbox-guest-x11:
     /etc
@@ -1083,8 +1108,8 @@ if arch ne 's390' && arch ne 's390x'
   libXcursor*:
     /
 
-#  libXfontcache*:
-#    /
+  libXfontcache*:
+    /
 
   libXft*:
     /
@@ -1110,8 +1135,8 @@ if arch ne 's390' && arch ne 's390x'
   libXxf86vm*:
     /
 
-#  libdmx*:
-#    /
+  libdmx*:
+    /
 
   libpixman-*-*:
     /
@@ -1138,22 +1163,41 @@ if arch ne 's390' && arch ne 's390x'
     /usr/bin/fc-{cache,list,match}
     /var/cache/fontconfig
 
-  xorg-x11:
+  mkfontscale:
+    /
+
+  mkfontdir:
+    /
+
+  setxkbmap:
+    /
+
+  xdpyinfo:
+    /
+
+  xhost:
+    /
+
+  xkbcomp:
+    /
+
+  xmodmap:
+    /
+
+  xrefresh:
+    /
+
+  xset:
+    /
+
+  xauth:
+    /
+
+  xdm:
     /etc/X11/xdm/Keyboard.map
+
+  rgb:
     /usr/share/X11/rgb.txt
-
-    /usr/bin/mkfontdir
-    /usr/bin/mkfontscale
-    /usr/bin/setxkbmap
-    /usr/bin/xdpyinfo
-    /usr/bin/xhost
-    /usr/bin/xkbcomp
-    /usr/bin/xmodmap
-    /usr/bin/xrefresh
-    /usr/bin/xset
-
-  xorg-x11-xauth:
-    /usr/bin/xauth
 
   xorg-x11-fonts-core:
     # 'fixed' font
@@ -1323,15 +1367,14 @@ libxcb-render*:
 libltdl*:
   /
 
+libdbus-1-*:
+  /
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # packages with scripts
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# until we have libdbus-1
-dbus-1:
-  /
 
 aaa_base: prein,postin
   E prein
