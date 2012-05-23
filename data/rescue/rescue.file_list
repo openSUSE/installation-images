@@ -135,6 +135,9 @@ libuuid*:
 libblkid*:
   /
 
+libgmp*:
+  /
+
 coreutils:
   /
 
@@ -316,6 +319,9 @@ libaudit*:
   /
 
 pam-modules:
+  /
+
+libpci*:
   /
 
 pciutils:
@@ -567,7 +573,7 @@ dhcpcd:
 libedit*:
   /
 
-libnl-*:
+libnl3-*:
   /
 
 libcap-ng*:

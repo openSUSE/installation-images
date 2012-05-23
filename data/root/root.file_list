@@ -85,6 +85,9 @@ s bash /bin/sh
 libreadline*:
   /
 
+libgmp*:
+  /
+
 coreutils:
   /
 
@@ -701,9 +704,11 @@ sysconfig:
   e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
   # /sbin/modify_resolvconf
 
+libpci*:
+  /
+
 pciutils:
-  /sbin/lspci
-  /lib*/libpci.so.*
+  /
 
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
@@ -976,6 +981,9 @@ if arch ne 's390' && arch ne 's390x'
     /etc/X11/xorg.conf.d
     /usr/bin/Xorg
     /usr/lib*/xorg/modules
+
+  libmtdev*:
+    /
 
   xf86-input-evdev:
     /

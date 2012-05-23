@@ -276,8 +276,11 @@ tcpd:
 dhcpcd:
   /
 
-libnl-1_1:
-  /lib*/libnl.so.*
+libnl-*:
+  /
+
+libnl3-*:
+  /
 
 iputils:
   /usr/bin
@@ -365,7 +368,7 @@ ntfs-3g:
   s mount.ntfs-3g /sbin/mount.ntfs
 
 kexec-tools:
-  /sbin/kexec
+  /usr/sbin/kexec
 
 sysvinit-tools:
   /sbin/showconsole

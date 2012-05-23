@@ -66,6 +66,9 @@ bash:
 libreadline6:
   /
 
+libgmp*:
+  /
+
 coreutils:
   /etc
   /bin
