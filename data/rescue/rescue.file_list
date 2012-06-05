@@ -58,6 +58,8 @@ filesystem:
   /usr/tmp
   /var
 r /var/{squid,lib/YaST}
+# remove temporarily so that 'mount /sys' doesn't work
+r /sys
 
 iproute2:
   /
@@ -537,7 +539,7 @@ libparted*:
 parted:
   /
 
-libreiserfs:
+libreiserfs-*-*:
   /
 
 #libreiserfs-devel:
@@ -794,6 +796,9 @@ endif
 
 
 :
+
+# create it now (see filesystem package above)
+d /sys
 
 # remove, ehm, things...
 r /usr/share/doc /usr/share/info /usr/share/man /usr/share/locale /var/adm/fillup-templates

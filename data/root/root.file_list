@@ -387,6 +387,9 @@ yast2-perl-bindings:
 yast2-pkg-bindings:
   /
 
+yast2-proxy:
+  /
+
 yast2-runlevel:
   /
 
@@ -502,7 +505,7 @@ device-mapper:
 reiserfs:
   /
 
-libreiserfs:
+libreiserfs-*-*:
   /
 
 liblzo2-*:
