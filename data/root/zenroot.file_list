@@ -301,6 +301,9 @@ module-init-tools:
  /sbin/{depmod,insmod,modinfo,modprobe,rmmod}
  /bin/lsmod
 
+libprocps*:
+  /
+
 procps:
   /bin/ps
   /usr/bin/{free,top,vmstat}

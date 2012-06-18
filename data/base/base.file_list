@@ -113,6 +113,9 @@ r /usr/bin/{db*,glibcbug,rpcgen}
 module-init-tools:
   /
 
+libprocps*:
+  /
+
 procps:
   /bin/ps
   /usr/bin/{free,top,vmstat}

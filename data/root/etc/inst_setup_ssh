@@ -1,16 +1,42 @@
 # will be sourced by /sbin/inst_setup
+# but can also be called manually: $0 [-n] rootpassword
 
 # vim: syntax=sh
 
+nosshkey=false
+if [ "$1" = "-n" ] ; then
+  nosshkey=true
+  shift
+fi
+
 if grep -qwi nosshkey < /proc/cmdline ; then
   nosshkey=true
+fi
+
+if ! test -z "$1" ; then
+  sshpassword=$1
 fi
 
 if [ "$nosshkey" = "true" ] ; then
   # for inst-sys testing
   echo using built-in ssh keys
   cp -a --remove-destination /lib/ssh/*key* /etc/ssh/
+  chmod 644 /etc/ssh/*key.pub
+  chmod 600 /etc/ssh/*key
 fi
+
+if [ ! -z "$sshpassword" ] ; then
+  mv -f /etc/passwd /etc/passwd.
+  mv -f /etc/shadow /etc/shadow.
+  cat /etc/passwd. > /etc/passwd
+  cat /etc/shadow. > /etc/shadow
+  chmod 600 /etc/shadow
+  chmod 644 /etc/passwd
+  echo "setting temporary root password to '$sshpassword'"
+  echo "root:$sshpassword" | chpasswd
+fi
+chown -R 0.0  /etc/ssh /root /etc/shadow 2>/dev/null
+echo "Starting SSH daemon  ...  "
 
 rcsshd start || {
   export SSH_FAILED=true

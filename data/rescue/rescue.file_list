@@ -345,6 +345,9 @@ libusb-*-*:
 libtirpc*:
   /
 
+libprocps*:
+  /
+
 procps:
   /
 

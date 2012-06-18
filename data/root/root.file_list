@@ -295,6 +295,9 @@ less:
 module-init-tools:
  /
 
+libprocps*:
+  /
+
 procps:
   /
 
@@ -938,16 +941,7 @@ timezone:
 
 if !(arch eq 's390' || arch eq 's390x')
   kbd:
-    /usr/share/kbd
-    /usr/bin/chvt
-    /usr/bin/dumpkeys
-    /usr/bin/kbd_mode
-    /usr/bin/loadkeys
-    /usr/bin/loadunimap
-    /usr/bin/setfont
-    /usr/bin/testutf8
-    /usr/bin/unicode_start
-    /usr/bin/unicode_stop
+    /
     m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
 endif
 
@@ -1081,9 +1075,6 @@ if arch ne 's390' && arch ne 's390x'
     /
 
   libXmuu*:
-    /
-
-  libXp*:
     /
 
   libXpm*:

@@ -563,6 +563,9 @@ if with_gdb
   libexpat1:
     /lib*/libexpat.so.*
 
+  libprocps*:
+    /
+
   procps:
     /bin/ps
 
