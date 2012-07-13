@@ -227,6 +227,9 @@
 
     $self->size($self->{size} + $self->{fit_size_acc}) if $self->{fit_size_acc};
 
+    # using '+-' to work around bigint strangeness in perl 5.16 (bnc #766339)
+    my $p_size = $self->{size} - $self->partition_ofs + -$self->{extra_size};
+
     my $p_size = $self->{size} - $self->partition_ofs -  $self->{extra_size};
     return undef if $p_size < 0;
 
