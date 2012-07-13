@@ -1,0 +1,11 @@
+#! /bin/bash
+
+exec 2>&1
+
+if [ -x usr/sbin/plymouthd ] ; then
+  mkdir --mode 755 /run/plymouth
+  plymouthd --attach-to-session --tty=tty1 --pid-file /run/plymouth/pid
+  plymouth show-splash
+  # plymouth watch-keystroke
+fi
+
