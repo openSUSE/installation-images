@@ -491,9 +491,52 @@ pam:
 libnscd:
   /
 
-libaudit1:
+libaudit*:
   /
 
+if exists(plymouth)
+  libpciaccess*:
+    /
+
+  libpng*-*:
+    /
+
+  libdrm*:
+    /
+
+  libdrm_intel*:
+    /
+
+  libdrm_nouveau*:
+    /
+
+  libdrm_radeon*:
+    /
+
+  libkms*:
+    /
+
+  libply*:
+    /
+
+  libply-splash-core*:
+    /
+
+  libply-splash-graphics*:
+    /
+
+  plymouth:
+    /
+
+  plymouth-scripts:
+    /
+
+  plymouth-plugin-script:
+    /
+
+  plymouth-branding-openSUSE:
+    /
+endif
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #

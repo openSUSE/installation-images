@@ -193,11 +193,9 @@ fontconfig:
 gawk:
   /
 
-if arch eq 'i386' || arch eq 'x86_64'
-  bootsplash:
-    /
-    r /sbin/fbtruetype
-endif
+?bootsplash:
+  /
+  r /sbin/fbtruetype
 
 liblcms*:
   /

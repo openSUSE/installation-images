@@ -195,8 +195,14 @@ grep -qi "^StartShell:.*1" /etc/install.inf && START_SHELL=1
 # leave a core file if yast crashes
 ulimit -c unlimited
 
+# turn off plymouth splash screen
+function plymouth_off {
+  [ -x /usr/bin/plymouth ] && plymouth quit
+}
+
 # start shell, useful on iSeries or via serial console
 function start_shell() {
+  plymouth_off
   echo 
   echo "ATTENTION: Starting shell... (use 'exit' to proceed)"
   bash --init-file /root/.bash_login
@@ -243,10 +249,12 @@ rm -f /tmp/YaST2_ssh_installation_finished
 elif [ "$yast" = yast ] ; then
 # now, run yast
 echo "starting yast..."
+  plymouth_off
   /sbin/yast "$@" ; ec=$?
 elif [ "$yast" ] ; then
 # now, run yast
 echo "starting $yast..."
+  plymouth_off
   "$yast" "$@" ; ec=$?
 fi
 

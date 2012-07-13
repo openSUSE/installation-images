@@ -1261,6 +1261,9 @@ if arch ne 's390' && arch ne 's390x'
   libxslt*:
     /
 
+  libxslt-tools:
+    /
+
   libgcrypt*:
     /
 
