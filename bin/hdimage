@@ -229,8 +229,6 @@
 
     # using '+-' to work around bigint strangeness in perl 5.16 (bnc #766339)
     my $p_size = $self->{size} - $self->partition_ofs + -$self->{extra_size};
-
-    my $p_size = $self->{size} - $self->partition_ofs -  $self->{extra_size};
     return undef if $p_size < 0;
 
     my $c = $self->{c};
