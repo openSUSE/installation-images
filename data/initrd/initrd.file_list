@@ -700,5 +700,8 @@ x etc/syslog.conf etc
 # additional scripts for linuxrc
 x scripts /
 
+# initial /etc/adjtime (bnc #764690)
+x etc/adjtime etc
+
 e ldconfig -r .
 
