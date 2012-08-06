@@ -703,5 +703,8 @@ x scripts /
 # initial /etc/adjtime (bnc #764690)
 x etc/adjtime etc
 
+# add udev compat link (bnc #774143, bnc #774599)
+s /lib/firmware /usr/lib
+
 e ldconfig -r .
 
