@@ -766,8 +766,9 @@ sysconfig: postin
   /
 E postin
 
-udev: postin
+udev: prein,postin
   /
+E prein
 E postin
 
 dmraid: postin
