@@ -702,7 +702,7 @@ libntfs-3g*:
   /
 
 ntfsprogs:
-  /usr/sbin/ntfsresize
+  /
 
 sysconfig:
   # for modify_resolvconf
