@@ -73,8 +73,8 @@ if(!$mode{keep} || $mode{add}) {
   AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir or
     die "$Script: failed to setup image";
 
-  if(-f "${BasePath}tmp/$imagename.rpmlog") {
-    SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' ${BasePath}tmp/$imagename.rpmlog | sort -u >$tmpdir/.packages.$imagename";
+  if(-f "$tmpdir.rpmlog") {
+    SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' $tmpdir.rpmlog | sort -u >$tmpdir/.packages.$fl";
   }
 
 #  print "fix locale...\n";

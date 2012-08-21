@@ -1,3 +1,7 @@
+21/8/2012:	v11.172
+	- re-add broadcom.ko (bnc #748054)
+	- fix creation of package list
+
 3/2/2012:	v11.171
 	- load scsi_dh_* modules before starting udevd
 
