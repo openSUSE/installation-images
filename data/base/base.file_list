@@ -107,7 +107,7 @@ glibc:
   /{lib*,sbin}
 r /lib*/libdb.so.*
 r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
-  /usr/{,s}bin
+  /usr/{lib*,{,s}bin}
 r /usr/bin/{db*,glibcbug,rpcgen}
 
 module-init-tools:
@@ -203,7 +203,7 @@ liblcms*:
 libmng*:
   /
 
-libjpeg62:
+libjpeg*:
   /
 
 insserv:

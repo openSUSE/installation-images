@@ -369,7 +369,7 @@ yast2-mouse:
 yast2-multipath:
   /
 
-yast2-ncurses:
+libyui-ncurses*:
   /
 
 yast2-network:
@@ -436,13 +436,13 @@ yast2-users:
   /usr/share/YaST2/scrconf/crack.scr
   /usr/lib*/YaST2/plugin/libpy2ag_crack.so*
 
-yast2-libyui:
+libyui*:
   /
 
 yast2-ycp-ui-bindings:
   /
 
-yast2-ncurses-pkg:
+libyui-ncurses-pkg*:
   /
 
 yast2-hardware-detection:
@@ -1241,10 +1241,13 @@ if arch ne 's390' && arch ne 's390x'
 
   Mesa:
     /usr/lib*/dri/swrast_dri.so
-    /usr/lib*/dri/libdricore.so
+    /usr/lib*/libdricore*
     /usr/lib*/dri/libglsl.so
 
   Mesa-libEGL*:
+    /
+
+  libkms*:
     /
 
   libgbm*:
@@ -1288,13 +1291,13 @@ if arch ne 's390' && arch ne 's390x'
 
 endif
 
-yast2-qt:
+libyui-qt*:
   /
 
-yast2-qt-pkg:
+libyui-qt-pkg*:
   /
 
-yast2-qt-graph:
+libyui-qt-graph*:
   /
 
 libqt4:
@@ -1312,7 +1315,7 @@ dejavu-fonts:
 libpng14-14:
   /usr/lib*/libpng*.so*
 
-libjpeg62:
+libjpeg*:
   /usr/lib*/libjpeg.so*
 
 sax2-tools:

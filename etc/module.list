@@ -102,6 +102,7 @@ kernel/drivers/firmware/
 kernel/drivers/acpi/
 kernel/drivers/char/ipmi/
 kernel/drivers/video/backlight/
+kernel/drivers/mfd/
 kernel/drivers/cpufreq/
 kernel/arch/x86/kernel/
 kernel/drivers/platform/
@@ -173,6 +174,7 @@ kernel/arch/powerpc/sysdev/bestcomm/bestcomm-fec.ko
 kernel/drivers/virtio/
 
 kernel/net/wimax/
+kernel/net/ceph/
 kernel/drivers/usb/wusbcore/
 kernel/drivers/uwb/
 kernel/fs/fscache/
