@@ -13,6 +13,17 @@ e cp -a /dev/* dev
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+filesystem:
+  /etc/{ppp,rc.d,uucp}
+  /etc/sysconfig
+  /root
+  /run
+  /etc/init.d
+  /usr/tmp
+  /var
+# remove temporarily so that 'mount /sys' doesn't work
+r /sys
+
 libwbclient*:
   /
 
@@ -48,18 +59,6 @@ file:
   /usr/bin
   /usr/lib*/libmagic.so.*
   /usr/share/misc
-
-filesystem:
-  /etc/{ppp,rc.d,uucp}
-  /etc/sysconfig
-  /root
-  /run
-  /etc/init.d
-  /usr/tmp
-  /var
-r /var/{squid,lib/YaST}
-# remove temporarily so that 'mount /sys' doesn't work
-r /sys
 
 iproute2:
   /
@@ -639,7 +638,7 @@ libssh2-*:
 libcares*:
   /
 
-libidn:
+libidn*:
   /
 
 bind-utils:
@@ -725,7 +724,12 @@ E prein
 E postin
 
 lvm2: postin
-  /
+  /etc
+  /lib*
+  /sbin
+  /usr
+  /var/adm
+  # NOT /var/lock !
 E postin
 
 device-mapper: postin
@@ -806,7 +810,7 @@ d /sys
 
 # remove, ehm, things...
 r /usr/share/doc /usr/share/info /usr/share/man /usr/share/locale /var/adm/fillup-templates
-r /run/*
+# r /run/*
 
 # we better have one...
 e touch etc/sysconfig/kernel
@@ -845,7 +849,7 @@ E echo "proc /proc proc defaults 0 0" >>/etc/fstab
 E echo "sysfs /sys sysfs noauto 0 0" >>/etc/fstab
 # E echo "usbfs /proc/bus/usb usbfs defaults 0 0" >>/etc/fstab
 E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
-E /sbin/SuSEconfig --force --norestarts
+# E /sbin/SuSEconfig --force --norestarts
 
 d lib/firmware usr/lib/microcode
 

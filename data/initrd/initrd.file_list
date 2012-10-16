@@ -213,7 +213,7 @@ libssh2-*:
 libcares2:
   /
 
-libidn:
+libidn*:
   /usr/lib*
 
 libldap-*-*:

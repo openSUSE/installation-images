@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # ensure some trees are completely writable
-for i in /etc /media /root /var ; do
+for i in /etc /media /root /run /var ; do
   cp -aL $i ${i}_tmp
   rm -rf $i
   mv ${i}_tmp $i

@@ -6,23 +6,18 @@
 d bin dev etc lib mnt root sbin tmp usr var proc
 c 1777 0 0 tmp
 
-d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
-d /var/lock/subsys
-d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
+# d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
+# d /var/lock/subsys
+# d /var/log/news /var/named /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
+# d var/lib/systemd/migrated
+# s ../lock /var/spool/locks
 
-d var/lib/systemd/migrated
-
-s ../lock /var/spool/locks
-
-t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
-t /var/log/news/news.{crit,err,notice}
-
-c 1777 0 0 /var/tmp
+# c 1777 0 0 /var/tmp
 
 d /usr/{bin,lib,lib64,libexec,sbin,share}
 
-s ../var/spool /usr/spool
-s ../var/tmp /usr/tmp
+# s ../var/spool /usr/spool
+# s ../var/tmp /usr/tmp
 
 
 # add some /etc files
@@ -40,6 +35,11 @@ r /etc/issue
 # packages without scripts
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+filesystem:
+  /run
+  /var
+  t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
 
 libkmod*:
   /
@@ -884,7 +884,7 @@ libassuan*:
 libzypp:
   /
 
-libidn:
+libidn*:
   /
 
 libsqlite*-*:
@@ -1033,6 +1033,9 @@ if arch ne 's390' && arch ne 's390x'
   ?xf86-video-vmware:
     /
 
+  libxatracker*:
+    /
+
    # /usr/lib*/xorg/modules/*.uc
 
   ?virtualbox-guest-x11:
@@ -1152,18 +1155,10 @@ if arch ne 's390' && arch ne 's390x'
   libxcb-dri2-*:
     /
 
-  libxcb-xfixes*:
-    /
-
   fontconfig:
-    /etc/fonts/*.conf
-    /etc/fonts/conf.d
-    /etc/fonts/conf.avail
+    /
     r /etc/fonts/local.conf
     m /etc/fonts/local.conf.instsys /etc/fonts/local.conf
-    /usr/lib*/libfontconfig.so.*
-    /usr/bin/fc-{cache,list,match}
-    /var/cache/fontconfig
 
   mkfontscale:
     /
@@ -1312,11 +1307,11 @@ dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
 
-libpng14-14:
-  /usr/lib*/libpng*.so*
+libpng*-*:
+  /
 
 libjpeg*:
-  /usr/lib*/libjpeg.so*
+  /
 
 sax2-tools:
   /usr/sbin/testX
@@ -1351,6 +1346,12 @@ desktop-data-openSUSE:
 multipath-tools:
   /sbin
 
+libharfbuzz*:
+  /
+
+libicu*:
+  /
+
 graphviz-gnome:
   /usr/lib*/graphviz/libgvplugin_pango.so.*
 
@@ -1367,6 +1368,9 @@ libgmodule-2_0-*:
   /
 
 libxcb-render*:
+  /
+
+libxcb-xfixes*:
   /
 
 #libxcb-shape*:
@@ -1428,9 +1432,7 @@ pango-tools:
   E [ -x /usr/bin/pango-querymodules-64 ] && pango-querymodules-64 >/etc/pango/pango64.modules || true
 
 graphviz: postin
-  /etc
-  /usr/bin/dot
-  /usr/lib*
+  /
   E postin
 
 

@@ -154,6 +154,8 @@ sub AddFiles
 
     s/^\s*//;
 
+    # print STDERR "$_"; <>;
+
     $ifmsg = sprintf " [%x|%x] %s\n", $if_val, $if_taken, $_;
 
     s/<rpm_file>/$rpm_file/g;
