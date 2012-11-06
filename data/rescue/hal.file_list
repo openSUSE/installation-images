@@ -34,8 +34,8 @@ pciutils:
 usbutils:
   /usr/share/usb.ids
 
-zlib:
-  /lib*/libz.so*
+libz*:
+  /
 
 libxml2:
   /usr/lib*/libxml2.so.*

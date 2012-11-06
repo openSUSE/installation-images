@@ -54,11 +54,15 @@ aaa_base-extras:
 fillup:
   /
 
-file:
+libmagic*:
+  /
+
+libmagic-data:
   /etc
-  /usr/bin
-  /usr/lib*/libmagic.so.*
   /usr/share/misc
+
+file:
+  /usr/bin
 
 iproute2:
   /
@@ -202,7 +206,7 @@ r /usr/bin/lessclose.sh
 t /usr/bin/lessclose.sh
 c 0755 0 0 /usr/bin/lessclose.sh
 
-zlib:
+libz*:
   /
 
 bzip2:
@@ -437,10 +441,28 @@ klogd:
 systemd:
   /
 
-sysvinit:
+libqrencode*:
   /
 
-sysvinit-init:
+libmicrohttpd*:
+  /
+
+libgnutls*:
+  /
+
+libhogweed*:
+  /
+
+libnettle*:
+  /
+
+libp11-kit*:
+  /
+
+libtasn1-*:
+  /
+
+systemd-sysvinit:
   /
 
 libmount*:
@@ -818,8 +840,8 @@ e touch etc/sysconfig/kernel
 # our own dhcp6c config
 x etc/dhcp6c.conf etc
 
-e insserv -f -r etc/init.d/boot.rootfsck
-r etc/init.d/boot.rootfsck
+#e insserv -f -r etc/init.d/boot.rootfsck
+#r etc/init.d/boot.rootfsck
 
 # stripped down kbd init (linuxrc does most)
 x etc/init.d/kbd_simple /etc/init.d/kbd_simple
@@ -832,9 +854,9 @@ if arch eq 's390' || arch eq 's390x'
 endif
 
 # bnc #509181
-p umount.diff
+#p umount.diff
 
-e echo "cons:1235:respawn:/sbin/smart_agetty -L 42 console" >>etc/inittab
+#e echo "cons:1235:respawn:/usr/sbin/smart_agetty -L 42 console" >>etc/inittab
 
 e echo console >>etc/securetty
 

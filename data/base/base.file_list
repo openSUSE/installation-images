@@ -137,6 +137,12 @@ rpm:
 r /usr/lib/rpm/rpm{get,put}text
 r /usr/bin/rpmqpack
 
+libmagic*:
+  /
+
+libmagic-data:
+  /
+
 libpopt*:
   /
 
@@ -146,9 +152,6 @@ libelf*:
 liblua5_1:
   /
 
-file:
-  /usr/lib*/libmagic.so.*
-
 libncurses5:
   /
 
@@ -157,8 +160,8 @@ terminfo-base:
   /usr/share/terminfo/l
   /usr/share/terminfo/v/vt10[02]
 
-zlib:
-  /lib*/libz.so*
+libz*:
+  /
 
 if arch eq 'i386' || arch eq 'x86_64'
   syslinux:
@@ -216,6 +219,7 @@ e prein
 r /etc/{csh*,default*,mailcap,mime.types,permissions*}
 r /etc/{rc.d.README,runlevel.fallback,zshrc,cron.daily}
   /sbin
+  /usr/sbin
 r /etc/init.d/rc?.d/*kerneld
 r /etc/init.d/rc?.d/*cron
 r /etc/init.d/rc?.d/*pcnfsd
@@ -224,8 +228,8 @@ r /etc/init.d/rc?.d/*nfs
 r /etc/init.d/rc?.d/*xdm
   /usr/bin
 r /usr/bin/ChangeSymlinks
-  /lib/YaST/SuSEconfig.functions
   /var/adm/fillup-templates
+
   # /root/.gnupg/suse_build_key
 e postin
 r /var/adm/fillup-templates

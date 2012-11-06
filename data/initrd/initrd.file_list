@@ -236,7 +236,7 @@ krb5:
 libkeyutils*:
   /
 
-zlib:
+libz*:
   /
 
 coreutils:
@@ -437,10 +437,10 @@ unscd:
   /etc/udev/rules.d
 
 ?xf86-input-vmmouse:
-  /lib/udev/rules.d
+  /usr/lib/udev/rules.d
 
 ?xf86-input-wacom:
-  /lib/udev/rules.d
+  /usr/lib/udev/rules.d
 
 ?xorg-x11-server:
   /etc/modprobe.d
@@ -557,29 +557,26 @@ openssh: prein
   d etc/ssh
 
 udev:
-  /etc
-  /lib/udev
-  /sbin
+  /
   E groupadd -r tape
 
-  # add some md devices statically
-  b 9  0 /lib/udev/devices/md0
-  b 9  1 /lib/udev/devices/md1
-  b 9  2 /lib/udev/devices/md2
-  b 9  3 /lib/udev/devices/md3
-  b 9  4 /lib/udev/devices/md4
-  b 9  5 /lib/udev/devices/md5
-  b 9  6 /lib/udev/devices/md6
-  b 9  7 /lib/udev/devices/md7
-  b 9  8 /lib/udev/devices/md8
-  b 9  9 /lib/udev/devices/md9
-  b 9 10 /lib/udev/devices/md10
-  b 9 11 /lib/udev/devices/md11
-  b 9 12 /lib/udev/devices/md12
-  b 9 13 /lib/udev/devices/md13
-  b 9 14 /lib/udev/devices/md14
-  b 9 15 /lib/udev/devices/md15
-
+#  # add some md devices statically
+#  b 9  0 /usr/lib/udev/devices/md0
+#  b 9  1 /usr/lib/udev/devices/md1
+#  b 9  2 /usr/lib/udev/devices/md2
+#  b 9  3 /usr/lib/udev/devices/md3
+#  b 9  4 /usr/lib/udev/devices/md4
+#  b 9  5 /usr/lib/udev/devices/md5
+#  b 9  6 /usr/lib/udev/devices/md6
+#  b 9  7 /usr/lib/udev/devices/md7
+#  b 9  8 /usr/lib/udev/devices/md8
+#  b 9  9 /usr/lib/udev/devices/md9
+#  b 9 10 /usr/lib/udev/devices/md10
+#  b 9 11 /usr/lib/udev/devices/md11
+#  b 9 12 /usr/lib/udev/devices/md12
+#  b 9 13 /usr/lib/udev/devices/md13
+#  b 9 14 /usr/lib/udev/devices/md14
+#  b 9 15 /usr/lib/udev/devices/md15
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
@@ -686,7 +683,7 @@ r /etc/mtab
 s /proc/self/mounts /etc/mtab
 
 # our own rules file which loads only pnp subsystem mods
-x etc/80-drivers.rules /lib/udev/80-drivers.rules.no_modprobe
+x etc/80-drivers.rules /usr/lib/udev/80-drivers.rules.no_modprobe
 
 # our own udevd start script
 x etc/myudevstart /bin
@@ -704,7 +701,8 @@ x scripts /
 x etc/adjtime etc
 
 # add udev compat link (bnc #774143, bnc #774599)
-s /lib/firmware /usr/lib
+#   *** link is in udev package! ***
+# s /lib/firmware /usr/lib
 
 e ldconfig -r .
 

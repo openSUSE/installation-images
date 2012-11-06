@@ -326,8 +326,8 @@ c 0755 0 0 /usr/share
 
 x /etc/ld.so.conf /etc
 
-zlib:
-  /lib*/libz.so.1*
+libz*:
+  /
 
 c 0755 0 0 /usr
 

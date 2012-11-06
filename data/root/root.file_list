@@ -47,6 +47,27 @@ libkmod*:
 systemd:
   /
 
+libqrencode*:
+  /
+
+libmicrohttpd*:
+  / 
+
+libgnutls*:
+  /
+
+libhogweed*:
+  /
+
+libnettle*:
+  /
+
+libp11-kit*:
+  / 
+
+libtasn1-*:
+  /
+
 libdb-*:
   /
 
@@ -154,6 +175,12 @@ rpm:
   /usr/lib*
   r /usr/lib*/rpm-plugins/sepolicy.so
 
+libmagic*:
+  /
+
+libmagic-data:
+  m /usr/share/misc/magic /etc/magic
+
 libelf*:
   /
 
@@ -237,8 +264,6 @@ libblkid*:
   /
 
 file:
-  m /usr/share/misc/magic /etc/magic
-  /usr/lib*/libmagic.so*
   /usr/bin/file
 
 ?efibootmgr:
@@ -478,7 +503,7 @@ limal-perl:
 libblocxx*:
   /
 
-zlib:
+libz*:
   /
 
 libstdc++*:
@@ -558,7 +583,7 @@ sysvinit-tools:
   /
   c 755 0 0 /sbin/showconsole
 
-sysvinit-init:
+systemd-sysvinit:
   /
 
 sysvinit:
@@ -1017,6 +1042,9 @@ if arch ne 's390' && arch ne 's390x'
 
   xf86-video-intel:
     /usr/<lib>/xorg
+
+  xf86-video-modesetting:
+    /
 
   xf86-video-nv:
     /

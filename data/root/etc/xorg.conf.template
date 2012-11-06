@@ -21,12 +21,12 @@ EndSection
 
 
 Section "Device"
-  Identifier "cirrus"
-  Driver  "cirrus"
+  Identifier "modesetting"
+  Driver  "modesetting"
 EndSection
 Section "Screen"
-  Identifier "cirrus"
-  Device "cirrus"
+  Identifier "modesetting"
+  Device "modesetting"
 EndSection
 
 
@@ -55,7 +55,7 @@ Section "ServerLayout"
   Identifier "Layout"
   Screen  "vboxvideo"
   Screen  "vmware"
-  Screen  "cirrus"
+  Screen  "modesetting"
   Screen  "fbdev"
   Screen  "vesa"
 EndSection
