@@ -464,15 +464,23 @@ multipath-tools:
 libmount*:
   /
 
+libustr-*-*:
+  /
+
+libsepol*:
+  /
+
+libsemanage*:
+  /
+
 # - - -
 
-pwdutils:
+shadow:
   /etc
   /usr/sbin/groupadd
   /usr/sbin/groupadd.local
   /usr/sbin/useradd
   /usr/sbin/useradd.local
-  /usr/lib*/pwdutils/liblog_syslog.so.*
   d /etc/skel
 
 pam:

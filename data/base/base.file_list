@@ -265,7 +265,16 @@ glibc-i18ndata:
 glibc-locale:
   /
 
-pwdutils:
+libustr-*-*:
+  /
+
+libsepol*:
+  /
+
+libsemanage*:
+  /
+
+shadow:
   /
 
 pam:

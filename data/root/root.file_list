@@ -711,16 +711,23 @@ unscd:
   /etc
   /usr/sbin
 
-pwdutils:
+libustr-*-*:
+  /
+
+libsepol*:
+  /
+
+libsemanage*:
+  /
+
+shadow:
   /etc
   /usr/bin
   /usr/sbin/pwunconv
   /usr/sbin/chpasswd
   /usr/sbin/groupadd
-  /usr/sbin/groupadd.local
   /usr/sbin/useradd
   /usr/sbin/useradd.local
-  /usr/lib*/pwdutils/liblog_syslog.so.*
   d /etc/skel
 
 libntfs-3g*:
