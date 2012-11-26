@@ -54,6 +54,7 @@ libmicrohttpd*:
   / 
 
 libtasn*-*:
+  /
 
 libgnutls*:
   /
@@ -66,9 +67,6 @@ libnettle*:
 
 libp11-kit*:
   / 
-
-libtasn1-*:
-  /
 
 libdb-*:
   /
