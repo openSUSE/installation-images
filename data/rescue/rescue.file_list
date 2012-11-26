@@ -186,6 +186,9 @@ gpart:
 ?silo:
   /
 
+xz:
+  /
+
 gzip:
   /
 
@@ -454,6 +457,9 @@ libqrencode*:
   /
 
 libmicrohttpd*:
+  /
+
+libtasn*-*:
   /
 
 libgnutls*:

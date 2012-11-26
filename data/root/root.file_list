@@ -53,6 +53,8 @@ libqrencode*:
 libmicrohttpd*:
   / 
 
+libtasn*-*:
+
 libgnutls*:
   /
 
@@ -593,8 +595,8 @@ klogd:
   /
 
 syslogd:
-  m /sbin/syslogd /sbin/syslogd.bin
-  x etc/syslogd /sbin/syslogd
+  m /usr/sbin/syslogd /usr/sbin/syslogd.bin
+  x etc/syslogd /usr/sbin/syslogd
 
 libpcsclite*:
   /

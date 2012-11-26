@@ -33,6 +33,9 @@ c 660 0 6 /dev/loop6
 b 7 7 /dev/loop7
 c 660 0 6 /dev/loop7
 
+libdbus-1-*:
+  /
+
 libtirpc*:
   /
 
@@ -196,10 +199,6 @@ fontconfig:
 gawk:
   /
 
-?bootsplash:
-  /
-  r /sbin/fbtruetype
-
 liblcms*:
   /
 
@@ -346,20 +345,6 @@ yast2-trans-allpacks: requires
   x mk_yast2_trans bin/mk_yast2_trans
   E mk_yast2_trans yast2-trans-allpacks.requires
 
-if arch eq 'i386' || arch eq 'x86_64'
-  # create splash
-  #x mk_splash /mk_splash
-  #include gen/splash
-
-  ?bootsplash-branding-openSUSE:
-    /
-
-  ?bootsplash-branding-SLES:
-    /
-
-  ?bootsplash-branding-SLED:
-    /
-endif
 
 :
 
