@@ -358,10 +358,10 @@ usbutils:
 libusb-0_1-4:
   /usr/lib*
 
-portmap:
-  /etc
-  /sbin
-  /var/adm/fillup-templates
+#portmap:
+#  /etc
+#  /sbin
+#  /var/adm/fillup-templates
 
 rpcbind: postin
   /etc

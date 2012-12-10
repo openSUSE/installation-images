@@ -281,8 +281,8 @@ libreadline5:
 ncurses:
   /lib*/libncurses.so.5*
 
-portmap:
-  /sbin/portmap
+#portmap:
+#  /sbin/portmap
 
 tcpd:
   /lib*/libwrap.so.*

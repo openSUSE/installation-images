@@ -1,3 +1,6 @@
+10/12/2012:	v11.174
+	- take out portmap
+
 10/12/2012:	v11.173
 	- added xz to rescue system (bnc #790981)
 	- added 'addon' option (fate #314318)

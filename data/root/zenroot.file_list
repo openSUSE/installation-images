@@ -215,8 +215,12 @@ net-tools:
   /sbin/{ifconfig,route}
   /sbin/plipconfig
 
-portmap:
-  /sbin/portmap
+#portmap:
+#  /sbin/portmap
+
+rpcbind:
+  /etc
+  /sbin
 
 nfs-client:
   /sbin/{u,}mount.nfs*

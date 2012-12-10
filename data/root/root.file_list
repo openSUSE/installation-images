@@ -277,11 +277,11 @@ net-tools:
     /sbin/plipconfig
   endif
 
-portmap: postin
-  /etc
-  /sbin
-  /var/adm/fillup-templates
-e postin
+#portmap: postin
+#  /etc
+#  /sbin
+#  /var/adm/fillup-templates
+#e postin
 
 rpcbind: postin
   /etc
