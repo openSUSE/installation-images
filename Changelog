@@ -1,3 +1,9 @@
+10/12/2012:	v11.173
+	- added xz to rescue system (bnc #790981)
+	- added 'addon' option (fate #314318)
+	- adjust to package changes
+	- hv_* drivers moved out of staging area
+
 21/8/2012:	v11.172
 	- re-add broadcom.ko (bnc #748054)
 	- fix creation of package list

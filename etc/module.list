@@ -201,7 +201,7 @@ kernel/net/ceph/
 
 kernel/drivers/of/
 
-kernel/drivers/staging/hv/
+kernel/drivers/hv/
 
 # kmps
 updates/

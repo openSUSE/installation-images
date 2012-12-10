@@ -69,7 +69,7 @@ e echo "KexecReboot:	0" >>linuxrc.config
 
 e echo "Insecure:	1" >>linuxrc.config
 
-e echo "PTOptions:	AutoUpgrade,productprofile" >>linuxrc.config
+e echo "PTOptions:	AutoUpgrade,productprofile,addon" >>linuxrc.config
 
 # load scshi_dh modules early
 e echo "Exec:		insmod /modules/scsi_mod.ko" >>linuxrc.config

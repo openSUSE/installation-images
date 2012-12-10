@@ -654,11 +654,11 @@ if arch eq 'i386' || arch eq 'x86_64'
 
 endif
 
-libstdc++43:
-  /usr/<lib>/libstdc++*.so*
+libstdc++*:
+  /
 
-libgcc43:
-  /lib*
+libgcc_s1:
+  /
 
 if arch eq 'ia64'
   libunwind:
@@ -678,6 +678,12 @@ if exists(hyper-v-kmp-default)
   hyper-v-kmp-default:
     /etc
 endif
+
+libaio:
+  /
+
+libudev*:
+  /
 
 mdadm:
   /sbin

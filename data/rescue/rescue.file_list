@@ -143,8 +143,8 @@ nscd:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc43:
-  /lib*
+libgcc_s1:
+  /
 
 glibc:
   /etc/ld.so.conf
@@ -169,6 +169,9 @@ if arch eq 'sparc' || arch eq 'sparc64'
   silo:
     /sbin/silo
 endif
+
+xz:
+  /
 
 gzip:
   /bin
@@ -729,8 +732,8 @@ smartmontools:
   /etc
   /usr/sbin
 
-libstdc++43:
-  /usr/<lib>/libstdc++*.so*
+libstdc++*:
+  /
 
 kpartx:
   /etc/udev
