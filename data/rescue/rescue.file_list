@@ -164,7 +164,7 @@ unscd:
 tcpd:
   /<lib>
 
-libgcc*:
+libgcc_s*:
   /
 
 glibc:
@@ -555,9 +555,6 @@ libpolkit*:
 polkit:
   /
 
-dbus-1-glib:
-  /
-
 ?libsmbios*:
   /
 
@@ -767,9 +764,8 @@ device-mapper: postin
   /
 E postin
 
-module-init-tools: postin
+module-init-tools:
   /
-E postin
 
 rpcbind: postin
   /

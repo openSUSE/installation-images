@@ -99,7 +99,7 @@ findutils:
 diffutils:
   /
 
-libgcc*:
+libgcc_s*:
   /
 
 libstdc++*:

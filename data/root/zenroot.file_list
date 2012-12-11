@@ -129,9 +129,6 @@ udev:
 cifs-utils:
   /sbin/mount.cifs
 
-dbus-1-glib:
-  /
-
 dbus-1: prein
   /
   e save_cfg etc/passwd etc/shadow etc/group
@@ -183,7 +180,7 @@ libpopt*:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc*:
+libgcc_s*:
   /
 
 glibc:

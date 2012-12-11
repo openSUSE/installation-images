@@ -155,9 +155,6 @@ libpolkit*:
 polkit:
   /
 
-dbus-1-glib:
-  /
-
 ?libsmbios2:
   /
 
@@ -222,7 +219,7 @@ libpopt*:
 tcpd:
   /lib*/libwrap.so*
 
-libgcc*:
+libgcc_s*:
   /
 
 glibc:
@@ -981,13 +978,10 @@ yast2-trans-stats:
   /
 
 fbiterm:
-  /usr/bin/fbiterm
-  /usr/share/fbiterm/fonts/8x16.pcf.gz
-  /usr/share/fbiterm/fonts/b16.pcf.gz
+  /
 
-libiterm:
-  /usr/lib*/libiterm.so*
-  /usr/share/terminfo/i
+libiterm*:
+  /
 
 libXfont*:
   /
