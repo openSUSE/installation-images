@@ -1,0 +1,7 @@
+d /efi/boot
+
+if arch eq 'x86_64'
+  e grub2-mkimage -d /usr/lib/grub2/x86_64-efi -O x86_64-efi -o efi/boot/bootx64.efi -p "(cd0)/boot/<arch>/grub2-efi" iso9660
+# elsif arch eq 'ia64'
+endif
+

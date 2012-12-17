@@ -21,3 +21,11 @@ if arch eq 'i386' || arch eq 'x86_64'
 
 endif
 
+
+if arch eq 'x86_64'
+  d grub2-efi
+  x grub.cfg grub2-efi
+  e cp -a /usr/lib/grub2/x86_64-efi grub2-efi
+  e rm grub2-efi/x86_64-efi/*.module
+  e cp /usr/share/grub2/unicode.pf2 grub2-efi
+endif

@@ -15,7 +15,7 @@ BOOT_PARTS    := boot/* initrd biostest
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot-efi boot boot-themes $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot-grub2-efi boot boot-themes $(COMMON_TARGETS)
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := boot/* initrd biostest efi
 endif
@@ -138,6 +138,12 @@ boot-efi: base
 	  ln images/$$theme/initrd tmp/boot-efi/efi/boot/initrd ; \
 	  bin/hdimage --size 500k --fit-size --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi/* tmp/boot-efi/.p* -- images/$$theme/efi ; \
 	  rm -rf tmp/boot-efi/efi/boot/initrd ; \
+	done
+
+boot-grub2-efi: base
+	image=boot-efi src=boot filelist=grub2-efi fs=none bin/mk_image
+	for theme in $(THEMES) ; do \
+	  bin/hdimage --size 500k --fit-size --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi/* tmp/boot-efi/.p* -- images/$$theme/efi ; \
 	done
 
 boot: base
