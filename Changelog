@@ -1,3 +1,7 @@
+17/12/2012:	v11.175
+	- support optional packages in file list (prepend '?', as in Factory)
+	- switch to grub2 for boot iso (needed for fate #314489)
+
 10/12/2012:	v11.174
 	- take out portmap
 
