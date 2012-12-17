@@ -229,6 +229,7 @@ if with_yast2 ne 'no'
     /usr/share/vnc/classes
 
   Mesa:
+    /usr/lib*/libdricore9*
     /usr/lib*/dri/swrast_dri.so
 
   libdrm:
