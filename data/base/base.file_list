@@ -1,6 +1,12 @@
 d bin dev etc lib mnt proc sbin tmp var
 c 1777 0 0 tmp
 
+libgcc_s1:
+  /
+
+libstdc++*:
+  /
+
 libcap*:
   /
 
@@ -308,6 +314,24 @@ endif
 yast2-trans-allpacks: requires
   x mk_yast2_trans bin/mk_yast2_trans
   E mk_yast2_trans yast2-trans-allpacks.requires
+
+libfuse*:
+  /
+
+libudev*:
+  /
+
+device-mapper:
+  /
+
+?grub2:
+  /
+
+?grub2-efi:
+  /
+
+?grub2-x86_64-efi:
+  /
 
 if arch eq 'i386' || arch eq 'x86_64'
   # create splash
