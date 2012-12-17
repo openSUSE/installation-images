@@ -124,6 +124,8 @@ o   if/elsif/else/endif
     variables don't have a starting '$' and are implicitly environment
     variables. The only exceptions to this are 'abuild' and 'arch'.
 
+    Also, you can use 'exists(PACKAGE)' to test for a specific package.
+
     example:
 
     if arch eq 'ppc' && (suse_release != 7.1 || lang eq 'fr')
@@ -148,6 +150,8 @@ o <package_name>: [script1,script2]
 
   <package_name> can contain '*'s. In that case the latest package version
   is used. If <package_name> ends in '~' the last but one version is used.
+
+  If <package_name> starts with a '?', the package is optional.
 
   examples:
   

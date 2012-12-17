@@ -226,8 +226,15 @@ sub AddFiles
       undef $current_pack;
 
       $p = $1;
-      if(defined $2) {
-        @scripts = split /,/, $2;
+      my $s = $2;
+
+      if($p =~ s/^\?// && !RealRPM($p)) {
+        print "skipping package $p\n";
+        next;
+      }
+
+      if(defined $s) {
+        @scripts = split /,/, $s;
 
         @requires = grep { $_ eq 'requires' } @scripts;
         @scripts = grep { $_ ne 'requires' } @scripts;
