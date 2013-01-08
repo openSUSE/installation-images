@@ -431,7 +431,7 @@ gzip:
 libpcre*:
   /
 
-unscd:
+nscd:
   # remaining files are in root image
   d /var/run/nscd
 

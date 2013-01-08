@@ -704,9 +704,9 @@ liblzma*:
 libnscd:
   /
 
-unscd:
+nscd:
   /etc
-  /usr/sbin
+  /usr
 
 libustr-*-*:
   /

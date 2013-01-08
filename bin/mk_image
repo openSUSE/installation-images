@@ -181,7 +181,8 @@ sub check_link
       next if $x =~ m#^/proc/#;
       next if $x =~ m#^/dev/#;
 
-      next if -e "$dir$x";
+      # don't verify symlinks to symlinks
+      next if -l "$dir$x" || -e _;
     }
     else {
       next if -e;

@@ -205,6 +205,13 @@ kernel/drivers/usb/class/cdc-wdm.ko
 kernel/drivers/hv/
 kernel/drivers/staging/hv/
 
+kernel/drivers/usb/misc/ezusb.ko
+kernel/net/ieee802154/ieee802154.ko
+kernel/net/mac802154/
+kernel/drivers/media/rc/rc-core.ko
+kernel/sound/ac97_bus.ko
+kernel/drivers/target/target_core_mod.ko
+
 # kmps
 updates/
 

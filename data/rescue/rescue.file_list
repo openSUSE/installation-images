@@ -158,7 +158,7 @@ libacl*:
 libpopt*:
   /
 
-unscd:
+nscd:
   /
 
 tcpd:
