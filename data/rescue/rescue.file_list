@@ -30,9 +30,6 @@ libwbclient*:
 libtalloc*:
   /usr/lib*/libtalloc.so.*
 
-libxtables*:
-  /
-
 libkmod*:
   /
 
