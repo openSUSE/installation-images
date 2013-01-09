@@ -179,7 +179,7 @@ bind: base
 
 boot-themes: base
 	for theme in $(THEMES) ; do \
-	  theme=$$theme image=$$theme/boot tmpdir=boot-$$theme src=boot filelist=$$theme fs=dir bin/mk_image ; \
+	  theme=$$theme image=$$theme/boot tmpdir=boot-$$theme src=boot filelist=theme fs=dir bin/mk_image ; \
 	done
 
 initrd-themes: base
