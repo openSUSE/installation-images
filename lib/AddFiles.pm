@@ -210,13 +210,16 @@ sub AddFiles
 
     print "*$ifmsg" if $debug =~ /\bif\b/;
 
+    undef $p;
+    undef $s;
+
     if(/^include\s+(\S+)$/) {
       die "$Script: recursive include not supported" if $inc_it;
       $inc_file = $1;
       die "$Script: no such file list: $inc_file" unless open I, "$ext_dir/$inc_file";
       $inc_it = 1;
     }
-    elsif(/^(\S*):\s*(\S+)?\s*$/ || !defined($current_pack)) {
+    elsif((/^(\S*):\s*(\S+)?\s*$/ && ($p = $1, $s = $2, 1)) || !defined($current_pack)) {
       undef %script;
       undef @scripts;
       undef @requires;
@@ -224,9 +227,6 @@ sub AddFiles
       $account_size->($dir);
 
       undef $current_pack;
-
-      $p = $1;
-      my $s = $2;
 
       if($p =~ s/^\?// && !RealRPM($p)) {
         print "skipping package $p\n";
