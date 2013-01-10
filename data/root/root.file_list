@@ -744,9 +744,6 @@ jfsutils:
 xfsprogs:
   /
 
-libproxy*:
-  /
-
 wget:
   /etc
   /usr/bin

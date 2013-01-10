@@ -1,3 +1,6 @@
+10/1/2013:	v11.177
+	- use shim if available
+
 10/1/2013:	v11.176
 	- better grub2 efi config
 
