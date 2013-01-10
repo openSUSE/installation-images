@@ -597,8 +597,6 @@ udev: postin
 
   /etc
   /lib/udev
-  # to avoid hardlink in cramfs
-  t /lib/udev/devices/pts/.xxx
   /sbin
   # for running SuSEconfig below
   m /lib/udev/devices/* /dev

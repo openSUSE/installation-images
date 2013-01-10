@@ -1,3 +1,6 @@
+10/1/2013:	v11.176
+	- better grub2 efi config
+
 17/12/2012:	v11.175
 	- support optional packages in file list (prepend '?', as in Factory)
 	- switch to grub2 for boot iso (needed for fate #314489)

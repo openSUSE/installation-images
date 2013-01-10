@@ -41,6 +41,13 @@ if arch eq 'x86_64'
   e cp -a /usr/lib64/grub2/x86_64-efi grub2-efi
   e rm grub2-efi/x86_64-efi/*.module
 
+  # show product name in title instead of default grub string
+  d grub2-efi/locale
+  x grub2_head.po .
+  R s/product_name/<product_name>/ grub2_head.po
+  e msgfmt -o grub2-efi/locale/en.mo grub2_head.po
+  r grub2_head.po
+
   # grub2-efi with graphics
   if 1
     ?grub2-branding-<splash_theme>:
