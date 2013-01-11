@@ -4,13 +4,11 @@ if arch eq 'x86_64'
   e grub2-mkimage -d /usr/lib64/grub2/x86_64-efi -O x86_64-efi -o efi/boot/bootx64.efi -p "(cd0)/boot/<arch>/grub2-efi" iso9660
 
   # if we have shim, use it
-  if exists(shim-signed)
-    shim-signed:
+  if exists(shim-signed) || exists(shim)
       e mv efi/boot/bootx64.efi efi/boot/grub.efi
+    ?shim:
       m /usr/lib64/efi/shim.efi efi/boot/bootx64.efi
-  elsif exists(shim)
-    shim:
-      e mv efi/boot/bootx64.efi efi/boot/grub.efi
+    ?shim-signed:
       m /usr/lib64/efi/shim.efi efi/boot/bootx64.efi
   endif
 
