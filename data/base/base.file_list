@@ -354,6 +354,9 @@ libudev*:
 device-mapper:
   /
 
+gettext-runtime:
+  /
+
 ?grub2:
   /
 

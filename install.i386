@@ -42,6 +42,9 @@ for theme in $THEMES ; do
     [ -f "$i" ] && cp $i $DESTDIR/branding/$theme/CD1/boot/$ARCH
   done
 
+  # might be missing if theme does not really exist
+  mkdir -p $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader
+
   # initrd goes to 'loader' dir
   if [ -e $DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd ] ; then
     mv $DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader/initrd
