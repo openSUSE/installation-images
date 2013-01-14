@@ -1,0 +1,2 @@
+msgid "GNU GRUB  version %s"
+msgstr "product_name"
