@@ -337,9 +337,7 @@ netcfg:
   /etc/{services,protocols}
 
 lvm2:
-  /sbin/lv*  
-  /sbin/pv* 
-  /sbin/vg*
+  /
 
 device-mapper:
   /lib*

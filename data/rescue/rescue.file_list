@@ -755,11 +755,7 @@ E prein
 E postin
 
 lvm2: postin
-  /etc
-  /lib*
-  /sbin
-  /usr
-  /var/adm
+  /
   # NOT /var/lock !
 E postin
 
