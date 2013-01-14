@@ -86,9 +86,8 @@ libgmodule-*-*:
 fillup:
   /
 
-insserv:
-  /etc
-  /sbin
+insserv-compat:
+  /
 
 tar:
   /bin/tar

@@ -41,14 +41,13 @@ libmount*:
   /
 
 libudev*:
-  /lib*
+  /
 
 fillup:
   /
 
-insserv:
-  /etc
-  /sbin
+insserv-compat:
+  /
 
 aaa_base: prein,postin
 e prein
@@ -110,11 +109,11 @@ hwinfo:
 ?libx86emu1:
   /
 
-libxml2:
-  /usr/lib*/libxml2.so.*
+libxml2-*:
+  /
 
-libexpat1:
-  /lib*/libexpat.so.*
+libexpat*:
+  /
 
 libglib-2_0-0:
   /
@@ -151,16 +150,16 @@ util-linux:
   /sbin/sfdisk
   /usr/sbin/setctsid
 
-sysfsutils:
-  /lib*/libsysfs.so*
+libblkid*:
+  /
 
-libblkid1:
-  /lib*
+libuuid*:
+  /
 
-libuuid1:
-  /lib*
+libpolkit*:
+  /
 
-PolicyKit:
+polkit:
   /
 
 libselinux1:
@@ -190,7 +189,6 @@ glibc:
   /lib*/{libcrypt,libdl,libnsl}{.,-}*
   /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
   /lib*/{libnss_nis,libnss_nisplus,libresolv,librt,libutil}{.,-}*
-  /usr/sbin/rpcinfo
   /usr/bin
   /etc/rpc
 r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
@@ -213,26 +211,23 @@ libcom_err2:
   /lib*/libcom_err.so.*
   /lib*/libss.so.*
 
-libuuid1:
-  /lib*/libuuid.so.*
+libsmbios*:
+  /
 
-libblkid1:
-  /lib*/libblkid.so.*
-
-libsmbios2:
-  /usr/lib*/libsmbios.so.*
-
-libreiserfs:
-  /usr/lib*/libdal-*.so.*
-  /usr/lib*/libreiserfs-*.so.*
+libreiserfs-*-*:
+  /
 
 file:
-  m /usr/share/misc/magic /etc/magic
-  /usr/lib*/libmagic.so*
   /usr/bin/file
 
+libmagic*:
+  /
+
+libmagic-data:
+  m /usr/share/misc/magic /etc/magic
+
 lilo:
-  /sbin/{activate,lilo}
+  /
 
 dosfstools:
   /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
@@ -246,7 +241,7 @@ rpcbind: postin
   /etc
   /sbin
   /var/adm/fillup-templates
-e postin
+E postin
 
 libtirpc1:
   /etc
@@ -332,8 +327,8 @@ libstdc++*:
   /
 
 eject:
-  /bin/eject
-  c 755 0 0 /bin/eject
+  /bin
+  /usr/bin
 
 # remove these:
 r root mnt tmp usr/libexec
@@ -403,8 +398,7 @@ iproute2:
   /sbin/ip
 
 ntfsprogs:
-  /usr/sbin/ntfsresize
-  /usr/lib*/libntfs.so*
+  /
 
 dmidecode:
   /usr/sbin/dmidecode
@@ -420,8 +414,7 @@ sysconfig:
   # /sbin/modify_resolvconf
 
 pciutils:
-  /sbin
-  /lib*/libpci.so.*
+  /
 
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
@@ -448,12 +441,8 @@ open-iscsi:
 dos2unix:
   /usr/bin/dos2unix
 
-ncpfs:
-  /etc
-  /sbin
-  /usr/bin
-  /usr/sbin
-  /usr/lib*
+?ncpfs:
+  /
 
 ftp:
   /usr/bin/ftp

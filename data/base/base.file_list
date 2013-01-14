@@ -208,9 +208,17 @@ libmng*:
 libjpeg*:
   /
 
-insserv:
-  /etc
-  /sbin
+perl-base:
+  /usr/{bin,lib}
+
+perl:
+  /usr/{bin,lib}
+
+perl-HTML-Parser:
+  /usr/lib
+
+insserv-compat:
+  /
 
 aaa_base: prein,postin
 e prein
@@ -233,15 +241,6 @@ r /usr/bin/ChangeSymlinks
 e postin
 r /var/adm/fillup-templates
 t /etc/fstab
-
-perl-base:
-  /usr/{bin,lib}
-
-perl:
-  /usr/{bin,lib}
-
-perl-HTML-Parser:
-  /usr/lib
 
 libdb-*:
   /

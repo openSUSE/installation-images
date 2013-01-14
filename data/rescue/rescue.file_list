@@ -64,7 +64,7 @@ file:
 iproute2:
   /
 
-insserv:
+insserv-compat:
   /
 
 libpcre*:
@@ -724,6 +724,12 @@ squashfs:
 libdbus-1-*:
   /
 
+perl-base:
+  /usr/bin/perl
+  /usr/lib/perl*
+
+perl:
+  /usr/lib/perl*
 
 ###
 # to keep postin scripts happy
