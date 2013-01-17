@@ -279,12 +279,10 @@ cracklib:
   /usr/share/cracklib
 
 openssl:
-  /etc
-  /usr/bin
-  /usr/share/ssl
+  /
 
 openssl-certs: postin
-  /etc
+  /
   E postin
 
 strace:

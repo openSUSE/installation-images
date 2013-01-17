@@ -1,3 +1,6 @@
+17/1/2013:	v11.180
+	- support https (fate #314237)
+
 11/1/2013:	v11.179
 	- rework shim-signed integration
 
