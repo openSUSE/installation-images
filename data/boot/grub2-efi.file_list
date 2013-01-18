@@ -3,7 +3,8 @@ d /efi/boot
 if arch eq 'x86_64'
   grub2-x86_64-efi:
     # m usr/lib64/efi/grubcd.efi efi/boot/bootx64.efi
-    m boot/efi/EFI/opensuse/grub.efi efi/boot/bootx64.efi
+    # we make our own until grub2 package is ready
+    e grub2-mkimage -d /usr/lib/grub2/x86_64-efi -O x86_64-efi -o efi/boot/bootx64.efi -p "(cd0)/EFI/BOOT" iso9660 part_msdos part_gpt fat normal configfile
 
   # if we have shim, use it
   if exists(shim-signed) || exists(shim)
