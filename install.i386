@@ -63,6 +63,13 @@ for theme in $THEMES ; do
     cp -a $DESTDIR/CD1/boot/$ARCH/loader/* $DESTDIR/branding/openSUSE/CD1/boot/$ARCH/loader/* tmp/floppy-$theme
     $DESTDIR/branding/$theme/CD1/boot/$ARCH/mkbootdisk --syslinux=tmp/base/usr/bin/syslinux --out=$DESTDIR/branding/$theme/FTP/boot/$ARCH/floppy/bootdisk tmp/floppy-$theme
   fi
+
+  # move efi files to /efi/boot
+  if [ -d $DESTDIR/branding/$theme/CD1/boot/$ARCH/grub2-efi ] ; then
+    mkdir -p $DESTDIR/branding/$theme/CD1/EFI
+    mv $DESTDIR/branding/$theme/CD1/boot/$ARCH/grub2-efi $DESTDIR/branding/$theme/CD1/EFI/BOOT
+  fi
+
 done
 
 mkdir -p $DESTDIR/usr/share

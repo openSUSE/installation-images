@@ -25,18 +25,15 @@ endif
 if arch eq 'x86_64'
   d grub2-efi
   x grub.cfg grub2-efi
-  e cp -a /usr/lib/grub2/x86_64-efi grub2-efi
-  e rm grub2-efi/x86_64-efi/*.module
-  e cp /usr/share/grub2/unicode.pf2 grub2-efi
+  # e cp -a /usr/lib/grub2/x86_64-efi grub2-efi
+  # e rm grub2-efi/x86_64-efi/*.module
 
-  if 0
-    # only for text mode: show product name in title instead of default grub string
-    d grub2-efi/locale
-    x grub2_head.po .
-    R s/product_name/<product_name>/ grub2_head.po
-    e msgfmt -o grub2-efi/locale/en.mo grub2_head.po
-    r grub2_head.po
-  endif
+  # only for text mode: show product name in title instead of default grub string
+  d grub2-efi/locale
+  x grub2_head.po .
+  R s/product_name/<product_name>/ grub2_head.po
+  e msgfmt -o grub2-efi/locale/en.mo grub2_head.po
+  r grub2_head.po
 
   # grub2-efi with graphics
   if 1
@@ -45,7 +42,8 @@ if arch eq 'x86_64'
       m /usr/share/grub2/backgrounds/<splash_theme>/default-43.png grub2-efi/themes/openSUSE/background.png
       r grub2-efi/themes/<splash_theme>/{activate-theme,COPYING.CC-BY-SA-3.0,README}
 
-      e cp /usr/share/grub2/unicode.pf2 grub2-efi
+      grub2:
+        m /usr/share/grub2/unicode.pf2 grub2-efi
 
       R s/^with_gfx=0/with_gfx=1/ grub2-efi/grub.cfg
   endif
