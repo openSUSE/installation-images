@@ -356,17 +356,17 @@ device-mapper:
 gettext-runtime:
   /
 
-?grub2:
+openssl:
   /
 
-?grub2-efi:
+ca-certificates:
   /
+  r /etc/ssl/ca-bundle.pem
 
-?grub2-i386-pc:
-  /
-
-?grub2-x86_64-efi:
-  /
+ca-certificates-mozilla:
+  # _copy_ certificates so everything is in /etc/ssl
+  m /usr/share/ca-certificates/mozilla/* /etc/ssl/certs
+  E c_rehash >/dev/null
 
 :
 
