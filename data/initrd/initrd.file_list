@@ -684,6 +684,9 @@ r /usr/share/doc /usr/share/info /usr/share/man /usr/share/locale /var/adm/fillu
 # historical static device nodes
 x devz /devz
 
+# copy ssl certificates
+e cp -a /etc/ssl etc
+
 # mtab is symlink now
 r /etc/mtab
 s /proc/self/mounts /etc/mtab
