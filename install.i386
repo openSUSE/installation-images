@@ -69,6 +69,13 @@ for theme in $THEMES ; do
     rm -f $DESTDIR/branding/$theme/CD1/boot/$ARCH/{LIESMICH*,README*,mkbootdisk,Zen,branding}
     cp -a $DESTDIR/CD1/boot/$ARCH/loader/{isolinux.bin,linux} $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader
   fi
+
+  # move efi files to /efi/boot
+  if [ -d $DESTDIR/branding/$theme/CD1/boot/$ARCH/grub2-efi ] ; then
+    mkdir -p $DESTDIR/branding/$theme/CD1/EFI
+    mv $DESTDIR/branding/$theme/CD1/boot/$ARCH/grub2-efi $DESTDIR/branding/$theme/CD1/EFI/BOOT
+  fi
+
 done
 
 mkdir -p $DESTDIR/usr/share

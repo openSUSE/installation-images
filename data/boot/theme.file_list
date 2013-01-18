@@ -35,11 +35,10 @@ endif
 
 
 if arch eq 'x86_64'
-
   d grub2-efi
   x grub.cfg grub2-efi
-  e cp -a /usr/lib64/grub2/x86_64-efi grub2-efi
-  e rm grub2-efi/x86_64-efi/*.module
+  # e cp -a /usr/lib64/grub2/x86_64-efi grub2-efi
+  # e rm grub2-efi/x86_64-efi/*.module
 
   # show product name in title instead of default grub string
   d grub2-efi/locale

@@ -1,3 +1,7 @@
+18/1/2013:	v11.181
+	- get secure boot working with new grub2 package
+	- more libunwind
+
 17/1/2013:	v11.180
 	- support https (fate #314237)
 
