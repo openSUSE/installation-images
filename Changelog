@@ -1,3 +1,7 @@
+28/1/2013:	v11.182
+	- no more shim-signed
+	- reworked efi boot config
+
 18/1/2013:	v11.181
 	- get secure boot working with new grub2 package
 	- more libunwind

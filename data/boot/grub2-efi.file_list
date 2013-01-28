@@ -9,8 +9,23 @@ if arch eq 'x86_64'
       e mv efi/boot/bootx64.efi efi/boot/grub.efi
     ?shim:
       m /usr/lib64/efi/shim.efi efi/boot/bootx64.efi
-    ?shim-signed:
-      m /usr/lib64/efi/shim.efi efi/boot/bootx64.efi
+  endif
+
+  x grub.cfg efi/boot
+
+  # show product name in title instead of default grub string
+  d efi/boot/locale
+  x grub2_head.po .
+  R s/product_name/<product_name>/ grub2_head.po
+  e msgfmt -o efi/boot/locale/en.mo grub2_head.po
+  r grub2_head.po
+
+  # grub2-efi with graphics
+  # this is just for patching grub.cfg
+  # real themes files are unpacked in theme.file_list
+  if 1
+    ?grub2-branding-<splash_theme>:   
+      R s/^with_gfx=0/with_gfx=1/ efi/boot/grub.cfg
   endif
 
 # elsif arch eq 'ia64'

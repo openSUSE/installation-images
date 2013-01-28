@@ -34,6 +34,11 @@ for theme in $THEMES ; do
     done
   done
 
+  if [ -d images/$theme/EFI ] ; then
+    mkdir -p $DESTDIR/branding/$theme/CD1/EFI/BOOT
+    cp -r images/$theme/EFI/efi/boot/* $DESTDIR/branding/$theme/CD1/EFI/BOOT
+  fi
+
   cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
   ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
 
@@ -71,10 +76,10 @@ for theme in $THEMES ; do
   fi
 
   # move efi files to /efi/boot
-  if [ -d $DESTDIR/branding/$theme/CD1/boot/$ARCH/grub2-efi ] ; then
-    mkdir -p $DESTDIR/branding/$theme/CD1/EFI
-    mv $DESTDIR/branding/$theme/CD1/boot/$ARCH/grub2-efi $DESTDIR/branding/$theme/CD1/EFI/BOOT
-  fi
+#  if [ -d $DESTDIR/branding/$theme/CD1/boot/$ARCH/grub2-efi ] ; then
+#    mkdir -p $DESTDIR/branding/$theme/CD1/EFI
+#    mv $DESTDIR/branding/$theme/CD1/boot/$ARCH/grub2-efi $DESTDIR/branding/$theme/CD1/EFI/BOOT
+#  fi
 
 done
 

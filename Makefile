@@ -140,9 +140,9 @@ boot-efi: base
 	done
 
 boot-grub2-efi: base
-	image=boot-efi src=boot filelist=grub2-efi fs=none bin/mk_image
 	for theme in $(THEMES) ; do \
-	  bin/hdimage --size 500k --fit-size --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi/* tmp/boot-efi/.p* -- images/$$theme/efi ; \
+	  theme=$$theme image=$$theme/EFI tmpdir=boot-efi-$$theme src=boot filelist=grub2-efi fs=dir bin/mk_image ; \
+	  bin/hdimage --size 500k --fit-size --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi-$$theme/* tmp/boot-efi-$$theme/.p* -- images/$$theme/efi ; \
 	done
 
 boot: base
