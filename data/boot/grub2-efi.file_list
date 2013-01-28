@@ -10,9 +10,7 @@ if arch eq 'x86_64'
   if exists(shim-signed) || exists(shim)
       e mv efi/boot/bootx64.efi efi/boot/grub.efi
     ?shim:
-      m /usr/lib64/efi/shim.efi efi/boot/bootx64.efi
-    ?shim-signed:
-      m /usr/lib64/efi/shim.efi efi/boot/bootx64.efi
+      m /usr/lib64/efi/shim-unsigned.efi efi/boot/bootx64.efi
   endif
 
 # elsif arch eq 'ia64'

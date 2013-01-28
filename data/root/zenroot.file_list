@@ -176,8 +176,8 @@ ncurses-utils:
 libpopt*:
   /
 
-tcpd:
-  /lib*/libwrap.so*
+libwrap*:
+  /
 
 libgcc_s*:
   /

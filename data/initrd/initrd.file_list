@@ -269,8 +269,8 @@ libncurses5:
   /lib*/libncursesw.so.*
   /lib*/libtinfo.so.*
 
-tcpd:
-  /lib*/libwrap.so.*
+libwrap*:
+  /
 
 dhcpcd:
   /

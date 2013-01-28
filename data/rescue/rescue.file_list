@@ -158,8 +158,8 @@ libpopt*:
 nscd:
   /
 
-tcpd:
-  /<lib>
+libwrap*:
+  /
 
 libgcc_s*:
   /
