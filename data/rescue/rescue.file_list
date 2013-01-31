@@ -831,6 +831,9 @@ endif
 open-fcoe:
   /
 
+libconfig*:
+  /
+
 lldpad:
   /
 

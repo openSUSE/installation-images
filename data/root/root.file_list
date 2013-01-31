@@ -1008,10 +1008,7 @@ libaio:
   /lib*/libaio.so.*
 
 kpartx:
-  /etc/udev
-  /lib/udev
-  /sbin/kpartx*
-  /sbin/activate_dm_linear
+  /
 
 cryptsetup:
   /sbin
@@ -1033,6 +1030,9 @@ open-fcoe:
   /
 
 libnl:
+  /
+
+libconfig*:
   /
 
 lldpad:
