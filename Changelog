@@ -1,3 +1,6 @@
+31/1/2013:	v11.183
+	- grubcd.efi is gone
+
 28/1/2013:	v11.182
 	- no more shim-signed
 	- reworked efi boot config

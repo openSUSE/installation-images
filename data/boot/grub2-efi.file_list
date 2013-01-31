@@ -2,7 +2,7 @@ d /efi/boot
 
 if arch eq 'x86_64'
   grub2-x86_64-efi:
-    m usr/lib64/efi/grubcd.efi efi/boot/bootx64.efi
+    m usr/lib64/efi/grub.efi efi/boot/bootx64.efi
 
   # if we have shim, use it
   if exists(shim-signed) || exists(shim)
