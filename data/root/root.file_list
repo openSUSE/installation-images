@@ -174,8 +174,8 @@ rpm:
 libmagic*:
   /
 
-libmagic-data:
-  m /usr/share/misc/magic /etc/magic
+file-magic:
+  /
 
 libelf*:
   /
@@ -260,7 +260,7 @@ libblkid*:
   /
 
 file:
-  /usr/bin/file
+  /
 
 ?efibootmgr:
   /

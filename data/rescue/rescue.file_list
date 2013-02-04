@@ -54,12 +54,11 @@ fillup:
 libmagic*:
   /
 
-libmagic-data:
-  /etc
-  /usr/share/misc
+file-magic:
+  /
 
 file:
-  /usr/bin
+  /
 
 iproute2:
   /
