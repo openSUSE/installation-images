@@ -31,6 +31,7 @@ if arch eq 'x86_64'
       m /usr/share/grub2/themes grub2-efi
       m /usr/share/grub2/backgrounds/<splash_theme>/default-43.png grub2-efi/themes/openSUSE/background.png
       r grub2-efi/themes/<splash_theme>/{activate-theme,COPYING.CC-BY-SA-3.0,README}
+      p openSUSE-efi.diff
 
     grub2:
       m /usr/share/grub2/unicode.pf2 grub2-efi
