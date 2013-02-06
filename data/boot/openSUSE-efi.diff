@@ -1,0 +1,13 @@
+--- grub2-efi/themes/openSUSE/theme.txt
++++ grub2-efi/themes/openSUSE/theme.txt
+@@ -2,7 +2,9 @@
+ 
+ desktop-image: "background.png"
+ 
+-title-text: ""
++title-text: "openSUSE 12.3"
++title-color: "#fff"
++title-font: "DejaVu Sans Bold 14"
+ 
+ terminal-box: "terminal_*.png"
+ terminal-font: "Gnu Unifont Mono Regular 16"
