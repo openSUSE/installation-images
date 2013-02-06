@@ -5,9 +5,10 @@
  desktop-image: "background.png"
  
 -title-text: ""
-+title-text: "openSUSE 12.4"
++title-text: "openSUSE 13.1"
 +title-color: "#fff"
 +title-font: "DejaVu Sans Bold 14"
  
  terminal-box: "terminal_*.png"
  terminal-font: "Gnu Unifont Mono Regular 16"
+

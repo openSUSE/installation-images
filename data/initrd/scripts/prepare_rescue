@@ -5,6 +5,7 @@ for i in /etc /media /root /run /var ; do
   cp -aL $i ${i}_tmp
   rm -rf $i
   mv ${i}_tmp $i
+  ln -snf /proc/self/mounts /etc/mtab
 done
 
 if [ -f /mounts/initrd/etc/suse-blinux.conf ] ; then
