@@ -1,0 +1,7 @@
+#! /bin/sh
+
+echo $* >>/var/log/mount
+
+/usr/bin/mount.bin $*
+
+exit 0

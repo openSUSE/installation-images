@@ -317,7 +317,7 @@ rsh:
 
 pam:
   /
-  R s/(pam_unix2.so)\s*$/$1 nullok\n/ /etc/pam.d/common-auth
+  R s/(pam_unix.so)\s*$/$1 nullok\n/ /etc/pam.d/common-auth
 
 libaudit*:
   /
@@ -842,6 +842,10 @@ e touch etc/sysconfig/kernel
 
 # our own dhcp6c config
 x etc/dhcp6c.conf etc
+
+# our own mount
+e mv usr/bin/mount usr/bin/mount.bin
+x mount usr/bin
 
 #e insserv -f -r etc/init.d/boot.rootfsck
 #r etc/init.d/boot.rootfsck
