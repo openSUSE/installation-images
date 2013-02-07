@@ -847,9 +847,6 @@ x etc/dhcp6c.conf etc
 e mv usr/bin/mount usr/bin/mount.bin
 x mount usr/bin
 
-#e insserv -f -r etc/init.d/boot.rootfsck
-#r etc/init.d/boot.rootfsck
-
 # stripped down kbd init (linuxrc does most)
 x etc/init.d/kbd_simple /etc/init.d/kbd_simple
 e insserv -f etc/init.d/kbd_simple
@@ -859,11 +856,6 @@ e echo RC_LANG=\"en_US.UTF-8\" >>etc/sysconfig/language
 if arch eq 's390' || arch eq 's390x'
   e sed -i '/getty/d' etc/inittab
 endif
-
-# bnc #509181
-#p umount.diff
-
-#e echo "cons:1235:respawn:/usr/sbin/smart_agetty -L 42 console" >>etc/inittab
 
 e echo console >>etc/securetty
 
