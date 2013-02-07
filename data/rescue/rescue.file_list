@@ -317,7 +317,7 @@ rsh:
 
 pam:
   /
-  R s/(pam_unix.so)\s*$/$1 nullok\n/ /etc/pam.d/common-auth
+  R s/(pam_unix\.so.*)$/$1 nullok\n/ /etc/pam.d/common-auth
 
 libaudit*:
   /
@@ -846,6 +846,10 @@ x etc/dhcp6c.conf etc
 # our own mount
 e mv usr/bin/mount usr/bin/mount.bin
 x mount usr/bin
+
+# run getty on tty1
+d etc/systemd/system/getty.target.wants
+s /usr/lib/systemd/system/getty@.service etc/systemd/system/getty.target.wants/getty@tty1.service
 
 # stripped down kbd init (linuxrc does most)
 x etc/init.d/kbd_simple /etc/init.d/kbd_simple
