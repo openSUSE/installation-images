@@ -13,7 +13,7 @@ BOOT_PARTS    := boot/* initrd biostest
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules boot-grub2-efi boot boot-themes $(COMMON_TARGETS) sax2
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules boot-grub2-efi boot boot-themes $(COMMON_TARGETS) rescue-server sax2
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS) sax2
 BOOT_PARTS    := boot/* initrd biostest efi
 endif
@@ -49,7 +49,7 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 .PHONY: all dirs base zeninitrd zenboot zenroot biostest initrd \
 	boot boot-efi root rescue root+rescue sax2 gdb bind clean \
 	boot-themes initrd-themes root-themes install \
-	install-initrd mini-iso-rmlist debuginfo
+	install-initrd mini-iso-rmlist debuginfo rescue-sever
 
 all: $(ALL_TARGETS)
 	@rm images/*.log
@@ -155,6 +155,9 @@ rescue: base
 	libdeps=rescue image=rescue bin/mk_image
 	# rescue ok? (bnc #457947)
 	@[ -s tmp/rescue/etc/init.d/boot.d/S*.udev ] || ( echo "build does not work on xxx" ; false )
+
+rescue-server:
+	mode=keep tmpdir=rescue image=rescue-server fs=squashfs bin/mk_image
 
 root+rescue: base
 	image=root+rescue fs=none bin/mk_image

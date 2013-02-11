@@ -386,10 +386,13 @@ procinfo:
   /usr/bin/socklist
 
 reiserfs:
-  /sbin
+  /
+
+libbtrfs*:
+  /
 
 btrfsprogs:
-  /sbin
+  /
 
 liblzo2-2:
   /lib*/liblzo2.so.*
