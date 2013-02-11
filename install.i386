@@ -83,12 +83,10 @@ for theme in $THEMES ; do
 
 done
 
-if [ -f images/rescue-server ] ; then
-  mkdir -p $DESTDIR/Extra
-  cp images/rescue-server $DESTDIR/Extra
-fi
-
 mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
 
+if [ -f images/rescue-server ] ; then
+  cp images/rescue-server $DESTDIR/usr/share
+fi
 
