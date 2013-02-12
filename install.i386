@@ -36,7 +36,7 @@ for theme in $THEMES ; do
 
   if [ -d images/$theme/EFI ] ; then
     mkdir -p $DESTDIR/branding/$theme/CD1/EFI/BOOT
-    cp -r images/$theme/EFI/efi/boot/* $DESTDIR/branding/$theme/CD1/EFI/BOOT
+    cp -r images/$theme/EFI/EFI/BOOT/* $DESTDIR/branding/$theme/CD1/EFI/BOOT
   fi
 
   cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
