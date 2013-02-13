@@ -1,23 +1,24 @@
-d /efi/boot
+d /EFI/BOOT
 
 if arch eq 'x86_64'
   grub2-x86_64-efi:
-    a usr/lib64/efi/grub.efi efi/boot/bootx64.efi
+    a usr/lib64/efi/grub.efi EFI/BOOT/bootx64.efi
 
   # if we have shim, use it
   if exists(shim)
-      e mv efi/boot/bootx64.efi efi/boot/grub.efi
+      e mv EFI/BOOT/bootx64.efi EFI/BOOT/grub.efi
     ?shim:
-      a /usr/lib64/efi/shim.efi efi/boot/bootx64.efi
+      a /usr/lib64/efi/shim.efi EFI/BOOT/bootx64.efi
+      a /usr/lib64/efi/MokManager.efi EFI/BOOT/
   endif
 
-  x grub.cfg efi/boot
+  x grub.cfg EFI/BOOT
 
   # show product name in title instead of default grub string
-  d efi/boot/locale
+  d EFI/BOOT/locale
   x grub2_head.po .
   R s/product_name/<product_name>/ grub2_head.po
-  e msgfmt -o efi/boot/locale/en.mo grub2_head.po
+  e msgfmt -o EFI/BOOT/locale/en.mo grub2_head.po
   r grub2_head.po
 
   # grub2-efi with graphics
@@ -25,7 +26,7 @@ if arch eq 'x86_64'
   # real themes files are unpacked in theme.file_list
   if 1
     ?grub2-branding-<splash_theme>:   
-      R s/^with_gfx=0/with_gfx=1/ efi/boot/grub.cfg
+      R s/^with_gfx=0/with_gfx=1/ EFI/BOOT/grub.cfg
   endif
 
 # elsif arch eq 'ia64'
