@@ -87,6 +87,12 @@ mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
 
 if [ -f images/rescue-server ] ; then
-  cp images/rescue-server $DESTDIR/usr/share
+  t=SLES
+  dst=$DESTDIR/usr/share/rescue-server/boot/x86_64
+  mkdir -p $dst
+  cp images/rescue-server $dst
+  echo "rescue: rescue-server" >$dst/config
+  cp -a $DESTDIR/CD1/boot/$ARCH/loader $DESTDIR/branding/$t/CD1/boot/$ARCH/loader $dst
+  cp data/boot/syslinux-rescue.cfg $dst/loader/isolinux.cfg
 fi
 
