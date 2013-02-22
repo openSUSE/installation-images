@@ -2,14 +2,14 @@ d /EFI/BOOT
 
 if arch eq 'x86_64'
   grub2-x86_64-efi:
-    m usr/lib64/efi/grub.efi EFI/BOOT/bootx64.efi
+    a usr/lib64/efi/grub.efi EFI/BOOT/bootx64.efi
 
   # if we have shim, use it
   if exists(shim-signed) || exists(shim)
       e mv EFI/BOOT/bootx64.efi EFI/BOOT/grub.efi
     ?shim:
-      m /usr/lib64/efi/shim.efi EFI/BOOT/bootx64.efi
-      m /usr/lib64/efi/MokManager.efi EFI/BOOT/
+      a /usr/lib64/efi/shim.efi EFI/BOOT/bootx64.efi
+      a /usr/lib64/efi/MokManager.efi EFI/BOOT/
   endif
 
   x grub.cfg EFI/BOOT
