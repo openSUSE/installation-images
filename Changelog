@@ -1,3 +1,8 @@
+22/2/2013:	v11.187
+	- create complete cd layout for rescue-server package
+	- fix grub2 path
+	- special motd for s390x (bnc #795003)
+
 12/2/2013:	v11.186
 	- use /EFI/BOOT
 	- add --no-floppy to grub.cfg
