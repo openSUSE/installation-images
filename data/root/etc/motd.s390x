@@ -1,0 +1,6 @@
+
+product_name Installation
+
+- use 'extend' to load extensions (remove with 'extend -r'); extensions are:
+    o bind, gdb
+

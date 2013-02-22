@@ -1,6 +1,11 @@
 d etc
 x /etc/motd /etc
 x /etc/issue /etc
+
+if arch eq 's390' || arch eq 's390x'
+  x /etc/motd.s390x /etc/motd
+endif
+
 R s/product_name/<product_name>/g /etc/motd
 R s/product_name/<product_name>/g /etc/issue
 
