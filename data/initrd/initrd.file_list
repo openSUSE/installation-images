@@ -287,6 +287,8 @@ net-tools:
   /sbin/route
 
 iproute2:
+  /bin/ip 
+  /sbin/ip
   /usr/sbin/ip
 
 ethtool:
