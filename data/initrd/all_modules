@@ -2089,6 +2089,8 @@ mtdswap                         i586 ia64     ppc64       x86_64
 mtouch                          i586 ia64 ppc             x86_64
 multipath                       i586 ia64 ppc ppc64 s390x x86_64
 mv643xx_eth                               ppc                   
+mv88e6060                                 ppc ppc64
+mv88e6xxx_drv                             ppc ppc64
 mvsas                           i586 ia64 ppc ppc64       x86_64
 mwave                           i586                      x86_64
 mwifiex                         i586 ia64 ppc ppc64       x86_64

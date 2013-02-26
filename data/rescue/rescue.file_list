@@ -492,9 +492,6 @@ if arch eq 'ppc' || arch eq 'ppc64'
   librtas*:
     /
 
-  libservicelog-*-*:
-    /
-
   libsqlite*-*:
     /
 

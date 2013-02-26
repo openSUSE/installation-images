@@ -512,7 +512,7 @@ if exists(plymouth)
   libdrm*:
     /
 
-  libdrm_intel*:
+  ?libdrm_intel*:
     /
 
   libdrm_nouveau*:
