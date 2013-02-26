@@ -60,6 +60,9 @@ c 660 0 6 /dev/loop7
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+netcfg:
+  /etc/protocols
+
 libkmod*:
   /
 
@@ -314,6 +317,10 @@ util-linux:
   /usr/sbin/blkid
 
 nfs-client:
+  /sbin/mount.nfs
+  /sbin/mount.nfs4
+  /sbin/umount.nfs
+  /sbin/umount.nfs4
   /var/lib/nfs
 
 gpg2:
