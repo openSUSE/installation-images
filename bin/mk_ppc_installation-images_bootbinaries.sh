@@ -46,8 +46,8 @@ cp -pfv $bdir/initrd             $CD1/suseboot/initrd32
 gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
 fi
 if test "$do_64" = "true" ; then
-cp -pfv $bdir/initrd-ppc64       $CD1/suseboot/initrd64
-gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD1/suseboot/linux64.gz
+cp -pfv $bdir/initrd-default       $CD1/suseboot/initrd64
+gzip -fcv9 /boot/vmlinux-*-default >      $CD1/suseboot/linux64.gz
 fi
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
@@ -59,15 +59,15 @@ fi
 if test "$do_64" = "true" ; then
 	/bin/mkzimage \
 	--board chrp \
-	--vmlinux /boot/vmlinux-*-ppc64 \
-	--initrd $bdir/initrd-ppc64 \
+	--vmlinux /boot/vmlinux-*-default \
+	--initrd $bdir/initrd-default \
 	--output $CD1/suseboot/inst64
 #
 	if test "42" = "false" ; then
 	/bin/mkzimage \
 	--board iseries \
-	--vmlinux /boot/vmlinux-*-ppc64 \
-	--initrd $bdir/initrd-ppc64 \
+	--vmlinux /boot/vmlinux-*-default \
+	--initrd $bdir/initrd-default \
 	--output $CD1/ISERIES64
 	fi
 #

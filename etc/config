@@ -4,7 +4,7 @@
 # server     = http://buildservice:5352
 server     = https://api.opensuse.org
 # server     = https://user:password@api.opensuse.org
-project    = openSUSE:12.3
+project    = openSUSE:Factory
 repository = standard
 
 
@@ -65,8 +65,8 @@ floppy	=
 [Theme openSUSE]
 splash  = openSUSE
 yast    = openSUSE-Oxygen
-product	= openSUSE 12.3
-version = 12.3
+product	= openSUSE
+version = 12.4
 sle     = 12
 update	= /linux/suse/<arch>-<rel>
 image	= 350
@@ -76,7 +76,7 @@ image	= 350
 splash  = SLES
 yast    = SLE
 product	= SUSE Linux Enterprise Server 12
-version = 12.3
+version = 12.4
 sle     = 12
 update	= /linux/suse/<arch>-<sles>
 image	= 200
@@ -86,7 +86,7 @@ image	= 200
 splash  = SLED
 yast    = SLE
 product	= SUSE Linux Enterprise Desktop 12
-version = 12.3
+version = 12.4
 sle     = 12
 update	= /linux/suse/<arch>-<sled>
 image	= 200
@@ -96,7 +96,7 @@ image	= 200
 splash  = SLES
 yast    = SLE
 product = ZENworks
-version = 12.3
+version = 12.4
 sle     = 12
 update  = /linux/suse/<arch>-<sles>
 image   = 200

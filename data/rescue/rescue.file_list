@@ -54,7 +54,7 @@ fillup:
 libmagic*:
   /
 
-libmagic-data:
+file-magic:
   /
 
 file:
@@ -490,9 +490,6 @@ libevent-*-*:
 
 if arch eq 'ppc' || arch eq 'ppc64'
   librtas*:
-    /
-
-  libservicelog-*-*:
     /
 
   libsqlite*-*:

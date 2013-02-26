@@ -314,6 +314,10 @@ util-linux:
   /usr/sbin/blkid
 
 nfs-client:
+  /sbin/mount.nfs
+  /sbin/mount.nfs4
+  /sbin/umount.nfs
+  /sbin/umount.nfs4
   /var/lib/nfs
 
 gpg2:
@@ -512,7 +516,7 @@ if exists(plymouth)
   libdrm*:
     /
 
-  libdrm_intel*:
+  ?libdrm_intel*:
     /
 
   libdrm_nouveau*:
