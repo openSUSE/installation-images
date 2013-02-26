@@ -174,7 +174,7 @@ rpm:
 libmagic*:
   /
 
-file-magic:
+libmagic-data:
   /
 
 libelf*:
@@ -552,6 +552,7 @@ if arch eq 'ppc' || arch eq 'ppc64'
   fbset:
     /etc/fb.modes
     /sbin/fbset
+    /usr/sbin/fbset
 
   hfsutils:
     /usr/bin/hattrib
@@ -1020,7 +1021,7 @@ if arch ne 's390' && arch ne 's390x'
   xf86-input-synaptics:
     /
 
-  xf86-input-vmmouse:
+  ?xf86-input-vmmouse:
     /
 
   xf86-input-void:
@@ -1038,7 +1039,7 @@ if arch ne 's390' && arch ne 's390x'
   xf86-video-fbdev:
     /
 
-  xf86-video-intel:
+  ?xf86-video-intel:
     /usr/<lib>/xorg
 
   xf86-video-modesetting:
@@ -1059,7 +1060,7 @@ if arch ne 's390' && arch ne 's390x'
   ?xf86-video-vmware:
     /
 
-  libxatracker*:
+  ?libxatracker*:
     /
 
    # /usr/lib*/xorg/modules/*.uc
