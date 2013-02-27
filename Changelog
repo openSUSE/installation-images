@@ -1,3 +1,6 @@
+27/2/2013:	v11.189
+	- adjust module config
+
 22/2/2013:	v11.188
 	- increase s390x initrd load address (bnc #804399)
 
