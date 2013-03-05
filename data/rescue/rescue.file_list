@@ -781,11 +781,10 @@ syslogd: postin
   /
 E postin
 
-sysvinit-tools: postin
+sysvinit-tools:
 n /dev/initctl
 c 600 0 0 /dev/initctl
   /
-E postin
 
 util-linux: postin
   /
