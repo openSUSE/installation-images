@@ -116,6 +116,9 @@ r /usr/bin/{db*,glibcbug,rpcgen}
 module-init-tools:
   /
 
+suse-module-tools:
+  /
+
 libprocps*:
   /
 
