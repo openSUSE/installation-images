@@ -60,6 +60,9 @@ c 660 0 6 /dev/loop7
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+netcfg:
+  /etc/protocols
+
 libkmod*:
   /
 
