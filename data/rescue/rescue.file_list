@@ -54,7 +54,7 @@ fillup:
 libmagic*:
   /
 
-file-magic:
+libmagic-data:
   /
 
 file:
