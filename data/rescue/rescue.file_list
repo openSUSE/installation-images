@@ -762,6 +762,9 @@ E postin
 module-init-tools:
   /
 
+suse-module-tools:
+  /
+
 rpcbind: postin
   /
 E postin

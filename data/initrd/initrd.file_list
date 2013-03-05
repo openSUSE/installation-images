@@ -111,6 +111,8 @@ module-init-tools:
   /sbin/insmod
   /sbin/modprobe
 
+suse-module-tools:
+  /etc/modprobe.d
 
 if arch eq 's390' || arch eq 's390x'
 
