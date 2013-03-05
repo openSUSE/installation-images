@@ -316,6 +316,9 @@ less:
 module-init-tools:
  /
 
+suse-module-tools:
+  /
+
 libprocps*:
   /
 

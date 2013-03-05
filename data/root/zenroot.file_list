@@ -293,6 +293,9 @@ module-init-tools:
  /sbin/{depmod,insmod,modinfo,modprobe,rmmod}
  /bin/lsmod
 
+suse-module-tools:
+  /etc/modprobe.d
+
 libprocps*:
   /
 
