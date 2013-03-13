@@ -157,7 +157,7 @@ rescue: base
 	@[ -s tmp/rescue/etc/init.d/boot.d/S*.udev ] || ( echo "build does not work on xxx" ; false )
 
 rescue-server:
-	mode=keep tmpdir=rescue image=rescue-server fs=squashfs bin/mk_image
+	libdeps=rescue image=rescue-server src=rescue filelist=rescue-server fs=squashfs bin/mk_image
 
 root+rescue: base
 	image=root+rescue fs=none bin/mk_image
