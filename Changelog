@@ -1,3 +1,6 @@
+15/3/2013:	v11.193
+	- add/generate ecdsa key (bnc #803979)
+
 13/3/2013:	v11.192
 	- separate rescue-server from rescue image
 

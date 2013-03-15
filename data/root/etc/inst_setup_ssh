@@ -53,6 +53,11 @@ else
 
 	    ssh-keygen -t rsa -b 1024 -f /etc/ssh/ssh_host_rsa_key -N ''
 	fi
+	if ! test -f /etc/ssh/ssh_host_ecdsa_key ; then
+	    echo Generating /etc/ssh/ssh_host_ecdsa_key.
+
+	    ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+	fi
 fi
 if [ ! -z "$sshpassword" ] ; then
 	mv -f /etc/passwd /etc/passwd.
