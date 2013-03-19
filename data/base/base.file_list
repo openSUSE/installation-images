@@ -146,7 +146,7 @@ r /usr/bin/rpmqpack
 libmagic*:
   /
 
-libmagic-data:
+file-magic:
   /
 
 file:
