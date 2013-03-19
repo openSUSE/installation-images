@@ -1272,6 +1272,12 @@ if arch ne 's390' && arch ne 's390x'
   Mesa-libEGL*:
     /
 
+  libwayland-client*:
+    /
+
+  libwayland-server*:
+    /
+
   libkms*:
     /
 
