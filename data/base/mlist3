@@ -31,6 +31,12 @@ for $m (sort keys %fw) {
 
     if($f) {
       system "install -m 644 -D $fw_dir/$f lib/firmware/$f\n";
+      if(-f "$fw_dir/$f.sig" ) {
+        system "install -m 644 -D $fw_dir/$f.sig lib/firmware/$f.sig\n";
+      }
+      else {
+        print "unsigned firmware: $fw\n";
+      } 
     }
     else {
       $err = 1;
