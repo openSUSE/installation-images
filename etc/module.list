@@ -155,6 +155,7 @@ kernel/drivers/video/sysfillrect.ko
 kernel/drivers/video/syscopyarea.ko
 kernel/drivers/video/cfbcopyarea.ko
 kernel/drivers/video/cfbfillrect.ko
+kernel/drivers/video/hyperv_fb.ko
 
 kernel/arch/i386/kernel/msr.ko
 
