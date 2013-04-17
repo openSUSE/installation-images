@@ -683,9 +683,6 @@ kexec-tools:
 cifs-utils:
   /
 
-chkrootkit:
-  /
-
 if arch eq 'i386' || arch eq 'x86_64'
   sbl:
     /
