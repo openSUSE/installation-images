@@ -1412,6 +1412,15 @@ libxcb-xfixes*:
 Mesa-libGL*:
   /
 
+libXdamage*:
+  /
+
+Mesa-libglapi*:
+  /
+
+libxcb-glx*:
+  /
+
 #libxcb-shape*:
 #  /
 
