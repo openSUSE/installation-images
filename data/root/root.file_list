@@ -1304,12 +1304,12 @@ if arch ne 's390' && arch ne 's390x'
   libgpg-error*:
    /
 
-  fvwm2:
-    /usr/bin/fvwm{,2}
-    /usr/bin/FvwmCommand
-    /usr/bin/fvwm-root
-    /usr/lib/X11/fvwm2/FvwmCommandS
-    /usr/share/fvwm/ConfigFvwmDefaults
+#  fvwm2:
+#    /usr/bin/fvwm{,2}
+#    /usr/bin/FvwmCommand
+#    /usr/bin/fvwm-root
+#    /usr/lib/X11/fvwm2/FvwmCommandS
+#    /usr/share/fvwm/ConfigFvwmDefaults
 
   fribidi:
     /usr/lib*/libfribidi.so*
@@ -1407,6 +1407,9 @@ libxcb-render*:
   /
 
 libxcb-xfixes*:
+  /
+
+Mesa-libGL*:
   /
 
 #libxcb-shape*:
