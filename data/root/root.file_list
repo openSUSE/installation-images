@@ -1155,9 +1155,6 @@ if arch ne 's390' && arch ne 's390x'
   libXrandr*:
     /
 
-  libXss*:
-    /
-
   libXtst*:
     /
 
@@ -1348,10 +1345,6 @@ libpng*-*:
 
 libjpeg*:
   /
-
-sax2-tools:
-  /usr/sbin/testX
-  /usr/sbin/xkbctrl
 
 vim:
   m /bin/vim-normal /bin/vim
