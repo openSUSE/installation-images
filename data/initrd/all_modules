@@ -1481,7 +1481,7 @@ ibmtr                           i586
 ibmtr_cs                        i586      ppc             x86_64
 ibmveth                                       ppc64             
 ibmvfc                                        ppc64             
-ibmvscsic                                     ppc64             
+ibmvscsi                                      ppc64             
 ibmvstgt                                      ppc64             
 ichxrom                         i586                      x86_64
 icn                             i586                            
