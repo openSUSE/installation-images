@@ -552,11 +552,6 @@ if arch eq 'ppc' || arch eq 'ppc64'
     /sbin/lilo
     /bin/show_of_path.sh
 
-  fbset:
-    /etc/fb.modes
-    /sbin/fbset
-    /usr/sbin/fbset
-
   hfsutils:
     /usr/bin/hattrib
    s hattrib /usr/bin/hcd
