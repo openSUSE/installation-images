@@ -173,6 +173,9 @@ r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
 r /usr/bin/{db*,glibcbug,localedef,rpcgen}
   /usr/lib*/pt_chown
 
+libxtables*:
+  /
+
 libselinux*:
   /
 
