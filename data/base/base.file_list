@@ -374,6 +374,48 @@ ca-certificates-mozilla:
   m /usr/share/ca-certificates/mozilla/* /etc/ssl/certs
   E c_rehash >/dev/null
 
+systemd:
+  /
+
+libcryptsetup*:
+  /
+
+libgcrypt*:
+  /
+
+libgpg-error*:
+ /
+
+libkmod*:
+  /
+
+libqrencode*:
+  /
+
+libmicrohttpd*:
+  /
+
+libwrap*:
+  /
+
+libgnutls*:
+  /
+
+libtasn*-*:
+  /
+
+libgnutls*:
+  /
+
+libhogweed*:
+  /
+
+libnettle*:
+  /
+
+libp11-kit*:
+  /
+
 :
 
 # remove things we don't need
