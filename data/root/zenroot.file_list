@@ -329,10 +329,6 @@ c 0755 0 0 /usr
 libstdc++*:
   /
 
-eject:
-  /bin
-  /usr/bin
-
 # remove these:
 r root mnt tmp usr/libexec
 

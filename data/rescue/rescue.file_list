@@ -231,9 +231,6 @@ endif
 ?s390-tools:
   /
 
-eject:
-  /
-
 lsscsi:
   /
 

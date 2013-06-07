@@ -508,10 +508,6 @@ libz*:
 libstdc++*:
   /
 
-eject:
-  /bin
-  /usr/bin
-
 ?syslinux:
   /usr/bin/syslinux
 
