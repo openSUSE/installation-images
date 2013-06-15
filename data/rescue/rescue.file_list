@@ -237,6 +237,9 @@ lsscsi:
 sg3_utils:
   /
 
+libsgutils2-*:
+  /
+
 sdparm:
   /
 

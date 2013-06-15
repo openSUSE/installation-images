@@ -399,8 +399,8 @@ libyui-ncurses*:
 yast2-network:
   /
 
-yast2-nfs-client:
-  /
+#yast2-nfs-client:
+#  /
 
 yast2-ntp-client:
   /
@@ -491,15 +491,6 @@ openslp:
   /
 
 libpcre*:
-  /
-
-limal:
-  /
-
-limal-perl:
-  /
-
-libblocxx*:
   /
 
 libz*:

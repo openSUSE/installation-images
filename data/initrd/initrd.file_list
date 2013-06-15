@@ -142,8 +142,10 @@ sed:
   /usr/bin/sed
 
 sg3_utils:
-  /usr/lib*
   /usr/bin/sg_luns
+
+libsgutils2-*:
+  /
 
 lsscsi:
   /usr/bin/lsscsi
