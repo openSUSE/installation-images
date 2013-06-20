@@ -154,6 +154,12 @@ libpolkit*:
 polkit:
   /
 
+libmozjs185-*:
+  /
+
+mozilla-nspr:
+  /
+
 ?libsmbios2:
   /
 
@@ -1405,6 +1411,12 @@ libltdl*:
 libdbus-1-*:
   /
 
+sg3_utils:
+  /
+
+libsgutils2-*:
+  /
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # packages with scripts
@@ -1425,9 +1437,7 @@ dbus-1: prein
   E postin
 
 rpcbind: postin
-  /etc
-  /sbin
-  /var/adm/fillup-templates
+  /
   E postin
 
 yast2-storage: postin

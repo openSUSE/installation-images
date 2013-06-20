@@ -246,6 +246,15 @@ sdparm:
 smp_utils:
   /
 
+libsmputils1-*:
+  /
+
+libmozjs185-*:
+  /
+
+mozilla-nspr:
+  /
+
 ?grub:
   /
 

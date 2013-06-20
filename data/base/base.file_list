@@ -73,10 +73,7 @@ libgmp*:
   /
 
 coreutils:
-  /etc
-  /bin
-  /usr/bin
-  r /bin/su
+  /
 
 libselinux1:
   /
@@ -359,7 +356,7 @@ libudev*:
 device-mapper:
   /
 
-gettext-runtime:
+gettext-runtime-mini:
   /
 
 openssl:

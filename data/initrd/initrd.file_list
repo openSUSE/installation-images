@@ -143,6 +143,7 @@ sed:
 
 sg3_utils:
   /usr/bin/sg_luns
+  /usr/bin/sg_inq
 
 libsgutils2-*:
   /
@@ -180,7 +181,7 @@ hwinfo:
   /
 
 ?acpica:
-  /usr/sbin/acpidump
+  /usr/bin/acpidump
 
 ?dmidecode:
   /usr/sbin/dmidecode
@@ -446,7 +447,7 @@ nscd:
   d /var/run/nscd
 
 ?virtualbox-guest-tools:
-  /etc/udev/rules.d
+  /usr/lib/udev
 
 ?xf86-input-vmmouse:
   /usr/lib/udev/rules.d
