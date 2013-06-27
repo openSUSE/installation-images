@@ -179,6 +179,9 @@ libxtables*:
 libselinux*:
   /
 
+libutempter*:
+  /
+
 gpart:
   /
 

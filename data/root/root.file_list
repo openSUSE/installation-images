@@ -1065,9 +1065,6 @@ if arch ne 's390' && arch ne 's390x'
     R s/nil2/fixed/ /usr/share/X11/app-defaults/XTerm
     /usr/bin/xterm
 
-  utempter:
-    /usr/sbin/utempter
-
   gpm:
     /usr/sbin/gpm
 
@@ -1348,8 +1345,8 @@ screen:
   /etc
   /usr/bin/screen
 
-utempter:
-  /usr/lib*/libutempter.so.*
+libutempter*:
+  /
 
 efont-unicode-bitmap-fonts:
   /usr/share/fonts/misc/b16.pcf.gz

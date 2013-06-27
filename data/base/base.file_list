@@ -413,6 +413,9 @@ libnettle*:
 libp11-kit*:
   /
 
+libffi*:
+  /
+
 :
 
 # remove things we don't need
