@@ -368,7 +368,7 @@ ca-certificates:
 
 ca-certificates-mozilla:
   # _copy_ certificates so everything is in /etc/ssl
-  m /usr/share/ca-certificates/mozilla/* /etc/ssl/certs
+  m /usr/share/pki/trust/anchors/* /etc/ssl/certs
   E c_rehash >/dev/null
 
 systemd:
