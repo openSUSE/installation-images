@@ -1,0 +1,74 @@
+#! /usr/bin/perl
+
+# Usage
+#
+# 1. debuginfodeps <image_name>
+#
+#   Reads packages from tmp/<image_name>.rpmlog and writes debuginfo packages
+#   to images/instsys/usr/share/debuginfodeps/<image_name>.
+#   Packages in debuginfodeps-blacklist are known to have no debuginfo
+#   packages and are skipped.
+#   noarch packages are assumed to have no debuginfo.
+#
+#
+# 2. debuginfodeps -b <image_name>
+#
+#   This can be used to create the blacklist.
+#
+#   Reads packages from tmp/<image_name>.rpmlog and prints packages that
+#   don't have debuginfo packages in the obs repo
+#   (tmp/cache/<repo>/.obs/packages) and are not already blacklisted. This
+#   requires a successful 'make' run on a normal system (not in obs) to
+#   work.
+#
+
+use Getopt::Long;
+
+GetOptions(
+  'blacklist|b' => \$opt_black
+);
+
+$image = shift;
+$dst = "$ENV{DESTDIR}/usr/share/debuginfodeps";
+$blacklist = "debuginfodeps-blacklist";
+@obs = glob("tmp/cache/*/.obs/packages");
+
+die "$image: no package list" unless -f "tmp/$image.rpmlog";
+die "$dst: no debuginfodeps directory\n" unless -d $dst || $opt_black;
+
+open $f, "tmp/$image.rpmlog";
+chomp(@rpms = <$f>);
+close $f;
+
+open $f, $blacklist;
+chomp(@blacklist = <$f>);
+close $f;
+
+@blacklist{@blacklist} = ();
+
+if($opt_black) {
+  for (glob("tmp/cache/*/.obs/packages")) {
+    open $f, $_;
+    while(<$f>) { $debuginfo{$1} = 1 if /^(\S+)-debuginfo\s/ }
+    close $f;
+  }
+}
+
+for (@rpms) {
+  next if /\.noarch\]$/;
+  s/ .*$//;
+  next if exists $blacklist{$_};
+  if($opt_black) {
+    print "$_\n" unless $debuginfo{$_};
+  }
+  else {
+    $packages{"$_-debuginfo"} = 1;
+  }
+}
+
+if(!$opt_black) {
+  open $d, ">", "$dst/$image";
+  print $d "$_\n" for sort keys %packages;
+  close $d;
+}
+

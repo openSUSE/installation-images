@@ -234,6 +234,9 @@ install:
 	-@rm -rf $(DESTDIR)
 	@mkdir -p $(DESTDIR)
 	./install.$(ARCH)
+	@mkdir -p $(DESTDIR)/usr/share/debuginfodeps
+	./debuginfodeps root
+	./debuginfodeps rescue
 
 install-initrd:
 	-@rm -rf $(DESTDIR)

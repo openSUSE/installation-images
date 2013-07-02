@@ -1414,6 +1414,9 @@ sg3_utils:
 libsgutils2-*:
   /
 
+libgraphite2-*:
+  /
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # packages with scripts
