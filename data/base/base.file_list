@@ -363,13 +363,12 @@ openssl:
   /
 
 ca-certificates:
-  /
-  r /etc/ssl/ca-bundle.pem
+  /usr/sbin/update-ca-certificates
+  /usr/lib/ca-certificates/update.d/openssl.run
+  /var/lib/ca-certificates/openssl
 
 ca-certificates-mozilla:
-  # _copy_ certificates so everything is in /etc/ssl
-  m /usr/share/pki/trust/anchors/* /etc/ssl/certs
-  E c_rehash >/dev/null
+  /
 
 systemd:
   /
@@ -413,6 +412,12 @@ libnettle*:
 libp11-kit*:
   /
 
+p11-kit:
+  /
+
+p11-kit-tools:
+  /
+
 libffi*:
   /
 
@@ -444,3 +449,7 @@ E touch /tmp/xxx
 E create-cracklib-dict /tmp/xxx
 E rm -f /tmp/xxx
 
+#
+E update-ca-certificates -f
+E ls -lR /var/lib/ca-certificates
+E ls -lR /etc/ssl
