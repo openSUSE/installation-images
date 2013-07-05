@@ -4,71 +4,45 @@
 #
 # 1. debuginfodeps <image_name>
 #
-#   Reads packages from tmp/<image_name>.rpmlog and writes debuginfo packages
-#   to images/instsys/usr/share/debuginfodeps/<image_name>.
-#   Packages in debuginfodeps-blacklist are known to have no debuginfo
-#   packages and are skipped.
-#   noarch packages are assumed to have no debuginfo.
-#
-#
-# 2. debuginfodeps -b <image_name>
-#
-#   This can be used to create the blacklist.
-#
-#   Reads packages from tmp/<image_name>.rpmlog and prints packages that
-#   don't have debuginfo packages in the obs repo
-#   (tmp/cache/<repo>/.obs/packages) and are not already blacklisted. This
-#   requires a successful 'make' run on a normal system (not in obs) to
-#   work.
+#   Reads build ids from tmp/<image_name>.debugids and writes debuginfo
+#   requires to images/instsys/usr/share/debuginfodeps/<image_name>.
 #
 
-use Getopt::Long;
-
-GetOptions(
-  'blacklist|b' => \$opt_black
-);
 
 $image = shift;
 $dst = "$ENV{DESTDIR}/usr/share/debuginfodeps";
-$blacklist = "debuginfodeps-blacklist";
-@obs = glob("tmp/cache/*/.obs/packages");
 
 die "$image: no package list" unless -f "tmp/$image.rpmlog";
-die "$dst: no debuginfodeps directory\n" unless -d $dst || $opt_black;
+die "$dst: no debuginfodeps directory\n" unless -d $dst;
 
-open $f, "tmp/$image.rpmlog";
-chomp(@rpms = <$f>);
+open $f, "tmp/$image.debugids";
+my %ids;
+while ( <$f> ){
+ chomp;
+ next unless (m/^(.*) (.*)/);
+ my $id = $1;
+ my $file = $2;
+
+ # black list strange binaries
+ next if ($file =~ m,/usr/bin/syslinux,);
+ next if ($file =~ m,/sbin/lilo,);
+ next if ($file =~ m,/usr/lib/getconf/,);
+ # non-stripped
+ next if ($file =~ m,/usr/lib/pt_chown,);
+ # faked ELF binary with just data
+ next if ($file =~ m,/libicudata.so.,);
+
+ # too large to be useful
+ next if ($file =~ m,/usr/lib.*/dri/,);
+ $ids{$id} = $file;
+}
 close $f;
 
-open $f, $blacklist;
-chomp(@blacklist = <$f>);
-close $f;
+open $d, ">", "$dst/$image";
 
-@blacklist{@blacklist} = ();
-
-if($opt_black) {
-  for (glob("tmp/cache/*/.obs/packages")) {
-    open $f, $_;
-    while(<$f>) { $debuginfo{$1} = 1 if /^(\S+)-debuginfo\s/ }
-    close $f;
-  }
+for (sort keys %ids) {
+  print $d "# $ids{$_}\n";
+  print $d "debuginfo(build-id) = $_\n";
 }
 
-for (@rpms) {
-  next if /\.noarch\]$/;
-  s/ .*$//;
-  next if exists $blacklist{$_};
-  if($opt_black) {
-    print "$_\n" unless $debuginfo{$_};
-  }
-  else {
-    $packages{"$_-debuginfo"} = 1;
-  }
-}
-
-if(!$opt_black) {
-  open $d, ">", "$dst/$image";
-  print $d "$_\n" for sort keys %packages;
-  close $d;
-}
-
+close($d);
