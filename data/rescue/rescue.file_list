@@ -33,6 +33,9 @@ libtalloc*:
 libkmod*:
   /
 
+libpng*-*:
+  /
+
 libfreetype*:
   /
 

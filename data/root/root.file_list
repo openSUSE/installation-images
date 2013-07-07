@@ -1363,9 +1363,6 @@ multipath-tools:
 libharfbuzz*:
   /
 
-libicu*:
-  /
-
 graphviz-gnome:
   /usr/lib*/graphviz/libgvplugin_pango.so.*
 
