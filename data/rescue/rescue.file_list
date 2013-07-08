@@ -255,7 +255,7 @@ smp_utils:
 libsmputils1-*:
   /
 
-libmozjs185-*:
+libmozjs-*:
   /
 
 mozilla-nspr:
