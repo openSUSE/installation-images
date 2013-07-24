@@ -424,7 +424,7 @@ libsepol*:
 setserial:
   /
 
-libnscd:
+libnscd*:
   /
 
 libustr-*-*:

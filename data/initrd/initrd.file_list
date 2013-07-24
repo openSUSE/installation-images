@@ -508,7 +508,7 @@ pam:
   /lib*/security/pam_permit.so
   /lib*/security/pam_deny.so
 
-libnscd:
+libnscd*:
   /
 
 libaudit*:

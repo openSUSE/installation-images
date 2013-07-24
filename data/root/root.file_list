@@ -228,18 +228,7 @@ libgcc_s*:
   /
 
 glibc:
-  /sbin/ldconfig
-  /lib*/ld*
-  /lib*/lib{c,m}{.,-}*
-  /lib*/{libcrypt,libdl,libnsl}{.,-}*
-  /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
-  /lib*/{libnss_nis,libnss_nisplus,libresolv,librt,libutil}{.,-}*
-  /usr/bin
-  /etc/rpc
-r /usr/bin/{catchsegv,gencat,getconf,glibcbug,lddlibc4,mtrace,rpcgen,sprof}
-r /usr/sbin/{nscd,nscd_nischeck,utmpd}
-  /lib*/libpthread{.,-}*
-  /lib*/libthread_db{.,-}*
+  /
 
 libselinux*:
   /
@@ -690,7 +679,7 @@ xz:
 liblzma*:
   /
 
-libnscd:
+libnscd*:
   /
 
 nscd:
@@ -1051,9 +1040,6 @@ if arch ne 's390' && arch ne 's390x'
   ?xf86-video-vmware:
     /
 
-  ?libxatracker*:
-    /
-
    # /usr/lib*/xorg/modules/*.uc
 
   ?virtualbox-guest-x11:
@@ -1246,10 +1232,18 @@ if arch ne 's390' && arch ne 's390x'
       /usr/share/vnc/classes
   endif
 
-  Mesa:
-    /usr/lib*/dri/swrast_dri.so
-    /usr/lib*/libdricore*
-    /usr/lib*/dri/libglsl.so
+#  Mesa:
+#    /usr/lib*/dri/swrast_dri.so
+#    /usr/lib*/libdricore*
+
+  libgbm*:
+    /usr/lib*/libgbm.so.*
+
+#  ?libxatracker*:
+#    /
+
+#  libLLVM:
+#    /
 
   Mesa-libEGL*:
     /
@@ -1261,9 +1255,6 @@ if arch ne 's390' && arch ne 's390x'
     /
 
   libkms*:
-    /
-
-  libgbm*:
     /
 
   libdrm*:

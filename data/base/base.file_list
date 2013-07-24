@@ -305,7 +305,7 @@ libcom_err*:
 krb5:
   /
 
-libnscd:
+libnscd*:
   /
 
 openslp:
