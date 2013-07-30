@@ -350,6 +350,31 @@ yast2:
   s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast.ssh
   r /usr/lib/YaST2/bin/yast2
 
+yast2-ruby-bindings:
+  /
+
+ruby20:
+  /
+
+ruby:
+  /etc/gemrc
+  /etc/rpm
+# update-alternatives
+  s erb2.0 /usr/bin/erb
+  s gem2.0 /usr/bin/gem
+  s irb2.0 /usr/bin/irb
+  s rake2.0 /usr/bin/rake
+  s rdoc2.0 /usr/bin/rdoc
+  s ri2.0 /usr/bin/ri
+  s ruby2.0 /usr/bin/ruby
+  s testrb2.0 /usr/bin/testrb
+
+libyaml-*-*:
+  /
+
+rubygem-fast_gettext:
+  /
+
 yast2-add-on:
   /
 
@@ -446,14 +471,7 @@ yast2-update:
   /
 
 yast2-users:
-  /usr/share/YaST2/clients/inst_root_first.ycp
-  /usr/share/YaST2/clients/inst_user_first.ycp
-  /usr/share/YaST2/clients/users_finish.ycp
-  /usr/share/YaST2/clients/users_proposal.ycp
-  /usr/share/YaST2/modules/UsersSimple.pm
-  /usr/share/YaST2/modules/UsersUI.*
-  /usr/share/YaST2/scrconf/crack.scr
-  /usr/lib*/YaST2/plugin/libpy2ag_crack.so*
+  /
 
 libyui*:
   /

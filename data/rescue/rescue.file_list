@@ -167,14 +167,7 @@ libgcc_s*:
   /
 
 glibc:
-  /etc/ld.so.conf
-  /etc/nsswitch.conf
-  /{lib*,sbin}
-r /lib/libdb.so.*
-r /lib/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
-  /usr/{lib*,{,s}bin}
-r /usr/bin/{db*,glibcbug,localedef,rpcgen}
-  /usr/lib*/pt_chown
+  /
 
 libxtables*:
   /
