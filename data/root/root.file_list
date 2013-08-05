@@ -50,9 +50,6 @@ systemd:
 libqrencode*:
   /
 
-libmicrohttpd*:
-  / 
-
 libtasn*-*:
   /
 

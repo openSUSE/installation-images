@@ -391,9 +391,6 @@ libkmod*:
 libqrencode*:
   /
 
-libmicrohttpd*:
-  /
-
 libwrap*:
   /
 

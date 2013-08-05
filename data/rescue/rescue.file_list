@@ -463,9 +463,6 @@ systemd:
 libqrencode*:
   /
 
-libmicrohttpd*:
-  /
-
 libtasn*-*:
   /
 
@@ -695,7 +692,7 @@ cifs-utils:
   /
 
 if arch eq 'i386' || arch eq 'x86_64'
-  sbl:
+  ?sbl:
     /
     r /etc/sbl/profile/default
     s y2base /etc/sbl/profile/default
