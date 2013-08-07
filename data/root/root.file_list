@@ -1445,9 +1445,11 @@ rpcbind: postin
 
 rubygem-ruby-dbus:
   /usr/*/ruby/gems/*/gems/*/lib
+  /usr/*/ruby/gems/*/specifications
 
 rubygem-nokogiri:
   /usr/*/ruby/gems/*/gems/*/lib
+  /usr/*/ruby/gems/*/specifications
 
 yast2-storage: postin
   /
