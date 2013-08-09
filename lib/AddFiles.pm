@@ -5,7 +5,7 @@
 #   use AddFiles;
 #
 #   exported functions:
-#     AddFiles(dir, file_list, ext_dir, tag);
+#     AddFiles(dir, file_list, ext_dir);
 
 =head1 AddFiles
 
@@ -16,7 +16,7 @@ rpms. It exports the following symbols:
 
 =item *
 
-C<AddFiles(dir, file_list, ext_dir, tag)>
+C<AddFiles(dir, file_list, ext_dir)>
 
 =back
 
@@ -30,7 +30,7 @@ use AddFiles;
 
 =item *
 
-C<AddFiles(dir, file_list, ext_dir, tag)>
+C<AddFiles(dir, file_list, ext_dir)>
 
 C<AddFiles> extracts the files in C<file_list> and puts them into C<dir>.
 Files that are not to be taken from rpms are copied from C<ext_dir>.
@@ -55,64 +55,55 @@ require Exporter;
 use strict 'vars';
 use integer;
 
+use Data::Dumper;
+$Data::Dumper::Sortkeys = 1;
+$Data::Dumper::Terse = 1;
+$Data::Dumper::Indent = 1;
+
 use ReadConfig;
 
+sub add_pack;
+sub _add_pack;
+sub find_missing_packs;
 sub fixup_re;
 
+my $ignore;
+my $src_line;
+my $templates;
 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sub AddFiles
 {
   local $_;
-  my ($dir, $file_list, $ext_dir, $arch, $if_val, $if_taken, $tag);
-  my ($rpms, $tdir, $tfile, $p, $r, $rc, $d, $u, $g, $files);
-  my ($mod_list, @mod_list, %mod_list);
-  my ($inc_file, $inc_it, $debug, $ifmsg, $ignore);
-  my ($old_warn, $ver, $i);
-  my (@scripts, $s, @s, %script);
-  my (@packs, $sl, $rpm_dir, $rpm_file);
-  my (@plog, $current_pack, %acc_all_files, %acc_pack_files, $account);
-  my ($su, @requires);
 
-  $su = "$SUBinary -q 0 " if $SUBinary;
+  my ($dir, $file_list, $ext_dir, $arch, $if_val, $if_taken);
+  my ($inc_file, $inc_it, $debug, $ifmsg, $old_warn);
+  my ($rpm_dir, $rpm_file);
+  my ($current_pack);
 
-  my $account_size = sub
-  {
-    my ($dir, $s, @f);
-    local $_;
+  my $su = "$SUBinary -q 0 " if $SUBinary;
 
-    return if !defined($current_pack) || !$account;
-
-    $dir = shift;
-
-    @f = `${su}find $dir -type f`;
-
-    chomp @f;
-
-    for (@f) {
-      $acc_pack_files{$current_pack}{$_} = 1 unless exists $acc_all_files{$_};
-      $acc_all_files{$_} = 1;
-    }
-  };
-
-  ($dir, $file_list, $ext_dir, $tag, $mod_list) = @_;
+  ($dir, $file_list, $ext_dir) = @_;
 
   $debug = "pkg";
   $debug = $ENV{'debug'} if exists $ENV{'debug'};
 
   $ignore = $debug =~ /\bignore\b/ ? 1 : 0;
 
-  $account = $debug =~ /\baccount\b/ ? 1 : 0;
-
   $old_warn =  $SIG{'__WARN__'};
 
   $SIG{'__WARN__'} = sub {
-    my $a = shift;
+    my $x = shift;
 
     return if $ignore >= 10;
 
-    $a =~ s/<F>/$file_list/;
-    $a =~ s/<I>/$inc_file/;
-    if($ignore) { warn $a } else { die $a }
+    if($src_line ne '') {
+      $x =~ s/\.\n$//;
+      $x .= " in $src_line.\n";
+    }
+
+    if($ignore) { warn $x } else { die $x }
   };
 
   $debug .= ',pkg';
@@ -120,8 +111,6 @@ sub AddFiles
   if(! -d $dir) {
     die "$Script: failed to create $dir ($!)" unless mkdir $dir, 0755;
   }
-
-  $tfile = "${TmpBase}.afile";
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # now we really start...
@@ -131,14 +120,23 @@ sub AddFiles
   $arch = $ConfigData{arch};
   $ENV{'___arch'} = $arch;
 
-  $tag = "" unless defined $tag;
-
   $if_val = $if_taken = 0;
 
   $current_pack = '';
 
+  my $packs;
+
+  # always has at least one element
+  push @$packs, { name => "" };
+
+  my $template_cnt = 0;
+
   while(1) {
     $_ = $inc_it ? <I> : <F>;
+
+    $src_line = $inc_it ? "$inc_file" : "$file_list";
+    $src_line .= " line $.";
+
     if(!defined($_)) {
       if($inc_it) {
         undef $inc_it;
@@ -160,7 +158,7 @@ sub AddFiles
 
     s/<rpm_file>/$rpm_file/g;
     s/<(kernel_ver|kernel_mods|kernel_rpm|kernel_img|(suse|sles|sled)_release|theme|splash_theme|yast_theme|product|product_name|update_dir|load_image|min_memory|instsys_build_id|instsys_complain|instsys_complain_root|arch|lib)>/$ConfigData{$1}/g;
-    for $i (qw( linuxrc lang extramod items )) {
+    for my $i (qw( linuxrc lang extramod items )) {
       s/<$i>/$ENV{$i}/g if exists $ENV{$i};
     }
 
@@ -195,7 +193,7 @@ sub AddFiles
       die "$Script: syntax error in 'if' statement" unless defined $i;
       if($eif) {
         $if_val &= ~1;
-        $i = 0 if $i == 0 && ($if_taken & 1) == 0;
+        $i = 1 if $i == 0 && ($if_taken & 1) == 1;
       }
       else {
         $if_val <<= 1;
@@ -213,45 +211,71 @@ sub AddFiles
 
     print "*$ifmsg" if $debug =~ /\bif\b/;
 
-    undef $p;
-    undef $s;
-
     if(/^include\s+(\S+)$/) {
       die "$Script: recursive include not supported" if $inc_it;
       $inc_file = $1;
       die "$Script: no such file list: $inc_file" unless open I, "$ext_dir/$inc_file";
       $inc_it = 1;
     }
-    elsif((/^(\S*):\s*(\S+)?\s*$/ && ($p = $1, $s = $2, 1)) || !defined($current_pack)) {
-      undef %script;
-      undef @scripts;
-      undef @requires;
-
-      $account_size->($dir);
-
+    elsif(
+      (/^((\S*)|TEMPLATE([^:]*)):\s*(\S+)?\s*$/ && (my $t = $3, my $p = $2, my $s = $4, 1)) ||
+      !defined($current_pack)
+    ) {
       undef $current_pack;
+
+      if(defined $t) {
+        $p = '';
+      }
+      elsif($p eq 'TEMPLATE') {
+        $p = '';
+        $t = '';
+      }
+
+      if(defined $t) {
+        $t =~ s/^\s*|\s*$//g;
+        $t = ".*" if $t eq "";
+      }
+
+      my $auto_deps = 0;
+      if($p eq 'AUTODEPS') {
+        $p = '';
+        $auto_deps = 1;
+      }
 
       if($p =~ s/^\?// && !RealRPM($p)) {
         print "skipping package $p\n";
         next;
       }
 
-      if(defined $s) {
-        @scripts = split /,/, $s;
+      next unless defined $p;
 
-        @requires = grep { $_ eq 'requires' } @scripts;
-        @scripts = grep { $_ ne 'requires' } @scripts;
+      push @$packs, { name => '' };
+
+      if(defined $s) {
+        my @tags = split /,/, $s;
+
+        @tags = grep { /^(requires|nodeps|ignore)$/ } @tags;
+
+        @{$packs->[-1]{tags}}{@tags} = ();
       }
 
-      next unless defined $p;
+      if(defined $t) {
+        # is template, not real package
+        $packs->[-1]{template} = $t;
+        $packs->[-1]{template_index} = ++$template_cnt;
+
+        print "adding template #$template_cnt >$t<\n";
+      }
+
+      if($auto_deps) {
+        # also not real package
+        $packs->[-1]{autodeps} = 1;
+      }
 
       if($p eq '') {
         $current_pack = '';
         next;
       }
-
-      undef $rc;
-      undef $r;
 
       $rpm_dir = ReadRPM $p;
 
@@ -261,41 +285,208 @@ sub AddFiles
       $rpm_file =~ s#(/[^/]+)$#/.rpms$1.rpm#;
 
       $current_pack = RealRPM($p)->{name};
+      $packs->[-1]{name} = $current_pack;
 
-      $ver = ReadFile "$rpm_dir/version";
+      my $ver = ReadFile "$rpm_dir/version";
+      $packs->[-1]{version} = $ver;
+
       $ver = "[$ver]";
 
-      push @plog, "$current_pack $ver\n";
-
       $_ = ReadFile "$rpm_dir/scripts";
-      $ver .= " {$_}" if $_;
-
-      print "adding package $current_pack $ver\n" if $debug =~ /\bpkg\b/;
-
-      push @packs, "$current_pack\n";
-
-      for $s (@scripts) {
-        $_ = ReadFile "$rpm_dir/$s";
-        if(!$_) {
-          warn "$Script: no \"$s\" script in $current_pack";
-        }
-        else {
-          print "  got \"$s\" script\n" if $debug =~ /\bscripts\b/;
-          $script{$s} = $_;
-        }
+      if($_ ne "") {
+        $ver .= " {$_}";
+        $packs->[-1]{all_scripts} = $_;
+        my @scripts = split /,/;
+        @{$packs->[-1]{scripts}}{@scripts} = ();
       }
 
-      if(@requires) {
+      print "we " . (exists $packs->[-1]{tags}{ignore} ? "ignore" : "need") . " package $current_pack $ver\n";
+
+      if(exists $packs->[-1]{tags}{requires}) {
         $_ = ReadFile "$rpm_dir/requires";
         open R, ">$dir/$p.requires";
         print R $_;
         close R;
       }
 
-      $tdir = "$rpm_dir/rpm";
+      $packs->[-1]{rpmdir} = $rpm_dir;
     }
-    elsif(!/^[a-zA-Z]\s+/ && /^(.*)$/) {
-      $files = $1;
+    else {
+      push @{$packs->[-1]{tasks}}, { src => $src_line, line => $_ };
+    }
+  }
+
+  close F;
+
+  # strip off templates
+  $templates = [ grep { defined $_->{template} } @$packs ];
+  $packs = [ grep { ! defined $_->{template} } @$packs ];
+
+  # print Dumper $packs;
+  # print Dumper $templates;
+
+  # apply templates
+  for my $t (@$templates) {
+    for my $p (@$packs) {
+      next if defined $p->{tasks};
+      if($p->{name} =~ /^($t->{template})$/) {
+        $p->{tasks} = $t->{tasks};
+        for my $tag (keys %{$t->{tags}}) {
+          $p->{tags}{$tag} = $t->{tags}{$tag};
+        }
+        $p->{from_template} = $t->{template_index};
+      }
+    }
+  }
+
+  # print Dumper $packs;
+
+  my $auto_deps = (grep { $_->{autodeps} } @$packs)[0];
+
+  if(defined $auto_deps) {
+    $auto_deps->{packages} = find_missing_packs $packs;
+  }
+
+  # print Dumper $packs;
+
+  # we're done parsing; now really add packages
+  for (@$packs) {
+    add_pack $dir, $ext_dir, $_;
+  }
+
+  my $tfile = "${TmpBase}.afile";
+  SUSystem "rm -f $tfile";
+
+  open F, ">${dir}.rpms";
+  for (@$packs) {
+    print F "$_->{name}\n" if $_->{name} ne '';
+  }
+  close F;
+
+  open F, ">${dir}.rpmlog";
+  for (@$packs) {
+    print F "$_->{name} [$_->{version}]\n" if $_->{name} ne '';
+  }
+  close F;
+
+  $SIG{'__WARN__'} = $old_warn;
+
+  return 1;
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+sub add_pack
+{
+  local $_;
+  my $dir = shift;
+  my $ext_dir = shift;
+  my $pack = shift;
+
+  return if exists $pack->{tags}{ignore};
+
+  if(!defined $pack->{packages}) {
+    _add_pack $dir, $ext_dir, $pack;
+    return;
+  }
+
+  my $packages = $pack->{packages};
+
+  for my $p (sort keys %$packages) {
+    my $new_pack = {};
+
+    $new_pack->{tasks} = $pack->{tasks} if defined $pack->{tasks};
+
+    for my $tag (keys %{$pack->{tags}}) {
+      $new_pack->{tags}{$tag} = $pack->{tags}{$tag};
+    }
+
+    my $rpm_dir = ReadRPM $p;
+
+    next unless $rpm_dir;
+
+    my $rpm_file = $rpm_dir;
+    $rpm_file =~ s#(/[^/]+)$#/.rpms$1.rpm#;
+
+    $new_pack->{name} = RealRPM($p)->{name};
+
+    $new_pack->{version} = ReadFile "$rpm_dir/version";
+
+    $new_pack->{all_scripts} = ReadFile "$rpm_dir/scripts";
+    my @scripts = split /,/, $new_pack->{all_scripts};
+    @{$new_pack->{scripts}}{@scripts} = ();
+
+    if(exists $pack->{tags}{requires}) {
+      $_ = ReadFile "$rpm_dir/requires";
+      open R, ">$dir/$p.requires";
+      print R $_;
+      close R;
+    }
+
+    $new_pack->{rpmdir} = $rpm_dir;
+
+    $new_pack->{needed_by} = $packages->{$p};
+
+    # print "new = ", Dumper($new_pack);
+
+    # apply templates
+    if(!defined $new_pack->{tasks}) {
+      for my $t (@$templates) {
+        if($new_pack->{name} =~ /^($t->{template})$/) {
+          $new_pack->{tasks} = $t->{tasks};
+          for my $tag (keys %{$t->{tags}}) {
+            $new_pack->{tags}{$tag} = $t->{tags}{$tag};
+          }
+          $new_pack->{from_template} = $t->{template_index};
+          last;
+        }
+      }
+    }
+
+    # print "pack $p = ", Dumper($new_pack);
+
+    _add_pack $dir, $ext_dir, $new_pack;
+  }
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+sub _add_pack
+{
+  local $_;
+  my $dir = shift;
+  my $ext_dir = shift;
+  my $pack = shift;
+
+  return if exists $pack->{tags}{ignore};
+
+  return if !defined $pack->{tasks};
+
+  my $tfile = "${TmpBase}.afile";
+
+  my $tdir = "$pack->{rpmdir}/rpm";
+
+  my $all_scripts = $pack->{all_scripts};
+  $all_scripts = " {$all_scripts}" if $all_scripts ne "";
+
+  my $t = "";
+  $t = " using template #$pack->{from_template}" if defined $pack->{from_template};
+
+  my $by = "";
+  $by = " needed by $pack->{needed_by}" if defined $pack->{needed_by};
+
+  print "adding package $pack->{name} [$pack->{version}]$all_scripts$by$t\n" if $pack->{name} ne '';
+
+  for my $t (@{$pack->{tasks}}) {
+    $_ = $t->{line};
+    $src_line = $t->{src};
+
+    if(!/^[a-zA-Z]\s+/) {
+      if($pack->{rpmdir} eq "") {
+        warn "$Script: no package dir";
+        next;
+      }
+      my $files = $_;
       $files =~ s.(^|\s)/.$1.g;
       $files = "." if $files =~ /^\s*$/;
       SUSystem "sh -c '( cd $tdir; tar --sparse -cf - $files 2>$tfile ) | tar -C $dir -xpf -'" and
@@ -310,22 +501,22 @@ sub AddFiles
       }
     }
     elsif(/^d\s+(.+)$/) {
-      $d = $1; $d =~ s.(^|\s)/.$1.g;
+      my $d = $1; $d =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c 'cd $dir; mkdir -p $d'" and
         warn "$Script: failed to create $d";
     }
     elsif(/^t\s+(.+)$/) {
-      $d = $1; $d =~ s.(^|\s)/.$1.g;
+      my $d = $1; $d =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c 'cd $dir; touch $d'" and
         warn "$Script: failed to touch $d";
     }
     elsif(/^r\s+(.+)$/) {
-      $d = $1; $d =~ s.(^|\s)/.$1.g;
+      my $d = $1; $d =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c 'cd $dir; rm -rf $d'" and
         warn "$Script: failed to remove $d";
     }
     elsif(/^S\s+(.+)$/) {
-      $d = $1; $d =~ s.(^|\s)/.$1.g;
+      my $d = $1; $d =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c 'cd $dir; strip $d'" and
         warn "$Script: failed to strip $d";
     }
@@ -378,7 +569,7 @@ sub AddFiles
       else {
         for $l (@l) {
           SUSystem "sh -c '( cd $start_dir; tar -cf - $l 2>$tfile ) | tar -C $dir -xpf -'" and
-            warn "$Script: failed to copy $files";
+            warn "$Script: failed to copy files";
 
           my (@f, $f);
           @f = `cat $tfile`;
@@ -411,8 +602,8 @@ sub AddFiles
         warn "$Script: could not uncompress $1 to $2";
     }
     elsif(/^c\s+(\d+)\s+(\S+)\s+(\S+)\s+(.+)$/) {
-      $p = $1; $u = $2; $g = $3;
-      $d = $4; $d =~ s.(^|\s)/.$1.g;
+      my $p = $1; my $u = $2; my $g = $3;
+      my $d = $4; $d =~ s.(^|\s)/.$1.g;
       SUSystem "sh -c 'cd $dir; chown $u:$g $d'" and
         warn "$Script: failto to change owner of $d to $u:$g";
       SUSystem "sh -c 'cd $dir; chmod $p $d'" and
@@ -430,39 +621,6 @@ sub AddFiles
       SUSystem "mknod $dir/$1 p" and
         warn "$Script: failto to make named pipe $1";
     }
-=head1
-    elsif(/^M\s+(\S+)\s+(\S+)$/) {
-      SUSystem "sh -c \"cp -av $tdir/$1 $dir/$2\" >$tfile" and
-        print "$Script: $1 not copied to $2 (ignored)\n";
-
-      my ($f, $g);
-      for $f (`cat $tfile`) {
-        if($f =~ /\s->\s$dir\/(.*)\n?$/) {
-          $g = $1; $g =~ s/^\/*//;
-          push @mod_list, "$g\n" unless exists $mod_list{$g};
-          $mod_list{$g} = 1;
-        }
-        elsif($f =~ /\s->\s\`$dir\/(.*)\'\n?$/) {
-          $g = $1; $g =~ s/^\/*//;
-          push @mod_list, "$g\n" unless exists $mod_list{$g};
-          $mod_list{$g} = 1;
-        }
-      }
-    }
-=cut
-    elsif(/^M\s+(.*)$/) {
-      my ($ml, @ml);
-
-      $ml = $1;
-      @ml = split ' ', $ml;
-      if($ml !~ m#/#) {
-        @ml = map { $_ = "modules/$_.o\n" } @ml;
-      }
-      else {
-        @ml = map { $_ .= "\n" } @ml;
-      }
-      push @mod_list, @ml
-    }
     elsif(/^([eE])\s+(.+)$/) {
       my ($cmd, $xdir, $basedir, $r, $e, $pm, $is_script);
 
@@ -471,7 +629,7 @@ sub AddFiles
       $xdir = $dir;
       $xdir =~ s#/*$##;
       $basedir = $1 if $xdir =~ s#(.*)/##;
-      $is_script = exists $script{$cmd};
+      $is_script = exists $pack->{scripts}{$cmd};
       $pm = $is_script ? "$cmd script" : "\"$cmd\"";
 
       die "internal oops" unless $basedir ne "" && $xdir ne "";
@@ -479,14 +637,13 @@ sub AddFiles
       if($is_script) {
         SUSystem "sh -c 'mkdir $dir/install && chmod 777 $dir/install'" and
           die "$Script: failed to create $dir/install";
-        die "$Script: unable to create $pm" unless open W, ">$dir/install/inst.sh";
-        print W $script{$cmd};
-        close W;
+        system "cp $pack->{rpmdir}/$cmd $dir/install/inst.sh" and die "$Script: unable to create $pm";
 
         $e = 'E' if $xdir eq 'base';
       }
 
-      print "running $pm\n" if $debug =~ /\bpkg\b/;
+      print "running $pm\n";
+
       if($e eq 'e') {
         SUSystem "mv $dir $basedir/base/xxxx" and die "oops";
         if($is_script) {
@@ -551,54 +708,38 @@ sub AddFiles
       die "$Script: unknown entry: \"$_\"\n";
     }
   }
-
-  close F;
-
-  $account_size->($dir);
-
-  SUSystem "rm -f $tfile";
-
-  open F, ">${dir}.rpms";
-  print F @packs;
-  close F;
-
-  open F, ">${dir}.rpmlog";
-  print F @plog;
-  close F;
-
-  if(%acc_pack_files) {
-    open F, ">${dir}.size";
-    for $p (sort keys %acc_pack_files) {
-      # print "$p:\n";
-      my $size = 0;
-      my $s = 0;
-      for (keys %{$acc_pack_files{$p}}) {
-        $size += (split ' ', `${su}du -bsk $_ 2>/dev/null`)[0];
-        # print "$_: $size\n";
-      }
-      printf F "%-24s %s\n", $p eq '' ? 'no package' : $p, $size;
-    }
-    close F;
-  }
-
-  if($ENV{'nomods'}) {
-    for (split /,/, $ENV{'nomods'}) {
-      push @mod_list, "modules/$_.o\n"
-    }
-  }
-
-  if(@mod_list && $mod_list) {
-    open F, ">$mod_list";
-    print F @mod_list;
-    close F;
-  }
-
-  $SIG{'__WARN__'} = $old_warn;
-
-  return 1;
 }
 
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+sub find_missing_packs
+{
+  my $packs = shift;
+
+  my $nodeps;
+  my $ignore;
+  my $all;
+
+  print "resolving package dependencies...\n";
+
+  for (@$packs) {
+    next if $_->{name} eq '';
+    $all->{$_->{name}} = 1;
+    $nodeps->{$_->{name}} = 1 if exists $_->{tags}{nodeps};
+    $ignore->{$_->{name}} = 1 if exists $_->{tags}{ignore};
+  }
+
+  delete $all->{$_} for (keys %$nodeps, keys %$ignore);
+
+  my $r = ResolveDeps [ keys %$all ], [ keys %$ignore ];
+
+  print Dumper($r);
+
+  return $r;
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sub fixup_re
 {
   local ($_);

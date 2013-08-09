@@ -166,6 +166,7 @@ require Exporter;
 @EXPORT = qw (
   $Script $BasePath $LibPath $BinPath $CfgPath $ImagePath $DataPath
   $TmpBase %ConfigData ReadFile RealRPM ReadRPM $SUBinary SUSystem Print2File $MToolsCfg $AutoBuild
+  ResolveDeps
 );
 
 use strict 'vars';
@@ -182,6 +183,8 @@ use File::Spec 'abs2rel';
 sub get_repo_list;
 sub read_meta;
 sub read_packages;
+sub resolve_deps_obs;
+sub resolve_deps_zypper;
 
 
 sub DebugInfo
@@ -202,6 +205,26 @@ sub DebugInfo
   for (sort keys %ConfigData) {
     print "  $_ = \"$ConfigData{$_}\"\n"
   }
+}
+
+
+sub ResolveDeps
+{
+  local $_;
+  my $packages = shift;
+  my $ignore = shift;
+
+  my $p;
+
+  if($ConfigData{obs}) {
+    $p = resolve_deps_obs $packages, $ignore;
+  }
+  else {
+    die "oops, no zypper" unless $ConfigData{zypper_ok};
+    $p = resolve_deps_zypper $packages, $ignore;
+  }
+
+  return $p;
 }
 
 
@@ -610,6 +633,85 @@ sub read_packages
 }
 
 
+sub resolve_deps_obs
+{
+  local $_;
+  my $packages = shift;
+  my $ignore = shift;
+
+  my $prj = $ConfigData{obs_proj};
+  my $repo = $ConfigData{obs_repo};
+
+  my $t = "$ConfigData{tmp_cache_dir}/.tmp_deps";
+
+  open my $f, ">$t";
+  print $f "#!BuildIgnore: simple_expansion_hack\nName: foo\n";
+  print $f "BuildRequires: $_\n" for (@$packages);
+  print $f "#!BuildIgnore: $_\n" for (@$ignore);
+  close $f;
+
+  my %p;
+  my @err;
+  my %added;
+
+  open $f, "curl -s -T $t -X POST '$ConfigData{obs_server}/build/$prj/$repo/$ConfigData{obs_arch}/_repository/_buildinfo?debug=1' |";
+  while(<$f>) {
+    print $_ if $ENV{debug} =~ /solv/;
+    $added{$1} = $2 if /^added (\S+) because of (\S+?)(:|$)/;
+    $p{$1} = "" if /<bdep\s+name=\"([^"]+)\"/;
+    push @err, $1 if /<error>([^<]+)</;
+  }
+  close $f;
+
+  unlink $t;
+
+  delete $p{$_} for (@$packages);
+
+  warn "$Script: $_\n" for (@err);
+
+  $p{$_} = $added{$_} for (keys %p);
+
+  return \%p;
+}
+
+
+my $zypper = "zypper --verbose --no-abbrev --non-interactive --disable-system-resolvables install --dry-run --no-recommends --repo instsys -- ";
+
+sub resolve_deps_zypper
+{
+  local $_;
+  my $packages = shift;
+  my $ignore = shift;
+
+  # FIXME: what about $ignore?
+
+  my %p;
+
+  my $t = "$ConfigData{tmp_cache_dir}/.tmp_zypp";
+
+  my $cmd = $zypper . join(' ', @$packages) . " 2>&1 >$t";
+
+  if(system $cmd) {
+    print ReadFile($t);
+    warn "$Script: zypper failed";
+    return \%p;
+  }
+
+  open my $f, $t;
+  while(<$f>) {
+    chomp;
+    if((/The following NEW packages are going to be installed/ ... $_ eq "") && /^(\S+)\s*$/) {
+      $p{$1} = "";
+    }
+  }
+  close $t;
+
+  delete $p{$_} for (@$packages, @$ignore);
+
+  return \%p;
+}
+
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # initialization part
@@ -830,6 +932,15 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     die "No rpm files found (looking for \"$dist\")!\n" unless -d $rpmdir;
 
     $ConfigData{suse_base} = $AutoBuild = $rpmdir;
+
+    # if available, setup zypp repo
+    if(-d "/etc/zypp/repos.d") {
+      print STDERR "setting up zypp repo...\n";
+      if(!-f "/etc/zypp/repos.d/instsys.repo") {
+        system "zypper addrepo -c dir:$rpmdir instsys && zypper refresh instsys" and die "zypper failed";
+      }
+      $ConfigData{zypper_ok} = 1;
+    }
   }
   elsif($ENV{work} || $ENV{dist}) {
     my ($work, $base, $xdist);
