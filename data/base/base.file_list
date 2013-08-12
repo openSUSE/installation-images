@@ -1,3 +1,4 @@
+# some basic directories
 d bin dev etc lib mnt proc sbin tmp var
 c 1777 0 0 tmp
 
@@ -33,423 +34,95 @@ c 660 0 6 /dev/loop6
 b 7 7 /dev/loop7
 c 660 0 6 /dev/loop7
 
-libdbus-1-*:
+TEMPLATE:
   /
 
-libtirpc*:
+AUTODEPS:
   /
 
-libgssglue*:
-  /
-
-libmount*:
-  /
-
-filesystem:
-  /
-
-fillup:
-  /
-
-grep:
-  /
-
-make:
-  /
-
-sed:
-  /
-
-tar:
-  /
-
-bash:
-  /
-
-libreadline6:
-  /
-
-libgmp*:
-  /
-
+ca-certificates-mozilla:
 coreutils:
-  /
-
-libselinux1:
-  /
-
-libexpat1:
-  /
-
-libacl*:
-  /
-
-libattr*:
-  /
-
-libpcre*:
-  /
-
-findutils:
-  /
-
-diffutils:
-  /
-
-libgcc_s*:
-  /
-
-libstdc++*:
-  /
-
-glibc:
-  /etc/ld.so.conf
-  /{lib*,sbin}
-r /lib*/libdb.so.*
-r /lib*/lib{BrokenLocale.so.1,NoVersion.so.1,SegFault.so}
-  /usr/{lib*,{,s}bin}
-r /usr/bin/{db*,glibcbug,rpcgen}
-
-module-init-tools:
-  /
-
-suse-module-tools:
-  /
-
-libprocps*:
-  /
-
-procps:
-  /bin/ps
-  /usr/bin/{free,top,vmstat}
-
-psmisc:
-  m /bin/fuser /usr/bin
-  /usr/bin/killall
-  /usr/bin/pstree
-
-procinfo:
-  /usr/bin/socklist
-
-
-rpm:
-  /bin
-  /usr/bin
-  /{usr,var}/lib/rpm
-  /usr/lib*/librpm*.so.*
-r /usr/lib/rpm/rpm{get,put}text
-r /usr/bin/rpmqpack
-
-libmagic*:
-  /
-
-file-magic:
-  /
-
-file:
-  /
-
-libpopt*:
-  /
-
-libelf*:
-  /
-
-liblua5_1:
-  /
-
-libncurses5:
-  /
-
-terminfo-base:
-  /usr/share/terminfo/d/dumb
-  /usr/share/terminfo/l
-  /usr/share/terminfo/v/vt10[02]
-
-libz*:
-  /
-
-if arch eq 'i386' || arch eq 'x86_64'
-  syslinux:
-    /usr/bin
-    /usr/share/syslinux
-
-  gfxboot:
-    /usr/sbin/gfxboot
-
-endif
-
-libfreetype*:
-  /
-
-libpng*-*:
-  /
-
-libXfont*:
-  /
-
-mkfontscale:
-  /
-
-mkfontdir:
-  /
-
-libfontenc*:
-  /
-
-fontconfig:
-  /etc/fonts/fonts.conf
-  /usr/lib*/libfontconfig.so.*
-  /usr/bin/fc-cache
-
-gawk:
-  /
-
-liblcms*:
-  /
-
-libmng*:
-  /
-
-libjpeg*:
-  /
-
-perl-base:
-  /usr/{bin,lib}
-
-perl:
-  /usr/{bin,lib}
-
-perl-HTML-Parser:
-  /usr/lib
-
-insserv-compat:
-  /
-
-aaa_base: prein,postin
-e prein
-  /etc
-r /etc/{csh*,default*,mailcap,mime.types,permissions*}
-r /etc/{rc.d.README,runlevel.fallback,zshrc,cron.daily}
-  /sbin
-  /usr/sbin
-r /etc/init.d/rc?.d/*kerneld
-r /etc/init.d/rc?.d/*cron
-r /etc/init.d/rc?.d/*pcnfsd
-r /etc/init.d/rc?.d/*routed
-r /etc/init.d/rc?.d/*nfs
-r /etc/init.d/rc?.d/*xdm
-  /usr/bin
-r /usr/bin/ChangeSymlinks
-  /var/adm/fillup-templates
-
-  # /root/.gnupg/suse_build_key
-e postin
-r /var/adm/fillup-templates
-t /etc/fstab
-
-libdb-*:
-  /
-
-libgdbm*:
-  /
-
-gzip:
-  /
-
-libbz2-*:
-  /
-
 cpio:
-  /
-
-glibc-i18ndata:
-  /
-
-glibc-locale:
-  /
-
-libustr-*-*:
-  /
-
-libsepol*:
-  /
-
-libsemanage*:
-  /
-
-shadow:
-  /
-
-pam:
-  /
-
-libaudit*:
-  /
-
-libldap-*-*:
-  /
-
-libopenssl*:
-  /
-
-cyrus-sasl:
-  /
-
-libkeyutils*:
-  /
-
-libcom_err*:
-  /
-
-krb5:
-  /
-
-libnscd*:
-  /
-
-openslp:
-  /
-
-libcrack*:
-  /
-
+cracklib-dict-full:
 cracklib:
-  /
-
-strace:
-  /
-
-util-linux:
-  /usr/bin/mount
-  /usr/bin/umount
-
-libblkid*:
-  /
-
-libuuid*:
-  /
-
-fribidi:
-  /usr/bin/fribidi
-  /usr/lib*/libfribidi.so.*
-
-liblzma*:
-  /
-
-libcap*:
-  /
-
-liblzo*-*:
-  /
-
-squashfs:
-  /usr/bin/mksquashfs
-
-yast2-trans-allpacks: requires
-  x mk_yast2_trans bin/mk_yast2_trans
-  E mk_yast2_trans yast2-trans-allpacks.requires
-
-libfuse*:
-  /
-
-libudev*:
-  /
-
+cyrus-sasl:
 device-mapper:
-  /
-
+diffutils:
+dummy-release:
+elfutils:
+file-magic:
+file:
+filesystem:
+fillup:
+findutils:
+fontconfig:
+fribidi:
 gettext-runtime-mini:
-  /
-
+?gfxboot: nodeps
+glibc-i18ndata:
+glibc-locale:
+grep:
+gzip:
+insserv-compat:
+krb5:
+make:
+mkfontdir:
+mkfontscale:
+module-init-tools:
+openslp:
 openssl:
-  /
+p11-kit-tools:
+p11-kit:
+pam:
+perl-HTML-Parser:
+perl:
+procinfo:
+procps:
+psmisc:
+rpm:
+sed:
+shadow:
+squashfs:
+strace:
+suse-module-tools:
+?syslinux:
+systemd-presets-branding-basedonopensuse:
+systemd:
+tar:
+terminfo-base:
+util-linux:
 
 ca-certificates:
   /usr/sbin/update-ca-certificates
   /usr/lib/ca-certificates/update.d/openssl.run
   /var/lib/ca-certificates/openssl
 
-ca-certificates-mozilla:
-  /
+aaa_base:
+  E prein
+  E postin
+  t etc/fstab
 
-systemd:
-  /
-
-libcryptsetup*:
-  /
-
-libgcrypt*:
-  /
-
-libgpg-error*:
- /
-
-libkmod*:
-  /
-
-libqrencode*:
-  /
-
-libwrap*:
-  /
-
-libgnutls*:
-  /
-
-libtasn*-*:
-  /
-
-libgnutls*:
-  /
-
-libhogweed*:
-  /
-
-libnettle*:
-  /
-
-libp11-kit*:
-  /
-
-p11-kit:
-  /
-
-p11-kit-tools:
-  /
-
-libffi*:
-  /
+yast2-trans-allpacks: requires,nodeps
+  x mk_yast2_trans bin/mk_yast2_trans
+  E mk_yast2_trans yast2-trans-allpacks.requires
 
 :
 
 # remove things we don't need
 r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
 
-# x ../../src/gkv/gkv bin
-# E gkv /tmp/linux >tmp/kernel_version
-
+# add our own scripts
 x save_cfg bin/save_cfg
 x restore_cfg bin/restore_cfg
 x unused_mos bin/unused_mos
 x mlist3 bin/mlist3
 
-# run depmod
-#E /sbin/depmod -a -F /System.map <kernel_ver> || true
-#E cp /lib/modules/<kernel_ver>/modules.dep /
-#E cp /lib/modules/<kernel_ver>/modules.pcimap /
-#r /lib/modules
-
 # create locale
 x create_locale /create_locale
 E /create_locale
 
-# make empty dict
-E touch /tmp/xxx
-E create-cracklib-dict /tmp/xxx
-E rm -f /tmp/xxx
-
-#
+# show certificates
 E update-ca-certificates -f
 E ls -lR /var/lib/ca-certificates
 E ls -lR /etc/ssl
+

@@ -329,6 +329,7 @@ sub AddFiles
   for my $t (@$templates) {
     for my $p (@$packs) {
       next if defined $p->{tasks};
+      next if $p->{name} eq '';		# don't apply to empty names
       if($p->{name} =~ /^($t->{template})$/) {
         $p->{tasks} = $t->{tasks};
         for my $tag (keys %{$t->{tags}}) {
@@ -345,6 +346,14 @@ sub AddFiles
 
   if(defined $auto_deps) {
     $auto_deps->{packages} = find_missing_packs $packs;
+
+    open my $f, ">${dir}.autodeps";
+    for (sort keys %{$auto_deps->{packages}}) {
+      print $f "$_ ($auto_deps->{packages}{$_})\n";
+    }
+    close $f;
+
+
   }
 
   # print Dumper $packs;

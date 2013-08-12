@@ -48,7 +48,7 @@ endif
 
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
-.PHONY: all dirs base biostest initrd \
+.PHONY: all dirs base fbase biostest initrd \
 	boot boot-efi root rescue root+rescue gdb bind clean \
 	boot-themes initrd-themes root-themes install \
 	install-initrd mini-iso-rmlist debuginfo cd1
@@ -72,6 +72,9 @@ dirs:
 
 base: dirs
 	@[ -d tmp/base ] || nostrip=1 libdeps=base image=base fs=none bin/mk_image
+
+fbase: dirs
+	nostrip=1 libdeps=base image=base fs=none bin/mk_image
 
 biostest: base
 	libdeps=initrd,biostest image=biostest src=initrd fs=cpio.gz disjunct=initrd bin/mk_image
