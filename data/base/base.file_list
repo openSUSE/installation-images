@@ -38,7 +38,6 @@ TEMPLATE:
   /
 
 AUTODEPS:
-  /
 
 ca-certificates-mozilla:
 coreutils:
