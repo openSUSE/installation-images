@@ -180,11 +180,13 @@ use Cwd;
 use File::Path 'make_path';
 use File::Spec 'abs2rel';
 
+use solv;
+
 sub get_repo_list;
 sub read_meta;
 sub read_packages;
 sub resolve_deps_obs;
-sub resolve_deps_zypper;
+sub resolve_deps_libsolv;
 
 
 sub DebugInfo
@@ -220,8 +222,8 @@ sub ResolveDeps
     $p = resolve_deps_obs $packages, $ignore;
   }
   else {
-    die "oops, no zypper" unless $ConfigData{zypper_ok};
-    $p = resolve_deps_zypper $packages, $ignore;
+    die "oops, no libsolv" unless $ConfigData{libsolv_ok};
+    $p = resolve_deps_libsolv $packages, $ignore;
   }
 
   return $p;
@@ -675,9 +677,7 @@ sub resolve_deps_obs
 }
 
 
-my $zypper = "zypper --verbose --no-abbrev --non-interactive --disable-system-resolvables install --dry-run --no-recommends --repo instsys -- ";
-
-sub resolve_deps_zypper
+sub resolve_deps_libsolv
 {
   local $_;
   my $packages = shift;
@@ -687,24 +687,39 @@ sub resolve_deps_zypper
 
   my %p;
 
-  my $t = "$ConfigData{tmp_cache_dir}/.tmp_zypp";
+  my $pool = solv::Pool->new();
+  my $repo = $pool->add_repo("instsys");
+  $repo->add_solv("/tmp/instsys.solv") or die "/tmp/instsys.solv: no solv file";
+  $pool->addfileprovides();
+  $pool->createwhatprovides();
+  $pool->set_debuglevel(3) if $ENV{debug} =~ /solv/;
 
-  my $cmd = $zypper . join(' ', @$packages) . " 2>&1 >$t";
+  my $solver = $pool->Solver();
 
-  if(system $cmd) {
-    print ReadFile($t);
-    warn "$Script: zypper failed";
+  my $jobs;
+  for (@$packages) {
+    push @$jobs, $pool->Job($solv::Job::SOLVER_INSTALL | $solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
+  }
+
+  my @problems = $solver->solve($jobs);
+
+  if (@problems) {
+    my @err;
+
+    for my $problem (@problems) {
+      push @err, "$Script: " . $problem->findproblemrule()->info()->problemstr() . "\n";
+    }
+
+    warn join('', @err);
+
     return \%p;
   }
 
-  open my $f, $t;
-  while(<$f>) {
-    chomp;
-    if((/The following NEW packages are going to be installed/ ... $_ eq "") && /^(\S+)\s*$/) {
-      $p{$1} = "";
-    }
+  my $trans = $solver->transaction();
+
+  for ($trans->newsolvables()) {
+   $p{$_->{name}} = "";
   }
-  close $t;
 
   delete $p{$_} for (@$packages, @$ignore);
 
@@ -934,12 +949,12 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     $ConfigData{suse_base} = $AutoBuild = $rpmdir;
 
     # if available, setup zypp repo
-    if(-d "/etc/zypp/repos.d") {
-      print STDERR "setting up zypp repo...\n";
-      if(!-f "/etc/zypp/repos.d/instsys.repo") {
-        system "zypper addrepo -c dir:$rpmdir instsys && zypper refresh instsys" and die "zypper failed";
+    if(-x "/usr/bin/rpms2solv") {
+      print STDERR "creating solv file...\n";
+      if(!-f "/tmp/instsys.solv") {
+        system "find /.build.binaries -name '*.rpm' | /usr/bin/rpms2solv -m - >/tmp/instsys.solv" and die "rpms2solv failed";
       }
-      $ConfigData{zypper_ok} = 1;
+      $ConfigData{libsolv_ok} = 1;
     }
   }
   elsif($ENV{work} || $ENV{dist}) {
