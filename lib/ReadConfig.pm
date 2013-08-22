@@ -737,6 +737,9 @@ sub resolve_deps_libsolv
       }  
     }
   }
+  else {
+    warn "$Script: outdated perl-solv: solver will not work properly";
+  }
 
   my @problems = $solver->solve($jobs);
 
