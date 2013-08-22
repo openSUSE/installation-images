@@ -13,6 +13,133 @@ e cp -a /dev/* dev
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+TEMPLATE lvm2|device-mapper|rpcbind|rsync|syslog-service|syslogd|util-linux|sysconfig|dmraid|mdadm|multipath-tools:
+  /
+  E postin
+
+TEMPLATE:
+  /
+
+AUTODEPS:
+
+dbus-1-x11: ignore
+info: ignore
+logrotate: ignore
+perl-Bootloader: ignore
+shared-mime-info: ignore
+update-alternatives: ignore
+?device-mapper-32bit: ignore
+
+?acpica:
+?efibootmgr:
+?elilo:
+?firmwarekit:
+?grub2-i386-pc:
+?grub2-x86_64-efi:
+?grub2:
+?grub:
+?iprutils:
+?lilo:
+?pdisk:
+?powerpc-utils:
+?powertop:
+?s390-tools:
+?silo:
+?wireless-tools:
+aaa_base-extras:
+attr:
+bash:
+bc:
+bind-libs:
+bind-utils:
+btrfsprogs:
+bzip2:
+checkmedia:
+cifs-utils:
+coreutils:
+cpio:
+cracklib-dict-full:
+cracklib:
+cryptsetup:
+curl:
+cyrus-sasl:
+dd_rescue:
+dhcpcd:
+diffutils:
+dosfstools:
+dump:
+e2fsprogs:
+file-magic:
+file:
+fillup:
+findutils:
+finger:
+gawk:
+glibc:
+gpart:
+grep:
+gzip:
+hdparm:
+hex:
+hwinfo:
+icmpinfo:
+initviocons:
+insserv-compat:
+iproute2:
+iputils:
+jfsutils:
+joe:
+kexec-tools:
+klogd:
+kpartx:
+krb5:
+lsscsi:
+mingetty:
+mkinitrd:
+module-init-tools:
+mozilla-nspr:
+ncurses-utils:
+net-tools:
+netcat-openbsd:
+nfs-client:
+nfsidmap:
+nscd:
+ntfsprogs:
+openslp:
+pam-modules:
+parted:
+pciutils:
+polkit:
+procinfo:
+procps:
+psmisc:
+reiserfs:
+rpm:
+rsh:
+sdparm:
+sed:
+setserial:
+sg3_utils:
+smartmontools:
+smp_utils:
+socat:
+squashfs:
+star:
+strace:
+suse-module-tools:
+systemd-presets-branding-basedonopensuse:
+systemd-sysvinit:
+systemd:
+tar:
+telnet:
+terminfo-base:
+usbutils:
+vim:
+wget:
+xfsdump:
+xfsprogs:
+xz:
+
 filesystem:
   /etc/{ppp,rc.d,uucp}
   /etc/sysconfig
@@ -21,623 +148,9 @@ filesystem:
   /etc/init.d
   /usr/tmp
   /var
-# remove temporarily so that 'mount /sys' doesn't work
-r /sys
 
-libwbclient*:
-  /
-
-libtalloc*:
-  /usr/lib*/libtalloc.so.*
-
-libkmod*:
-  /
-
-libpng*-*:
-  /
-
-libfreetype*:
-  /
-
-libffi*:
-  /
-
-libgio-*-*:
-  /
-
-libgmodule-*-*:
-  /
-
-aaa_base-extras:
-  /
-
-fillup:
-  /
-
-libmagic*:
-  /
-
-file-magic:
-  /
-
-file:
-  /
-
-iproute2:
-  /
-
-insserv-compat:
-  /
-
-libpcre*:
-  /
-
-mkinitrd:
-  /
-
-grep:
-  /
-
-sed:
-  /
-
-tar:
-  /
-
-star:
-  /
-
-bash:
-  /
-
-libreadline*:
-  /
-
-cpio:
-  /
-
-libcrack*:
-  /
-
-cracklib:
-  /
-
-diffutils:
-  /
-
-dump:
-  /
-
-hdparm:
-  /
-
-ntfsprogs:
-  /
-
-libntfs-3g*:
-  /
-
-ntfs-3g:
-  /
-  s mount.ntfs-3g /sbin/mount.ntfs
-
-libfuse*:
-  /
-
-e2fsprogs:
-  /
-
-libext2fs*:
-  /
-
-libcom_err*:
-  /
-
-libuuid*:
-  /
-
-libblkid*:
-  /
-
-libgmp*:
-  /
-
-coreutils:
-  /
-
-dosfstools:
-  /
-
-findutils:
-  /
-
-libacl*:
-  /
-
-libpopt*:
-  /
-
-nscd:
-  /
-
-libwrap*:
-  /
-
-libgcc_s*:
-  /
-
-glibc:
-  /
-
-libxtables*:
-  /
-
-libselinux*:
-  /
-
-libutempter*:
-  /
-
-gpart:
-  /
-
-?silo:
-  /
-
-xz:
-  /
-
-gzip:
-  /
-
-joe:
-  /usr/bin/{joe,jmacs}
-  /etc/joe/{joerc,jmacsrc,ftyperc}
-
-less:
-  /etc
-  /usr/bin
-r /usr/bin/lesspipe.sh
-t /usr/bin/lesspipe.sh
-c 0755 0 0 /usr/bin/lesspipe.sh
-r /usr/bin/lessopen.sh
-t /usr/bin/lessopen.sh
-c 0755 0 0 /usr/bin/lessopen.sh
-r /usr/bin/lessclose.sh
-t /usr/bin/lessclose.sh
-c 0755 0 0 /usr/bin/lessclose.sh
-
-libz*:
-  /
-
-bzip2:
-  /
-
-libbz2-*:
-  /
-
-?lilo:
-  /
-
-if exists(pdisk)
-  pdisk:
-    /
-
-  iprutils:
-    /
-endif
-
-?s390-tools:
-  /
-
-lsscsi:
-  /
-
-sg3_utils:
-  /
-
-libsgutils2-*:
-  /
-
-sdparm:
-  /
-
-smp_utils:
-  /
-
-libsmputils1-*:
-  /
-
-libmozjs-*:
-  /
-
-mozilla-nspr:
-  /
-
-?grub:
-  /
-
-if arch eq 'x86_64'
-  glibc-32bit:
-    /
-
-  libncurses5-32bit:
-    /
-endif
-
-?efibootmgr:
-  /
-
-?elilo:
-  /
-
-?grub2:
-  /
-
-?grub2-efi:
-  /
-
-if arch eq 'ia64'
-  libunwind:
-    /
-endif
-
-libncurses*~:
-  /
-
-libncurses*:
-  /
-
-terminfo-base:
-  /
-
-ncurses-utils:
-  /
-
-terminfo:
-  /usr/share/terminfo/i/ibm3151
-
-net-tools:
-  /
-
-netcat-openbsd:
-  /
-
-socat:
-  /
-
-netcfg:
-  /etc
-r /etc/{diphosts,ftpusers,hosts.*}
-e echo Rescue.local >etc/HOSTNAME
-
-icmpinfo:
-  /
-
-iputils:
-  /
-
-telnet:
-  /
-
-finger:
-  /
-
-rsh:
-  /
-
-pam:
-  /
-  R s/(pam_unix\.so.*)$/$1 nullok\n/ /etc/pam.d/common-auth
-
-libaudit*:
-  /
-
-pam-modules:
-  /
-
-libpci*:
-  /
-
-pciutils:
-  /
-
-pciutils-ids:
-  m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
-
-usbutils:
-  /
-
-# compat lib
-libusb-0_1-4:
-  /
-
-libusb-*-*:
-  /
-
-libtirpc*:
-  /
-
-libprocps*:
-  /
-
-procps:
-  /
-
-psmisc:
-  /
-
-procinfo:
-  /
-
-reiserfs:
-  /
-
-btrfsprogs:
-  /
-
-jfsutils:
-  /
-
-xfsprogs:
-  /
-
-xfsdump:
-  /
-
-openslp:
-  /
-
-libattr*:
-  /
-
-attr:
-  /
-
-rpm:
-  /bin
-  /usr/bin
-  /{usr,var}/lib/rpm
-  /usr/lib*/librpm*.so.*
-r /usr/lib/rpm/rpm{get,put}text
-r /usr/bin/rpmqpack
-
-liblzma*:
-  /
-
-libelf*:
-  /
-
-liblua5_1:
-  /
-
-libsepol*:
-  /
-
-setserial:
-  /
-
-libnscd*:
-  /
-
-libustr-*-*:
-  /
-
-libsepol*:
-  /
-
-libsemanage*:
-  /
-
-shadow:
-  /
-  d /etc/skel
-
-libldap-*-*:
-  /
-
-libopenssl*:
-  /
-
-cyrus-sasl:
-  /
-
-libdb-*:
-  /
-
-krb5:
-  /
-
-libkeyutils*:
-  /
-
-strace:
-  /
-
-klogd:
-  /
-
-systemd:
-  /
-
-libqrencode*:
-  /
-
-libtasn*-*:
-  /
-
-libgnutls*:
-  /
-
-libhogweed*:
-  /
-
-libnettle*:
-  /
-
-libp11-kit*:
-  /
-
-systemd-sysvinit:
-  /
-
-libmount*:
-  /
-
-nfs-client:
-  /
-
-nfsidmap:
-  /
-
-libgssglue*:
-  /
-
-libevent-*-*:
-  /
-
-if arch eq 'ppc' || arch eq 'ppc64'
-  librtas*:
-    /
-
-  libsqlite*-*:
-    /
-
-  powerpc-utils:
-    /
-endif
-
-mingetty:
-  /
-
-vim:
-  m /bin/vim-normal /bin/vim
-  s vim /bin/vi
-
-vim-base:
-  /usr/bin/xxd
-
-libgdbm*:
-  /
-
-hwinfo:
-  /
-
-?libx86emu1:
-  /
-
-initviocons:
-  /
-
-libexpat*:
-  /
-
-libglib-*-*:
-  /
-
-libgobject-*-*:
-  /
-
-libudev*:
-  /
-
-sysfsutils:
-  /usr/<lib>
-
-libblkid*:
-  /
-
-libuuid*:
-  /
-
-libpolkit*:
-  /
-
-polkit:
-  /
-
-?libsmbios*:
-  /
-
-if exists(wireless-tools)
-  libiw*:
-    /
-
-  wireless-tools:
-    /
-endif
-
-libparted*:
-  /
-
-parted:
-  /
-
-libreiserfs-*-*:
-  /
-
-#libreiserfs-devel:
-#  /usr/lib*/libdal.so
-#  /usr/lib*/libreiserfs.so
-
-gawk:
-  /usr/bin/gawk
-# uses update-alternatives now
-s gawk usr/bin/awk
-
-dd_rescue:
-  /
-
-bc:
-  /
-
-checkmedia:
-  /
-
-hex:
-  /
-
-libpcsclite*:
-  /
-
-libopenct*:
-  /
-
-dhcpcd:
-  /
-
-libedit*:
-  /
-
-libnl3-*:
-  /
-
-libcap-ng*:
-  /
-
-smartmontools:
-  /
-
-libstdc++*:
-  /
-
-kpartx:
-  /
-
-libaio*:
-  /
-
-cryptsetup:
-  /
-
-libcryptsetup*:
-  /
-
-libgcrypt*:
-  /
-
-libgpg-error*:
- /
+  # remove temporarily so that 'mount /sys' doesn't work
+  r /sys
 
 glibc-locale:
   /usr/lib*/gconv/ISO8859*
@@ -649,81 +162,34 @@ glibc-locale:
   d usr/lib
   e cp -a /tmp/locale usr/lib
 
-libmodman*:
+less:
+  /etc
+  /usr/bin
+  r /usr/bin/lesspipe.sh
+  t /usr/bin/lesspipe.sh
+  c 0755 0 0 /usr/bin/lesspipe.sh
+  r /usr/bin/lessopen.sh
+  t /usr/bin/lessopen.sh
+  c 0755 0 0 /usr/bin/lessopen.sh
+  r /usr/bin/lessclose.sh
+  t /usr/bin/lessclose.sh
+  c 0755 0 0 /usr/bin/lessclose.sh
+
+netcfg:
+  /etc
+  r /etc/{diphosts,ftpusers,hosts.*}
+  e echo Rescue.local >etc/HOSTNAME
+
+ntfs-3g:
   /
+  s mount.ntfs-3g /sbin/mount.ntfs
 
-libproxy*:
+pam:
   /
+  R s/(pam_unix\.so.*)$/$1 nullok\n/ /etc/pam.d/common-auth
 
-wget:
-  /
-
-curl:
-  /
-
-libcurl*:
-  /
-
-libssh2-*:
-  /
-
-libcares*:
-  /
-
-libidn*:
-  /
-
-bind-utils:
-  /
-
-bind-libs:
-  /
-
-libcap*:
-  /
-
-libxml2-*:
-  /
-
-kexec-tools:
-  /
-
-cifs-utils:
-  /
-
-if arch eq 'i386' || arch eq 'x86_64'
-  ?sbl:
-    /
-    r /etc/sbl/profile/default
-    s y2base /etc/sbl/profile/default
-
-  firmwarekit:
-    /
-
-  acpica:
-    /
-
-  powertop:
-    /
-
-  libnewt*:
-    /
-
-  libslang*:
-    /
-endif
-
-libmount*:
-  /
-
-liblzo*-*:
-  /
-
-squashfs:
-  /
-
-libdbus-1-*:
-  /
+pciutils-ids:
+  m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
 perl-base:
   /usr/bin/perl
@@ -731,6 +197,25 @@ perl-base:
 
 perl:
   /usr/lib/perl*
+
+?sbl:
+  /
+  r /etc/sbl/profile/default
+  s y2base /etc/sbl/profile/default
+
+shadow:
+  /
+  d /etc/skel
+
+sysvinit-tools:
+  /
+  n /dev/initctl
+  c 600 0 0 /dev/initctl
+
+terminfo:
+  /usr/share/terminfo/i/ibm3151
+
+:
 
 ###
 # to keep postin scripts happy
@@ -744,93 +229,46 @@ s /usr/bin/true /sbin/mkinitrd_setup
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-aaa_base: prein,postin
-E prein
+aaa_base:
+  E prein
   /
-t /etc/fstab
-E postin
+  t /etc/fstab
+  E postin
 
-dbus-1: prein,postin
+dbus-1:
   /
-E prein
-E postin
+  E prein
+  E postin
 
-lvm2: postin
+udev:
   /
-  # NOT /var/lock !
-E postin
+  E prein
+  E postin
 
-device-mapper: postin
-  /
-E postin
+lvm2:
+device-mapper:
+rpcbind:
+rsync:
+syslog-service:
+syslogd:
+util-linux:
+sysconfig:
+dmraid:
+mdadm:
+multipath-tools:
 
-module-init-tools:
-  /
-
-suse-module-tools:
-  /
-
-rpcbind: postin
-  /
-E postin
-
-rsync: postin
-  /
-E postin
-
-syslog-service: postin
-  /
-E postin
-
-syslogd: postin
-  /
-E postin
-
-sysvinit-tools:
-n /dev/initctl
-c 600 0 0 /dev/initctl
-  /
-
-util-linux: postin
-  /
-E postin
-
-sysconfig: postin
-  /
-E postin
-
-udev: prein,postin
-  /
-E prein
-E postin
-
-dmraid: postin
-  /
-E postin
-
-mdadm: postin
-  /
-E postin
-
-openssh: prein
+openssh:
   /
   d /etc/sysconfig
   t /etc/sysconfig/ssh
-E prein
+  E prein
 
-multipath-tools: postin
-  /
-E postin
-
-if arch eq 'ia64'
-  ia32el:
-    /etc/init.d/ia32el
-    /usr/lib/ia32el
+?ia32el:
+  /etc/init.d/ia32el
+  /usr/lib/ia32el
   r /usr/lib/ia32el/cpuid
   r /usr/lib/ia32el/auxapp 
   E insserv etc/init.d/ia32el
-endif
-
 
 :
 
