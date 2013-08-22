@@ -481,8 +481,11 @@ sub _add_pack
   my $t = "";
   $t = " using template #$pack->{from_template}" if defined $pack->{from_template};
 
-  my $by = "";
-  $by = " needed by $pack->{needed_by}" if defined $pack->{needed_by};
+  my $by = $pack->{needed_by};
+  if(defined $by) {
+    $by =~ s/^.*?< //;
+    $by = " (< $by)";
+  }
 
   print "adding package $pack->{name} [$pack->{version}]$all_scripts$by$t\n" if $pack->{name} ne '';
 
@@ -725,7 +728,6 @@ sub find_missing_packs
 {
   my $packs = shift;
 
-  my $nodeps;
   my $ignore;
   my $all;
 
@@ -734,15 +736,14 @@ sub find_missing_packs
   for (@$packs) {
     next if $_->{name} eq '';
     $all->{$_->{name}} = 1;
-    $nodeps->{$_->{name}} = 1 if exists $_->{tags}{nodeps};
-    $ignore->{$_->{name}} = 1 if exists $_->{tags}{ignore};
+    $ignore->{$_->{name}} = 1 if exists $_->{tags}{ignore} || exists $_->{tags}{nodeps};
   }
 
-  delete $all->{$_} for (keys %$nodeps, keys %$ignore);
+  delete $all->{$_} for (keys %$ignore);
 
   my $r = ResolveDeps [ keys %$all ], [ keys %$ignore ];
 
-  print Dumper($r);
+  # print Dumper($r);
 
   return $r;
 }

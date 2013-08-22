@@ -89,6 +89,7 @@ systemd-presets-branding-basedonopensuse:
 systemd:
 tar:
 terminfo-base:
+udev:
 util-linux:
 
 ca-certificates:

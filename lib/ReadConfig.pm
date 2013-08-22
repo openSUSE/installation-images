@@ -180,13 +180,14 @@ use Cwd;
 use File::Path 'make_path';
 use File::Spec 'abs2rel';
 
-use solv;
+eval "use solv";
 
 sub get_repo_list;
 sub read_meta;
 sub read_packages;
 sub resolve_deps_obs;
 sub resolve_deps_libsolv;
+sub show_package_deps;
 
 
 sub DebugInfo
@@ -216,17 +217,30 @@ sub ResolveDeps
   my $packages = shift;
   my $ignore = shift;
 
-  my $p;
+  my $p1;
 
   if($ConfigData{obs}) {
-    $p = resolve_deps_obs $packages, $ignore;
+    $p1 = resolve_deps_obs $packages, $ignore;
   }
   else {
     die "oops, no libsolv" unless $ConfigData{libsolv_ok};
-    $p = resolve_deps_libsolv $packages, $ignore;
+    $p1 = resolve_deps_libsolv $packages, $ignore;
   }
 
-  return $p;
+  my $p2;
+
+  my $cnt = 0;
+  for (keys %$p1) {
+    $p2->{$_} = show_package_deps($_, $p1);
+    $cnt++;
+  }
+
+  for (sort keys %$p2) {
+    print "  $p2->{$_}\n";
+  }
+  print "== $cnt packages ==\n";
+
+  return $p2;
 }
 
 
@@ -683,7 +697,7 @@ sub resolve_deps_libsolv
   my $packages = shift;
   my $ignore = shift;
 
-  # FIXME: what about $ignore?
+  my $ignore_file_deps = $ENV{debug} =~ /filedeps/ ? 0 : 1;
 
   my %p;
 
@@ -695,15 +709,38 @@ sub resolve_deps_libsolv
   $pool->set_debuglevel(3) if $ENV{debug} =~ /solv/;
 
   my $solver = $pool->Solver();
+  $solver->set_flag($solv::Solver::SOLVER_FLAG_IGNORE_RECOMMENDED, 1);
 
   my $jobs;
   for (@$packages) {
     push @$jobs, $pool->Job($solv::Job::SOLVER_INSTALL | $solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
   }
 
+  if(defined &solv::XSolvable::unset) {
+    for (@$ignore) {
+      my $job = $pool->Job($solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
+      for my $s ($job->solvables()) {
+        $s->unset($solv::SOLVABLE_REQUIRES);
+        $s->unset($solv::SOLVABLE_RECOMMENDS);
+        $s->unset($solv::SOLVABLE_SUPPLEMENTS);
+      }
+    }
+
+    if($ignore_file_deps) {
+      for ($pool->Selection_all()->solvables()) {
+        my @deps = $_->lookup_idarray($solv::SOLVABLE_REQUIRES, 0);
+        @deps = grep { $pool->id2str($_) !~ /^\// } @deps;
+        $_->unset($solv::SOLVABLE_REQUIRES);
+        for my $id (@deps) {
+          $_->add_deparray($solv::SOLVABLE_REQUIRES, $id, 0);
+        }
+      }  
+    }
+  }
+
   my @problems = $solver->solve($jobs);
 
-  if (@problems) {
+  if(@problems) {
     my @err;
 
     for my $problem (@problems) {
@@ -718,12 +755,43 @@ sub resolve_deps_libsolv
   my $trans = $solver->transaction();
 
   for ($trans->newsolvables()) {
-   $p{$_->{name}} = "";
+    my $dep;
+
+    if(defined &solv::Solver::describe_decision) {
+      my ($reason, $rule) = $solver->describe_decision($_);
+      if ($rule && $rule->{type} == $solv::Solver::SOLVER_RULE_RPM) {
+        $dep = $rule->info()->{solvable}{name};
+      }
+      else {
+        # print "XXX $_->{name}: type = $rule->{type}\n";
+      }
+    }  
+
+    $p{$_->{name}} = $dep;
   }
 
   delete $p{$_} for (@$packages, @$ignore);
 
   return \%p;
+}
+
+
+sub show_package_deps
+{  
+  my $p = shift;
+  my $packages = shift;
+
+  my $s = $p;
+
+  my %d;
+  $d{$p} = 1;   
+
+  while(($p = $packages->{$p}) ne '' && !$d{$p}) {
+    $d{$p} = 1;
+    $s .= " < $p";
+  }  
+
+  return $s;
 }
 
 
