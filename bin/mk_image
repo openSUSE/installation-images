@@ -77,6 +77,7 @@ if(!$mode{keep} || $mode{add}) {
   if(-f "$tmpdir.rpmlog") {
     SUSystem "chmod 777 $tmpdir";
     SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' $tmpdir.rpmlog | sort -u >$tmpdir/.packages.$fl";
+    SUSystem "cp $tmpdir.rpmlog $tmpdir/.packages.$fl";
     SUSystem "chmod 755 $tmpdir";
   }
 

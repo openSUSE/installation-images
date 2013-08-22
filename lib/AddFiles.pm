@@ -70,6 +70,7 @@ sub fixup_re;
 my $ignore;
 my $src_line;
 my $templates;
+my $used_packs;
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -352,8 +353,6 @@ sub AddFiles
       print $f "$_ ($auto_deps->{packages}{$_})\n";
     }
     close $f;
-
-
   }
 
   # print Dumper $packs;
@@ -366,17 +365,26 @@ sub AddFiles
   my $tfile = "${TmpBase}.afile";
   SUSystem "rm -f $tfile";
 
-  open F, ">${dir}.rpms";
-  for (@$packs) {
-    print F "$_->{name}\n" if $_->{name} ne '';
-  }
-  close F;
+  # print Dumper($used_packs);
 
-  open F, ">${dir}.rpmlog";
-  for (@$packs) {
-    print F "$_->{name} [$_->{version}]\n" if $_->{name} ne '';
+  open my $f, ">${dir}.rpms";
+  open my $l, ">${dir}.rpmlog";
+  for (sort keys %$used_packs) {
+    $_ = $used_packs->{$_};
+    my $by = $_->{needed_by};
+    if(defined $by) {
+      if($by =~ s/^.*?< //) {
+        $by = " < $by";
+      }
+      else {
+        $by = '';
+      }
+    }
+    print $f "$_->{name}\n";
+    print $l "$_->{name} [$_->{version}]$by\n";
   }
-  close F;
+  close $f;
+  close $l;
 
   $SIG{'__WARN__'} = $old_warn;
 
@@ -483,11 +491,18 @@ sub _add_pack
 
   my $by = $pack->{needed_by};
   if(defined $by) {
-    $by =~ s/^.*?< //;
-    $by = " (< $by)";
+    if($by =~ s/^.*?< //) {
+      $by = " (< $by)";
+    }
+    else {
+      $by = '';
+    }
   }
 
-  print "adding package $pack->{name} [$pack->{version}]$all_scripts$by$t\n" if $pack->{name} ne '';
+  if($pack->{name} ne '') {
+    print "adding package $pack->{name} [$pack->{version}]$all_scripts$by$t\n";
+    $used_packs->{$pack->{name}} = $pack;
+  }
 
   for my $t (@{$pack->{tasks}}) {
     $_ = $t->{line};
