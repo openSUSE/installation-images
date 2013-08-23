@@ -14,6 +14,7 @@ d download
 d scripts
 d dev/pts dev/shm
 d var/lib/systemd/migrated
+d var/lib/polkit
 
 t var/run/utmp
 
@@ -60,20 +61,50 @@ c 660 0 6 /dev/loop7
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-netcfg:
-  /etc/protocols
-
-libkmod*:
+TEMPLATE:
   /
 
-?xf86-input-vmmouse:
-  /usr/bin/vmmouse_detect
+AUTODEPS:
 
-libtirpc*:
-  /
+diffutils: ignore
+dirmngr: ignore
+dummy-release: ignore
+filesystem: ignore
+fillup: ignore
+gnu-unifont-bitmap-fonts: ignore
+grep: ignore
+info: ignore
+insserv-compat: ignore
+keyutils: ignore
+libcrack*: ignore
+libmagic*: ignore
+logrotate: ignore
+mkinitrd: ignore
+nfsidmap: ignore
+openssl: ignore
+permissions: ignore
+pinentry: ignore
+rpcbind: ignore
+suspend: ignore
+sysconfig: ignore
+systemd: ignore
+terminfo-base: ignore
+update-alternatives: ignore
 
-libgssglue*:
-  /
+cpio:
+curl:
+device-mapper:
+dhcpcd:
+ethtool:
+glibc:
+hwinfo:
+iputils:
+kpartx:
+krb5:
+lsscsi:
+mdadm:
+pcmciautils:
+sed:
 
 linuxrc:
   if linuxrc
@@ -90,22 +121,11 @@ linuxrc:
   g /usr/share/linuxrc/linuxrc-16.psfu.gz usr/share/kbd/consolefonts/linuxrc-16.psfu
   g /usr/share/linuxrc/linuxrc2-16.psfu.gz usr/share/kbd/consolefonts/linuxrc2-16.psfu
 
-glibc:
-  /etc/nsswitch.conf
-  /etc/ld.so.conf
-  /lib*/ld*
-  /lib*/libc{.,-}*
-  /lib*/{libcrypt,libdl,libnsl,libresolv}{.,-}*
-  /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
-  /lib*/libm{.,-}*
-  /lib*/libthread_db{.,-}*
-  /lib*/libutil{.,-}*
-  /lib*/librt{.,-}*
-  /lib*/libpthread{.,-}*
-  /usr/bin/getent
+netcfg:
+  /etc/protocols
 
-libselinux1:
-  /
+?xf86-input-vmmouse:
+  /usr/bin/vmmouse_detect
 
 module-init-tools:
   /sbin/insmod
@@ -114,71 +134,29 @@ module-init-tools:
 suse-module-tools:
   /etc/modprobe.d
 
-if arch eq 's390' || arch eq 's390x'
+?s390-tools:
+  /sbin/zfcp_*_configure
+  /sbin/zfcp_san_disc
+  /sbin/iucv_configure
+  /sbin/ctc_configure
+  /sbin/qeth_configure
+  /sbin/dasdinfo
+  /etc/udev
 
-  s390-tools:
-    /sbin/zfcp_*_configure
-    /sbin/zfcp_san_disc
-    /sbin/iucv_configure
-    /sbin/ctc_configure
-    /sbin/qeth_configure
-    /sbin/dasdinfo
-    /etc/udev
-
-else
-
-  kbd:
-    /usr/bin/dumpkeys
-    /usr/bin/loadkeys
-    /usr/bin/setfont
-    /usr/share/kbd/keymaps
-    /usr/share/kbd/consoletrans/koi2alt
-    /usr/share/kbd/consoletrans/trivial
-
-endif
-
-
-sed:
-  /usr/bin/sed
+kbd:
+  /usr/bin/dumpkeys
+  /usr/bin/loadkeys
+  /usr/bin/setfont
+  /usr/share/kbd/keymaps
+  /usr/share/kbd/consoletrans/koi2alt
+  /usr/share/kbd/consoletrans/trivial
 
 sg3_utils:
   /usr/bin/sg_luns
   /usr/bin/sg_inq
 
-libsgutils2-*:
-  /
-
-lsscsi:
-  /usr/bin/lsscsi
-
 cifs-utils:
   /sbin/mount.cifs
-
-sysfsutils:
-  /usr/<lib>
-
-libdbus-1-*:
-  /
-
-libusb-0_1-4:
-  /
-
-libusb-*-*:
-  /
-
-libuuid1:
-  /
-
-libblkid1:
-  /
-
-hwinfo:
-  /usr/lib*
-  /usr/sbin/hwinfo
-  /var
-
-?libx86emu1:
-  /
 
 ?acpica:
   /usr/bin/acpidump
@@ -193,9 +171,6 @@ if exists(wpa_supplicant)
   wpa_supplicant:
     /usr/sbin
 
-  libiw30:
-    /
-
   wireless-tools:
     /usr/sbin
     /etc
@@ -203,48 +178,6 @@ if exists(wpa_supplicant)
     r /usr/sbin/install_acx100_firmware
     r /usr/sbin/install_intersil_firmware
 endif
-
-libopenssl*:
-  /lib*/libcrypto.so.*
-  /lib*/libssl.so.*
-
-curl:
-  /
-
-libcurl*:
-  /
-
-libssh2-*:
-  /
-
-libcares2:
-  /
-
-libidn*:
-  /usr/lib*
-
-libldap-*-*:
-  /usr/lib*/liblber-*.so.*
-  /usr/lib*/libldap-*.so.*
-
-cyrus-sasl:
-  /usr/lib*/libsasl2.so.*
-
-libcom_err*:
-  /
-
-krb5:
-  /etc
-  /usr/lib*/libkrb5.so.*
-  /usr/lib*/libkrb5support.so.*
-  /usr/lib*/libgssapi_krb5.so.*
-  /usr/lib*/libk5crypto.so.*
-
-libkeyutils*:
-  /
-
-libz*:
-  /
 
 coreutils:
   /usr/bin/cat
@@ -262,33 +195,14 @@ coreutils:
   # linuxrc needs it in /bin
   m /usr/bin/rm bin
 
-pcmciautils:
-  /
-
 bash:
   /bin/{sh,bash}
   s bash /bin/lsh
-
-libreadline6:
-  /
 
 libncurses5:
   /lib*/libncurses.so.*
   /lib*/libncursesw.so.*
   /lib*/libtinfo.so.*
-
-libwrap*:
-  /
-
-dhcpcd:
-  /
-
-libnl3-*:
-  /
-
-iputils:
-  /usr/bin
-  /usr/sbin
 
 net-tools:
   /sbin/ifconfig
@@ -299,17 +213,11 @@ iproute2:
   /sbin/ip
   /usr/sbin/ip
 
-ethtool:
-  /usr/sbin/ethtool
-
 open-iscsi:
   # must be writable
   /etc/iscsi/iscsid.conf
   c 644 0 0 /etc/iscsi/iscsid.conf
   # /var/lib/open-iscsi
-
-cpio:
-  /
 
 util-linux:
   /usr/sbin/mkswap
@@ -330,95 +238,35 @@ nfs-client:
 
 gpg2:
   /usr/bin/gpg{,2}
-d root/.gnupg
+  d root/.gnupg
 
-libbz2-*:
-  /
-
-libgcrypt*:
-  /
-
-libgpg-error*:
- /
-
-libassuan*:
-  /
-
-if exists(suse-build-key)
-  suse-build-key:
-    /usr/lib/rpm/gnupg/suse-build-key.gpg
-elsif exists(openSUSE-build-key)
+if exists(openSUSE-build-key)
   openSUSE-build-key:
-    /usr/lib/rpm/gnupg/keys/*
+    /usr/lib/rpm/gnupg/keys
+elsif exists(suse-build-key)
+  suse-build-key:
+    /usr/lib/rpm/gnupg/keys
 endif
-
-libblkid*:
-  /
-
-libuuid*:
-  /
-
-libacl*:
-  /
-
-libattr*:
-  /
-
-libglib-*-*:
-  /
-
-libudev*:
-  /
-
-libfuse*:
-  /
-
-libntfs-3g*:
-  /
 
 ntfs-3g:
   /
   s mount.ntfs-3g /sbin/mount.ntfs
 
-kexec-tools:
+kexec-tools: nodeps
   /usr/sbin/kexec
 
-sysvinit-tools:
+sysvinit-tools: nodeps
   /sbin/showconsole
   c 755 0 0 /sbin/showconsole
   /sbin/startproc
-
-polkit:
-  /var/lib
 
 rpm:
   /usr/bin/rpm2cpio
   /usr/lib*/librpm{,io}.so.*
   /usr/lib/rpm/rpmrc
 
-liblzma*:
-  /
-
-libpopt*:
-  /
-
-libelf*:
-  /
-
-liblua5_1:
-  /
-
-liblzo*-*:
-  /
-
 squashfs:
   /usr/bin/mksquashfs
-
-libcap*:
-  /
-
-libcap-ng*:
-  /
 
 strace:
   /usr/bin/strace
@@ -432,61 +280,29 @@ joe:
   r /etc/sbl/profile/default
   s y2base /etc/sbl/profile/default
 
-libgcc_s*:
-  /
-
 gzip:
   /usr/bin/gzip
   /usr/bin/gunzip
-
-libpcre*:
-  /
 
 nscd:
   # remaining files are in root image
   d /var/run/nscd
 
-?virtualbox-guest-tools:
+?virtualbox-guest-tools: nodeps
   /usr/lib/udev
 
-?xf86-input-vmmouse:
+?xf86-input-vmmouse: nodeps
   /usr/lib/udev/rules.d
 
-?xf86-input-wacom:
+?xf86-input-wacom: nodeps
   /usr/lib/udev/rules.d
 
-?xorg-x11-server:
+?xorg-x11-server: nodeps
   /etc/modprobe.d
-
-mdadm:
-  /
-
-kpartx:
-  /
-
-libsepol*:
-  /
-
-device-mapper:
-  /
 
 multipath-tools:
   /etc/udev/rules.d
   /var/cache/multipath
-
-libmount*:
-  /
-
-libustr-*-*:
-  /
-
-libsepol*:
-  /
-
-libsemanage*:
-  /
-
-# - - -
 
 shadow:
   /etc
@@ -508,55 +324,13 @@ pam:
   /lib*/security/pam_permit.so
   /lib*/security/pam_deny.so
 
-libnscd*:
-  /
-
-libaudit*:
-  /
-
 if exists(plymouth)
-  libpciaccess*:
-    /
-
-  libpng*-*:
-    /
-
-  libdrm*:
-    /
-
-  ?libdrm_intel*:
-    /
-
-  libdrm_nouveau*:
-    /
-
-  libdrm_radeon*:
-    /
-
-  libkms*:
-    /
-
-  libply*:
-    /
-
-  libply-splash-core*:
-    /
-
-  libply-splash-graphics*:
-    /
-
   plymouth:
-    /
-
-  plymouth-scripts:
-    /
-
+  plymouth-scripts: nodeps
   plymouth-plugin-script:
-    /
-
-  plymouth-branding-openSUSE:
-    /
+  plymouth-branding-openSUSE: nodeps
 endif
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
@@ -564,15 +338,15 @@ endif
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-aaa_base: prein
+aaa_base:
   E prein
   r boot
   /etc/rc.status
 
-dbus-1: prein
+dbus-1:
   E prein
 
-openssh: prein
+openssh: nodeps
   E prein
   d etc/ssh
 
@@ -580,23 +354,6 @@ udev:
   /
   E groupadd -r tape
 
-#  # add some md devices statically
-#  b 9  0 /usr/lib/udev/devices/md0
-#  b 9  1 /usr/lib/udev/devices/md1
-#  b 9  2 /usr/lib/udev/devices/md2
-#  b 9  3 /usr/lib/udev/devices/md3
-#  b 9  4 /usr/lib/udev/devices/md4
-#  b 9  5 /usr/lib/udev/devices/md5
-#  b 9  6 /usr/lib/udev/devices/md6
-#  b 9  7 /usr/lib/udev/devices/md7
-#  b 9  8 /usr/lib/udev/devices/md8
-#  b 9  9 /usr/lib/udev/devices/md9
-#  b 9 10 /usr/lib/udev/devices/md10
-#  b 9 11 /usr/lib/udev/devices/md11
-#  b 9 12 /usr/lib/udev/devices/md12
-#  b 9 13 /usr/lib/udev/devices/md13
-#  b 9 14 /usr/lib/udev/devices/md14
-#  b 9 15 /usr/lib/udev/devices/md15
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #

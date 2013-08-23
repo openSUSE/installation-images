@@ -683,7 +683,12 @@ sub resolve_deps_obs
 
   delete $p{$_} for (@$packages);
 
-  warn "$Script: $_\n" for (@err);
+  if(@err) {
+    my $err = join(', ', @err);
+    @err = split /, /, $err;
+    print "$Script: $_\n" for @err;
+    warn "$Script: error solving package deps";
+  }
 
   $p{$_} = $added{$_} for (keys %p);
 

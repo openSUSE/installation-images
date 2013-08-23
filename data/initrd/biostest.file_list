@@ -1,5 +1,8 @@
 d etc bin usbkey
 
+libglib-*-*:
+  /
+
 firmwarekit:
   /usr/lib*
   /usr/lib/firmwarekit
