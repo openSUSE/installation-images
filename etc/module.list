@@ -211,6 +211,8 @@ kernel/net/mac802154/
 kernel/drivers/media/rc/rc-core.ko
 kernel/sound/ac97_bus.ko
 kernel/drivers/target/target_core_mod.ko
+kernel/net/dsa/dsa_core.ko
+kernel/net/ipv4/ip_tunnel.ko
 
 # kmps
 updates/

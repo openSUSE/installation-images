@@ -1338,11 +1338,7 @@ libjpeg*:
   /
 
 vim:
-  m /bin/vim-normal /bin/vim
-  s vim /bin/vi
-
-vim-base:
-  /usr/bin/xxd
+  /
 
 fonts-config:
   /usr/sbin/fonts-config
