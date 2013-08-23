@@ -1,24 +1,6 @@
-
-#
-# the 'root' system
-#
-
 d bin dev etc lib mnt root sbin tmp usr var proc
 c 1777 0 0 tmp
-
-# d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
-# d /var/lock/subsys
-# d /var/log/news /var/named /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
-# d var/lib/systemd/migrated
-# s ../lock /var/spool/locks
-
-# c 1777 0 0 /var/tmp
-
 d /usr/{bin,lib,lib64,libexec,sbin,share}
-
-# s ../var/spool /usr/spool
-# s ../var/tmp /usr/tmp
-
 
 # add some /etc files
 x /etc/* /etc
@@ -36,161 +18,166 @@ r /etc/issue
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+TEMPLATE rubygem-.*:
+  /usr/*/ruby/gems/*/gems/*/lib
+  /usr/*/ruby/gems/*/specifications
+
+TEMPLATE:
+  /
+
+AUTODEPS:
+
+Mesa: ignore
+autoconf: ignore
+automake: ignore
+bind-utils: ignore
+curl: ignore
+dirmngr: ignore
+gdk-pixbuf-query-loaders: ignore
+gettext-tools-mini: ignore
+gtk2-tools: ignore
+info: ignore
+libLLVM: ignore
+logrotate: ignore
+luit: ignore
+mdadm: ignore
+mingetty: ignore
+mkinitrd: ignore
+mtools: ignore
+nfsidmap: ignore
+pam-config: ignore
+permissions: ignore
+pinentry: ignore
+sessreg: ignore
+shared-mime-info: ignore
+sysconfig: ignore
+update-alternatives: ignore
+update-alternatives: ignore
+xinetd: ignore
+xrdb: ignore
+yast2-ldap-client: ignore
+yast2-python-bindings: ignore
+icewm: ignore
+pkg-config: ignore
+syslog-service: ignore
+kmod: ignore
+dbus-1-x11: ignore
+gio-branding-upstream: ignore
+hicolor-icon-theme: ignore
+yast2-nfs-common: ignore
+yast2-pam: ignore
+yast2-security: ignore
+udev: ignore
+unzip: ignore
+
+?efibootmgr:
+?elilo:
+?yast2-reipl:
+?yast2-s390:
+?yast2-vm:
+autoyast2-installation:
+btrfsprogs:
+bzip2:
+coreutils:
+cpio:
+device-mapper:
+dmraid:
+dosfstools:
+e2fsprogs:
+file:
+fillup:
+findutils:
+gawk:
+gpart:
+grep:
+gzip:
+hex:
+hwinfo:
+initviocons:
+insserv-compat:
+iputils:
+jfsutils:
+joe:
+klogd:
+libudev*:
+lvm2:
+module-init-tools:
+mozilla-nspr:
+ntfsprogs:
+openslp:
+parted:
+pciutils:
+perl-Bootloader:
+polkit:
+procinfo:
+procps:
+psmisc:
+reiserfs:
+rpm:
+suse-module-tools:
+systemd-presets-branding-basedonopensuse:
+systemd-sysvinit:
+systemd:
+sysvinit:
+tar:
+usbutils:
+util-linux:
+wget:
+xfsdump:
+xfsprogs:
+xz:
+yast2-add-on:
+yast2-bootloader:
+yast2-core:
+yast2-country-data:
+yast2-country:
+yast2-hardware-detection:
+yast2-iscsi-client:
+yast2-kdump:
+yast2-mouse:
+yast2-multipath:
+yast2-network:
+yast2-nfs-client:
+yast2-ntp-client:
+yast2-packager:
+yast2-perl-bindings:
+yast2-pkg-bindings:
+yast2-proxy:
+yast2-ruby-bindings:
+yast2-runlevel:
+yast2-slp:
+yast2-transfer:
+yast2-tune:
+yast2-update:
+yast2-users:
+yast2-x11:
+yast2-xml:
+yast2-ycp-ui-bindings:
+perl-gettext:
+perl-XML-Simple:
+perl-XML-Parser:
+perl-XML-NamespaceSupport:
+perl-XML-Bare:
+open-iscsi:
+multipath-tools:
+cryptsetup:
+libsolv-tools:
+sed:
+yast2-trans-stats:
+fbiterm:
+libyui-qt-pkg*:
+libyui-ncurses-pkg*:
+
+# rubygem-nokogiri:
+
 filesystem:
   /run
   /var
   t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
 
-libkmod*:
-  /
-
-systemd:
-  /
-
-libqrencode*:
-  /
-
-libtasn*-*:
-  /
-
-libgnutls*:
-  /
-
-libhogweed*:
-  /
-
-libnettle*:
-  /
-
-libp11-kit*:
-  / 
-
-libdb-*:
-  /
-
-libgdbm*:
-  /
-
-libffi*:
-  /
-
-libgio-*-*:
-  /
-
-libgmodule-*-*:
-  /
-
-fillup:
-  /
-
-insserv-compat:
-  /
-
-tar:
-  /bin/tar
-
-libacl*:
-  /
-
-libattr*:
-  /
-
 bash:
   /bin/bash
-s bash /bin/sh
-
-libreadline*:
-  /
-
-libgmp*:
-  /
-
-coreutils:
-  /
-
-gzip:
-  /
-
-joe:
-  /usr/bin/joe
-  /etc/joe/{joerc,ftyperc}
-
-hwinfo:
-  /usr/lib*
-
-?libx86emu1:
-  /
-
-libxml2-*:
-  /
-
-libexpat*:
-  /
-
-libglib-*-*:
-  /
-
-libgobject-*-*:
-  /
-
-libudev*:
-  /
-
-sysfsutils:
-  /usr/<lib>
-
-libblkid*:
-  /
-
-libuuid*:
-  /
-
-libpolkit*:
-  /
-
-polkit:
-  /
-
-libmozjs-*:
-  /
-
-mozilla-nspr:
-  /
-
-?libsmbios2:
-  /
-
-dmraid:
-  /sbin
-  /lib*
-
-iputils:
-  /
-
-rpm:
-  /bin
-  /etc
-  /usr/bin
-  /usr/lib*
-  r /usr/lib*/rpm-plugins/sepolicy.so
-
-libmagic*:
-  /
-
-file-magic:
-  /
-
-libelf*:
-  /
-
-liblua5_1:
-  /
-
-libmount*:
-  /
-
-util-linux:
-  /
+  s bash /bin/sh
 
 nfs-client:
   /sbin/{u,}mount.nfs*
@@ -198,75 +185,22 @@ nfs-client:
   /usr/sbin/start-statd
   /usr/sbin/showmount
 
-libncurses*~:
-  /
-
-libncurses*:
-  /
-
 ncurses-utils:
   /usr/bin/reset
   /usr/bin/tset
 
 terminfo-base:
   /usr/share/terminfo
-s ../share/terminfo /usr/lib/terminfo
+  s ../share/terminfo /usr/lib/terminfo
 
 terminfo:
   /usr/share/terminfo/i/ibm3151
-
-libpopt*:
-  /
-
-libwrap*:
-  /
-
-libgcc_s*:
-  /
-
-glibc:
-  /
-
-libselinux*:
-  /
 
 ?hdparm:
   /usr/sbin/hdparm
 
 smartmontools:
   /usr/sbin/smartctl
-
-e2fsprogs:
-  /
-
-libext2fs*:
-  /
-
-libcom_err*:
-  /
-
-libuuid*:
-  /
-
-libblkid*:
-  /
-
-file:
-  /
-
-?efibootmgr:
-  /
-
-?elilo:
-  /
-
-if arch eq 'ia64'
-  libunwind:
-    /
-endif
-
-dosfstools:
-  /
 
 net-tools:
   /bin/{domain,host}name
@@ -275,59 +209,21 @@ net-tools:
     /sbin/plipconfig
   endif
 
-libtirpc*:
-  /
-
-libgssglue*:
-  /
-
-util-linux:
-  /
-
-if arch eq 'ppc' || arch eq 'ppc64'
-  powerpc-utils:
-    /sbin/nvsetenv
-    /sbin/lsprop
-    /usr/sbin/nvram
-    /usr/sbin/update_flash
-endif
-
-grep:
-  /
+?powerpc-utils:
+  /sbin/nvsetenv
+  /sbin/lsprop
+  /usr/sbin/nvram
+  /usr/sbin/update_flash
 
 diffutils:
   /usr/bin/{cmp,diff}
-
-findutils:
-  /
 
 less:
   /etc/lesskey
   /usr/bin/less
 
-module-init-tools:
- /
-
-suse-module-tools:
-  /
-
-libprocps*:
-  /
-
-procps:
-  /
-
-psmisc:
-  /
-
-procinfo:
-  /
-
 strace:
   /usr/bin/strace
-
-cpio:
-  /
 
 if arch eq 'ia64'
   ia32el:
@@ -347,16 +243,10 @@ yast2:
   s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast.ssh
   r /usr/lib/YaST2/bin/yast2
 
-yast2-ruby-bindings:
-  /
-
-ruby20:
-  /
-
 ruby:
   /etc/gemrc
   /etc/rpm
-# update-alternatives
+  # update-alternatives
   s erb2.0 /usr/bin/erb
   s gem2.0 /usr/bin/gem
   s irb2.0 /usr/bin/irb
@@ -365,27 +255,6 @@ ruby:
   s ri2.0 /usr/bin/ri
   s ruby2.0 /usr/bin/ruby
   s testrb2.0 /usr/bin/testrb
-
-libyaml-*-*:
-  /
-
-rubygem-fast_gettext:
-  /
-
-yast2-add-on:
-  /
-
-yast2-bootloader:
-  /
-
-yast2-core:
-  /
-
-yast2-country:
-  /
-
-yast2-country-data:
-  /
 
 yast2-devtools:
   /usr/bin/y2tool
@@ -398,148 +267,11 @@ yast2-installation:
   # hack to make 'repair' option work
   # p repair.diff
 
-yast2-iscsi-client:
-  /
-
-yast2-kdump:
-  /
-
-yast2-mouse:
-  /
-
-yast2-multipath:
-  /
-
-libyui-ncurses*:
-  /
-
-yast2-network:
-  /
-
-yast2-nfs-client:
-  /
-
-yast2-ntp-client:
-  /
-
-yast2-packager:
-  /
-
-yast2-perl-bindings:
-  /
-
-yast2-pkg-bindings:
-  /
-
-yast2-proxy:
-  /
-
-yast2-runlevel:
-  /
-
-if arch eq 's390' || arch eq 's390x'
-  yast2-s390:
-    /
-  yast2-reipl:
-    /
-endif
-
-yast2-slp:
-  /
-
-yast2-transfer:
-  /
-
-yast2-tune:
-  /
-
-if arch eq 'i386' || arch eq 'x86_64'
-  yast2-vm:
-    /
-endif
-
-yast2-x11:
-  /
-
-yast2-xml:
-  /
-
-yast2-update:
-  /
-
-yast2-users:
-  /
-
-libyui*:
-  /
-
-yast2-ycp-ui-bindings:
-  /
-
-libyui-ncurses-pkg*:
-  /
-
-yast2-hardware-detection:
-  /
-
-autoyast2-installation:
-  /
-
-gpart:
-  /
-
-libcurl*:
-  /
-
-libssh2-*:
-  /
-
-libcares*:
-  /
-
-openslp:
-  /
-
-libpcre*:
-  /
-
-libz*:
-  /
-
-libstdc++*:
-  /
-
 ?syslinux:
   /usr/bin/syslinux
 
 netcfg:
   /etc/{services,protocols}
-
-lvm2:
-  /
-
-libsepol*:
-  /
-
-device-mapper:
-  /
-
-reiserfs:
-  /
-
-libreiserfs-*-*:
-  /
-
-liblzo2-*:
-  /
-
-btrfsprogs:
-  /
-
-gawk:
-  /usr/bin/gawk
-  # uses update-alternatives now
-  s gawk usr/bin/awk
 
 if arch eq 'ppc' || arch eq 'ppc64'
   pdisk:
@@ -566,31 +298,13 @@ if arch eq 'ppc' || arch eq 'ppc64'
    s hattrib /usr/bin/hvol
 endif
 
-initviocons:
-  /
-
 sysvinit-tools:
   /
   c 755 0 0 /sbin/showconsole
 
-systemd-sysvinit:
-  /
-
-sysvinit:
-  /
-
-klogd:
-  /
-
 syslogd:
   m /usr/sbin/syslogd /usr/sbin/syslogd.bin
   x etc/syslogd /usr/sbin/syslogd
-
-libpcsclite*:
-  /
-
-libopenct*:
-  /
 
 krb5:
   /etc
@@ -598,16 +312,6 @@ krb5:
   /usr/lib*/libkrb5support.so.*
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
-
-libkeyutils*:
-  /
-
-libldap-2_4-2:
-  /usr/lib*/liblber-*.so.*
-  /usr/lib*/libldap-*.so.*
-
-cyrus-sasl:
-  /usr/lib*/libsasl2.so.*
 
 pam:
   /etc/pam.d
@@ -618,97 +322,35 @@ pam:
   /lib*
   /sbin
 
-libaudit*:
-  /
-
 pam-modules:
   /{lib*,sbin}
 
-libcrack2:
-  /
-
-cracklib:
+cracklib: nodeps
   /usr/sbin/cracklib-check
   /usr/lib*
   /usr/share/locale
 
- r /lib*/security/pam_userdb.so
+:
+  r /lib*/security/pam_userdb.so
 
- x etc/inst_setup_ssh /sbin/
- c 755 0 0 /sbin/inst_setup_ssh
- # for Olaf
- x etc/ssh /lib
- r /lib/ssh/.svn
- d /root
- x root/.yast2 /root
- r /root/.yast2/.svn
- x root/.bash_history /root
- x root/.bash_login /root
- x root/.vimrc /root
-
-libparted*:
-  /
-
-parted:
-  /
-
-jfsutils:
-  /
-
-xfsprogs:
-  /
-
-xfsdump:
-  /
-
-libmodman*:
-  /
-
-libproxy*:
-  /
-
-libedit*:
-  /
-
-wget:
-  /
-
-libopenssl*:
-  /
+  x etc/inst_setup_ssh /sbin/
+  c 755 0 0 /sbin/inst_setup_ssh
+  # for Olaf
+  x etc/ssh /lib
+  r /lib/ssh/.svn
+  d /root
+  x root/.yast2 /root
+  r /root/.yast2/.svn
+  x root/.bash_history /root
+  x root/.bash_login /root
+  x root/.vimrc /root
 
 openssl:
   /usr/share/ssl
 
-hex:
-  /
-
-bzip2:
-  /
-
-libbz2-*:
-  /
-
-xz:
-  /
-
-liblzma*:
-  /
-
-libnscd*:
-  /
-
 nscd:
   /etc
   /usr
-
-libustr-*-*:
-  /
-
-libsepol*:
-  /
-
-libsemanage*:
-  /
 
 shadow:
   /etc
@@ -720,229 +362,31 @@ shadow:
   /usr/sbin/useradd.local
   d /etc/skel
 
-libntfs-3g*:
-  /
-
-ntfsprogs:
-  /
-
-sysconfig:
-  # for modify_resolvconf
+:
+  # sysconfig: for modify_resolvconf
   d etc/sysconfig/network
   e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
   # /sbin/modify_resolvconf
 
-libpci*:
-  /
-
-pciutils:
-  /
-
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
-
-usbutils:
-  /
-
-libusb-0_1-4:
-  /
-
-libusb-*-*:
-  /
 
 checkmedia:
   /usr/bin/checkmedia
 
-if 0
-
-perl-base:
-  /usr/bin/perl
-  /usr/lib/perl*/*/AutoLoader.pm
-  /usr/lib/perl*/*/Carp{,.pm}
-  /usr/lib/perl*/*/Class/Struct.pm
-  /usr/lib/perl*/*/Exporter{,.pm}
-  /usr/lib/perl*/*/File/Basename.pm
-  /usr/lib/perl*/*/File/Path.pm
-  /usr/lib/perl*/*/File/Temp.pm
-  /usr/lib/perl*/*/*/File/Spec.pm
-  /usr/lib/perl*/*/*/File/Spec
-  /usr/lib/perl*/*/FileHandle.pm
-  /usr/lib/perl*/*/Getopt/Long.pm
-  /usr/lib/perl*/*/Getopt/Std.pm
-  /usr/lib/perl*/*/IPC/Open3.pm
-  /usr/lib/perl*/*/*/List/Util.pm
-  /usr/lib/perl*/*/*/Scalar/Util.pm
-  /usr/lib/perl*/*/SelectSaver.pm
-  /usr/lib/perl*/*/Symbol.pm
-  /usr/lib/perl*/*/Text/ParseWords.pm
-  /usr/lib/perl*/*/Text/Balanced.pm
-  /usr/lib/perl*/*/Tie/Hash.pm
-  /usr/lib/perl*/*/base.pm
-  /usr/lib/perl*/*/bytes.pm
-  /usr/lib/perl*/*/bytes_heavy.pl
-  /usr/lib/perl*/*/constant.pm
-  /usr/lib/perl*/*/feature.pm
-  /usr/lib/perl*/*/integer.pm
-  /usr/lib/perl*/*/overload.pm
-  /usr/lib/perl*/*/strict.pm
-  /usr/lib/perl*/*/utf8.pm
-  /usr/lib/perl*/*/utf8_heavy.pl
-  /usr/lib/perl*/*/vars.pm
-  /usr/lib/perl*/*/version.pm
-  /usr/lib/perl*/*/warnings.pm
-  /usr/lib/perl*/*/warnings/register.pm
-  /usr/lib/perl*/*/B/Deparse.pm
-  /usr/lib/perl*/*/*/Config.pm
-  /usr/lib/perl*/*/*/Config_heavy.pl
-  /usr/lib/perl*/*/*/Cwd.pm
-  /usr/lib/perl*/*/*/Data/Dumper.pm
-  /usr/lib/perl*/*/*/DynaLoader.pm
-  /usr/lib/perl*/*/*/Errno.pm
-  /usr/lib/perl*/*/*/Fcntl.pm
-  /usr/lib/perl*/*/*/File/Glob.pm
-  /usr/lib/perl*/*/File/GlobMapper.pm
-  /usr/lib/perl*/*/*/IO.pm
-  /usr/lib/perl*/*/*/IO/File.pm
-  /usr/lib/perl*/*/*/IO/Handle.pm
-  /usr/lib/perl*/*/*/IO/Pipe.pm
-  /usr/lib/perl*/*/*/IO/Seekable.pm
-  /usr/lib/perl*/*/*/POSIX.pm
-  /usr/lib/perl*/*/*/Socket.pm
-  /usr/lib/perl*/*/XSLoader.pm
-  /usr/lib/perl*/*/*/auto/Data/Dumper
-  /usr/lib/perl*/*/*/auto/Fcntl
-  /usr/lib/perl*/*/*/auto/File/Glob
-  /usr/lib/perl*/*/*/auto/IO
-  /usr/lib/perl*/*/*/auto/List/Util
-  /usr/lib/perl*/*/*/auto/POSIX
-  /usr/lib/perl*/*/*/lib.pm
-  /usr/lib/perl*/*/*/re.pm
-  /usr/lib/perl*/*/*/Scalar/Util/PP.pm
-  /usr/lib/perl*/*/*/List/Util/PP.pm
-  /usr/lib/perl*/*/*/B.pm
-
-perl:
-  /usr/lib/perl*/*/English.pm
-  /usr/lib/perl*/*/Net/Ping.pm
-  /usr/lib/perl*/*/*/Time/HiRes.pm
-  /usr/lib/perl*/*/Pod/InputObjects.pm
-  /usr/lib/perl*/*/Pod/ParseLink.pm
-  /usr/lib/perl*/*/Pod/Parser.pm
-  /usr/lib/perl*/*/Pod/PlainText.pm
-  /usr/lib/perl*/*/Pod/Select.pm
-  /usr/lib/perl*/*/Pod/Text.pm
-  /usr/lib/perl*/*/Pod/Usage.pm
-  /usr/lib/perl*/*/SelfLoader.pm
-  /usr/lib/perl*/*/Term/Cap.pm
-  /usr/lib/perl*/*/Time/Local.pm
-  /usr/lib/perl*/*/Time/localtime.pm
-  /usr/lib/perl*/*/Time/tm.pm
-  /usr/lib/perl*/*/diagnostics.pm
-  /usr/lib/perl*/*/if.pm
-  /usr/lib/perl*/*/*/mro.pm
-  /usr/lib/perl*/*/pod/perldiag.pod
-  /usr/lib/perl*/*/sigtrap.pm
-  /usr/lib/perl*/*/*/CORE/libperl.so
-  /usr/lib/perl*/*/*/Config.pm
-  /usr/lib/perl*/*/*/Config_git.pl
-  /usr/lib/perl*/*/*/Encode.pm
-  /usr/lib/perl*/*/*/Encode/Alias.pm
-  /usr/lib/perl*/*/*/Encode/Config.pm
-  /usr/lib/perl*/*/*/Encode/Encoding.pm
-  /usr/lib/perl*/*/*/Encode/MIME/Name.pm
-  /usr/lib/perl*/*/*/Filter/Util/Call.pm
-  /usr/lib/perl*/*/*/Storable.pm
-  /usr/lib/perl*/*/*/Sys/Hostname.pm
-  /usr/lib/perl*/*/*/auto/POSIX
-  /usr/lib/perl*/*/*/auto/Sys/Hostname
-  /usr/lib/perl*/vendor_perl/*/*/_h2ph_pre.ph
-  /usr/lib/perl*/vendor_perl/*/*/bits/syscall.ph
-  /usr/lib/perl*/vendor_perl/*/*/bits/wordsize.ph
-  /usr/lib/perl*/vendor_perl/*/*/sys/syscall.ph
-  /usr/lib/perl*/vendor_perl/*/*/syscall.ph
-#  /usr/lib/perl*/vendor_perl/*/*/sys/unistd.ph
-#  /usr/lib/perl*/vendor_perl/*/*/bits/unistd.ph
-#  /usr/lib/perl*/vendor_perl/*/*/unistd.ph
-  /usr/lib/perl*/*/*/Compress
-  /usr/lib/perl*/*/*/auto/Compress
-  r /usr/lib/perl*/*/CPANPLUS
-
-endif
-
 perl-base:
   /usr/bin/perl
   /usr/lib/perl*
 
 perl:
   /usr/lib/perl*
-
-perl-Bootloader:
-  /usr/lib
-
-perl-gettext:
-  /usr/lib
-
-perl-XML-Simple:
-  /usr/lib
-
-perl-XML-Parser:
-  /usr/lib
-
-perl-XML-NamespaceSupport:
-  /usr/lib
-
-perl-XML-Bare:
-  /usr/lib
-
-open-iscsi:
-  /
 
 gpg2:
   /usr/bin/gpg{,2}
 
-libassuan*:
-  /
-
-libzypp:
-  /
-
-libidn*:
-  /
-
-libsqlite*-*:
-  /
-
-multipath-tools:
-  /
-
-libaio*:
-  /
-
-cryptsetup:
-  /
-
-libcryptsetup*:
-  /
-
 ntp:
   /usr/sbin/ntpdate
   /usr/sbin/sntp
-
-libcap*:
-  /
-
-libsolv-tools:
-  /
-
-sed:
-  /bin
-  /usr/bin
-
-libcap-ng*:
-  /
-
-libmount*:
-  /
 
 glibc-locale:
   /usr/lib*/gconv/ISO8859*
@@ -967,30 +411,15 @@ if !(arch eq 's390' || arch eq 's390x')
     m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
 endif
 
-yast2-trans-stats:
-  /
-
-fbiterm:
-  /
-
-libiterm*:
-  /
-
-libXfont*:
-  /
-
 if roottrans
   include ../../tmp/base/yast2-trans.inc
 endif
 
-libfreetype*:
-  /
-
 ltrace:
-  /
 
-# FIXME: ???
-c 0755 0 0 /dev
+:
+  # FIXME: ???
+  c 0755 0 0 /dev
 
 if arch ne 's390' && arch ne 's390x'
   xorg-x11-server:
@@ -998,68 +427,41 @@ if arch ne 's390' && arch ne 's390x'
     /usr/bin/Xorg
     /usr/lib*/xorg/modules
 
-  libmtdev*:
-    /
-
   xf86-input-evdev:
-    /
-
   xf86-input-joystick:
-    /
-
   xf86-input-keyboard:
-    /
-
   xf86-input-mouse:
-    /
-
   xf86-input-synaptics:
-    /
-
   ?xf86-input-vmmouse:
-    /
-
   xf86-input-void:
-    /
-
   xf86-input-wacom:
-    /
-
-  xf86-video-ati:
-    /
-
+  xf86-video-ati: nodeps
   xf86-video-cirrus:
-    /
-
   xf86-video-fbdev:
-    /
+  xf86-video-modesetting:
+  xf86-video-nv:
+  xf86-video-r128:
+  xf86-video-sis:
+  ?xf86-video-vesa:
+  ?xf86-video-vmware: nodeps
 
-  ?xf86-video-intel:
+  ?xf86-video-intel: nodeps
     /usr/<lib>/xorg
 
-  xf86-video-modesetting:
-    /
-
-  xf86-video-nv:
-    /
-
-  xf86-video-r128:
-    /
-
-  xf86-video-sis:
-    /
-
-  ?xf86-video-vesa:
-    /
-
-  ?xf86-video-vmware:
-    /
-
-   # /usr/lib*/xorg/modules/*.uc
-
-  ?virtualbox-guest-x11:
+  ?virtualbox-guest-x11: nodeps
     /etc
     /usr/lib*/xorg/modules
+
+  mkfontscale:
+  mkfontdir:
+  setxkbmap:
+  xdpyinfo:
+  xhost:
+  xkbcomp:
+  xmodmap:
+  xrefresh:
+  xset:
+  xauth:
 
   xterm:
     /usr/share/X11/app-defaults/XTerm
@@ -1069,139 +471,10 @@ if arch ne 's390' && arch ne 's390x'
   gpm:
     /usr/sbin/gpm
 
-  libX11-6:
-    /
-
-  libX11-xcb1:
-    /
-
-  libX11-data:
-    /
-
-  libXau*:
-    /
-
-  libXdmcp*:
-    /
-
-  libXext*:
-    /
-
-  libXfixes*:
-    /
-
-  libXmu*:
-    /
-
-  libXmuu*:
-    /
-
-  libXpm*:
-    /
-
-  libXrender*:
-    /
-
-  libXt*:
-    /
-
-  libSM*:
-    /
-
-  libICE*:
-    /
-
-  libxkbfile*:
-    /
-
-  libfontenc*:
-    /
-
-  libXi6:
-    /
-
-  libXaw7:
-    /
-
-  libXcomposite*:
-    /
-
-  libXcursor*:
-    /
-
-  libXfontcache*:
-    /
-
-  libXft*:
-    /
-
-  libXinerama*:
-    /
-
-  libXrandr*:
-    /
-
-  libXtst*:
-    /
-
-  libXxf86dga*:
-    /
-
-  libXxf86misc*:
-    /
-
-  libXxf86vm*:
-    /
-
-  libdmx*:
-    /
-
-  libpixman-*-*:
-    /
-
-  libpciaccess*:
-    /
-
-  libxcb*:
-    /
-
-  libxcb-dri2-*:
-    /
-
   fontconfig:
     /
     r /etc/fonts/local.conf
     m /etc/fonts/local.conf.instsys /etc/fonts/local.conf
-
-  mkfontscale:
-    /
-
-  mkfontdir:
-    /
-
-  setxkbmap:
-    /
-
-  xdpyinfo:
-    /
-
-  xhost:
-    /
-
-  xkbcomp:
-    /
-
-  xmodmap:
-    /
-
-  xrefresh:
-    /
-
-  xset:
-    /
-
-  xauth:
-    /
 
   xdm:
     /etc/X11/xdm/Keyboard.map
@@ -1261,63 +534,21 @@ if arch ne 's390' && arch ne 's390x'
 #    /
 
   Mesa-libEGL*:
-    /
-
-  libwayland-client*:
-    /
-
-  libwayland-server*:
-    /
-
-  libkms*:
-    /
-
-  libdrm*:
-    /
 
   openslp-server:
     /etc/slp.reg
     /etc/slp.reg.d
     /usr/sbin/slpd
 
-  libxslt*:
-    /
-
-  libxslt-tools:
-    /
-
-  libgcrypt*:
-    /
-
-  libgpg-error*:
-   /
-
-#  fvwm2:
-#    /usr/bin/fvwm{,2}
-#    /usr/bin/FvwmCommand
-#    /usr/bin/fvwm-root
-#    /usr/lib/X11/fvwm2/FvwmCommandS
-#    /usr/share/fvwm/ConfigFvwmDefaults
-
   fribidi:
     /usr/lib*/libfribidi.so*
 
   libstroke:
-    /usr/lib*/libstroke.so*
 
   icewm-lite:
     /usr/bin/icewm
 
 endif
-
-libyui-qt*:
-  /
-
-libyui-qt-pkg*:
-  /
-
-libyui-qt-graph*:
-  /
 
 libqt4:
  /usr/lib*/libQtCore.so.*
@@ -1331,14 +562,7 @@ dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
 
-libpng*-*:
-  /
-
-libjpeg*:
-  /
-
 vim:
-  /
 
 fonts-config:
   /usr/sbin/fonts-config
@@ -1347,25 +571,19 @@ screen:
   /etc
   /usr/bin/screen
 
-libutempter*:
-  /
-
 efont-unicode-bitmap-fonts:
   /usr/share/fonts/misc/b16.pcf.gz
 
 dmz-icon-theme-cursors:
   /usr/share/icons/DMZ
 
-desktop-data-openSUSE:
+desktop-data-openSUSE: nodeps
   /usr/share/icons/hicolor/32x32/apps/package_utility_desktop.png
 
 multipath-tools:
   /sbin
 
-libharfbuzz*:
-  /
-
-graphviz-gnome:
+graphviz-gnome: nodeps
   /usr/lib*/graphviz/libgvplugin_pango.so.*
 
 libpango-*-*:
@@ -1438,14 +656,6 @@ dbus-1: prein
 rpcbind: postin
   /
   E postin
-
-rubygem-ruby-dbus:
-  /usr/*/ruby/gems/*/gems/*/lib
-  /usr/*/ruby/gems/*/specifications
-
-rubygem-nokogiri:
-  /usr/*/ruby/gems/*/gems/*/lib
-  /usr/*/ruby/gems/*/specifications
 
 yast2-storage: postin
   /
