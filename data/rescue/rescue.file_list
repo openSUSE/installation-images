@@ -28,7 +28,7 @@ logrotate: ignore
 perl-Bootloader: ignore
 shared-mime-info: ignore
 update-alternatives: ignore
-?device-mapper-32bit: ignore
+device-mapper-32bit: ignore
 
 ?acpica:
 ?efibootmgr:

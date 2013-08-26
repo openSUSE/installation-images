@@ -278,30 +278,37 @@ sub AddFiles
         next;
       }
 
-      $rpm_dir = ReadRPM $p;
+      # don't read ignored packages
+      if(!exists $packs->[-1]{tags}{ignore} || $p =~ /\*\~/) {
+        $rpm_dir = ReadRPM $p;
 
-      next unless $rpm_dir;
+        next unless $rpm_dir;
 
-      $rpm_file = $rpm_dir;
-      $rpm_file =~ s#(/[^/]+)$#/.rpms$1.rpm#;
+        $rpm_file = $rpm_dir;
+        $rpm_file =~ s#(/[^/]+)$#/.rpms$1.rpm#;
 
-      $current_pack = RealRPM($p)->{name};
-      $packs->[-1]{name} = $current_pack;
+        $packs->[-1]{name} = RealRPM($p)->{name};
+        $packs->[-1]{version} = ReadFile "$rpm_dir/version";
 
-      my $ver = ReadFile "$rpm_dir/version";
-      $packs->[-1]{version} = $ver;
+        $_ = ReadFile "$rpm_dir/scripts";
+        if($_ ne "") {
+          $packs->[-1]{all_scripts} = $_;
+          my @scripts = split /,/;
+          @{$packs->[-1]{scripts}}{@scripts} = ();
+        }
 
-      $ver = "[$ver]";
-
-      $_ = ReadFile "$rpm_dir/scripts";
-      if($_ ne "") {
-        $ver .= " {$_}";
-        $packs->[-1]{all_scripts} = $_;
-        my @scripts = split /,/;
-        @{$packs->[-1]{scripts}}{@scripts} = ();
+      }
+      else {
+        ($packs->[-1]{name} = $p) =~ s/^\?//;
       }
 
-      print "we " . (exists $packs->[-1]{tags}{ignore} ? "ignore" : "need") . " package $current_pack $ver\n";
+      $current_pack = $packs->[-1]{name};
+
+      my $ver = " [$packs->[-1]{version}]" if defined $packs->[-1]{version};
+      my $all_scripts = $packs->[-1]{all_scripts};
+      $ver .= " {$all_scripts}" if $all_scripts ne "";
+    
+      print "we " . (exists $packs->[-1]{tags}{ignore} ? "ignore" : "need") . " package $current_pack$ver\n";
 
       if(exists $packs->[-1]{tags}{requires}) {
         $_ = ReadFile "$rpm_dir/requires";

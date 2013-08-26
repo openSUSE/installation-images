@@ -721,6 +721,18 @@ sub resolve_deps_libsolv
     push @$jobs, $pool->Job($solv::Job::SOLVER_INSTALL | $solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
   }
 
+  my $blackpkg = $repo->add_solvable();
+  $blackpkg->{name} = "blacklist_package";
+  $blackpkg->{arch} = "noarch";
+
+  for (@$ignore) {
+    my $id = $pool->str2id($_);
+    next if $pool->Job($solv::Job::SOLVER_SOLVABLE_NAME, $id)->solvables();
+    $blackpkg->add_deparray($solv::SOLVABLE_PROVIDES, $id);
+  }
+
+  $pool->createwhatprovides();
+
   if(defined &solv::XSolvable::unset) {
     for (@$ignore) {
       my $job = $pool->Job($solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
@@ -779,6 +791,7 @@ sub resolve_deps_libsolv
   }
 
   delete $p{$_} for (@$packages, @$ignore);
+  delete $p{$blackpkg->{name}};
 
   return \%p;
 }
