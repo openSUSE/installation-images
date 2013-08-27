@@ -85,7 +85,7 @@ squashfs:
 strace:
 suse-module-tools:
 ?syslinux:
-systemd-presets-branding-basedonopensuse:
+systemd-presets-branding-openSUSE:
 systemd:
 tar:
 terminfo-base:
@@ -105,6 +105,7 @@ aaa_base:
 yast2-trans-allpacks: requires,nodeps
   x mk_yast2_trans bin/mk_yast2_trans
   E mk_yast2_trans yast2-trans-allpacks.requires
+
 
 :
 

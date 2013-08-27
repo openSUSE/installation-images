@@ -12,6 +12,7 @@ r /etc/create_interface
 r /etc/motd
 r /etc/issue
 
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # packages without scripts
@@ -80,14 +81,15 @@ btrfsprogs:
 bzip2:
 coreutils:
 cpio:
+cryptsetup:
 device-mapper:
 dmraid:
 dosfstools:
 e2fsprogs:
+fbiterm:
 file:
 fillup:
 findutils:
-gawk:
 gpart:
 grep:
 gzip:
@@ -99,29 +101,44 @@ iputils:
 jfsutils:
 joe:
 klogd:
+libsolv-tools:
 libudev*:
+libyui-ncurses-pkg*:
+libyui-qt-pkg*:
+ltrace:
 lvm2:
 module-init-tools:
 mozilla-nspr:
+multipath-tools:
 ntfsprogs:
+open-iscsi:
 openslp:
 parted:
 pciutils:
 perl-Bootloader:
+perl-XML-Bare:
+perl-XML-NamespaceSupport:
+perl-XML-Parser:
+perl-XML-Simple:
+perl-gettext:
 polkit:
 procinfo:
 procps:
 psmisc:
 reiserfs:
 rpm:
+screen:
+sed:
+sg3_utils:
 suse-module-tools:
-systemd-presets-branding-basedonopensuse:
+systemd-presets-branding-openSUSE:
 systemd-sysvinit:
 systemd:
 sysvinit:
 tar:
 usbutils:
 util-linux:
+vim:
 wget:
 xfsdump:
 xfsprogs:
@@ -146,6 +163,7 @@ yast2-proxy:
 yast2-ruby-bindings:
 yast2-runlevel:
 yast2-slp:
+yast2-trans-stats:
 yast2-transfer:
 yast2-tune:
 yast2-update:
@@ -153,22 +171,12 @@ yast2-users:
 yast2-x11:
 yast2-xml:
 yast2-ycp-ui-bindings:
-perl-gettext:
-perl-XML-Simple:
-perl-XML-Parser:
-perl-XML-NamespaceSupport:
-perl-XML-Bare:
-open-iscsi:
-multipath-tools:
-cryptsetup:
-libsolv-tools:
-sed:
-yast2-trans-stats:
-fbiterm:
-libyui-qt-pkg*:
-libyui-ncurses-pkg*:
 
 # rubygem-nokogiri:
+
+gawk:
+  /usr/bin/gawk
+  s gawk usr/bin/awk
 
 filesystem:
   /run
@@ -415,12 +423,6 @@ if roottrans
   include ../../tmp/base/yast2-trans.inc
 endif
 
-ltrace:
-
-:
-  # FIXME: ???
-  c 0755 0 0 /dev
-
 if arch ne 's390' && arch ne 's390x'
   xorg-x11-server:
     /etc/X11/xorg.conf.d
@@ -452,6 +454,7 @@ if arch ne 's390' && arch ne 's390x'
     /etc
     /usr/lib*/xorg/modules
 
+  libstroke:
   mkfontscale:
   mkfontdir:
   setxkbmap:
@@ -520,20 +523,10 @@ if arch ne 's390' && arch ne 's390x'
       /usr/share/vnc/classes
   endif
 
-#  Mesa:
-#    /usr/lib*/dri/swrast_dri.so
-#    /usr/lib*/libdricore*
+  Mesa-libEGL*:
 
   libgbm*:
     /usr/lib*/libgbm.so.*
-
-#  ?libxatracker*:
-#    /
-
-#  libLLVM:
-#    /
-
-  Mesa-libEGL*:
 
   openslp-server:
     /etc/slp.reg
@@ -542,8 +535,6 @@ if arch ne 's390' && arch ne 's390x'
 
   fribidi:
     /usr/lib*/libfribidi.so*
-
-  libstroke:
 
   icewm-lite:
     /usr/bin/icewm
@@ -562,14 +553,8 @@ dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
 
-vim:
-
 fonts-config:
   /usr/sbin/fonts-config
-
-screen:
-  /etc
-  /usr/bin/screen
 
 efont-unicode-bitmap-fonts:
   /usr/share/fonts/misc/b16.pcf.gz
@@ -586,53 +571,6 @@ multipath-tools:
 graphviz-gnome: nodeps
   /usr/lib*/graphviz/libgvplugin_pango.so.*
 
-libpango-*-*:
-  /
-
-libxcb-shm*:
-  /
-
-libcairo*:
-  /
-
-libgmodule-2_0-*:
-  /
-
-libxcb-render*:
-  /
-
-libxcb-xfixes*:
-  /
-
-Mesa-libGL*:
-  /
-
-libXdamage*:
-  /
-
-Mesa-libglapi*:
-  /
-
-libxcb-glx*:
-  /
-
-#libxcb-shape*:
-#  /
-
-libltdl*:
-  /
-
-libdbus-1-*:
-  /
-
-sg3_utils:
-  /
-
-libsgutils2-*:
-  /
-
-libgraphite2-*:
-  /
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
@@ -640,40 +578,34 @@ libgraphite2-*:
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-aaa_base: prein,postin
+aaa_base:
   E prein
   /
   E postin
 
-dbus-1: prein
+dbus-1:
   /
   E prein
 
-?s390-tools: postin
+?s390-tools:
   /
   E postin
 
-rpcbind: postin
+rpcbind:
   /
   E postin
 
-yast2-storage: postin
+yast2-storage:
   /
   E postin
 
-libstorage*: postin
+libstorage*:
   /
   E postin
 
-openssh: prein
-  /etc/ssh
-  /etc/pam.d/sshd
-  /etc/init.d/sshd
-  d /etc/sysconfig
+openssh:
+  /
   t /etc/sysconfig/ssh
-  /usr/bin
-  /usr/sbin
-  /usr/lib*
   E prein
 
 pango-tools:
@@ -681,7 +613,7 @@ pango-tools:
   E [ -x /usr/bin/pango-querymodules ] && pango-querymodules >/etc/pango/pango.modules || true
   E [ -x /usr/bin/pango-querymodules-64 ] && pango-querymodules-64 >/etc/pango/pango64.modules || true
 
-graphviz: postin
+graphviz:
   /
   E postin
 
@@ -704,11 +636,6 @@ r etc/mtab
 
 # remove these: ########### ???
 r root mnt tmp proc usr/libexec
-
-# ????
-#r /usr/X11R6/bin/mkfontdir
-#r /usr/X11R6/bin/mkfontscale
-#r /usr/X11R6/bin/fc-cache
 
 x /usr/lib/YaST/.Reh /usr/lib/YaST2
 x etc/inst_setup /sbin/inst_setup
@@ -740,10 +667,6 @@ E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 
 # make passwords not expire
 e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
-
-# copy empty dictionary
-#e cp -a /usr/lib*/cracklib_dict.* usr/lib
-#e cp -a /usr/share/cracklib usr/share
 
 d /usr/lib/debug /usr/src/debug
 

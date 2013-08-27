@@ -7,6 +7,7 @@ d var/lib/systemd/migrated
 # some basic devices
 e cp -a /dev/* dev
 
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # packages without scripts
@@ -74,7 +75,6 @@ file:
 fillup:
 findutils:
 finger:
-gawk:
 glibc:
 gpart:
 grep:
@@ -127,7 +127,7 @@ squashfs:
 star:
 strace:
 suse-module-tools:
-systemd-presets-branding-basedonopensuse:
+systemd-presets-branding-openSUSE:
 systemd-sysvinit:
 systemd:
 tar:
@@ -139,6 +139,10 @@ wget:
 xfsdump:
 xfsprogs:
 xz:
+
+gawk:
+  /usr/bin/gawk
+  s gawk usr/bin/awk
 
 filesystem:
   /etc/{ppp,rc.d,uucp}
@@ -269,6 +273,7 @@ openssh:
   r /usr/lib/ia32el/cpuid
   r /usr/lib/ia32el/auxapp 
   E insserv etc/init.d/ia32el
+
 
 :
 
