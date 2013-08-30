@@ -126,7 +126,6 @@ procinfo:
 procps:
 psmisc:
 reiserfs:
-rpm:
 screen:
 sed:
 sg3_utils:
@@ -173,6 +172,13 @@ yast2-xml:
 yast2-ycp-ui-bindings:
 
 # rubygem-nokogiri:
+
+rpm:
+  /bin
+  /etc
+  /usr/bin
+  /usr/lib*
+  r /usr/lib*/rpm-plugins/sepolicy.so
 
 gawk:
   /usr/bin/gawk
@@ -628,8 +634,8 @@ e mkfontdir usr/share/fonts/misc
 e mkfontscale usr/share/fonts/truetype
 e mkfontdir usr/share/fonts/truetype
 
-# remove, ehm, things...
-r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
 
 # don't mess with mtab (from aaa_base postin ATM)
 r etc/mtab

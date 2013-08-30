@@ -114,7 +114,6 @@ procinfo:
 procps:
 psmisc:
 reiserfs:
-rpm:
 rsh:
 sdparm:
 sed:
@@ -139,6 +138,14 @@ wget:
 xfsdump:
 xfsprogs:
 xz:
+
+rpm:
+  /bin
+  /usr/bin
+  /{usr,var}/lib/rpm
+  /usr/lib*/librpm*.so.*
+r /usr/lib/rpm/rpm{get,put}text
+r /usr/bin/rpmqpack
 
 gawk:
   /usr/bin/gawk
@@ -280,9 +287,8 @@ openssh:
 # create it now (see filesystem package above)
 d /sys
 
-# remove, ehm, things...
-r /usr/share/doc /usr/share/info /usr/share/man /usr/share/locale /var/adm/fillup-templates
-# r /run/*
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 
 # we better have one...
 e touch etc/sysconfig/kernel

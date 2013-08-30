@@ -450,8 +450,8 @@ endif
 
 :
 
-# remove, ehm, things...
-r /usr/share/doc /usr/share/info /usr/share/man /usr/share/locale /var/adm/fillup-templates
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 
 # historical static device nodes
 x devz /devz
