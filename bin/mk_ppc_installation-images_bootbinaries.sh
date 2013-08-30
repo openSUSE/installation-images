@@ -50,60 +50,62 @@ cp -pfv $bdir/initrd-default       $CD1/suseboot/initrd64
 gzip -fcv9 /boot/vmlinux-*-default >      $CD1/suseboot/linux64.gz
 fi
 
-if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
-	mkdir -pv $CD1/ppc/netboot
-	cp -Lpfv /lib/lilo/chrp/mkzimage_cmdline $CD1/ppc/netboot
-	chmod 0755 $CD1/ppc/netboot/mkzimage_cmdline
-fi
+#deprecate inst{32,64}. We use yaboot anyway, it doens't make sense
+#to embed yaboot
+#if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
+#	mkdir -pv $CD1/ppc/netboot
+#	cp -Lpfv /lib/lilo/chrp/mkzimage_cmdline $CD1/ppc/netboot
+#	chmod 0755 $CD1/ppc/netboot/mkzimage_cmdline
+#fi
 #
-if test "$do_64" = "true" ; then
-	/bin/mkzimage \
-	--board chrp \
-	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/initrd-default \
-	--output $CD1/suseboot/inst64
+#if test "$do_64" = "true" ; then
+#	/bin/mkzimage \
+#	--board chrp \
+#	--vmlinux /boot/vmlinux-*-default \
+#	--initrd $bdir/initrd-default \
+#	--output $CD1/suseboot/inst64
 #
-	if test "42" = "false" ; then
-	/bin/mkzimage \
-	--board iseries \
-	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/initrd-default \
-	--output $CD1/ISERIES64
-	fi
+#	if test "42" = "false" ; then
+#	/bin/mkzimage \
+#	--board iseries \
+#	--vmlinux /boot/vmlinux-*-default \
+#	--initrd $bdir/initrd-default \
+#	--output $CD1/ISERIES64
+#	fi
 #
-fi
+#fi
 #
-if test "$do_32" = "true" ; then
-	/bin/mkzimage \
-	--board chrp \
-	--vmlinux /boot/vmlinux-*-default \
-	--initrd $bdir/initrd \
-	--output $CD1/suseboot/inst32
+#if test "$do_32" = "true" ; then
+#	/bin/mkzimage \
+#	--board chrp \
+#	--vmlinux /boot/vmlinux-*-default \
+#	--initrd $bdir/initrd \
+#	--output $CD1/suseboot/inst32
 #
-	if test "42" = "false" ; then
-		/bin/mkzimage \
-		--board prep \
-		--vmlinux /boot/vmlinux-*-default \
-		--initrd $bdir/initrd \
-		--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
-		--output $CD1/boot/ppc/zImage.prep.initrd
-	fi
+#	if test "42" = "false" ; then
+#		/bin/mkzimage \
+#		--board prep \
+#		--vmlinux /boot/vmlinux-*-default \
+#		--initrd $bdir/initrd \
+#		--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
+#		--output $CD1/boot/ppc/zImage.prep.initrd
+#	fi
 #
-	if test "42" = "false" ; then
-		/bin/mkzimage \
-		--board pmaccoff \
-		--vmlinux /boot/vmlinux-*-default \
-		--initrd $bdir/initrd-ppc32_pmac_coff \
-		--output $CD1/boot/ppc/install-pmaccoff
+#	if test "42" = "false" ; then
+#		/bin/mkzimage \
+#		--board pmaccoff \
+#		--vmlinux /boot/vmlinux-*-default \
+#		--initrd $bdir/initrd-ppc32_pmac_coff \
+#		--output $CD1/boot/ppc/install-pmaccoff
+##
+#		/bin/mkzimage \
+#		--board pmaccoff \
+#		--vmlinux /boot/vmlinux-*-default \
+#		--output $CD1/boot/ppc/vmlinux-pmaccoff
 #
-		/bin/mkzimage \
-		--board pmaccoff \
-		--vmlinux /boot/vmlinux-*-default \
-		--output $CD1/boot/ppc/vmlinux-pmaccoff
+#	fi
 #
-	fi
-#
-fi
+#fi
 #
 we_dont_smoke_that_stuff=`echo ${BUILD_DISTRIBUTION_NAME} | sed -e 's@SUSE@SuSE@;s@LINUX@Linux@'`
 #
@@ -144,13 +146,16 @@ for i in $do_bits
 do
 cat >> $CD1/suseboot/yaboot.cnf <<EOF
 
-image[${i}bit]=inst${i}
+image[${i}bit]=linux${i}.gz
+  initrd=initrd${i}
   label=install
   append="quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
-image[${i}bit]=inst${i}
+image[${i}bit]=linux${i}.gz
+  initrd=initrd${i}
   label=slp
   append="quiet sysrq=1 install=slp           "
-image[${i}bit]=inst${i}
+image[${i}bit]=linux${i}.gz
+  initrd=initrd${i}
   label=rescue
   append="quiet sysrq=1 rescue=1              "
 
