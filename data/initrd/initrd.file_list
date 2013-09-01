@@ -91,7 +91,7 @@ systemd: ignore
 terminfo-base: ignore
 update-alternatives: ignore
 
-biosdevname:
+?biosdevname:
 cpio:
 curl:
 device-mapper:
