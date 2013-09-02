@@ -139,6 +139,10 @@ xfsdump:
 xfsprogs:
 xz:
 
+samba-libs: nodeps
+  /usr/lib*/samba/libreplace.so
+  /usr/lib*/samba/libwinbind-client.so
+
 rpm:
   /bin
   /usr/bin

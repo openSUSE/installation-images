@@ -91,6 +91,10 @@ systemd: ignore
 terminfo-base: ignore
 update-alternatives: ignore
 
+samba-libs: nodeps
+  /usr/lib*/samba/libreplace.so
+  /usr/lib*/samba/libwinbind-client.so
+
 ?biosdevname:
 cpio:
 curl:
