@@ -150,7 +150,6 @@ yast2-country:
 yast2-hardware-detection:
 yast2-iscsi-client:
 yast2-kdump:
-yast2-mouse:
 yast2-multipath:
 yast2-network:
 yast2-nfs-client:
