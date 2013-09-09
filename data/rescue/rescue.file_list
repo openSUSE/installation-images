@@ -14,7 +14,7 @@ e cp -a /dev/* dev
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-TEMPLATE lvm2|device-mapper|rpcbind|rsync|syslog-service|syslogd|util-linux|sysconfig|dmraid|mdadm|multipath-tools:
+TEMPLATE lvm2|device-mapper|rpcbind|rsync|syslog-service|syslogd|util-linux|sysconfig-network|dmraid|mdadm|multipath-tools:
   /
   E postin
 
@@ -126,6 +126,8 @@ squashfs:
 star:
 strace:
 suse-module-tools:
+sysconfig:
+sysconfig-netconfig:
 systemd-presets-branding-openSUSE:
 systemd-sysvinit:
 systemd:
@@ -267,7 +269,7 @@ rsync:
 syslog-service:
 syslogd:
 util-linux:
-sysconfig:
+sysconfig-network:
 dmraid:
 mdadm:
 multipath-tools:
