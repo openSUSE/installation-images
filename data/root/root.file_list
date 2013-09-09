@@ -375,12 +375,6 @@ shadow:
   /usr/sbin/useradd.local
   d /etc/skel
 
-:
-  # sysconfig: for modify_resolvconf
-  d etc/sysconfig/network
-  e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
-  # /sbin/modify_resolvconf
-
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
