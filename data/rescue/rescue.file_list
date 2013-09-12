@@ -14,6 +14,11 @@ e cp -a /dev/* dev
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+TEMPLATE binutils:
+  /
+  r /usr/bin/ld
+  s ld.bfd /usr/bin/ld
+
 TEMPLATE lvm2|device-mapper|rpcbind|rsync|syslog-service|syslogd|util-linux|sysconfig-network|dmraid|mdadm|multipath-tools:
   /
   E postin
@@ -30,6 +35,7 @@ perl-Bootloader: ignore
 shared-mime-info: ignore
 update-alternatives: ignore
 device-mapper-32bit: ignore
+binutils: ignore
 
 ?acpica:
 ?efibootmgr:
