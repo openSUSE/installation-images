@@ -1,6 +1,7 @@
 d bin dev etc lib mnt root sbin tmp usr var proc
 c 1777 0 0 tmp
 d /usr/{bin,lib,lib64,libexec,sbin,share}
+d etc/sysconfig
 
 # add some /etc files
 x /etc/* /etc
