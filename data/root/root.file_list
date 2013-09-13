@@ -20,6 +20,11 @@ r /etc/issue
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+TEMPLATE binutils:
+  /
+  r /usr/bin/ld
+  s ld.bfd /usr/bin/ld
+
 TEMPLATE rubygem-.*:
   /usr/*/ruby/gems/*/gems/*/lib
   /usr/*/ruby/gems/*/specifications
