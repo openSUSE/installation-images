@@ -111,6 +111,7 @@ libsolv-tools:
 libudev*:
 libyui-ncurses-pkg*:
 libyui-qt-pkg*:
+libyui-qt-graph*:
 ltrace:
 lvm2:
 module-init-tools:
