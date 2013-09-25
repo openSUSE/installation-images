@@ -163,6 +163,9 @@ sg3_utils:
 cifs-utils:
   /sbin/mount.cifs
 
+open-fcoe:
+  /etc
+
 ?acpica:
   /usr/bin/acpidump
 
@@ -302,9 +305,6 @@ nscd:
 ?xf86-input-wacom: nodeps
   /usr/lib/udev/rules.d
 
-?xorg-x11-server: nodeps
-  /etc/modprobe.d
-
 multipath-tools:
   /etc/udev/rules.d
   /var/cache/multipath
@@ -347,6 +347,7 @@ aaa_base:
   E prein
   r boot
   /etc/rc.status
+  /usr/sbin/service
 
 dbus-1:
   E prein

@@ -118,6 +118,7 @@ module-init-tools:
 mozilla-nspr:
 multipath-tools:
 ntfsprogs:
+open-fcoe:
 open-iscsi:
 openslp:
 parted:
@@ -154,6 +155,7 @@ yast2-bootloader:
 yast2-core:
 yast2-country-data:
 yast2-country:
+yast2-fcoe-client:
 yast2-hardware-detection:
 yast2-iscsi-client:
 yast2-kdump:

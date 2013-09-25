@@ -111,6 +111,8 @@ nfs-client:
 nfsidmap:
 nscd:
 ntfsprogs:
+open-iscsi:
+open-fcoe:
 openslp:
 pam-modules:
 parted:
