@@ -43,11 +43,11 @@ if test "$do_32" = "true" ; then
 #cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
 #
 cp -pfv $bdir/initrd             $CD1/suseboot/initrd32
-gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
+cp -pfv /boot/vmlinux-*-default  $CD1/suseboot/linux32
 fi
 if test "$do_64" = "true" ; then
 cp -pfv $bdir/initrd-default       $CD1/suseboot/initrd64
-gzip -fcv9 /boot/vmlinux-*-default >      $CD1/suseboot/linux64.gz
+cp -pfv /boot/vmlinux-*-default    $CD1/suseboot/linux64
 fi
 
 #deprecate inst{32,64}. We use yaboot anyway, it doens't make sense
