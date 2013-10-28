@@ -146,15 +146,15 @@ for i in $do_bits
 do
 cat >> $CD1/suseboot/yaboot.cnf <<EOF
 
-image[${i}bit]=linux${i}.gz
+image[${i}bit]=linux${i}
   initrd=initrd${i}
   label=install
   append="quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
-image[${i}bit]=linux${i}.gz
+image[${i}bit]=linux${i}
   initrd=initrd${i}
   label=slp
   append="quiet sysrq=1 install=slp           "
-image[${i}bit]=linux${i}.gz
+image[${i}bit]=linux${i}
   initrd=initrd${i}
   label=rescue
   append="quiet sysrq=1 rescue=1              "
