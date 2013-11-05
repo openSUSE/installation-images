@@ -43,11 +43,11 @@ if test "$do_32" = "true" ; then
 #cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
 #
 cp -pfv $bdir/initrd             $CD1/suseboot/initrd32
-gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
+cp -pfv /boot/vmlinux-*-default  $CD1/suseboot/linux32
 fi
 if test "$do_64" = "true" ; then
 cp -pfv $bdir/initrd-default       $CD1/suseboot/initrd64
-gzip -fcv9 /boot/vmlinux-*-default >      $CD1/suseboot/linux64.gz
+cp -pfv /boot/vmlinux-*-default    $CD1/suseboot/linux64
 fi
 
 #deprecate inst{32,64}. We use yaboot anyway, it doens't make sense
@@ -146,15 +146,15 @@ for i in $do_bits
 do
 cat >> $CD1/suseboot/yaboot.cnf <<EOF
 
-image[${i}bit]=linux${i}.gz
+image[${i}bit]=linux${i}
   initrd=initrd${i}
   label=install
   append="quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
-image[${i}bit]=linux${i}.gz
+image[${i}bit]=linux${i}
   initrd=initrd${i}
   label=slp
   append="quiet sysrq=1 install=slp           "
-image[${i}bit]=linux${i}.gz
+image[${i}bit]=linux${i}
   initrd=initrd${i}
   label=rescue
   append="quiet sysrq=1 rescue=1              "

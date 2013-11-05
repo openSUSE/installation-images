@@ -239,7 +239,11 @@ nfs-client:
   /sbin/mount.nfs4
   /sbin/umount.nfs
   /sbin/umount.nfs4
+  /etc/idmapd.conf
+  /usr/sbin/rpc.idmapd
   /var/lib/nfs
+
+nfsidmap:
 
 gpg2:
   /usr/bin/gpg{,2}
