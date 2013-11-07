@@ -83,6 +83,7 @@ findutils:
 finger:
 glibc:
 gpart:
+?gptfdisk:
 grep:
 gzip:
 hdparm:
