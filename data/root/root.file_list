@@ -118,7 +118,7 @@ module-init-tools:
 mozilla-nspr:
 multipath-tools:
 ntfsprogs:
-open-fcoe:
+?open-fcoe:
 open-iscsi:
 openslp:
 parted:
@@ -138,6 +138,7 @@ screen:
 sed:
 sg3_utils:
 suse-module-tools:
+?syslinux:
 systemd-presets-branding-openSUSE:
 systemd-sysvinit:
 systemd:
@@ -156,7 +157,8 @@ yast2-core:
 yast2-country-data:
 yast2-country:
 yast2-fcoe-client:
-yast2-hardware-detection:
+##
+yast2-hardware-detection: ignore
 yast2-iscsi-client:
 yast2-kdump:
 yast2-multipath:
@@ -169,14 +171,18 @@ yast2-pkg-bindings:
 yast2-proxy:
 yast2-ruby-bindings:
 yast2-runlevel:
-yast2-slp:
+##
+yast2-slp: ignore
 yast2-trans-stats:
-yast2-transfer:
+##
+yast2-transfer: ignore
 yast2-tune:
 yast2-update:
-yast2-users:
+##
+yast2-users: ignore
 yast2-x11:
-yast2-xml:
+##
+yast2-xml: ignore
 yast2-ycp-ui-bindings:
 
 # rubygem-nokogiri:
@@ -288,9 +294,6 @@ yast2-installation:
   r /usr/lib/YaST2/startup/InstallImages/*
   # hack to make 'repair' option work
   # p repair.diff
-
-?syslinux:
-  /usr/bin/syslinux
 
 netcfg:
   /etc/{services,protocols}

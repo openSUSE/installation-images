@@ -113,7 +113,7 @@ nfsidmap:
 nscd:
 ntfsprogs:
 open-iscsi:
-open-fcoe:
+?open-fcoe:
 openslp:
 pam-modules:
 parted:
