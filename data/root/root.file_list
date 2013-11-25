@@ -181,8 +181,7 @@ yast2-trans-stats:
 yast2-transfer: ignore
 yast2-tune:
 yast2-update:
-##
-yast2-users: ignore
+yast2-users:
 yast2-x11:
 ##
 yast2-xml: ignore
@@ -266,7 +265,6 @@ endif
 
 yast2:
   /etc
-  /sbin/save_y2logs
   /usr
   /var
   r /usr/lib/YaST2/servers_non_y2/ag_cron
@@ -288,8 +286,10 @@ ruby:
   s testrb2.0 /usr/bin/testrb
 
 yast2-devtools:
-  /usr/bin/y2tool
   /usr/share/YaST2/data/devtools/bin/showy2log
+
+yast2-buildtools:
+  /usr/bin/y2tool
 
 yast2-installation:
   /
