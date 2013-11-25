@@ -161,16 +161,19 @@ yast2-fcoe-client:
 yast2-hardware-detection: ignore
 yast2-iscsi-client:
 yast2-kdump:
+yast2-ldap-client:
 yast2-multipath:
 yast2-network:
 yast2-nfs-client:
 yast2-ntp-client:
 yast2-packager:
+yast2-pam:
 yast2-perl-bindings:
 yast2-pkg-bindings:
 yast2-proxy:
 yast2-ruby-bindings:
-yast2-runlevel:
+yast2-security:
+yast2-services-manager:
 ##
 yast2-slp: ignore
 yast2-trans-stats:
