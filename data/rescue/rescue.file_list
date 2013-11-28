@@ -74,7 +74,8 @@ dd_rescue:
 dhcpcd:
 diffutils:
 dosfstools:
-dracut:
+?dracut:
+?mkinitrd:
 dump:
 e2fsprogs:
 file-magic:
