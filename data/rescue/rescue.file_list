@@ -74,6 +74,7 @@ dd_rescue:
 dhcpcd:
 diffutils:
 dosfstools:
+dracut:
 dump:
 e2fsprogs:
 file-magic:
@@ -102,7 +103,6 @@ kpartx:
 krb5:
 lsscsi:
 mingetty:
-mkinitrd:
 module-init-tools:
 mozilla-nspr:
 ncurses-utils:
@@ -325,9 +325,9 @@ e insserv -f etc/init.d/kbd_simple
 e echo RC_LANG=\"en_US.UTF-8\" >>etc/sysconfig/language
 
 # s390 have their own inittab
-if arch eq 's390' || arch eq 's390x'
-  e sed -i '/getty/d' etc/inittab
-endif
+#if arch eq 's390' || arch eq 's390x'
+#  e sed -i '/getty/d' etc/inittab
+#endif
 
 e echo console >>etc/securetty
 

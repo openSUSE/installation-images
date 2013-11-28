@@ -85,7 +85,7 @@ openssl: ignore
 permissions: ignore
 pinentry: ignore
 rpcbind: ignore
-suspend: ignore
+?suspend: ignore
 sysconfig: ignore
 systemd: ignore
 terminfo-base: ignore
