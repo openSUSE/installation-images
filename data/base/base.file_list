@@ -44,7 +44,6 @@ coreutils:
 cpio:
 cracklib-dict-full:
 cracklib:
-cyrus-sasl:
 device-mapper:
 diffutils:
 dummy-release:
