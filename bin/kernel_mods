@@ -1,0 +1,33 @@
+#! /usr/bin/perl
+
+for $rpm (@ARGV) {
+  ($arch, $ver) = `rpm -qp --qf '%{ARCH}\n%{NAME}-%{VERSION}-%{RELEASE}\n' $rpm`;
+  @files = `rpm -qpl $rpm`;
+  chomp $arch;
+  chomp $ver;
+
+  $versions{"$ver.$arch"} = 1;
+  $archs{$arch} = 1;
+
+  for (@files) {
+    if(m#^/lib/modules/.*/([^/]+).ko#) {
+      $mod->{$1}{$arch} = 1;
+    }
+  }
+}
+
+@archs = sort keys %archs;
+$archs{$_} = ' ' x length($_) for (@archs);
+
+print "# $_\n", for (sort keys %versions);
+
+printf "# %d modules\n", scalar keys %$mod;
+
+for (sort keys %$mod) {
+  printf "%-31s", $_;
+  for $ar (@archs) {
+    print ' ', $mod->{$_}{$ar} ? $ar : $archs{$ar};
+  }
+  print "\n";
+}
+
