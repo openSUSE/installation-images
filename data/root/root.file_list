@@ -118,7 +118,7 @@ module-init-tools:
 mozilla-nspr:
 multipath-tools:
 ntfsprogs:
-open-fcoe:
+?open-fcoe:
 open-iscsi:
 openslp:
 parted:
@@ -138,6 +138,7 @@ screen:
 sed:
 sg3_utils:
 suse-module-tools:
+?syslinux:
 systemd-presets-branding-openSUSE:
 systemd-sysvinit:
 systemd:
@@ -156,27 +157,34 @@ yast2-core:
 yast2-country-data:
 yast2-country:
 yast2-fcoe-client:
-yast2-hardware-detection:
+##
+yast2-hardware-detection: ignore
 yast2-iscsi-client:
 yast2-kdump:
+yast2-ldap-client:
 yast2-multipath:
 yast2-network:
 yast2-nfs-client:
 yast2-ntp-client:
 yast2-packager:
+yast2-pam:
 yast2-perl-bindings:
 yast2-pkg-bindings:
 yast2-proxy:
 yast2-ruby-bindings:
-yast2-runlevel:
-yast2-slp:
+yast2-security:
+yast2-services-manager:
+##
+yast2-slp: ignore
 yast2-trans-stats:
-yast2-transfer:
+##
+yast2-transfer: ignore
 yast2-tune:
 yast2-update:
 yast2-users:
 yast2-x11:
-yast2-xml:
+##
+yast2-xml: ignore
 yast2-ycp-ui-bindings:
 
 # rubygem-nokogiri:
@@ -257,7 +265,6 @@ endif
 
 yast2:
   /etc
-  /sbin/save_y2logs
   /usr
   /var
   r /usr/lib/YaST2/servers_non_y2/ag_cron
@@ -279,8 +286,10 @@ ruby:
   s testrb2.0 /usr/bin/testrb
 
 yast2-devtools:
-  /usr/bin/y2tool
   /usr/share/YaST2/data/devtools/bin/showy2log
+
+yast2-buildtools:
+  /usr/bin/y2tool
 
 yast2-installation:
   /
@@ -288,9 +297,6 @@ yast2-installation:
   r /usr/lib/YaST2/startup/InstallImages/*
   # hack to make 'repair' option work
   # p repair.diff
-
-?syslinux:
-  /usr/bin/syslinux
 
 netcfg:
   /etc/{services,protocols}

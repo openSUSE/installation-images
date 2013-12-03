@@ -85,7 +85,7 @@ openssl: ignore
 permissions: ignore
 pinentry: ignore
 rpcbind: ignore
-suspend: ignore
+?suspend: ignore
 sysconfig: ignore
 systemd: ignore
 terminfo-base: ignore
@@ -108,6 +108,7 @@ kpartx:
 krb5:
 lsscsi:
 mdadm:
+nfsidmap:
 pcmciautils:
 sed:
 
@@ -163,7 +164,7 @@ sg3_utils:
 cifs-utils:
   /sbin/mount.cifs
 
-open-fcoe:
+?open-fcoe:
   /etc
 
 ?acpica:
@@ -242,6 +243,8 @@ nfs-client:
   /sbin/mount.nfs4
   /sbin/umount.nfs
   /sbin/umount.nfs4
+  /etc/idmapd.conf
+  /usr/sbin/rpc.idmapd
   /var/lib/nfs
 
 gpg2:

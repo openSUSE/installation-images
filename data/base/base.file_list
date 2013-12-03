@@ -44,7 +44,6 @@ coreutils:
 cpio:
 cracklib-dict-full:
 cracklib:
-cyrus-sasl:
 device-mapper:
 diffutils:
 dummy-release:
@@ -63,6 +62,7 @@ glibc-locale:
 grep:
 gzip:
 insserv-compat:
+kbd:
 krb5:
 make:
 mkfontdir:
