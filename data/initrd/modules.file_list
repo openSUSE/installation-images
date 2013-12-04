@@ -14,7 +14,7 @@ s lib/modules/<kernel_ver>/initrd modules
 
 x module.help modules/module.config
 
-if arch eq 'ppc' || arch eq 'ppc64'
+if arch eq 'ppc' || arch eq 'ppc64' || arch eq 'ppc64le'
 
   include gen/module.files.autoload
   include gen/module.files.ppc

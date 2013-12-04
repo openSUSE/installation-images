@@ -18,6 +18,7 @@ default	= vmlinuz-
 alpha	= vmlinuz
 ppc	= vmlinux
 ppc64	= vmlinux
+ppc64le = vmlinux
 mips	= vmlinux
 s390	= image
 s390x	= image
@@ -49,6 +50,7 @@ x86_64  = kernel-firmware,adaptec-firmware,ipw-firmware,iwl4965-ucode,iwl5000-uc
 [lib]
 default	= lib
 ppc64	= lib64
+ppc64le = lib64
 s390x	= lib64
 x86_64	= lib64
 

@@ -24,13 +24,13 @@ for theme in $THEMES ; do
   cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
   ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
 
-  if [ "$ARCH" = ppc ] ; then
-    bin/mk_ppc_installation-images_bootbinaries.sh -32 -64 `pwd`/images/$theme $DESTDIR/branding/$theme
-  fi   
+  case "$ARCH" in
+      ppc)           BITS="-32 -64";;
+      ppc64|ppc64le) BITS="-64";;
+  esac
 
-  if [ "$ARCH" = ppc64 ] ; then
-    bin/mk_ppc_installation-images_bootbinaries.sh -64 `pwd`/images/$theme $DESTDIR/branding/$theme
-  fi   
+  bin/mk_ppc_installation-images_bootbinaries.sh $BITS `pwd`/images/$theme $DESTDIR/branding/$theme
+
 done
 
 mkdir -p $DESTDIR/usr/share
