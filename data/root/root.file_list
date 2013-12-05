@@ -158,7 +158,7 @@ yast2-country-data:
 yast2-country:
 yast2-fcoe-client:
 ##
-yast2-hardware-detection: ignore
+yast2-hardware-detection:
 yast2-iscsi-client:
 yast2-kdump:
 yast2-ldap-client:
@@ -175,16 +175,16 @@ yast2-ruby-bindings:
 yast2-security:
 yast2-services-manager:
 ##
-yast2-slp: ignore
+yast2-slp:
 yast2-trans-stats:
 ##
-yast2-transfer: ignore
+yast2-transfer:
 yast2-tune:
 yast2-update:
 yast2-users:
 yast2-x11:
 ##
-yast2-xml: ignore
+yast2-xml:
 yast2-ycp-ui-bindings:
 
 # rubygem-nokogiri:
