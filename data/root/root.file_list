@@ -57,7 +57,6 @@ pinentry: ignore
 sessreg: ignore
 shared-mime-info: ignore
 update-alternatives: ignore
-update-alternatives: ignore
 xinetd: ignore
 xrdb: ignore
 yast2-ldap-client: ignore
@@ -549,7 +548,8 @@ if arch ne 's390' && arch ne 's390x'
     /usr/lib*/libfribidi.so*
 
   icewm-lite:
-    /usr/bin/icewm
+    /usr/bin/icewm-lite
+    s /usr/bin/icewm-lite /usr/bin/icewm
 
 endif
 
