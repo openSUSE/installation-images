@@ -111,6 +111,7 @@ mdadm:
 nfsidmap:
 pcmciautils:
 sed:
+?wicked:
 
 linuxrc:
   if linuxrc

@@ -273,14 +273,7 @@ ruby:
   /etc/gemrc
   /etc/rpm
   # update-alternatives
-  s erb2.0 /usr/bin/erb
-  s gem2.0 /usr/bin/gem
-  s irb2.0 /usr/bin/irb
-  s rake2.0 /usr/bin/rake
-  s rdoc2.0 /usr/bin/rdoc
-  s ri2.0 /usr/bin/ri
-  s ruby2.0 /usr/bin/ruby
-  s testrb2.0 /usr/bin/testrb
+  e cd usr/bin ; for i in erb gem irb rake rdoc ri ruby testrb ; do ln -s ${i}2* $i; done
 
 yast2-devtools:
   /usr/share/YaST2/data/devtools/bin/showy2log
@@ -463,7 +456,7 @@ if arch ne 's390' && arch ne 's390x'
 
   ?virtualbox-guest-x11: nodeps
     /etc
-    /usr/lib*/xorg/modules
+    /usr/<lib>/xorg/modules
 
   libstroke:
   mkfontscale:
@@ -528,10 +521,6 @@ if arch ne 's390' && arch ne 's390x'
   if exists(xorg-x11-Xvnc)
     xorg-x11-Xvnc:
       /usr/bin/Xvnc
-
-    tightvnc:
-      /usr/bin/vncpasswd.arg
-      /usr/share/vnc/classes
   endif
 
   Mesa-libEGL*:

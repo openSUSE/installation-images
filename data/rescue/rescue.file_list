@@ -146,6 +146,7 @@ terminfo-base:
 usbutils:
 vim:
 wget:
+?wicked:
 xfsdump:
 xfsprogs:
 xz:
