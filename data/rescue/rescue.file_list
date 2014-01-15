@@ -19,7 +19,7 @@ TEMPLATE binutils:
   r /usr/bin/ld
   s ld.bfd /usr/bin/ld
 
-TEMPLATE lvm2|device-mapper|rpcbind|rsync|syslog-service|syslogd|util-linux|sysconfig-network|dmraid|mdadm|multipath-tools:
+TEMPLATE lvm2|device-mapper|rpcbind|rsync|syslog-service|syslogd|util-linux|wicked|dmraid|mdadm|multipath-tools:
   /
   E postin
 
@@ -278,7 +278,7 @@ rsync:
 syslog-service:
 syslogd:
 util-linux:
-sysconfig-network:
+wicked:
 dmraid:
 mdadm:
 multipath-tools:
