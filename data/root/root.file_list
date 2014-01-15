@@ -273,14 +273,11 @@ ruby:
   /etc/gemrc
   /etc/rpm
   # update-alternatives
-  s erb2.0 /usr/bin/erb
-  s gem2.0 /usr/bin/gem
-  s irb2.0 /usr/bin/irb
-  s rake2.0 /usr/bin/rake
-  s rdoc2.0 /usr/bin/rdoc
-  s ri2.0 /usr/bin/ri
-  s ruby2.0 /usr/bin/ruby
-  s testrb2.0 /usr/bin/testrb
+  s erb2* /usr/bin/erb
+  s gem2* /usr/bin/gem
+  s irb2* /usr/bin/irb
+  s rake2* /usr/bin/rake
+  s ruby2* /usr/bin/ruby
 
 yast2-devtools:
   /usr/share/YaST2/data/devtools/bin/showy2log
