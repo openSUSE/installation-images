@@ -38,7 +38,7 @@ INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    :=
 endif
 
-THEMES        := openSUSE
+THEMES        := openSUSE SLES SLED
 DESTDIR       := images/instsys
 
 ifneq ($(filter i386 x86_64, $(ARCH)),)
