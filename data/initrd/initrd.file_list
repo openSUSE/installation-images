@@ -248,6 +248,8 @@ nfs-client:
   /usr/sbin/rpc.idmapd
   /var/lib/nfs
 
+nfsidmap:
+
 gpg2:
   /usr/bin/gpg{,2}
   d root/.gnupg
