@@ -15,3 +15,10 @@ if [ ! -s /installkey.gpg ] ; then
   echo "warning: no build keys!"
 fi
 
+# needed for nfs
+echo "Mounting rpc_pipefs on /var/lib/nfs/rpc_pipefs"
+mount -t rpc_pipefs rpc_pipefs /var/lib/nfs/rpc_pipefs
+
+echo "Starting /usr/sbin/rpc.idmapd"
+/usr/sbin/rpc.idmapd < /dev/null
+
