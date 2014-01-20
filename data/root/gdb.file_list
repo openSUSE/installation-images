@@ -1,5 +1,5 @@
 gdb:
-  /usr/bin/gdb
+  /
 
 libpython*-*:
   /

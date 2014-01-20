@@ -80,7 +80,6 @@ libcrack*: ignore
 libmagic*: ignore
 logrotate: ignore
 mkinitrd: ignore
-nfsidmap: ignore
 openssl: ignore
 permissions: ignore
 pinentry: ignore

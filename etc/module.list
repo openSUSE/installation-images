@@ -62,6 +62,7 @@ kernel/drivers/misc/ioc4.ko
 kernel/drivers/ssb/
 kernel/drivers/leds/led-class.ko
 kernel/drivers/mmc/core/
+kernel/fs/autofs4/
 kernel/fs/cramfs/
 kernel/fs/ext2/
 kernel/fs/ext3/
@@ -195,6 +196,7 @@ kernel/drivers/mfd/ab3100-core.ko
 kernel/drivers/gpu/drm/
 # kernel/drivers/gpu/drm/drm.ko
 kernel/drivers/video/sis/
+kernel/drivers/video/hyperv_fb.ko
 
 kernel/drivers/misc/lis3lv02d/lis3lv02d.ko
 kernel/drivers/misc/cs5535-mfgpt.ko

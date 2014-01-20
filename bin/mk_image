@@ -177,6 +177,7 @@ sub check_link
 
     next if m#^$dir/usr/lib/cracklib_dict#;
     next if m#^$dir/usr/share/applications/defaults.list#;
+    next if m#^$dir/usr/lib/debug/\.build-id/#;
 
     $x = readlink;
     if($x =~ /^\//) {
