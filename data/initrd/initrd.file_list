@@ -358,6 +358,7 @@ aaa_base:
   E prein
   r boot
   /etc/rc.status
+  /etc/inputrc
   /usr/sbin/service
 
 dbus-1:

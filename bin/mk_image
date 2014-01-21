@@ -56,7 +56,8 @@ if($ENV{disjunct}) {
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
 $imagetype = $ENV{fs};
 $imagetype = "none" unless $imagetype;
-$use_gzip = 1 if $imagetype =~ s/\.gz$//;
+$use_compress = 'gzip' if $imagetype =~ s/\.gz$//;
+$use_compress = 'xz' if $imagetype =~ s/\.xz$//;
 
 # modes: keep, add, "" (default)
 @mode{split ",", $ENV{mode}} = ( 1 .. 10 );
@@ -159,8 +160,8 @@ elsif($imagetype ne 'none') {
   $i = -s $image;
   print "$Script: created \"$image\" ($i bytes)\n";
 
-  if($use_gzip) {
-    $i = CompressImage $image;
+  if($use_compress) {
+    $i = CompressImage $image, $use_compress;
     print "$Script: compressed \"$image\" ($i bytes)\n";
   }
 }
