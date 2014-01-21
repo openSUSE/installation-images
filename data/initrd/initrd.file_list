@@ -190,12 +190,12 @@ if exists(wpa_supplicant)
 endif
 
 coreutils:
-  /bin/ls
   /usr/bin/cat
   /usr/bin/chmod
   /usr/bin/date
   /usr/bin/false
   /usr/bin/ln
+  /usr/bin/ls
   /usr/bin/mkdir
   /usr/bin/mv
   /usr/bin/rmdir
@@ -342,6 +342,11 @@ if exists(plymouth)
   plymouth-branding-openSUSE: nodeps
 endif
 
+# maybe we don't need everything...
+systemd:
+  /usr/lib*/libsystemd-journal.so.*
+  /usr/lib*/libsystemd-login.so.*
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
@@ -356,6 +361,7 @@ aaa_base:
   /usr/sbin/service
 
 dbus-1:
+  /
   E prein
 
 openssh: nodeps
