@@ -68,7 +68,6 @@ AUTODEPS:
 
 diffutils: ignore
 dirmngr: ignore
-dracut: ignore
 dummy-release: ignore
 filesystem: ignore
 fillup: ignore
@@ -80,7 +79,6 @@ keyutils: ignore
 libcrack*: ignore
 libmagic*: ignore
 logrotate: ignore
-mkinitrd: ignore
 openssl: ignore
 permissions: ignore
 pinentry: ignore
@@ -90,6 +88,14 @@ sysconfig: ignore
 systemd: ignore
 terminfo-base: ignore
 update-alternatives: ignore
+
+if exists(dracut)
+  dracut: ignore
+endif
+
+if exists(mkinitrd)
+  mkinitrd: ignore
+endif
 
 samba-libs: nodeps
   /usr/lib*/samba/libreplace.so
