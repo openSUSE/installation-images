@@ -68,6 +68,7 @@ AUTODEPS:
 
 diffutils: ignore
 dirmngr: ignore
+dracut: ignore
 dummy-release: ignore
 filesystem: ignore
 fillup: ignore
