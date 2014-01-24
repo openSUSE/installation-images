@@ -1,7 +1,8 @@
-d bin dev etc mnt proc sys tmp run
+d bin dev etc mnt proc sys tmp
+d run/dbus
 d var/run var/spool var/lock/libstorage var/tmp var/log/YaST2 var/adm/mount
 d var/lib/YaST2 var/lib/dhcpcd var/lib/hardware/unique-keys var/lib/autoinstall
-d var/run/dbus var/run/hotplug var/cache/fontconfig
+d var/run/hotplug var/cache/fontconfig
 d var/lib/sshd var/lib/empty var/run/ntp var/lib/rpcbind
 d var/cache/sax/files var/cache/sax/sysp/rdbms var/cache/xfine var/cache/zypp var/lib/sax 
 d etc/sysconfig
@@ -66,6 +67,7 @@ TEMPLATE:
 
 AUTODEPS:
 
+dbus-1-x11: ignore
 diffutils: ignore
 dirmngr: ignore
 dummy-release: ignore
@@ -86,7 +88,6 @@ rpcbind: ignore
 ?suspend: ignore
 sysconfig: ignore
 systemd: ignore
-terminfo-base: ignore
 update-alternatives: ignore
 
 if exists(dracut)
@@ -133,6 +134,12 @@ linuxrc:
   d usr/share/kbd/consolefonts
   g /usr/share/linuxrc/linuxrc-16.psfu.gz usr/share/kbd/consolefonts/linuxrc-16.psfu
   g /usr/share/linuxrc/linuxrc2-16.psfu.gz usr/share/kbd/consolefonts/linuxrc2-16.psfu
+
+terminfo-base:
+  /usr/share/terminfo
+
+terminfo:
+  /usr/share/terminfo/i/ibm3151
 
 netcfg:
   /etc/protocols
@@ -199,16 +206,22 @@ endif
 coreutils:
   /usr/bin/cat
   /usr/bin/chmod
+  /usr/bin/chown
   /usr/bin/date
   /usr/bin/false
+  /usr/bin/head
   /usr/bin/ln
   /usr/bin/ls
   /usr/bin/mkdir
   /usr/bin/mv
+  /usr/bin/rm
   /usr/bin/rmdir
   /usr/bin/sleep
+  /usr/bin/stty
+  /usr/bin/tail
   /usr/bin/touch
   /usr/bin/tr
+  /usr/bin/tty
   /usr/bin/true
   /usr/bin/uname
   # linuxrc needs it in /bin
@@ -349,6 +362,9 @@ if exists(plymouth)
   plymouth-branding-openSUSE: nodeps
 endif
 
+procps:
+  /bin/ps
+
 # maybe we don't need everything...
 systemd:
   /usr/lib*/libsystemd-journal.so.*
@@ -380,6 +396,10 @@ udev:
   /
   E groupadd -r tape
 
+# we just want the user & group entries
+polkit: nodeps
+  E prein
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
@@ -408,9 +428,6 @@ if with_gdb
 
   libprocps*:
     /
-
-  procps:
-    /bin/ps
 
   psmisc:
     /bin/fuser

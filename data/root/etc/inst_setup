@@ -102,8 +102,8 @@ done
 
 ldconfig
 
-# start dbus
-if [ -x /bin/dbus-daemon ] ; then
+# don't start dbus - done by linuxrc
+if [ -x /bin/dbus-daemonXXX ] ; then
   rm -f /var/run/dbus/pid
   echo -n "starting dbus..."
   if /bin/dbus-daemon --system ; then
@@ -264,7 +264,7 @@ fi
 rcnscd stop
 
 # stop various daemons
-killall dbus-daemon >/dev/null 2>&1
+# killall dbus-daemon >/dev/null 2>&1
 killall slpd >/dev/null 2>&1
 killall Xvnc >/dev/null 2>&1
 killall sshd >/dev/null 2>&1

@@ -19,6 +19,20 @@ fi
 echo "Mounting rpc_pipefs on /var/lib/nfs/rpc_pipefs"
 mount -t rpc_pipefs rpc_pipefs /var/lib/nfs/rpc_pipefs
 
-echo "Starting /usr/sbin/rpc.idmapd"
-/usr/sbin/rpc.idmapd < /dev/null
+if [ -x /usr/sbin/rpc.idmapd ] ; then
+  echo "Starting rpc.idmapd"
+  /usr/sbin/rpc.idmapd < /dev/null
+fi
+
+if [ -x /bin/dbus-daemon ] ; then
+  echo "Starting dbus-daemon"
+  /bin/dbus-uuidgen --ensure
+  /bin/dbus-daemon --system
+fi
+
+if [ -x usr/sbin/wickedd ] ; then
+  echo "Starting wicked"
+  /usr/sbin/wickedd
+  for i in /usr/lib/wicked/bin/wickedd-* ; do $i ; done
+fi
 

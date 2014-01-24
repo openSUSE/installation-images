@@ -65,7 +65,6 @@ icewm: ignore
 pkg-config: ignore
 syslog-service: ignore
 kmod: ignore
-dbus-1-x11: ignore
 gio-branding-upstream: ignore
 hicolor-icon-theme: ignore
 yast2-nfs-common: ignore
@@ -215,13 +214,6 @@ nfs-client:
 ncurses-utils:
   /usr/bin/reset
   /usr/bin/tset
-
-terminfo-base:
-  /usr/share/terminfo
-  s ../share/terminfo /usr/lib/terminfo
-
-terminfo:
-  /usr/share/terminfo/i/ibm3151
 
 ?hdparm:
   /usr/sbin/hdparm
@@ -583,10 +575,6 @@ aaa_base:
   E prein
   /
   E postin
-
-dbus-1:
-  /
-  E prein
 
 ?s390-tools:
   /
