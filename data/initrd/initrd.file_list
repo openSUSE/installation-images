@@ -89,14 +89,8 @@ rpcbind: ignore
 sysconfig: ignore
 systemd: ignore
 update-alternatives: ignore
-
-if exists(dracut)
-  dracut: ignore
-endif
-
-if exists(mkinitrd)
-  mkinitrd: ignore
-endif
+?dracut: ignore
+?mkinitrd: ignore
 
 samba-libs: nodeps
   /usr/lib*/samba/libreplace.so

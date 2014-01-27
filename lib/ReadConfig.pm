@@ -711,7 +711,7 @@ sub resolve_deps_libsolv
   $repo->add_solv("/tmp/instsys.solv") or die "/tmp/instsys.solv: no solv file";
   $pool->addfileprovides();
   $pool->createwhatprovides();
-  $pool->set_debuglevel(3) if $ENV{debug} =~ /solv/;
+  $pool->set_debuglevel(4) if $ENV{debug} =~ /solv/;
 
   my $solver = $pool->Solver();
   $solver->set_flag($solv::Solver::SOLVER_FLAG_IGNORE_RECOMMENDED, 1);
@@ -722,6 +722,7 @@ sub resolve_deps_libsolv
   }
 
   my $blackpkg = $repo->add_solvable();
+  $blackpkg->{evr} = "1-1";
   $blackpkg->{name} = "blacklist_package";
   $blackpkg->{arch} = "noarch";
 
@@ -764,7 +765,9 @@ sub resolve_deps_libsolv
     my @err;
 
     for my $problem (@problems) {
-      push @err, "$Script: " . $problem->findproblemrule()->info()->problemstr() . "\n";
+      for my $pr ($problem->findallproblemrules()) {
+        push @err, "$Script: " . $pr->info()->problemstr() . "\n";
+      }
     }
 
     warn join('', @err);

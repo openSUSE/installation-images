@@ -48,7 +48,6 @@ logrotate: ignore
 luit: ignore
 mdadm: ignore
 mingetty: ignore
-mkinitrd: ignore
 mtools: ignore
 nfsidmap: ignore
 pam-config: ignore
@@ -72,6 +71,8 @@ yast2-pam: ignore
 yast2-security: ignore
 udev: ignore
 unzip: ignore
+?dracut: ignore
+?mkinitrd: ignore
 
 ?efibootmgr:
 ?elilo:
