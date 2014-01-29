@@ -15,7 +15,7 @@ BOOT_PARTS    := boot/* initrd biostest
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot-grub2-efi boot boot-themes $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot-grub2-efi boot boot-themes $(COMMON_TARGETS) rescue-server
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := boot/* initrd biostest efi
 endif
@@ -159,6 +159,9 @@ rescue: base
 	libdeps=rescue image=rescue bin/mk_image
 	# rescue ok? (bnc #457947)
 	@[ -s tmp/rescue/etc/init.d/boot.d/S*.udev ] || ( echo "build does not work on xxx" ; false )
+
+rescue-server:
+	libdeps=rescue image=rescue-server src=rescue filelist=rescue-server fs=squashfs bin/mk_image
 
 root+rescue: base
 	image=root+rescue fs=none bin/mk_image
