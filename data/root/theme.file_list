@@ -1,10 +1,10 @@
 desktop-data-openSUSE:
   /usr/share/desktop-data/qtrc
 
-yast2-qt-branding-<theme>:
+?yast2-qt-branding-<theme>:
   /
 
-yast2-theme-<theme>:
+?yast2-theme-<theme>:
   /
 
 yast2-theme-<yast_theme>:
