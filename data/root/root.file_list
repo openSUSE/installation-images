@@ -76,10 +76,6 @@ unzip: ignore
 
 ?efibootmgr:
 ?elilo:
-?yast2-reipl:
-?yast2-s390:
-?yast2-vm:
-autoyast2-installation:
 btrfsprogs:
 bzip2:
 coreutils:
@@ -148,43 +144,6 @@ wget:
 xfsdump:
 xfsprogs:
 xz:
-yast2-add-on:
-yast2-bootloader:
-yast2-core:
-yast2-country-data:
-yast2-country:
-yast2-fcoe-client:
-##
-yast2-hardware-detection:
-yast2-iscsi-client:
-yast2-kdump:
-yast2-ldap-client:
-yast2-multipath:
-yast2-network:
-yast2-nfs-client:
-yast2-ntp-client:
-yast2-packager:
-yast2-pam:
-yast2-perl-bindings:
-yast2-pkg-bindings:
-yast2-proxy:
-yast2-ruby-bindings:
-yast2-security:
-yast2-services-manager:
-##
-yast2-slp:
-yast2-trans-stats:
-##
-yast2-transfer:
-yast2-tune:
-yast2-update:
-yast2-users:
-yast2-x11:
-##
-yast2-xml:
-yast2-ycp-ui-bindings:
-
-# rubygem-nokogiri:
 
 rpm:
   /bin
@@ -252,6 +211,22 @@ if arch eq 'ia64'
   r /usr/lib/ia32el/cpuid
   r /usr/lib/ia32el/auxapp
 endif
+
+
+# The skelcd packages are only used to pull in all Yast packages
+# via dependencies. The control file is actually not needed at all
+# (it's downloaded during installation from the installation source),
+# so we only include the documentation which is later removed.
+# The result is that the inst-sys contains the needed Yast packages
+# without any useless file.
+?skelcd-control-openSUSE:
+  /usr/share/doc/packages/skelcd-control-openSUSE/LICENSE
+
+?skelcd-control-SLES:
+  /usr/share/doc/packages/skelcd-control-SLES/LICENSE
+
+?skelcd-control-SLED:
+  /usr/share/doc/packages/skelcd-control-SLED/LICENSE
 
 yast2:
   /etc
