@@ -28,6 +28,10 @@ TEMPLATE rubygem-.*:
   /usr/*/ruby/gems/*/gems/*/lib
   /usr/*/ruby/gems/*/specifications
 
+TEMPLATE skelcd-control-.*:
+  # just a template that does nothing
+  d .
+
 TEMPLATE:
   /
 
@@ -69,10 +73,12 @@ hicolor-icon-theme: ignore
 yast2-nfs-common: ignore
 yast2-pam: ignore
 yast2-security: ignore
+yast2-trans-allpacks: ignore
 udev: ignore
 unzip: ignore
 ?dracut: ignore
 ?mkinitrd: ignore
+?yast2-theme-openSUSE-Oxygen: ignore
 
 ?efibootmgr:
 ?elilo:
@@ -145,6 +151,11 @@ xfsdump:
 xfsprogs:
 xz:
 
+# pull in yast2 installation related packages via package deps
+?skelcd-control-openSUSE:
+?skelcd-control-SLES:
+?skelcd-control-SLED:
+
 rpm:
   /bin
   /etc
@@ -212,21 +223,6 @@ if arch eq 'ia64'
   r /usr/lib/ia32el/auxapp
 endif
 
-
-# The skelcd packages are only used to pull in all Yast packages
-# via dependencies. The control file is actually not needed at all
-# (it's downloaded during installation from the installation source),
-# so we only include the documentation which is later removed.
-# The result is that the inst-sys contains the needed Yast packages
-# without any useless file.
-?skelcd-control-openSUSE:
-  /usr/share/doc/packages/skelcd-control-openSUSE/LICENSE
-
-?skelcd-control-SLES:
-  /usr/share/doc/packages/skelcd-control-SLES/LICENSE
-
-?skelcd-control-SLED:
-  /usr/share/doc/packages/skelcd-control-SLED/LICENSE
 
 yast2:
   /etc
