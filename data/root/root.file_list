@@ -62,17 +62,12 @@ shared-mime-info: ignore
 update-alternatives: ignore
 xinetd: ignore
 xrdb: ignore
-yast2-ldap-client: ignore
-yast2-python-bindings: ignore
 icewm: ignore
 pkg-config: ignore
 syslog-service: ignore
 kmod: ignore
 gio-branding-upstream: ignore
 hicolor-icon-theme: ignore
-yast2-nfs-common: ignore
-yast2-pam: ignore
-yast2-security: ignore
 yast2-trans-allpacks: ignore
 udev: ignore
 unzip: ignore
