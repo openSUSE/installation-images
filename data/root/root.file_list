@@ -229,10 +229,10 @@ yast2:
   r /usr/lib/YaST2/bin/yast2
 
 ruby:
-  /etc/gemrc
-  /etc/rpm
-  # update-alternatives
-  e cd usr/bin ; for i in erb gem irb rake rdoc ri ruby testrb ; do ln -s ${i}2* $i; done
+  /
+  # avoid update-alternatives
+  r /etc/alternatives
+  e cd usr/bin ; for i in erb gem irb rake rdoc ri ruby testrb ; do [ -x $i ] || ln -snf ${i}2* $i ; done
 
 yast2-devtools:
   /usr/share/YaST2/data/devtools/bin/showy2log
