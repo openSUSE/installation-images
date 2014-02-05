@@ -35,7 +35,9 @@ CD1=$targetdir/CD1
 mkdir -pv $CD1/ppc
 # to trigger the HFS part, avoid 8.3 filenames and allow OF booting
 mkdir -pv $CD1/suseboot
+if [ -f /lib/lilo/chrp/yaboot ] ; then
 cp -pfv /lib/lilo/chrp/yaboot           $CD1/suseboot/yaboot
+fi
 cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
 if test "$do_32" = "true" ; then
 # provide PS3 bootloader only on openSuSE

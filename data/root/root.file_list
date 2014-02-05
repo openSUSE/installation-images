@@ -75,6 +75,10 @@ unzip: ignore
 ?mkinitrd: ignore
 ?yast2-theme-openSUSE-Oxygen: ignore
 
+if arch eq 'aarch64'
+qemu-linux-aarch64:
+endif
+
 ?efibootmgr:
 ?elilo:
 btrfsprogs:
@@ -106,7 +110,7 @@ libudev*:
 libyui-ncurses-pkg*:
 libyui-qt-pkg*:
 libyui-qt-graph*:
-ltrace:
+?ltrace:
 lvm2:
 module-init-tools:
 mozilla-nspr:

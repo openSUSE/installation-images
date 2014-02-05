@@ -37,6 +37,10 @@ update-alternatives: ignore
 device-mapper-32bit: ignore
 binutils: ignore
 
+if arch eq 'aarch64'
+qemu-linux-aarch64:
+endif
+
 ?acpica:
 ?efibootmgr:
 ?elilo:
@@ -96,7 +100,7 @@ iproute2:
 iputils:
 jfsutils:
 joe:
-kexec-tools:
+?kexec-tools:
 klogd:
 kpartx:
 krb5:
