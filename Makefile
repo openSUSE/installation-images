@@ -39,7 +39,7 @@ BOOT_PARTS    :=
 endif
 
 ifneq ($(filter ppc ppc64 ppc64le, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel  boot-grub2-powerpc $(COMMON_TARGETS)
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    :=
 endif
@@ -153,6 +153,12 @@ boot-grub2-efi: base
 	for theme in $(THEMES) ; do \
 	  theme=$$theme image=$$theme/EFI tmpdir=boot-efi-$$theme src=boot filelist=grub2-efi fs=dir bin/mk_image ; \
 	  bin/hdimage --size 500k --fit-size --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi-$$theme/* tmp/boot-efi-$$theme/.p* -- images/$$theme/efi ; \
+	done
+
+boot-grub2-powerpc: base
+	for arch in ppc ppc64 ppc64le ; do \
+	  mkdir -p {tmp,images}/$$theme/boot/$$arch ; \
+	  image=$$theme/boot/$$arch/grub2-ieee1275 src=boot filelist=grub2-powerpc fs=dir bin/mk_image ; \
 	done
 
 boot: base

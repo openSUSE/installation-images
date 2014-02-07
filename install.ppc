@@ -5,7 +5,7 @@
 set -e
 
 # create directory layout
-mkdir -p $DESTDIR/CD1/boot/$ARCH
+mkdir -p $DESTDIR/CD1/boot/$ARCH/loader
 for theme in $THEMES ; do
   mkdir -p $DESTDIR/branding/$theme/CD1/boot/$ARCH
 done
@@ -21,7 +21,7 @@ for theme in $THEMES ; do
     [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
   done
 
-  cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader
   ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
 
   case "$ARCH" in
