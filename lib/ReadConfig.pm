@@ -1090,6 +1090,10 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
       $ConfigData{obs_arch} = $3;
     }
 
+    if($ENV{obsurl} ne "") {
+      $ConfigData{obs_server} = $ENV{obsurl};
+    }
+
     my ($f, $u, $p, $s);
 
     if($ConfigData{obs_server} !~ /\@/ && -f "$ENV{HOME}/.oscrc") {
