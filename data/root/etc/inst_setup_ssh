@@ -36,9 +36,12 @@ if [ ! -z "$sshpassword" ] ; then
   echo "root:$sshpassword" | chpasswd
 fi
 chown -R 0.0  /etc/ssh /root /etc/shadow 2>/dev/null
+
+/usr/sbin/sshd-gen-keys-start
+
 echo "Starting SSH daemon  ...  "
 
-rcsshd start || {
+/usr/sbin/sshd || {
   export SSH_FAILED=true
   export YAST2_SSH=false
   echo 'sshd did NOT start!'
