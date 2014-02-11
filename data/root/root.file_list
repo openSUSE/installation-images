@@ -421,88 +421,88 @@ if arch ne 's390' && arch ne 's390x'
     /etc
     /usr/<lib>/xorg/modules
 
-  mkfontscale:
-  mkfontdir:
-  setxkbmap:
-  xdpyinfo:
-  xhost:
-  xkbcomp:
-  xmodmap:
-  xrefresh:
-  xset:
-  xauth:
-
-  xterm:
-    /usr/share/X11/app-defaults/XTerm
-    R s/nil2/fixed/ /usr/share/X11/app-defaults/XTerm
-    /usr/bin/xterm
-
-  gpm:
-    /usr/sbin/gpm
-
-  fontconfig:
-    /
-    r /etc/fonts/local.conf
-    m /etc/fonts/local.conf.instsys /etc/fonts/local.conf
-
-  xdm:
-    /etc/X11/xdm/Keyboard.map
-
-  rgb:
-    /usr/share/X11/rgb.txt
-
-  xorg-x11-fonts-core:
-    # 'fixed' font
-    /usr/share/fonts/misc/6x13-ISO8859-1.pcf.gz
-    /usr/share/fonts/misc/fonts.alias
-    /usr/share/fonts/misc/cursor.pcf.gz
-    /usr/share/fonts/misc/6x13.pcf.gz
-    /usr/share/fonts/misc/olcursor.pcf.gz
-
-  xorg-x11-fonts:
-    m /usr/share/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/share/fonts/misc
-
-    d /etc/X11
-    x /etc/xorg.conf.template /etc/X11
-    R s#usr/lib/xorg/modules#usr/<lib>/xorg/modules# /etc/X11/xorg.conf.template
-
-  xkeyboard-config:
-    /usr/share
-    /var/lib
-
-  if arch eq 's390x'
-    # these libs are needed for 32-Bit vnc
-
-    glibc-32bit:
-      /lib/ld*.so
-      /lib/libc.so.6
-      /lib/libdl.so.2
-      /lib/libm.so.6
-  endif
-
-  if exists(xorg-x11-Xvnc)
-    xorg-x11-Xvnc:
-      /usr/bin/Xvnc
-  endif
-
-  Mesa-libEGL*:
-
-  libgbm*:
-    /usr/lib*/libgbm.so.*
-
-  openslp-server:
-    /etc/slp.reg
-    /etc/slp.reg.d
-    /usr/sbin/slpd
-
-  fribidi:
-    /usr/lib*/libfribidi.so*
-
-  icewm-lite:
-    /usr/bin/icewm-lite
-    s /usr/bin/icewm-lite /usr/bin/icewm
-
 endif
+
+mkfontscale:
+mkfontdir:
+setxkbmap:
+xdpyinfo:
+xhost:
+xkbcomp:
+xmodmap:
+xrefresh:
+xset:
+xauth:
+
+xterm:
+  /usr/share/X11/app-defaults/XTerm
+  R s/nil2/fixed/ /usr/share/X11/app-defaults/XTerm
+  /usr/bin/xterm
+
+gpm:
+  /usr/sbin/gpm
+
+fontconfig:
+  /
+  r /etc/fonts/local.conf
+  m /etc/fonts/local.conf.instsys /etc/fonts/local.conf
+
+xdm:
+  /etc/X11/xdm/Keyboard.map
+
+rgb:
+  /usr/share/X11/rgb.txt
+
+xorg-x11-fonts-core:
+  # 'fixed' font
+  /usr/share/fonts/misc/6x13-ISO8859-1.pcf.gz
+  /usr/share/fonts/misc/fonts.alias
+  /usr/share/fonts/misc/cursor.pcf.gz
+  /usr/share/fonts/misc/6x13.pcf.gz
+  /usr/share/fonts/misc/olcursor.pcf.gz
+
+xorg-x11-fonts:
+  m /usr/share/fonts/75dpi/helvB14-ISO8859-1.pcf.gz /usr/share/fonts/misc
+
+  d /etc/X11
+  x /etc/xorg.conf.template /etc/X11
+  R s#usr/lib/xorg/modules#usr/<lib>/xorg/modules# /etc/X11/xorg.conf.template
+
+xkeyboard-config:
+  /usr/share
+  /var/lib
+
+if arch eq 's390x'
+  # these libs are needed for 32-Bit vnc
+
+  glibc-32bit:
+    /lib/ld*.so
+    /lib/libc.so.6
+    /lib/libdl.so.2
+    /lib/libm.so.6
+endif
+
+if exists(xorg-x11-Xvnc)
+  xorg-x11-Xvnc:
+    /usr/bin/Xvnc
+endif
+
+Mesa-libEGL*:
+
+libgbm*:
+  /usr/lib*/libgbm.so.*
+
+openslp-server:
+  /etc/slp.reg
+  /etc/slp.reg.d
+  /usr/sbin/slpd
+
+fribidi:
+  /usr/lib*/libfribidi.so*
+
+icewm-lite:
+  /usr/bin/icewm-lite
+  s /usr/bin/icewm-lite /usr/bin/icewm
 
 # once qt5 port of libyui is in, remove
 ?libqt4:
