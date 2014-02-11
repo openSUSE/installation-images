@@ -26,8 +26,8 @@ if arch eq 'x86_64'
   # grub2-efi with graphics
   # grub.cfg is patched in grub2-ef.file_list
   if 1
+    d grub2-efi
     ?grub2-branding-<splash_theme>:
-      d grub2-efi
       m /usr/share/grub2/themes grub2-efi
       m /usr/share/grub2/backgrounds/<splash_theme>/default-43.png grub2-efi/themes/openSUSE/background.png
       r grub2-efi/themes/<splash_theme>/{activate-theme,COPYING.CC-BY-SA-3.0,README}
