@@ -1,5 +1,5 @@
---- grub2-efi/themes/openSUSE/theme.txt
-+++ grub2-efi/themes/openSUSE/theme.txt
+--- grub2-efi/themes/SLES/theme.txt
++++ grub2-efi/themes/SLES/theme.txt
 @@ -2,7 +2,9 @@
  
  desktop-image: "background.png"

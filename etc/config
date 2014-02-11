@@ -77,7 +77,7 @@ image	= 350
 
 
 [Theme SLES]
-splash  = SLES
+splash  = openSUSE
 yast    = SLE
 product	= SUSE Linux Enterprise Server 12
 version = 13.2
