@@ -157,7 +157,7 @@ if [ -x /sbin/klogd ] ; then
 fi
 
 # start nscd (bnc #530440)
-rcnscd start
+[ -f /etc/resolv.conf ] && nscd
 
 # Update module config.
 #
@@ -261,7 +261,7 @@ fi
 # start shell, useful on iSeries or via serial console
 [ "$START_SHELL" ] && start_shell
 
-rcnscd stop
+nscd --shutdown
 
 # stop various daemons
 # killall dbus-daemon >/dev/null 2>&1

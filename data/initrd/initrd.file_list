@@ -141,6 +141,7 @@ terminfo:
 
 netcfg:
   /etc/protocols
+  /etc/netgroup
 
 ?xf86-input-vmmouse:
   /usr/bin/vmmouse_detect
@@ -397,6 +398,10 @@ udev:
 
 # we just want the user & group entries
 polkit: nodeps
+  E prein
+
+# we just want the user & group entries
+nscd:
   E prein
 
 
