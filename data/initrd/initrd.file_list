@@ -332,7 +332,6 @@ nscd:
   /usr/lib/udev/rules.d
 
 multipath-tools:
-  /etc/udev/rules.d
   /var/cache/multipath
 
 shadow:
@@ -500,6 +499,7 @@ x devz /devz
 
 # copy ssl certificates
 e cp -a /etc/ssl etc
+e cp -a /var/lib/ca-certificates var/lib
 
 # mtab is symlink now
 r /etc/mtab

@@ -99,6 +99,7 @@ endif
 ca-certificates:
   /usr/sbin/update-ca-certificates
   /usr/lib/ca-certificates/update.d/openssl.run
+  /usr/lib/ca-certificates/update.d/etc_ssl.run
   /var/lib/ca-certificates/openssl
 
 aaa_base:
@@ -127,6 +128,7 @@ x create_locale /create_locale
 E /create_locale
 
 # show certificates
+s /var/lib/ca-certificates/pem etc/ssl/certs
 E update-ca-certificates -f
 E ls -lR /var/lib/ca-certificates
 E ls -lR /etc/ssl
