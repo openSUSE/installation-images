@@ -85,7 +85,7 @@ squashfs:
 strace:
 suse-module-tools:
 ?syslinux:
-systemd-presets-branding-openSUSE:
+systemd-presets-branding-<base_theme>:
 systemd:
 tar:
 terminfo-base:

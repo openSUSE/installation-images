@@ -1,7 +1,12 @@
-skelcd-openSUSE:
-  /
+if theme eq 'SLES'
+  skelcd-sles:
+    /
+else
+  skelcd-<theme>:
+    /
+endif
 
-skelcd-control-openSUSE:
+skelcd-control-<theme>:
   /
 
 d CD1/boot/<arch>

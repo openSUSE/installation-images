@@ -44,6 +44,7 @@ INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    :=
 endif
 
+# THEMES must be a single value
 THEMES        := openSUSE
 DESTDIR       := images/instsys
 
@@ -77,7 +78,7 @@ dirs:
 	@[ -d tmp ] || mkdir tmp
 
 base: dirs
-	@[ -d tmp/base ] || nostrip=1 libdeps=base image=base fs=none bin/mk_image
+	@[ -d tmp/base ] || theme=$(THEMES) nostrip=1 libdeps=base image=base fs=none bin/mk_image
 
 fbase: dirs
 	nostrip=1 libdeps=base image=base fs=none bin/mk_image
@@ -162,18 +163,18 @@ boot-grub2-powerpc: base
 	done
 
 boot: base
-	image=boot fs=dir bin/mk_image
+	theme=$(THEMES) image=boot fs=dir bin/mk_image
 
 root: base
-	libdeps=root image=root bin/mk_image
+	theme=$(THEMES) libdeps=root image=root bin/mk_image
 
 rescue: base
-	libdeps=rescue image=rescue bin/mk_image
+	theme=$(THEMES) libdeps=rescue image=rescue bin/mk_image
 	# rescue ok? (bnc #457947)
 	@[ -s tmp/rescue/etc/init.d/boot.d/S*.udev ] || ( echo "build does not work on xxx" ; false )
 
 rescue-server:
-	libdeps=rescue image=rescue-server src=rescue filelist=rescue-server fs=squashfs bin/mk_image
+	theme=$(THEMES) libdeps=rescue image=rescue-server src=rescue filelist=rescue-server fs=squashfs bin/mk_image
 
 root+rescue: base
 	image=root+rescue fs=none bin/mk_image
@@ -217,10 +218,10 @@ cd1: base
 	for i in `cat images/rpmlist` ; do \
 	  echo -e "$$i:\n  X <rpm_file> CD1/boot/<arch>\n" >> data/cd1/gen/rpm.file_list; \
 	done
-	nostrip=1 image=cd1 fs=none sw 0 bin/mk_image
+	theme=$(THEMES) nostrip=1 image=cd1 fs=none sw 0 bin/mk_image
 	cp -a images/instsys/CD1 tmp/cd1
 	rm -f tmp/cd1/CD1/boot/*/rpmlist
-	cp -a images/instsys/branding/openSUSE/CD1 tmp/cd1
+	cp -a images/instsys/branding/$(THEMES)/CD1 tmp/cd1
 
 mini-iso-rmlist: base
 	rm -f images/$@

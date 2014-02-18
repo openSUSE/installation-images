@@ -141,7 +141,7 @@ strace:
 suse-module-tools:
 sysconfig:
 sysconfig-netconfig:
-systemd-presets-branding-openSUSE:
+systemd-presets-branding-<base_theme>:
 systemd-sysvinit:
 systemd:
 tar:
@@ -154,6 +154,13 @@ wget:
 xfsdump:
 xfsprogs:
 xz:
+
+if theme eq 'SLES'
+  sles-release:
+  sles-release-DVD:
+else
+  <theme>-release:
+endif
 
 samba-libs: nodeps
   /usr/lib*/samba/libreplace.so

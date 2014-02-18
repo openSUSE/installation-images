@@ -392,6 +392,11 @@ sub ReadRPM
     print $f $_;
     close $f;
 
+    $_ = `$rpm_cmd -qp --provides $rpm->{file} 2>/dev/null`;
+    open $f, ">$dir/provides";
+    print $f $_;
+    close $f;
+
     @s = `$rpm_cmd -qp --qf '%|PREIN?{PREIN\n}:{}|%|POSTIN?{POSTIN\n}:{}|%|PREUN?{PREUN\n}:{}|%|POSTUN?{POSTUN\n}:{}|' $rpm->{file} 2>/dev/null`;
     for (@s) {
       chomp;
@@ -1200,6 +1205,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $load_image = $load_image * 1024 if $load_image;
 
   $ConfigData{theme} = $theme;
+  $ConfigData{base_theme} = $ConfigData{ini}{"Theme $theme"}{base};
   $ConfigData{splash_theme} = $ConfigData{ini}{"Theme $theme"}{splash};
   $ConfigData{yast_theme} = $ConfigData{ini}{"Theme $theme"}{yast};
   $ConfigData{product_name} = $product_name;

@@ -359,7 +359,7 @@ if exists(plymouth)
   plymouth:
   plymouth-scripts: nodeps
   plymouth-plugin-script:
-  plymouth-branding-openSUSE: nodeps
+  plymouth-branding-<base_theme>: nodeps
 endif
 
 procps:
