@@ -159,7 +159,8 @@ if theme eq 'SLES'
   sles-release:
   sles-release-DVD:
 else
-  <theme>-release:
+  openSUSE-release:
+  openSUSE-release-dvd:
 endif
 
 samba-libs: nodeps

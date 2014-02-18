@@ -46,7 +46,6 @@ cracklib-dict-full:
 cracklib:
 device-mapper:
 diffutils:
-dummy-release:
 elfutils:
 file-magic:
 file:
@@ -91,6 +90,14 @@ tar:
 terminfo-base:
 udev:
 util-linux:
+
+if theme eq 'SLES'
+  sles-release:
+  sles-release-DVD:
+else
+  openSUSE-release:
+  openSUSE-release-dvd:
+endif
 
 if arch eq 'aarch64'
 qemu-linux-aarch64:
