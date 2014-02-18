@@ -718,9 +718,6 @@ sub resolve_deps_libsolv
   $pool->createwhatprovides();
   $pool->set_debuglevel(4) if $ENV{debug} =~ /solv/;
 
-  my $solver = $pool->Solver();
-  $solver->set_flag($solv::Solver::SOLVER_FLAG_IGNORE_RECOMMENDED, 1);
-
   my $jobs;
   for (@$packages) {
     push @$jobs, $pool->Job($solv::Job::SOLVER_INSTALL | $solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
@@ -763,6 +760,9 @@ sub resolve_deps_libsolv
   else {
     warn "$Script: outdated perl-solv: solver will not work properly";
   }
+
+  my $solver = $pool->Solver();
+  $solver->set_flag($solv::Solver::SOLVER_FLAG_IGNORE_RECOMMENDED, 1);
 
   my @problems = $solver->solve($jobs);
 
