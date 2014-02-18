@@ -86,7 +86,6 @@ permissions: ignore
 pinentry: ignore
 rpcbind: ignore
 ?suspend: ignore
-sysconfig: ignore
 systemd: ignore
 update-alternatives: ignore
 ?dracut: ignore
@@ -369,6 +368,12 @@ procps:
 systemd:
   /usr/lib*/libsystemd-journal.so.*
   /usr/lib*/libsystemd-login.so.*
+
+sysconfig:
+  /
+  m /var/adm/fillup-templates/sysconfig.config-network /etc/sysconfig/network/config
+  m /var/adm/fillup-templates/sysconfig.dhcp-network /etc/sysconfig/network/dhcp
+  r sbin/rcnetwork
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
