@@ -81,13 +81,13 @@ base: dirs
 	@[ -d tmp/base ] || theme=$(THEMES) nostrip=1 libdeps=base image=base fs=none bin/mk_image
 
 fbase: dirs
-	nostrip=1 libdeps=base image=base fs=none bin/mk_image
+	theme=$(THEMES) nostrip=1 libdeps=base image=base fs=none bin/mk_image
 
 biostest: base
-	libdeps=initrd,biostest image=biostest src=initrd fs=cpio.gz disjunct=initrd bin/mk_image
+	theme=$(THEMES) libdeps=initrd,biostest image=biostest src=initrd fs=cpio.gz disjunct=initrd bin/mk_image
 
 initrd: base
-	libdeps=initrd image=initrd-base.gz tmpdir=initrd src=initrd filelist=initrd fs=cpio.gz bin/mk_image
+	theme=$(THEMES) libdeps=initrd image=initrd-base.gz tmpdir=initrd src=initrd filelist=initrd fs=cpio.gz bin/mk_image
 	[ -s tmp/initrd/bin/bash ]
 
 modules: base
@@ -143,7 +143,7 @@ kernel: base
 	image=vmlinuz-$${MOD_CFG:-default} src=initrd filelist=kernel kernel=kernel-$${MOD_CFG:-default} fs=dir bin/mk_image
 
 boot-efi: base
-	image=boot-efi src=boot filelist=efi fs=none bin/mk_image
+	theme=$(THEMES) image=boot-efi src=boot filelist=efi fs=none bin/mk_image
 	for theme in $(THEMES) ; do \
 	  ln images/$$theme/initrd tmp/boot-efi/efi/boot/initrd ; \
 	  bin/hdimage --size 500k --fit-size --chs 0 4 63 --part-ofs 0 --mkfs fat --add-files tmp/boot-efi/* tmp/boot-efi/.p* -- images/$$theme/efi ; \
