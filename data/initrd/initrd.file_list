@@ -501,6 +501,9 @@ endif
 
 :
 
+# replace issue and motd with our own messages
+include texts.file_list
+
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 
