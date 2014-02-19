@@ -495,7 +495,7 @@ endif
 
 if exists(xorg-x11-Xvnc)
   xorg-x11-Xvnc:
-    /usr/bin/Xvnc
+    /usr/bin
 endif
 
 Mesa-libEGL*:
