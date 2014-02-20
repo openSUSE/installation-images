@@ -318,6 +318,10 @@ gzip:
   /usr/bin/gzip
   /usr/bin/gunzip
 
+gawk:
+  /usr/bin/gawk
+  s gawk usr/bin/awk
+
 nscd:
   # remaining files are in root image
   d /var/run/nscd
