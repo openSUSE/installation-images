@@ -37,7 +37,7 @@ install -m 644 data/initrd/s390/suse.ins.images.$ARCH $DESTDIR/CD1/boot/$ARCH/su
 install -m 644 data/initrd/s390/suse.ins.parmfile $DESTDIR/CD1/boot/$ARCH/parmfile
 install -m 644 data/initrd/s390/suse.ins.parmfile.cd $DESTDIR/CD1/boot/$ARCH/parmfile.cd
 
-install -m 644 data/initrd/s390/sles11.exec $DESTDIR/CD1/boot/$ARCH/sles11.exec
+install -m 644 data/initrd/s390/sles12.exec $DESTDIR/CD1/boot/$ARCH/sles12.exec
 
 mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
