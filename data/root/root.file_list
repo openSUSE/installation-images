@@ -99,6 +99,7 @@ grep:
 gzip:
 hex:
 hwinfo:
+?hyper-v:
 initviocons:
 insserv-compat:
 iputils:

@@ -50,6 +50,7 @@ endif
 ?grub2-powerpc-ieee1275:
 ?grub2:
 ?grub:
+?hyper-v:
 ?iprutils:
 ?lilo:
 ?pdisk:
