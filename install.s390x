@@ -28,14 +28,14 @@ for theme in $THEMES ; do
   perl -e "print pack('N', 0x800000)" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.off
 done
 
-[ -f /boot/kernel-installation-tapeipl/image ] && install -m 644 /boot/kernel-installation-tapeipl/image $DESTDIR/CD1/boot/$ARCH/tapeipl.ikr
-install -m 644 /boot/image-* $DESTDIR/CD1/boot/$ARCH/vmrdr.ikr
+install -m 644 /boot/image-* $DESTDIR/CD1/boot/$ARCH/linux
 
-install -m 644 data/initrd/s390/suse.ins.root.$ARCH $DESTDIR/CD1/suse.ins
-install -m 644 data/initrd/s390/suse.ins.images.$ARCH $DESTDIR/CD1/boot/$ARCH/suse.ins
+install -m 644 data/initrd/s390/suse.ins $DESTDIR/CD1/suse.ins
+perl -pi -e "s#^([^*]+)#boot/$ARCH/\$1#" $DESTDIR/CD1/suse.ins
+install -m 644 data/initrd/s390/suse.ins $DESTDIR/CD1/boot/$ARCH/suse.ins
 
-install -m 644 data/initrd/s390/suse.ins.parmfile $DESTDIR/CD1/boot/$ARCH/parmfile
-install -m 644 data/initrd/s390/suse.ins.parmfile.cd $DESTDIR/CD1/boot/$ARCH/parmfile.cd
+install -m 644 data/initrd/s390/parmfile $DESTDIR/CD1/boot/$ARCH/parmfile
+install -m 644 data/initrd/s390/parmfile.cd $DESTDIR/CD1/boot/$ARCH/parmfile.cd
 
 install -m 644 data/initrd/s390/sles12.exec $DESTDIR/CD1/boot/$ARCH/sles12.exec
 
