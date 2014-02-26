@@ -329,6 +329,8 @@ x etc/dhcp6c.conf etc
 e mv usr/bin/mount usr/bin/mount.bin
 x mount usr/bin
 
+x mount-rootfs-and-do-chroot.sh /bin
+
 # run getty on tty1
 d etc/systemd/system/getty.target.wants
 s /usr/lib/systemd/system/getty@.service etc/systemd/system/getty.target.wants/getty@tty1.service

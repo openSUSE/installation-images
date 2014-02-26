@@ -338,6 +338,8 @@ cracklib: nodeps
   x root/.bash_login /root
   x root/.vimrc /root
 
+  x ../rescue/mount-rootfs-and-do-chroot.sh /bin
+
 openssl:
   /usr/share/ssl
 
