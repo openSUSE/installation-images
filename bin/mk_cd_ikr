@@ -1,0 +1,69 @@
+#! /usr/bin/perl
+
+# Creates cd.ikr from suse.ins.
+#
+# Note this expects parmfile.cd to be present as well; parmfile.cd can be
+# removed after creating cd.ikr.
+#
+# Usage: mk_cd_ikr /foo/bar/suse.ins
+#
+
+use strict;
+
+sub create_cd_ikr;
+
+create_cd_ikr $ARGV[0];
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+sub create_cd_ikr
+{
+  my $ins = shift;
+
+  my $dir = $ins;
+  $dir =~ s#/[^/]*$##;
+
+  my $ikr = "$dir/cd.ikr";
+
+  my @layout;
+
+  if(open my $s, $ins) {
+    while(<$s>) {
+      next if /^\s*\*/;
+      push @layout, { file => "$dir/$1", ofs => oct($2) } if /^\s*(\S+)\s+(\S+)/;
+    }
+    close $s;
+  }
+
+  die "$ins: nothing to do?\n" if !@layout;
+
+  if(open my $d, ">", $ikr) {
+    for (@layout) {
+      my $fname = $_->{file};
+      my $is_parmfile;
+      $is_parmfile = 1 if $fname =~ s#(/parmfile)$#$1.cd#;
+      if(open my $f, $fname) {
+        sysread $f, my $buf, -s($f);
+        close $f;
+        sysseek $d, $_->{ofs}, 0;
+        # remove newlines from parmfile
+        $buf =~ s/\n+/ /g if $is_parmfile;
+        syswrite $d, $buf;
+        # print "$fname: $_->{ofs} ", length($buf), "\n";
+      }
+      else {
+        die "$_->{file}: $!\n";
+      }
+    }
+
+    sysseek $d, 4, 0;
+    syswrite $d, pack("N",0x80010000);
+
+    # align to 4k
+    sysseek $d, -s($d) | 0xfff, 0;
+    syswrite $d, "\x00";
+
+    close $d;
+  }
+}
+
