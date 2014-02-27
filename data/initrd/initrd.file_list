@@ -1,7 +1,7 @@
 d bin dev etc mnt proc sys tmp
 d run/dbus
 d var/run var/spool var/lock/libstorage var/tmp var/log/YaST2 var/adm/mount
-d var/lib/YaST2 var/lib/dhcpcd var/lib/hardware/unique-keys var/lib/autoinstall
+d var/lib/YaST2 var/lib/hardware/unique-keys var/lib/autoinstall
 d var/run/hotplug var/cache/fontconfig
 d var/lib/sshd var/lib/empty var/run/ntp var/lib/rpcbind
 d var/cache/sax/files var/cache/sax/sysp/rdbms var/cache/xfine var/cache/zypp var/lib/sax 
@@ -99,7 +99,6 @@ samba-libs: nodeps
 cpio:
 curl:
 device-mapper:
-dhcpcd:
 ethtool:
 glibc:
 hwinfo:

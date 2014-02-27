@@ -76,7 +76,6 @@ cracklib:
 cryptsetup:
 curl:
 dd_rescue:
-dhcpcd:
 diffutils:
 dosfstools:
 ?dracut:
@@ -321,9 +320,6 @@ r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 
 # we better have one...
 e touch etc/sysconfig/kernel
-
-# our own dhcp6c config
-x etc/dhcp6c.conf etc
 
 # our own mount
 e mv usr/bin/mount usr/bin/mount.bin
