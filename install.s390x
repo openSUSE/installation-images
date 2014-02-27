@@ -26,22 +26,22 @@ for theme in $THEMES ; do
 
   perl -e "print pack('N', -s '$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd')" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.siz
   perl -e "print pack('N', 0x800000)" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.off
+
+  install -m 644 /boot/image-* $DESTDIR/branding/$theme/CD1/boot/$ARCH/linux
+
+  install -m 644 data/initrd/s390/suse.ins $DESTDIR/branding/$theme/CD1/suse.ins
+  perl -pi -e "s#^([^*]+)#boot/$ARCH/\$1#" $DESTDIR/branding/$theme/CD1/suse.ins
+  install -m 644 data/initrd/s390/suse.ins $DESTDIR/branding/$theme/CD1/boot/$ARCH/suse.ins
+
+  install -m 644 data/initrd/s390/parmfile $DESTDIR/branding/$theme/CD1/boot/$ARCH/parmfile
+  install -m 644 data/initrd/s390/parmfile.cd $DESTDIR/branding/$theme/CD1/boot/$ARCH/parmfile.cd
+
+  install -m 644 data/initrd/s390/sles12.exec $DESTDIR/branding/$theme/CD1/boot/$ARCH/sles12.exec
+
+  # create cd.ikr and remove no longer needed parmfile.cd
+  bin/mk_cd_ikr $DESTDIR/branding/$theme/CD1/boot/$ARCH/suse.ins
+  rm $DESTDIR/branding/$theme/CD1/boot/$ARCH/parmfile.cd
 done
-
-install -m 644 /boot/image-* $DESTDIR/CD1/boot/$ARCH/linux
-
-install -m 644 data/initrd/s390/suse.ins $DESTDIR/CD1/suse.ins
-perl -pi -e "s#^([^*]+)#boot/$ARCH/\$1#" $DESTDIR/CD1/suse.ins
-install -m 644 data/initrd/s390/suse.ins $DESTDIR/CD1/boot/$ARCH/suse.ins
-
-install -m 644 data/initrd/s390/parmfile $DESTDIR/CD1/boot/$ARCH/parmfile
-install -m 644 data/initrd/s390/parmfile.cd $DESTDIR/CD1/boot/$ARCH/parmfile.cd
-
-install -m 644 data/initrd/s390/sles12.exec $DESTDIR/CD1/boot/$ARCH/sles12.exec
-
-# create cd.ikr and remove no longer needed parmfile.cd
-bin/mk_cd_ikr $DESTDIR/CD1/boot/$ARCH/suse.ins
-rm $DESTDIR/CD1/boot/$ARCH/parmfile.cd
 
 mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
