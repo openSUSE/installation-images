@@ -99,6 +99,7 @@ grep:
 gzip:
 hex:
 hwinfo:
+?hyper-v:
 initviocons:
 insserv-compat:
 iputils:
@@ -336,6 +337,8 @@ cracklib: nodeps
   x root/.bash_history /root
   x root/.bash_login /root
   x root/.vimrc /root
+
+  x ../rescue/mount-rootfs-and-do-chroot.sh /bin
 
 openssl:
   /usr/share/ssl
