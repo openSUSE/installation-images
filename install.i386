@@ -39,9 +39,6 @@ for theme in $THEMES ; do
     cp -r images/$theme/EFI/EFI/BOOT/* $DESTDIR/branding/$theme/CD1/EFI/BOOT
   fi
 
-  cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
-  ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
-
   # xen initrd
   for i in images/$theme/initrd-+([^.]) ; do
     [ -f "$i" ] && cp $i $DESTDIR/branding/$theme/CD1/boot/$ARCH

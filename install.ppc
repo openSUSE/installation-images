@@ -21,9 +21,6 @@ for theme in $THEMES ; do
     [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
   done
 
-  cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
-  ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
-
   case "$ARCH" in
       ppc)           BITS="-32 -64";;
       ppc64|ppc64le) BITS="-64";;

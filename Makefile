@@ -5,7 +5,7 @@ endif
 
 GIT2LOG = $(shell [ -x ./git2log ] && echo ./git2log )
 
-COMMON_TARGETS	     := rescue root root+rescue root-themes bind gdb mini-iso-rmlist
+COMMON_TARGETS	     := rescue root root+rescue bind gdb mini-iso-rmlist
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
 
 ifneq ($(filter i386, $(ARCH)),)

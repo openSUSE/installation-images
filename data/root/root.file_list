@@ -518,15 +518,6 @@ icewm-lite:
   /usr/bin/icewm-lite
   s /usr/bin/icewm-lite /usr/bin/icewm
 
-# once qt5 port of libyui is in, remove
-?libqt4:
- /usr/lib*/libQtCore.so.*
- /usr/share/qt4/translations/qt_*.qm
-
-?libqt4-x11:
- /usr/lib*/libQtGui.so.*
- /usr/lib*/qt4/plugins/imageformats/libqjpeg.so
-
 dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
@@ -539,9 +530,6 @@ efont-unicode-bitmap-fonts:
 
 dmz-icon-theme-cursors:
   /usr/share/icons/DMZ
-
-desktop-data-openSUSE: nodeps
-  /usr/share/icons/hicolor/32x32/apps/package_utility_desktop.png
 
 multipath-tools:
   /sbin
@@ -593,6 +581,9 @@ graphviz:
 
 
 :
+
+# set yast theme
+s <yast_theme> usr/share/YaST2/theme/current
 
 x etc/suse-post-user.conf etc/fonts/
 

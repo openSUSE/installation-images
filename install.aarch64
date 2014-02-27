@@ -20,9 +20,6 @@ for theme in $THEMES ; do
   for i in $INSTSYS_PARTS $BOOT_PARTS ; do
     [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
   done
-
-  cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
-  ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
 done
 
 mkdir -p $DESTDIR/usr/share

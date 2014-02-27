@@ -21,9 +21,6 @@ for theme in $THEMES ; do
     [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
   done
 
-  cp images/$theme/$theme $DESTDIR/branding/$theme/CD1/boot/$ARCH
-  ln -s $theme $DESTDIR/branding/$theme/CD1/boot/$ARCH/branding
-
   perl -e "print pack('N', -s '$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd')" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.siz
   perl -e "print pack('N', 0x800000)" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.off
 
