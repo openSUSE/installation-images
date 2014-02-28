@@ -1,3 +1,2 @@
-ramdisk_size=65536 root=/dev/ram1 ro init=/linuxrc TERM=dumb
-manual=1
+TERM=dumb manual=1
 

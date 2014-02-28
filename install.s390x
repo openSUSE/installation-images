@@ -22,7 +22,7 @@ for theme in $THEMES ; do
   done
 
   perl -e "print pack('N', -s '$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd')" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.siz
-  perl -e "print pack('N', 0x800000)" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.off
+  perl -e "print pack('N', 0x1000000)" >$DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd.off
 
   install -m 644 /boot/image-* $DESTDIR/branding/$theme/CD1/boot/$ARCH/linux
 
