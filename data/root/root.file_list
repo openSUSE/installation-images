@@ -456,11 +456,6 @@ xterm:
 gpm:
   /usr/sbin/gpm
 
-fontconfig:
-  /
-  r /etc/fonts/local.conf
-  m /etc/fonts/local.conf.instsys /etc/fonts/local.conf
-
 xdm:
   /etc/X11/xdm/Keyboard.map
 
