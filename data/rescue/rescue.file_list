@@ -26,6 +26,20 @@ TEMPLATE lvm2|device-mapper|rpcbind|rsync|syslog-service|syslogd|util-linux|wick
 TEMPLATE:
   /
 
+# install filesystem first and *REMOVE* /var/run link
+filesystem:
+  /etc/{ppp,rc.d,uucp}
+  /etc/sysconfig
+  /root
+  /run
+  /etc/init.d
+  /usr/tmp
+  /var
+  # remove symlink to /run
+  e [ -L var/run ] && rm var/run
+  # remove temporarily so that 'mount /sys' doesn't work
+  r /sys
+
 AUTODEPS:
 
 dbus-1-x11: ignore
@@ -178,18 +192,6 @@ r /usr/bin/rpmqpack
 gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
-
-filesystem:
-  /etc/{ppp,rc.d,uucp}
-  /etc/sysconfig
-  /root
-  /run
-  /etc/init.d
-  /usr/tmp
-  /var
-
-  # remove temporarily so that 'mount /sys' doesn't work
-  r /sys
 
 glibc-locale:
   /usr/lib*/gconv/ISO8859*

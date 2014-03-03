@@ -217,6 +217,12 @@ kernel/drivers/target/target_core_mod.ko
 kernel/net/dsa/dsa_core.ko
 kernel/net/ipv4/ip_tunnel.ko
 
+kernel/drivers/leds/led-class.ko
+kernel/net/dns_resolver/dns_resolver.ko
+kernel/drivers/rapidio/rapidio.ko
+kernel/drivers/ntb/ntb.ko
+
+
 # kmps
 updates/
 

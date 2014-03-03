@@ -369,8 +369,7 @@ procps:
 
 # maybe we don't need everything...
 systemd:
-  /usr/lib*/libsystemd-journal.so.*
-  /usr/lib*/libsystemd-login.so.*
+  /usr/lib*/libsystemd.so.*
 
 sysconfig:
   /
