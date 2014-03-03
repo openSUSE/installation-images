@@ -69,7 +69,7 @@ floppy	=
 [Theme openSUSE]
 base    = openSUSE
 splash  = openSUSE
-yast    = openSUSE-Oxygen
+yast    = openSUSE
 product	= openSUSE
 version = 13.2
 sle     = 12

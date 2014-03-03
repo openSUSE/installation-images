@@ -180,7 +180,7 @@ filesystem:
   /var
   t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
   # remove symlink to /run
-  e [ -L var/run ] && rm var/run
+  e [ -L var/run ] && rm var/run ; true
 
 bash:
   /bin/bash

@@ -36,7 +36,7 @@ filesystem:
   /usr/tmp
   /var
   # remove symlink to /run
-  e [ -L var/run ] && rm var/run
+  e [ -L var/run ] && rm var/run ; true
   # remove temporarily so that 'mount /sys' doesn't work
   r /sys
 
