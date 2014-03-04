@@ -157,7 +157,6 @@ sysconfig:
 sysconfig-netconfig:
 systemd-presets-branding-<base_theme>:
 systemd-sysvinit:
-systemd:
 tar:
 telnet:
 terminfo-base:
@@ -286,6 +285,10 @@ udev:
   E prein
   E postin
 
+systemd:
+  /
+  E prein
+
 lvm2:
 device-mapper:
 rpcbind:
@@ -319,6 +322,7 @@ d /sys
 
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
+r dev/mapper dev/stderr dev/initctl
 
 # we better have one...
 e touch etc/sysconfig/kernel
