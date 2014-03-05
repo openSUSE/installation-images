@@ -32,6 +32,10 @@ TEMPLATE skelcd-control-.*:
   # just a template that does nothing
   d .
 
+TEMPLATE yast2-theme-openSUSE:
+  # yast2 openSUSE theme is just broken...
+  /usr/share/YaST2
+
 TEMPLATE:
   /
 
@@ -73,7 +77,6 @@ udev: ignore
 unzip: ignore
 ?dracut: ignore
 ?mkinitrd: ignore
-?yast2-theme-openSUSE-Oxygen: ignore
 
 if arch eq 'aarch64'
 qemu-linux-aarch64:
