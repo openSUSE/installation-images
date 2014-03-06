@@ -111,6 +111,7 @@ nfsidmap:
 pcmciautils:
 sed:
 ?wicked:
+sysconfig-netconfig:
 
 if arch eq 'aarch64'
 qemu-linux-aarch64:
