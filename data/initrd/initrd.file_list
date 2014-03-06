@@ -112,6 +112,7 @@ pcmciautils:
 sed:
 ?wicked:
 sysconfig-netconfig:
+sg3_utils:
 
 if arch eq 'aarch64'
 qemu-linux-aarch64:
@@ -169,10 +170,6 @@ kbd:
   /usr/share/kbd/keymaps
   /usr/share/kbd/consoletrans/koi2alt
   /usr/share/kbd/consoletrans/trivial
-
-sg3_utils:
-  /usr/bin/sg_luns
-  /usr/bin/sg_inq
 
 cifs-utils:
   /sbin/mount.cifs
