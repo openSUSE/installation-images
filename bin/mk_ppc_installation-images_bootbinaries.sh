@@ -33,24 +33,18 @@ fi
 CD1=$targetdir/CD1
 #
 mkdir -pv $CD1/ppc
+mkdir -pv $CD1/boot/$ARCH/grub2-ieee1275
+cp -apfv $bdir/grub2-ieee1275/grub2-ieee1275 $CD1/boot/$ARCH
 # to trigger the HFS part, avoid 8.3 filenames and allow OF booting
-mkdir -pv $CD1/suseboot
-if [ -f /lib/lilo/chrp/yaboot ] ; then
-cp -pfv /lib/lilo/chrp/yaboot           $CD1/suseboot/yaboot
-fi
-cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
-if test "$do_32" = "true" ; then
-# provide PS3 bootloader only on openSuSE
-#mkdir -pv $CD1/PS3/otheros
-#cp -pfv /usr/share/ps3/otheros.bld	$CD1/PS3/otheros
-#
-cp -pfv $bdir/initrd             $CD1/suseboot/initrd32
-cp -pfv /boot/vmlinux-*-default  $CD1/suseboot/linux32
-fi
-if test "$do_64" = "true" ; then
-cp -pfv $bdir/initrd-default       $CD1/suseboot/initrd64
-cp -pfv /boot/vmlinux-*-default    $CD1/suseboot/linux64
-fi
+#mkdir -pv $CD1/suseboot
+#if [ -f /lib/lilo/chrp/yaboot ] ; then
+#cp -pfv /lib/lilo/chrp/yaboot           $CD1/suseboot/yaboot
+#fi
+#cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
+
+#copy initrd and kernel
+cp -pfv $bdir/initrd             $CD1/boot/$ARCH/initrd
+cp -pfv /boot/vmlinux-*-default  $CD1/boot/$ARCH/linux
 
 #grub-mkimage -O powerpc-ieee1275 -d /usr/lib/grub/powerpc-ieee1275 -p '()/boot/$ARCH/powerpc-ieee1275' \
 #	-o $CD1/boot/$ARCH/powerpc-ieee1275/grub2.core
@@ -119,23 +113,23 @@ cat > $CD1/ppc/bootinfo.txt <<EOF
 <chrp-boot>
 <description>${we_dont_smoke_that_stuff}</description>
 <os-name>${we_dont_smoke_that_stuff}</os-name>
-<boot-script>boot &device;:1,\\suseboot\\yaboot.ibm</boot-script>
+<boot-script>boot &device;:1,\\boot\\$ARCH\\grub2-ieee1275\\core.elf</boot-script>
 </chrp-boot>
 
 EOF
 cat $CD1/ppc/bootinfo.txt
 
-cat > $CD1/suseboot/yaboot.txt <<EOF
-
-  Welcome to ${we_dont_smoke_that_stuff}!
-
-  Type  "install"  to start the YaST installer on this CD/DVD
-  Type  "slp"      to start the YaST install via network
-  Type  "rescue"   to start the rescue system on this CD/DVD
-
-
-EOF
-cat $CD1/suseboot/yaboot.txt
+#cat > $CD1/suseboot/yaboot.txt <<EOF
+#
+#  Welcome to ${we_dont_smoke_that_stuff}!
+#
+#  Type  "install"  to start the YaST installer on this CD/DVD
+#  Type  "slp"      to start the YaST install via network
+#  Type  "rescue"   to start the rescue system on this CD/DVD
+#
+#
+#EOF
+#cat $CD1/suseboot/yaboot.txt
 
 if test "$do_32" = "true" ; then
 	do_bits="$do_bits 32"
@@ -144,32 +138,32 @@ if test "$do_64" = "true" ; then
 	do_bits="$do_bits 64"
 fi
 
-cat > $CD1/suseboot/yaboot.cnf <<EOF
-message=yaboot.txt
-EOF
-for i in $do_bits
-do
-cat >> $CD1/suseboot/yaboot.cnf <<EOF
+#cat > $CD1/suseboot/yaboot.cnf <<EOF
+#message=yaboot.txt
+#EOF
+#for i in $do_bits
+#do
+#cat >> $CD1/suseboot/yaboot.cnf <<EOF
+#
+#image[${i}bit]=linux${i}
+#  initrd=initrd${i}
+#  label=install
+#  append="quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
+#image[${i}bit]=linux${i}
+#  initrd=initrd${i}
+#  label=slp
+#  append="quiet sysrq=1 install=slp           "
+#image[${i}bit]=linux${i}
+#  initrd=initrd${i}
+#  label=rescue
+#  append="quiet sysrq=1 rescue=1              "
+#
+#EOF
+#done
+#cat $CD1/suseboot/yaboot.cnf
 
-image[${i}bit]=linux${i}
-  initrd=initrd${i}
-  label=install
-  append="quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
-image[${i}bit]=linux${i}
-  initrd=initrd${i}
-  label=slp
-  append="quiet sysrq=1 install=slp           "
-image[${i}bit]=linux${i}
-  initrd=initrd${i}
-  label=rescue
-  append="quiet sysrq=1 rescue=1              "
 
-EOF
-done
-cat $CD1/suseboot/yaboot.cnf
-
-
-cat > $CD1/suseboot/os-chooser <<EOF
+cat > $CD1/ppc/os-chooser <<EOF
 <CHRP-BOOT>
 <COMPATIBLE>
 MacRISC MacRISC3 MacRISC4
@@ -178,7 +172,7 @@ MacRISC MacRISC3 MacRISC4
 SuSE Linux for PowerMac
 </DESCRIPTION>
 <BOOT-SCRIPT>
-load &device;:&partition;,\\suseboot\\yaboot
+load &device;:&partition;,\\boot\\$ARCH\\grub2-ieee1275\\core.elf
 go
 </BOOT-SCRIPT>
 <OS-BADGE-ICONS>
@@ -234,7 +228,7 @@ go
 </OS-BADGE-ICONS>
 </CHRP-BOOT>
 EOF
-cat $CD1/suseboot/os-chooser
+cat $CD1/ppc/os-chooser
 #
 
 find $CD1 -ls
