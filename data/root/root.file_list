@@ -156,10 +156,10 @@ xz:
 
 if theme eq 'SLES'
   sles-release:
-  sles-release-DVD:
+  sles-release-MINI:
 else
   openSUSE-release:
-  openSUSE-release-dvd:
+  openSUSE-release-mini:
 endif
 
 # pull in yast2 installation related packages via package deps
