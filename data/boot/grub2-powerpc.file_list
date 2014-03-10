@@ -1,13 +1,15 @@
-d /boot/<arch>/grub2-ieee1275
-
+d grub2-ieee1275
   grub2-powerpc-ieee1275:
-    e grub2-mkimage -d /usr/lib/grub/powerpc-ieee1275 -O powerpc-ieee1275 -o boot/<arch>/grub2-ieee1275 -p "(cd0)/boot/<arch>/grub2-ieee1275" iso9660 ext2 ofnet net tftp http 
-
-  x grub-powerpc.cfg boot/<arch>/grub2-ieee1275/grub.cfg
+    d grub2-ieee1275/powerpc-ieee1275
+    e grub2-mkimage -d /usr/lib/grub2/powerpc-ieee1275 -O powerpc-ieee1275 -o grub2-ieee1275/core.elf -p "()/boot/<arch>/grub2-ieee1275" iso9660 ext2 ofnet net tftp http
+    f /usr/lib/grub2/powerpc-ieee1275 *.mod  grub2-ieee1275/powerpc-ieee1275/
+    f /usr/lib/grub2/powerpc-ieee1275 *.lst  grub2-ieee1275/powerpc-ieee1275/
+  x grub-powerpc.cfg grub2-ieee1275/grub.cfg
+  R s/ARCH/<arch>/ grub2-ieee1275/grub.cfg
 
   # show product name in title instead of default grub string
-  d boot/<arch>/grub2-ieee1275/locale
+  d grub2-ieee1275/locale
   x grub2_head.po .
   R s/product_name/<product_name>/ grub2_head.po
-  e msgfmt -o boot/<arch>/grub2-ieee1275/locale/en.mo grub2_head.po
+  e msgfmt -o grub2-ieee1275/locale/en.mo grub2_head.po
   r grub2_head.po
