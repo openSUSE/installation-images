@@ -5,5 +5,5 @@ product_name Installation
 - use 'extend' to load extensions (remove with 'extend -r'); extensions are:
     o bind, gdb
 - network setup: run, e.g. 'dhcpcd eth0'
-- sshd: run 'rcsshd start' (don't forget to set a password with 'passwd')
+- sshd: run 'setup_ssh' (don't forget to set a password with 'passwd')
 

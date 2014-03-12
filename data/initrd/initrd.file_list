@@ -86,7 +86,6 @@ permissions: ignore
 pinentry: ignore
 rpcbind: ignore
 ?suspend: ignore
-systemd: ignore
 update-alternatives: ignore
 ?dracut: ignore
 ?mkinitrd: ignore
@@ -113,6 +112,7 @@ sed:
 ?wicked:
 sysconfig-netconfig:
 sg3_utils:
+systemd-presets-branding-<base_theme>:
 
 if arch eq 'aarch64'
 qemu-linux-aarch64:
@@ -388,6 +388,10 @@ aaa_base:
   /etc/rc.status
   /etc/inputrc
   /usr/sbin/service
+  # steal them from base image
+  e cp /etc/passwd etc
+  e cp /etc/group etc
+  e cp /etc/shadow etc
 
 dbus-1:
   /
@@ -506,6 +510,7 @@ include texts.file_list
 
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
+r /etc/passwd?* /etc/shadow?* /etc/group?*
 
 # historical static device nodes
 x devz /devz
@@ -536,9 +541,9 @@ x scripts /
 # initial /etc/adjtime (bnc #764690)
 x etc/adjtime etc
 
-# add udev compat link (bnc #774143, bnc #774599)
-#   *** link is in udev package! ***
-# s /lib/firmware /usr/lib
+# get us some basic aliases
+x etc/bashrc /.bashrc
+x etc/bashrc root/.bashrc
 
 e ldconfig -r .
 

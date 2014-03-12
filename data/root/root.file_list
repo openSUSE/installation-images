@@ -333,16 +333,9 @@ cracklib: nodeps
 
   x etc/inst_setup_ssh /sbin/
   c 755 0 0 /sbin/inst_setup_ssh
+  s inst_setup_ssh /sbin/setup_ssh
   # for Olaf
   x etc/ssh /lib
-  r /lib/ssh/.svn
-  d /root
-  x root/.yast2 /root
-  r /root/.yast2/.svn
-  x root/.bash_history /root
-  x root/.bash_login /root
-  x root/.vimrc /root
-
   x ../rescue/mount-rootfs-and-do-chroot.sh /bin
 
 openssl:
@@ -596,10 +589,13 @@ e mkfontdir usr/share/fonts/truetype
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
 
+# they are all part of the initrd
+r /etc/passwd* /etc/shadow* /etc/group*
+
 # don't mess with mtab (from aaa_base postin ATM)
 r etc/mtab
 
-# remove these: ########### ???
+# remove these, we don't want them symlinked
 r root mnt tmp proc usr/libexec
 
 x /usr/lib/YaST/.Reh /usr/lib/YaST2
