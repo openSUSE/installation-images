@@ -542,8 +542,8 @@ x scripts /
 x etc/adjtime etc
 
 # get us some basic aliases
-x etc/bashrc /.bashrc
-x etc/bashrc root/.bashrc
+x etc/bashrc /.profile
+x etc/bashrc root/.profile
 
 e ldconfig -r .
 

@@ -204,8 +204,8 @@ function plymouth_off {
 function start_shell() {
   plymouth_off
   echo 
-  echo "ATTENTION: Starting shell... (use 'exit' to proceed)"
-  bash --init-file /root/.bash_login
+  echo "ATTENTION: Starting shell... (use 'exit' to proceed with installation)"
+  bash -l
 }
 [ "$START_SHELL" ] && start_shell
 
