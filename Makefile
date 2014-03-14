@@ -158,9 +158,10 @@ boot-grub2-efi: base
 
 boot-grub2-powerpc: base
 	for theme in $(THEMES) ; do \
-          mkdir -p images/$$theme/boot/$(ARCH) ; \
-          tmpdir=boot-grub2-ieee1275-$(ARCH)-$$theme nostrip=1 image=$$theme/grub2-ieee1275 src=boot filelist=grub2-powerpc fs=dir bin/mk_image ; \
+	  mkdir -p images/$$theme/boot/$(ARCH) ; \
+	  theme=$$theme tmpdir=boot-grub2-ieee1275-$(ARCH)-$$theme nostrip=1 image=$$theme/grub2-ieee1275 src=boot filelist=grub2-powerpc fs=dir bin/mk_image ; \
 	done
+
 boot: base
 	theme=$(THEMES) image=boot fs=dir bin/mk_image
 
