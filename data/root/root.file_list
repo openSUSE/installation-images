@@ -157,6 +157,9 @@ xz:
 if theme eq 'SLES'
   sles-release:
   sles-release-MINI:
+elsif theme eq 'SLED'
+  sled-release:
+  sled-release-MINI:
 else
   openSUSE-release:
   openSUSE-release-mini:
@@ -588,6 +591,7 @@ e mkfontdir usr/share/fonts/truetype
 
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
+r /etc/profile.d /etc/profile /etc/bash.bashrc /etc/bash_completion.d
 
 # they are all part of the initrd
 r /etc/passwd* /etc/shadow* /etc/group*

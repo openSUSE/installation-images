@@ -74,6 +74,7 @@ cp images/mini-iso-rmlist $DESTDIR/usr/share
 if [ -f images/rescue-server ] ; then
   t=openSUSE
   [ -d $DESTDIR/branding/SLES ] && t=SLES
+  [ -d $DESTDIR/branding/SLED ] && t=SLED
   dst=$DESTDIR/usr/share/rescue-server/boot/x86_64
   mkdir -p $dst
   cp images/rescue-server $dst

@@ -95,6 +95,9 @@ util-linux:
 if theme eq 'SLES'
   sles-release:
   sles-release-MINI:
+elsif theme eq 'SLED'
+  sled-release:
+  sled-release-MINI:
 else
   openSUSE-release:
   openSUSE-release-mini:

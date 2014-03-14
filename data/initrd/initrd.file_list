@@ -511,6 +511,7 @@ include texts.file_list
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 r /etc/passwd?* /etc/shadow?* /etc/group?*
+r /etc/profile.d
 
 # historical static device nodes
 x devz /devz
