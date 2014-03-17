@@ -108,6 +108,7 @@ insserv-compat:
 iputils:
 jfsutils:
 joe:
+kdump:
 klogd:
 libsolv-tools:
 libudev*:
