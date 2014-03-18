@@ -1,2 +1,2 @@
-TERM=ibm327x conmode=3270 manual=1
+TERM=dumb manual=1
 
