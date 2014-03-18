@@ -32,10 +32,6 @@ TEMPLATE skelcd-control-.*:
   # just a template that does nothing
   d .
 
-TEMPLATE yast2-theme-openSUSE:
-  # yast2 openSUSE theme is just broken...
-  /usr/share/YaST2
-
 TEMPLATE:
   /
 
