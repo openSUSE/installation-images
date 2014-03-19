@@ -178,11 +178,12 @@ gawk:
   s gawk usr/bin/awk
 
 filesystem:
-  /run
   /var
   t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
   # remove symlink to /run
   e [ -L var/run ] && rm var/run ; true
+  r /var/spool/locks /var/lock
+  d /run
 
 bash:
   /bin/bash
@@ -540,6 +541,7 @@ aaa_base:
   E prein
   /
   E postin
+  r /run/utmp
 
 ?s390-tools:
   /
