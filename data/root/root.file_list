@@ -117,7 +117,6 @@ module-init-tools:
 mozilla-nspr:
 multipath-tools:
 ntfsprogs:
-?open-fcoe:
 open-iscsi:
 openslp:
 parted:

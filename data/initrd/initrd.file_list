@@ -375,6 +375,10 @@ sysconfig:
   m /var/adm/fillup-templates/sysconfig.dhcp-network /etc/sysconfig/network/dhcp
   r sbin/rcnetwork
 
+?fcoe-utils:
+  /etc
+  m /var/adm/fillup-templates/sysconfig.fcoe /etc/sysconfig/fcoe
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
