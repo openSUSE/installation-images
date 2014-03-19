@@ -1,0 +1,72 @@
+#! /usr/bin/perl
+
+use strict;
+use Getopt::Long;
+
+sub usage;
+
+my $opt_show;
+
+GetOptions(
+  'show'           => \$opt_show,
+  'help'           => sub { usage 0 },
+) || usage 1;
+
+my $service = shift;
+
+usage 2 unless defined $service;
+
+my $service_file;
+$service_file = "/usr/lib/systemd/system/$service.service" if -f "/usr/lib/systemd/system/$service.service";
+$service_file = "/etc/systemd/system/$service.service" if -f "/etc/systemd/system/$service.service";
+
+die "$service: no such service\n" if !defined $service_file;
+
+my @todo;
+
+open my $f, $service_file;
+while (<$f>) {
+  if(/^\[Service\]/ ... /^\[/) {
+    chomp;
+    push @todo, $_ if !/^\[/ && !/^\s*$/;
+  }
+}
+close $f;
+
+my $cmd;
+
+for (@todo) { $cmd .= ". $_\n" if s/^EnvironmentFile=[\-@]*// }
+for (@todo) { $cmd .= "export $1\n" if /^Environment=(.+)/ }
+for (@todo) { $cmd .= "$_\n" if s/^ExecStartPre=[\-@]*// }
+for (@todo) { $cmd .= "$_\n" if s/^ExecStart=[\-@]*// }
+
+if($opt_show) {
+  print $cmd;
+}
+else {
+  open $f, "| /bin/sh";
+  print $f $cmd;
+  exit $? >> 8 if !close $f;
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# usage($exit_code)
+#
+# Print help text and exit.
+#
+sub usage
+{
+  print <<"= = = = = = = =";
+Usage: service_start SERVICE
+Start systemd service SERVICE.
+
+Options:
+  --show           Don't run service but show necessary commands.
+  --help           Write this help text.
+
+= = = = = = = =
+
+  exit shift;
+}
+

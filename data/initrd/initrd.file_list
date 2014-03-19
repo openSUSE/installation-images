@@ -530,6 +530,9 @@ x etc/80-drivers.rules /usr/lib/udev/80-drivers.rules.no_modprobe
 # our own udevd start script
 x etc/myudevstart /bin
 
+# systemd service start script
+x service_start /bin
+
 # mini host file
 x etc/host.conf etc
 
