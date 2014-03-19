@@ -34,11 +34,16 @@ while (<$f>) {
 close $f;
 
 my $cmd;
+my $type = 'simple';
+
+for (@todo) { $type = $1 if /^Type=(.+)/ }
+
+my $suffix = " &" if $type !~ /^(forking|oneshot)$/;
 
 for (@todo) { $cmd .= ". $_\n" if s/^EnvironmentFile=[\-@]*// }
 for (@todo) { $cmd .= "export $1\n" if /^Environment=(.+)/ }
 for (@todo) { $cmd .= "$_\n" if s/^ExecStartPre=[\-@]*// }
-for (@todo) { $cmd .= "$_\n" if s/^ExecStart=[\-@]*// }
+for (@todo) { $cmd .= "$_$suffix\n" if s/^ExecStart=[\-@]*// }
 
 if($opt_show) {
   print $cmd;
