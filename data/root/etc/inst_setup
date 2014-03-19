@@ -102,15 +102,9 @@ done
 
 ldconfig
 
-# don't start dbus - done by linuxrc
-if [ -x /bin/dbus-daemonXXX ] ; then
-  rm -f /var/run/dbus/pid
-  echo -n "starting dbus..."
-  if /bin/dbus-daemon --system ; then
-    echo " ok"
-  else
-    echo " failed"
-  fi
+# start haveged
+if [ -f /usr/lib/systemd/system/haveged.service ] ; then
+  service_start haveged
 fi
 
 # driver update: rebuild yast update tree
@@ -268,6 +262,7 @@ nscd --shutdown
 killall slpd >/dev/null 2>&1
 killall Xvnc >/dev/null 2>&1
 killall sshd >/dev/null 2>&1
+killall haveged >/dev/null 2>&1
 
 umount /usr/bin/gdb 2>/dev/null
 umount devpts 2>/dev/null

@@ -96,6 +96,7 @@ findutils:
 gpart:
 grep:
 gzip:
+?haveged:
 hex:
 hwinfo:
 ?hyper-v:
