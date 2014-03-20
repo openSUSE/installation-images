@@ -117,6 +117,7 @@ lvm2:
 module-init-tools:
 mozilla-nspr:
 multipath-tools:
+net-tools:
 ntfsprogs:
 open-iscsi:
 openslp:
@@ -205,13 +206,6 @@ ncurses-utils:
 
 smartmontools:
   /usr/sbin/smartctl
-
-net-tools:
-  /bin/{domain,host}name
-  /sbin/{ifconfig,route}
-  if !(arch eq 's390' || arch eq 's390x')
-    /sbin/plipconfig
-  endif
 
 ?powerpc-utils:
   /sbin/nvsetenv
@@ -504,9 +498,6 @@ openslp-server:
   /etc/slp.reg
   /etc/slp.reg.d
   /usr/sbin/slpd
-
-fribidi:
-  /usr/lib*/libfribidi.so*
 
 icewm-lite:
   /usr/bin/icewm-lite

@@ -231,6 +231,7 @@ libncurses5:
   /lib*/libtinfo.so.*
 
 net-tools:
+  /bin
   /sbin/ifconfig
   /sbin/route
 
