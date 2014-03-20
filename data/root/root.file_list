@@ -338,6 +338,7 @@ cracklib: nodeps
   # for Olaf
   x etc/ssh /lib
   x ../rescue/mount-rootfs-and-do-chroot.sh /bin
+  c 755 0 0 /bin/mount-rootfs-and-do-chroot.sh
 
 openssl:
   /usr/share/ssl
