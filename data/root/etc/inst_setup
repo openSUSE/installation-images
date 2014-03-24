@@ -219,36 +219,38 @@ if grep -qi "^VNC:.*1" /etc/install.inf ; then
   YAST2_SSH=false
 fi
 
+plymouth_off
+
 ec=
 if [ "$YAST2_SSH" = "true" ] ; then
-cat <<EOF
+  cat <<EOF
 
       ***  login using 'ssh -X root@${hostname}'  ***
       ***  run '${yast}.ssh' to start the installation  ***
 
 EOF
-while true ; do
-#echo -n .
-sleep 3
-# this file is created from YaST2.firstboot after installation
-test ! -f /tmp/YaST2_ssh_installation_finished && continue
-# you can touch this file to keep the ssh shell
-# useful for debugging the installer
-test -f /tmp/YaST2_keep_sshd_running && continue
-break
-done
+  cp /etc/issue /etc/motd
+  echo -e "Run yast.ssh to start the installation.\n" >>/etc/motd
 
-ec=$(cat /tmp/YaST2_ssh_installation_finished)
-rm -f /tmp/YaST2_ssh_installation_finished
+  while true ; do
+    sleep 3
+    # this file is created from YaST2.firstboot after installation
+    test ! -f /tmp/YaST2_ssh_installation_finished && continue
+    # you can touch this file to keep the ssh shell
+    # useful for debugging the installer
+    test -f /tmp/YaST2_keep_sshd_running && continue
+    break
+  done
+
+  ec=$(cat /tmp/YaST2_ssh_installation_finished)
+  rm -f /tmp/YaST2_ssh_installation_finished
 elif [ "$yast" = yast ] ; then
-# now, run yast
-echo "starting yast..."
-  plymouth_off
+  # now, run yast
+  echo "starting yast..."
   /sbin/yast "$@" ; ec=$?
 elif [ "$yast" ] ; then
-# now, run yast
-echo "starting $yast..."
-  plymouth_off
+  # now, run yast
+  echo "starting $yast..."
   "$yast" "$@" ; ec=$?
 fi
 
