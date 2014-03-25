@@ -74,5 +74,5 @@ e echo "dud:		disk:/?device=*label/OEMDRV&quiet=1" >>linuxrc.config
 
 e echo "KexecReboot:    1" >>linuxrc.config
 
-e echo "PTOptions:	AutoUpgrade,Upgrade" >>linuxrc.config
+e echo "PTOptions:	AutoUpgrade,Upgrade,productprofile,addon" >>linuxrc.config
 
