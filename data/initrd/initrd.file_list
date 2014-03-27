@@ -95,6 +95,7 @@ samba-libs: nodeps
 
 ?biosdevname:
 cpio:
+cracklib-dict-small:
 curl:
 device-mapper:
 ethtool:
@@ -173,11 +174,8 @@ kbd:
 cifs-utils:
   /sbin/mount.cifs
 
-?open-fcoe:
-  /etc
-
 ?acpica:
-  /usr/bin/acpidump
+  /usr/sbin/acpidump
 
 ?dmidecode:
   /usr/sbin/dmidecode
@@ -377,7 +375,6 @@ sysconfig:
 
 ?fcoe-utils:
   /etc
-  m /var/adm/fillup-templates/sysconfig.fcoe /etc/sysconfig/fcoe
 
 filesystem:
   /var/spool/locks
