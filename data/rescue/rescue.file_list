@@ -85,7 +85,7 @@ checkmedia:
 cifs-utils:
 coreutils:
 cpio:
-cracklib-dict-full:
+cracklib-dict-small:
 cracklib:
 cryptsetup:
 curl:
