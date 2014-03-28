@@ -7,9 +7,6 @@ sub usage;
 
 my $opt_show;
 
-# redirect everything to stdout
-open STDERR, ">&STDOUT";
-
 GetOptions(
   'show'           => \$opt_show,
   'help'           => sub { usage 0 },
@@ -52,7 +49,7 @@ if($opt_show) {
   print $cmd;
 }
 else {
-  open $f, "| /bin/sh";
+  open $f, "| /bin/sh >/var/log/service_start.log 2>&1";
   print $f $cmd;
   exit $? >> 8 if !close $f;
 }
