@@ -7,6 +7,9 @@ sub usage;
 
 my $opt_show;
 
+# redirect everything to stdout
+open STDERR, ">&STDOUT";
+
 GetOptions(
   'show'           => \$opt_show,
   'help'           => sub { usage 0 },
