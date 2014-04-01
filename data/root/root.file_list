@@ -73,6 +73,7 @@ udev: ignore
 unzip: ignore
 ?dracut: ignore
 ?mkinitrd: ignore
+yast2-schema: ignore
 
 if arch eq 'aarch64'
 qemu-linux-aarch64:
