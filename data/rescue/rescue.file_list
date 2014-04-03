@@ -335,6 +335,7 @@ e mv usr/bin/mount usr/bin/mount.bin
 x mount usr/bin
 
 x mount-rootfs-and-do-chroot.sh /bin
+c 755 0 0 /bin/mount-rootfs-and-do-chroot.sh
 
 # run getty on tty1
 d etc/systemd/system/getty.target.wants
