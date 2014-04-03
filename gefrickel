@@ -59,6 +59,8 @@ for i in usr/$lib_dir/lib* ; do
   case $i in *librpm*) continue ;; esac
   mv $i b/usr/$lib_dir
 done
+mkdir -p b/usr/bin
+mv usr/bin/kmod b/usr/bin
 mkdir -p a
 mv usr a
 mv b/usr .

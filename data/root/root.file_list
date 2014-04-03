@@ -115,7 +115,6 @@ libyui-qt-pkg*:
 libyui-qt-graph*:
 ?ltrace:
 lvm2:
-module-init-tools:
 mozilla-nspr:
 multipath-tools:
 net-tools:

@@ -103,6 +103,7 @@ glibc:
 hwinfo:
 iputils:
 kpartx:
+kmod-compat:
 krb5:
 lsscsi:
 mdadm:
@@ -145,10 +146,6 @@ netcfg:
 
 ?xf86-input-vmmouse:
   /usr/bin/vmmouse_detect
-
-module-init-tools:
-  /sbin/insmod
-  /sbin/modprobe
 
 suse-module-tools:
   /etc/modprobe.d

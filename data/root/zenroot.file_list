@@ -289,9 +289,11 @@ less:
   /etc/lesskey
   /usr/bin/less
 
-module-init-tools:
- /sbin/{depmod,insmod,modinfo,modprobe,rmmod}
- /bin/lsmod
+kmod:
+  /
+
+kmod-compat:
+  /
 
 suse-module-tools:
   /etc/modprobe.d
