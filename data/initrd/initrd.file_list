@@ -506,6 +506,9 @@ if with_gdb
 
 endif
 
+:
+
+include theme.file_list
 
 :
 

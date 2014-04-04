@@ -104,19 +104,11 @@ initrd+modules: base
 	bin/mlist1
 	bin/mlist2
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
-	mode=keep,add image=$${image:-initrd} tmpdir=initrd filelist=modules src=initrd fs=cpio bin/mk_image
+	mode=add image=modules src=initrd fs=none bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
-	# now theme it
-	for theme in $(THEMES) ; do \
-	  cp images/$${image:-initrd} images/$$theme/$${image:-initrd} ; \
-	  i=`pwd` ; ( cd tmp/initrd-$$theme ; find . | cpio --quiet -o -H newc -A -F $$i/images/$$theme/$${image:-initrd} ) ; \
-	  gzip -9f images/$$theme/$${image:-initrd} ; mv images/$$theme/$${image:-initrd}.gz images/$$theme/$${image:-initrd} ; \
-	done
-	rm -f images/$${image:-initrd}
-	# still ok?
-	[ -s tmp/initrd/bin/bash ]
+	mode=keep image=$(THEMES)/$${image:-initrd} tmpdir=initrd fs=cpio.gz bin/mk_image
 
 initrd+modules+gefrickel: base
 	image=modules-config src=initrd fs=none bin/mk_image
@@ -125,19 +117,12 @@ initrd+modules+gefrickel: base
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules tmp/initrd_gefrickel
 	# work on a copy to not modify the origial tree
 	cp -a tmp/initrd tmp/initrd_gefrickel
-	mode=keep,add image=$${image:-initrd} tmpdir=initrd_gefrickel filelist=modules src=initrd fs=none bin/mk_image
+	mode=add tmpdir=initrd_gefrickel image=modules src=initrd fs=none bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd_gefrickel/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd_gefrickel/modules/module.config images/module-config/$${MOD_CFG:-default}
 	./gefrickel tmp/initrd_gefrickel
-	mode=keep image=$${image:-initrd} tmpdir=initrd_gefrickel src=initrd filelist=initrd fs=cpio bin/mk_image
-	# now theme it
-	for theme in $(THEMES) ; do \
-	  cp images/$${image:-initrd} images/$$theme/$${image:-initrd} ; \
-	  i=`pwd` ; ( cd tmp/initrd-$$theme ; find . | cpio --quiet -o -H newc -A -F $$i/images/$$theme/$${image:-initrd} ) ; \
-	  gzip -9f images/$$theme/$${image:-initrd} ; mv images/$$theme/$${image:-initrd}.gz images/$$theme/$${image:-initrd} ; \
-	done
-	rm -f images/$${image:-initrd}
+	mode=keep image=$(THEMES)/$${image:-initrd} tmpdir=initrd_gefrickel fs=cpio.gz bin/mk_image
 
 kernel: base
 	image=vmlinuz-$${MOD_CFG:-default} src=initrd filelist=kernel kernel=kernel-$${MOD_CFG:-default} fs=dir bin/mk_image
@@ -200,9 +185,7 @@ boot-themes: base
 	done
 
 initrd-themes: base
-	for theme in $(THEMES) ; do \
-	  theme=$$theme image=$$theme/install-initrd tmpdir=initrd-$$theme src=initrd filelist=theme fs=dir bin/mk_image ; \
-	done
+	mkdir -p images/$(THEMES)/install-initrd
 
 root-themes: base
 	for theme in $(THEMES) ; do \

@@ -226,6 +226,14 @@ kernel/net/ipv4/inet_lro.ko
 kernel/drivers/target/iscsi/iscsi_target_mod.ko
 kernel/drivers/infiniband/
 
+kernel/net/8021q/
+kernel/net/802/garp.ko
+kernel/net/802/stp.ko
+kernel/net/802/mrp.ko
+kernel/net/llc/
+
+kernel/drivers/vhost/vringh.ko
+
 # kmps
 updates/
 
