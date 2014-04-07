@@ -43,7 +43,7 @@ die "error: mktemp failed\n" if $?;
 
 die "oops, broken install-initrd package\n" unless -d "$lib_dir/default";
 
-die "base file \"$opt_base.gz\" missing\n" unless -f "$lib_dir/$opt_base.gz";
+die "base file \"$opt_base.xz\" missing\n" unless -f "$lib_dir/$opt_base.xz";
 
 mkdir "$tmp_dir/i", 0755;
 
@@ -125,7 +125,7 @@ system "cp $lib_dir/$opt_style/module.config $tmp_dir/i/modules";
 # add branding
 system "cp -a $lib_dir/$opt_theme/* $tmp_dir/i" if -d "$lib_dir/$opt_theme";
 
-system "gunzip -c $lib_dir/$opt_base.gz >$tmp_dir/initrd";
+system "xz -d -c $lib_dir/$opt_base.xz >$tmp_dir/initrd";
 
 system "cd $tmp_dir/i ; find . | cpio --quiet -o -H newc -A -F $tmp_dir/initrd";
 
@@ -135,9 +135,9 @@ my $initrd = sprintf("initrd %d", $size >> 10);
 
 rename "$tmp_dir/initrd", "$tmp_dir/$initrd";
 
-system "gzip -f9N '$tmp_dir/$initrd'";
+system "xz --check=crc32 -f '$tmp_dir/$initrd'";
 
-system "cp '$tmp_dir/$initrd'.gz $opt_file";
+system "cp '$tmp_dir/$initrd'.xz $opt_file";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sub help
@@ -151,7 +151,7 @@ sub help
   "  --kernel=kernel-version\tuse modules from this kernel (installed)\n" .
   "  --kernel-rpm=rpm\t\tuse modules from this kernel rpm\n" .
   "  --libdir=dir\t\t\tsearch files in directory dir\n" .
-  "  --initrd=foo\t\t\tuse /usr/lib/install-initrd/foo.gz as base\n" .
+  "  --initrd=foo\t\t\tuse /usr/lib/install-initrd/foo.xz as base\n" .
   "  --theme=foo\t\t\tuse theme foo\n\n" .
   "Examples:\n" .
   "  $p foo\n" .

@@ -84,10 +84,10 @@ fbase: dirs
 	theme=$(THEMES) nostrip=1 libdeps=base image=base fs=none bin/mk_image
 
 biostest: base
-	theme=$(THEMES) libdeps=initrd,biostest image=biostest src=initrd fs=cpio.gz disjunct=initrd bin/mk_image
+	theme=$(THEMES) libdeps=initrd,biostest image=biostest src=initrd fs=cpio.xz disjunct=initrd bin/mk_image
 
 initrd: base
-	theme=$(THEMES) libdeps=initrd image=initrd-base.gz tmpdir=initrd src=initrd filelist=initrd fs=cpio.gz bin/mk_image
+	theme=$(THEMES) libdeps=initrd image=initrd-base.xz tmpdir=initrd src=initrd filelist=initrd fs=cpio.xz bin/mk_image
 	[ -s tmp/initrd/bin/bash ]
 
 modules: base
@@ -108,7 +108,7 @@ initrd+modules: base
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
-	mode=keep image=$(THEMES)/$${image:-initrd} tmpdir=initrd fs=cpio.gz bin/mk_image
+	mode=keep image=$(THEMES)/$${image:-initrd} tmpdir=initrd fs=cpio.xz bin/mk_image
 
 initrd+modules+gefrickel: base
 	image=modules-config src=initrd fs=none bin/mk_image
@@ -122,7 +122,7 @@ initrd+modules+gefrickel: base
 	ls -I module.config tmp/initrd_gefrickel/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd_gefrickel/modules/module.config images/module-config/$${MOD_CFG:-default}
 	./gefrickel tmp/initrd_gefrickel
-	mode=keep image=$(THEMES)/$${image:-initrd} tmpdir=initrd_gefrickel fs=cpio.gz bin/mk_image
+	mode=keep image=$(THEMES)/$${image:-initrd} tmpdir=initrd_gefrickel fs=cpio.xz bin/mk_image
 
 kernel: base
 	image=vmlinuz-$${MOD_CFG:-default} src=initrd filelist=kernel kernel=kernel-$${MOD_CFG:-default} fs=dir bin/mk_image
@@ -242,7 +242,7 @@ install:
 install-initrd:
 	-@rm -rf $(DESTDIR)
 	@mkdir -p $(DESTDIR)/default
-	cp images/initrd-base.gz $(DESTDIR)
+	cp images/initrd-base.xz $(DESTDIR)
 	cp -a images/module-config/* $(DESTDIR)
 	for theme in $(THEMES) ; do \
 	  cp -a images/$$theme/install-initrd $(DESTDIR)/$$theme ; \
