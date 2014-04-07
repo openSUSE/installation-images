@@ -88,6 +88,7 @@ rpcbind: ignore
 update-alternatives: ignore
 ?dracut: ignore
 ?mkinitrd: ignore
+perl: ignore
 
 samba-libs: nodeps
   /usr/lib*/samba/libreplace.so
