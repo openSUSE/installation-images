@@ -104,7 +104,7 @@ initrd+modules: base
 	bin/mlist1
 	bin/mlist2
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
-	mode=add image=modules src=initrd fs=none bin/mk_image
+	mode=add tmpdir=initrd image=modules src=initrd fs=none bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
