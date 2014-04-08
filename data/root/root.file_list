@@ -513,6 +513,8 @@ fonts-config:
 efont-unicode-bitmap-fonts:
   /usr/share/fonts/misc/b16.pcf.gz
 
+?raleway-fonts:
+
 dmz-icon-theme-cursors:
   /usr/share/icons/DMZ
 
