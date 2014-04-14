@@ -128,6 +128,9 @@ yast2-trans-allpacks: requires,nodeps
 # remove things we don't need
 r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
 
+# remove compat service links
+E rm -f `find usr/sbin -lname service`
+
 # add our own scripts
 x save_cfg bin/save_cfg
 x restore_cfg bin/restore_cfg
