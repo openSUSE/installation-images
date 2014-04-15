@@ -3,7 +3,7 @@ d run/dbus
 d var/run var/spool var/run/libstorage var/tmp var/log/YaST2 var/adm/mount
 d var/lib/YaST2 var/lib/hardware/unique-keys var/lib/autoinstall
 d var/run/hotplug var/cache/fontconfig
-d var/lib/sshd var/lib/empty var/run/ntp var/lib/rpcbind
+d var/lib/sshd var/lib/empty var/run/ntp
 d var/cache/sax/files var/cache/sax/sysp/rdbms var/cache/xfine var/cache/zypp var/lib/sax 
 d etc/sysconfig
 d etc/sysconfig/hardware
@@ -83,7 +83,6 @@ logrotate: ignore
 openssl: ignore
 permissions: ignore
 pinentry: ignore
-rpcbind: ignore
 ?suspend: ignore
 update-alternatives: ignore
 ?dracut: ignore
@@ -416,6 +415,11 @@ polkit: nodeps
 
 # we just want the user & group entries
 nscd:
+  E prein
+
+# we just want the user & group entries
+rpcbind:
+  /var/lib
   E prein
 
 
