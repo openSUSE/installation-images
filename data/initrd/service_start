@@ -6,9 +6,11 @@ use Getopt::Long;
 sub usage;
 
 my $opt_show;
+my $opt_stop;
 
 GetOptions(
   'show'           => \$opt_show,
+  'stop'           => \$opt_stop,
   'help'           => sub { usage 0 },
 ) || usage 1;
 
@@ -42,14 +44,25 @@ my $suffix = " &" if $type !~ /^(forking|oneshot)$/;
 
 for (@todo) { $cmd .= ". $_\n" if s/^EnvironmentFile=[\-@]*// }
 for (@todo) { $cmd .= "export $1\n" if /^Environment=(.+)/ }
-for (@todo) { $cmd .= "$_\n" if s/^ExecStartPre=[\-@]*// }
-for (@todo) { $cmd .= "$_$suffix\n" if s/^ExecStart=[\-@]*// }
+if($opt_stop) {
+  for (@todo) { $cmd .= "$_\n" if s/^ExecStop=[\-@]*// }
+  for (@todo) { $cmd .= "$_\n" if s/^ExecStopPost=[\-@]*// }
+}
+else {
+  for (@todo) { $cmd .= "$_\n" if s/^ExecStartPre=[\-@]*// }
+  for (@todo) { $cmd .= "$_$suffix\n" if s/^ExecStart=[\-@]*// }
+  for (@todo) { $cmd .= "$_\n" if s/^ExecStartPost=[\-@]*// }
+}
 
 if($opt_show) {
   print $cmd;
 }
 else {
-  open $f, "| /bin/sh >/var/log/service_start.log 2>&1";
+  if(open $f, ">>/var/log/service_start.log") {
+    print $f "=== $service " . ($opt_stop ? "stop" : "start") . " ===\n";
+    close $f;
+  }
+  open $f, "| /bin/sh >>/var/log/service_start.log 2>&1";
   print $f $cmd;
   exit $? >> 8 if !close $f;
 }
@@ -63,11 +76,15 @@ else {
 sub usage
 {
   print <<"= = = = = = = =";
-Usage: service_start SERVICE
-Start systemd service SERVICE.
+Usage: service_start [OPTIONS] SERVICE
+Start or stop systemd service SERVICE.
+
+Note: this is a simplified tool that may or may not work for a particular
+service.
 
 Options:
-  --show           Don't run service but show necessary commands.
+  --stop           Stop service.
+  --show           Don't start/stop service but show necessary commands.
   --help           Write this help text.
 
 = = = = = = = =
