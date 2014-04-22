@@ -32,7 +32,9 @@ fi
 
 if [ -x usr/sbin/wickedd ] ; then
   echo "Starting wicked"
-  /usr/sbin/wickedd
-  for i in /usr/lib/wicked/bin/wickedd-* ; do $i ; done
+  {
+    /usr/sbin/wickedd
+    for i in /usr/lib/wicked/bin/wickedd-* ; do $i ; done
+  } >/var/log/wickedd.log 2>&1
 fi
 
