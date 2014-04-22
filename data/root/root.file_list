@@ -142,7 +142,6 @@ suse-module-tools:
 systemd-presets-branding-<base_theme>:
 systemd-sysvinit:
 systemd:
-sysvinit:
 tar:
 usbutils:
 util-linux:
