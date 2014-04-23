@@ -593,6 +593,9 @@ r etc/mtab
 # remove these, we don't want them symlinked
 r root mnt tmp proc usr/libexec
 
+# remove /etc/os-release so it's not used accidentally
+r /etc/os-release
+
 x /usr/lib/YaST/.Reh /usr/lib/YaST2
 x etc/inst_setup /sbin/inst_setup
 x etc/adddir /sbin/adddir
