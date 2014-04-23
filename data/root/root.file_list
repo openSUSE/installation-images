@@ -74,6 +74,9 @@ unzip: ignore
 ?dracut: ignore
 ?mkinitrd: ignore
 yast2-schema: ignore
+# handle yast2-registration -> suse-connect -> zypper dependency,
+# yast does not need zypper, just suse-connect, so ignore it
+?zypper: ignore
 
 if arch eq 'aarch64'
 qemu-linux-aarch64:
@@ -165,6 +168,7 @@ endif
 # pull in yast2 installation related packages via package deps
 ?skelcd-control-openSUSE:
 ?skelcd-control-SLES:
+?skelcd-control-SLES-for-VMware:
 ?skelcd-control-SLED:
 
 rpm:
