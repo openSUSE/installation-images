@@ -310,6 +310,9 @@ gzip:
   /usr/bin/gzip
   /usr/bin/gunzip
 
+xz:
+  /usr/bin/xz
+
 gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
