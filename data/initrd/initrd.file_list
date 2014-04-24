@@ -114,6 +114,7 @@ sed:
 sysconfig-netconfig:
 sg3_utils:
 systemd-presets-branding-<base_theme>:
+tar:
 
 if arch eq 'aarch64'
 qemu-linux-aarch64:

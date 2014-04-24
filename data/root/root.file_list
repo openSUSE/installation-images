@@ -145,7 +145,6 @@ suse-module-tools:
 systemd-presets-branding-<base_theme>:
 systemd-sysvinit:
 systemd:
-tar:
 usbutils:
 util-linux:
 vim:
