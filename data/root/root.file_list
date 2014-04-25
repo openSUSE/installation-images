@@ -27,7 +27,7 @@ TEMPLATE binutils:
 TEMPLATE SUSEConnect:
   /
   # avoid update-alternatives
-  s SUSEConnect-0.0.14 /usr/bin/SUSEConnect
+  s SUSEConnect-* /usr/bin/SUSEConnect
 
 TEMPLATE rubygem-.*:
   /usr/*/ruby/gems/*/gems/*/lib
