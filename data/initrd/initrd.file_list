@@ -516,7 +516,7 @@ if with_gdb
 endif
 
 # certificates are prepared in base.file_list
-# here we ust copy the files from there
+# here we just copy the files from there
 # the packages are listed here just so they show up in the package list later
 ca-certificates: nodeps
   # do nothing
