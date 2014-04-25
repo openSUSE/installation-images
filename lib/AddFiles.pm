@@ -559,7 +559,7 @@ sub _add_pack
         warn "$Script: failed to link $1 to $2";
     }
     elsif(/^s\s+(\S+)\s+(\S+)$/) {
-      SUSystem "ln -s $1 $dir/$2" and
+      SUSystem "ln -sf $1 $dir/$2" and
         warn "$Script: failed to symlink $1 to $2";
     }
     elsif(/^m\s+(\S+)\s+(\S+)$/) {

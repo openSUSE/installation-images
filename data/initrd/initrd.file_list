@@ -379,8 +379,8 @@ sysconfig:
 
 filesystem:
   /var/spool/locks
-  /var/lock
   /run
+  s /run/lock /var/lock
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -515,6 +515,18 @@ if with_gdb
 
 endif
 
+# certificates are prepared in base.file_list
+# here we ust copy the files from there
+# the packages are listed here just so they show up in the package list later
+ca-certificates: nodeps
+  # do nothing
+  t tmp
+
+ca-certificates-mozilla: nodeps
+  # copy ssl certificates
+  e cp -a /etc/ssl etc
+  e cp -a /var/lib/ca-certificates var/lib
+
 :
 
 include theme.file_list
@@ -531,10 +543,6 @@ r /etc/profile.d
 
 # historical static device nodes
 x devz /devz
-
-# copy ssl certificates
-e cp -a /etc/ssl etc
-e cp -a /var/lib/ca-certificates var/lib
 
 # mtab is symlink now
 r /etc/mtab

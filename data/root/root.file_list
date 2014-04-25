@@ -24,6 +24,11 @@ TEMPLATE binutils:
   r /usr/bin/ld
   s ld.bfd /usr/bin/ld
 
+TEMPLATE SUSEConnect:
+  /
+  # avoid update-alternatives
+  s SUSEConnect-0.0.14 /usr/bin/SUSEConnect
+
 TEMPLATE rubygem-.*:
   /usr/*/ruby/gems/*/gems/*/lib
   /usr/*/ruby/gems/*/specifications
@@ -77,6 +82,8 @@ yast2-schema: ignore
 # handle yast2-registration -> suse-connect -> zypper dependency,
 # yast does not need zypper, just suse-connect, so ignore it
 ?zypper: ignore
+# already in initrd
+ca-certificates-mozilla: ignore
 
 if arch eq 'aarch64'
 qemu-linux-aarch64:
