@@ -35,79 +35,13 @@ CD1=$targetdir/CD1
 mkdir -pv $CD1/ppc
 mkdir -pv $CD1/boot/$ARCH/grub2-ieee1275
 cp -apfv $bdir/grub2-ieee1275/grub2-ieee1275 $CD1/boot/$ARCH
-# to trigger the HFS part, avoid 8.3 filenames and allow OF booting
-#mkdir -pv $CD1/suseboot
-#if [ -f /lib/lilo/chrp/yaboot ] ; then
-#cp -pfv /lib/lilo/chrp/yaboot           $CD1/suseboot/yaboot
-#fi
-#cp -pfv /lib/lilo/chrp/yaboot.chrp      $CD1/suseboot/yaboot.ibm
 
 #copy initrd and kernel
 cp -pfv $bdir/initrd             $CD1/boot/$ARCH/initrd
 cp -pfv /boot/vmlinux-*-default  $CD1/boot/$ARCH/linux
 
-#grub-mkimage -O powerpc-ieee1275 -d /usr/lib/grub/powerpc-ieee1275 -p '()/boot/$ARCH/powerpc-ieee1275' \
-#	-o $CD1/boot/$ARCH/powerpc-ieee1275/grub2.core
-
-#deprecate inst{32,64}. We use yaboot anyway, it doens't make sense
-#to embed yaboot
-#if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
-#	mkdir -pv $CD1/ppc/netboot
-#	cp -Lpfv /lib/lilo/chrp/mkzimage_cmdline $CD1/ppc/netboot
-#	chmod 0755 $CD1/ppc/netboot/mkzimage_cmdline
-#fi
-#
-#if test "$do_64" = "true" ; then
-#	/bin/mkzimage \
-#	--board chrp \
-#	--vmlinux /boot/vmlinux-*-default \
-#	--initrd $bdir/initrd-default \
-#	--output $CD1/suseboot/inst64
-#
-#	if test "42" = "false" ; then
-#	/bin/mkzimage \
-#	--board iseries \
-#	--vmlinux /boot/vmlinux-*-default \
-#	--initrd $bdir/initrd-default \
-#	--output $CD1/ISERIES64
-#	fi
-#
-#fi
-#
-#if test "$do_32" = "true" ; then
-#	/bin/mkzimage \
-#	--board chrp \
-#	--vmlinux /boot/vmlinux-*-default \
-#	--initrd $bdir/initrd \
-#	--output $CD1/suseboot/inst32
-#
-#	if test "42" = "false" ; then
-#		/bin/mkzimage \
-#		--board prep \
-#		--vmlinux /boot/vmlinux-*-default \
-#		--initrd $bdir/initrd \
-#		--cmdline 'sysrq=1 nosshkey minmemory=0 MemYaSTText=0 quiet ' \
-#		--output $CD1/boot/ppc/zImage.prep.initrd
-#	fi
-#
-#	if test "42" = "false" ; then
-#		/bin/mkzimage \
-#		--board pmaccoff \
-#		--vmlinux /boot/vmlinux-*-default \
-#		--initrd $bdir/initrd-ppc32_pmac_coff \
-#		--output $CD1/boot/ppc/install-pmaccoff
-##
-#		/bin/mkzimage \
-#		--board pmaccoff \
-#		--vmlinux /boot/vmlinux-*-default \
-#		--output $CD1/boot/ppc/vmlinux-pmaccoff
-#
-#	fi
-#
-#fi
-#
 we_dont_smoke_that_stuff=`echo ${BUILD_DISTRIBUTION_NAME} | sed -e 's@SUSE@SuSE@;s@LINUX@Linux@'`
-#
+
 # has to be in one line because the Maple firmware matches just that ...
 cat > $CD1/ppc/bootinfo.txt <<EOF
 <chrp-boot>
@@ -119,49 +53,12 @@ cat > $CD1/ppc/bootinfo.txt <<EOF
 EOF
 cat $CD1/ppc/bootinfo.txt
 
-#cat > $CD1/suseboot/yaboot.txt <<EOF
-#
-#  Welcome to ${we_dont_smoke_that_stuff}!
-#
-#  Type  "install"  to start the YaST installer on this CD/DVD
-#  Type  "slp"      to start the YaST install via network
-#  Type  "rescue"   to start the rescue system on this CD/DVD
-#
-#
-#EOF
-#cat $CD1/suseboot/yaboot.txt
-
 if test "$do_32" = "true" ; then
 	do_bits="$do_bits 32"
 fi
 if test "$do_64" = "true" ; then
 	do_bits="$do_bits 64"
 fi
-
-#cat > $CD1/suseboot/yaboot.cnf <<EOF
-#message=yaboot.txt
-#EOF
-#for i in $do_bits
-#do
-#cat >> $CD1/suseboot/yaboot.cnf <<EOF
-#
-#image[${i}bit]=linux${i}
-#  initrd=initrd${i}
-#  label=install
-#  append="quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
-#image[${i}bit]=linux${i}
-#  initrd=initrd${i}
-#  label=slp
-#  append="quiet sysrq=1 install=slp           "
-#image[${i}bit]=linux${i}
-#  initrd=initrd${i}
-#  label=rescue
-#  append="quiet sysrq=1 rescue=1              "
-#
-#EOF
-#done
-#cat $CD1/suseboot/yaboot.cnf
-
 
 cat > $CD1/ppc/os-chooser <<EOF
 <CHRP-BOOT>
@@ -233,4 +130,3 @@ cat $CD1/ppc/os-chooser
 
 find $CD1 -ls
 du -sm $CD1
-

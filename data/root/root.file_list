@@ -275,10 +275,6 @@ if arch eq 'ppc' || arch eq 'ppc64'
   pdisk:
     /sbin/pdisk
 
-  lilo:
-    /sbin/lilo
-    /bin/show_of_path.sh
-
   hfsutils:
     /usr/bin/hattrib
    s hattrib /usr/bin/hcd
