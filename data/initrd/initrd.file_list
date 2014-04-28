@@ -1,21 +1,16 @@
-d bin dev etc mnt proc sys tmp
-d run/dbus
-d var/run var/spool var/run/libstorage var/tmp var/log/YaST2 var/adm/mount
-d var/lib/YaST2 var/lib/hardware/unique-keys var/lib/autoinstall
-d var/run/hotplug var/cache/fontconfig
-d var/lib/sshd var/lib/empty var/run/ntp
-d var/cache/sax/files var/cache/sax/sysp/rdbms var/cache/xfine var/cache/zypp var/lib/sax 
-d etc/sysconfig
-d etc/sysconfig/hardware
-d etc/YaST2
-d var/lib/xkb/compiled etc/X11
-d mounts
-d root
-d download
-d scripts
+d bin mnt proc sys tmp mounts root download scripts
 d dev/pts dev/shm
-d var/lib/systemd/migrated
-d var/lib/polkit
+d etc/sysconfig/hardware etc/YaST2 etc/X11
+d var/tmp var/adm/mount
+d var/cache/fontconfig var/cache/zypp
+d var/lib/YaST2 var/lib/hardware/unique-keys var/lib/autoinstall var/lib/xkb/compiled
+d var/lib/systemd/migrated var/lib/polkit var/lib/sshd var/lib/empty
+d var/log/cups var/log/YaST2 var/log/zypp
+d var/spool var/run/libstorage var/run/hotplug var/run/ntp
+d run/dbus run/lock
+
+s /run/lock /var/lock
+s /run/lock /var/spool/locks
 
 t var/run/utmp
 
@@ -88,6 +83,7 @@ update-alternatives: ignore
 ?dracut: ignore
 ?mkinitrd: ignore
 perl: ignore
+filesystem: ignore
 
 samba-libs: nodeps
   /usr/lib*/samba/libreplace.so
@@ -377,13 +373,6 @@ sysconfig:
 ?fcoe-utils:
   /etc
 
-filesystem:
-  /var/spool/locks
-  /run
-  s /run/lock /var/lock
-  d /run/lock
-
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # packages with scripts
@@ -392,10 +381,7 @@ filesystem:
 
 aaa_base:
   E prein
-  r boot
-  /etc/rc.status
-  /etc/inputrc
-  /usr/sbin/service
+  /
   # steal them from base image
   e cp /etc/passwd etc
   e cp /etc/group etc
@@ -541,6 +527,7 @@ include texts.file_list
 r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 r /etc/passwd?* /etc/shadow?* /etc/group?*
 r /etc/profile.d
+r /boot
 
 # historical static device nodes
 x devz /devz

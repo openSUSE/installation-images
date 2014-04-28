@@ -84,6 +84,7 @@ yast2-schema: ignore
 ?zypper: ignore
 # already in initrd
 ca-certificates-mozilla: ignore
+filesystem: ignore
 
 if arch eq 'aarch64'
 qemu-linux-aarch64:
@@ -187,14 +188,6 @@ rpm:
 gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
-
-filesystem:
-  /var
-  t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
-  # remove symlink to /run
-  e [ -L var/run ] && rm var/run ; true
-  r /var/spool/locks /var/lock
-  d /run
 
 bash:
   /bin/bash
@@ -589,6 +582,8 @@ e mkfontdir usr/share/fonts/truetype
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
 r /etc/profile.d /etc/profile /etc/bash.bashrc /etc/bash_completion.d
+r /run /var/log/{cache,games,log,lock,mail,opt,spool}
+e rm -f `find var -type f`
 
 # they are all part of the initrd
 r /etc/passwd* /etc/shadow* /etc/group*
