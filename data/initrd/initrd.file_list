@@ -381,6 +381,7 @@ filesystem:
   /var/spool/locks
   /run
   s /run/lock /var/lock
+  d /run/lock
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
