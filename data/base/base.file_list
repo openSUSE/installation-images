@@ -103,10 +103,6 @@ else
   openSUSE-release-mini:
 endif
 
-if arch eq 'aarch64'
-qemu-linux-aarch64:
-endif
-
 ca-certificates:
   /usr/sbin/update-ca-certificates
   /usr/lib/ca-certificates/update.d/openssl.run

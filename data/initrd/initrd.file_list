@@ -112,10 +112,6 @@ sg3_utils:
 systemd-presets-branding-<base_theme>:
 tar:
 
-if arch eq 'aarch64'
-qemu-linux-aarch64:
-endif
-
 linuxrc:
   if linuxrc
     if linuxrc =~ m#^[^/]#

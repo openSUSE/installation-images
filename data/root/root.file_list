@@ -86,10 +86,6 @@ yast2-schema: ignore
 ca-certificates-mozilla: ignore
 filesystem: ignore
 
-if arch eq 'aarch64'
-qemu-linux-aarch64:
-endif
-
 ?efibootmgr:
 ?elilo:
 btrfsprogs:
@@ -117,7 +113,6 @@ insserv-compat:
 iputils:
 jfsutils:
 joe:
-kdump:
 klogd:
 libsolv-tools:
 libudev*:
