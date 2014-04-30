@@ -506,7 +506,7 @@ sub KernelImg
   for (@$k_files) {
     s#.*/boot/##;
     next if /autoconf|config|shipped|version/;		# skip obvious garbage
-    push @k_images, $_ if m#$ConfigData{kernel_img}#;
+    push @k_images, $_ if m#^$ConfigData{kernel_img}#;
   }
 
   return @k_images;
