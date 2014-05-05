@@ -88,6 +88,7 @@ dd_rescue:
 diffutils:
 dosfstools:
 ?dracut:
+?dracut-fips:
 dump:
 e2fsprogs:
 file-magic:

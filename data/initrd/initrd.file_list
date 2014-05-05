@@ -388,6 +388,12 @@ dbus-1:
   /
   E prein
 
+# For FIPS installation:
+
+libopenssh1_0_0-hmac:
+
+openssh-fips:
+
 openssh: nodeps
   E prein
   d etc/ssh
