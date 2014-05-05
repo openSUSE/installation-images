@@ -118,6 +118,10 @@ yast2-trans-allpacks: requires,nodeps
   x mk_yast2_trans bin/mk_yast2_trans
   E mk_yast2_trans yast2-trans-allpacks.requires
 
+update-alternatives:ignore
+gawk:
+  /usr/bin/gawk
+  s gawk usr/bin/awk
 
 :
 
