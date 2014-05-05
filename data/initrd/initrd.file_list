@@ -230,9 +230,8 @@ iproute2:
 
 open-iscsi:
   # must be writable
-  /etc/iscsi/iscsid.conf
+  /etc/iscsi
   c 644 0 0 /etc/iscsi/iscsid.conf
-  # /var/lib/open-iscsi
 
 util-linux:
   /usr/sbin/mkswap
@@ -348,9 +347,12 @@ pam:
 
 if exists(plymouth)
   plymouth:
+    /
+    R s/^Theme=.*/Theme=tribar/ /usr/share/plymouth/plymouthd.defaults
   plymouth-scripts: nodeps
   plymouth-plugin-script:
   plymouth-branding-<base_theme>: nodeps
+  # plymouth-theme-tribar:
 endif
 
 procps:
@@ -390,7 +392,7 @@ dbus-1:
 
 # For FIPS installation:
 
-libopenssh1_0_0-hmac:
+libopenssl*_*_*-hmac:
 
 openssh-fips:
 
