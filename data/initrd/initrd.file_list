@@ -123,9 +123,6 @@ linuxrc:
     m /usr/sbin/linuxrc /init
   endif
   s /lbin/extend /bin
-  d usr/share/kbd/consolefonts
-  g /usr/share/linuxrc/linuxrc-16.psfu.gz usr/share/kbd/consolefonts/linuxrc-16.psfu
-  g /usr/share/linuxrc/linuxrc2-16.psfu.gz usr/share/kbd/consolefonts/linuxrc2-16.psfu
 
 terminfo-base:
   /usr/share/terminfo
@@ -160,6 +157,7 @@ kbd:
   /usr/share/kbd/keymaps
   /usr/share/kbd/consoletrans/koi2alt
   /usr/share/kbd/consoletrans/trivial
+  /usr/share/kbd/consolefonts/default8x16.psfu.gz
 
 cifs-utils:
   /sbin/mount.cifs
