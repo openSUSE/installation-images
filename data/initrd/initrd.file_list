@@ -231,6 +231,8 @@ open-iscsi:
   /etc/iscsi
   c 644 0 0 /etc/iscsi/iscsid.conf
 
+iscsiuio:
+
 util-linux:
   /usr/sbin/mkswap
   /usr/sbin/swapon
