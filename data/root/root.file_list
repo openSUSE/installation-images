@@ -501,7 +501,8 @@ dejavu-fonts:
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
 
 fonts-config:
-  /usr/sbin/fonts-config
+  /
+  E postin
 
 efont-unicode-bitmap-fonts:
   /usr/share/fonts/misc/b16.pcf.gz
