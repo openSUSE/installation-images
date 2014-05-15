@@ -183,6 +183,7 @@ if grep -iwq y2debug < /proc/cmdline ; then
 fi
 
 export XCURSOR_THEME=DMZ
+export LIBGL_ALWAYS_INDIRECT=1
 
 grep -qwi start_shell /proc/cmdline && START_SHELL=1
 grep -qi "^StartShell:.*1" /etc/install.inf && START_SHELL=1

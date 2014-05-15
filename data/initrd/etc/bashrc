@@ -2,6 +2,9 @@ PS1='\l:\H:\w # '
 if [ -x /bin/hostname ] ; then
   PS1='\l:$(/bin/hostname 2>/dev/null):\w # '
 fi
+
+export LIBGL_ALWAYS_INDIRECT=1
+
 alias ll="ls -l"
 alias la="ls -la"
 alias ..="cd .."
@@ -9,3 +12,21 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
+
+function dhcpcd {
+  if [ -z "$1" ] ; then
+    echo -n "available interfaces:"
+    ( cd /sys/class/net ; for i in * ; do [ "$i" = lo ] || echo -n " $i" ; done )
+    echo
+    return
+  fi
+
+  if [ "$1" = "-k" ] ; then
+    wicked ifdown "$2"
+    return
+  fi
+
+  c="/etc/sysconfig/network/ifcfg-$1"
+  [ ! -f "$c" ] && echo "BOOTPROTO='dhcp'" >"$c"
+  wicked ifup "$1"
+}
