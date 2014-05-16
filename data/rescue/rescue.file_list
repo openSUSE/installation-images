@@ -1,4 +1,6 @@
-d bin dev etc home lib mnt proc sys sbin tmp var root
+d run var
+s ../run var
+d bin dev etc home lib mnt proc sys sbin tmp root
 d media/{cdrom,floppy}
 d lib/modules
 c 1777 0 0 tmp
@@ -35,8 +37,6 @@ filesystem:
   /etc/init.d
   /usr/tmp
   /var
-  # remove symlink to /run
-  e [ -L var/run ] && rm var/run ; true
   # remove temporarily so that 'mount /sys' doesn't work
   r /sys
 

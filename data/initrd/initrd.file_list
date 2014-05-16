@@ -1,3 +1,5 @@
+d run var
+s ../run var
 d bin mnt proc sys tmp mounts root download scripts
 d dev/pts dev/shm
 d etc/sysconfig/hardware etc/YaST2 etc/X11
@@ -361,6 +363,7 @@ procps:
 # maybe we don't need everything...
 systemd:
   /usr/lib*/libsystemd*.so.*
+  /usr/lib/udev/rules.d
 
 sysconfig:
   /

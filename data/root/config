@@ -1,14 +1,14 @@
 root:			common root cracklib-dict-full.rpm bind ?yast2-trans-<lang>.rpm
 rescue:			common rescue ?cracklib-dict-full.rpm
-yast2-trans-ar.rpm:	yast2-trans-ar.rpm arabic-fonts.rpm?list=*/KacstBook.ttf
+yast2-trans-ar.rpm:	yast2-trans-ar.rpm arabic-kcst-fonts.rpm?list=*/KacstBook.ttf
 yast2-trans-bn.rpm:	yast2-trans-bn.rpm indic-fonts.rpm?list=*/MuktiNarrow.ttf
-yast2-trans-gu.rpm:	yast2-trans-gu.rpm indic-fonts.rpm?list=*/lohit_gu.ttf
-yast2-trans-hi.rpm:	yast2-trans-hi.rpm indic-fonts.rpm?list=*/lohit_hi.ttf
+yast2-trans-gu.rpm:	yast2-trans-gu.rpm indic-fonts.rpm?list=*/Lohit-Gujarati.ttf
+yast2-trans-hi.rpm:	yast2-trans-hi.rpm indic-fonts.rpm?list=*/Lohit-Devanagari.ttf
 yast2-trans-ja.rpm:	yast2-trans-ja.rpm ipa-gothic-fonts.rpm
 yast2-trans-km.rpm:	yast2-trans-km.rpm khmeros-fonts.rpm?list=*/KhmerOS_sys.ttf
 yast2-trans-ko.rpm:	yast2-trans-ko.rpm un-fonts.rpm?list=*/UnDotum.ttf
-yast2-trans-mr.rpm:	yast2-trans-mr.rpm indic-fonts.rpm?list=*/lohit_hi.ttf
-yast2-trans-pa.rpm:	yast2-trans-pa.rpm indic-fonts.rpm?list=*/lohit_pa.ttf
+yast2-trans-mr.rpm:	yast2-trans-mr.rpm indic-fonts.rpm?list=*/Lohit-Marathi.ttf
+yast2-trans-pa.rpm:	yast2-trans-pa.rpm indic-fonts.rpm?list=*/Lohit-Punjabi.ttf
 yast2-trans-si.rpm:	yast2-trans-si.rpm lklug-fonts.rpm
 yast2-trans-ta.rpm:	yast2-trans-ta.rpm indic-fonts.rpm?list=*/TSCu_Paranar.ttf
 yast2-trans-th.rpm:	yast2-trans-th.rpm thai-fonts.rpm?list=*/Loma*.ttf

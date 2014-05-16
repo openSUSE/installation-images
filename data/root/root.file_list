@@ -578,7 +578,7 @@ e mkfontdir usr/share/fonts/truetype
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
 r /etc/profile.d /etc/profile /etc/bash.bashrc /etc/bash_completion.d
-r /run /var/log/{cache,games,log,lock,mail,opt,spool}
+r /run /var/log/{cache,games,log,lock,mail,opt,spool} /var/run
 e rm -f `find var -type f`
 
 # they are all part of the initrd
