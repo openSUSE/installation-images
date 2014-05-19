@@ -363,7 +363,8 @@ procps:
 # maybe we don't need everything...
 systemd:
   /usr/lib*/libsystemd*.so.*
-  /usr/lib/udev/rules.d
+  # plymouth is not working if we include all rules - no idea why
+  /usr/lib/udev/rules.d/99-systemd.rules
 
 sysconfig:
   /
