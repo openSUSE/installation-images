@@ -4,6 +4,6 @@ product_name Installation
 - there are shells running on consoles 2, 5, 6, 9
 - use 'extend' to load extensions (remove with 'extend -r'); extensions are:
     o bind, gdb
-- for network setup use wicked
+- for network setup use wicked, for simple cases try dhcpcd
 - sshd: run 'setup_ssh' (don't forget to set a password with 'passwd')
 
