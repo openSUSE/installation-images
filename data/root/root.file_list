@@ -634,3 +634,6 @@ if roottrans
 e unused_mos --files --domains=/yast2-trans.domains --dir usr/share/YaST2 | xargs rm
 endif
 
+# add yast preferred font list
+d /usr/share/libyui/data
+x lang_fonts /usr/share/libyui/data/lang_fonts
