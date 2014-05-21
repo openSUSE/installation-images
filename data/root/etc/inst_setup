@@ -162,6 +162,8 @@ depmod -a 2>/dev/null
 
 test -x /etc/init.d/ia32el && /etc/init.d/ia32el start
 
+test -x /usr/lib/hyper-v/bin/inst_sys.sh && /usr/lib/hyper-v/bin/inst_sys.sh
+
 # ensure everything below those dirs is writable
 for i in /root /etc/ssh /etc/sysconfig ; do
   cp -aL $i ${i}_tmp
