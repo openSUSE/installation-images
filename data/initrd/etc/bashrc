@@ -27,6 +27,6 @@ function dhcpcd {
   fi
 
   c="/etc/sysconfig/network/ifcfg-$1"
-  [ ! -f "$c" ] && echo "BOOTPROTO='dhcp'" >"$c"
+  [ ! -f "$c" ] && echo -e "BOOTPROTO='dhcp'\nSTARTMODE='auto'" >"$c"
   wicked ifup "$1"
 }
