@@ -31,18 +31,19 @@ if [ -x /bin/dbus-daemon ] ; then
 fi
 
 if [ -x usr/sbin/wickedd ] ; then
-  debug_opts="--debug mini --log-target stderr:time"
+  debug_opts="--debug mini --log-target stderr:time,pid,ident"
   if [ -n "$linuxrc_debug" ] ; then
     if [ "$linuxrc_debug" = 1 ] ; then
-      debug_opts="--debug most --log-target stderr:time"
+      debug_opts="--debug most --log-target stderr:time,pid,ident"
     else
-      debug_opts="--debug all --log-target stderr:time"
+      debug_opts="--debug all --log-target stderr:time,pid,ident"
     fi
   fi
   echo "Starting wicked"
   {
     /usr/sbin/wickedd $debug_opts
     for i in /usr/lib/wicked/bin/wickedd-* ; do $i $debug_opts ; done
+    /usr/sbin/wickedd-nanny $debug_opts
   } 2>/var/log/wickedd.log
 fi
 

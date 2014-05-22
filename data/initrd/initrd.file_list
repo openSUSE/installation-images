@@ -244,6 +244,7 @@ iscsiuio:
 util-linux:
   /usr/sbin/mkswap
   /usr/sbin/swapon
+  /usr/bin/logger
   /usr/bin/more
   /usr/bin/mount
   /usr/bin/umount
