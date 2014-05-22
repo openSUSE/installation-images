@@ -284,6 +284,11 @@ if arch eq 'ppc' || arch eq 'ppc64'
    s hattrib /usr/bin/hvol
 endif
 
+if arch eq 'ppc64' || arch eq 'ppc64le'
+  yast2-prep-hook:
+    /var/lib/YaST2/hooks/installation/before_kickoff_00_prep_shrink.rb
+endif
+
 sysvinit-tools:
   /
   c 755 0 0 /sbin/showconsole
