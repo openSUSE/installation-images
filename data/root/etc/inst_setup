@@ -129,12 +129,15 @@ for i in /update/[0-9]*/install/update.pre ; do
   [ -x "$i" ] && "$i"
 done
 
-# start syslog
-if [ -x /sbin/syslogd ] ; then
-  checkproc /sbin/syslogd || {
-    echo -n "starting syslogd (logging to /dev/tty4)..."
-    sh -c '/sbin/syslogd >&1' 2>/dev/null
-    echo " ok"
+# start syslogd
+if [ -x /usr/sbin/syslogd ] ; then
+  checkproc /usr/sbin/syslogd || {
+    echo -n "starting syslogd (logging to /var/log/messages)..."
+    if /usr/sbin/syslogd ; then
+      echo " ok"
+    else
+      echo " failed"
+    fi
   }
 fi
 
@@ -150,8 +153,17 @@ if [ -x /sbin/klogd ] ; then
   }
 fi
 
-# start nscd (bnc #530440)
-# [ -f /etc/resolv.conf ] && nscd
+# start nscd (bnc #530440, bnc #878904)
+if [ -x /usr/sbin/nscd ] ; then
+  checkproc /usr/sbin/nscd || {
+    echo -n "starting nscd..."
+    if /usr/sbin/nscd ; then
+      echo " ok"
+    else
+      echo " failed"
+    fi
+  }
+fi
 
 # Update module config.
 #

@@ -289,8 +289,9 @@ sysvinit-tools:
   c 755 0 0 /sbin/showconsole
 
 syslogd:
-  m /usr/sbin/syslogd /usr/sbin/syslogd.bin
-  x etc/syslogd /usr/sbin/syslogd
+  /
+  # we have our own
+  r /etc/syslog.conf
 
 krb5:
   /etc
@@ -332,6 +333,8 @@ openssl:
 nscd:
   /etc
   /usr
+  # turn off passwd & group caching
+  R s/(enable-cache\s+(passwd|group)\s+)yes/$1no/g /etc/nscd.conf
 
 shadow:
   /etc
