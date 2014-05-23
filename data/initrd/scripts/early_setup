@@ -47,3 +47,8 @@ if [ -x usr/sbin/wickedd ] ; then
   } 2>/var/log/wickedd.log
 fi
 
+# log also to console 4 if it exists
+if [ -c /dev/tty4 ] ; then
+  echo "*.*	/dev/tty4" >>/etc/syslog.conf
+fi
+
