@@ -151,7 +151,7 @@ if [ -x /sbin/klogd ] ; then
 fi
 
 # start nscd (bnc #530440)
-[ -f /etc/resolv.conf ] && nscd
+# [ -f /etc/resolv.conf ] && nscd
 
 # Update module config.
 #
