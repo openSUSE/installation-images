@@ -155,6 +155,8 @@ wget:
 xfsdump:
 xfsprogs:
 xz:
+ca-certificates:
+sle12-desktop-migration:
 
 if theme eq 'SLES'
   sles-release:

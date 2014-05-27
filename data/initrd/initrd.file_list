@@ -532,6 +532,9 @@ ca-certificates-mozilla: nodeps
 
 :
 
+d /usr/share/pki/trust/anchors
+
+
 include theme.file_list
 
 :
