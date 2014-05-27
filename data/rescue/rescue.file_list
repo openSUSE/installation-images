@@ -363,3 +363,5 @@ E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 
 d lib/firmware usr/lib/microcode
 
+# allowed dangling symlinks
+D /var/cache/gio-2.0/gnome-defaults.list /usr/share/applications/defaults.list

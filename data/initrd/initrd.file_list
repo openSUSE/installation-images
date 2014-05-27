@@ -522,8 +522,9 @@ endif
 # here we just copy the files from there
 # the packages are listed here just so they show up in the package list later
 ca-certificates: nodeps
-  # do nothing
-  t tmp
+  /etc/ca-certificates
+  /etc/pki
+  /usr
 
 ca-certificates-mozilla: nodeps
   # copy ssl certificates

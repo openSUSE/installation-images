@@ -72,7 +72,9 @@ if(!$mode{keep} || $mode{add}) {
     mkdir $tmpdir || die "$Script: failed to create $tmpdir";
   }
 
-  AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir or
+  $dangling_links = {};
+
+  AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir, $dangling_links or
     die "$Script: failed to setup image";
 
   if(-f "$tmpdir.rpmlog") {
@@ -176,11 +178,13 @@ sub check_link
   for (`find $dir -type l`) {
     chomp;
 
-    next if m#^$dir/usr/lib/cracklib_dict#;
-    next if m#^$dir/usr/share/applications/defaults.list#;
-    next if m#^$dir/usr/lib/debug/\.build-id/#;
-
     $x = readlink;
+
+    my $ds = $_;
+    $ds =~ s#^$dir/?##;
+
+    next if $dangling_links->{$ds} eq $x;
+
     if($x =~ /^\//) {
       next if $x =~ m#^/lbin/#;
       next if $x =~ m#^/proc/#;
@@ -193,7 +197,9 @@ sub check_link
       next if -e;
     }
     $err = 1;
-    print STDERR "$_ -> $x\n";
+    my $n = $_;
+    $n =~ s#^$dir##;
+    print STDERR "invalid: $n -> $x\n";
   }
 
   return $err;

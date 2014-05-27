@@ -71,6 +71,7 @@ my $ignore;
 my $src_line;
 my $templates;
 my $used_packs;
+my $dangling_links;
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -80,12 +81,11 @@ sub AddFiles
 
   my ($dir, $file_list, $ext_dir, $arch, $if_val, $if_taken);
   my ($inc_file, $inc_it, $debug, $ifmsg, $old_warn);
-  my ($rpm_dir, $rpm_file);
-  my ($current_pack);
+  my ($rpm_dir, $rpm_file, $current_pack);
 
   my $su = "$SUBinary -q 0 " if $SUBinary;
 
-  ($dir, $file_list, $ext_dir) = @_;
+  ($dir, $file_list, $ext_dir, $dangling_links) = @_;
 
   $debug = "pkg";
   $debug = $ENV{'debug'} if exists $ENV{'debug'};
@@ -561,6 +561,9 @@ sub _add_pack
     elsif(/^s\s+(\S+)\s+(\S+)$/) {
       SUSystem "ln -sf $1 $dir/$2" and
         warn "$Script: failed to symlink $1 to $2";
+    }
+    elsif(/^D\s+(\S+)\s+\/?(\S+?)$/) {
+      $dangling_links->{$2} = $1;
     }
     elsif(/^m\s+(\S+)\s+(\S+)$/) {
       SUSystem "sh -c \"cp -a $tdir/$1 $dir/$2\"" and
