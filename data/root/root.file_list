@@ -114,6 +114,7 @@ iputils:
 jfsutils:
 joe:
 klogd:
+libfipscheck1:
 libsolv-tools:
 libudev*:
 libyui-ncurses-pkg*:

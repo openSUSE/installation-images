@@ -116,6 +116,7 @@ klogd:
 kmod-compat:
 kpartx:
 krb5:
+libfipscheck1:
 lsscsi:
 mingetty:
 mozilla-nspr:
