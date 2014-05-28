@@ -316,6 +316,17 @@ openssh:
 
 :
 
+# enable wicked service
+s ../wickedd.service usr/lib/systemd/system/multi-user.target.wants
+s ../wickedd-auto4.service usr/lib/systemd/system/multi-user.target.wants
+s ../wickedd-dhcp4.service usr/lib/systemd/system/multi-user.target.wants
+s ../wickedd-dhcp6.service usr/lib/systemd/system/multi-user.target.wants
+s ../wickedd-nanny.service usr/lib/systemd/system/multi-user.target.wants
+s ../wicked.service usr/lib/systemd/system/multi-user.target.wants
+
+# activate our bashrc
+x bashrc root/.profile
+
 # create it now (see filesystem package above)
 d /sys
 
