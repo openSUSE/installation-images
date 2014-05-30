@@ -216,6 +216,7 @@ sub ResolveDeps
   local $_;
   my $packages = shift;
   my $ignore = shift;
+  my $old = shift;
 
   my $p1;
 
@@ -231,6 +232,7 @@ sub ResolveDeps
 
   my $cnt = 0;
   for (keys %$p1) {
+    next if $old->{$_};
     $p2->{$_} = show_package_deps($_, $p1);
     $cnt++;
   }

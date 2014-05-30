@@ -1,7 +1,11 @@
-d etc bin usbkey
-
-libglib-*-*:
+TEMPLATE:
   /
+
+AUTODEPS:
+
+:
+
+d etc bin usbkey
 
 firmwarekit:
   /usr/lib*
@@ -9,34 +13,12 @@ firmwarekit:
   /var/log/firmwarekit
   x run_biostest /bin
 
-libpcre*:
-  /
-
-libnewt0_52:
-  /usr/lib*/libnewt.so.*
-
-libslang2:
-  /
-
-terminfo-base:
-  /usr/share/terminfo/l/linux
-  /usr/share/terminfo/s/screen
-  /usr/share/terminfo/v/vt10{0,2}
-
-libpci*:
-  /
-
 pciutils:
-  /
 
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
-dhcp-client:
-  /sbin/dhclient
-  /var/lib/dhcp
-
-acpica:
+?acpica:
   /usr/bin/acpixtract
   /usr/bin/iasl
 
@@ -44,54 +26,12 @@ openssh:
   /usr/bin/scp
   /usr/bin/ssh
 
-coreutils:
-  /usr/bin/cp
-
-libacl*:
-  /lib*
-
-libattr*:
-  /lib*
-
-krb5:
-  /etc
-  /usr/lib*/libkrb5.so.*
-  /usr/lib*/libkrb5support.so.*
-  /usr/lib*/libgssapi_krb5.so.*
-  /usr/lib*/libk5crypto.so.*
-
-libkeyutils*:
-  /
-
-libcom_err2:
-  /lib*/libcom_err.so.*
-
-libltdl7:
-  /usr/lib*
-
-libpcsclite1:
-  /
-
-libopenct1:
-  /usr/lib*/libopenct.so*
-
-libstdc++*:
-  /
-
 powertop:
-  /
-
-libncurses5:
-  /lib*/libncursesw.so.*
-
-kbd:
-  d usr/share/kbd/consolefonts
-  g /usr/share/kbd/consolefonts/lat1-16.psfu.gz usr/share/kbd/consolefonts/lat1-16.psfu
 
 :
 
-# remove, ehm, things...
-r /usr/share/doc /usr/share/info /usr/share/man /usr/share/locale /var/adm/fillup-templates
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 
 e ldconfig -r .
 

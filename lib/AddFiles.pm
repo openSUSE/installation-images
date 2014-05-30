@@ -72,6 +72,7 @@ my $src_line;
 my $templates;
 my $used_packs;
 my $dangling_links;
+my $dir;
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -79,7 +80,7 @@ sub AddFiles
 {
   local $_;
 
-  my ($dir, $file_list, $ext_dir, $arch, $if_val, $if_taken);
+  my ($file_list, $ext_dir, $arch, $if_val, $if_taken);
   my ($inc_file, $inc_it, $debug, $ifmsg, $old_warn);
   my ($rpm_dir, $rpm_file, $current_pack);
 
@@ -374,7 +375,6 @@ sub AddFiles
 
   # print Dumper($used_packs);
 
-  open my $f, ">${dir}.rpms";
   open my $l, ">${dir}.rpmlog";
   for (sort keys %$used_packs) {
     $_ = $used_packs->{$_};
@@ -387,10 +387,8 @@ sub AddFiles
         $by = '';
       }
     }
-    print $f "$_->{name}\n";
     print $l "$_->{name} [$_->{version}]$by\n";
   }
-  close $f;
   close $l;
 
   $SIG{'__WARN__'} = $old_warn;
@@ -755,6 +753,7 @@ sub find_missing_packs
 
   my $ignore;
   my $all;
+  my $old;
 
   print "resolving package dependencies...\n";
 
@@ -766,7 +765,59 @@ sub find_missing_packs
 
   delete $all->{$_} for (keys %$ignore);
 
-  my $r = ResolveDeps [ keys %$all ], [ keys %$ignore ];
+  if($old->{name} = $ENV{disjunct}) {
+    $old->{dir} = $dir;
+    $old->{dir} =~ s#[^/]+$#$old->{name}#;
+    if(open my $f, "$old->{dir}.rpmlog") {
+      my $p;
+      while(<$f>) {
+        $p = (split)[0];
+        $old->{packs}{$p} = 1 if $p ne "";
+      }
+      close $f;
+    }
+    else {
+      die "$old->{dir}.romlog: $old package list missing";
+    }
+    if(open my $f, "$old->{dir}.solv") {
+      while(<$f>) {
+        chomp;
+        if(s/^\-//) {
+          $old->{ignore}{$_} = 1;
+        }
+        else {
+          $old->{all}{$_} = 1;
+        }
+      }
+      close $f;
+    }
+    else {
+      die "$old->{dir}.solv: $old package solv list missing";
+    }
+  }
+
+  # print Dumper($old);
+
+  for (keys %$all) {
+    $old->{all}{$_} = 1;
+    delete $old->{ignore}{$_};
+  }
+
+  for (keys %$ignore) {
+    delete $old->{all}{$_};
+    $old->{ignore}{$_} = 1;
+  }
+
+  $all = $old->{all};
+  $ignore = $old->{ignore};
+
+  if(open my $f, ">${dir}.solv") {
+    print $f "$_\n" for sort keys %$all;
+    print $f "-$_\n" for sort keys %$ignore;
+    close $f;
+  }
+
+  my $r = ResolveDeps [ keys %$all ], [ keys %$ignore ], $old->{packs};
 
   # print Dumper($r);
 
