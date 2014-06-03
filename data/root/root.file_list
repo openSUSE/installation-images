@@ -585,7 +585,12 @@ e mkfontdir usr/share/fonts/truetype
 r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
 r /etc/profile.d /etc/profile /etc/bash.bashrc /etc/bash_completion.d
 r /run /var/log/{cache,games,log,lock,mail,opt,spool} /var/run
-e rm -f `find var -type f`
+r /var/lib/systemd/migrated
+e rm -f `find var/log -type f`
+e rm -f `find var/cache -type f`
+
+# show remaining files in /var
+e find var -type f
 
 # they are all part of the initrd
 r /etc/passwd* /etc/shadow* /etc/group*
