@@ -506,14 +506,30 @@ dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
 
-fonts-config:
-  /
-  E postin
-
 efont-unicode-bitmap-fonts:
   /usr/share/fonts/misc/b16.pcf.gz
 
 ?raleway-fonts:
+
+# various asiatic & arabic fonts
+indic-fonts:
+  /usr/share/fonts/truetype/MuktiNarrow.ttf
+  /usr/share/fonts/truetype/Lohit-Gujarati.ttf
+  /usr/share/fonts/truetype/Lohit-Devanagari.ttf
+  /usr/share/fonts/truetype/Lohit-Marathi.ttf
+  /usr/share/fonts/truetype/Lohit-Punjabi.ttf
+  /usr/share/fonts/truetype/TSCu_Paranar.ttf
+
+thai-fonts:
+  /usr/share/fonts/truetype/Loma*.ttf
+
+khmeros-fonts:
+  /usr/share/fonts/truetype/KhmerOS_sys.ttf
+
+lklug-fonts:
+
+arabic-kacst-fonts:
+  /usr/share/fonts/truetype/KacstBook.ttf
 
 dmz-icon-theme-cursors:
   /usr/share/icons/DMZ
@@ -557,6 +573,10 @@ openssh:
   /
   t /etc/sysconfig/ssh
   E prein
+
+fonts-config:
+  /
+  E postin
 
 pango-tools:
   /
