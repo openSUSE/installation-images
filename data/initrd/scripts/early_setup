@@ -4,6 +4,10 @@ exec >&2
 
 chmod 700 /root/.gnupg
 
+if [ -x /usr/sbin/haveged ] ; then
+  /usr/sbin/haveged -w 1024 -v 0
+fi
+
 if [ -d /usr/lib/rpm/gnupg/keys ] ; then
   touch /installkey.gpg
   gpg --batch --homedir /root/.gnupg --no-default-keyring --ignore-time-conflict --ignore-valid-from --keyring /installkey.gpg --import /usr/lib/rpm/gnupg/keys/*

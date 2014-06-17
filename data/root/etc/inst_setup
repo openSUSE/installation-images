@@ -102,11 +102,6 @@ done
 
 ldconfig
 
-# start haveged
-if [ -f /usr/lib/systemd/system/haveged.service ] ; then
-  service_start haveged
-fi
-
 # driver update: rebuild yast update tree
 [ -L /y2update ] && rm -f /y2update
 [ -d /update/y2update ] && mv /update/y2update /update/y2update.bak

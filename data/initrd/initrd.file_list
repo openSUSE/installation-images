@@ -97,6 +97,7 @@ curl:
 device-mapper:
 ethtool:
 glibc:
+haveged:
 hwinfo:
 iputils:
 kpartx:
@@ -153,6 +154,7 @@ suse-module-tools:
   /sbin/dasdinfo
   /sbin/chzdev
   /etc/udev
+  /boot
 
 kbd:
   /usr/bin/dumpkeys
