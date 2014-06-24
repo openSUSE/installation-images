@@ -315,6 +315,9 @@ openssh:
 
 :
 
+# allow link (old udev package)
+D /lib/firmware /usr/lib/firmware
+
 # enable wicked service
 s ../wickedd.service usr/lib/systemd/system/multi-user.target.wants
 s ../wickedd-auto4.service usr/lib/systemd/system/multi-user.target.wants
