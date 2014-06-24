@@ -16,6 +16,15 @@ if [ -f /mounts/initrd/etc/suse-blinux.conf ] ; then
   }
 fi
 
+if [ -e /usr/lib/systemd/system/sshd.service -a "$SSH" = 1 ] ; then
+  cp -f /usr/lib/systemd/system/sshd.service /etc/systemd/system
+  ln -s ../sshd.service /etc/systemd/system/multi-user.target.wants
+fi
+
+if [ -n "$SSHPASSWORD" ] ; then
+  echo "root:$SSHPASSWORD" | chpasswd
+fi
+
 # keep some initrd config files for rescue system
 cd /mounts/initrd
 for i in etc/modprobe.d/blacklist etc/modprobe.d/noload etc/resolv.conf etc/sysconfig/network/* ; do
