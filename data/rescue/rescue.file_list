@@ -2,7 +2,6 @@ d run var
 s ../run var
 d bin dev etc home lib mnt proc sys sbin tmp root
 d media/{cdrom,floppy}
-d lib/modules
 c 1777 0 0 tmp
 d var/lib/systemd/migrated
 
@@ -372,7 +371,7 @@ E echo "sysfs /sys sysfs noauto 0 0" >>/etc/fstab
 E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 # E /sbin/SuSEconfig --force --norestarts
 
-d lib/firmware usr/lib/microcode
+d usr/lib/microcode
 
 # allowed dangling symlinks
 D /var/cache/gio-2.0/gnome-defaults.list /usr/share/applications/defaults.list
