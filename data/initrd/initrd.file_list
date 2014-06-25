@@ -222,6 +222,9 @@ bash:
   /bin/{sh,bash}
   s bash /bin/lsh
 
+ncurses-utils:
+  /usr/bin/tset
+
 libncurses5:
   /lib*/libncurses.so.*
   /lib*/libncursesw.so.*
