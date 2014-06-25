@@ -58,7 +58,6 @@ binutils: ignore
 ?grub2-x86_64-efi:
 ?grub2-powerpc-ieee1275:
 ?grub2:
-?grub:
 ?hyper-v:
 ?iprutils:
 ?pdisk:

@@ -195,6 +195,7 @@ coreutils:
   /usr/bin/chown
   /usr/bin/cp
   /usr/bin/date
+  /usr/bin/df
   /usr/bin/false
   /usr/bin/head
   /usr/bin/ln
