@@ -148,6 +148,7 @@ kernel/drivers/video/fb_sys_fops.ko
 kernel/drivers/video/sysimgblt.ko
 kernel/drivers/video/sysfillrect.ko
 kernel/drivers/video/syscopyarea.ko
+kernel/drivers/video/fbdev/core/
 
 kernel/arch/i386/kernel/msr.ko
 
