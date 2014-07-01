@@ -555,9 +555,6 @@ r /etc/passwd?* /etc/shadow?* /etc/group?*
 r /etc/profile.d
 r /boot
 
-# historical static device nodes
-x devz /devz
-
 # mtab is symlink now
 r /etc/mtab
 s /proc/self/mounts /etc/mtab
