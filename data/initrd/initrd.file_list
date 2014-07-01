@@ -565,9 +565,6 @@ s /proc/self/mounts /etc/mtab
 # our own rules file which loads only pnp subsystem mods
 x etc/80-drivers.rules /usr/lib/udev/80-drivers.rules.no_modprobe
 
-# our own udevd start script
-x etc/myudevstart /bin
-
 # systemd service start script
 x service_start /bin
 

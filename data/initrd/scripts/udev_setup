@@ -1,26 +1,15 @@
-#!/bin/sh
+#! /bin/bash
+
+exec >&2
 
 PATH="/sbin:/bin:/usr/bin:/usr/sbin:/lbin"
 
 # disable hotplug helper, udevd listens to netlink
 echo "" > /proc/sys/kernel/hotplug
 
-# create min devices
-# ########
-#   Note: this is different from the usual 'cp -a'!
-# ######## 
-/lbin/cp -a /lib/udev/devices /dev
-
 # start udevd
 echo -n "Starting udevd "
 udevd --daemon
-
-# cleanup some stuff
-rm -f /var/run/sysconfig/network
-
-# unlikely, but we may be faster than the first event
-mkdir /dev/.udev
-mkdir /dev/.udev/queue
 
 # create devices
 /usr/bin/udevadm trigger
