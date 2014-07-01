@@ -1,0 +1,7 @@
+#! /bin/bash
+
+exec >&2
+
+# activate all pre-configured interfaces
+# (lo + everything setup via 'ifcfg' option)
+wicked ifup all
