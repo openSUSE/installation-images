@@ -56,6 +56,7 @@ if($opt_stop) {
       for (@todo) { $cmd .= "killproc -KILL $1\n" if /^ExecStart=[\-@]*(\S+)/ }
     }
   }
+  $cmd .= "exit 0\n";
 }
 else {
   for (@todo) { $cmd .= "$_\n" if s/^ExecStartPre=[\-@]*// }
