@@ -156,6 +156,7 @@ telnet:
 terminfo-base:
 usbutils:
 vim:
+vlan:
 wget:
 ?wicked:
 xfsdump:
