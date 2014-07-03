@@ -554,7 +554,9 @@ include texts.file_list
 r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 r /etc/passwd?* /etc/shadow?* /etc/group?*
 r /etc/profile.d
-r /boot
+if arch ne 's390' && arch ne 's390x'
+  r /boot
+endif
 
 # mtab is symlink now
 r /etc/mtab
