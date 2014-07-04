@@ -76,3 +76,4 @@ e echo "KexecReboot:    1" >>linuxrc.config
 
 e echo "PTOptions:	AutoUpgrade,productprofile,addon" >>linuxrc.config
 
+e echo -e "\n# Note: you can put config files also into /etc/linuxrc.d/." >>linuxrc.config
