@@ -126,6 +126,7 @@ linuxrc:
     m /usr/sbin/linuxrc /init
   endif
   s /lbin/extend /bin
+  d /etc/linuxrc.d
 
 grep:
   /usr/bin/grep
