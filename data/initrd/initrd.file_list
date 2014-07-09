@@ -369,7 +369,7 @@ if exists(plymouth)
   plymouth-scripts: nodeps
   plymouth-plugin-script:
   plymouth-branding-<base_theme>: nodeps
-  plymouth-theme-tribar:
+  ?plymouth-theme-tribar:
 endif
 
 procps:
