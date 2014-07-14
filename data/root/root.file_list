@@ -126,6 +126,7 @@ net-tools:
 ntfsprogs:
 open-iscsi:
 openslp:
+openslp-server:
 parted:
 pciutils:
 perl-Bootloader:
@@ -488,11 +489,6 @@ Mesa-libEGL*:
 
 libgbm*:
   /usr/lib*/libgbm.so.*
-
-openslp-server:
-  /etc/slp.reg
-  /etc/slp.reg.d
-  /usr/sbin/slpd
 
 icewm-lite:
   /usr/bin/icewm-lite

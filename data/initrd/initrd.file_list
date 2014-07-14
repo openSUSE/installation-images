@@ -437,6 +437,10 @@ rpcbind:
   /var/lib
   E prein
 
+# we just want the user & group entries
+openslp-server:
+  E prein
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
