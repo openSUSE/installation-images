@@ -105,8 +105,8 @@ endif
 
 ca-certificates:
   /usr/sbin/update-ca-certificates
-  /usr/lib/ca-certificates/update.d/openssl.run
-  /usr/lib/ca-certificates/update.d/etc_ssl.run
+  /usr/lib/ca-certificates/update.d/*openssl.run
+  /usr/lib/ca-certificates/update.d/*etc_ssl.run
   /var/lib/ca-certificates/openssl
 
 aaa_base:
