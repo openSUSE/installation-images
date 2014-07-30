@@ -1,0 +1,26 @@
+#! /usr/bin/perl
+
+$up = 0;
+
+for (`wicked show all 2>/dev/null`) {
+  chomp;
+  if(/^(\S+)\s*(\S+)/) {
+    $up = $1 ne 'lo' && $2 eq 'up';
+    next;
+  }
+  next unless $up;
+
+  if(/^\s+addr:\s+ipv\S+\s+(\S+)/) {
+    $addr = $1;
+    $addr =~ s#/.*$##;
+    push @addr, $addr;
+  }
+}
+
+if(@addr) {
+  system "hostname $addr[0]";
+
+  print "IP addresses:\n";
+  print "  $_\n" for @addr;
+}
+

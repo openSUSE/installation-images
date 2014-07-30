@@ -54,43 +54,17 @@ export YAST2_SSH=false
 unset SSH_FAILED
 stty sane
 
-# hostname may come from cmdline
-if test -z "$hostname" ; then
-  hostname=`hostname`
-else
-  hostname "$hostname"
-fi
-if [ -s /etc/install.inf ]; then
-#  # fix fonts for japanese
-#  lang=`awk '{ if(/^Locale:/) print $2 }' /etc/install.inf`
-#  if [ "$lang" = ja_JP ]; then
-#    rm -f /usr/X11R6/lib/X11/fonts/truetype/FZSongTi.ttf
-#    rm -f /usr/X11R6/lib/X11/fonts/truetype/gulim.ttf
-#  fi
-  if [ "$hostname" = "(none)" ] ; then
-	hostname=
+# set hostname and domainname
+hostip_from_wicked >/tmp/hostips
 
-	# hostname and domainname may come from cmdline
-	if test -z "$hostname" ; then
-		hostname=$(awk ' /^Hostname:/ { print $2 }' < /etc/install.inf)
-	fi
-	if test -z "$hostname" ; then
-		hostname=$(awk ' /^IP:/ { print $2 }' < /etc/install.inf)
-	fi
-	if test -z "$hostname" ; then
-		hostname=linux
-	fi
+hostname=$(awk ' /^Hostname:/ { print $2 }' < /etc/install.inf)
+[ -n "$hostname" ] && hostname $hostname
+hostname=`hostname`
 
-	if test -z "$domain"  ; then
-		domain=$(awk ' /^Domain:/ { print $2 }' < /etc/install.inf)
-	fi
-	if test -z "$domain"  ; then
-		domain=local
-	fi
-	hostname $hostname
-	domainname $domain
-  fi
-fi
+domain=$(awk ' /^Domain:/ { print $2 }' < /etc/install.inf)
+[ -z "$domain" ] && domain=local
+domainname $domain
+
 #
 # a few files should be restored when installation has completed if we
 # return to linuxrc.
@@ -211,6 +185,9 @@ function start_shell() {
   echo "ATTENTION: Starting shell... (use 'exit' to proceed with installation)"
   bash -l
 }
+
+[ -f /tmp/hostips ] && cat /tmp/hostips
+
 [ "$START_SHELL" ] && start_shell
 
 # anounce VNC via slpd
@@ -235,8 +212,8 @@ ec=
 if [ "$YAST2_SSH" = "true" ] ; then
   cat <<EOF
 
-      ***  login using 'ssh -X root@${hostname}'  ***
-      ***  run '${yast}.ssh' to start the installation  ***
+***  login using 'ssh -X root@${hostname}'  ***
+***  run '${yast}.ssh' to start the installation  ***
 
 EOF
   cp /etc/issue /etc/motd

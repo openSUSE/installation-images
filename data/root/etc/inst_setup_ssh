@@ -45,26 +45,17 @@ chown -R 0.0  /etc/ssh /root /etc/shadow 2>/dev/null
 
 /usr/sbin/sshd-gen-keys-start
 
-echo "Starting SSH daemon  ...  "
+echo -n "Starting SSH daemon... "
 
 /usr/sbin/sshd || {
   export SSH_FAILED=true
   export YAST2_SSH=false
-  echo 'sshd did NOT start!'
+  echo failed
 }
 
 if [ ! "$SSH_FAILED" ] ; then
-  echo
-  ip -oneline -family inet link show up | \
-  sed -n '/link\/\(ether\|ieee1394\|tr\)/s@^[^ ]\+[ ]\+\([^:]\+\).*@\1@p' | \
-  xargs --no-run-if-empty -n1 ip addr show dev | \
-  sed 's@^[0-9]\+: *@@'
+  echo ok
   export YAST2_SSH=true
-  cat <<EOF
-
-      ***  sshd has been started  ***
-
-EOF
 fi
 
 [ -f /proc/splash ] && echo verbose >/proc/splash
