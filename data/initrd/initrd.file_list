@@ -67,7 +67,6 @@ AUTODEPS:
 dbus-1-x11: ignore
 diffutils: ignore
 dirmngr: ignore
-dummy-release: ignore
 fillup: ignore
 gnu-unifont-bitmap-fonts: ignore
 info: ignore
@@ -114,6 +113,17 @@ sg3_utils:
 systemd-presets-branding-<base_theme>:
 tar:
 vlan:
+
+if theme eq 'SLES'
+  sles-release:
+  sles-release-MINI:
+elsif theme eq 'SLED'
+  sled-release:
+  sled-release-MINI:
+else
+  openSUSE-release:
+  openSUSE-release-mini:
+endif
 
 linuxrc:
   if linuxrc
@@ -554,6 +564,10 @@ include theme.file_list
 
 # replace issue and motd with our own messages
 include texts.file_list
+
+# patch out 'Server' from product name
+R s/ Server//g etc/os-release
+R s/ Server//g etc/issue
 
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates

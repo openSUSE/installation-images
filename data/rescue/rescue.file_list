@@ -332,6 +332,10 @@ x bashrc root/.profile
 # create it now (see filesystem package above)
 d /sys
 
+# patch out 'Server' from product name
+R s/ Server//g etc/os-release
+R s/ Server//g etc/issue
+
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 r dev/mapper dev/stderr dev/initctl

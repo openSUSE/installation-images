@@ -593,6 +593,12 @@ e mkfontdir usr/share/fonts/misc
 e mkfontscale usr/share/fonts/truetype
 e mkfontdir usr/share/fonts/truetype
 
+# patch out 'Server' from product name
+R s/ Server//g etc/issue
+
+# remove /etc/os-release so it's not used accidentally
+r /etc/os-release
+
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
 r /etc/profile.d /etc/profile /etc/bash.bashrc /etc/bash_completion.d
@@ -612,9 +618,6 @@ r etc/mtab
 
 # remove these, we don't want them symlinked
 r root mnt tmp proc usr/libexec
-
-# remove /etc/os-release so it's not used accidentally
-r /etc/os-release
 
 x /usr/lib/YaST/.Reh /usr/lib/YaST2
 x etc/inst_setup /sbin/inst_setup
@@ -645,9 +648,6 @@ r /dev
 r /etc/resolv.conf
 
 E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
-
-# make passwords not expire
-e perl -pi -e "s/^(([^:]*:){4})[^:]*/\$1/" etc/shadow
 
 d /usr/lib/debug /usr/src/debug
 
