@@ -235,6 +235,9 @@ kernel/net/llc/
 
 kernel/drivers/vhost/vringh.ko
 
+kernel/drivers/of/
+kernel/drivers/tty/serial/jsm/
+
 # kmps
 updates/
 
