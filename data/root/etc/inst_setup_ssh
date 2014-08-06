@@ -47,15 +47,18 @@ chown -R 0.0  /etc/ssh /root /etc/shadow 2>/dev/null
 
 echo -n "Starting SSH daemon... "
 
+export YAST2_SSH=false
+
 /usr/sbin/sshd || {
   export SSH_FAILED=true
-  export YAST2_SSH=false
   echo failed
 }
 
 if [ ! "$SSH_FAILED" ] ; then
   echo ok
-  export YAST2_SSH=true
+  if grep -q "^UseSSH:.*1" /etc/install.inf ; then
+    export YAST2_SSH=true
+  fi
 fi
 
 [ -f /proc/splash ] && echo verbose >/proc/splash

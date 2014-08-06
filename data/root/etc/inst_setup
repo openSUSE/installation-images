@@ -154,7 +154,7 @@ done
 
 # boot with usessh=1 or use linuxrc to enable ssh 
 # vnc=1 will override the install mode
-if grep -q "^UseSSH:.*1" /etc/install.inf ; then
+if grep -q "^SSHD:.*1" /etc/install.inf ; then
   test -x /sbin/inst_setup_ssh && . /sbin/inst_setup_ssh
 fi
 
