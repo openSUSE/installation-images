@@ -424,7 +424,8 @@ dbus-1:
 
 libopenssl*_*_*-hmac:
 
-openssh-fips:
+?openssh-fips:
+?openssh-hmac:
 
 openssh: nodeps
   E prein
