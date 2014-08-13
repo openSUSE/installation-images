@@ -408,7 +408,9 @@ if arch ne 's390' && arch ne 's390x'
   xorg-x11-server:
     /etc/X11/xorg.conf.d
     /usr/bin/Xorg
-    /usr/lib*/xorg/modules
+    /usr/<lib>/xorg/modules
+    # avoid update-alternatives
+    e [ -f usr/<lib>/xorg/modules/extensions/libglx-xorg.so ] && ln -snf libglx-xorg.so usr/<lib>/xorg/modules/extensions/libglx.so ; true
 
   xf86-input-evdev:
   xf86-input-synaptics:
