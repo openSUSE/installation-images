@@ -410,7 +410,7 @@ if arch ne 's390' && arch ne 's390x'
     /usr/bin/Xorg
     /usr/<lib>/xorg/modules
     # avoid update-alternatives
-    e [ -f usr/<lib>/xorg/modules/extensions/libglx-xorg.so ] && ln -snf libglx-xorg.so usr/<lib>/xorg/modules/extensions/libglx.so ; true
+    e [ -f usr/<lib>/xorg/modules/extensions/xorg/xorg-libglx.so ] && ln -snf xorg/xorg-libglx.so usr/<lib>/xorg/modules/extensions/libglx.so ; true
 
   xf86-input-evdev:
   xf86-input-synaptics:
