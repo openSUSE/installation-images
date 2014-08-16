@@ -94,7 +94,6 @@ coreutils:
 cpio:
 cryptsetup:
 ?libcryptsetup4-hmac:
-?libgcrypt20-hmac:
 device-mapper:
 dmraid:
 dosfstools:
