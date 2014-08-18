@@ -99,6 +99,7 @@ glibc:
 haveged:
 hwinfo:
 iputils:
+iscsiuio:
 kpartx:
 kmod-compat:
 krb5:
@@ -112,6 +113,7 @@ sysconfig-netconfig:
 sg3_utils:
 systemd-presets-branding-<base_theme>:
 tar:
+util-linux-systemd:
 vlan:
 
 if theme eq 'SLES'
@@ -257,12 +259,10 @@ open-iscsi:
   /etc/iscsi
   c 644 0 0 /etc/iscsi/iscsid.conf
 
-iscsiuio:
 
 util-linux:
   /usr/sbin/mkswap
   /usr/sbin/swapon
-  /usr/bin/logger
   /usr/bin/more
   /usr/bin/mount
   /usr/bin/umount
