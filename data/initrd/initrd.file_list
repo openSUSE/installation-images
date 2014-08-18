@@ -283,6 +283,8 @@ gpg2:
   /usr/bin/gpg{,2}
   d root/.gnupg
 
+?libgcrypt20-hmac:
+
 if exists(openSUSE-build-key)
   openSUSE-build-key:
     /usr/lib/rpm/gnupg/keys
