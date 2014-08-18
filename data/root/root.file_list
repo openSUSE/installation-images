@@ -592,7 +592,9 @@ graphviz:
 :
 
 # set yast theme
-s <yast_theme> usr/share/YaST2/theme/current
+if theme ne 'openSUSE'
+  s <yast_theme> usr/share/YaST2/theme/current
+endif
 
 x etc/suse-post-user.conf etc/fonts/
 
