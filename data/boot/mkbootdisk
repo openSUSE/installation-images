@@ -1211,7 +1211,7 @@ sub dir_sort_func
   my ($wa, $wb, $i, $p, $r);
 
   $p = 2;
-  for $i qw ( memtest biostest initrd64 initrd *.tlk .*\.spl linux64 linux bootlogo message .*\.cfg ) {
+  for $i ( qw ( memtest biostest initrd64 initrd *.tlk .*\.spl linux64 linux bootlogo message .*\.cfg ) ) {
     if($i eq 'bootlogo') {
       $r = $p;
       $p <<= 1;
