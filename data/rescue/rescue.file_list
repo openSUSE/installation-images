@@ -53,7 +53,6 @@ binutils: ignore
 ?acpica:
 ?efibootmgr:
 ?elilo:
-?firmwarekit:
 ?grub2-i386-pc:
 ?grub2-x86_64-efi:
 ?grub2-powerpc-ieee1275:

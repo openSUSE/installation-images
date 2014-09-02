@@ -13,7 +13,6 @@ Available boot options:
   linux     - Installation
   rescue    - Rescue System
   mediachk  - Check Installation Media
-  firmware  - Firmware Test
   memtest   - Memory Test
 
 Have a lot of fun...
