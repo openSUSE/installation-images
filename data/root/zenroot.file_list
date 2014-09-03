@@ -264,6 +264,7 @@ d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix
 #d /var/X11R6/{bin,xkb/compiled,app-defaults}
 d /var/lib/xkb
 
+d /run/lock
 s ../lock /var/spool/locks
 
 t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
