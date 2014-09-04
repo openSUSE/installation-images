@@ -285,14 +285,6 @@ gpg2:
 
 ?libgcrypt20-hmac:
 
-if exists(openSUSE-build-key)
-  openSUSE-build-key:
-    /usr/lib/rpm/gnupg/keys
-elsif exists(suse-build-key)
-  suse-build-key:
-    /usr/lib/rpm/gnupg/keys
-endif
-
 ntfs-3g:
   /
   s mount.ntfs-3g /sbin/mount.ntfs
@@ -617,3 +609,6 @@ x etc/bashrc root/.profile
 
 e ldconfig -r .
 
+# get the gpg keys to trust from build root
+d /usr/lib/rpm/gnupg/keys
+X /usr/lib/rpm/gnupg/keys /usr/lib/rpm/gnupg
