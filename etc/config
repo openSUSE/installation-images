@@ -85,7 +85,7 @@ product	= SUSE Linux Enterprise 12
 version = 13.2
 sle     = 12
 update	= /linux/suse/<arch>-<sles>
-image	= 200
+image	= 600
 
 
 [Theme SLED]
@@ -96,7 +96,7 @@ product	= SUSE Linux Enterprise 12
 version = 13.2
 sle     = 12
 update	= /linux/suse/<arch>-<sled>
-image	= 200
+image	= 600
 
 
 [Theme Zen]
@@ -107,6 +107,6 @@ product = ZENworks
 version = 13.2
 sle     = 12
 update  = /linux/suse/<arch>-<sles>
-image   = 200
+image   = 600
 
 
