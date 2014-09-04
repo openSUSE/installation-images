@@ -292,6 +292,10 @@ elsif exists(suse-build-key)
   suse-build-key:
     /usr/lib/rpm/gnupg/keys
 endif
+if exists(custom-build-key)
+  custom-build-key:
+    /usr/lib/rpm/gnupg/keys
+endif
 
 ntfs-3g:
   /
