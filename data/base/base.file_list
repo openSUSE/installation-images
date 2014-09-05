@@ -1,5 +1,6 @@
 # some basic directories
 d bin dev etc lib mnt proc sbin tmp var
+d run/lock
 c 1777 0 0 tmp
 
 # some basic devices
