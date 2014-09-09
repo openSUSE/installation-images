@@ -1,3 +1,8 @@
+9/9/2014	v11.195
+	- add complete lvm2 package to rescue system (bnc #892949)
+	- added 'modesetting' X driver (bnc#814587)
+	- remove /usr/lib*/ssh/x11-ssh-askpass to fix build
+
 25/3/2013:	v11.194
 	- copy firmware signatures (bnc #810800)
 	- added hyperv_fb (fate #314862)
