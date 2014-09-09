@@ -261,15 +261,11 @@ if arch eq 'x86_64'
 endif
 
 lvm2: postin
-  /etc
-  /sbin
-  /var
+  /
 e postin
 
 device-mapper: postin
-  /etc
-  /lib*
-  /sbin
+  /
 e postin
 
 libncurses5:
