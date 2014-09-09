@@ -677,6 +677,7 @@ openssh: prein
   /usr/sbin
   /usr/lib*
   e prein
+  r /usr/lib*/ssh/x11-ssh-askpass
 
 krb5:
   /etc

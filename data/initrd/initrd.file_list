@@ -48,6 +48,7 @@ openssh: prein
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
   d etc/ssh
+  r /usr/lib*/ssh/x11-ssh-askpass
 
 lvm2:
   /etc

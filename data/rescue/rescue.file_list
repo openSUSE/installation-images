@@ -711,6 +711,7 @@ openssh: prein
   e save_cfg etc/passwd etc/shadow etc/group
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
+  r /usr/lib*/ssh/x11-ssh-askpass
 
 dhcpcd:
   /sbin
