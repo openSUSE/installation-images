@@ -57,6 +57,10 @@ if with_yast2 ne 'no'
         /usr/lib*/xorg/modules/drivers/vmwlegacy_drv.so
       endif
 
+      if arch ne 'ia64' && arch ne 'ppc' && arch ne 'ppc64'
+        /usr/lib*/xorg/modules/drivers/modesetting_drv.so
+      endif
+
       if arch ne 'ia64' && arch ne 'sparc' && arch ne 'sparc64' && arch ne 'ppc' && arch ne 'ppc64'
         /usr/lib*/xorg/modules/*.uc
       endif
