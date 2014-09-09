@@ -1,4 +1,4 @@
-9/9/2014	v11.195
+9/9/2014:	v11.195
 	- add complete lvm2 package to rescue system (bnc #892949)
 	- added 'modesetting' X driver (bnc#814587)
 	- remove /usr/lib*/ssh/x11-ssh-askpass to fix build
