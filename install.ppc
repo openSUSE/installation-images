@@ -30,6 +30,12 @@ for theme in $THEMES ; do
 
 done
 
+# copy grub2 config to /boot/grub2/grub.cfg
+if [ "$ARCH" = ppc64le ] ; then
+  mkdir -p $DESTDIR/branding/$theme/CD1/boot/grub2
+  cp -a $DESTDIR/branding/$theme/CD1/boot/$ARCH/grub2-ieee1275/grub.cfg $DESTDIR/branding/$theme/CD1/boot/grub2
+fi
+
 mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
 
