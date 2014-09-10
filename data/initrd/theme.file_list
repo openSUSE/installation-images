@@ -69,7 +69,7 @@ endif
 e echo "dud:		disk:/?device=*usb*&all=1&quiet=1" >>linuxrc.config
 
 # load autoyast file & driver update from OEMDRV partition
-e echo "autoyast2:	disk:/autoyast.xml?device=*label/OEMDRV&quiet=1" >>linuxrc.config
+e echo "autoyast2:	disk:/autoinst.xml?device=*label/OEMDRV&quiet=1" >>linuxrc.config
 e echo "dud:		disk:/?device=*label/OEMDRV&quiet=1" >>linuxrc.config
 
 e echo "KexecReboot:    1" >>linuxrc.config
