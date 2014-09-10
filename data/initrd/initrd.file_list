@@ -289,10 +289,8 @@ ntfs-3g:
   /
   s mount.ntfs-3g /sbin/mount.ntfs
 
-if !(arch eq 'aarch64' || arch eq 'ppc64le')
-kexec-tools: nodeps
+?kexec-tools: nodeps
   /usr/sbin/kexec
-endif
 
 sysvinit-tools: nodeps
   /sbin/showconsole
