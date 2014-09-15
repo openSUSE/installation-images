@@ -4,6 +4,11 @@ exec >&2
 
 PATH="/sbin:/bin:/usr/bin:/usr/sbin:/lbin"
 
+# load some modules before udevd
+for i in edd scsi_dh_alua scsi_dh_emc scsi_dh_rdac ; do
+  [ -f /modules/$i.ko ] && modprobe $i
+done
+
 # disable hotplug helper, udevd listens to netlink
 echo "" > /proc/sys/kernel/hotplug
 
