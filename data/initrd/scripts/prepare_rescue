@@ -29,8 +29,9 @@ fi
 
 # keep some initrd config files for rescue system
 cd /mounts/initrd
-for i in etc/modprobe.d/blacklist etc/modprobe.d/noload etc/resolv.conf etc/sysconfig/network/* ; do
+for i in etc/modprobe.d/blacklist etc/modprobe.d/noload etc/resolv.conf etc/sysconfig/network/* root/.ssh ; do
   [ -f "$i" ] && cp -f "$i" "/$i"
+  [ -d "$i" ] && cp -fr --parents "$i" /
 done
 cd /
 
