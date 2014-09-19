@@ -579,7 +579,11 @@ fonts-config:
   /
   E postin
 
-pango-modules:
+if exists(pango-modules)
+  pango-modules:
+else
+  pango-tools:
+endif
   /
   E [ -x /usr/bin/pango-querymodules ] && pango-querymodules >/etc/pango/pango.modules || true
   E [ -x /usr/bin/pango-querymodules-64 ] && pango-querymodules-64 >/etc/pango/pango64.modules || true

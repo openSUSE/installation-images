@@ -54,7 +54,6 @@ filesystem:
 fillup:
 findutils:
 fontconfig:
-fribidi:
 gettext-runtime-mini:
 ?gfxboot: nodeps
 glibc-i18ndata:
