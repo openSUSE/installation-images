@@ -431,9 +431,6 @@ libusb-1_0-0:
 checkmedia:
   /usr/bin
 
-pcmciautils:
-  /
-
 open-iscsi:
   /sbin
   /etc

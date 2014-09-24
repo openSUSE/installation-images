@@ -106,7 +106,6 @@ krb5:
 lsscsi:
 mdadm:
 nfsidmap:
-pcmciautils:
 sed:
 ?wicked:
 sysconfig-netconfig:
