@@ -192,7 +192,7 @@ cifs-utils:
 
 if exists(wpa_supplicant)
   wpa_supplicant:
-    /usr/sbin
+    /
 
   wireless-tools:
     /usr/sbin
