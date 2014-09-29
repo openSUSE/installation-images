@@ -66,6 +66,7 @@ binutils: ignore
 ?s390-tools:
 ?silo:
 ?wireless-tools:
+?wpa_supplicant:
 aaa_base-extras:
 attr:
 bash:
