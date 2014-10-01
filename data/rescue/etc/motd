@@ -1,0 +1,10 @@
+
+To export the installation repository, mount the DVD to /media/repo.
+For example: 'mount /dev/sr0 /media/repo'.
+
+The repository will be accessible via ftp, nfs, and smb/cifs:
+
+install=ftp://<this_host>
+install=nfs://<this_host>/media/repo
+install=smb://<this_host>/repo
+

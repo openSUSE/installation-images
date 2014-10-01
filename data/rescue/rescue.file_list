@@ -21,7 +21,12 @@ TEMPLATE binutils:
   r /usr/bin/ld
   s ld.bfd /usr/bin/ld
 
-TEMPLATE lvm2|device-mapper|rpcbind|rsync|syslog-service|syslogd|util-linux|wicked|dmraid|mdadm|multipath-tools:
+TEMPLATE nfs-client|device-mapper|rpcbind|rsync|syslogd|dmraid|multipath-tools:
+  /
+  E prein
+  E postin
+
+TEMPLATE wicked|lvm2|syslog-service|util-linux|mdadm:
   /
   E postin
 
@@ -123,7 +128,6 @@ mozilla-nspr:
 ncurses-utils:
 net-tools:
 netcat-openbsd:
-nfs-client:
 nfsidmap:
 nscd:
 ntfsprogs:
@@ -177,9 +181,12 @@ else
   openSUSE-release-mini:
 endif
 
-samba-libs: nodeps
-  /usr/lib*/samba/libreplace.so
-  /usr/lib*/samba/libwinbind-client.so
+# we have full samba in rescue-server
+if filelist ne 'rescue-server'
+  samba-libs: nodeps
+    /usr/lib*/samba/libreplace.so
+    /usr/lib*/samba/libwinbind-client.so
+endif
 
 rpm:
   /bin
@@ -301,6 +308,7 @@ wicked:
 dmraid:
 mdadm:
 multipath-tools:
+nfs-client:
 
 openssh:
   /

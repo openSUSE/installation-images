@@ -92,6 +92,7 @@ kernel/fs/nls/
 kernel/fs/binfmt_misc.ko
 kernel/fs/nfs/
 kernel/fs/nfs_common/
+kernel/fs/nfsd/
 kernel/fs/lockd/
 kernel/fs/mbcache.ko
 kernel/fs/configfs/

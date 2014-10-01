@@ -3,9 +3,38 @@ include rescue.file_list
 # add other packages here
 
 vsftpd:
+  /
+  E prein
+
+ftp:
 nfs-kernel-server:
 samba:
 
+:
+
+# mount point for install repo
+r media/*
+d media/repo
+
 # remove unnecessary files
 r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+
+# enable services
+s ../vsftpd.service usr/lib/systemd/system/multi-user.target.wants
+s ../smb.service usr/lib/systemd/system/multi-user.target.wants
+s ../nmb.service usr/lib/systemd/system/multi-user.target.wants
+s ../rpcbind.service usr/lib/systemd/system/multi-user.target.wants
+E chkconfig nfsserver on
+
+# add motd
+x /etc/motd /etc/motd
+
+# set ftpd working dir
+R s#:/srv/ftp:#:/media/repo:# etc/passwd
+
+# add samba server config
+A /etc/smb.conf /etc/samba/smb.conf
+
+# add nfs server config
+x /etc/exports /etc/exports
 
