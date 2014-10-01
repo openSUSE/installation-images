@@ -33,9 +33,9 @@ BOOT_PARTS    := initrd
 endif
 
 ifneq ($(filter aarch64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel boot-grub2-efi $(COMMON_TARGETS)
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
-BOOT_PARTS    :=
+BOOT_PARTS    := initrd efi
 endif
 
 ifneq ($(filter ppc ppc64 ppc64le, $(ARCH)),)

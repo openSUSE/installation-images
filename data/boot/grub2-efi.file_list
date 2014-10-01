@@ -28,6 +28,19 @@ if arch eq 'x86_64'
     R s/^with_gfx=0/with_gfx=1/ EFI/BOOT/grub.cfg
     R s/THEME/<splash_theme>/g EFI/BOOT/grub.cfg
 
+elsif arch eq 'aarch64'
+  grub2-arm64-efi:
+    a usr/lib/efi/grub.efi EFI/BOOT/bootaa64.efi
+
+  x grub-aarch64.cfg EFI/BOOT/grub.cfg
+
+  # show product name in title instead of default grub string
+  d EFI/BOOT/locale
+  x grub2_head.po .
+  R s/product_name/<product_name>/ grub2_head.po
+  e msgfmt -o EFI/BOOT/locale/en.mo grub2_head.po
+  r grub2_head.po
+
 # elsif arch eq 'ia64'
 
 endif
