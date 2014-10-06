@@ -20,6 +20,13 @@ for theme in $THEMES ; do
   for i in $INSTSYS_PARTS $BOOT_PARTS ; do
     [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
   done
+
+  install -m 644 /boot/Image-* $DESTDIR/branding/$theme/CD1/boot/$ARCH/linux
+
+  if [ -d images/$theme/EFI ] ; then
+    mkdir -p $DESTDIR/branding/$theme/CD1/EFI/BOOT
+    cp -r images/$theme/EFI/EFI/BOOT/* $DESTDIR/branding/$theme/CD1/EFI/BOOT
+  fi
 done
 
 mkdir -p $DESTDIR/usr/share
