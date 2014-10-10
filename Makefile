@@ -3,7 +3,11 @@ ifneq ($(filter i386 i486 i586 i686, $(ARCH)),)
 ARCH := i386
 endif
 
-GIT2LOG = $(shell [ -x ./git2log ] && echo ./git2log )
+GIT2LOG := $(shell if [ -x ./git2log ] ; then echo ./git2log --update ; else echo true ; fi)
+GITDEPS := $(shell [ -d .git ] && echo .git/HEAD .git/refs/heads .git/refs/tags)
+VERSION := $(shell $(GIT2LOG) --version VERSION ; cat VERSION)
+BRANCH  := $(shell git branch | perl -ne 'print $$_ if s/^\*\s*//')
+PREFIX  := installation-images-$(VERSION)
 
 COMMON_TARGETS	     := rescue root root+rescue bind gdb mini-iso-rmlist
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
@@ -63,13 +67,12 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 all: $(ALL_TARGETS) VERSION changelog
 	@rm images/*.log
 
-ifneq ($(GIT2LOG),)
-changelog: .git/HEAD .git/refs/heads .git/refs/tags
-	$(GIT2LOG) --log >changelog
+changelog: $(GITDEPS)
+	$(GIT2LOG) --changelog changelog
 
-VERSION: .git/HEAD .git/refs/heads .git/refs/tags
-	$(GIT2LOG) --version >VERSION
-endif
+version.h: VERSION
+	@echo "#define LXRC_VERSION \"`cut -d. -f1-2 VERSION`\"" >$@
+	@echo "#define LXRC_FULL_VERSION \"`cat VERSION`\"" >>$@
 
 install:
 
@@ -223,13 +226,19 @@ add-xxx-key:
 debuginfo:
 	./install.debuginfo
 
+archive: changelog
+	mkdir -p package
+	git archive --prefix=$(PREFIX)/ $(BRANCH) > package/$(PREFIX).tar
+	tar -r -f package/$(PREFIX).tar --mode=0664 --owner=root --group=root --mtime="`git show -s --format=%ci`" --transform='s:^:$(PREFIX)/:' VERSION changelog
+	xz -f package/$(PREFIX).tar
+
 clean:
 	-@make -C src/mboot clean
 	-@make -C src/eltorito clean
 	-@rm -rf images tmp
 	-@rm -f `find -name '*~'`
 	-@rm -rf /tmp/mk_initrd_* /tmp/mk_image_* 
-	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/cd1/gen
+	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/cd1/gen package
 	-@rm -f gpg/trustdb.gpg gpg/random_seed
 
 install:
