@@ -67,7 +67,7 @@ for (@tags) {
 
 @tags = sort @ntags;
 
-die "no tags?\n" unless @tags;
+die "no tags at all?\n" unless @tags;
 
 $current_version = $tags[-1];
 $current_version =~ s/(\d+)/$1 + 0/eg;
@@ -97,7 +97,7 @@ if($branch ne 'master') {
 
   # print STDERR ">> $branch-$bi\n";
 
-  warn "no tags in this branch?\n" unless $bi;
+  warn "no tags in this branch yet\n" unless $bi;
 
   for ($i = 0; $i < $i2; $i++) {
     if($tags[$i] ge $bi) {
