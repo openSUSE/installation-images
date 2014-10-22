@@ -78,6 +78,7 @@ logrotate: ignore
 openssl: ignore
 permissions: ignore
 pinentry: ignore
+?qemu-linux-user:
 suspend: ignore
 update-alternatives: ignore
 ?dracut: ignore

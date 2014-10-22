@@ -142,6 +142,7 @@ polkit:
 procinfo:
 procps:
 psmisc:
+?qemu-linux-user:
 reiserfs:
 rsh:
 sdparm:

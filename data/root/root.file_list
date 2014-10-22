@@ -140,6 +140,7 @@ polkit:
 procinfo:
 procps:
 psmisc:
+?qemu-linux-user:
 reiserfs:
 screen:
 sed:

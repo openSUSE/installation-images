@@ -77,6 +77,7 @@ perl:
 procinfo:
 procps:
 psmisc:
+?qemu-linux-user:
 rpm:
 sed:
 shadow:
