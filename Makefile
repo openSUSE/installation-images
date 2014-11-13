@@ -57,7 +57,7 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 	boot-themes initrd-themes root-themes install \
 	install-initrd mini-iso-rmlist debuginfo rescue-sever
 
-all: $(ALL_TARGETS) changelog
+all: changelog $(ALL_TARGETS)
 	@rm images/*.log
 
 changelog: $(GITDEPS)
