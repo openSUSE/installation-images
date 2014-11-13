@@ -478,6 +478,8 @@ dhcpv6:
   /var/lib/dhcpv6
   /var/run/dhcpv6
   x dhcp6c_update.sh usr/sbin
+  r /usr/sbin/rcdhcp6s
+  r /usr/sbin/rcdhcp6r
 
 libnl:
   /lib*/libnl.so.*
@@ -798,8 +800,8 @@ endif
 
 :
 
-# remove, ehm, things...
-r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 
 # copy ssl certificates
 e cp -a /etc/ssl etc

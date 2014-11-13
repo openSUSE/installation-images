@@ -103,6 +103,7 @@ endif
 module-init-tools:
   /etc
   /sbin
+  /bin
 
 procps:
   /bin/ps
@@ -347,6 +348,10 @@ if arch eq 'i386' || arch eq 'x86_64'
 endif
 
 :
+
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
+r /var/mail
 
 # x ../../src/gkv/gkv bin
 # E gkv /tmp/linux >tmp/kernel_version

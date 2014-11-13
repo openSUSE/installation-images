@@ -348,11 +348,15 @@ pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
 usbutils:
+  /usr/bin/lsusb
   /usr/sbin/lsusb
   /usr/share/usb.ids
 
+libusb-1_0-0:
+  /
+
 libusb-0_1-4:
-  /usr/lib*
+  /
 
 #portmap:
 #  /etc
@@ -858,8 +862,9 @@ endif
 
 :
 
-# remove, ehm, things...
-r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
+r /usr/sbin/rcnfs
 
 e insserv -f -r etc/init.d/boot.rootfsck
 r etc/init.d/boot.rootfsck
@@ -895,4 +900,9 @@ E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 E /sbin/SuSEconfig --force --norestarts
 
 d lib/firmware usr/lib/microcode
+
+# allowed dangling symlinks
+D ../share/cracklib/pw_dict.pwi /usr/lib/cracklib_dict.pwi
+D ../share/cracklib/pw_dict.pwd /usr/lib/cracklib_dict.pwd
+D ../share/cracklib/pw_dict.hwm /usr/lib/cracklib_dict.hwm
 

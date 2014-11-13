@@ -63,8 +63,7 @@ floppy	=
 
 [Theme openSUSE]
 yast	= openSUSE
-bsplash = openSUSE
-ksplash = openSUSE
+splash = openSUSE
 product	= openSUSE
 version = 11.1
 sle     = 11
@@ -74,8 +73,7 @@ image	= 350
 
 [Theme SLES]
 yast	= SLED
-bsplash = openSUSE
-ksplash = SLES
+splash = SLES
 product	= SUSE Linux Enterprise Server 11
 version = 11.1
 sle     = 11
@@ -85,8 +83,7 @@ image	= 200
 
 [Theme SLED]
 yast	= SLED
-bsplash = openSUSE
-ksplash	= SLED
+splash	= SLED
 product	= SUSE Linux Enterprise Desktop 11
 version = 11.1
 sle     = 11
@@ -96,8 +93,7 @@ image	= 200
 
 [Theme SLES-for-VMware]
 yast	= SLED
-bsplash = SLES-for-VMware
-ksplash	= SLES-for-VMware
+splash	= SLES-for-VMware
 product	= SUSE Linux Enterprise for VMware
 version = 11.1
 sle     = 11
@@ -107,8 +103,7 @@ image	= 200
 
 [Theme Zen]
 yast    = SLED
-bsplash = SLES
-ksplash = SLES
+splash = SLES
 product = ZENworks
 version = 11.1
 sle     = 11

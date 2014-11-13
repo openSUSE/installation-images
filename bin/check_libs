@@ -36,6 +36,18 @@ while($dir = shift) {
     }
   }
 
+  # extract build ids
+  open(DLOG, ">$dir.debugids");
+  for my $f (@ELF) {
+    for (`readelf -n '$dir/$f'`) {
+      if (m/\sBuild ID:\s*([0-9a-z]*)/) {
+	print "Build-ID: $1 $f\n" if ($verbose >= 1);
+	print DLOG "$1 $f\n";
+      }
+    }
+  }
+  close(DLOG);
+
   print "extracting shared object dependencies...\n";
 
   @ELF = map(quotemeta, @ELF);

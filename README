@@ -278,3 +278,43 @@ o <action> <arg1> <arg2> ...
 
     X <src> <dst>
 
+  - allowed dangling symlink
+    Sometimes a symlink is ok because it points to a different image which
+    can't be verified automatically.
+
+    D <from> <to>
+
+
+Extensions:
+
+  - You can specify templates that are applied to groups of packages
+    automatically unless there is already some other valid entry for that
+    package. E.g.
+
+  TEMPLATE rubygem-.*:
+    /usr/*/ruby/gems/*/gems/*/lib
+    /usr/*/ruby/gems/*/specifications
+
+    The argument after TEMPLATE is a perl regexp matched agaist package names. If
+    the regexp is empty the TEMPLATE matches _every_ package. This can be used
+    to formulate a default action for packages. E.g.
+
+  TEMPLATE:
+    /
+
+  - You can resolve dependencies and add the missing packages with the
+    AUTODEPS placeholder. The solver is run only if there is an AUTODEPS entry
+    somewhere.
+    Note: if you don't specify any actions in AUTODEPS, templates are appied to
+    each individual package. E.g.
+
+  AUTODEPS:
+
+  - Listing scripts after the colon (':') is now optional.
+
+  - You can add tags (comma-separated) after the colon. The following tags
+    are supported:
+    - requires: create a file <package_name>.requires in the image root
+    - nodeps: ignore package dependencies when solving
+    - ignore: ignore package ('BuildIgnore')
+

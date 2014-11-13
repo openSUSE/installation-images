@@ -192,7 +192,7 @@ initrd-themes: base
 
 root-themes: base
 	for theme in $(THEMES) ; do \
-	  theme=$$theme image=$$theme/$$theme tmpdir=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
+	  nolinkcheck=1 theme=$$theme image=$$theme/$$theme tmpdir=root-$$theme src=root filelist=$$theme fs=squashfs disjunct=root bin/mk_image ; \
 	done
 ifneq ($(filter Zen, $(THEMES)),)
 	libdeps=zenroot image=Zen/root tmpdir=zenroot src=root filelist=zenroot fs=squashfs bin/mk_image

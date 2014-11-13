@@ -14,7 +14,8 @@ for $dir (@ARGV) {
   for $f (`find $dir -type f`) {
     chomp $f;
     next if $f =~ /modules/ && $f !~ /X11R6\/lib\/modules/;	# skip modules
-    next if $f =~ /\.uc$/;	# some X.org modules
+    next if $f =~ /\.uc$/;					# skip some X.org modules
+    next if $f =~ m#usr/lib/debug/#;				# skip debuginfo
     $f0 = $f;
     $f =~ s/'/'\\''/g;
     $_ = `file '$f'`;

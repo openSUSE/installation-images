@@ -397,11 +397,15 @@ pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
 usbutils:
+  /usr/bin/lsusb
   /usr/sbin/lsusb
   /usr/share/usb.ids
 
+libusb-1_0-0:
+  /
+
 libusb-0_1-4:
-  /usr/lib*/libusb-0.1.so.*
+  /
 
 checkmedia:
   /usr/bin
@@ -453,6 +457,11 @@ if arch eq 'x86_64'
     /lib/libncurses.so.*
 endif
 
+:
+
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
+
 x etc/inst_setup /sbin/inst_setup
 x etc/create_interface /sbin/create_interface
 x etc/adddir /sbin/adddir
@@ -461,14 +470,11 @@ c 755 0 0 /sbin/create_interface
 c 755 0 0 /sbin/adddir
 
 # final clean up
-
 r /usr/X11R6
 r /etc/X11/xserver/C
-
-# remove, ehm, things...
-r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
-
 r /sbin/insserv
+r /sbin/rcnetwork
+r /usr/sbin/rcraw
 
 # some scripts write to /dev/null...
 r /dev

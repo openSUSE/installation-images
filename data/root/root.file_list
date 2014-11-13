@@ -752,6 +752,9 @@ wget:
   /etc
   /usr/bin
 
+libopenssl0_9_8:
+  /
+
 libopenssl*:
   /
 
@@ -824,11 +827,15 @@ pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
 usbutils:
+  /usr/bin/lsusb
   /usr/sbin/lsusb
   /usr/share/usb.ids
 
+libusb-1_0-0:
+  /
+
 libusb-0_1-4:
-  /usr/lib*
+  /
 
 checkmedia:
   /usr/bin/checkmedia
@@ -1084,8 +1091,8 @@ endif
 
 :
 
-# remove, ehm, things...
-r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 
 if instsys_complain_root
   e echo "InstsysComplain:	<instsys_complain_root>" >>.instsys.config
@@ -1098,6 +1105,9 @@ endif
 # final clean up
 r /etc/X11/xserver/C
 r /sbin/insserv
+r /usr/share/zoneinfo/posixrules
+r /sbin/mount.smbfs
+r /sbin/rcmultipathd
 
 # some scripts write to /dev/null...
 r /dev
@@ -1131,4 +1141,9 @@ if roottrans
 # remove unused yast2 translations
 e unused_mos --files --domains=/yast2-trans.domains --dir usr/share/YaST2 | xargs rm
 endif
+
+# allowed dangling symlinks
+D ../share/cracklib/pw_dict.pwi /usr/lib/cracklib_dict.pwi
+D ../share/cracklib/pw_dict.pwd /usr/lib/cracklib_dict.pwd
+D ../share/cracklib/pw_dict.hwm /usr/lib/cracklib_dict.hwm
 

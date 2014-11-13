@@ -166,6 +166,7 @@ require Exporter;
 @EXPORT = qw (
   $Script $BasePath $LibPath $BinPath $CfgPath $ImagePath $DataPath
   $TmpBase %ConfigData ReadFile RealRPM ReadRPM $SUBinary SUSystem Print2File $MToolsCfg $AutoBuild
+  ResolveDeps
 );
 
 use strict 'vars';
@@ -176,12 +177,17 @@ use vars qw (
 );
 
 use Cwd;
-use File::Path 'mkpath';
+use File::Path 'make_path';
 use File::Spec 'abs2rel';
+
+eval "use solv";
 
 sub get_repo_list;
 sub read_meta;
 sub read_packages;
+sub resolve_deps_obs;
+sub resolve_deps_libsolv;
+sub show_package_deps;
 
 
 sub DebugInfo
@@ -202,6 +208,41 @@ sub DebugInfo
   for (sort keys %ConfigData) {
     print "  $_ = \"$ConfigData{$_}\"\n"
   }
+}
+
+
+sub ResolveDeps
+{
+  local $_;
+  my $packages = shift;
+  my $ignore = shift;
+  my $old = shift;
+
+  my $p1;
+
+  if($ConfigData{obs}) {
+    $p1 = resolve_deps_obs $packages, $ignore;
+  }
+  else {
+    die "oops, no libsolv" unless $ConfigData{libsolv_ok};
+    $p1 = resolve_deps_libsolv $packages, $ignore;
+  }
+
+  my $p2;
+
+  my $cnt = 0;
+  for (keys %$p1) {
+    next if $old->{$_};
+    $p2->{$_} = show_package_deps($_, $p1);
+    $cnt++;
+  }
+
+  for (sort keys %$p2) {
+    print "  $p2->{$_}\n";
+  }
+  print "== $cnt packages ==\n";
+
+  return $p2;
 }
 
 
@@ -353,6 +394,11 @@ sub ReadRPM
     print $f $_;
     close $f;
 
+    $_ = `$rpm_cmd -qp --provides $rpm->{file} 2>/dev/null`;
+    open $f, ">$dir/provides";
+    print $f $_;
+    close $f;
+
     @s = `$rpm_cmd -qp --qf '%|PREIN?{PREIN\n}:{}|%|POSTIN?{POSTIN\n}:{}|%|PREUN?{PREUN\n}:{}|%|POSTUN?{POSTUN\n}:{}|' $rpm->{file} 2>/dev/null`;
     for (@s) {
       chomp;
@@ -462,7 +508,7 @@ sub KernelImg
   for (@$k_files) {
     s#.*/boot/##;
     next if /autoconf|config|shipped|version/;		# skip obvious garbage
-    push @k_images, $_ if m#$ConfigData{kernel_img}#;
+    push @k_images, $_ if m#^$ConfigData{kernel_img}#;
   }
 
   return @k_images;
@@ -582,7 +628,7 @@ sub read_packages
     $r = $l->[1];
 
     print $f "$p $r\n";
-    die "$Script: failed to create $ConfigData{tmp_cache_dir}/.obs/$p/$r ($!)" unless mkpath "$ConfigData{tmp_cache_dir}/.obs/$p/$r";
+    die "$Script: failed to create $ConfigData{tmp_cache_dir}/.obs/$p/$r ($!)" unless make_path "$ConfigData{tmp_cache_dir}/.obs/$p/$r";
 
     for (`curl -k -s '$ConfigData{obs_server}/build/$p/$r/$ConfigData{obs_arch}/_repository?view=binaryversions&nometa=1'`) {
       if(/<binary\s+name="([^"]+)\.rpm"/) {
@@ -607,6 +653,176 @@ sub read_packages
   }
 
   print STDERR "\n";
+}
+
+
+sub resolve_deps_obs
+{
+  local $_;
+  my $packages = shift;
+  my $ignore = shift;
+
+  my $prj = $ConfigData{obs_proj};
+  my $repo = $ConfigData{obs_repo};
+
+  my $t = "$ConfigData{tmp_cache_dir}/.tmp_deps";
+
+  open my $f, ">$t";
+  print $f "#!BuildIgnore: simple_expansion_hack\nName: foo\n";
+  print $f "BuildRequires: $_\n" for (@$packages);
+  print $f "#!BuildIgnore: $_\n" for (@$ignore);
+  close $f;
+
+  my %p;
+  my @err;
+  my %added;
+
+  open $f, "curl -k -s -T $t -X POST '$ConfigData{obs_server}/build/$prj/$repo/$ConfigData{obs_arch}/_repository/_buildinfo?debug=1' |";
+  while(<$f>) {
+    print $_ if $ENV{debug} =~ /solv/;
+    $added{$1} = $2 if /^added (\S+) because of (\S+?)(:|$)/;
+    $p{$1} = "" if /<bdep\s+name=\"([^"]+)\"/;
+    push @err, $1 if /<error>([^<]+)</;
+  }
+  close $f;
+
+  unlink $t;
+
+  delete $p{$_} for (@$packages);
+
+  if(@err) {
+    my $err = join(', ', @err);
+    @err = split /, /, $err;
+    print "$Script: $_\n" for @err;
+    warn "$Script: error solving package deps";
+  }
+
+  $p{$_} = $added{$_} for (keys %p);
+
+  return \%p;
+}
+
+
+sub resolve_deps_libsolv
+{
+  local $_;
+  my $packages = shift;
+  my $ignore = shift;
+
+  my $ignore_file_deps = $ENV{debug} =~ /filedeps/ ? 0 : 1;
+
+  my %p;
+
+  my $pool = solv::Pool->new();
+  my $repo = $pool->add_repo("instsys");
+  $repo->add_solv("/tmp/instsys.solv") or die "/tmp/instsys.solv: no solv file";
+  $pool->addfileprovides();
+  $pool->createwhatprovides();
+  $pool->set_debuglevel(4) if $ENV{debug} =~ /solv/;
+
+  my $jobs;
+  for (@$packages) {
+    push @$jobs, $pool->Job($solv::Job::SOLVER_INSTALL | $solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
+  }
+
+  my $blackpkg = $repo->add_solvable();
+  $blackpkg->{evr} = "1-1";
+  $blackpkg->{name} = "blacklist_package";
+  $blackpkg->{arch} = "noarch";
+
+  for (@$ignore) {
+    my $id = $pool->str2id($_);
+    next if $pool->Job($solv::Job::SOLVER_SOLVABLE_NAME, $id)->solvables();
+    $blackpkg->add_deparray($solv::SOLVABLE_PROVIDES, $id);
+  }
+
+  $pool->createwhatprovides();
+
+  if(defined &solv::XSolvable::unset) {
+    for (@$ignore) {
+      my $job = $pool->Job($solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
+      for my $s ($job->solvables()) {
+        $s->unset($solv::SOLVABLE_REQUIRES);
+        $s->unset($solv::SOLVABLE_RECOMMENDS);
+        $s->unset($solv::SOLVABLE_SUPPLEMENTS);
+      }
+    }
+
+    if($ignore_file_deps) {
+      for ($pool->Selection_all()->solvables()) {
+        my @deps = $_->lookup_idarray($solv::SOLVABLE_REQUIRES, 0);
+        @deps = grep { $pool->id2str($_) !~ /^\// } @deps;
+        $_->unset($solv::SOLVABLE_REQUIRES);
+        for my $id (@deps) {
+          $_->add_deparray($solv::SOLVABLE_REQUIRES, $id, 0);
+        }
+      }  
+    }
+  }
+  else {
+    warn "$Script: outdated perl-solv: solver will not work properly";
+  }
+
+  my $solver = $pool->Solver();
+  $solver->set_flag($solv::Solver::SOLVER_FLAG_IGNORE_RECOMMENDED, 1);
+
+  my @problems = $solver->solve($jobs);
+
+  if(@problems) {
+    my @err;
+
+    for my $problem (@problems) {
+      for my $pr ($problem->findallproblemrules()) {
+        push @err, "$Script: " . $pr->info()->problemstr() . "\n";
+      }
+    }
+
+    warn join('', @err);
+
+    return \%p;
+  }
+
+  my $trans = $solver->transaction();
+
+  for ($trans->newsolvables()) {
+    my $dep;
+
+    if(defined &solv::Solver::describe_decision) {
+      my ($reason, $rule) = $solver->describe_decision($_);
+      if ($rule && $rule->{type} == $solv::Solver::SOLVER_RULE_RPM) {
+        $dep = $rule->info()->{solvable}{name};
+      }
+      else {
+        # print "XXX $_->{name}: type = $rule->{type}\n";
+      }
+    }  
+
+    $p{$_->{name}} = $dep;
+  }
+
+  delete $p{$_} for (@$packages, @$ignore);
+  delete $p{$blackpkg->{name}};
+
+  return \%p;
+}
+
+
+sub show_package_deps
+{  
+  my $p = shift;
+  my $packages = shift;
+
+  my $s = $p;
+
+  my %d;
+  $d{$p} = 1;   
+
+  while(($p = $packages->{$p}) ne '' && !$d{$p}) {
+    $d{$p} = 1;
+    $s .= " < $p";
+  }  
+
+  return $s;
 }
 
 
@@ -810,7 +1026,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   # (used to be in etc/config)
 
   my ( $r, $r0, $rx, $in_abuild, $a, $v, $kv, $rf, $ki, @f );
-  my ( $theme, $load_image, $yast_theme, $splash_theme, $product_name, $update_dir);
+  my ( $theme, $load_image, $product_name, $update_dir);
 
   my ( $dist, $i, $j );
 
@@ -830,6 +1046,15 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     die "No rpm files found (looking for \"$dist\")!\n" unless -d $rpmdir;
 
     $ConfigData{suse_base} = $AutoBuild = $rpmdir;
+
+    # if available, setup zypp repo
+    if(-x "/usr/bin/rpms2solv") {
+      print STDERR "creating solv file...\n";
+      if(!-f "/tmp/instsys.solv") {
+        system "find /.build.binaries -name '*.rpm' | /usr/bin/rpms2solv -m - >/tmp/instsys.solv" and die "rpms2solv failed";
+      }
+      $ConfigData{libsolv_ok} = 1;
+    }
   }
   elsif($ENV{work} || $ENV{dist}) {
     my ($work, $base, $xdist);
@@ -870,6 +1095,10 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
       $ConfigData{obs_proj} = $1;
       $ConfigData{obs_repo} = $2;
       $ConfigData{obs_arch} = $3;
+    }
+
+    if($ENV{obsurl} ne "") {
+      $ConfigData{obs_server} = $ENV{obsurl};
     }
 
     my ($f, $u, $p, $s);
@@ -960,8 +1189,6 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     die "Theme \"$theme\" not supported\n" unless exists $t{$theme};
   }
 
-  $yast_theme = $ConfigData{ini}{"Theme $theme"}{yast};
-  $splash_theme = $ConfigData{ini}{"Theme $theme"}{ksplash};
   $product_name = $ConfigData{ini}{"Theme $theme"}{product};
   my $full_product_name = $product_name;
   $full_product_name .= (" " . $ConfigData{ini}{"Theme $theme"}{version}) if $ConfigData{ini}{"Theme $theme"}{version};
@@ -980,8 +1207,9 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $load_image = $load_image * 1024 if $load_image;
 
   $ConfigData{theme} = $theme;
-  $ConfigData{yast_theme} = $yast_theme;
-  $ConfigData{splash_theme} = $splash_theme;
+  $ConfigData{base_theme} = $ConfigData{ini}{"Theme $theme"}{base};
+  $ConfigData{splash_theme} = $ConfigData{ini}{"Theme $theme"}{splash};
+  $ConfigData{yast_theme} = $ConfigData{ini}{"Theme $theme"}{yast};
   $ConfigData{product_name} = $product_name;
   $ConfigData{full_product_name} = $full_product_name;
   $ConfigData{update_dir} = $update_dir;
@@ -992,8 +1220,6 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   $ConfigData{min_memory} = $ConfigData{ini}{"Theme $theme"}{memory};
 
-  # print STDERR "yast_theme = $ConfigData{yast_theme}\n";
-  # print STDERR "splash_theme = $ConfigData{splash_theme}\n";
   # print STDERR "product_name = $ConfigData{product_name}\n";
   # print STDERR "update_dir = $ConfigData{update_dir}\n";
   # print STDERR "load_image = $ConfigData{load_image}\n";

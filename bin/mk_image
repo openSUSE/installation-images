@@ -9,6 +9,7 @@ use MakeExt2Image;
 use AddFiles;
 use Conv2Image;
 use CompressImage;
+use Cwd "realpath";
 
 sub check_link;
 
@@ -55,7 +56,8 @@ if($ENV{disjunct}) {
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
 $imagetype = $ENV{fs};
 $imagetype = "none" unless $imagetype;
-$use_gzip = 1 if $imagetype =~ s/\.gz$//;
+$use_compress = 'gzip' if $imagetype =~ s/\.gz$//;
+$use_compress = 'xz' if $imagetype =~ s/\.xz$//;
 
 # modes: keep, add, "" (default)
 @mode{split ",", $ENV{mode}} = ( 1 .. 10 );
@@ -70,11 +72,16 @@ if(!$mode{keep} || $mode{add}) {
     mkdir $tmpdir || die "$Script: failed to create $tmpdir";
   }
 
-  AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir or
+  $dangling_links = {};
+
+  AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir, $dangling_links or
     die "$Script: failed to setup image";
 
   if(-f "$tmpdir.rpmlog") {
+    SUSystem "chmod 777 $tmpdir";
     SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' $tmpdir.rpmlog | sort -u >$tmpdir/.packages.$fl";
+    SUSystem "cp $tmpdir.rpmlog $tmpdir/.packages.$fl";
+    SUSystem "chmod 755 $tmpdir";
   }
 
 #  print "fix locale...\n";
@@ -91,7 +98,7 @@ if(!$mode{keep} || $mode{add}) {
   if(!$ENV{nolinkcheck}) {
     print "checking for dangling symlinks...\n";
     if(check_link $tmpdir) {
-      if(1 || $debug =~ /\bignore\b/) {
+      if($debug =~ /\bignore\b/) {
         warn "$Script: please fix symlinks\n";
       }
       else {
@@ -155,8 +162,8 @@ elsif($imagetype ne 'none') {
   $i = -s $image;
   print "$Script: created \"$image\" ($i bytes)\n";
 
-  if($use_gzip) {
-    $i = CompressImage $image;
+  if($use_compress) {
+    $i = CompressImage $image, $use_compress;
     print "$Script: compressed \"$image\" ($i bytes)\n";
   }
 }
@@ -168,12 +175,31 @@ sub check_link
   my ($x, $err);
   local $_;
 
-  for (`find $dir -xtype l`) {
+  for (`find $dir -type l`) {
     chomp;
+
     $x = readlink;
-    next if $x =~ /^\// && (-e("$dir$x") || $x =~ /\/lbin\//);
-    print STDERR "$_ -> $x\n";
+
+    my $ds = $_;
+    $ds =~ s#^$dir/?##;
+
+    next if $dangling_links->{$ds} eq $x;
+
+    if($x =~ /^\//) {
+      next if $x =~ m#^/lbin/#;
+      next if $x =~ m#^/proc/#;
+      next if $x =~ m#^/dev/#;
+
+      # don't verify symlinks to symlinks
+      next if -l "$dir$x" || -e _;
+    }
+    else {
+      next if -e;
+    }
     $err = 1;
+    my $n = $_;
+    $n =~ s#^$dir##;
+    print STDERR "invalid: $n -> $x\n";
   }
 
   return $err;
