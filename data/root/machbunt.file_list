@@ -221,8 +221,11 @@ if with_yast2 ne 'no'
     glibc-32bit:
       /lib/ld*.so
       /lib/libc.so.6
+      /lib/libc-*.so
       /lib/libdl.so.2
+      /lib/libdl-*.so
       /lib/libm.so.6
+      /lib/libm-*.so
   endif
 
   xorg-x11-Xvnc:

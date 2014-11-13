@@ -72,7 +72,8 @@ coreutils:
   /usr/bin/whoami
   # for show_of_path.sh
   if arch eq 'ppc' || arch eq 'ppc64'
-  /usr/bin/stat
+    /bin/stat
+    /usr/bin/stat
   endif
 
 
