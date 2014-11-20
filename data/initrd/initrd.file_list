@@ -445,6 +445,7 @@ coreutils:
   /bin/true
   /bin/false
   /bin/uname
+  /usr/bin/tr
 
 pcmciautils:
   /etc/udev/rules.d/60-pcmcia.rules
