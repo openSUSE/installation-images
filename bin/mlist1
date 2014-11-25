@@ -9,69 +9,92 @@ use MakeExt2Image;
 use AddFiles;
 use Conv2Image;
 
+use strict;
+
+use Data::Dumper;
+$Data::Dumper::Sortkeys = 1;
+$Data::Dumper::Terse = 1;
+$Data::Dumper::Indent = 1;
+
 sub check_deps;
-sub sort_deps;
+sub add_deps;
 
 die "usage: $Script\n" if @ARGV;
 
-$md = "${BasePath}tmp/modules-config/modules.dep";
-$ex = "${CfgPath}module.list";
-$deps = "${BasePath}tmp/modules-config/module_deps";
-$list = "${BasePath}tmp/modules-config/module_list";
-$mod_type = $ConfigData{module_type};
+my $md = "${BasePath}tmp/modules-config/modules.dep";
+my $ex = "${CfgPath}module.list";
+my $deps = "${BasePath}tmp/modules-config/module_deps";
+my $list = "${BasePath}tmp/modules-config/module_list";
+my $added = "${BasePath}tmp/modules-config/module_added";
+my $mod_type = $ConfigData{module_type};
 
-$arch = `uname -m`; chomp $arch; $arch = "i386" if $arch =~ /^i\d86$/;
+my @ml_all;
+my $ml;
+my $ex_yes;
+my $ex_no;
 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 print STDERR "checking module list...\n";
 
-die "$0: $md: $!\n" unless open F, $md;
+if(open my $f, $md) {
+  my ($cnt, $cnt_next);
+  while(<$f>) {
+    chomp;
+    next if /^\s*$/;
+    $cnt_next = s/\\$/ / ? 1 : 0;
+    if($cnt) {
+      @ml_all[-1] .= $_;
+    }
+    else {
+      push @ml_all, $_;
+    }
+    $cnt = $cnt_next;
+  }
 
-while(<F>) {
-  chomp;
-  next if /^\s*$/;
-  $cnt_next = s/\\$/ / ? 1 : 0;
-  if($cnt) {
-    @ml[-1] .= $_;
-  }
-  else {
-    push @ml, $_;
-  }
-  $cnt = $cnt_next;
+  close $f;
+}
+else {
+  die "$0: $md: $!\n";
 }
 
-close F;
 
-die "$0: $ex: $!\n" unless open(F, "$ex.$arch") || open(F, $ex);
+if(open my $f, $ex) {
+  while(<$f>) {
+    s/\s*$//;
+    next if /^\s*(#|$)/;
 
-while(<F>) {
-  s/\s*$//;
-  next if /^\s*(#|$)/;
-
-  if(s/^\-//) {
-    push @ex_no, $_;
+    if(s/^\-//) {
+      $ex_no .= "|$_";
+    }
+    else {
+      $ex_yes .= "|$_";
+    }
   }
-  else {
-    push @ex_yes, $_;
-  }
+
+  close $f;
+}
+else {
+  die "$0: $ex: $!\n";
 }
 
-close F;
+substr($ex_no, 0, 1, "");
+substr($ex_yes, 0, 1, "");
 
-if(@ex_no != 0) {
- $ex_no = join '|', @ex_no;
-}
+for (@ml_all) {
+  my ($m, $p);
+  my $y = 1;
 
-if(@ex_yes != 0) {
- $ex_yes = join '|', @ex_yes;
-}
-
-for (@ml) {
   s#^/lib/modules/[^/]+/##;
   if(/^(\S+):/) {
     $m = $1;
-    $_ = "" if $ex_yes && $m !~ /($ex_yes)/;
-    $_ = "" if $ex_no && $m =~ /($ex_no)/;
   }
+  else {
+    next;
+  }
+
+  $y = 0 if $ex_yes && $m !~ /($ex_yes)/;
+  $y = 0 if $ex_no && $m =~ /($ex_no)/;
 
   s#^(\S+)/##;
   $p = $1;
@@ -80,58 +103,58 @@ for (@ml) {
   s/\s+/ /g;
   s/\s+$//;
 
-  if(/^(\S+):/) {
-    $path{$1} = $p unless exists $path{$1}
-  }
-
-  $_ = "$p $_" if $_;
-}
-@ml = grep $_ ne "", @ml;
-
-for (@ml) {
-  if(/^(\S+)\s+(\S+):\s*(.*?)$/) {
-    $p = $1;
-    if(exists $ml{$2}) {
-      print STDERR "  duplicate module: $p/$2, $path{$2}/$2\n"
+  if(s/^(\S+):\s*//) {
+    if($ml->{$1}) {
+      print STDERR "  duplicate modules: $p/$1, $ml->{$1}{path}/$1\n";
     }
-    $ml{$2} = $3;
-  }
-  else {
-    die "$0: oops: invalid line: \"$_\"\n"
+    $ml->{$1}{path} = $p;
+    $ml->{$1}{config} = $y;
+    $ml->{$1}{deps} = [ (split ' ') ];
   }
 }
+
+while(add_deps) {}
 
 while(check_deps) {}
 
-sort_deps;
+open my $w1, ">", $deps;
+open my $w2, ">", $list;
+open my $w3, ">", $added;
 
-open W1, ">$deps";
-open W2, ">$list";
-for (sort { "$path{$a} $a" cmp "$path{$b} $b" } keys %ml) {
-  print W2 "$path{$_}: $_\n";
-  if($ml{$_}) {
-    print W1 "$_: ", $ml{$_}, "\n"
+print $w3 "[other]\n";
+
+for (sort { "$ml->{$a}{path} $a" cmp "$ml->{$b}{path} $b" } keys %$ml) {
+  next if !$ml->{$_}{config};
+  print $w3 "$_\n" if $ml->{$_}{added};
+  print $w2 "$ml->{$_}{path}: $_\n";
+  if(@{$ml->{$_}{deps}}) {
+    print $w1 "$_: ", join(" ", @{$ml->{$_}{deps}}), "\n"
   }
   else {
-    print W1 "$_:\n"
+    print $w1 "$_:\n"
   }
 }
-close W2;
-close W1;
 
+close $w3;
+close $w2;
+close $w1;
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# check module dependencies and remove modules with unfulfilled deps
+#
 sub check_deps
 {
-  local $_;
-  my ($i, $cnt);
+  my $cnt;
 
-  for (keys %ml) {
-    if($ml{$_}) {
-      for $i (split ' ', $ml{$_}) {
-        if(!exists $ml{$i}) {
-          print STDERR "  unresolved deps in $_: $i, dropped\n";
-          delete $ml{$_};
-          $cnt++;
-        }
+  for my $m (sort keys %$ml) {
+    next if !$ml->{$m}{config};
+    for (@{$ml->{$m}{deps}}) {
+      if(!$ml->{$_} || !$ml->{$_}{config}) {
+        print STDERR "  unresolved deps in $m: $_, dropped\n";
+        $ml->{$m}{config} = 0;
+        $cnt++;
+        last;
       }
     }
   }
@@ -140,17 +163,26 @@ sub check_deps
 }
 
 
-sub sort_deps
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# add required modules to fulfill deps
+#
+sub add_deps
 {
-  local $_;
-  my ($m);
+  my $cnt;
 
-  for $m (keys %ml) {
-    $ml2{$m}{$_} = 10 for split ' ', $ml{$m};
+  for my $m (sort keys %$ml) {
+    next if !$ml->{$m}{config};
+    for (@{$ml->{$m}{deps}}) {
+      if($ml->{$_} && !$ml->{$_}{config}) {
+        print "  auto-added $_\n";
+        $ml->{$_}{config} = 1;
+        $ml->{$_}{added} = 1;
+        $cnt++;
+        last;
+      }
+    }
   }
 
-  for $m (keys %ml) {
-    $ml{$m} = join(' ', (sort { ($ml2{$a}{$b} - $ml2{$b}{$a}) + ($a cmp $b) }  split(' ', $ml{$m})));
-  }
+  return $cnt;
 }
 

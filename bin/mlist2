@@ -30,6 +30,7 @@ $mod_no_all = "${BasePath}tmp/modules-config/module_missing_all";
 $dst = "${DataPath}initrd/gen/module.";
 $all_mods = "${DataPath}initrd/all_modules";
 $mod_type = $ConfigData{module_type};
+$added_mods = "${BasePath}tmp/modules-config/module_added";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # now we really start...
@@ -85,12 +86,27 @@ if(open F, $all_mods) {
   close F;
 }
 
-die "$Script: $cfg: $!\n" unless open(F, "$cfg.$arch") || open(F, $cfg);
+if(open my $f, $cfg) {
+  while(<$f>) {
+    push @cfg_file, $_;
+  }
+  close $f;
+}
+else {
+  die "$Script: $cfg: $!\n";
+}
+
+if(open my $f, $added_mods) {
+  while(<$f>) {
+    push @cfg_file, $_;
+  }
+  close $f;
+}
 
 open NO_MOD, ">$mod_no";
 open NO_MOD_ALL, ">$mod_no_all";
 
-while(<F>) {
+for (@cfg_file) {
   chomp;
   s/^\s*([#;].*)?//;
   next if $_ eq "";
@@ -178,7 +194,6 @@ while(<F>) {
     $mod_warned{$l[0]} = 1;
   }
 }
-close F;
 
 close NO_MOD;
 
@@ -297,12 +312,14 @@ for (@sect) {
   print W "\n\n";
   close W;
 
+=head
   open W, ">${dst}shortconfig.$s";
   print W "[${\real_name($_)}]\n";
   print W "MoreModules=${\real_name($sect{$_}{MoreModulesLxrc})}\n" if exists $sect{$_}{MoreModulesLxrc};
   print W "ModDisk=$sect{$_}{ModDiskNext}\n" if exists $sect{$_}{ModDiskNext};
   print W "\n\n";
   close W;
+=cut
 
   open W, ">${dst}files.$s";
   for $f (sort { $fname{$a} cmp $fname{$b} } keys %{$sect{$_}{'a'}}) {
@@ -324,6 +341,7 @@ for (@sect) {
     close W;
   }
 
+=head
   open W, ">${dst}list.$s";
   print W ";\n; ${\real_name($_)} modules\n;\n";
   for $m (@{$sect{$_}{'m'}}) {
@@ -336,9 +354,11 @@ for (@sect) {
   }
   print W "\n";
   close W;
+=cut
 }
 
 
+=head
 open W, ">$mdisk_c";
 for (sort keys %moddisk_c) {
   print W "$_:$moddisk_c{$_}\n"
@@ -356,6 +376,7 @@ for (sort keys %moddisk_i) {
   print W "$_:$moddisk_i{$_}\n"
 }
 close W;
+=cut
 
 $err = 0 if $ENV{debug} =~ /\bignore\b/;
 
