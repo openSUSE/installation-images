@@ -5,7 +5,7 @@
 set -e
 
 # create directory layout
-mkdir -p $DESTDIR/CD1/boot/$ARCH/loader
+mkdir -p $DESTDIR/CD1/boot/$ARCH
 for theme in $THEMES ; do
   mkdir -p $DESTDIR/branding/$theme/CD1/boot/$ARCH
 done
@@ -24,14 +24,6 @@ for theme in $THEMES ; do
   if [ -d images/$theme/EFI ] ; then
     mkdir -p $DESTDIR/branding/$theme/CD1/EFI/BOOT
     cp -r images/$theme/EFI/EFI/BOOT/* $DESTDIR/branding/$theme/CD1/EFI/BOOT
-  fi
-
-  # might be missing if theme does not really exist
-  mkdir -p $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader
-
-  # initrd goes to 'loader' dir
-  if [ -e $DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd ] ; then
-    mv $DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader/initrd
   fi
 done
 

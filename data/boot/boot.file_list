@@ -1,12 +1,10 @@
-d loader
 if arch eq 'i386' || arch eq 'x86_64'
+  d loader
   x syslinux.cfg /loader/isolinux.cfg
-endif
 
-<kernel_rpm>:
-  a /boot/<kernel_img> /loader/linux
+  <kernel_rpm>:
+    a /boot/<kernel_img> /loader/linux
 
-if arch eq 'i386' || arch eq 'x86_64'
   memtest86+:
     m /boot/memtest.bin /loader/memtest
 
@@ -14,5 +12,10 @@ if arch eq 'i386' || arch eq 'x86_64'
     m /usr/share/syslinux/isolinux.bin /loader
     m /usr/share/syslinux/gfxboot.c32 /loader
     e isolinux-config --base=/boot/<arch>/loader loader/isolinux.bin
+
+elsif arch eq 'aarch64'
+  <kernel_rpm>:
+    a /boot/<kernel_img> /linux
+
 endif
 
