@@ -77,7 +77,6 @@ aaa_base-extras:
 attr:
 bash:
 bc:
-bind-libs:
 bind-utils:
 btrfsprogs:
 bzip2:
