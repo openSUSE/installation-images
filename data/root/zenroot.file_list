@@ -1,132 +1,119 @@
-
-#
-# the 'root' system
-#
-
-d bin dev etc lib mnt root sbin tmp usr var
+d run var
+d run/lock
+s ../run var
+d bin dev etc home lib mnt proc sys sbin tmp root
+d media/{cdrom,floppy}
 c 1777 0 0 tmp
+d var/lib/systemd/migrated
 
 # add some /etc files
 x /etc/* /etc
-r /etc/ssh/CVS
-r /etc/CVS /etc/rpm/CVS /root/.ssh/CVS
+r /etc/ssh
+r /etc/rpm/.svn
 r /etc/inst_setup
 r /etc/inst_setup_ssh
 r /etc/create_interface
-r /etc/motd
+r /etc/motd*
 r /etc/issue
 
-libaudit*:
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# packages without scripts
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+TEMPLATE:
   /
 
-libsepol*:
-  /
-
-libcap-ng*:
-  /
-
-libparted*:
-  /
-
-libffi*:
-  /
-
-libgio-*-*:
-  /
-
-libgmodule-*-*:
-  /
-
-libmount*:
-  /
-
-libudev*:
-  /
-
-fillup:
-  /
-
-insserv-compat:
-  /
-
-aaa_base: prein,postin
-e prein
+# install filesystem first and *REMOVE* /var/run link
+filesystem:
+  /etc/{ppp,rc.d,uucp}
+  /etc/sysconfig
+  /root
+  /run
   /etc/init.d
-  /etc/inputrc
-e echo set bell-style none >>etc/inputrc
-#  /etc/rc.status
-  /usr/bin/old
-#  /root/.gnupg/suse_build_key
-#  /root/.gnupg/suse_build_key
-  /var/adm/fillup-templates
-e postin
-r /var/adm/fillup-templates
+  /usr/tmp
+  /var
+  # remove temporarily so that 'mount /sys' doesn't work
+  r /sys
 
-libpcre*:
-  /
+AUTODEPS:
 
+if theme eq 'SLES'
+  sles-release:
+  sles-release-MINI:
+elsif theme eq 'SLED'
+  sled-release:
+  sled-release-MINI:
+else
+  openSUSE-release:
+  openSUSE-release-mini:
+endif
+
+bzip2:
+coreutils:
+cpio:
+device-mapper:
+diffutils:
+dmraid:
+dosfstools:
+e2fsprogs:
+file:
+fillup:
+findutils:
+grep:
+gzip:
+hdparm:
+hex:
+hwinfo:
+initviocons:
+insserv-compat:
+iproute2:
+iputils:
+joe:
+klogd:
+kmod-compat:
+kmod:
+lilo:
+lvm2:
+ntfsprogs:
+parted:
+polkit:
+procps:
+reiserfs:
+suse-module-tools:
+systemd-presets-branding-<base_theme>:
+systemd-sysvinit:
+systemd:
 tar:
-  /bin/tar
+unzip:
+usbutils:
+util-linux:
+udev: ignore
+libudev*:
+?ncpfs:
+pciutils:
+dos2unix:
+ftp:
+tftp:
+checkmedia:
+?grub2-i386-pc:
+?grub2-x86_64-efi:
+?grub2-arm64-efi:
+?grub2-powerpc-ieee1275:
+?grub2:
 
-#samba
-libacl*:
-  /lib*
-
-#samba
-libattr*:
-  /lib*
+krb5:
+  /etc
+  /usr/lib*/libkrb5.so.*
+  /usr/lib*/libkrb5support.so.*
+  /usr/lib*/libgssapi_krb5.so.*
+  /usr/lib*/libk5crypto.so.*
 
 bash:
   /bin/bash
-s bash /bin/sh
-s bash /bin/ash
-
-libreadline6:
-  /lib*/libreadline.so.*
-  /lib*/libhistory.so.*
-
-coreutils:
-  /bin/{chgrp,chmod,chown,cp,dd,df,ln,ls,mkdir,mknod,mv,rmdir,sync,md5sum,readlink}
-  /usr/bin/du
-  /bin/touch
-  /bin/{date,echo,false,pwd,stty,true,uname,basename,mktemp}
-  /usr/bin/{expr,tee,dirname,chroot,test,tty}
-  /usr/bin/{cut,head,tail,tr,uniq,wc,od}
-  /bin/sort
-  /bin/kill
-
-gzip:
-  bin/g{un,}zip
-
-joe:
-  /usr/bin/joe
-  /etc/joe/joerc
-
-hwinfo:
-  /usr/lib*
-  /usr/sbin
-
-?libx86emu1:
-  /
-
-libxml2-*:
-  /
-
-libexpat*:
-  /
-
-libglib-2_0-0:
-  /
-
-libgobject-2_0-0:
-  /
-
-udev:
-  /etc
-  /sbin
-
-cifs-utils:
-  /sbin/mount.cifs
+  s bash /bin/sh
 
 dbus-1: prein
   /
@@ -134,177 +121,18 @@ dbus-1: prein
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group
 
-dmraid:
-  /sbin
-  /lib*
-
-iputils:
-  /bin/ping
-
-util-linux:
-  /bin/dmesg
-  /bin/logger
-  /sbin/losetup
-  /sbin/blockdev
-  /sbin/fdisk
-  /sbin/sfdisk
-  /usr/sbin/setctsid
-
-libblkid*:
-  /
-
-libuuid*:
-  /
-
-libpolkit*:
-  /
-
-polkit:
-  /
-
-libselinux1:
-  /
-
-libncurses5:
-  /lib*/libncurses.so.5*
-  /lib*/libncursesw.so.5*
-
 ncurses-utils:
   /usr/bin/reset
   /usr/bin/tset
-
-libpopt*:
-  /
-
-libwrap*:
-  /
-
-libgcc_s*:
-  /
-
-glibc:
-  /sbin/ldconfig
-  /lib*/ld*
-  /lib*/lib{c,m}{.,-}*
-  /lib*/{libcrypt,libdl,libnsl}{.,-}*
-  /lib*/{libnss_compat,libnss_dns,libnss_files,libnss_hesiod}{.,-}*
-  /lib*/{libnss_nis,libnss_nisplus,libresolv,librt,libutil}{.,-}*
-  /usr/bin
-  /etc/rpc
-r /usr/bin/{catchsegv,gencat,getconf,getent,glibcbug,iconv,lddlibc4,mtrace,rpcgen,sprof}
-r /usr/sbin/{nscd,nscd_nischeck,utmpd}
-  /lib*/libpthread{.,-}*
-
-hdparm:
-  /sbin/hdparm
-
-
-e2fsprogs:
-  /etc
-  /sbin
-  /usr/{,s}bin
-
-libext2fs2:
-  /lib*
-
-libcom_err2:
-  /lib*/libcom_err.so.*
-  /lib*/libss.so.*
-
-libsmbios*:
-  /
-
-libreiserfs-*-*:
-  /
-
-file:
-  /usr/bin/file
-
-libmagic*:
-  /
-
-libmagic-data:
-  m /usr/share/misc/magic /etc/magic
-
-lilo:
-  /
-
-dosfstools:
-  /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
 
 net-tools:
   /bin/{domain,host}name
   /sbin/{ifconfig,route}
   /sbin/plipconfig
 
-rpcbind: postin
-  /etc
-  /sbin
-  /var/adm/fillup-templates
-E postin
-
-libtirpc1:
-  /etc
-  /lib*
-
-libgssglue1:
-  /etc
-  /lib*/libgssglue.so.*
-
-util-linux:
-  /sbin/{mkfs,mkfs.minix,fsck.minix,mkswap,swapoff,swapon}
-
-libcap2:
-  /lib*/libcap.so.*
-
-d /var/adm /var/tmp /var/lib/{amanda,gdm,news,pgsql,rpm,uucp/taylor_config}
-d /var/lock/subsys
-d /var/log/news /var/named /var/run /var/spool/{atjobs,fax,fnet,lpd,mail,postfix,rwho,uucp}
-
-#d /var/X11R6/{bin,xkb/compiled,app-defaults}
-d /var/lib/xkb
-
-d /run/lock
-s ../lock /var/spool/locks
-
-t /var/log/{faillog,lastlog,mail,messages,sendmail.st,wtmp,xdm.errors}
-t /var/log/news/news.{crit,err,notice}
-
-c 1777 0 0 /var/tmp
-
-d /usr/{bin,lib,lib64,libexec,sbin,share}
-
-s ../var/spool /usr/spool
-s ../var/tmp /usr/tmp
-
-grep:
-  /
-
-diffutils:
-  /usr/bin/{cmp,diff}
-
-findutils:
-  /
-
 less:
   /etc/lesskey
   /usr/bin/less
-
-kmod:
-  /
-
-kmod-compat:
-  /
-
-suse-module-tools:
-  /etc/modprobe.d
-
-libprocps*:
-  /
-
-procps:
-  /bin/ps
-  /usr/bin/{free,top,vmstat}
 
 psmisc:
   m /bin/fuser /usr/bin
@@ -314,23 +142,7 @@ psmisc:
 procinfo:
   /usr/bin/socklist
 
-cpio:
-  /
-
-c 0755 0 0 /usr/bin
-c 0755 0 0 /usr/lib*
-c 0755 0 0 /usr/sbin
-c 0755 0 0 /usr/share
-
 x /etc/ld.so.conf /etc
-
-libz*:
-  /
-
-c 0755 0 0 /usr
-
-libstdc++*:
-  /
 
 # remove these:
 r root mnt tmp usr/libexec
@@ -338,67 +150,22 @@ r root mnt tmp usr/libexec
 netcfg:
   /etc/{services,protocols}
 
-lvm2:
-  /
+:
+  r /lib*/security/pam_userdb.so
 
-device-mapper:
-  /lib*
-  /sbin
+  x etc/inst_setup_ssh /sbin/
+  c 755 0 0 /sbin/inst_setup_ssh
+  s inst_setup_ssh /sbin/setup_ssh
+  # for Olaf
+  x etc/ssh /lib
+  x ../rescue/mount-rootfs-and-do-chroot.sh /bin
 
-reiserfs:
-  /sbin
-
-gawk:
-  /bin
-# uses update-alternatives now
-s gawk bin/awk
-
-initviocons:
-  /bin/initviocons
-  /usr/bin/termprobes
-
-klogd:
-  /sbin/klogd
-
-syslogd:
-  m /sbin/syslogd /sbin/syslogd.bin
-  x etc/syslogd /sbin/syslogd
-
- r /lib*/security/pam_userdb.so
-
- x etc/inst_setup_ssh /sbin/
- c 755 0 0 /sbin/inst_setup_ssh
- x etc/ssh /etc
- c 644 0 0 /etc/ssh/*
- d /root
- x root/.bash_history /root
- x root/.bash_login /root
- x root/.vimrc /root
-
-parted:
-  /
+openssl:
+  /usr/share/ssl
 
 libopenssl*:
   /lib*/libcrypto.so.*
   /lib*/libssl.so.*
-
-hex:
-  /
-
-bzip2:
-  /
-
-libbz2-*:
-  /
-
-unzip:
-  /usr/bin/unzip
-
-iproute2:
-  /sbin/ip
-
-ntfsprogs:
-  /
 
 dmidecode:
   /usr/sbin/dmidecode
@@ -413,52 +180,97 @@ sysconfig:
   e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
   # /sbin/modify_resolvconf
 
-pciutils:
-  /
-
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
-
-usbutils:
-  /
-
-libusb-0_1-4:
-  /
-
-libusb-1_0-0:
-  /
-
-checkmedia:
-  /usr/bin
 
 open-iscsi:
   /sbin
   /etc
 
-dos2unix:
-  /usr/bin/dos2unix
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# packages with scripts
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-?ncpfs:
+# update-alternatives
+gawk:
   /
+  E postin
 
-ftp:
-  /usr/bin/ftp
+# update-alternatives
+unzip:
+  /
+  E postin
 
-tftp:
-  /usr/bin/tftp
+aaa_base:
+  E prein
+  /
+  E postin
+  r /run/utmp
+  e echo set bell-style none >>etc/inputrc
 
-x etc/inst_setup /sbin/inst_setup
-x etc/create_interface /sbin/create_interface
-x etc/adddir /sbin/adddir
-c 755 0 0 /sbin/inst_setup
-c 755 0 0 /sbin/create_interface
-c 755 0 0 /sbin/adddir
+rpcbind:
+  /
+  E prein
+  E postin
+
+syslogd:
+  /
+  E prein
+  E postin
 
 
 :
 
-# remove, ehm, things...
-r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
+
+# remove /etc/os-release so it's not used accidentally
+r /etc/os-release
+
+# remove files we don't want to show up at all
+r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
+r /etc/profile.d /etc/profile /etc/bash.bashrc /etc/bash_completion.d
+r /run /var/log/{cache,games,log,lock,mail,opt,spool} /var/run
+r /var/lib/systemd/migrated
+r /var/adm/autoinstall /var/lib/autoinstall
+r var/spool var/mail
+e rm -f `find var/log -type f`
+e rm -f `find var/cache -type f`
+
+# show remaining files in /var
+e find var -type f
+
+# they are all part of the initrd
+r /etc/passwd* /etc/shadow* /etc/group*
+
+# don't mess with mtab (from aaa_base postin ATM)
+r etc/mtab
+
+# remove these, we don't want them symlinked
+r root mnt tmp proc usr/libexec
+
+x etc/inst_setup /sbin/inst_setup
+x etc/adddir /sbin/adddir
+x hostip_from_wicked /sbin/hostip_from_wicked
+c 755 0 0 /sbin/inst_setup
+c 755 0 0 /sbin/adddir
+c 755 0 0 /sbin/hostip_from_wicked
+
+x /etc/ld.so.conf /etc
+
+# final clean up
+r /etc/X11/xserver/C
+r /sbin/insserv
+
+# some scripts write to /dev/null...
+r /dev
+
+# remove empty resolv.conf
+r /etc/resolv.conf
 
 E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 
+# allowed dangling symlinks
+D /var/cache/gio-2.0/gnome-defaults.list /usr/share/applications/defaults.list

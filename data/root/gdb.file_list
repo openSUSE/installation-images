@@ -3,6 +3,8 @@ TEMPLATE:
 
 gdb:
 ?valgrind:
+yast2-buildtools: ignore
+
 AUTODEPS:
 
 :

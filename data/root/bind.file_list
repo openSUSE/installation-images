@@ -3,6 +3,9 @@ TEMPLATE:
 
 bind-utils:
 openldap2-client:
+
+yast2-buildtools: ignore
+
 AUTODEPS:
 
 :

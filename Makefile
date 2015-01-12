@@ -19,7 +19,7 @@ BOOT_PARTS    := boot/* initrd biostest
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot-grub2-efi boot boot-themes $(COMMON_TARGETS) rescue-server
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot-grub2-efi boot boot-themes $(COMMON_TARGETS) rescue-server zenroot
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := boot/* initrd biostest efi
 endif
@@ -61,7 +61,7 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base fbase biostest initrd \
 	boot boot-efi root rescue root+rescue gdb bind clean \
-	boot-themes initrd-themes root-themes install \
+	boot-themes initrd-themes root-themes zenroot install \
 	install-initrd mini-iso-rmlist debuginfo cd1
 
 all: $(ALL_TARGETS) VERSION changelog
@@ -173,9 +173,6 @@ root+rescue: base
 	cp data/root/config images
 	cat data/root/rpmlist tmp/base/yast2-trans-rpm.list >images/rpmlist
 
-sax2: base
-	libdeps=root,sax2 image=sax2 src=root fs=squashfs disjunct=root bin/mk_image
-
 gdb: base
 	libdeps=root,gdb image=gdb src=root fs=squashfs disjunct=root bin/mk_image
 
@@ -194,9 +191,9 @@ root-themes: base
 	for theme in $(THEMES) ; do \
 	  theme=$$theme image=$$theme/$$theme tmpdir=root-$$theme src=root filelist=theme fs=squashfs bin/mk_image ; \
 	done
-ifneq ($(filter Zen, $(THEMES)),)
-	libdeps=zenroot image=Zen/root tmpdir=zenroot src=root filelist=zenroot fs=squashfs bin/mk_image
-endif
+
+zenroot:
+	theme=$(THEMES) libdeps=zenroot alternatives=1 image=zenroot src=root fs=squashfs bin/mk_image
 
 cd1: base
 	mkdir -p data/cd1/gen

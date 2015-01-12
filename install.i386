@@ -83,3 +83,17 @@ if [ -f images/rescue-server ] ; then
   cp data/boot/syslinux-rescue.cfg $dst/loader/isolinux.cfg
 fi
 
+if [ -f images/zenroot ] ; then
+  t=openSUSE
+  [ -d $DESTDIR/branding/SLES ] && t=SLES
+  [ -d $DESTDIR/branding/SLED ] && t=SLED
+  dst=$DESTDIR/branding/Zen/CD1/boot/x86_64
+  mkdir -p $dst
+  cp images/zenroot $dst/root
+  echo "root: root" >$dst/config
+  cp -a $DESTDIR/CD1/boot/$ARCH/loader $DESTDIR/branding/$t/CD1/boot/$ARCH/* $dst
+  cp -a $DESTDIR/branding/$t/CD1/EFI $DESTDIR/branding/Zen/CD1
+  cp data/boot/syslinux-zen.cfg $dst/loader/isolinux.cfg
+  cp data/boot/message-zen $dst/loader/message
+fi
+

@@ -29,13 +29,22 @@ TEMPLATE SUSEConnect:
   # avoid update-alternatives
   e cd usr/sbin ; ln -snf SUSEConnect-* SUSEConnect
 
+# ruby maintainers can't really make up their minds on how to name their packages...
+TEMPLATE ruby.*-rubygem-yard: ignore
+  # just a template that does nothing
+  d .
+
+TEMPLATE rubygem-yard: ignore
+  # just a template that does nothing
+  d .
+
 TEMPLATE ruby.*-rubygem-.*:
   /usr/*/ruby/gems/*/gems/*/lib
   /usr/*/ruby/gems/*/specifications
 
-TEMPLATE ruby.*-rubygem-yard: ignore
-  # just a template that does nothing
-  d .
+TEMPLATE rubygem-.*:
+  /usr/*/ruby/gems/*/gems/*/lib
+  /usr/*/ruby/gems/*/specifications
 
 TEMPLATE skelcd-control-.*:
   # just a template that does nothing

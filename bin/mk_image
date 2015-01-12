@@ -12,6 +12,7 @@ use CompressImage;
 use Cwd "realpath";
 
 sub check_link;
+sub fix_alternatives_link;
 
 die "usage: $Script\n" if @ARGV;
 
@@ -93,6 +94,11 @@ if(!$mode{keep} || $mode{add}) {
   if(!$ENV{nostrip}) {
     print "strip everything...\n";
     SUSystem "strip_dir $tmpdir";
+  }
+
+  if($ENV{alternatives}) {
+    print "handling update-alternatives links...\n";
+    fix_alternatives_link $tmpdir;
   }
 
   if(!$ENV{nolinkcheck}) {
@@ -203,5 +209,37 @@ sub check_link
   }
 
   return $err;
+}
+
+
+sub fix_alternatives_link
+{
+  my $dir = shift;
+  my $cnt = 0;
+
+  die "oops, working on real root?\n" if $dir eq "" || $dir eq "/";
+
+  for (`find $dir -type l`) {
+    chomp;
+
+    my $x = readlink;
+    next if $x !~ m#/etc/alternatives/#;
+
+    my $l = readlink "$dir$x";
+    if($l) {
+      unlink $_;
+      if(!symlink($l, $_)) {
+        print STDERR "symlink $l, $_: $!\n"
+      }
+      $cnt++;
+    }
+  }
+
+  if($cnt) {
+    unlink "$dir/usr/sbin/update-alternatives";
+    unlink "$dir/var/log/update-alternatives.log";
+    system "rm -r $dir/etc/alternatives/";
+    system "rm -r $dir/var/lib/rpm/alternatives/";
+  }
 }
 
