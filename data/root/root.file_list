@@ -462,10 +462,14 @@ xrefresh:
 xset:
 xauth:
 
-xterm:
-  /usr/share/X11/app-defaults/XTerm
-  R s/nil2/fixed/ /usr/share/X11/app-defaults/XTerm
-  /usr/bin/xterm
+if exists(xterm-bin)
+  xterm-bin:
+else
+  xterm:
+endif
+    /usr/share/X11/app-defaults/XTerm
+    R s/nil2/fixed/ /usr/share/X11/app-defaults/XTerm
+    /usr/bin/xterm
 
 gpm:
   /usr/sbin/gpm
