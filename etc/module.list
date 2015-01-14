@@ -208,6 +208,8 @@ kernel/drivers/pps/
 kernel/drivers/ptp/
 kernel/drivers/target/target_core_mod.ko
 
+kernel/drivers/infiniband/
+
 # kmps
 updates/
 extra/

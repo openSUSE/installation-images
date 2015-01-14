@@ -2,7 +2,7 @@
 ; looks at ~/.oscrc for user & password if necessary
 [OBS]
 server     = https://api.suse.de
-project    = SUSE:SLE-11-SP3:GA
+project    = SUSE:SLE-11-SP4:GA
 repository = standard
 
 
