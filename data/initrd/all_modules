@@ -3593,6 +3593,7 @@ virtio_console                  i586      ppc ppc64       x86_64
 virtio_net                      i586      ppc ppc64 s390x x86_64
 virtio_pci                      i586      ppc ppc64       x86_64
 virtio_ring                     i586      ppc ppc64       x86_64
+virtio_scsi                     i586      ppc ppc64 s390x x86_64
 virtual                         i586 ia64 ppc ppc64       x86_64
 visor                           i586 ia64 ppc ppc64       x86_64
 vitesse                         i586 ia64 ppc ppc64       x86_64
