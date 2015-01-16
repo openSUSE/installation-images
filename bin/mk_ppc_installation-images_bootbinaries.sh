@@ -47,7 +47,7 @@ gzip -fcv9 /boot/vmlinux-*-default >    $CD1/suseboot/linux32.gz
 fi
 if test "$do_64" = "true" ; then
 cp -pfv $bdir/initrd-ppc64       $CD1/suseboot/initrd64
-gzip -fcv9 /boot/vmlinux-*-ppc64 >      $CD1/suseboot/linux64.gz
+cp -pvf /boot/vmlinux-*-ppc64    $CD1/suseboot/linux64
 fi
 
 if [ -f /lib/lilo/chrp/mkzimage_cmdline ] ; then
@@ -144,15 +144,18 @@ for i in $do_bits
 do
 cat >> $CD1/suseboot/yaboot.cnf <<EOF
 
-image[${i}bit]=inst${i}
+image[${i}bit]=linux${i}
   label=install
   append="quiet sysrq=1 insmod=sym53c8xx insmod=ipr            "
-image[${i}bit]=inst${i}
+  initrd=initrd${i}
+image[${i}bit]=linux${i}
   label=slp
   append="quiet sysrq=1 install=slp           "
-image[${i}bit]=inst${i}
+  initrd=initrd${i}
+image[${i}bit]=linux${i}
   label=rescue
   append="quiet sysrq=1 rescue=1              "
+  initrd=initrd${i}
 
 EOF
 done
