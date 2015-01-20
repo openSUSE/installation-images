@@ -1,3 +1,8 @@
+TEMPLATE binutils:
+  /
+  r /usr/bin/ld
+  s ld.bfd /usr/bin/ld
+
 TEMPLATE:
   /
 
