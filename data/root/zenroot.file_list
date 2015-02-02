@@ -51,6 +51,7 @@ else
   openSUSE-release-mini:
 endif
 
+?grub:
 bzip2:
 coreutils:
 cpio:
@@ -73,19 +74,14 @@ iproute2:
 iputils:
 joe:
 klogd:
-kmod-compat:
-kmod:
-lilo:
 lvm2:
 ntfsprogs:
 parted:
 polkit:
 procps:
 reiserfs:
-suse-module-tools:
-systemd-presets-branding-<base_theme>:
-systemd-sysvinit:
-systemd:
+systemd-presets-branding-<base_theme>: ignore
+systemd-sysvinit: ignore
 tar:
 unzip:
 usbutils:
@@ -98,11 +94,19 @@ dos2unix:
 ftp:
 tftp:
 checkmedia:
-?grub2-i386-pc:
-?grub2-x86_64-efi:
-?grub2-arm64-efi:
-?grub2-powerpc-ieee1275:
+?grub2-i386-pc: ignore
+?grub2-x86_64-efi: ignore
+?grub2-arm64-efi: ignore
+?grub2-powerpc-ieee1275: ignore
 ?grub2:
+dbus-1-x11: ignore
+kmod: ignore
+kbd: ignore
+wicked-service: ignore
+
+
+systemd:
+  /usr/lib*/libsystemd*.so.*
 
 krb5:
   /etc
@@ -222,6 +226,9 @@ syslogd:
 
 
 :
+
+# remove locale
+r /usr/share/locale
 
 # remove files we don't want to show up at all
 r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
