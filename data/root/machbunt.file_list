@@ -8,7 +8,7 @@ ltrace:
   /usr/bin/ltrace
   /etc/ltrace.conf
 
-libelf0:
+libelf*:
   /usr/lib*/libelf.so.*
 
 if with_yast2 ne 'no'
