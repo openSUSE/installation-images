@@ -92,7 +92,7 @@ if [ -f images/zenroot ] ; then
   cp images/zenroot $dst/root
   echo "root: root" >$dst/config
   cp -a $DESTDIR/CD1/boot/$ARCH/loader $DESTDIR/branding/$t/CD1/boot/$ARCH/* $dst
-  cp -a $DESTDIR/branding/$t/CD1/EFI $DESTDIR/branding/Zen/CD1
+  [ -d "$DESTDIR/branding/$t/CD1/EFI" ] && cp -a $DESTDIR/branding/$t/CD1/EFI $DESTDIR/branding/Zen/CD1
   cp data/boot/syslinux-zen.cfg $dst/loader/isolinux.cfg
   cp data/boot/message-zen $dst/loader/message
 fi

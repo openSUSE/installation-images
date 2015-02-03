@@ -13,7 +13,7 @@ COMMON_TARGETS	     := rescue root root+rescue bind gdb mini-iso-rmlist
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
 
 ifneq ($(filter i386, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot boot-themes $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot boot-themes $(COMMON_TARGETS) zenroot
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := boot/* initrd biostest
 endif

@@ -147,12 +147,10 @@ for (my $i = @tags - 1; $i > 0; $i--) {
   my $detail = 0;
   for (@t) {
     $detail = 1 if /^    $/;
+    $detail = 2 if /^    Conflicts:$/;
     $detail = 0 if /^commit /;
-    if($detail && /^    [^\-\s]/) {
-      # push @t2, "# $_";
-    }
-    else {
-      push @t2, $_;
+    if(!$detail || !/^    [^\-\s]/) {
+      push @t2, $_ if $detail < 2;
     }
   }
   @t = @t2;
@@ -170,7 +168,7 @@ for (my $i = @tags - 1; $i > 0; $i--) {
   # handle white space in every first line once and for all
   my $empty = 1;
   for (@t) {
-    $empty = 1, next if $_ eq "";
+    $empty = 1, $_ = "", next if $_ =~ /^\s*$/;
     next if !$empty;
     s/^\s*//;
     $empty = 0;
@@ -273,7 +271,7 @@ sub get_parent_branch
 
   # print "parent = $p\n";
 
-  return $p;
+  return $p || "master";
 }
 
 
