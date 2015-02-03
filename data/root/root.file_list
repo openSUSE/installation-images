@@ -391,7 +391,7 @@ if arch eq 'ia64'
   r /usr/lib/ia32el/auxapp
 
   libunwind:
-    /lib/libunwind.so*
+    /
 endif
 
 c 0755 0 0 /usr/bin
