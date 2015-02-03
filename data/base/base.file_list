@@ -113,6 +113,8 @@ aaa_base:
   E prein
   E postin
   t etc/fstab
+  /sbin/service
+  /usr/sbin/service
 
 yast2-trans-allpacks: requires,nodeps
   x mk_yast2_trans bin/mk_yast2_trans
