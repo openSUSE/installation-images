@@ -81,7 +81,8 @@ polkit:
 procps:
 reiserfs:
 systemd-presets-branding-<base_theme>: ignore
-systemd-sysvinit: ignore
+systemd:
+systemd-sysvinit:
 tar:
 unzip:
 usbutils:
@@ -103,6 +104,8 @@ dbus-1-x11: ignore
 kmod: ignore
 kbd: ignore
 wicked-service: ignore
+libsmbios2:
+gpm:
 
 
 systemd:
