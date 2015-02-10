@@ -435,7 +435,7 @@ if arch ne 's390' && arch ne 's390x'
   xf86-video-ati: nodeps
   xf86-video-cirrus:
   xf86-video-fbdev:
-  xf86-video-modesetting:
+  ?xf86-video-modesetting:
   xf86-video-nv:
   xf86-video-r128:
   xf86-video-sis:
