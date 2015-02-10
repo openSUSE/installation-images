@@ -4,104 +4,20 @@
 To build a new image, you have to:
 
  - be root
- - put the installation-images dir on a *local* file system (non-NFS)
- - on ia32 systems: linuxrc & syslinux installed
+ - put the installation-images directory on a *local* file system (ie. not NFS)
 
-Then you can do:
+Then you can run 'make' to build all parts.
 
-  make initrd
-    - build an initial ramdisk
+The images are stored in the 'image' directory, the contents of the images
+is in the 'tmp' directory.
 
-  initrd=small make initrd
-    - build a 'small' test initrd, suitable for 1.44MB boot images (for ia32)
-    - *** This is not suitable for release on our CDs! ***
+'make install' will gather the images an put them into the 'instsys' dir.
 
-  make boot
-    - build an boot image (for ia32)
-
-  make root
-    - build a root image
-
-  demo=live make demo
-  demo=eval make demo
-    - build a root image for a Live/LiveEval CD
-
-  make boot
-    - build a (2.88MB) boot image (for ia32)
-
-  demo=live make boot
-  demo=eval make boot
-    - build a (2.88MB) Live/LiveEval boot image (for ia32)
-    - add 'boot=small initrd=small' to get a 1.44MB *test* image
-
-The images are stored in the image directory, the contents of the
-images (except for the boot image) in the tmp directory.
-
-There is some special magic built into the scripts that make sure that the
-initrd fits on the boot disk by removing/adding some of the modules. See the
-description of the *.file_list format for details.
-
-You can select the SuSE release to build for, e.g:
-
-  suserelease=6.4 make initrd
-
-but note:
-  - This is ignored in an autobuild environment (for obvious reasons).
-  - You cannot sensibly test for 'suserelease' in the various *.file_list files
-    using the 'ifenv' construct.
-    Use 'suse_major_release', 'suse_minor_release' or 'suse_release' instead.
+For testing purposes there is a make target 'cd1' that builds a complete
+tree as it's used on our media.
 
 
-2. How to make boot disks
-=========================
-
-The various boot disks differ only slightly from the installation-images stuff
-(different kernel, module lists and syslinux.cfg file) and are derived from
-the installation-images directory using the bin/ci_boot* scripts.
-
-o 'boot' (*the* boot image (2.88MB, 1st CD, ia32 only)
-
-  Whithin the installation-images directory, do a
-
-    make boot
-
-o 'yast2' boot disk (== boot image for 2nd CD, ia32 only)
-
-  Running 'bin/ci_bootdis2 test' creates the necessary files in a temporary
-  directory. Go there and run:
-
-    boot=small make boot
-
-o 'eide' boot disk (for special eide chipsets, ia32 only)
-
-  Running 'bin/ci_bootdise test' creates the necessary files in a temporary
-  directory. Go there and run:
-
-    boot=small make boot
-
-o 'laptop' boot disk (for laptops, ia32 only)
-
-  Running 'bin/ci_bootdisl test' creates the necessary files in a temporary
-  directory. Go there and run:
-
-    boot=small make boot
-
-o 'bootdisk' boot disk (the fallback *floppy*, ia32 only)
-
-  Running 'bin/ci_bootdisk test' creates the necessary files in a temporary
-  directory. Go there and run:
-
-    initrd=initrd boot=small make boot
-
-o 'modules' disk (ia32 only)
-
-  Running 'bin/ci_bootdisk test' creates the necessary files in a temporary
-  directory. Go there and run:
-
-    make modules
-
-
-3. Format of *.file_list files
+2. Format of *.file_list files
 ==============================
 
 o Lines starting with '#' are comments, empty lines are ignored.
@@ -112,15 +28,15 @@ o Lines starting with '#' are comments, empty lines are ignored.
 
 o You can include other files:
 
-    include <file>
+    include FILE
 
-    <file> is relative to the data/*/ tree.
+    FILE is relative to the data/*/ tree.
 
 o   if/elsif/else/endif
 
-  - if <expression>
+  - if EXPRESSION
 
-    <expression> is more or less a valid perl expression except that
+    EXPRESSION is more or less a valid perl expression except that
     variables don't have a starting '$' and are implicitly environment
     variables. The only exceptions to this are 'abuild' and 'arch'.
 
@@ -128,35 +44,38 @@ o   if/elsif/else/endif
 
     example:
 
-    if arch eq 'ppc' && (suse_release != 7.1 || lang eq 'fr')
+    if arch eq 'ppc' && theme eq 'SLES'
     # ...
-    elsif abuild && arch eq 'sparc'
+    elsif arch eq 'sparc'
     # ...
     else
     # ...
     endif 
 
-    # note that 'suse_release' is actually $ENV{'suse_release'}; likewise
-    # 'lang' etc. But 'abuild' and 'arch' are *not* $ENV{...}!
+o PACKAGE_NAME: [ignore|nodeps|requires]
 
-o <package_name>: [script1,script2]
+  Unpack the selected package into a temporary directory.
 
-  Unpack the selected package into a temporary directory. You can optionally
-  give the name of rpm-scripts to extract, too. These can be run later
-  with the 'e' command (see below).
+  You can add tags (comma-separated) after the colon. The following tags
+  are supported:
+    - requires: create a file PACKAGE_NAME.requires in the image root
+    - nodeps: ignore package dependencies when solving
+    - ignore: ignore package ('BuildIgnore')
 
-  <package_name> may be empty, which matters only for disk usage accounting.
-  Files are still taken from the last non-empty <package_name>.
+  PACKAGE_NAME may be empty which can be used to tell the parser that
+  subsequent lines do not belong to any package.
 
-  <package_name> can contain '*'s. In that case the latest package version
-  is used. If <package_name> ends in '~' the last but one version is used.
+  PACKAGE_NAME can contain '*'s. In that case the latest package version
+  is used. If PACKAGE_NAME ends in '~' the last but one version is used.
 
-  If <package_name> starts with a '?', the package is optional.
+  If PACKAGE_NAME starts with a '?', the package is optional.
+  This is a handy shortcut if you'd otherwise use an 'if' with exists().
 
-  examples:
+  Examples:
   
-    k_delft:
-    aaa_base: prein,postin
+    ?grub:
+    glibc:
+    systemd: ignore
 
 o <action> <arg1> <arg2> ...
 
@@ -278,7 +197,7 @@ o <action> <arg1> <arg2> ...
 
     X <src> <dst>
 
-  - allowed dangling symlink
+  - allow dangling symlink
     Sometimes a symlink is ok because it points to a different image which
     can't be verified automatically.
 
@@ -296,25 +215,24 @@ Extensions:
     /usr/*/ruby/gems/*/specifications
 
     The argument after TEMPLATE is a perl regexp matched agaist package names. If
-    the regexp is empty the TEMPLATE matches _every_ package. This can be used
+    the regexp is empty the TEMPLATE matches every package. This can be used
     to formulate a default action for packages. E.g.
 
-  TEMPLATE:
-    /
+    TEMPLATE:
+      /
+
+    The package is matched against all templates in the order they appear in
+    the file list and the first match is used.
+
+    Note that the template should contain some action (it should not be
+    empty) because otherwise the matching will continue. If you don't need
+    any action use something inconspicuous, e.g. 'd .'.
+
+  AUTODEPS:
 
   - You can resolve dependencies and add the missing packages with the
     AUTODEPS placeholder. The solver is run only if there is an AUTODEPS entry
     somewhere.
     Note: if you don't specify any actions in AUTODEPS, templates are appied to
     each individual package. E.g.
-
-  AUTODEPS:
-
-  - Listing scripts after the colon (':') is now optional.
-
-  - You can add tags (comma-separated) after the colon. The following tags
-    are supported:
-    - requires: create a file <package_name>.requires in the image root
-    - nodeps: ignore package dependencies when solving
-    - ignore: ignore package ('BuildIgnore')
 
