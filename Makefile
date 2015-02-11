@@ -9,8 +9,8 @@ VERSION := $(shell $(GIT2LOG) --version VERSION ; cat VERSION)
 BRANCH  := $(shell [ -d .git ] && git branch | perl -ne 'print $$_ if s/^\*\s*//')
 PREFIX  := installation-images-$(VERSION)
 
-COMMON_TARGETS	     := rescue root root+rescue bind gdb mini-iso-rmlist
-COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
+COMMON_TARGETS	     := rescue root root+rescue bind snapper gdb mini-iso-rmlist
+COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind snapper gdb
 
 ifneq ($(filter i386, $(ARCH)),)
 ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot boot-themes $(COMMON_TARGETS) zenroot
@@ -60,7 +60,7 @@ endif
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
 
 .PHONY: all dirs base fbase biostest initrd \
-	boot boot-efi root rescue root+rescue gdb bind clean \
+	boot boot-efi root rescue root+rescue gdb bind snapper clean \
 	boot-themes initrd-themes root-themes zenroot install \
 	install-initrd mini-iso-rmlist debuginfo cd1
 
@@ -178,6 +178,9 @@ gdb: base
 
 bind: base
 	libdeps=root,bind image=bind src=root fs=squashfs disjunct=root bin/mk_image
+
+snapper: base
+	libdeps=root,snapper image=snapper src=root fs=squashfs disjunct=root bin/mk_image
 
 boot-themes: base
 	for theme in $(THEMES) ; do \
