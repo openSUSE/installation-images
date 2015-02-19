@@ -158,8 +158,6 @@ root: base
 
 rescue: base
 	theme=$(THEMES) libdeps=rescue image=rescue bin/mk_image
-	# rescue ok? (bnc #457947)
-	@[ -s tmp/rescue/etc/init.d/boot.d/S*.udev ] || ( echo "build does not work on xxx" ; false )
 
 rescue-server:
 	theme=$(THEMES) image=rescue-server src=rescue filelist=rescue-server fs=squashfs bin/mk_image
