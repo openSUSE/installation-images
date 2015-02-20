@@ -22,9 +22,9 @@ if arch eq 'i386' || arch eq 'x86_64'
 endif
 
 
-if arch eq 'x86_64'
+if arch eq 'x86_64' || arch eq 'aarch64'
   # grub2-efi with graphics
-  # grub.cfg is patched in grub2-ef.file_list
+  # grub.cfg is patched in grub2-efi.file_list
   if 1
     d grub2-efi
     ?grub2-branding-<splash_theme>:
