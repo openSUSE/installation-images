@@ -86,8 +86,8 @@ perl: ignore
 filesystem: ignore
 
 samba-libs: nodeps
-  /usr/lib*/samba/libreplace.so
-  /usr/lib*/samba/libwinbind-client.so
+  /usr/lib*/samba/libreplace*.so
+  /usr/lib*/samba/libwinbind-client*.so
 
 ?biosdevname:
 cpio:
