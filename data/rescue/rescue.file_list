@@ -755,7 +755,7 @@ cryptsetup:
   /sbin
   /lib*
 
-libcryptsetup0:
+libcryptsetup*:
   /lib*/libcryptsetup.so.*
 
 libgcrypt11:

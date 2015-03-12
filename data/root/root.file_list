@@ -1025,7 +1025,7 @@ kpartx:
 cryptsetup:
   /sbin
 
-libcryptsetup0:
+libcryptsetup*:
   /lib*/libcryptsetup.so.*
 
 ntp:
