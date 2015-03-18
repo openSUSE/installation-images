@@ -11,6 +11,10 @@ fi
 if [ -d /usr/lib/rpm/gnupg/keys ] ; then
   touch /installkey.gpg
   gpg --batch --homedir /root/.gnupg --no-default-keyring --ignore-time-conflict --ignore-valid-from --keyring /installkey.gpg --import /usr/lib/rpm/gnupg/keys/*
+  mkdir -p /pubkeys
+  for i in /usr/lib/rpm/gnupg/keys/*.asc ; do
+    [ -f "$i" ] && ln -s "$i" "/pubkeys/${i##*/}.key"
+  done
 elif [ -f /usr/lib/rpm/gnupg/suse-build-key.gpg ] ; then
   cp /usr/lib/rpm/gnupg/suse-build-key.gpg /installkey.gpg
 fi
