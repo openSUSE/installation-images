@@ -35,6 +35,9 @@ for i in etc/modprobe.d/blacklist etc/modprobe.d/noload etc/resolv.conf etc/sysc
 done
 cd /
 
+# create machine id
+a=`dd if=/dev/urandom bs=1 count=10 2>/dev/null | md5sum` ; echo ${a%% *} >/etc/machine-id
+
 # bash >/dev/console 2>&1
 
 rm -f /mounts/initrd/{*,.*}

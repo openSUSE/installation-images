@@ -137,7 +137,6 @@ openslp:
 pam-modules:
 parted:
 pciutils:
-polkit:
 procinfo:
 procps:
 psmisc:
@@ -287,6 +286,10 @@ dbus-1:
   /
   E prein
   E postin
+
+polkit:
+  /
+  E prein
 
 udev:
   /
