@@ -107,9 +107,7 @@ dmraid:
   /sbin
 
 util-linux:
-  /bin
-  /sbin
-  /usr/{bin,sbin}
+  /
   c 755 0 0 /usr/sbin/klogconsole
 
 audit-libs:
