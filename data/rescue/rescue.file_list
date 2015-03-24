@@ -513,10 +513,7 @@ endif
 e postin
 
 util-linux: postin
-  /etc
-  /bin
-  /sbin
-  /usr/{bin,sbin}
+  /
 e postin
 
 nfs-client:
