@@ -13,15 +13,15 @@ COMMON_TARGETS	     := rescue root root+rescue bind snapper gdb mini-iso-rmlist
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind snapper gdb
 
 ifneq ($(filter i386, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot boot-themes $(COMMON_TARGETS) zenroot
+ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel boot boot-themes $(COMMON_TARGETS) zenroot
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
-BOOT_PARTS    := boot/* initrd biostest
+BOOT_PARTS    := boot/* initrd
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd biostest initrd+modules+gefrickel boot-grub2-efi boot boot-themes $(COMMON_TARGETS) rescue-server zenroot
+ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel boot-grub2-efi boot boot-themes $(COMMON_TARGETS) rescue-server zenroot
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
-BOOT_PARTS    := boot/* initrd biostest efi
+BOOT_PARTS    := boot/* initrd efi
 endif
 
 ifneq ($(filter ia64, $(ARCH)),)
