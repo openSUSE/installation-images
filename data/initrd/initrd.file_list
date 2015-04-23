@@ -50,11 +50,15 @@ openssh: prein
   d etc/ssh
   r /usr/lib*/ssh/x11-ssh-askpass
 
+netcfg:
+  /etc/protocols
+
 lvm2:
   /etc
 
 glibc:
   /etc/nsswitch.conf
+  /etc/rpc
 
   linuxrc:
     if linuxrc
