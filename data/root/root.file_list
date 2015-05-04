@@ -269,7 +269,7 @@ if arch eq 's390' || arch eq 's390x'
 endif
 
 dosfstools:
-  /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
+  /
 
 net-tools:
   /bin/{domain,host}name

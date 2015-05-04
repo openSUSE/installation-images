@@ -126,7 +126,7 @@ coreutils:
   /usr/bin
 
 dosfstools:
-  /sbin
+  /
 
 findutils:
   /usr/bin/{find,xargs}

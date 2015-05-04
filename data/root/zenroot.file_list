@@ -206,7 +206,7 @@ lilo:
   /sbin/{activate,lilo}
 
 dosfstools:
-  /sbin/{mkdosfs,mkfs.msdos,dosfsck,fsck.msdos}
+  /
 
 net-tools:
   /bin/{domain,host}name
