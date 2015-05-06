@@ -265,7 +265,7 @@ ruby:
   r /usr/bin/rake*
   r /usr/bin/rdoc*
   r /usr/bin/ri*
-  e cd usr/bin ; for i in erb gem irb ruby testrb ; do [ -x $i ] || ln -snf ${i}2* $i ; done
+  e cd usr/bin ; for i in erb gem irb ruby ; do [ -x $i ] || ln -snf ${i}.ruby2* $i ; done
 
 yast2-devtools:
   /usr/share/YaST2/data/devtools/bin/showy2log
