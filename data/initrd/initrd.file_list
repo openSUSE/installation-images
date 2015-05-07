@@ -587,7 +587,7 @@ s /proc/self/mounts /etc/mtab
 x etc/80-drivers.rules /usr/lib/udev/80-drivers.rules.no_modprobe
 
 # don't let udev lock the DVD tray
-R s/--lock-media/--unlock-media/g /etc/udev/rules.d/60-cdrom_id.rules
+R s/--lock-media/--unlock-media/g usr/lib/udev/rules.d/60-cdrom_id.rules
 
 # systemd service start script
 x service_start /bin
