@@ -1055,8 +1055,9 @@ lldpad:
 libHBAAPI2:
   /
 
-libhbalinux2:
+libhbalinux2: postin
   /
+  E postin
 
 libpciaccess0:
   /
