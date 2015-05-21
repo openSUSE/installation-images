@@ -687,6 +687,11 @@ if exists(hyper-v-kmp-default)
     /etc
 endif
 
+if exists(ofed-kmp-default)
+  ofed-kmp-default:
+    /etc
+endif
+
 libaio:
   /
 
