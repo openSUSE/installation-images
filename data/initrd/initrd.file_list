@@ -692,6 +692,11 @@ if exists(ofed-kmp-default)
     /etc
 endif
 
+if exists(ofed)
+  ofed:
+    /etc
+endif
+
 libaio:
   /
 
