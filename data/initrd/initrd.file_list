@@ -694,7 +694,7 @@ endif
 
 if exists(ofed)
   ofed:
-    /etc
+    /etc/{modprobe.d,udev}
 endif
 
 libaio:

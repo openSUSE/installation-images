@@ -1094,7 +1094,8 @@ endif
 :
 
 # remove files we don't want to show up at all
-r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
+# keep locale
+r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
 
 if instsys_complain_root
   e echo "InstsysComplain:	<instsys_complain_root>" >>.instsys.config
