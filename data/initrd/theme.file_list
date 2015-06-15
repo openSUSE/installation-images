@@ -45,7 +45,7 @@ if liveeval
   e echo "LiveConfig:	suselive.900" >>linuxrc.config
 endif
 
-if arch eq 'ppc' || arch eq 'ppc64' || arch eq 'ppc64le' || arch eq 's390' || arch eq 's390x'
+if arch eq 'ppc' || arch eq 's390' || arch eq 's390x'
   e echo "Linemode:	1" >>linuxrc.config
 endif
 
