@@ -210,7 +210,7 @@ for (@sect) {
     @p = split ' ', $pre;
     for $p (@p) {
       for $p1 (@{$dep{$p}}) {
-        push @new_pre, $p1 unless $l{$p1};
+        unshift @new_pre, $p1 unless $l{$p1};
         $l{$p1} = 1;
       }
       if(defined $fname{$p}) {
@@ -223,7 +223,7 @@ for (@sect) {
     }
 
     for $p (@{$dep{$mod}}) {
-      push @new_pre, $p unless $l{$p};
+      unshift @new_pre, $p unless $l{$p};
       $l{$p} = 1;
     }
     $l{$mod} = 1;
@@ -231,7 +231,7 @@ for (@sect) {
     @p = split ' ', $post;
     for $p (@p) {
       for $p1 (@{$dep{$p}}) {
-        push @new_post, $p1 unless $l{$p1};
+        unshift @new_post, $p1 unless $l{$p1};
         $l{$p1} = 1;
       }
       if(defined $fname{$p}) {
