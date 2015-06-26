@@ -37,8 +37,9 @@ a new submit request is created in the openSUSE Build Service for the
 A similar procedure is set in other branches of this repository, making possible
 to submit changes to other products and versions as well.
 
-* Branch ```sl_11.1``` SUSE Enterprise 11 (service pack being currently developed).
-* Branch ```sle12``` SUSE Enterprise 12 (service pack being currently developed).
+* Branch ```sl_11.1``` SUSE Enterprise 11 SP4.
+* Branch ```sle12``` SUSE Enterprise 12.
+* Branch ```master``` Factory and SUSE Enterprise 12 SP1.
 
 ## Anatomy of the images
 
