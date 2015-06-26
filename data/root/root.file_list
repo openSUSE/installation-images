@@ -245,9 +245,10 @@ yast2:
   /usr
   /var
   r /usr/lib/YaST2/servers_non_y2/ag_cron
-  s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast
-  s /usr/lib/YaST2/startup/YaST2.First-Stage /sbin/yast.ssh
-  r /usr/sbin/yast{,2}
+  # Installer informs user to run yast.ssh in case of SSH-based installation
+  # In other cases, /sbin/yast handles that we are in inst-sys and starts
+  # installer automatically, FATE#317637
+  s /usr/sbin/yast2 /sbin/yast.ssh
 
 ruby:
   /
