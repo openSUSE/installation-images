@@ -234,7 +234,7 @@ EOF
 elif [ "$yast" = yast ] ; then
   # now, run yast
   echo "starting yast..."
-  /sbin/yast "$@" ; ec=$?
+  /usr/sbin/yast2 "$@" ; ec=$?
 elif [ "$yast" ] ; then
   # now, run yast
   echo "starting $yast..."
