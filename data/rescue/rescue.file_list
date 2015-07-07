@@ -127,7 +127,7 @@ mingetty:
 mozilla-nspr:
 ncurses-utils:
 net-tools:
-net-tools-deprecated:
+?net-tools-deprecated:
 netcat-openbsd:
 nfsidmap:
 nscd:

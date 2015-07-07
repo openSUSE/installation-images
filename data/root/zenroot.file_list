@@ -76,7 +76,7 @@ joe:
 klogd:
 lvm2:
 net-tools:
-net-tools-deprecated:
+?net-tools-deprecated:
 ntfsprogs:
 parted:
 polkit:

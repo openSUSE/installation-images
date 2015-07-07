@@ -110,7 +110,7 @@ krb5:
 lsscsi:
 mdadm:
 net-tools:
-net-tools-deprecated:
+?net-tools-deprecated:
 nfsidmap:
 sed:
 ?wicked:

@@ -137,7 +137,7 @@ lvm2:
 mozilla-nspr:
 multipath-tools:
 net-tools:
-net-tools-deprecated:
+?net-tools-deprecated:
 ntfsprogs:
 open-iscsi:
 openslp:
