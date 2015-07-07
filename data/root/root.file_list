@@ -158,6 +158,7 @@ reiserfs:
 screen:
 sed:
 sg3_utils:
+snapper:
 suse-module-tools:
 ?syslinux:
 systemd-presets-branding-<base_theme>:
