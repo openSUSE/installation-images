@@ -109,6 +109,8 @@ kmod-compat:
 krb5:
 lsscsi:
 mdadm:
+net-tools:
+net-tools-deprecated:
 nfsidmap:
 sed:
 ?wicked:
@@ -246,11 +248,6 @@ libncurses5:
   /lib*/libncurses.so.*
   /lib*/libncursesw.so.*
   /lib*/libtinfo.so.*
-
-net-tools:
-  /bin
-  /sbin/ifconfig
-  /sbin/route
 
 iproute2:
   /bin/ip 
