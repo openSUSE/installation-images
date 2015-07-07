@@ -75,6 +75,8 @@ iputils:
 joe:
 klogd:
 lvm2:
+net-tools:
+net-tools-deprecated:
 ntfsprogs:
 parted:
 polkit:
@@ -131,11 +133,6 @@ dbus-1: prein
 ncurses-utils:
   /usr/bin/reset
   /usr/bin/tset
-
-net-tools:
-  /bin/{domain,host}name
-  /sbin/{ifconfig,route}
-  /sbin/plipconfig
 
 less:
   /etc/lesskey
