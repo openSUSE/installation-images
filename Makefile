@@ -31,7 +31,7 @@ BOOT_PARTS    := initrd efi
 endif
 
 ifneq ($(filter s390 s390x, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel $(COMMON_TARGETS)
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := initrd
 endif
