@@ -16,6 +16,7 @@ for $dir (@ARGV) {
     next if $f =~ /modules/ && $f !~ /X11R6\/lib\/modules/;	# skip modules
     next if $f =~ /\.uc$/;					# skip some X.org modules
     next if $f =~ m#usr/lib/debug/#;				# skip debuginfo
+    next if $f =~ m#/lib(ssl|crypto)\.so\.[\.\d]*$#;		# skip ssl libs
     $f0 = $f;
     $f =~ s/'/'\\''/g;
     $_ = `file '$f'`;
