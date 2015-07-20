@@ -680,7 +680,7 @@ sub resolve_deps_obs
   open $f, "curl -k -s -T $t -X POST '$ConfigData{obs_server}/build/$prj/$repo/$ConfigData{obs_arch}/_repository/_buildinfo?debug=1' |";
   while(<$f>) {
     print $_ if $ENV{debug} =~ /solv/;
-    $added{$1} = $2 if /^added (\S+) because of (\S+?)(:|$)/;
+    $added{$1} = $3 if /^added (\S+?)(\@\S+)? because of (\S+?)(:|$)/;
     $p{$1} = "" if /<bdep\s+name=\"([^"]+)\"/;
     push @err, $1 if /<error>([^<]+)</;
   }
