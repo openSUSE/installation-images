@@ -18,7 +18,7 @@ die "usage: $Script\n" if @ARGV;
 
 # env vars:
 #
-# image, src, tmpdir, disjunct, mode, debug, fs, filelist, nolibs, nostrip
+# image, src, tmpdir, disjunct, mode, debug, fs, filelist, nolibs, dostrip
 #
 #
 
@@ -91,7 +91,7 @@ if(!$mode{keep} || $mode{add}) {
   print "fix permissions of directories...\n";
   SUSystem "fix_perms $tmpdir";
 
-  if(!$ENV{nostrip}) {
+  if($ENV{dostrip}) {
     print "strip everything...\n";
     SUSystem "strip_dir $tmpdir";
   }

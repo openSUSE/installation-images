@@ -355,6 +355,11 @@ R s/ Server//g etc/issue
 r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
 r dev/mapper dev/stderr dev/initctl
 
+# remove grub2 *.module files, they're not needed
+r usr/lib/grub2/*/*.module
+# ... and strip *.mod files
+S usr/lib/grub2/*/*.mod
+
 # we better have one...
 e touch etc/sysconfig/kernel
 

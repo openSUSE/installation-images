@@ -199,7 +199,7 @@ rpm:
   /usr/lib*
   r /usr/lib*/rpm-plugins/sepolicy.so
 
-?grub2:
+?grub2: nodeps
   /usr/bin/grub2-mkpasswd-pbkdf2
 
 gawk:
