@@ -191,16 +191,16 @@ open-iscsi:
   /sbin
   /etc
 
+gawk:
+  /usr/bin/gawk
+  s gawk usr/bin/awk
+
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # packages with scripts
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# update-alternatives
-gawk:
-  /
-  E postin
 
 # update-alternatives
 unzip:
