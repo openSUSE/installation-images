@@ -142,7 +142,6 @@ procinfo:
 procps:
 psmisc:
 reiserfs:
-rsh:
 sdparm:
 sed:
 setserial:
