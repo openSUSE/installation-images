@@ -250,6 +250,8 @@ if arch eq 'ia64'
   r /usr/lib/ia32el/auxapp
 endif
 
+?sap-installation-wizard: nodeps
+  /usr/share/YaST2/clients/sap_proposal.rb
 
 yast2:
   /etc
