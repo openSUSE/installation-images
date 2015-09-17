@@ -52,7 +52,7 @@ shift
 echo $yast > /tmp/linuxrc_installer_name
 export YAST2_SSH=false
 unset SSH_FAILED
-stty sane
+stty sane 2>/dev/null
 
 # set hostname and domainname
 hostip_from_wicked >/tmp/hostips
