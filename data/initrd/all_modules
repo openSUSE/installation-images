@@ -3739,8 +3739,6 @@ xen-fbfront                      aarch64
 xen-gntalloc                     aarch64                                 
 xen-gntdev                       aarch64                                 
 xen-hcd                                       i686                 x86_64
-xen-netback                      aarch64                                 
-xen-netfront                     aarch64                                 
 xen-platform-pci                         i586                      x86_64
 xen-scsi                                 i586                      x86_64
 xen-scsibk                                    i686                 x86_64
