@@ -41,6 +41,9 @@ to submit changes to other products and versions as well.
 * Branch ```sle12``` SUSE Enterprise 12.
 * Branch ```master``` Factory and SUSE Enterprise 12 SP1.
 
+You can find more information about this workflow in the [linuxrc-devtools
+documentation](https://github.com/openSUSE/linuxrc-devtools#opensuse-development).
+
 ## Anatomy of the images
 
 After a successful execution of ```make``` the directory ```images/``` will
