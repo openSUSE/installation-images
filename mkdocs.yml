@@ -1,0 +1,6 @@
+# http://www.mkdocs.org/ is used to render
+# http://installation-images.readthedocs.org/
+#
+# Run 'mkdocs serve' to view it locally.
+site_name: (open)SUSE installation images
+docs_dir: doc
