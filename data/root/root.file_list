@@ -24,10 +24,10 @@ TEMPLATE binutils:
   r /usr/bin/ld
   s ld.bfd /usr/bin/ld
 
-TEMPLATE SUSEConnect:
+TEMPLATE ruby.*-rubygem-suse-connect:
   /
   # avoid update-alternatives
-  e cd usr/sbin ; ln -snf SUSEConnect-* SUSEConnect
+  e cd usr/bin ; ln -snf SUSEConnect* SUSEConnect
 
 # ruby maintainers can't really make up their minds on how to name their packages...
 TEMPLATE ruby.*-rubygem-yard: ignore
