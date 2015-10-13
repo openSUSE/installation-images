@@ -1,2 +1,2 @@
-TERM=linux console=ttyS0 netsetup=1
+TERM=linux netsetup=1
 
