@@ -141,6 +141,7 @@ pciutils:
 procinfo:
 procps:
 psmisc:
+?qemu-linux-user:
 reiserfs:
 sdparm:
 sed:
