@@ -1,0 +1,16 @@
+#! /usr/bin/perl
+
+$repo = "cd:/,hd:/";
+
+$prod = "etc/products.d/baseproduct";
+$prod = "/$prod" if ! -f $prod;
+
+if(open $f, $prod) {
+  while(<$f>) {
+    $repo .= ",$1", last if m#<url\s+name="repository">([^<]+)</url>#;
+  }
+  close $f;
+}
+
+print "$repo\n";
+
