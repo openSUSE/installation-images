@@ -372,6 +372,10 @@ x mount-rootfs-and-do-chroot.sh /bin
 d etc/systemd/system/getty.target.wants
 s /usr/lib/systemd/system/getty@.service etc/systemd/system/getty.target.wants/getty@tty1.service
 
+# don't try to set mount flags
+# it will lead to problems and is not necessary; see bsc #937237 for details
+R s/^MountFlags=slave\s*// usr/lib/systemd/system/systemd-udevd.service
+
 # stripped down kbd init (linuxrc does most)
 x etc/init.d/kbd_simple /etc/init.d/kbd_simple
 e insserv -f etc/init.d/kbd_simple
