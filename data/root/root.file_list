@@ -404,6 +404,7 @@ glibc-locale:
   /usr/lib*/gconv/UTF-16.so
   /usr/lib*/gconv/UTF-32.so
   /usr/lib*/gconv/gconv-modules*
+  /usr/lib*/gconv/IBM1047.so
 
   # built in base system
   d usr/lib
