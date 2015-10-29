@@ -345,6 +345,7 @@ procps:
 
 # maybe we don't need everything...
 systemd:
+  /usr/bin/systemd-detect-virt
   /usr/lib/systemd/systemd-sysctl
   /usr/lib*/libsystemd*.so.*
   # plymouth is not working if we include all rules - no idea why
