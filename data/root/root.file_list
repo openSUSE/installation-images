@@ -536,6 +536,10 @@ dejavu-fonts:
 efont-unicode-bitmap-fonts:
   /usr/share/fonts/misc/b16.pcf.gz
 
+?google-roboto-fonts:
+
+?noto-sans:
+
 ?raleway-fonts:
 
 # various asiatic & arabic fonts
