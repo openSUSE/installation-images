@@ -252,6 +252,7 @@ endif
 
 ?sap-installation-wizard: nodeps
   /usr/share/YaST2/clients/sap_proposal.rb
+  /usr/share/YaST2/clients/inst_sap-start.rb
 
 yast2:
   /etc
