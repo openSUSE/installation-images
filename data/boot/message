@@ -9,11 +9,13 @@ To start the installation enter 'linux' and press <return>.
 
 Available boot options:
 
-  harddisk  - Boot from Hard Disk (this is default)
-  linux     - Installation
-  rescue    - Rescue System
-  mediachk  - Check Installation Media
-  memtest   - Memory Test
+  harddisk   - Boot from Hard Disk (this is default)
+  linux      - Installation
+  upgrade    - Upgrade
+  rescue     - Rescue System
+  systemboot - Boot Linux System
+  mediachk   - Check Installation Media
+  memtest    - Memory Test
 
 Have a lot of fun...
 
