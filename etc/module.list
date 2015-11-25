@@ -127,8 +127,6 @@ kernel/drivers/thermal/thermal_sys.ko
 kernel/net/packet/
 kernel/net/rfkill/rfkill.ko
 kernel/lib/
-kernel/drivers/i2c/i2c-core.ko
-kernel/drivers/i2c/algos/i2c-algo-bit.ko
 kernel/arch/ia64/sn/kernel
 kernel/drivers/sn
 extra/megaide.ko
@@ -239,6 +237,7 @@ kernel/drivers/vhost/vringh.ko
 
 kernel/drivers/of/
 kernel/drivers/tty/serial/jsm/
+kernel/drivers/i2c/
 
 # kmps
 updates/
