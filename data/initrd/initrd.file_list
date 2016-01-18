@@ -120,8 +120,10 @@ terminfo:
   /usr/share/terminfo/i/ibm3151
 
 netcfg:
-  /etc/protocols
+  /etc/hosts
   /etc/netgroup
+  /etc/protocols
+  /etc/services
 
 ?xf86-input-vmmouse:
   /usr/bin/vmmouse_detect

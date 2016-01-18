@@ -71,6 +71,8 @@ luit: ignore
 mdadm: ignore
 mingetty: ignore
 mtools: ignore
+# netcfg is already part of initrd
+netcfg: ignore
 nfsidmap: ignore
 pam-config: ignore
 permissions: ignore
@@ -291,9 +293,6 @@ yast2-installation:
 SuSEfirewall2:
   d /etc/sysconfig/SuSEfirewall2.d/services/
   /etc/sysconfig/SuSEfirewall2
-
-netcfg:
-  /etc/{services,protocols}
 
 if arch eq 'ppc' || arch eq 'ppc64'
   pdisk:
