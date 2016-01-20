@@ -39,10 +39,12 @@ TEMPLATE rubygem-yard: ignore
   d .
 
 TEMPLATE ruby.*-rubygem-.*:
+  /usr/*/ruby/gems/*/gems/*/VERSION
   /usr/*/ruby/gems/*/gems/*/lib
   /usr/*/ruby/gems/*/specifications
 
 TEMPLATE rubygem-.*:
+  /usr/*/ruby/gems/*/gems/*/VERSION
   /usr/*/ruby/gems/*/gems/*/lib
   /usr/*/ruby/gems/*/specifications
 
