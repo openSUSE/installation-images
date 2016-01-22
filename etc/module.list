@@ -238,6 +238,7 @@ kernel/drivers/vhost/vringh.ko
 kernel/drivers/of/
 kernel/drivers/tty/serial/jsm/
 kernel/drivers/i2c/
+kernel/drivers/nvme/
 
 # kmps
 updates/
