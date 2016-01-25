@@ -715,6 +715,7 @@ x lang_fonts /usr/share/libyui/data/lang_fonts
 D ../../sbin/update-ca-certificates /usr/lib64/p11-kit/p11-kit-extract-trust
 D ../../sbin/update-ca-certificates /usr/lib/p11-kit/p11-kit-extract-trust
 D /var/cache/gio-2.0/gnome-defaults.list /usr/share/applications/defaults.list
+D /var/cache/gio-2.0/gnome-mimeapps.list /usr/share/applications/mimeapps.list
 D ../share/cracklib/pw_dict.pwi /usr/lib/cracklib_dict.pwi
 D ../share/cracklib/pw_dict.pwd /usr/lib/cracklib_dict.pwd
 D ../share/cracklib/pw_dict.hwm /usr/lib/cracklib_dict.hwm
