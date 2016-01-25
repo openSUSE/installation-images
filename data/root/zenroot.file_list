@@ -281,3 +281,4 @@ E TZ= LANG= LC_ALL= date +%Y%m%d >.timestamp
 
 # allowed dangling symlinks
 D /var/cache/gio-2.0/gnome-defaults.list /usr/share/applications/defaults.list
+D /var/cache/gio-2.0/gnome-mimeapps.list /usr/share/applications/mimeapps.list
