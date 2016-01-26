@@ -13,14 +13,14 @@ use integer;
 my $boot_file = "${BasePath}src/mboot/boot";
 
 my $boot_msg = "\r
-I'm $ConfigData{full_product_name} Boot Disk <disk>. I cannot boot. :-(\r
+I'm $ConfigData{product_name} Boot Disk <disk>. I cannot boot. :-(\r
 \r
 Please try Boot Disk 1.\r\n";
 
 
 # Not more than 1024 chars (1 cluster)! --> Or adjust cluster size!
 my $readme =
-"This is $ConfigData{full_product_name} Boot Disk <disk>.
+"This is $ConfigData{product_name} Boot Disk <disk>.
 
 <x_readme>
 To access Boot Disk data, you have to join the individual disk images first:

@@ -1,0 +1,69 @@
+== opensuse ==
+
+NAME=openSUSE
+VERSION="13.2 (Harlequin)"
+VERSION_ID="13.2"
+PRETTY_NAME="openSUSE 13.2 (Harlequin) (x86_64)"
+ID=opensuse
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:opensuse:13.2"
+BUG_REPORT_URL="https://bugs.opensuse.org"
+HOME_URL="https://opensuse.org/"
+ID_LIKE="suse"
+
+== tumbleweed ==
+
+NAME=openSUSE
+VERSION="Tumbleweed"
+VERSION_ID="20160126"
+PRETTY_NAME="openSUSE Tumbleweed (20160126) (x86_64)"
+ID=opensuse
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:opensuse:20160126"
+BUG_REPORT_URL="https://bugs.opensuse.org"
+HOME_URL="https://www.opensuse.org/"
+ID_LIKE="suse"
+
+== leap ==
+
+NAME="openSUSE Leap"
+VERSION="42.1"
+VERSION_ID="42.1"
+PRETTY_NAME="openSUSE Leap 42.1 (x86_64)"
+ID=opensuse
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:opensuse:42.1"
+BUG_REPORT_URL="https://bugs.opensuse.org"
+HOME_URL="https://opensuse.org/"
+ID_LIKE="suse"
+
+== sles12 ==
+
+NAME="SLES"
+VERSION="12"
+VERSION_ID="12"
+PRETTY_NAME="SUSE Linux Enterprise Server 12"
+ID="sles"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:suse:sles:12"
+
+== sles12 sp1 ==
+
+NAME="SLES"
+VERSION="12-SP1"
+VERSION_ID="12.1"
+PRETTY_NAME="SUSE Linux Enterprise Server 12 SP1"
+ID="sles"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:suse:sles:12:sp1"
+
+== sled12 ==
+
+NAME="SLED"
+VERSION="12"
+VERSION_ID="12"
+PRETTY_NAME="SUSE Linux Enterprise Desktop 12"
+ID="sled"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:suse:sled:12"
+
