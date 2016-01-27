@@ -70,10 +70,6 @@ floppy	=
 base    = openSUSE
 splash  = openSUSE
 yast    = openSUSE
-product	= openSUSE
-version = 13.2
-sle     = 12
-update	= /linux/suse/<arch>-<rel>
 image	= 350
 
 
@@ -81,10 +77,6 @@ image	= 350
 base    = SLE
 splash  = SLE
 yast    = SLE
-product	= SUSE Linux Enterprise 12 SP1
-version = 13.2
-sle     = 12
-update	= /linux/suse/<arch>-<sles>
 image	= 600
 
 
@@ -92,10 +84,6 @@ image	= 600
 base    = SLE
 splash  = SLE
 yast    = SLE
-product	= SUSE Linux Enterprise 12 SP1
-version = 13.2
-sle     = 12
-update	= /linux/suse/<arch>-<sled>
 image	= 600
 
 
@@ -103,10 +91,6 @@ image	= 600
 base    = SLE
 splash  = SLE
 yast    = SLE
-product = ZENworks
-version = 13.2
-sle     = 12
-update  = /linux/suse/<arch>-<sles>
 image   = 600
 
 

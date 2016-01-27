@@ -94,38 +94,38 @@ initrd: base
 	[ -s tmp/initrd/bin/bash ]
 
 modules: base
-	image=modules-config src=initrd fs=none bin/mk_image
-	bin/mlist1
-	bin/mlist2
-	image=modules src=initrd fs=none bin/mk_image
+	theme=$(THEMES) image=modules-config src=initrd fs=none bin/mk_image
+	theme=$(THEMES) bin/mlist1
+	theme=$(THEMES) bin/mlist2
+	theme=$(THEMES) image=modules src=initrd fs=none bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/modules/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/modules/modules/module.config images/module-config/$${MOD_CFG:-default}
 
 initrd+modules: base
-	image=modules-config src=initrd fs=none bin/mk_image
-	bin/mlist1
-	bin/mlist2
+	theme=$(THEMES) image=modules-config src=initrd fs=none bin/mk_image
+	theme=$(THEMES) bin/mlist1
+	theme=$(THEMES) bin/mlist2
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
-	mode=add tmpdir=initrd image=modules src=initrd fs=none bin/mk_image
+	theme=$(THEMES) mode=add tmpdir=initrd image=modules src=initrd fs=none bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
-	mode=keep image=$(THEMES)/$${image:-initrd} tmpdir=initrd fs=cpio.xz bin/mk_image
+	theme=$(THEMES) mode=keep image=$(THEMES)/$${image:-initrd} tmpdir=initrd fs=cpio.xz bin/mk_image
 
 initrd+modules+gefrickel: base
-	image=modules-config src=initrd fs=none bin/mk_image
-	bin/mlist1
-	bin/mlist2
+	theme=$(THEMES) image=modules-config src=initrd fs=none bin/mk_image
+	theme=$(THEMES) bin/mlist1
+	theme=$(THEMES) bin/mlist2
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules tmp/initrd_gefrickel
 	# work on a copy to not modify the origial tree
 	cp -a tmp/initrd tmp/initrd_gefrickel
-	mode=add tmpdir=initrd_gefrickel image=modules src=initrd fs=none bin/mk_image
+	theme=$(THEMES) mode=add tmpdir=initrd_gefrickel image=modules src=initrd fs=none bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd_gefrickel/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd_gefrickel/modules/module.config images/module-config/$${MOD_CFG:-default}
 	./gefrickel tmp/initrd_gefrickel
-	mode=keep image=$(THEMES)/$${image:-initrd} tmpdir=initrd_gefrickel fs=cpio.xz bin/mk_image
+	theme=$(THEMES) mode=keep image=$(THEMES)/$${image:-initrd} tmpdir=initrd_gefrickel fs=cpio.xz bin/mk_image
 
 kernel: base
 	image=vmlinuz-$${MOD_CFG:-default} src=initrd filelist=kernel kernel=kernel-$${MOD_CFG:-default} fs=dir bin/mk_image
@@ -172,13 +172,13 @@ root+rescue: base
 	cat data/root/rpmlist tmp/base/yast2-trans-rpm.list >images/rpmlist
 
 gdb: base
-	libdeps=root,gdb image=gdb src=root fs=squashfs disjunct=root bin/mk_image
+	theme=$(THEMES) libdeps=root,gdb image=gdb src=root fs=squashfs disjunct=root bin/mk_image
 
 bind: base
-	libdeps=root,bind image=bind src=root fs=squashfs disjunct=root bin/mk_image
+	theme=$(THEMES)libdeps=root,bind image=bind src=root fs=squashfs disjunct=root bin/mk_image
 
 snapper: base
-	libdeps=root,snapper image=snapper src=root fs=squashfs disjunct=root bin/mk_image
+	theme=$(THEMES) libdeps=root,snapper image=snapper src=root fs=squashfs disjunct=root bin/mk_image
 
 boot-themes: base
 	for theme in $(THEMES) ; do \

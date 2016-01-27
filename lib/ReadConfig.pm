@@ -188,7 +188,9 @@ sub read_packages;
 sub resolve_deps_obs;
 sub resolve_deps_libsolv;
 sub show_package_deps;
+sub get_version_info;
 
+my ($arch, $realarch, $susearch);
 
 sub DebugInfo
 {
@@ -826,6 +828,57 @@ sub show_package_deps
 }
 
 
+# Read real version/product info from /etc/os-release.
+#
+# This only works _after_ we have setup the 'base' system in tmp/base.
+#
+sub get_version_info
+{
+  my $file = "${BasePath}tmp/base/etc/os-release";
+  my $f;
+  my %config;;
+
+  if(open $f, $file) {
+    while(<$f>) {
+      $config{$1} = $2 if /^([^\s=]+)\s*=\s*\"?(.*?)\"?\s*$/;
+    }
+  }
+  else {
+    return;
+  }
+
+  # build nice product name
+
+  my $product = $config{PRETTY_NAME};
+  $product =~ s/\s*\([^)]*\)$//;
+  $product =~ s/\s+(Server|Desktop)\s+/ /;
+
+  # print "product=\"$product\"\n";
+
+  $ConfigData{os}{product} = $product;
+
+  # the same without anything in parentheses
+
+  my $product_mini = $product;
+  $product_mini =~ s/\s*\(.*//;
+
+  # print "product_mini=\"$product_mini\"\n";
+
+  $ConfigData{os}{product_mini} = $product_mini;
+
+  # get dist tag for driver updates
+
+  my $dist = "\L$config{NAME}";
+  $dist =~ s/^opensuse\s*//;
+  $dist .= $config{VERSION} eq 'Tumbleweed' ? 'tw' : $config{VERSION_ID};
+  $dist =~ s/\..*$// if $config{NAME} =~ /^(SLES|SLED)$/;;
+
+  # print "dist=\"$dist\"\n";
+
+  $ConfigData{os}{update} = "/linux/suse/$realarch-$dist";
+}
+
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # initialization part
@@ -889,8 +942,6 @@ if($<) {	# only if we are *not* already root
 #
 # set arch
 #
-
-my ($arch, $realarch, $susearch);
 
 $arch = `uname -m`;
 chomp $arch;
@@ -1189,20 +1240,8 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     die "Theme \"$theme\" not supported\n" unless exists $t{$theme};
   }
 
-  $product_name = $ConfigData{ini}{"Theme $theme"}{product};
-  my $full_product_name = $product_name;
-  $full_product_name .= (" " . $ConfigData{ini}{"Theme $theme"}{version}) if $ConfigData{ini}{"Theme $theme"}{version};
+  get_version_info();
 
-  my $suse_release = $ConfigData{ini}{"Theme $theme"}{version};
-  my $sle_release = "sle" . $ConfigData{ini}{"Theme $theme"}{sle};
-  my $sles_release = "sles" . $ConfigData{ini}{"Theme $theme"}{sle};
-  my $sled_release = "sled" . $ConfigData{ini}{"Theme $theme"}{sle};
-
-  $update_dir = $ConfigData{ini}{"Theme $theme"}{update};
-  $update_dir =~ s/<sles>/$sles_release/g;
-  $update_dir =~ s/<sled>/$sled_release/g;
-  $update_dir =~ s/<rel>/$suse_release/g;
-  $update_dir =~ s/<arch>/$realarch/g;
   $load_image = $ConfigData{ini}{"Theme $theme"}{image};
   $load_image = $load_image * 1024 if $load_image;
 
@@ -1210,19 +1249,11 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $ConfigData{base_theme} = $ConfigData{ini}{"Theme $theme"}{base};
   $ConfigData{splash_theme} = $ConfigData{ini}{"Theme $theme"}{splash};
   $ConfigData{yast_theme} = $ConfigData{ini}{"Theme $theme"}{yast};
-  $ConfigData{product_name} = $product_name;
-  $ConfigData{full_product_name} = $full_product_name;
-  $ConfigData{update_dir} = $update_dir;
+  $ConfigData{product_name} = $ConfigData{os}{product} || "openSUSE";
+  $ConfigData{update_dir} = $ConfigData{os}{update};
   $ConfigData{load_image} = $load_image;
-  $ConfigData{suse_release} = $suse_release;
-  $ConfigData{sles_release} = $sles_release;
-  $ConfigData{sled_release} = $sled_release;
 
   $ConfigData{min_memory} = $ConfigData{ini}{"Theme $theme"}{memory};
-
-  # print STDERR "product_name = $ConfigData{product_name}\n";
-  # print STDERR "update_dir = $ConfigData{update_dir}\n";
-  # print STDERR "load_image = $ConfigData{load_image}\n";
 
   $ConfigData{kernel_mods} = $ConfigData{kernel_ver};
   $ConfigData{kernel_mods} =~ s/-(.+?)-/-override-/;
@@ -1241,12 +1272,13 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
       $kmp = "";
     }
 
-    print "--- Building for $product_name $suse_release $ConfigData{arch} ($sle_release) [$ConfigData{lib}], theme $ConfigData{theme}\n";
+    print "--- Building for $ConfigData{product_name} $ConfigData{arch} [$ConfigData{lib}], theme $ConfigData{theme}\n";
     print "--- Kernel: $ConfigData{kernel_rpm}$kmp, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
 
     $r = $ConfigData{suse_base};
     $r =~ s/\/\*$//;
     print "--- Source: $r\n";
+    print "--- Driver Updates: $ConfigData{update_dir}\n";
   }
 }
 
