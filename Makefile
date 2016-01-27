@@ -175,7 +175,7 @@ gdb: base
 	theme=$(THEMES) libdeps=root,gdb image=gdb src=root fs=squashfs disjunct=root bin/mk_image
 
 bind: base
-	theme=$(THEMES)libdeps=root,bind image=bind src=root fs=squashfs disjunct=root bin/mk_image
+	theme=$(THEMES) libdeps=root,bind image=bind src=root fs=squashfs disjunct=root bin/mk_image
 
 snapper: base
 	theme=$(THEMES) libdeps=root,snapper image=snapper src=root fs=squashfs disjunct=root bin/mk_image
