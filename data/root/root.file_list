@@ -42,11 +42,13 @@ TEMPLATE ruby.*-rubygem-.*:
   /usr/*/ruby/gems/*/gems/*/VERSION
   /usr/*/ruby/gems/*/gems/*/lib
   /usr/*/ruby/gems/*/specifications
+  /usr/*/ruby/gems/*/extensions
 
 TEMPLATE rubygem-.*:
   /usr/*/ruby/gems/*/gems/*/VERSION
   /usr/*/ruby/gems/*/gems/*/lib
   /usr/*/ruby/gems/*/specifications
+  /usr/*/ruby/gems/*/extensions
 
 TEMPLATE skelcd-control-.*:
   # just a template that does nothing
