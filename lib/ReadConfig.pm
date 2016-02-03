@@ -870,8 +870,13 @@ sub get_version_info
 
   my $dist = "\L$config{NAME}";
   $dist =~ s/^opensuse\s*//;
+  # special enterprise products may have extra text beside SLES or SLED
+  $dist = $1 if $dist =~ /(sles|sled)/;
+  # don't accept other names than these
+  $dist = "" if $dist !~ /^(leap|sles|sled)$/;
+
   $dist .= $config{VERSION} eq 'Tumbleweed' ? 'tw' : $config{VERSION_ID};
-  $dist =~ s/\..*$// if $config{NAME} =~ /^(SLES|SLED)$/;;
+  $dist =~ s/\..*$// if $dist =~ /^(sles|sled)/;
 
   # print "dist=\"$dist\"\n";
 
