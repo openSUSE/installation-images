@@ -1254,7 +1254,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $ConfigData{base_theme} = $ConfigData{ini}{"Theme $theme"}{base};
   $ConfigData{splash_theme} = $ConfigData{ini}{"Theme $theme"}{splash};
   $ConfigData{yast_theme} = $ConfigData{ini}{"Theme $theme"}{yast};
-  $ConfigData{product_name} = $ConfigData{os}{product} || "openSUSE";
+  $ConfigData{product_name} = $ConfigData{os}{product_mini} || "openSUSE";
   $ConfigData{update_dir} = $ConfigData{os}{update};
   $ConfigData{load_image} = $load_image;
 
