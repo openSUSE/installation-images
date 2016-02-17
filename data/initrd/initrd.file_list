@@ -79,6 +79,7 @@ net-tools:
 nfsidmap:
 sed:
 ?wicked:
+?s390-tools-hmcdrvfs:
 sysconfig-netconfig:
 sg3_utils:
 systemd-presets-branding-<base_theme>:
@@ -570,7 +571,7 @@ x etc/syslog.conf etc
 # additional scripts for linuxrc
 x scripts /
 # hmc exists only on s390
-if arch ne 's390' && arch ne 's390x'
+if !exists(s390-tools-hmcdrvfs)
   r /scripts/url/hmc
 endif
 

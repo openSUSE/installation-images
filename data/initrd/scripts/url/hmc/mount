@@ -1,16 +1,40 @@
 #! /bin/bash
 
+# https://github.com/openSUSE/linuxrc/blob/master/user_defined_url_schemes.txt
+
 set -e
 
 echo "url_dir = '$url_dir'"
 
 modprobe hmcdrv
 
-if [ -d $url_dir ] ; then
-  hmcdrvfs $url_dir
+if [ -d "$url_dir" ] ; then
+  hmcdrvfs "$url_dir"
 
   if [ -n "$url_zypp" ] ; then
     echo "dir:$url_dir" >"$url_zypp"
+  else
+    # early exit - we don't need the zypp repo stuff below
+    exit 0
   fi
+else
+  exit 1
 fi
 
+# the rewritten repo location will not be available in the installed system,
+# so we inject a script to remove our repo from zypper
+#
+# linuxrc uses 3-digit numbers to store diver updates; so actually any
+# number != 3 digits will do to avoid conflicts
+
+mkdir -p /update/4387/install
+cat >/update/4387/install/update.post2 <<FOO
+#! /bin/bash
+
+# remove hmc repo
+for i in /etc/zypp/repos.d/*.repo ; do
+  if [ -f "\$i" ] ; then
+    grep -q "baseurl=dir:.*$url_dir" "\$i" && rm -f "\$i"
+  fi
+done
+FOO
