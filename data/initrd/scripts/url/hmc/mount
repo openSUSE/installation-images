@@ -1,0 +1,16 @@
+#! /bin/bash
+
+set -e
+
+echo "url_dir = '$url_dir'"
+
+modprobe hmcdrv
+
+if [ -d $url_dir ] ; then
+  hmcdrvfs $url_dir
+
+  if [ -n "$url_zypp" ] ; then
+    echo "dir:$url_dir" >"$url_zypp"
+  fi
+fi
+

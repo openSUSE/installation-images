@@ -569,6 +569,10 @@ x etc/syslog.conf etc
 
 # additional scripts for linuxrc
 x scripts /
+# hmc exists only on s390
+if arch ne 's390' && arch ne 's390x'
+  r /scripts/url/hmc
+endif
 
 # initial /etc/adjtime (bnc #764690)
 x etc/adjtime etc
