@@ -155,6 +155,9 @@ kernel/arch/i386/kernel/msr.ko
 kernel/drivers/xen/blkfront/
 kernel/drivers/xen/netfront/
 kernel/drivers/xen/core/
+kernel/drivers/xen/xen-scsiback.ko
+kernel/drivers/video/fbdev/xen-fbfront.ko
+kernel/drivers/input/misc/xen-kbdfront.ko
 
 kernel/net/ieee80211/
 
