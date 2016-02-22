@@ -54,9 +54,17 @@ update-alternatives: ignore
 perl: ignore
 filesystem: ignore
 
-samba-libs: nodeps
-  /usr/lib*/samba/libreplace*.so
-  /usr/lib*/samba/libwinbind-client*.so
+if exists(samba-client-libs)
+  samba-client-libs: nodeps
+    /usr/lib*/samba/libreplace*.so
+
+  samba-libs: nodeps
+    /usr/lib*/samba/libwinbind-client*.so
+else
+  samba-libs: nodeps
+    /usr/lib*/samba/libreplace*.so
+    /usr/lib*/samba/libwinbind-client*.so
+endif
 
 ?biosdevname:
 cpio:
@@ -360,6 +368,7 @@ procps:
 systemd:
   /usr/bin/systemd-detect-virt
   /usr/lib/systemd/systemd-sysctl
+  /usr/lib*/libsystemd*.so.*
   # plymouth is not working if we include all rules - no idea why
   /usr/lib/udev/rules.d/99-systemd.rules
 
