@@ -182,9 +182,17 @@ endif
 
 # we have full samba in rescue-server
 if filelist ne 'rescue-server'
-  samba-libs: nodeps
-    /usr/lib*/samba/libreplace*.so
-    /usr/lib*/samba/libwinbind-client*.so
+  if exists(samba-client-libs)
+    samba-client-libs: nodeps
+      /usr/lib*/samba/libreplace*.so
+
+    samba-libs: nodeps
+      /usr/lib*/samba/libwinbind-client*.so
+  else
+    samba-libs: nodeps
+      /usr/lib*/samba/libreplace*.so
+      /usr/lib*/samba/libwinbind-client*.so
+  endif
 endif
 
 rpm:
