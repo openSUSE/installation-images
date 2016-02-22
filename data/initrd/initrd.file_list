@@ -262,6 +262,7 @@ ntfs-3g:
 
 if exists(blog)
   blog:
+    /usr/lib*
     /sbin/showconsole
     c 755 0 0 /sbin/showconsole
 
