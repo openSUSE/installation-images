@@ -260,9 +260,11 @@ ntfs-3g:
 ?kexec-tools: nodeps
   /usr/sbin/kexec
 
-sysvinit-tools: nodeps
+blog:
   /sbin/showconsole
   c 755 0 0 /sbin/showconsole
+
+sysvinit-tools: nodeps
   /sbin/startproc
 
 rpm:
