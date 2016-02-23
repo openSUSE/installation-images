@@ -366,6 +366,7 @@ procps:
 
 # maybe we don't need everything...
 systemd:
+  /usr/lib/systemd/systemd-vconsole-setup
   /usr/bin/systemd-detect-virt
   /usr/lib/systemd/systemd-sysctl
   /usr/lib*/libsystemd*.so.*
