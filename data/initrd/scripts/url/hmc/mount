@@ -6,6 +6,7 @@ set -e
 
 echo "url_dir = '$url_dir'"
 
+modprobe fuse
 modprobe hmcdrv
 
 if [ -d "$url_dir" ] ; then
