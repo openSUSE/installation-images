@@ -1,0 +1,7 @@
+#! /bin/sh
+
+export PATH=/bin:/sbin:/usr/bin/:/usr/sbin
+
+test -d /var/run/lsm/ipc || mkdir -p /var/run/lsm/ipc
+
+service_start libstoragemgmt
