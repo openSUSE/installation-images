@@ -1,4 +1,4 @@
-root:			common root libstoragemgmt cracklib-dict-full.rpm bind ?yast2-trans-<lang>.rpm
+root:			common root cracklib-dict-full.rpm bind ?yast2-trans-<lang>.rpm
 rescue:			common rescue ?cracklib-dict-full.rpm
 yast2-trans-ar.rpm:	yast2-trans-ar.rpm
 yast2-trans-bn.rpm:	yast2-trans-bn.rpm
