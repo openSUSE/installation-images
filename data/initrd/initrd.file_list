@@ -94,6 +94,7 @@ systemd-presets-branding-<base_theme>:
 tar:
 util-linux-systemd:
 vlan:
+which:
 
 if theme eq 'SLES'
   sles-release:
