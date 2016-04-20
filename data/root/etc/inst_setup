@@ -219,14 +219,6 @@ EOF
   cp /etc/issue /etc/motd
   echo -e "Run yast.ssh to start the installation.\n" >>/etc/motd
 
-  # print more detailed list of ifaces using a function from yast2-installation
-  if [ -e /usr/lib/YaST2/startup/common/network.sh ] ; then
-    echo "Active interfaces:"
-
-    . /usr/lib/YaST2/startup/common/network.sh
-    list_ifaces | head -n 20
-  fi
-
   while true ; do
     sleep 3
     # this file is created from YaST2.firstboot after installation
