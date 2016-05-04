@@ -1,5 +1,13 @@
 #! /usr/bin/perl
 
+# helper script that
+#
+# (1) writes a list of assigned IP adresses to STDOUT, and
+#
+# (2) writes the FQDN or, if not available, the first IP to STDERR
+#
+# The address in (2) should be something we can be reached by via network.
+
 $up = 0;
 
 for (`wicked show all 2>/dev/null`) {
@@ -18,7 +26,10 @@ for (`wicked show all 2>/dev/null`) {
 }
 
 if(@addr) {
-  system "hostname $addr[0]";
+  chomp ($host = `hostname -f 2>/dev/null`);
+  $host = $addr[0] if $host !~ /\./;
+
+  print STDERR "$host\n";
 
   print "IP addresses:\n";
   print "  $_\n" for @addr;
