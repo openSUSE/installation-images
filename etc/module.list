@@ -243,6 +243,8 @@ kernel/drivers/tty/serial/jsm/
 kernel/drivers/i2c/
 kernel/drivers/nvme/
 
+kernel/fs/efivarfs/
+
 # kmps
 updates/
 
