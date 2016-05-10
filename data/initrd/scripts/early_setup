@@ -23,6 +23,10 @@ if [ ! -s /installkey.gpg ] ; then
   echo "warning: no build keys!"
 fi
 
+if [ -d /sys/firmware/efi ]; then
+  mount -t efivarfs none /sys/firmware/efi/efivars
+fi
+
 # needed for nfs
 echo "Mounting rpc_pipefs on /var/lib/nfs/rpc_pipefs"
 mount -t rpc_pipefs rpc_pipefs /var/lib/nfs/rpc_pipefs
