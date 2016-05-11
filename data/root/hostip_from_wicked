@@ -2,11 +2,15 @@
 
 # helper script that
 #
-# (1) writes a list of assigned IP adresses to STDOUT, and
+# (1) writes a list of assigned IP adresses to ARG1, and
 #
-# (2) writes the FQDN or, if not available, the first IP to STDERR
+# (2) writes the FQDN or, if not available, the first IP to ARG2
 #
 # The address in (2) should be something we can be reached by via network.
+#
+# usage:
+#
+# hostip_from_wicked ARG1 ARG2
 
 $up = 0;
 
@@ -29,9 +33,15 @@ if(@addr) {
   chomp ($host = `hostname -f 2>/dev/null`);
   $host = $addr[0] if $host !~ /\./;
 
-  print STDERR "$host\n";
+  if($ARGV[0] && open $f, ">$ARGV[0]") {
+    print $f "IP addresses:\n";
+    print $f "  $_\n" for @addr;
+    close $f;
+  }
 
-  print "IP addresses:\n";
-  print "  $_\n" for @addr;
+  if($ARGV[1] && open $f, ">$ARGV[1]") {
+    print $f "$host\n";
+    close $f;
+  }
 }
 

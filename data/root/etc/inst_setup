@@ -55,7 +55,7 @@ unset SSH_FAILED
 stty sane 2>/dev/null
 
 # get hostname & hostips
-hostip_from_wicked >/tmp/host_ips 2>/tmp/host_name
+hostip_from_wicked /tmp/host_ips /tmp/host_name
 host_name=`cat /tmp/host_name`
 
 #
