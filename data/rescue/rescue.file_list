@@ -234,7 +234,6 @@ less:
 netcfg:
   /etc
   r /etc/{diphosts,ftpusers,hosts.*}
-  e echo Rescue.local >etc/HOSTNAME
 
 ntfs-3g:
   /
