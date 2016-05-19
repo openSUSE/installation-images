@@ -186,6 +186,12 @@ endif
 ?skelcd-control-SLES-for-VMware:
 ?skelcd-control-SLED:
 
+# fix the symlinks for the Ruby debugger if it is present
+?ruby*.*-rubygem-byebug:
+  /
+  # avoid update-alternatives, remove the dangling symlinks and create a new one
+  e cd usr/bin ; find . -type l | grep byebug | xargs rm -rf ; ln -snf byebug.ruby* byebug
+
 rpm:
   /bin
   /etc
@@ -644,6 +650,9 @@ r /var/lib/systemd/migrated
 r /var/adm/autoinstall /var/lib/autoinstall
 e rm -f `find var/log -type f`
 e rm -f `find var/cache -type f`
+
+# remove the Ruby gem cache files
+r /usr/lib*/ruby/gems/*/cache/*.gem
 
 # show remaining files in /var
 e find var -type f
