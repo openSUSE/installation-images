@@ -186,6 +186,12 @@ endif
 ?skelcd-control-SLES-for-VMware:
 ?skelcd-control-SLED:
 
+# fix the symlinks for the Ruby debugger if it is present
+?ruby*.*-rubygem-byebug:
+  /
+  # avoid update-alternatives, remove the dangling symlinks and create a new one
+  e cd usr/bin ; find . -type l | grep byebug | xargs rm -rf ; ln -snf byebug.ruby* byebug
+
 rpm:
   /bin
   /etc
