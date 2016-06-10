@@ -95,6 +95,7 @@ tar:
 util-linux-systemd:
 vlan:
 which:
+?xen-tools-domU:
 
 if theme eq 'SLES'
   sles-release:
