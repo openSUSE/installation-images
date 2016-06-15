@@ -29,6 +29,12 @@ TEMPLATE ruby.*-rubygem-suse-connect:
   # avoid update-alternatives
   e cd usr/bin ; ln -snf SUSEConnect* SUSEConnect
 
+# fix the symlinks for the Ruby debugger if it is present
+TEMPLATE ruby.*-rubygem-byebug:
+  /
+  # avoid update-alternatives, remove the dangling symlinks and create a new one
+  e cd usr/bin ; find . -type l | grep byebug | xargs rm -rf ; ln -snf byebug.ruby* byebug
+
 # ruby maintainers can't really make up their minds on how to name their packages...
 TEMPLATE ruby.*-rubygem-yard: ignore
   # just a template that does nothing
@@ -185,12 +191,6 @@ endif
 ?skelcd-control-SLES:
 ?skelcd-control-SLES-for-VMware:
 ?skelcd-control-SLED:
-
-# fix the symlinks for the Ruby debugger if it is present
-?ruby*.*-rubygem-byebug:
-  /
-  # avoid update-alternatives, remove the dangling symlinks and create a new one
-  e cd usr/bin ; find . -type l | grep byebug | xargs rm -rf ; ln -snf byebug.ruby* byebug
 
 rpm:
   /bin
