@@ -431,6 +431,7 @@ if arch ne 's390' && arch ne 's390x'
     # avoid update-alternatives
     e [ -f usr/<lib>/xorg/modules/extensions/xorg/xorg-libglx.so ] && ln -snf xorg/xorg-libglx.so usr/<lib>/xorg/modules/extensions/libglx.so ; true
 
+  xrandr:
   xf86-input-evdev:
   xf86-input-synaptics:
   ?xf86-input-vmmouse:
