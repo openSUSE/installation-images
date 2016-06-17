@@ -1265,7 +1265,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   $ConfigData{instsys_complain} = $ENV{instsys_complain};
   $ConfigData{instsys_complain_root} = $ENV{instsys_complain_root};
-  $ConfigData{instsys_build_id} = $ENV{instsys_build_id};
+  $ConfigData{instsys_build_id} = $ENV{BUILD_ID};
 
   if(!$ENV{silent}) {
     my ($r, $kmp);

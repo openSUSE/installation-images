@@ -8,6 +8,7 @@ GITDEPS := $(shell [ -d .git ] && echo .git/HEAD .git/refs/heads .git/refs/tags)
 VERSION := $(shell $(GIT2LOG) --version VERSION ; cat VERSION)
 BRANCH  := $(shell [ -d .git ] && git branch | perl -ne 'print $$_ if s/^\*\s*//')
 PREFIX  := installation-images-$(VERSION)
+BUILD_ID := $(shell [ -f .build_id ] || bin/build_id > .build_id ; cat .build_id)
 
 COMMON_TARGETS	     := rescue root root+rescue bind libstoragemgmt gdb mini-iso-rmlist
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind libstoragemgmt gdb
@@ -57,7 +58,7 @@ ifneq ($(filter i386 x86_64, $(ARCH)),)
 # THEMES        += Zen
 endif
 
-export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
+export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY BUILD_ID
 
 .PHONY: all dirs base fbase biostest initrd \
 	boot boot-efi root rescue root+rescue gdb bind libstoragemgmt clean \
@@ -242,6 +243,7 @@ clean:
 	-@rm -rf /tmp/mk_initrd_* /tmp/mk_image_* 
 	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/cd1/gen package
 	-@rm -f gpg/trustdb.gpg gpg/random_seed
+	-@rm -f .build_id
 
 install:
 	-@rm -rf $(DESTDIR)
