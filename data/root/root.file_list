@@ -175,6 +175,13 @@ p11-kit-tools:
 p11-kit:
 ?sle12-desktop-migration:
 
+# either new yast storage or the old one
+if exists(yast2-storage-ng)
+  yast2-storage-ng:
+  libstorage7: ignore
+  yast2-storage: ignore
+endif
+
 if theme eq 'SLES'
   sles-release:
   sles-release-MINI:
