@@ -598,13 +598,15 @@ rpcbind:
   /
   E postin
 
-yast2-storage:
-  /
-  E postin
+if !exists(yast2-storage-ng)
+  yast2-storage:
+    /
+    E postin
 
-libstorage*:
-  /
-  E postin
+  libstorage*:
+    /
+    E postin
+endif
 
 openssh:
   /
