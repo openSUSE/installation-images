@@ -56,7 +56,7 @@ stty sane 2>/dev/null
 
 # get hostname & hostips
 hostip_from_wicked /tmp/host_ips /tmp/host_name
-host_name=`cat /tmp/host_name`
+host_name=`[ -f /tmp/host_name ] && cat /tmp/host_name`
 
 #
 # a few files should be restored when installation has completed if we
