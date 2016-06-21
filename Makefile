@@ -63,7 +63,7 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY BUILD_ID
 .PHONY: all dirs base fbase biostest initrd \
 	boot boot-efi root rescue root+rescue gdb bind libstoragemgmt clean \
 	boot-themes initrd-themes root-themes zenroot install \
-	install-initrd mini-iso-rmlist debuginfo cd1
+	install-initrd mini-iso-rmlist debuginfo cd1 iso
 
 all: $(ALL_TARGETS) VERSION changelog
 	@rm images/*.log
@@ -74,8 +74,6 @@ changelog: $(GITDEPS)
 version.h: VERSION
 	@echo "#define LXRC_VERSION \"`cut -d. -f1-2 VERSION`\"" >$@
 	@echo "#define LXRC_FULL_VERSION \"`cat VERSION`\"" >>$@
-
-install:
 
 dirs:
 	@[ -d images ] || ( mkdir images ; cd images ; mkdir $(THEMES) )
@@ -200,7 +198,14 @@ root-themes: base
 zenroot:
 	theme=$(THEMES) libdeps=zenroot alternatives=1 image=zenroot src=root fs=squashfs bin/mk_image
 
-cd1: base
+iso: cd1
+	if [ -x /usr/bin/mksusecd ] ; then \
+	  HOME=tmp /usr/bin/mksusecd -c images/cd1.iso tmp/cd1/CD1 ; \
+	else \
+	  echo 'please install mksusecd package to create an ISO' ; \
+	fi
+
+cd1: install
 	mkdir -p data/cd1/gen
 	rm -f data/cd1/gen/rpm.file_list
 	for i in `cat images/rpmlist` ; do \
@@ -245,7 +250,7 @@ clean:
 	-@rm -f gpg/trustdb.gpg gpg/random_seed
 	-@rm -f .build_id
 
-install:
+install: base
 	-@rm -rf $(DESTDIR)
 	@mkdir -p $(DESTDIR)
 	./install.$(ARCH)
