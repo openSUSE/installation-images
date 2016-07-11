@@ -98,6 +98,14 @@ yast2-schema: ignore
 # already in initrd
 ca-certificates-mozilla: ignore
 filesystem: ignore
+# not needed during installation, added by the
+# "perl-Bootloader < kexec-tools < kdump < yast2-kdump" dependency
+perl-Bootloader: ignore
+# required by .ag_anyxml (yast2) but not needed during installation
+perl-XML-Simple: ignore
+# we need only the "y2tool" and "showy2log" scripts, ignore the dependencies
+yast2-devtools: nodeps
+yast2-buildtools: nodeps
 
 ?efibootmgr:
 ?elilo:
@@ -144,11 +152,8 @@ openslp:
 openslp-server:
 parted:
 pciutils:
-perl-Bootloader:
 perl-XML-Bare:
 perl-XML-NamespaceSupport:
-perl-XML-Parser:
-perl-XML-Simple:
 perl-gettext:
 polkit:
 procinfo:
