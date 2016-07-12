@@ -37,7 +37,7 @@ for $dir (@dir_list) {
   for (`find '$dir'`) {
     chomp;
     ($mode, $size) = (lstat)[2,7];
-    if(s/^$dir\///) {
+    if(s/^\Q$dir\E\///) {
       $size = 0 if -d _;
       $i = '*';
       $i = 'b' if -b _;
