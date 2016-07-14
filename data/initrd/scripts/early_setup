@@ -6,6 +6,14 @@ chmod 700 /root/.gnupg
 
 if [ -x /usr/sbin/haveged ] ; then
   /usr/sbin/haveged -w 1024 -v 0
+
+  # Adjust the OOM killer score so kernel prefers killing the haveged
+  # daemon instead of the YaST installer (or it's child).
+  # The entropy will be collected by kernel anyway, just slower without haveged.
+  if [ -f /var/run/haveged.pid ] ; then
+    haveged_pid=`cat /var/run/haveged.pid`
+    echo 1000 > /proc/$haveged_pid/oom_score_adj
+  fi
 fi
 
 if [ -d /usr/lib/rpm/gnupg/keys ] ; then
