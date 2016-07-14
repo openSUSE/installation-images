@@ -1,5 +1,13 @@
 #! /usr/bin/perl
 
+# common_tree --dst xxx foo1 foo2
+#
+# will create 3 directories xxx/1, xxx/2, and xxx/c which contain
+#
+#   xxx/1: all in foo1 but not in foo2,
+#   xxx/2: all in foo2 but not in foo1,
+#   xxx/c: everyting both in foo1 and foo2
+
 use Getopt::Long;
 use Digest::MD5;
 
@@ -37,7 +45,7 @@ for $dir (@dir_list) {
   for (`find '$dir'`) {
     chomp;
     ($mode, $size) = (lstat)[2,7];
-    if(s/^$dir\///) {
+    if(s/^\Q$dir\E\///) {
       $size = 0 if -d _;
       $i = '*';
       $i = 'b' if -b _;

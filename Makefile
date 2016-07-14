@@ -153,7 +153,7 @@ boot: base
 	theme=$(THEMES) image=boot fs=dir bin/mk_image
 
 root: base
-	theme=$(THEMES) libdeps=root image=root bin/mk_image
+	theme=$(THEMES) libdeps=root,initrd image=root bin/mk_image
 
 rescue: base
 	theme=$(THEMES) libdeps=rescue image=rescue bin/mk_image
@@ -162,8 +162,11 @@ rescue-server:
 	theme=$(THEMES) image=rescue-server src=rescue filelist=rescue-server fs=squashfs bin/mk_image
 
 root+rescue: base
+	# the next two lines just clean up old files
 	image=root+rescue fs=none bin/mk_image
-	bin/common_tree --dst tmp/root+rescue tmp/rescue tmp/root
+	image=root+initrd src=root+rescue fs=none filelist=root+rescue bin/mk_image
+	bin/common_tree --dst tmp/root+initrd tmp/initrd tmp/root
+	bin/common_tree --dst tmp/root+rescue tmp/rescue tmp/root+initrd/2
 	mode=keep tmpdir=root+rescue/c image=common fs=squashfs bin/mk_image
 	mode=keep tmpdir=root+rescue/1 image=rescue fs=squashfs bin/mk_image
 	mode=keep tmpdir=root+rescue/2 image=root fs=squashfs bin/mk_image
