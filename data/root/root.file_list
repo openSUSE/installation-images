@@ -84,6 +84,7 @@ icewm: ignore
 pkg-config: ignore
 syslog-service: ignore
 kmod: ignore
+kmod-compat: ignore
 gio-branding-upstream: ignore
 hicolor-icon-theme: ignore
 yast2-trans-allpacks: ignore
