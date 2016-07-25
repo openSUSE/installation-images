@@ -238,8 +238,8 @@ smartmontools:
   /usr/sbin/smartctl
 
 ?powerpc-utils:
-  /sbin/nvsetenv
-  /sbin/lsprop
+  /usr/sbin/nvsetenv
+  /usr/sbin/lsprop
   /usr/sbin/nvram
   /usr/sbin/update_flash
 
