@@ -75,6 +75,7 @@ nfsidmap: ignore
 pam-config: ignore
 permissions: ignore
 pinentry: ignore
+python-setuptools: ignore
 sessreg: ignore
 shared-mime-info: ignore
 update-alternatives: ignore
@@ -149,6 +150,7 @@ ntfsprogs:
 open-iscsi:
 openslp:
 openslp-server:
+pam-modules:
 parted:
 pciutils:
 perl-XML-Bare:
@@ -348,9 +350,6 @@ pam:
   /lib*/libpam_misc.so.*
   /lib*
   /sbin
-
-pam-modules:
-  /{lib*,sbin}
 
 cracklib: nodeps
   /usr/sbin/cracklib-check

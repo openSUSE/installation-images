@@ -111,9 +111,6 @@ wicked-service: ignore
 gpm:
 
 
-systemd:
-  /usr/lib*/libsystemd*.so.*
-
 krb5:
   /etc
   /usr/lib*/libkrb5.so.*
