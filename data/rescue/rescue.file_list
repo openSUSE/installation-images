@@ -135,7 +135,7 @@ ntfsprogs:
 open-iscsi:
 ?fcoe-utils:
 openslp:
-pam-modules:
+?pam-modules:
 parted:
 pciutils:
 procinfo:
