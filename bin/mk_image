@@ -200,7 +200,8 @@ sub check_link
       next if -l "$dir$x" || -e _;
     }
     else {
-      next if -e;
+      # don't verify symlinks to symlinks
+      next if -l || -e _;
     }
     $err = 1;
     my $n = $_;
