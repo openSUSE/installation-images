@@ -732,10 +732,12 @@ sub resolve_deps_libsolv
   $blackpkg->{name} = "blacklist_package";
   $blackpkg->{arch} = "noarch";
 
+  my %blacklisted;
   for (@$ignore) {
     my $id = $pool->str2id($_);
     next if $pool->Job($solv::Job::SOLVER_SOLVABLE_NAME, $id)->solvables();
     $blackpkg->add_deparray($solv::SOLVABLE_PROVIDES, $id);
+    $blacklisted{$_} = 1;
   }
 
   $pool->createwhatprovides();
@@ -759,6 +761,18 @@ sub resolve_deps_libsolv
           $_->add_deparray($solv::SOLVABLE_REQUIRES, $id, 0);
         }
       }  
+    }
+
+    if (%blacklisted) {
+      for ($pool->Selection_all()->solvables()) {
+        my @deps = $_->lookup_idarray($solv::SOLVABLE_CONFLICTS, 0);
+        my @fdeps = grep { !$blacklisted{$pool->id2str($_)} } @deps;
+        next if @fdeps == @deps;
+        $_->unset($solv::SOLVABLE_CONFLICTS);
+        for my $id (@fdeps) {
+          $_->add_deparray($solv::SOLVABLE_CONFLICTS, $id, 0);
+        }
+      }
     }
   }
   else {
@@ -1265,7 +1279,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   $ConfigData{instsys_complain} = $ENV{instsys_complain};
   $ConfigData{instsys_complain_root} = $ENV{instsys_complain_root};
-  $ConfigData{instsys_build_id} = $ENV{instsys_build_id};
+  $ConfigData{instsys_build_id} = $ENV{BUILD_ID};
 
   if(!$ENV{silent}) {
     my ($r, $kmp);

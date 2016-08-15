@@ -57,9 +57,8 @@ else
   e echo "MemYaST:	123456" >>linuxrc.config
 endif
 
-if instsys_complain
-  e echo "InstsysComplain:	<instsys_complain>" >>linuxrc.config
-endif
+# enforce that the inst-sys matches the initrd
+e echo "InstsysComplain:	2" >>linuxrc.config
 
 if instsys_build_id
   e echo "InitrdID:	<instsys_build_id>" >>linuxrc.config
@@ -76,6 +75,6 @@ e echo "defaultrepo:	`default_repo`" >>linuxrc.config
 
 e echo "KexecReboot:    1" >>linuxrc.config
 
-e echo "PTOptions:	AutoUpgrade,productprofile,addon" >>linuxrc.config
+e echo "PTOptions:	AutoUpgrade,productprofile,addon,XVideo" >>linuxrc.config
 
 e echo -e "\n# Note: you can put config files also into /etc/linuxrc.d/." >>linuxrc.config

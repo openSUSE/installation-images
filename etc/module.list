@@ -200,7 +200,7 @@ kernel/drivers/mfd/ab3100-core.ko
 kernel/drivers/gpu/drm/
 # kernel/drivers/gpu/drm/drm.ko
 kernel/drivers/video/sis/
-kernel/drivers/video/hyperv_fb.ko
+kernel/drivers/video/fbdev/hyperv_fb.ko
 
 kernel/drivers/misc/lis3lv02d/lis3lv02d.ko
 kernel/drivers/misc/cs5535-mfgpt.ko
@@ -242,6 +242,9 @@ kernel/drivers/of/
 kernel/drivers/tty/serial/jsm/
 kernel/drivers/i2c/
 kernel/drivers/nvme/
+kernel/drivers/nvdimm/
+
+kernel/fs/efivarfs/
 
 # kmps
 updates/

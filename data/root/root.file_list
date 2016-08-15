@@ -29,6 +29,12 @@ TEMPLATE ruby.*-rubygem-suse-connect:
   # avoid update-alternatives
   e cd usr/bin ; ln -snf SUSEConnect* SUSEConnect
 
+# fix the symlinks for the Ruby debugger if it is present
+TEMPLATE ruby.*-rubygem-byebug:
+  /
+  # avoid update-alternatives, remove the dangling symlinks and create a new one
+  e cd usr/bin ; find . -type l | grep byebug | xargs rm -rf ; ln -snf byebug.ruby* byebug
+
 # ruby maintainers can't really make up their minds on how to name their packages...
 TEMPLATE ruby.*-rubygem-yard: ignore
   # just a template that does nothing
@@ -69,6 +75,7 @@ nfsidmap: ignore
 pam-config: ignore
 permissions: ignore
 pinentry: ignore
+python-setuptools: ignore
 sessreg: ignore
 shared-mime-info: ignore
 update-alternatives: ignore
@@ -78,6 +85,7 @@ icewm: ignore
 pkg-config: ignore
 syslog-service: ignore
 kmod: ignore
+kmod-compat: ignore
 gio-branding-upstream: ignore
 hicolor-icon-theme: ignore
 yast2-trans-allpacks: ignore
@@ -92,6 +100,12 @@ yast2-schema: ignore
 # already in initrd
 ca-certificates-mozilla: ignore
 filesystem: ignore
+# not needed during installation, added by the
+# "perl-Bootloader < kexec-tools < kdump < yast2-kdump" dependency
+perl-Bootloader: ignore
+# we need only the "y2tool" and "showy2log" scripts, ignore the dependencies
+yast2-devtools: nodeps
+yast2-buildtools: nodeps
 
 ?efibootmgr:
 ?elilo:
@@ -136,13 +150,11 @@ ntfsprogs:
 open-iscsi:
 openslp:
 openslp-server:
+?pam-modules:
 parted:
 pciutils:
-perl-Bootloader:
 perl-XML-Bare:
 perl-XML-NamespaceSupport:
-perl-XML-Parser:
-perl-XML-Simple:
 perl-gettext:
 polkit:
 procinfo:
@@ -168,6 +180,13 @@ xz:
 p11-kit-tools:
 p11-kit:
 ?sle12-desktop-migration:
+
+# either new yast storage or the old one
+if exists(yast2-storage-ng)
+  yast2-storage-ng:
+  libstorage7: ignore
+  yast2-storage: ignore
+endif
 
 if theme eq 'SLES'
   sles-release:
@@ -221,8 +240,8 @@ smartmontools:
   /usr/sbin/smartctl
 
 ?powerpc-utils:
-  /sbin/nvsetenv
-  /sbin/lsprop
+  /usr/sbin/nvsetenv
+  /usr/sbin/lsprop
   /usr/sbin/nvram
   /usr/sbin/update_flash
 
@@ -332,9 +351,6 @@ pam:
   /lib*
   /sbin
 
-pam-modules:
-  /{lib*,sbin}
-
 cracklib: nodeps
   /usr/sbin/cracklib-check
   /usr/lib*
@@ -425,6 +441,7 @@ if arch ne 's390' && arch ne 's390x'
     # avoid update-alternatives
     e [ -f usr/<lib>/xorg/modules/extensions/xorg/xorg-libglx.so ] && ln -snf xorg/xorg-libglx.so usr/<lib>/xorg/modules/extensions/libglx.so ; true
 
+  xrandr:
   xf86-input-evdev:
   xf86-input-synaptics:
   ?xf86-input-vmmouse:
@@ -584,13 +601,15 @@ rpcbind:
   /
   E postin
 
-yast2-storage:
-  /
-  E postin
+if !exists(yast2-storage-ng)
+  yast2-storage:
+    /
+    E postin
 
-libstorage*:
-  /
-  E postin
+  libstorage*:
+    /
+    E postin
+endif
 
 openssh:
   /
@@ -644,6 +663,9 @@ r /var/lib/systemd/migrated
 r /var/adm/autoinstall /var/lib/autoinstall
 e rm -f `find var/log -type f`
 e rm -f `find var/cache -type f`
+
+# remove the Ruby gem cache files
+r /usr/lib*/ruby/gems/*/cache/*.gem
 
 # show remaining files in /var
 e find var -type f

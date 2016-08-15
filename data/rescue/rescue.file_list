@@ -135,7 +135,7 @@ ntfsprogs:
 open-iscsi:
 ?fcoe-utils:
 openslp:
-pam-modules:
+?pam-modules:
 parted:
 pciutils:
 procinfo:
@@ -165,6 +165,7 @@ vim:
 vlan:
 wget:
 ?wicked:
+?xen-tools-domU:
 xfsdump:
 xfsprogs:
 xz:
@@ -234,7 +235,6 @@ less:
 netcfg:
   /etc
   r /etc/{diphosts,ftpusers,hosts.*}
-  e echo Rescue.local >etc/HOSTNAME
 
 ntfs-3g:
   /

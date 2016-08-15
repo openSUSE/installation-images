@@ -4,6 +4,8 @@ if [ -x /bin/hostname ] ; then
 fi
 
 export LIBGL_ALWAYS_INDIRECT=1
+# this assumes a single version of Python in the inst-sys; needed for libstoragemgmt
+export PYTHONPATH=`echo /usr/lib/python*`/site-packages:$PYTHONPATH
 
 alias ll="ls -l"
 alias la="ls -la"

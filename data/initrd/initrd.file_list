@@ -94,6 +94,8 @@ systemd-presets-branding-<base_theme>:
 tar:
 util-linux-systemd:
 vlan:
+which:
+?xen-tools-domU:
 
 if theme eq 'SLES'
   sles-release:
@@ -118,6 +120,10 @@ linuxrc:
   endif
   s /lbin/extend /bin
   d /etc/linuxrc.d
+
+# add zypp config to initrd to ensure it's writable
+libzypp: nodeps
+  /etc
 
 grep:
   /usr/bin/grep

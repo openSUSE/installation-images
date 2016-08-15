@@ -104,14 +104,12 @@ checkmedia:
 ?grub2:
 dbus-1-x11: ignore
 kmod: ignore
+kmod-compat: ignore
 kbd: ignore
 wicked-service: ignore
 ?libsmbios2:
 gpm:
 
-
-systemd:
-  /usr/lib*/libsystemd*.so.*
 
 krb5:
   /etc

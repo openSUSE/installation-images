@@ -200,7 +200,8 @@ sub check_link
       next if -l "$dir$x" || -e _;
     }
     else {
-      next if -e;
+      # don't verify symlinks to symlinks
+      next if -l || -e _;
     }
     $err = 1;
     my $n = $_;
@@ -237,6 +238,7 @@ sub fix_alternatives_link
 
   if($cnt) {
     unlink "$dir/usr/sbin/update-alternatives";
+    unlink "$dir/usr/sbin/alternatives";
     unlink "$dir/var/log/update-alternatives.log";
     system "rm -r $dir/etc/alternatives/";
     system "rm -r $dir/var/lib/rpm/alternatives/";

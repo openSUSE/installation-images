@@ -54,16 +54,9 @@ export YAST2_SSH=false
 unset SSH_FAILED
 stty sane 2>/dev/null
 
-# set hostname and domainname
-hostip_from_wicked >/tmp/hostips
-
-hostname=$(awk ' /^Hostname:/ { print $2 }' < /etc/install.inf)
-[ -n "$hostname" ] && hostname $hostname
-hostname=`hostname`
-
-domain=$(awk ' /^Domain:/ { print $2 }' < /etc/install.inf)
-[ -z "$domain" ] && domain=local
-domainname $domain
+# get hostname & hostips
+hostip_from_wicked /tmp/host_ips /tmp/host_name
+host_name=`[ -f /tmp/host_name ] && cat /tmp/host_name`
 
 #
 # a few files should be restored when installation has completed if we
@@ -167,6 +160,7 @@ fi
 
 export XCURSOR_THEME=DMZ
 export LIBGL_ALWAYS_INDIRECT=1
+export EGL_LOG_LEVEL=fatal
 
 grep -qwi start_shell /proc/cmdline && START_SHELL=1
 grep -qi "^StartShell:.*1" /etc/install.inf && START_SHELL=1
@@ -186,7 +180,7 @@ function start_shell() {
   bash -l
 }
 
-[ -f /tmp/hostips ] && cat /tmp/hostips
+[ -f /tmp/host_ips ] && cat /tmp/host_ips
 
 [ "$START_SHELL" ] && start_shell
 
@@ -197,7 +191,7 @@ if grep -qi "^VNC:.*1" /etc/install.inf ; then
   if test "$ec" = "0" ; then
     (
     sleep 3
-    /usr/bin/slptool register "service:YaST.installation.suse:vnc://${hostname}:5901"
+    /usr/bin/slptool register "service:YaST.installation.suse:vnc://${host_name}:5901"
     ) &> /tmp/slptool_register.txt &
   else
     echo "slpd returned with exit code $ec, VNC will not be announced"
@@ -212,12 +206,20 @@ ec=
 if [ "$YAST2_SSH" = "true" ] ; then
   cat <<EOF
 
-***  login using 'ssh -X root@${hostname}'  ***
+***  login using 'ssh -X root@${host_name}'  ***
 ***  run '${yast}.ssh' to start the installation  ***
 
 EOF
   cp /etc/issue /etc/motd
   echo -e "Run yast.ssh to start the installation.\n" >>/etc/motd
+
+  # print more detailed list of ifaces using a function from yast2-installation
+  if [ -e /usr/lib/YaST2/startup/common/network.sh ] ; then
+    echo "Active interfaces:"
+
+    . /usr/lib/YaST2/startup/common/network.sh
+    list_ifaces | head -n 20
+  fi
 
   while true ; do
     sleep 3

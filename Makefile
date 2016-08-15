@@ -8,9 +8,10 @@ GITDEPS := $(shell [ -d .git ] && echo .git/HEAD .git/refs/heads .git/refs/tags)
 VERSION := $(shell $(GIT2LOG) --version VERSION ; cat VERSION)
 BRANCH  := $(shell [ -d .git ] && git branch | perl -ne 'print $$_ if s/^\*\s*//')
 PREFIX  := installation-images-$(VERSION)
+BUILD_ID := $(shell [ -f .build_id ] || bin/build_id > .build_id ; cat .build_id)
 
-COMMON_TARGETS	     := rescue root root+rescue bind gdb mini-iso-rmlist
-COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind gdb
+COMMON_TARGETS	     := rescue root root+rescue bind libstoragemgmt gdb mini-iso-rmlist
+COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind libstoragemgmt gdb
 
 ifneq ($(filter i386, $(ARCH)),)
 ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel boot boot-themes $(COMMON_TARGETS) zenroot
@@ -57,12 +58,12 @@ ifneq ($(filter i386 x86_64, $(ARCH)),)
 # THEMES        += Zen
 endif
 
-export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY
+export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY BUILD_ID
 
 .PHONY: all dirs base fbase biostest initrd \
-	boot boot-efi root rescue root+rescue gdb bind clean \
+	boot boot-efi root rescue root+rescue gdb bind libstoragemgmt clean \
 	boot-themes initrd-themes root-themes zenroot install \
-	install-initrd mini-iso-rmlist debuginfo cd1
+	install-initrd mini-iso-rmlist debuginfo cd1 iso
 
 all: $(ALL_TARGETS) VERSION changelog
 	@rm images/*.log
@@ -73,8 +74,6 @@ changelog: $(GITDEPS)
 version.h: VERSION
 	@echo "#define LXRC_VERSION \"`cut -d. -f1-2 VERSION`\"" >$@
 	@echo "#define LXRC_FULL_VERSION \"`cat VERSION`\"" >>$@
-
-install:
 
 dirs:
 	@[ -d images ] || ( mkdir images ; cd images ; mkdir $(THEMES) )
@@ -154,7 +153,7 @@ boot: base
 	theme=$(THEMES) image=boot fs=dir bin/mk_image
 
 root: base
-	theme=$(THEMES) libdeps=root image=root bin/mk_image
+	theme=$(THEMES) libdeps=root,initrd image=root bin/mk_image
 
 rescue: base
 	theme=$(THEMES) libdeps=rescue image=rescue bin/mk_image
@@ -163,8 +162,11 @@ rescue-server:
 	theme=$(THEMES) image=rescue-server src=rescue filelist=rescue-server fs=squashfs bin/mk_image
 
 root+rescue: base
+	# the next two lines just clean up old files
 	image=root+rescue fs=none bin/mk_image
-	bin/common_tree --dst tmp/root+rescue tmp/rescue tmp/root
+	image=root+initrd src=root+rescue fs=none filelist=root+rescue bin/mk_image
+	bin/common_tree --dst tmp/root+initrd tmp/initrd tmp/root
+	bin/common_tree --dst tmp/root+rescue tmp/rescue tmp/root+initrd/2
 	mode=keep tmpdir=root+rescue/c image=common fs=squashfs bin/mk_image
 	mode=keep tmpdir=root+rescue/1 image=rescue fs=squashfs bin/mk_image
 	mode=keep tmpdir=root+rescue/2 image=root fs=squashfs bin/mk_image
@@ -176,6 +178,9 @@ gdb: base
 
 bind: base
 	theme=$(THEMES) libdeps=root,bind image=bind src=root fs=squashfs disjunct=root bin/mk_image
+
+libstoragemgmt: base
+	theme=$(THEMES) libdeps=root,libstoragemgmt image=libstoragemgmt src=root fs=squashfs disjunct=root nolinkcheck=1 bin/mk_image
 
 snapper: base
 	theme=$(THEMES) libdeps=root,snapper image=snapper src=root fs=squashfs disjunct=root bin/mk_image
@@ -196,7 +201,14 @@ root-themes: base
 zenroot:
 	theme=$(THEMES) libdeps=zenroot alternatives=1 image=zenroot src=root fs=squashfs bin/mk_image
 
-cd1: base
+iso: cd1
+	if [ -x /usr/bin/mksusecd ] ; then \
+	  HOME=tmp /usr/bin/mksusecd -c images/cd1.iso tmp/cd1/CD1 ; \
+	else \
+	  echo 'please install mksusecd package to create an ISO' ; \
+	fi
+
+cd1: install
 	mkdir -p data/cd1/gen
 	rm -f data/cd1/gen/rpm.file_list
 	for i in `cat images/rpmlist` ; do \
@@ -239,8 +251,9 @@ clean:
 	-@rm -rf /tmp/mk_initrd_* /tmp/mk_image_* 
 	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/cd1/gen package
 	-@rm -f gpg/trustdb.gpg gpg/random_seed
+	-@rm -f .build_id
 
-install:
+install: base
 	-@rm -rf $(DESTDIR)
 	@mkdir -p $(DESTDIR)
 	./install.$(ARCH)
