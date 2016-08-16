@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# Copyright (c) 1996 SuSE GmbH Nuernberg, Germany.  All rights reserved.
+# Copyright (c) 2016 SUSE LINUX GmbH, Nuernberg, Germany.  All rights reserved.
 #
 # Author: Werner Fink <werner@suse.de>, 1996
 #         Burchard Steinbild <bs@suse.de>, 1996
@@ -26,7 +26,7 @@ while read line; do
                 *CHRP*)       MACHINE="chrp";;
                 *PReP*)       MACHINE="prep" ;;
                 *iSeries*)    MACHINE="iseries";;
-                *IBM*390*)    MACHINE="s390";; # works for zSeries, too
+                *IBM*390*)    MACHINE="s390";; # works for IBM z Systems, too
         esac
 done < /proc/cpuinfo
 
