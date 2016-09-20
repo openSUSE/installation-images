@@ -115,6 +115,7 @@ initviocons:
 insserv-compat:
 iproute2:
 iputils:
+iscsiuio:
 jfsutils:
 joe:
 ?kexec-tools:
