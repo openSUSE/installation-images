@@ -3,7 +3,7 @@
 ## Adding packages to the current (open)SUSE installation
 
 Starting with openSUSE 13.1 and SLE12, the easiest way to include a package in
-the installation system is modifying the ```installation-images```
+the installation system is modifying the `installation-images`
 package in the Open Build Service. That package evaluates the dependencies and
 automatically adds the required packages. Simply add the needed packages as a
 Requires dependency to the respective package and that's it.
@@ -16,21 +16,21 @@ it does not help if you want to remaster the images locally. Last but not least,
 it only works for full packages, but it's often useful to include just a subset
 of the files in a given package.
 
-For every generated image there is a subdirectory in the ```data``` directory.
+For every generated image there is a subdirectory in the `data` directory.
 Among other several things, those directories contain files with the extension
-```.file_list```. In order to fine tune the content of the generated images,
-just modify the corresponding ```.file_list``` file according to the syntax
+`.file_list`. In order to fine tune the content of the generated images,
+just modify the corresponding `.file_list` file according to the syntax
 described below.
 
 Keep in mind that in order to make sure the images still can be generated in the
-Open Build Service, it's necessary to add the corresponding ```BuildRequires```
-to the ```installation-images``` package.
+Open Build Service, it's necessary to add the corresponding `BuildRequires`
+to the `installation-images` package.
 
 ## Format of the file list
 
 ### Comments
 
-Lines starting with '#' are comments, empty lines are ignored. Example:
+Lines starting with `'#'` are comments, empty lines are ignored. Example:
 
 ```
  # some comment
@@ -38,8 +38,8 @@ Lines starting with '#' are comments, empty lines are ignored. Example:
 
 ### Including other files
 
-You can include other files with the following syntax, where ```FILE```
-is relative to the data/*/ tree.
+You can include other files with the following syntax, where `FILE`
+is relative to the `data/*/` tree.
 
 ```
 include FILE
@@ -47,17 +47,18 @@ include FILE
 
 ### Conditional sections
 
-You can use if/elsif/else/endif with the following syntax.
+You can use `if/elsif/else/endif` with the following syntax.
 
 ```
 if EXPRESSION
 ```
 
-```EXPRESSION``` is more or less a valid perl expression except that
-variables don't have a starting '$' and are implicitly environment
-variables. The only exceptions to this are ```abuild``` and ```arch```.
+`EXPRESSION` is more or less a valid perl expression except that
+variables don't have a starting `'$'` and are implicitly environment
+variables. The only exceptions to this are `abuild` and `arch`.
 
-Also, you can use ```exists(PACKAGE)``` to test for a specific package.
+Also, you can use `exists(PACKAGE)` to test for a specific package or
+`exists(PACKAGE, FILE)` to test for a file in a package.
 
 Example:
 
@@ -69,6 +70,21 @@ elsif arch eq 'sparc'
 else
 # ...
 endif 
+```
+
+### Environment variables
+
+You can set environment variables:
+
+```
+MyVar1 = package-xxx
+MyVar2 = "Value With Spaces"
+```
+and use them everywhere by putting the variable name between `'<'` and `'>'`:
+
+```
+  <MyVar1>:
+  MyVar3 = <MyVar2>
 ```
 
 ### Packages
@@ -84,18 +100,18 @@ It unpacks the selected package into a temporary directory.
 You can add tags (comma-separated) after the colon. The following tags
 are supported:
 
-  - requires: create a file ```PACKAGE_NAME.requires``` in the image root
+  - requires: create a file `PACKAGE_NAME.requires` in the image root
   - nodeps: ignore package dependencies when solving
   - ignore: ignore package ('BuildIgnore')
 
-```PACKAGE_NAME``` may be empty which can be used to tell the parser that
+`PACKAGE_NAME` may be empty which can be used to tell the parser that
 subsequent lines do not belong to any package.
 
-```PACKAGE_NAME``` can contain '*'s. In that case the latest package version
-is used. If ```PACKAGE_NAME``` ends in '~' the last but one version is used.
+`PACKAGE_NAME` can contain `'*'`s. In that case the latest package version
+is used. If `PACKAGE_NAME` ends in `'~'` the last but one version is used.
 
-If ```PACKAGE_NAME``` starts with a '?', the package is optional.
-This is a handy shortcut if you'd otherwise use an 'if' with exists().
+If `PACKAGE_NAME` starts with a `'?'`, the package is optional.
+This is a handy shortcut if you'd otherwise use an `if` with `exists()`.
 
 Examples:
 
@@ -113,7 +129,7 @@ Several actions can be specified using the following syntax:
 <action> <arg1> <arg2> ...
 ```
 
-Do the specified action. ```<action>``` is one of these:
+Do the specified action. `<action>` is one of these:
 
 - Add the file/directory tree to the image:
 
@@ -194,7 +210,7 @@ l <args>
 s <args>
 ```
 
-- Apply a patch from the ```data/*/``` tree. The patch **must not** contain
+- Apply a patch from the `data/*/` tree. The patch **must not** contain
 absolute path names!
 
 ```
@@ -251,10 +267,12 @@ C <major> <minor> <name>
   E <script>
 ```
 
-- Apply a perl regexp in a sed-like fashion to a file, ```<regexp>``` may
-  contain white space but not ```<file>```.
-  If this is a multi line regexp (ends with /s) it is applied to
+- Apply a perl regexp in a sed-like fashion to a file, `<regexp>` may
+  contain white space but not `<file>`.
+  If this is a multi line regexp (ends with `/s`) it is applied to
   the whole file. Otherwise the regexp is applied to each line.
+
+  Note: `<file>` must not be an absolute symlink!
 
 ```
   R <regexp> <file>
@@ -268,8 +286,8 @@ C <major> <minor> <name>
   f <dir> <name> <dst>
 ```
 
-- search for a file ```<name>``` (in the local system!) below ```<dir>``` and
-  copy it to ```<dst>``` (```<dst>``` may be omitted)
+- search for a file `<name>` (in the local system!) below `<dir>` and
+  copy it to `<dst>` (`<dst>` may be omitted)
 
 ```
   F <dir> <name> <dst>
@@ -314,7 +332,7 @@ the file list and the first match is used.
 
 Note that the template should contain some action (it should not be
 empty) because otherwise the matching will continue. If you don't need
-any action use something inconspicuous, e.g. 'd .'.
+any action use something inconspicuous, e.g. `'d .'`.
 
 ### Resolving dependencies
 
