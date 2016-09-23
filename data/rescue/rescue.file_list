@@ -172,15 +172,16 @@ xfsprogs:
 xz:
 
 if theme eq 'SLES'
-  sles-release:
+  ReleasePackage = sles-release
   sles-release-MINI:
 elsif theme eq 'SLED'
-  sled-release:
+  ReleasePackage = sled-release
   sled-release-MINI:
 else
-  openSUSE-release:
+  ReleasePackage = openSUSE-release
   openSUSE-release-mini:
 endif
+<ReleasePackage>:
 
 # we have full samba in rescue-server
 if filelist ne 'rescue-server'
@@ -357,7 +358,12 @@ x bashrc root/.profile
 d /sys
 
 # patch out 'Server' from product name
-R s/ Server//g etc/os-release
+# sometimes os-release is in /etc, sometimes in /usr/lib
+if exists(<ReleasePackage>, usr/lib/os-release)
+  R s/ Server//g usr/lib/os-release
+else
+  R s/ Server//g etc/os-release
+endif
 R s/ Server//g etc/issue
 
 # remove files we don't want to show up at all

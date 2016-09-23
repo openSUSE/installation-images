@@ -65,6 +65,7 @@ use ReadConfig;
 sub add_pack;
 sub _add_pack;
 sub find_missing_packs;
+sub rpm_has_file;
 sub fixup_re;
 
 my $ignore;
@@ -160,9 +161,7 @@ sub AddFiles
 
     s/<rpm_file>/$rpm_file/g;
     s/<(kernel_ver|kernel_mods|kernel_rpm|kernel_img|(suse|sles|sled)_release|theme|base_theme|splash_theme|yast_theme|product|product_name|update_dir|load_image|min_memory|instsys_build_id|instsys_complain|instsys_complain_root|arch|lib)>/$ConfigData{$1}/g;
-    for my $i (qw( linuxrc lang extramod items )) {
-      s/<$i>/$ENV{$i}/g if exists $ENV{$i};
-    }
+    s/<(\w+)>/exists $ENV{$1} ? $ENV{$1} : "<$1>"/eg;
 
     if(/^endif/) {
       $if_val >>= 1;
@@ -212,6 +211,16 @@ sub AddFiles
     }
 
     print "*$ifmsg" if $debug =~ /\bif\b/;
+
+    # set environment var
+    if(/^(\w+)\s*=\s*(.*+)\s*$/) {
+      my $key = $1;
+      my $val = $2;
+      $val =~ s/^(['"])(.*)\1$/$2/;
+      print "$key = \"$val\"\n" if $debug =~ /\bif\b/;
+      $ENV{$key} = $val;
+      next;
+    }
 
     if(/^include\s+(\S+)$/) {
       die "$Script: recursive include not supported" if $inc_it;
@@ -826,6 +835,29 @@ sub find_missing_packs
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Check if an rpm contains a file.
+#
+# rpm_has_file(rpm, file)
+#
+# If file is missing, verifies only existence of rpm.
+#
+sub rpm_has_file
+{
+  my ($rpm, $file) = @_;
+
+  return 0 if !RealRPM $rpm;
+
+  return 1 if $file eq "";
+
+  my $rpm_dir = ReadRPM $rpm;
+
+  return 0 if !$rpm_dir;
+
+  return -e "$rpm_dir/rpm/$file";
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 sub fixup_re
 {
   local ($_);
@@ -845,7 +877,8 @@ sub fixup_re
     substr($re, length($2), length($3)) = $val;
   }
 
-  $re =~ s/\bexists\(([^)]*)\)/RealRPM($1) ? 1 : 0/eg;
+  $re =~ s/\bexists\(([^),]+),\s*([^)]*)\)/rpm_has_file($1, $2) ? 1 : 0/eg;
+  $re =~ s/\bexists\(([^)]*)\)/rpm_has_file($1) ? 1 : 0/eg;
 
   return $re;
 }
