@@ -679,7 +679,10 @@ sub resolve_deps_obs
   my @err;
   my %added;
 
-  open $f, "curl -k -s -T $t -X POST '$ConfigData{obs_server}/build/$prj/$repo/$ConfigData{obs_arch}/_repository/_buildinfo?debug=1' |";
+  my $cmd = "curl -k -s -T $t -H 'Content-Type: application/octet-stream' -X POST '$ConfigData{obs_server}/build/$prj/$repo/$ConfigData{obs_arch}/_repository/_buildinfo?debug=1'";
+
+  print "== $cmd ==\n" if $ENV{debug} =~ /solv/;
+  open $f, "$cmd |";
   while(<$f>) {
     print $_ if $ENV{debug} =~ /solv/;
     $added{$1} = $3 if /^added (\S+?)(\@\S+)? because of (\S+?)(:|$)/;
