@@ -1,0 +1,2 @@
+TERM=xterm manual=1 console=ttyS1
+
