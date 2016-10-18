@@ -26,10 +26,11 @@ for theme in $THEMES ; do
 
   install -m 644 /boot/image-* $DESTDIR/branding/$theme/CD1/boot/$ARCH/linux
 
-  install -m 644 data/initrd/s390/suse.ins $DESTDIR/branding/$theme/CD1/suse.ins
-  perl -pi -e "s#^([^*]+)#boot/$ARCH/\$1#" $DESTDIR/branding/$theme/CD1/suse.ins
-  install -m 644 data/initrd/s390/susehmc.ins $DESTDIR/branding/$theme/CD1/susehmc.ins
-  install -m 644 data/initrd/s390/suse.ins $DESTDIR/branding/$theme/CD1/boot/$ARCH/suse.ins
+  for i in suse.ins susehmc.ins ; do
+    install -m 644 data/initrd/s390/$i $DESTDIR/branding/$theme/CD1/$i
+    perl -pi -e "s#^([^*]+)#boot/$ARCH/\$1#" $DESTDIR/branding/$theme/CD1/$i
+    install -m 644 data/initrd/s390/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH/$i
+  done
 
   install -m 644 data/initrd/s390/parmfile $DESTDIR/branding/$theme/CD1/boot/$ARCH/parmfile
   install -m 644 data/initrd/s390/parmfile.hmc $DESTDIR/branding/$theme/CD1/boot/$ARCH/parmfile.hmc
