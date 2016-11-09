@@ -28,9 +28,11 @@ for theme in $THEMES ; do
 
   install -m 644 data/initrd/s390/suse.ins $DESTDIR/branding/$theme/CD1/suse.ins
   perl -pi -e "s#^([^*]+)#boot/$ARCH/\$1#" $DESTDIR/branding/$theme/CD1/suse.ins
+  install -m 644 data/initrd/s390/susehmc.ins $DESTDIR/branding/$theme/CD1/susehmc.ins
   install -m 644 data/initrd/s390/suse.ins $DESTDIR/branding/$theme/CD1/boot/$ARCH/suse.ins
 
   install -m 644 data/initrd/s390/parmfile $DESTDIR/branding/$theme/CD1/boot/$ARCH/parmfile
+  install -m 644 data/initrd/s390/parmfile.hmc $DESTDIR/branding/$theme/CD1/boot/$ARCH/parmfile.hmc
   install -m 644 data/initrd/s390/parmfile.cd $DESTDIR/branding/$theme/CD1/boot/$ARCH/parmfile.cd
 
   install -m 644 data/initrd/s390/sles12.exec $DESTDIR/branding/$theme/CD1/boot/$ARCH/sles12.exec
