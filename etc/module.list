@@ -244,6 +244,7 @@ kernel/drivers/i2c/
 kernel/drivers/nvme/
 kernel/drivers/nvdimm/
 kernel/drivers/usb/dwc3/
+kernel/drivers/usb/core/ledtrig-usbport.ko
 
 kernel/fs/efivarfs/
 
