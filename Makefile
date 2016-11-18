@@ -214,7 +214,7 @@ cd1: install
 	for i in `cat images/rpmlist` ; do \
 	  echo -e "$$i:\n  X <rpm_file> CD1/boot/<arch>\n" >> data/cd1/gen/rpm.file_list; \
 	done
-	theme=$(THEMES) nostrip=1 image=cd1 fs=none sw 0 bin/mk_image
+	theme=$(THEMES) nostrip=1 image=cd1 fs=none bin/mk_image
 	cp -a images/instsys/CD1 tmp/cd1
 	rm -f tmp/cd1/CD1/boot/*/rpmlist
 	cp -a images/instsys/branding/$(THEMES)/CD1 tmp/cd1
