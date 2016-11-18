@@ -4,3 +4,6 @@
 # Run 'mkdocs serve' to view it locally.
 site_name: (open)SUSE installation images
 docs_dir: doc
+theme: readthedocs
+repo_url: https://github.com/openSUSE/installation-images
+edit_uri: edit/master/doc/
