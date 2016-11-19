@@ -88,6 +88,7 @@ nfsidmap:
 sed:
 ?wicked:
 ?s390-tools-hmcdrvfs:
+rsyslog:
 sysconfig-netconfig:
 sg3_utils:
 systemd-presets-branding-<base_theme>:
@@ -596,8 +597,8 @@ x service_start /bin
 # mini host file
 x etc/host.conf etc
 
-# log to console 4
-x etc/syslog.conf etc
+# we have a custom rsyslog.conf
+x etc/rsyslog.conf etc
 
 # additional scripts for linuxrc
 x scripts /

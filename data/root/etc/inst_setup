@@ -91,18 +91,6 @@ for i in /update/[0-9]*/install/update.pre ; do
   [ -x "$i" ] && "$i"
 done
 
-# start syslogd
-if [ -x /usr/sbin/syslogd ] ; then
-  checkproc /usr/sbin/syslogd || {
-    echo -n "starting syslogd (logging to /var/log/messages)..."
-    if /usr/sbin/syslogd ; then
-      echo " ok"
-    else
-      echo " failed"
-    fi
-  }
-fi
-
 # start klog
 if [ -x /sbin/klogd ] ; then
   checkproc /sbin/klogd || {
