@@ -1,0 +1,12 @@
+#! /bin/bash
+#USAGE: requires the LOGHOST variable to be set
+
+#set loghost
+echo "*.*@${LOGHOST}:514" > /etc/rsyslog.d/loghost.conf
+
+echo -n "starting rsyslogd (logging to /var/log/messages)..."
+if /usr/sbin/rsyslogd ; then
+  echo " ok"
+else
+  echo " failed"
+fi
