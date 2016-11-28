@@ -11,7 +11,7 @@ BUG_REPORT_URL="https://bugs.opensuse.org"
 HOME_URL="https://opensuse.org/"
 ID_LIKE="suse"
 
-== tumbleweed ==
+== tumbleweed (old) ==
 
 NAME=openSUSE
 VERSION="Tumbleweed"
@@ -23,6 +23,19 @@ CPE_NAME="cpe:/o:opensuse:opensuse:20160126"
 BUG_REPORT_URL="https://bugs.opensuse.org"
 HOME_URL="https://www.opensuse.org/"
 ID_LIKE="suse"
+
+== tumbleweed ==
+
+NAME="openSUSE Tumbleweed"
+# VERSION="20161125"
+ID=opensuse
+ID_LIKE="suse"
+VERSION_ID="20161125"
+PRETTY_NAME="openSUSE Tumbleweed"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:tumbleweed:20161125"
+BUG_REPORT_URL="https://bugs.opensuse.org"
+HOME_URL="https://www.opensuse.org/"
 
 == leap ==
 

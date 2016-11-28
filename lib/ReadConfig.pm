@@ -855,6 +855,7 @@ sub get_version_info
   my $f;
   my %config;;
 
+  $file = "${BasePath}tmp/base/usr/lib/os-release" if -f "${BasePath}tmp/base/usr/lib/os-release";
   if(open $f, $file) {
     while(<$f>) {
       $config{$1} = $2 if /^([^\s=]+)\s*=\s*\"?(.*?)\"?\s*$/;
@@ -892,7 +893,9 @@ sub get_version_info
   # don't accept other names than these
   $dist = "" if $dist !~ /^(leap|sles|sled)$/;
 
-  $dist .= $config{VERSION} eq 'Tumbleweed' ? 'tw' : $config{VERSION_ID};
+  my $is_tw = $config{VERSION} eq 'Tumbleweed' || $config{CPE_NAME} =~ /:tumbleweed:/;
+
+  $dist .= $is_tw ? 'tw' : $config{VERSION_ID};
   $dist =~ s/\..*$// if $dist =~ /^(sles|sled)/;
 
   # print "dist=\"$dist\"\n";
