@@ -58,6 +58,7 @@ autoconf: ignore
 automake: ignore
 bind-utils: ignore
 curl: ignore
+dbus-1-x11: ignore
 dirmngr: ignore
 gdk-pixbuf-query-loaders: ignore
 gettext-tools-mini: ignore
