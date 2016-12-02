@@ -2,6 +2,11 @@ if arch eq 'i386' || arch eq 'x86_64'
   d loader
   x syslinux.cfg /loader/isolinux.cfg
 
+  # remove 'upgrade' boot entry
+  if BOOTMENU_NO_UPGRADE
+    R s/\n# upgrade.*?\n\n/\n/s loader/isolinux.cfg
+  endif
+
   <kernel_rpm>:
     a /boot/<kernel_img> /loader/linux
 
