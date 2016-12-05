@@ -29,11 +29,15 @@ if arch eq 'x86_64' || arch eq 'aarch64'
   e msgfmt -o EFI/BOOT/locale/en.mo grub2_head.po
   r grub2_head.po
 
+  # remove 'upgrade' boot entry
+  if BOOTMENU_NO_UPGRADE
+    R s/\nmenuentry 'Upgrade'.*?\n\}\n//s EFI/BOOT/grub.cfg
+  endif
+
   # grub2-efi with graphics
   # this is just for patching grub.cfg
   # real themes files are unpacked in theme.file_list
   ?grub2-branding-<splash_theme>:   
     R s/^with_gfx=0/with_gfx=1/ EFI/BOOT/grub.cfg
     R s/THEME/<splash_theme>/g EFI/BOOT/grub.cfg
-
 endif

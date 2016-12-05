@@ -7,6 +7,11 @@ d grub2-ieee1275
   x grub-powerpc.cfg grub2-ieee1275/grub.cfg
   R s/ARCH/<arch>/ grub2-ieee1275/grub.cfg
 
+  # remove 'upgrade' boot entry
+  if BOOTMENU_NO_UPGRADE
+    R s/\nmenuentry 'Upgrade'.*?\n\}\n//s grub2-ieee1275/grub.cfg
+  endif
+
   # show product name in title instead of default grub string
   d grub2-ieee1275/locale
   x grub2_head.po .
