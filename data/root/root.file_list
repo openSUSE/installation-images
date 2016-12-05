@@ -189,16 +189,7 @@ if exists(yast2-storage-ng)
   yast2-storage: ignore
 endif
 
-if theme eq 'SLES'
-  sles-release:
-  sles-release-MINI:
-elsif theme eq 'SLED'
-  sled-release:
-  sled-release-MINI:
-else
-  openSUSE-release:
-  openSUSE-release-mini:
-endif
+include ../base/release.inc
 
 # pull in yast2 installation related packages via package deps
 ?skelcd-control-openSUSE:

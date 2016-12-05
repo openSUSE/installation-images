@@ -21,7 +21,7 @@ TEMPLATE binutils:
   r /usr/bin/ld
   s ld.bfd /usr/bin/ld
 
-TEMPLATE nfs-client|device-mapper|rpcbind|rsync|syslogd|dmraid|multipath-tools:
+TEMPLATE nfs-client|device-mapper|rpcbind|rsync|rsyslog|dmraid|multipath-tools:
   /
   E prein
   E postin
@@ -171,17 +171,16 @@ xfsdump:
 xfsprogs:
 xz:
 
+# add correct product release package
+
 if theme eq 'SLES'
   ReleasePackage = sles-release
-  sles-release-MINI:
 elsif theme eq 'SLED'
   ReleasePackage = sled-release
-  sled-release-MINI:
 else
   ReleasePackage = openSUSE-release
-  openSUSE-release-mini:
 endif
-<ReleasePackage>:
+<ReleasePackage>: nodeps
 
 # we have full samba in rescue-server
 if filelist ne 'rescue-server'
@@ -316,7 +315,7 @@ device-mapper:
 rpcbind:
 rsync:
 syslog-service:
-syslogd:
+rsyslog:
 util-linux:
 wicked:
 dmraid:
