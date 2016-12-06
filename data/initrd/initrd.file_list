@@ -98,17 +98,7 @@ vlan:
 which:
 ?xen-tools-domU:
 
-if theme eq 'SLES'
-  ReleasePackage = sles-release
-  sles-release-MINI:
-elsif theme eq 'SLED'
-  ReleasePackage = sled-release
-  sled-release-MINI:
-else
-  ReleasePackage = openSUSE-release
-  openSUSE-release-mini:
-endif
-<ReleasePackage>:
+include ../base/release.inc
 
 linuxrc:
   if linuxrc

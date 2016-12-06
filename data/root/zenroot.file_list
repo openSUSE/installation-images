@@ -40,16 +40,7 @@ filesystem:
 
 AUTODEPS:
 
-if theme eq 'SLES'
-  sles-release:
-  sles-release-MINI:
-elsif theme eq 'SLED'
-  sled-release:
-  sled-release-MINI:
-else
-  openSUSE-release:
-  openSUSE-release-mini:
-endif
+include ../base/release.inc
 
 ?grub:
 bzip2:
@@ -217,7 +208,7 @@ rpcbind:
   E prein
   E postin
 
-syslogd:
+rsyslog:
   /
   E prein
   E postin
