@@ -322,11 +322,6 @@ sysvinit-tools:
   /
   c 755 0 0 /sbin/showconsole
 
-syslogd:
-  /
-  # we have our own
-  r /etc/syslog.conf
-
 krb5:
   /etc
   /usr/lib*/libkrb5.so.*
