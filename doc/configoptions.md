@@ -40,7 +40,7 @@
 - uncompressed_root=1
 
   build uncompressed image
-  
+
 - keeproot=1
 
   don't rebuild everything, just recreate (copy the cached tree and compress) the
@@ -110,7 +110,10 @@
 
 - linuxrc=&lt;absolute_filename&gt;
 
-  use the specified linuxrc (taken from the running system!)
+  use the specified linuxrc (taken from the running system!).
+  Caveats may apply: please also refer to the
+  [linuxrc](https://github.com/openSUSE/linuxrc) docs
+  and the [troubleshooting section](#troubleshooting-and-hacks).
 
 - mkdevs=1
 
@@ -174,7 +177,7 @@
   the boot image type we should create; small is a 1.44MB image, hd for
   boot CD with hd emulation, isolinux for a CD with 'no emulation'; large is
   mainly for ia64 (the image is basically just a dos partition)
-  
+
 - bootlogo=1|0
 
   whether to add the graphical boot logo; if unset, the logo will not be added
