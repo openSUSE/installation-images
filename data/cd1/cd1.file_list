@@ -4,6 +4,9 @@ if theme eq 'SLES'
 elsif theme eq 'SLED'
   skelcd-sled:
     /
+elsif theme eq 'CASP'
+  skelcd-casp:
+    /
 else
   skelcd-<theme>:
     /
