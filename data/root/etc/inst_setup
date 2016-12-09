@@ -91,6 +91,15 @@ for i in /update/[0-9]*/install/update.pre ; do
   [ -x "$i" ] && "$i"
 done
 
+# start rsyslogd
+if [ -x /usr/sbin/rsyslogd ] ; then
+  checkproc /usr/sbin/rsyslogd || {
+    echo -n "starting rsyslogd (logging to /dev/tty4)..."
+    sh -c '/usr/sbin/rsyslogd >&1' 2>/dev/null
+    echo " ok"
+  }
+fi
+
 # start klog
 if [ -x /sbin/klogd ] ; then
   checkproc /sbin/klogd || {
