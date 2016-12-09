@@ -77,56 +77,61 @@ floppy	=
 ; You can override settings via env vars of the same name ('foo_theme').
 ;
 [Theme openSUSE]
-image	= 350
-release  = openSUSE
-skelcd   = openSUSE
-yast     = openSUSE
-gfxboot  = openSUSE
-grub2    = openSUSE
-plymouth = openSUSE
-systemd  = openSUSE
+image	    = 350
+release     = openSUSE
+skelcd      = openSUSE
+skelcd_ctrl = openSUSE
+yast        = openSUSE
+gfxboot     = openSUSE
+grub2       = openSUSE
+plymouth    = openSUSE
+systemd     = openSUSE
 
 
 [Theme SLES]
-image	= 600
-release  = sles
-skelcd   = SLES
-yast     = SLE
-gfxboot  = SLE
-grub2    = SLE
-plymouth = SLE
-systemd  = SLE
+image	    = 600
+release     = sles
+skelcd      = sles
+skelcd_ctrl = SLES
+yast        = SLE
+gfxboot     = SLE
+grub2       = SLE
+plymouth    = SLE
+systemd     = SLE
 
 
 [Theme SLED]
-image	= 600
-release  = sled
-skelcd   = SLES
-yast     = SLE
-gfxboot  = SLE
-grub2    = SLE
-plymouth = SLE
-systemd  = SLE
+image	    = 600
+release     = sled
+skelcd      = sled
+skelcd_ctrl = SLES
+yast        = SLE
+gfxboot     = SLE
+grub2       = SLE
+plymouth    = SLE
+systemd     = SLE
 
 
 [Theme CASP]
-image	 = 600
-release  = casp
-skelcd   = CASP
-yast     = SLE
-gfxboot  = SLE
-grub2    = SLE
-plymouth = SLE
-systemd  = SLE
+image	    = 600
+release     = casp
+skelcd      = casp
+skelcd_ctrl = CASP
+yast        = SLE
+gfxboot     = SLE
+grub2       = SLE
+plymouth    = SLE
+systemd     = SLE
 
 
 [Theme Zen]
-image   = 600
-release  = sles
-skelcd   = SLES
-yast     = SLE
-gfxboot  = SLE
-grub2    = SLE
-plymouth = SLE
-systemd  = SLE
+image       = 600
+release     = sles
+skelcd      = sles
+skelcd_ctrl = SLES
+yast        = SLE
+gfxboot     = SLE
+grub2       = SLE
+plymouth    = SLE
+systemd     = SLE
 

@@ -192,7 +192,7 @@ endif
 <release_theme>-release: nodeps
 
 # pull in yast2 installation related packages via package deps
-skelcd-control-<skelcd_theme>:
+skelcd-control-<skelcd_ctrl_theme>:
 
 rpm:
   /bin

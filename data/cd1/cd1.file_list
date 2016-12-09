@@ -1,18 +1,7 @@
-if theme eq 'SLES'
-  skelcd-sles:
-    /
-elsif theme eq 'SLED'
-  skelcd-sled:
-    /
-elsif theme eq 'CASP'
-  skelcd-casp:
-    /
-else
-  skelcd-<theme>:
-    /
-endif
+skelcd-<skelcd_theme>:
+  /
 
-skelcd-control-<theme>:
+skelcd-control-<skelcd_ctrl_theme>:
   /
 
 d CD1/boot/<arch>
