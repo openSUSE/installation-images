@@ -358,11 +358,14 @@ d /sys
 
 # patch out 'Server' from product name
 # sometimes os-release is in /etc, sometimes in /usr/lib
-if exists(<ReleasePackage>, usr/lib/os-release)
+if exists(<release_theme>-release, usr/lib/os-release)
   R s/ Server//g usr/lib/os-release
 else
   R s/ Server//g etc/os-release
 endif
+# generate /etc/issue
+x /etc/issue /etc
+R s/product_name/<product_name>/g /etc/issue
 R s/ Server//g etc/issue
 
 # remove files we don't want to show up at all
