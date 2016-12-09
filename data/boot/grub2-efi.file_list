@@ -37,7 +37,7 @@ if arch eq 'x86_64' || arch eq 'aarch64'
   # grub2-efi with graphics
   # this is just for patching grub.cfg
   # real themes files are unpacked in theme.file_list
-  ?grub2-branding-<splash_theme>:   
+  ?grub2-branding-<grub2_theme>:
     R s/^with_gfx=0/with_gfx=1/ EFI/BOOT/grub.cfg
-    R s/THEME/<splash_theme>/g EFI/BOOT/grub.cfg
+    R s/THEME/<grub2_theme>/g EFI/BOOT/grub.cfg
 endif

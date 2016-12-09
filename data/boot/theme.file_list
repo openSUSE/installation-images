@@ -2,10 +2,10 @@ if arch eq 'i386' || arch eq 'x86_64'
 
   d loader
 
-  gfxboot-branding-<splash_theme>:
+  gfxboot-branding-<gfxboot_theme>:
     /
-    e cp -a etc/bootsplash/themes/<splash_theme>/cdrom/* loader
-    e gfxboot --config-file=loader/gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/<suse_release>/driverupdate
+    e cp -a etc/bootsplash/themes/<gfxboot_theme>/cdrom/* loader
+    e gfxboot --config-file=loader/gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/openSUSE/driverupdate
 
   r etc var
 
@@ -27,13 +27,13 @@ if arch eq 'x86_64' || arch eq 'aarch64'
   # grub.cfg is patched in grub2-efi.file_list
   if 1
     d grub2-efi
-    ?grub2-branding-<splash_theme>:
+    ?grub2-branding-<grub2_theme>:
       m /usr/share/grub2/themes grub2-efi
-      m /usr/share/grub2/backgrounds/<splash_theme>/default-43.png grub2-efi/themes/<splash_theme>/background.png
-      r grub2-efi/themes/<splash_theme>/{activate-theme,COPYING.CC-BY-SA-3.0,README}
-      R s/\r// grub2-efi/themes/<splash_theme>/theme.txt
-      p <splash_theme>-efi.diff
-      R s/PRODUCT/<product_name>/ grub2-efi/themes/<splash_theme>/theme.txt
+      m /usr/share/grub2/backgrounds/<grub2_theme>/default-43.png grub2-efi/themes/<grub2_theme>/background.png
+      r grub2-efi/themes/<grub2_theme>/{activate-theme,COPYING.CC-BY-SA-3.0,README}
+      R s/\r// grub2-efi/themes/<grub2_theme>/theme.txt
+      p <grub2_theme>-efi.diff
+      R s/PRODUCT/<product_name>/ grub2-efi/themes/<grub2_theme>/theme.txt
 
     grub2:
       m /usr/share/grub2/unicode.pf2 grub2-efi

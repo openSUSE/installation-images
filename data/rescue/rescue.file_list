@@ -156,7 +156,7 @@ strace:
 suse-module-tools:
 sysconfig:
 sysconfig-netconfig:
-systemd-presets-branding-<base_theme>:
+systemd-presets-branding-<systemd_theme>:
 systemd-sysvinit:
 tar:
 telnet:
@@ -171,16 +171,7 @@ xfsdump:
 xfsprogs:
 xz:
 
-# add correct product release package
-
-if theme eq 'SLES'
-  ReleasePackage = sles-release
-elsif theme eq 'SLED'
-  ReleasePackage = sled-release
-else
-  ReleasePackage = openSUSE-release
-endif
-<ReleasePackage>: nodeps
+<release_theme>-release: nodeps
 
 # we have full samba in rescue-server
 if filelist ne 'rescue-server'

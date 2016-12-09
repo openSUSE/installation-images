@@ -91,14 +91,14 @@ sed:
 rsyslog:
 sysconfig-netconfig:
 sg3_utils:
-systemd-presets-branding-<base_theme>:
+systemd-presets-branding-<systemd_theme>:
 tar:
 util-linux-systemd:
 vlan:
 which:
 ?xen-tools-domU:
 
-include ../base/release.inc
+<release_theme>-release: nodeps
 
 linuxrc:
   if linuxrc
@@ -355,7 +355,7 @@ if exists(plymouth)
     R s/^Theme=.*/Theme=tribar/ /usr/share/plymouth/plymouthd.defaults
   plymouth-scripts: nodeps
   plymouth-plugin-script:
-  plymouth-branding-<base_theme>: nodeps
+  plymouth-branding-<plymouth_theme>: nodeps
   ?plymouth-theme-tribar:
 endif
 
@@ -555,7 +555,7 @@ include texts.file_list
 
 # patch out 'Server' from product name
 # sometimes os-release is in /etc, sometimes in /usr/lib
-if exists(<ReleasePackage>, usr/lib/os-release)
+if exists(<release_theme>-release, usr/lib/os-release)
   R s/ Server//g usr/lib/os-release
 else
   R s/ Server//g etc/os-release

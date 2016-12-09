@@ -90,7 +90,7 @@ squashfs:
 strace:
 suse-module-tools:
 ?syslinux:
-systemd-presets-branding-<base_theme>:
+systemd-presets-branding-<systemd_theme>:
 systemd:
 tar:
 terminfo-base:
@@ -98,7 +98,7 @@ terminfo-base:
 udev:
 util-linux:
 
-include ../base/release.inc
+<release_theme>-release: nodeps
 
 ca-certificates:
   /usr/sbin/update-ca-certificates

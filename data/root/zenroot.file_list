@@ -40,7 +40,7 @@ filesystem:
 
 AUTODEPS:
 
-include ../base/release.inc
+<release_theme>-release: nodeps
 
 ?grub:
 bzip2:
@@ -73,7 +73,7 @@ parted:
 polkit:
 procps:
 reiserfs:
-systemd-presets-branding-<base_theme>: ignore
+systemd-presets-branding-<systemd_theme>: ignore
 systemd:
 systemd-sysvinit:
 tar:

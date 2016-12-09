@@ -168,7 +168,7 @@ sg3_utils:
 snapper:
 suse-module-tools:
 ?syslinux:
-systemd-presets-branding-<base_theme>:
+systemd-presets-branding-<systemd_theme>:
 systemd-sysvinit:
 systemd:
 usbutils:
@@ -189,13 +189,10 @@ if exists(yast2-storage-ng)
   yast2-storage: ignore
 endif
 
-include ../base/release.inc
+<release_theme>-release: nodeps
 
 # pull in yast2 installation related packages via package deps
-?skelcd-control-openSUSE:
-?skelcd-control-SLES:
-?skelcd-control-SLES-for-VMware:
-?skelcd-control-SLED:
+skelcd-control-<skelcd_theme>:
 
 rpm:
   /bin
