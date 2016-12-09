@@ -41,6 +41,11 @@ c 660 0 6 /dev/loop6
 b 7 7 /dev/loop7
 c 660 0 6 /dev/loop7
 
+TEMPLATE dbus-1:
+  /
+  # not needed
+  r /usr/bin/dbus-launch*
+
 TEMPLATE:
   /
 
@@ -90,7 +95,7 @@ squashfs:
 strace:
 suse-module-tools:
 ?syslinux:
-systemd-presets-branding-<base_theme>:
+systemd-presets-branding-<systemd_theme>:
 systemd:
 tar:
 terminfo-base:
@@ -98,7 +103,7 @@ terminfo-base:
 udev:
 util-linux:
 
-include ../base/release.inc
+<release_theme>-release: nodeps
 
 ca-certificates:
   /usr/sbin/update-ca-certificates

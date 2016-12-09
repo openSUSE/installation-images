@@ -40,7 +40,7 @@ filesystem:
 
 AUTODEPS:
 
-include ../base/release.inc
+<release_theme>-release: nodeps
 
 ?grub:
 bzip2:
@@ -73,7 +73,7 @@ parted:
 polkit:
 procps:
 reiserfs:
-systemd-presets-branding-<base_theme>: ignore
+systemd-presets-branding-<systemd_theme>: ignore
 systemd:
 systemd-sysvinit:
 tar:
@@ -115,6 +115,8 @@ bash:
 
 dbus-1: prein
   /
+  # not needed
+  r /usr/bin/dbus-launch*
   e save_cfg etc/passwd etc/shadow etc/group
   e prein
   e restore_cfg etc/passwd etc/shadow etc/group

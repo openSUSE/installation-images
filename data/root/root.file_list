@@ -19,6 +19,11 @@ r /etc/issue
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+TEMPLATE dbus-1:
+  /
+  # not needed
+  r /usr/bin/dbus-launch*
+
 TEMPLATE binutils:
   /
   r /usr/bin/ld
@@ -168,7 +173,7 @@ sg3_utils:
 snapper:
 suse-module-tools:
 ?syslinux:
-systemd-presets-branding-<base_theme>:
+systemd-presets-branding-<systemd_theme>:
 systemd-sysvinit:
 systemd:
 usbutils:
@@ -189,13 +194,10 @@ if exists(yast2-storage-ng)
   yast2-storage: ignore
 endif
 
-include ../base/release.inc
+<release_theme>-release: nodeps
 
 # pull in yast2 installation related packages via package deps
-?skelcd-control-openSUSE:
-?skelcd-control-SLES:
-?skelcd-control-SLES-for-VMware:
-?skelcd-control-SLED:
+skelcd-control-<skelcd_ctrl_theme>:
 
 rpm:
   /bin
@@ -430,7 +432,7 @@ if arch ne 's390' && arch ne 's390x'
 
   xrandr:
   xf86-input-evdev:
-  xf86-input-libinput:
+  ?xf86-input-libinput:
   xf86-input-synaptics:
   ?xf86-input-vmmouse:
   xf86-input-void:
@@ -438,7 +440,6 @@ if arch ne 's390' && arch ne 's390x'
   xf86-video-ati: nodeps
   xf86-video-cirrus:
   xf86-video-fbdev:
-  ?xf86-video-modesetting:
   xf86-video-nv:
   xf86-video-r128:
   xf86-video-sis:
@@ -608,11 +609,7 @@ fonts-config:
   /
   E postin
 
-if exists(pango-modules)
-  pango-modules:
-else
-  pango-tools:
-endif
+pango-tools:
   /
   E [ -x /usr/bin/pango-querymodules ] && pango-querymodules >/etc/pango/pango.modules || true
   E [ -x /usr/bin/pango-querymodules-64 ] && pango-querymodules-64 >/etc/pango/pango64.modules || true
@@ -636,9 +633,6 @@ e mkfontdir usr/share/fonts/misc
 
 e mkfontscale usr/share/fonts/truetype
 e mkfontdir usr/share/fonts/truetype
-
-# patch out 'Server' from product name
-R s/ Server//g etc/issue
 
 # remove /etc/os-release so it's not used accidentally
 r /etc/os-release
@@ -710,6 +704,14 @@ endif
 # add yast preferred font list
 d /usr/share/libyui/data
 x lang_fonts /usr/share/libyui/data/lang_fonts
+
+if theme eq 'CASP'
+  # patch /etc/zypp/zypp.conf (fate #321764); sets
+  # solver.onlyRequires = true, rpm.install.excludedocs = yes, multiversion =
+  R s/^[#[:space:]]*(solver.onlyRequires)\s+=.*/# minimal CASP\n$1 = true/ etc/zypp/zypp.conf
+  R s/^[#[:space:]]*(rpm.install.excludedocs)\s+=.*/# minimal CASP\n$1 = yes/ etc/zypp/zypp.conf
+  R s/^[#[:space:]]*(multiversion)\s+=.*/# minimal CASP\n$1 =/ etc/zypp/zypp.conf
+endif
 
 # allowed dangling symlinks
 D ../../sbin/update-ca-certificates /usr/lib64/p11-kit/p11-kit-extract-trust

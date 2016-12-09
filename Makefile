@@ -50,19 +50,14 @@ BOOT_PARTS    :=
 endif
 
 # THEMES must be a single value
-THEMES        := openSUSE
-DESTDIR       := images/instsys
-
-ifneq ($(filter i386 x86_64, $(ARCH)),)
-# needs SLES themes
-# THEMES        += Zen
-endif
+THEMES  := openSUSE
+DESTDIR := images/instsys
 
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY BUILD_ID
 
 .PHONY: all dirs base fbase biostest initrd \
 	boot boot-efi root rescue root+rescue gdb bind libstoragemgmt clean \
-	boot-themes initrd-themes root-themes zenroot install \
+	boot-themes initrd-themes zenroot install \
 	install-initrd mini-iso-rmlist debuginfo cd1 iso
 
 all: $(ALL_TARGETS) VERSION changelog
@@ -192,11 +187,6 @@ boot-themes: base
 
 initrd-themes: base
 	mkdir -p images/$(THEMES)/install-initrd
-
-root-themes: base
-	for theme in $(THEMES) ; do \
-	  theme=$$theme image=$$theme/$$theme tmpdir=root-$$theme src=root filelist=theme fs=squashfs bin/mk_image ; \
-	done
 
 zenroot:
 	theme=$(THEMES) libdeps=zenroot alternatives=1 image=zenroot src=root fs=squashfs bin/mk_image

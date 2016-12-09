@@ -67,6 +67,7 @@ sub _add_pack;
 sub find_missing_packs;
 sub rpm_has_file;
 sub fixup_re;
+sub replace_config_var;
 
 my $ignore;
 my $src_line;
@@ -160,8 +161,7 @@ sub AddFiles
     $ifmsg = sprintf " [%x|%x] %s\n", $if_val, $if_taken, $_;
 
     s/<rpm_file>/$rpm_file/g;
-    s/<(kernel_ver|kernel_mods|kernel_rpm|kernel_img|(suse|sles|sled)_release|theme|base_theme|splash_theme|yast_theme|product|product_name|update_dir|load_image|min_memory|instsys_build_id|instsys_complain|instsys_complain_root|arch|lib)>/$ConfigData{$1}/g;
-    s/<(\w+)>/exists $ENV{$1} ? $ENV{$1} : "<$1>"/eg;
+    s/<(\w+)>/replace_config_var($1)/eg;
 
     if(/^endif/) {
       $if_val >>= 1;
@@ -883,5 +883,32 @@ sub fixup_re
   return $re;
 }
 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Look up a config variable and (if it exists) return the config variable's
+# value.
+#
+# If the config variable does not exist log it and return (the literal
+# string) "<$name>".
+#
+# Config variables are entries in the %ConfigData hash, possibly overridden
+# by environment variables of the same name.
+#
+# replace_config_var(name)
+#
+sub replace_config_var
+{
+  my $name = $_[0];
+  my $val;
+
+  $val = $ConfigData{$name} if exists $ConfigData{$name};
+  $val = $ENV{$name} if exists $ENV{$name};
+
+  return $val if defined $val;
+
+  print "undefined config var: $name\n";
+
+  return "<$name>";
+}
 
 1;

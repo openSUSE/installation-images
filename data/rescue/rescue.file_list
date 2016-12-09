@@ -156,7 +156,7 @@ strace:
 suse-module-tools:
 sysconfig:
 sysconfig-netconfig:
-systemd-presets-branding-<base_theme>:
+systemd-presets-branding-<systemd_theme>:
 systemd-sysvinit:
 tar:
 telnet:
@@ -171,16 +171,7 @@ xfsdump:
 xfsprogs:
 xz:
 
-# add correct product release package
-
-if theme eq 'SLES'
-  ReleasePackage = sles-release
-elsif theme eq 'SLED'
-  ReleasePackage = sled-release
-else
-  ReleasePackage = openSUSE-release
-endif
-<ReleasePackage>: nodeps
+<release_theme>-release: nodeps
 
 # we have full samba in rescue-server
 if filelist ne 'rescue-server'
@@ -294,6 +285,8 @@ aaa_base:
 
 dbus-1:
   /
+  # not needed
+  r /usr/bin/dbus-launch*
   E prein
   E postin
 
@@ -358,11 +351,14 @@ d /sys
 
 # patch out 'Server' from product name
 # sometimes os-release is in /etc, sometimes in /usr/lib
-if exists(<ReleasePackage>, usr/lib/os-release)
+if exists(<release_theme>-release, usr/lib/os-release)
   R s/ Server//g usr/lib/os-release
 else
   R s/ Server//g etc/os-release
 endif
+# generate /etc/issue
+x /etc/issue /etc
+R s/product_name/<product_name>/g /etc/issue
 R s/ Server//g etc/issue
 
 # remove files we don't want to show up at all

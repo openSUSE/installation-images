@@ -891,7 +891,7 @@ sub get_version_info
   # special enterprise products may have extra text beside SLES or SLED
   $dist = $1 if $dist =~ /(sles|sled)/;
   # don't accept other names than these
-  $dist = "" if $dist !~ /^(leap|sles|sled)$/;
+  $dist = "" if $dist !~ /^(casp|leap|sles|sled)$/;
 
   my $is_tw = $config{VERSION} eq 'Tumbleweed' || $config{CPE_NAME} =~ /:tumbleweed:/;
 
@@ -1271,9 +1271,11 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $load_image = $load_image * 1024 if $load_image;
 
   $ConfigData{theme} = $theme;
-  $ConfigData{base_theme} = $ConfigData{ini}{"Theme $theme"}{base};
-  $ConfigData{splash_theme} = $ConfigData{ini}{"Theme $theme"}{splash};
-  $ConfigData{yast_theme} = $ConfigData{ini}{"Theme $theme"}{yast};
+  for (sort keys %{$ConfigData{ini}{"Theme $theme"}}) {
+    next if $_ eq 'image';
+    $ConfigData{$_ . '_theme'} = $ConfigData{ini}{"Theme $theme"}{$_};
+  }
+
   $ConfigData{product_name} = $ConfigData{os}{product_mini} || "openSUSE";
   $ConfigData{update_dir} = $ConfigData{os}{update};
   $ConfigData{load_image} = $load_image;

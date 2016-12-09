@@ -65,32 +65,73 @@ x86_64	= lib64
 cdrom	= 800x600,1024x768,1280x1024,1400x1050,1600x1200
 floppy	= 
 
-
+; Define per-theme related values.
+;
+; 'image' ends up as MemLoadImage entry in linuxrc.config.
+;
+; All other values are intended as suffixes for branding packages. Values
+; can be used as <foo_theme> in *.file_list files.
+;
+; The theme name itself is available as <theme>.
+;
+; You can override settings via env vars of the same name ('foo_theme').
+;
 [Theme openSUSE]
-base    = openSUSE
-splash  = openSUSE
-yast    = openSUSE
-image	= 350
+image	    = 350
+release     = openSUSE
+skelcd      = openSUSE
+skelcd_ctrl = openSUSE
+yast        = openSUSE
+gfxboot     = openSUSE
+grub2       = openSUSE
+plymouth    = openSUSE
+systemd     = openSUSE
 
 
 [Theme SLES]
-base    = SLE
-splash  = SLE
-yast    = SLE
-image	= 600
+image	    = 600
+release     = sles
+skelcd      = sles
+skelcd_ctrl = SLES
+yast        = SLE
+gfxboot     = SLE
+grub2       = SLE
+plymouth    = SLE
+systemd     = SLE
 
 
 [Theme SLED]
-base    = SLE
-splash  = SLE
-yast    = SLE
-image	= 600
+image	    = 600
+release     = sled
+skelcd      = sled
+skelcd_ctrl = SLES
+yast        = SLE
+gfxboot     = SLE
+grub2       = SLE
+plymouth    = SLE
+systemd     = SLE
+
+
+[Theme CASP]
+image	    = 600
+release     = casp
+skelcd      = casp
+skelcd_ctrl = CASP
+yast        = SLE
+gfxboot     = SLE
+grub2       = SLE
+plymouth    = SLE
+systemd     = SLE
 
 
 [Theme Zen]
-base    = SLE
-splash  = SLE
-yast    = SLE
-image   = 600
-
+image       = 600
+release     = sles
+skelcd      = sles
+skelcd_ctrl = SLES
+yast        = SLE
+gfxboot     = SLE
+grub2       = SLE
+plymouth    = SLE
+systemd     = SLE
 
