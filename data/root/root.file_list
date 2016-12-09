@@ -633,9 +633,6 @@ e mkfontdir usr/share/fonts/misc
 e mkfontscale usr/share/fonts/truetype
 e mkfontdir usr/share/fonts/truetype
 
-# patch out 'Server' from product name
-R s/ Server//g etc/issue
-
 # remove /etc/os-release so it's not used accidentally
 r /etc/os-release
 
