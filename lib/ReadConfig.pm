@@ -1271,9 +1271,11 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $load_image = $load_image * 1024 if $load_image;
 
   $ConfigData{theme} = $theme;
-  $ConfigData{base_theme} = $ConfigData{ini}{"Theme $theme"}{base};
-  $ConfigData{splash_theme} = $ConfigData{ini}{"Theme $theme"}{splash};
-  $ConfigData{yast_theme} = $ConfigData{ini}{"Theme $theme"}{yast};
+  for (sort keys %{$ConfigData{ini}{"Theme $theme"}}) {
+    next if $_ eq 'image';
+    $ConfigData{$_ . '_theme'} = $ConfigData{ini}{"Theme $theme"}{$_};
+  }
+
   $ConfigData{product_name} = $ConfigData{os}{product_mini} || "openSUSE";
   $ConfigData{update_dir} = $ConfigData{os}{update};
   $ConfigData{load_image} = $load_image;
