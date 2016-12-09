@@ -367,7 +367,6 @@ systemd:
   /usr/lib/systemd/systemd-vconsole-setup
   /usr/bin/systemd-detect-virt
   /usr/lib/systemd/systemd-sysctl
-  /usr/lib*/libsystemd*.so.*
   # plymouth is not working if we include all rules - no idea why
   /usr/lib/udev/rules.d/99-systemd.rules
 
