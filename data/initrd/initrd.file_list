@@ -405,6 +405,8 @@ aaa_base:
 
 dbus-1:
   /
+  # not needed
+  r /usr/bin/dbus-launch*
   E prein
 
 # For FIPS installation:

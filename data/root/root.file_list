@@ -19,6 +19,11 @@ r /etc/issue
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+TEMPLATE dbus-1:
+  /
+  # not needed
+  r /usr/bin/dbus-launch*
+
 TEMPLATE binutils:
   /
   r /usr/bin/ld
