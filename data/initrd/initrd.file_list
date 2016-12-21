@@ -117,6 +117,9 @@ linuxrc:
 libzypp: nodeps
   /etc
 
+sharutils:
+  m /usr/bin/uuencode
+
 grep:
   /usr/bin/grep
 
