@@ -118,7 +118,7 @@ libzypp: nodeps
   /etc
 
 sharutils:
-  m /usr/bin/uuencode
+  /usr/bin/uuencode
 
 grep:
   /usr/bin/grep
