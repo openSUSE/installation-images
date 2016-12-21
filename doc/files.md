@@ -6,7 +6,7 @@ Starting with openSUSE 13.1 and SLE12, the easiest way to include a package in
 the installation system is modifying the `installation-images`
 package in the Open Build Service. That package evaluates the dependencies and
 automatically adds the required packages. Simply add the needed packages as a
-Requires dependency to the respective package and that's it.
+BuildRequires dependency to the respective package and that's it.
 
 ## Modifying the list of files
 
@@ -20,7 +20,28 @@ For every generated image there is a subdirectory in the `data` directory.
 Among other several things, those directories contain files with the extension
 `.file_list`. In order to fine tune the content of the generated images,
 just modify the corresponding `.file_list` file according to the syntax
-described below.
+described [below](#format-of-the-file-list).
+
+The output of `tree` shows the `.file_list` we're talking about.
+
+```
+#tree data -P "*.file_list"
+
+data
+├── base
+│   └── base.file_list
+├── boot
+│   ├── boot.file_list
+...
+├── cd1
+│   ├── cd1.file_list
+...
+├── initrd
+...
+│   ├── initrd.file_list
+...
+
+```
 
 Keep in mind that in order to make sure the images still can be generated in the
 Open Build Service, it's necessary to add the corresponding `BuildRequires`
