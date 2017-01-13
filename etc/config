@@ -114,7 +114,7 @@ systemd     = SLE
 
 [Theme CASP]
 image	    = 600
-release     = casp
+release     = caasp
 skelcd      = casp
 skelcd_ctrl = CASP
 yast        = SLE
