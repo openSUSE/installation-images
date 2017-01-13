@@ -90,7 +90,7 @@ ID="sles_sap"
 ANSI_COLOR="0;32"
 CPE_NAME="cpe:/o:suse:sles_sap:12:sp1"
 
-== casp10 ==
+== casp10 [obsolete] ==
 
 NAME="CASP"
 VERSION="1.0"
@@ -99,4 +99,14 @@ PRETTY_NAME="SUSE Containers as a Service Platform 1.0"
 ID="casp"
 ANSI_COLOR="0;32"
 CPE_NAME="cpe:/o:suse:casp:1.0"
+
+== caasp10 ==
+
+NAME="CAASP"
+VERSION="1.0"
+VERSION_ID="1.0"
+PRETTY_NAME="SUSE Containers as a Service Platform 1.0"
+ID="caasp"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:suse:caasp:1.0"
 
