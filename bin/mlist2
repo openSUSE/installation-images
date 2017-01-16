@@ -38,6 +38,7 @@ $added_mods = "${BasePath}tmp/modules-config/module_added";
 $debug = exists($ENV{'debug'}) ?  $ENV{'debug'} : "";
 
 $arch = `uname -m`; chomp $arch; $arch = "i386" if $arch =~ /^i\d86$/;
+$arch = $ENV{TEST_ARCH} if exists $ENV{TEST_ARCH};
 
 $err = 0;
 
