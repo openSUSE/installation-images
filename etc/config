@@ -112,7 +112,7 @@ plymouth    = SLE
 systemd     = SLE
 
 
-[Theme CASP]
+[Theme CAASP]
 image	    = 600
 release     = caasp
 skelcd      = casp
@@ -121,7 +121,7 @@ yast        = SLE
 gfxboot     = SLE
 grub2       = SLE
 plymouth    = SLE
-systemd     = SLE
+systemd     = CAASP
 
 
 [Theme Zen]

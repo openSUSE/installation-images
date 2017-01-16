@@ -75,7 +75,7 @@ if [ -f images/rescue-server ] ; then
   t=openSUSE
   [ -d $DESTDIR/branding/SLES ] && t=SLES
   [ -d $DESTDIR/branding/SLED ] && t=SLED
-  [ -d $DESTDIR/branding/CASP ] && t=CASP
+  [ -d $DESTDIR/branding/CAASP ] && t=CAASP
   dst=$DESTDIR/usr/share/rescue-server/boot/x86_64
   mkdir -p $dst
   cp images/rescue-server $dst
@@ -88,7 +88,7 @@ if [ -f images/zenroot ] ; then
   t=openSUSE
   [ -d $DESTDIR/branding/SLES ] && t=SLES
   [ -d $DESTDIR/branding/SLED ] && t=SLED
-  [ -d $DESTDIR/branding/CASP ] && t=CASP
+  [ -d $DESTDIR/branding/CAASP ] && t=CAASP
   dst=$DESTDIR/branding/Zen/CD1/boot/x86_64
   mkdir -p $dst
   cp images/zenroot $dst/root
