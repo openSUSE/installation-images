@@ -444,7 +444,6 @@ if arch ne 's390' && arch ne 's390x'
   xf86-video-r128:
   xf86-video-sis:
   ?xf86-video-vesa:
-  ?xf86-video-vmware: nodeps
 
   ?xf86-video-intel: nodeps
     /usr/<lib>/xorg
@@ -502,16 +501,6 @@ xorg-x11-fonts:
 xkeyboard-config:
   /usr/share
   /var/lib
-
-if arch eq 's390x'
-  # these libs are needed for 32-Bit vnc
-
-  glibc-32bit:
-    /lib/ld*.so
-    /lib/libc.so.6
-    /lib/libdl.so.2
-    /lib/libm.so.6
-endif
 
 if exists(xorg-x11-Xvnc)
   xorg-x11-Xvnc:
