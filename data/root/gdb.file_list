@@ -2,7 +2,7 @@ TEMPLATE:
   /
 
 gdb:
-?valgrind:
+?valgrind: nodeps
 yast2-buildtools: ignore
 
 AUTODEPS:
