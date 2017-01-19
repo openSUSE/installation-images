@@ -444,7 +444,6 @@ if arch ne 's390' && arch ne 's390x'
   xf86-video-r128:
   xf86-video-sis:
   ?xf86-video-vesa:
-  ?xf86-video-vmware: nodeps
 
   ?xf86-video-intel: nodeps
     /usr/<lib>/xorg
