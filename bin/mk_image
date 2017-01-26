@@ -78,7 +78,7 @@ if(!$mode{keep} || $mode{add}) {
   AddFiles $tmpdir, "${srcdir}/$fl.file_list", $srcdir, $dangling_links or
     die "$Script: failed to setup image";
 
-  if(-f "$tmpdir.rpmlog") {
+  if(-s "$tmpdir.rpmlog") {
     SUSystem "chmod 777 $tmpdir";
     SUSystem "perl -pe 's/\\[(.*?)\\].*/\$1/' $tmpdir.rpmlog | sort -u >$tmpdir/.packages.$fl";
     SUSystem "cp $tmpdir.rpmlog $tmpdir/.packages.$fl";
