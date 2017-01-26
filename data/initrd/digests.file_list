@@ -1,0 +1,5 @@
+# *** assumes tftp tree has been built ***
+
+d etc/linuxrc.d
+
+X <tmp_path>/tftp/content etc/linuxrc.d/01_digests
