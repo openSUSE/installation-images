@@ -45,3 +45,9 @@ done
 mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
 
+if [ -d images/tftp ] ; then
+  dst=$DESTDIR/srv/tftp
+  mkdir -p $dst
+  cp -a images/tftp/* $dst
+  cp $DESTDIR/branding/$THEMES/CD1/boot/$ARCH/{linux,initrd} $dst/*/boot/$ARCH
+fi
