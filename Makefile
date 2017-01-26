@@ -10,41 +10,43 @@ BRANCH  := $(shell [ -d .git ] && git branch | perl -ne 'print $$_ if s/^\*\s*//
 PREFIX  := installation-images-$(VERSION)
 BUILD_ID := $(shell [ -f .build_id ] || bin/build_id > .build_id ; cat .build_id)
 
-COMMON_TARGETS	     := rescue root root+rescue bind libstoragemgmt gdb mini-iso-rmlist
+# build initrd+modules+gefrickel after tftp (it needs the sha256 sums over the other images)
+COMMON_TARGETS	     := rescue root root+rescue bind libstoragemgmt gdb mini-iso-rmlist tftp initrd+modules+gefrickel
+# keep in sync with data/boot/tftp.file_list
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind libstoragemgmt gdb
 
 ifneq ($(filter i386, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel boot boot-themes $(COMMON_TARGETS) zenroot
+ALL_TARGETS   := initrd-themes initrd boot boot-themes $(COMMON_TARGETS) zenroot
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := boot/* initrd
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel boot-grub2-efi boot boot-themes $(COMMON_TARGETS) rescue-server zenroot
+ALL_TARGETS   := initrd-themes initrd boot-grub2-efi boot boot-themes $(COMMON_TARGETS) rescue-server zenroot
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := boot/* initrd efi
 endif
 
 ifneq ($(filter ia64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules boot-efi $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd boot-efi $(COMMON_TARGETS)
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := initrd efi
 endif
 
 ifneq ($(filter s390 s390x, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd $(COMMON_TARGETS)
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := initrd
 endif
 
 ifneq ($(filter aarch64, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel boot boot-grub2-efi boot-themes $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd boot boot-grub2-efi boot-themes $(COMMON_TARGETS)
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := boot/* initrd efi
 endif
 
 ifneq ($(filter ppc ppc64 ppc64le, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd initrd+modules+gefrickel boot-grub2-powerpc $(COMMON_TARGETS)
+ALL_TARGETS   := initrd-themes initrd boot-grub2-powerpc $(COMMON_TARGETS)
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    :=
 endif
@@ -57,7 +59,7 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY BUILD_ID
 
 .PHONY: all dirs base fbase biostest initrd \
 	boot boot-efi root rescue root+rescue gdb bind libstoragemgmt clean \
-	boot-themes initrd-themes zenroot install \
+	boot-themes initrd-themes zenroot tftp install \
 	install-initrd mini-iso-rmlist debuginfo cd1 iso
 
 all: $(ALL_TARGETS) VERSION changelog
@@ -102,6 +104,7 @@ initrd+modules: base
 	theme=$(THEMES) bin/mlist2
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
 	theme=$(THEMES) mode=add tmpdir=initrd image=modules src=initrd fs=none bin/mk_image
+	theme=$(THEMES) mode=add tmpdir=initrd image=digests src=initrd fs=none bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd/modules/module.config images/module-config/$${MOD_CFG:-default}
@@ -115,6 +118,7 @@ initrd+modules+gefrickel: base
 	# work on a copy to not modify the origial tree
 	cp -a tmp/initrd tmp/initrd_gefrickel
 	theme=$(THEMES) mode=add tmpdir=initrd_gefrickel image=modules src=initrd fs=none bin/mk_image
+	theme=$(THEMES) mode=add tmpdir=initrd_gefrickel image=digests src=initrd fs=none bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd_gefrickel/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd_gefrickel/modules/module.config images/module-config/$${MOD_CFG:-default}
@@ -146,6 +150,15 @@ boot-grub2-powerpc: base
 
 boot: base
 	theme=$(THEMES) image=boot fs=dir bin/mk_image
+
+tftp: base
+	mkdir -p data/boot/gen
+	rm -f data/boot/gen/rpm.file_list
+	for i in `cat images/rpmlist` ; do \
+	  echo -e "$$i:\n  X <rpm_file> <tftp_dir>/<instsys_dir>\n" >> data/boot/gen/rpm.file_list; \
+	done
+	theme=$(THEMES) image=tftp src=boot fs=dir bin/mk_image
+	rm -f images/tftp/{.packages.tftp,content}
 
 root: base
 	theme=$(THEMES) libdeps=root,initrd image=root bin/mk_image
