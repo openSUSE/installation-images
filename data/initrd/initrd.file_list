@@ -68,7 +68,7 @@ endif
 
 ?biosdevname:
 cpio:
-cracklib-dict-small:
+cracklib-dict-full: ignore
 curl:
 device-mapper:
 ethtool:

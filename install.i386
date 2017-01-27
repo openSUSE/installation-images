@@ -72,30 +72,30 @@ mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
 
 if [ -f images/rescue-server ] ; then
-  t=openSUSE
-  [ -d $DESTDIR/branding/SLES ] && t=SLES
-  [ -d $DESTDIR/branding/SLED ] && t=SLED
-  [ -d $DESTDIR/branding/CAASP ] && t=CAASP
   dst=$DESTDIR/usr/share/rescue-server/boot/x86_64
   mkdir -p $dst
   cp images/rescue-server $dst
   echo "rescue: rescue-server" >$dst/config
-  cp -a $DESTDIR/CD1/boot/$ARCH/loader $DESTDIR/branding/$t/CD1/boot/$ARCH/loader $dst
+  cp -a $DESTDIR/CD1/boot/$ARCH/loader $DESTDIR/branding/$THEMES/CD1/boot/$ARCH/loader $dst
   cp data/boot/syslinux-rescue.cfg $dst/loader/isolinux.cfg
 fi
 
 if [ -f images/zenroot ] ; then
-  t=openSUSE
-  [ -d $DESTDIR/branding/SLES ] && t=SLES
-  [ -d $DESTDIR/branding/SLED ] && t=SLED
-  [ -d $DESTDIR/branding/CAASP ] && t=CAASP
   dst=$DESTDIR/branding/Zen/CD1/boot/x86_64
   mkdir -p $dst
   cp images/zenroot $dst/root
   echo "root: root" >$dst/config
-  cp -a $DESTDIR/CD1/boot/$ARCH/loader $DESTDIR/branding/$t/CD1/boot/$ARCH/* $dst
-  [ -d "$DESTDIR/branding/$t/CD1/EFI" ] && cp -a $DESTDIR/branding/$t/CD1/EFI $DESTDIR/branding/Zen/CD1
+  cp -a $DESTDIR/CD1/boot/$ARCH/loader $DESTDIR/branding/$THEMES/CD1/boot/$ARCH/* $dst
+  [ -d "$DESTDIR/branding/$THEMES/CD1/EFI" ] && cp -a $DESTDIR/branding/$THEMES/CD1/EFI $DESTDIR/branding/Zen/CD1
   cp data/boot/syslinux-zen.cfg $dst/loader/isolinux.cfg
   cp data/boot/message-zen $dst/loader/message
+fi
+
+if [ -d images/tftp ] ; then
+  dst=$DESTDIR/srv/tftp
+  mkdir -p $dst
+  cp -a images/tftp/* $dst
+  cp images/boot/loader/linux $dst/*/boot/$ARCH
+  cp images/$THEMES/initrd $dst/*/boot/$ARCH
 fi
 

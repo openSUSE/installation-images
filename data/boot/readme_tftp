@@ -1,0 +1,16 @@
+There is no boot loader configurations prepared.
+
+To use this directory to start an installation, note:
+
+- kernel is DIR/linux
+
+- initrd is DIR/initrd
+
+- kernel options should contain these two options:
+    instsys=tftp://TFTP_SERVER/INSTSYS
+    install=REPO_URL
+
+- replace TFTP_SERVER with your actual tftp server address
+
+- replace REPO_URL with the URL of the repository you want to install
+

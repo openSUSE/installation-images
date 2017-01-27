@@ -884,6 +884,9 @@ sub get_version_info
 
   $ConfigData{os}{product_mini} = $product_mini;
 
+  $ConfigData{os}{product_short} = $config{NAME};
+  $ConfigData{os}{product_short} .= "-$config{VERSION}" if $config{VERSION};
+
   # get dist tag for driver updates
 
   my $dist = "\L$config{NAME}";
@@ -1223,6 +1226,9 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   $i = $dist;
 
+  $ConfigData{tmp_path} = "${BasePath}tmp";
+  $ConfigData{image_path} = $ImagePath;
+
   $ConfigData{cache_dir} = getcwd() . "/${BasePath}cache/$ConfigData{dist}";
   $ConfigData{tmp_cache_dir} = getcwd() . "/${BasePath}tmp/cache/$ConfigData{dist}";
   system "mkdir -p $ConfigData{tmp_cache_dir}/.rpms" unless -d "$ConfigData{tmp_cache_dir}/.rpms";
@@ -1277,6 +1283,8 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   }
 
   $ConfigData{product_name} = $ConfigData{os}{product_mini} || "openSUSE";
+  ($ConfigData{product_name_nospaces} = $ConfigData{product_name}) =~ s/\s+/-/g;
+  ($ConfigData{product_short} = $ConfigData{os}{product_short} || "SUSE") =~ s/\s+/-/g;
   $ConfigData{update_dir} = $ConfigData{os}{update};
   $ConfigData{load_image} = $load_image;
 
@@ -1299,7 +1307,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
       $kmp = "";
     }
 
-    print "--- Building for $ConfigData{product_name} $ConfigData{arch} [$ConfigData{lib}], theme $ConfigData{theme}\n";
+    print "--- Building for $ConfigData{product_name} ($ConfigData{product_short}) $ConfigData{arch} [$ConfigData{lib}], theme $ConfigData{theme}\n";
     print "--- Kernel: $ConfigData{kernel_rpm}$kmp, $ConfigData{kernel_img}, $ConfigData{kernel_ver}\n";
 
     $r = $ConfigData{suse_base};
