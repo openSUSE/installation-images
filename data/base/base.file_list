@@ -54,7 +54,7 @@ AUTODEPS:
 ca-certificates-mozilla:
 coreutils:
 cpio:
-cracklib-dict-small:
+cracklib-dict-full:
 cracklib:
 device-mapper:
 diffutils:
