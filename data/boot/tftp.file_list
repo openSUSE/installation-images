@@ -50,7 +50,7 @@ if exists(grub2-x86_64-efi)
   e msgfmt -o <efi_dir>/en_US.mo grub2_head.po
   r grub2_head.po
 
-  # bug in grub2: put config file in *parent* dir 
+  # bug in grub2: put config file in *parent* dir
   e mv <efi_dir>/grub.cfg <efi_dir>/..
 endif
 
