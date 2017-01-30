@@ -1,0 +1,72 @@
+tftp_dir = <product_short>-<arch>
+instsys_dir = boot/<arch>
+kernel_dir = <instsys_dir>
+
+d <tftp_dir>/<kernel_dir>
+
+x readme_tftp <tftp_dir>/README
+if arch eq 'x86_64'
+  x readme_tftp.x86_64 <tftp_dir>/README
+endif
+R s#DIR#<kernel_dir>#g <tftp_dir>/README
+R s#INSTSYS#<tftp_dir>/<instsys_dir>/root#g <tftp_dir>/README
+
+# create pxelinux config
+if exists(syslinux)
+  d <tftp_dir>/pxelinux.cfg
+
+  syslinux:
+    m /usr/share/syslinux/pxelinux.0 <tftp_dir>
+
+  x pxelinux.cfg <tftp_dir>/pxelinux.cfg/default
+  R s#DIR#<kernel_dir>#g <tftp_dir>/pxelinux.cfg/default
+  R s#INSTSYS#<tftp_dir>/<instsys_dir>/root#g <tftp_dir>/pxelinux.cfg/default
+
+  x message-pxe <tftp_dir>/<kernel_dir>/message
+  R s#product_name#<product_name>#g <tftp_dir>/<kernel_dir>/message
+endif
+
+# create grub2 config
+if exists(grub2-x86_64-efi)
+  efi_dir = <tftp_dir>/x86_64-efi
+  locale_dir = <tftp_dir>/locale
+  d <efi_dir> <locale_dir>
+  grub2-x86_64-efi:
+    a usr/lib64/efi/grub.efi <efi_dir>/bootx64.efi
+
+  # if we have shim, use it
+  if exists(shim)
+      e mv <efi_dir>/bootx64.efi <efi_dir>/grub.efi
+    shim:
+      a /usr/lib64/efi/shim.efi <efi_dir>/bootx64.efi
+      a /usr/lib64/efi/MokManager.efi <efi_dir>
+  endif
+
+  x grub_tftp.cfg <tftp_dir>/grub.cfg
+  R s#DIR#<kernel_dir>#g <tftp_dir>/grub.cfg
+  R s#INSTSYS#<tftp_dir>/<instsys_dir>/root#g <tftp_dir>/grub.cfg
+
+  x grub2_head.po .
+  R s/product_name/<product_name>/ grub2_head.po
+  e msgfmt -o <locale_dir>/en_US.mo grub2_head.po
+  r grub2_head.po
+endif
+
+include gen/rpm.file_list
+
+skelcd-control-<skelcd_ctrl_theme>:
+  m CD1/control.xml <tftp_dir>/<instsys_dir>
+
+:
+
+# keep in sync with Makefile::COMMON_INSTSYS_PARTS
+X <image_path>/config <tftp_dir>/<instsys_dir>
+X <image_path>/root <tftp_dir>/<instsys_dir>
+X <image_path>/common <tftp_dir>/<instsys_dir>
+X <image_path>/rescue <tftp_dir>/<instsys_dir>
+X <image_path>/bind <tftp_dir>/<instsys_dir>
+X <image_path>/libstoragemgmt <tftp_dir>/<instsys_dir>
+X <image_path>/gdb <tftp_dir>/<instsys_dir>
+
+# generate digests in 'content' file style
+e cd <tftp_dir>; sha256sum <instsys_dir>/* | sed -e "s/^/HASH SHA256 /" >../content

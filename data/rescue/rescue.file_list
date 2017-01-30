@@ -84,7 +84,7 @@ checkmedia:
 cifs-utils:
 coreutils:
 cpio:
-cracklib-dict-small:
+cracklib-dict-full:
 cracklib:
 cryptsetup:
 ?libcryptsetup4-hmac:
