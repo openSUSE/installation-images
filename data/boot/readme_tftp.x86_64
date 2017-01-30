@@ -5,8 +5,8 @@ There are two boot loader configurations prepared:
   - boot loader config file: pxelinux.cfg/default
 
 2. boot via UEFI BIOS with grub2
-  - boot file: efi/boot/bootx64.efi
-  - boot loader config file: efi/grub.cfg
+  - boot file: x86_64-efi/bootx64.efi
+  - boot loader config file: grub.cfg
 
 Edit the boot loader config file to suit your needs:
   - replace TFTP_SERVER with your actual tftp server address

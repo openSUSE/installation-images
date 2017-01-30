@@ -28,8 +28,9 @@ endif
 
 # create grub2 config
 if exists(grub2-x86_64-efi)
-  efi_dir = <tftp_dir>/efi
-  d <efi_dir>
+  efi_dir = <tftp_dir>/x86_64-efi
+  locale_dir = <tftp_dir>/locale
+  d <efi_dir> <locale_dir>
   grub2-x86_64-efi:
     a usr/lib64/efi/grub.efi <efi_dir>/bootx64.efi
 
@@ -41,17 +42,14 @@ if exists(grub2-x86_64-efi)
       a /usr/lib64/efi/MokManager.efi <efi_dir>
   endif
 
-  x grub_tftp.cfg <efi_dir>/grub.cfg
-  R s#DIR#<kernel_dir>#g <efi_dir>/grub.cfg
-  R s#INSTSYS#<tftp_dir>/<instsys_dir>/root#g <efi_dir>/grub.cfg
+  x grub_tftp.cfg <tftp_dir>/grub.cfg
+  R s#DIR#<kernel_dir>#g <tftp_dir>/grub.cfg
+  R s#INSTSYS#<tftp_dir>/<instsys_dir>/root#g <tftp_dir>/grub.cfg
 
   x grub2_head.po .
   R s/product_name/<product_name>/ grub2_head.po
-  e msgfmt -o <efi_dir>/en_US.mo grub2_head.po
+  e msgfmt -o <locale_dir>/en_US.mo grub2_head.po
   r grub2_head.po
-
-  # bug in grub2: put config file in *parent* dir
-  e mv <efi_dir>/grub.cfg <efi_dir>/..
 endif
 
 include gen/rpm.file_list
