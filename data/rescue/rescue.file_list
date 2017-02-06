@@ -159,7 +159,6 @@ sysconfig-netconfig:
 systemd-presets-branding-<systemd_theme>:
 systemd-sysvinit:
 tar:
-telnet:
 terminfo-base:
 usbutils:
 vim:

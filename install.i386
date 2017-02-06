@@ -92,7 +92,7 @@ if [ -f images/zenroot ] ; then
 fi
 
 if [ -d images/tftp ] ; then
-  dst=$DESTDIR/srv/tftp
+  dst=$DESTDIR/srv/tftpboot
   mkdir -p $dst
   cp -a images/tftp/* $dst
   cp images/boot/loader/linux $dst/*/boot/$ARCH

@@ -228,11 +228,6 @@ bash:
 ncurses-utils:
   /usr/bin/tset
 
-libncurses5:
-  /lib*/libncurses.so.*
-  /lib*/libncursesw.so.*
-  /lib*/libtinfo.so.*
-
 iproute2:
   /bin/ip 
   /sbin/ip
