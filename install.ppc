@@ -43,6 +43,6 @@ if [ -d images/tftp ] ; then
   dst=$DESTDIR/srv/tftpboot
   mkdir -p $dst
   cp -a images/tftp/* $dst
-  cp -a images/instsys/CD1/* $dst/*
-  cp -a images/instsys/branding/$THEMES/CD1/* $dst/*
+  cp -a $DESTDIR/CD1/* $dst/*
+  cp -a $DESTDIR/branding/$THEMES/CD1/* $dst/*
 fi
