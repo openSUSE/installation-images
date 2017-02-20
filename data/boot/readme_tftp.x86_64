@@ -1,12 +1,17 @@
-There are two boot loader configurations prepared:
+This directory contains the set of files needed to prepare SUSE installation
+media. The files are stored within the 'EFI' and 'boot' directories.
+
+The 'net' directory contains the network config needed to run a tftp
+installation server. Sample configurations are provided for both UEFI and
+legacy BIOS ('PXE').
 
 1. boot via legacy BIOS with pxelinux
-  - boot file: pxelinux.0
-  - boot loader config file: pxelinux.cfg/default
+  - boot file: net/pxelinux.0
+  - boot loader config file: net/pxelinux.cfg/default
 
 2. boot via UEFI BIOS with grub2
-  - boot file: x86_64-efi/bootx64.efi
-  - boot loader config file: grub.cfg
+  - boot file: net/x86_64-efi/bootx64.efi
+  - boot loader config file: net/grub.cfg
 
 Edit the boot loader config file to suit your needs:
   - replace TFTP_SERVER with your actual tftp server address

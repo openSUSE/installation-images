@@ -1,11 +1,15 @@
 tftp_dir = <product_short>-<arch>
+net_dir = <tftp_dir>/net
 instsys_dir = boot/<arch>
 kernel_dir = <instsys_dir>
+if arch eq 'x86_64' || arch eq 'i386'
+  kernel_dir = <kernel_dir>/loader
+endif
 
-d <tftp_dir>/<kernel_dir>
+d <net_dir>
 
 x readme_tftp <tftp_dir>/README
-if arch eq 'x86_64'
+if arch eq 'x86_64' || arch eq 'i386'
   x readme_tftp.x86_64 <tftp_dir>/README
 endif
 R s#DIR#<kernel_dir>#g <tftp_dir>/README
@@ -13,44 +17,35 @@ R s#INSTSYS#<tftp_dir>/<instsys_dir>/root#g <tftp_dir>/README
 
 # create pxelinux config
 if exists(syslinux)
-  d <tftp_dir>/pxelinux.cfg
+  d <net_dir>/pxelinux.cfg
 
   syslinux:
-    m /usr/share/syslinux/pxelinux.0 <tftp_dir>
+    m /usr/share/syslinux/pxelinux.0 <net_dir>
 
-  x pxelinux.cfg <tftp_dir>/pxelinux.cfg/default
-  R s#DIR#<kernel_dir>#g <tftp_dir>/pxelinux.cfg/default
-  R s#INSTSYS#<tftp_dir>/<instsys_dir>/root#g <tftp_dir>/pxelinux.cfg/default
+  x pxelinux.cfg <net_dir>/pxelinux.cfg/default
+  R s#DIR#<kernel_dir>#g <net_dir>/pxelinux.cfg/default
+  R s#INSTSYS#<tftp_dir>/<instsys_dir>/root#g <net_dir>/pxelinux.cfg/default
 
-  x message-pxe <tftp_dir>/<kernel_dir>/message
-  R s#product_name#<product_name>#g <tftp_dir>/<kernel_dir>/message
+  x message-pxe <net_dir>/message
+  R s#product_name#<product_name>#g <net_dir>/message
 endif
 
 # create grub2 config
 if exists(grub2-x86_64-efi)
-  efi_dir = <tftp_dir>/x86_64-efi
-  locale_dir = <tftp_dir>/locale
-  d <efi_dir> <locale_dir>
-  grub2-x86_64-efi:
-    a usr/lib64/efi/grub.efi <efi_dir>/bootx64.efi
+  efi_dir = <net_dir>/x86_64-efi
+  d <efi_dir>
+  s ../boot <net_dir>
+  s ../EFI/BOOT/locale <net_dir>/grub.locale
+  s ../../EFI/BOOT/MokManager.efi <efi_dir>
+  s ../../EFI/BOOT/bootx64.efi <efi_dir>
+  s ../../EFI/BOOT/grub.efi <efi_dir>
 
-  # if we have shim, use it
-  if exists(shim)
-      e mv <efi_dir>/bootx64.efi <efi_dir>/grub.efi
-    shim:
-      a /usr/lib64/efi/shim.efi <efi_dir>/bootx64.efi
-      a /usr/lib64/efi/MokManager.efi <efi_dir>
-  endif
-
-  x grub_tftp.cfg <tftp_dir>/grub.cfg
-  R s#DIR#<kernel_dir>#g <tftp_dir>/grub.cfg
-  R s#INSTSYS#<tftp_dir>/<instsys_dir>/root#g <tftp_dir>/grub.cfg
-
-  x grub2_head.po .
-  R s/product_name/<product_name>/ grub2_head.po
-  e msgfmt -o <locale_dir>/en_US.mo grub2_head.po
-  r grub2_head.po
+  x grub_tftp.cfg <net_dir>/grub.cfg
+  R s#DIR#<kernel_dir>#g <net_dir>/grub.cfg
+  R s#INSTSYS#<tftp_dir>/<instsys_dir>/root#g <net_dir>/grub.cfg
 endif
+
+d <tftp_dir>/<instsys_dir>
 
 include gen/rpm.file_list
 
