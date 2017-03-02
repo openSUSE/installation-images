@@ -394,6 +394,10 @@ autoyast2-installation: nodeps
   /var/lib/autoinstall
   /var/adm/autoinstall
 
+# we just need the config files here to ensure they will be writable
+lvm2: nodeps
+  /etc
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 # packages with scripts
