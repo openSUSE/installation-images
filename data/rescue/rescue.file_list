@@ -161,7 +161,6 @@ systemd-sysvinit:
 tar:
 terminfo-base:
 usbutils:
-vim:
 vlan:
 wget:
 ?wicked:
@@ -171,6 +170,11 @@ xfsprogs:
 xz:
 
 <release_theme>-release: nodeps
+
+vim:
+  /
+  # avoid update-alternatives
+  e cd usr/bin ; if [ -f vim-nox11 ] ; then ln -snf vim-nox11 vim ; fi
 
 # we have full samba in rescue-server
 if filelist ne 'rescue-server'
