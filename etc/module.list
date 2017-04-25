@@ -243,6 +243,7 @@ kernel/drivers/tty/serial/jsm/
 kernel/drivers/i2c/
 kernel/drivers/nvme/
 kernel/drivers/nvdimm/
+kernel/drivers/usb/dwc2/
 kernel/drivers/usb/dwc3/
 kernel/drivers/usb/core/ledtrig-usbport.ko
 
