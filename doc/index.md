@@ -23,6 +23,13 @@ tree as it's used on our media.
 
 `make iso` will directly create the .iso file for cd1
 
+> ### Warning
+>
+> _There's currently a bug preventing communication to the Build Service if your
+> password contains 'too weird' characters like spaces or some special symbols._
+>
+> `make` will just not work, then.
+
 ## Configuring the generation of images
 
 The exact behavior of ```make``` can be influenced by several environment
@@ -31,21 +38,10 @@ image, check the [configoptions.md](configoptions.md) file.
 
 ## Committing changes to (open)SUSE
 
-**NOTE: we discussed here something about a hack to exclude branding in some cases**
+Basically every new commit into the master branch of the repository will be auto-submitted
+to all current SUSE products. No further action is needed except accepting the pull request.
 
-Every time a new commit is integrated into the master branch of the repository,
-a new submit request is created in the openSUSE Build Service for the
-[corresponding package](https://build.opensuse.org/package/show/openSUSE:Factory/installation-images-openSUSE).
-
-A similar procedure is set in other branches of this repository, making possible
-to submit changes to other products and versions as well.
-
-* Branch ```sl_11.1``` SUSE Enterprise 11 SP4.
-* Branch ```sle12``` SUSE Enterprise 12.
-* Branch ```master``` Factory and SUSE Enterprise 12 SP1.
-
-You can find more information about this workflow in the [linuxrc-devtools
-documentation](https://github.com/openSUSE/linuxrc-devtools#opensuse-development).
+For details see [here](submitting.md).
 
 ## Anatomy of the images
 
