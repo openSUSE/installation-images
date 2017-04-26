@@ -1,22 +1,25 @@
 # How the branding works
 
-**TODO: the whole content of this file is outdated (copied from a file 13 years
-old). It should be replaced by a similar file describing how the branding works
-nowadays.**
+To add a new theme, add a new `Theme` section to etc/config. Example for theme
+`SLES`:
 
-To add a new theme, add a new 'Theme' section to etc/config. Example for theme
-'SuSE-SLES':
-
+```sh
+[Theme SLES]
+image       = 600			# memory limit for loading inst-sys: 600 MB
+# other entries are branding prefixes or suffixes to branding-related packages
+release     = sles			# sles-release.rpm
+skelcd      = sles			# skelcd-sles.rpm
+skelcd_ctrl = SLES			# skelcd-control-SLES.rpm
+gfxboot     = SLE			# gfxboot-branding-SLE.rpm
+grub2       = SLE			# grub2-branding-SLE.rpm
+plymouth    = SLE			# plymouth-branding-SLE.rpm
+systemd     = SLE			# systemd-presets-branding-SLE.rpm
+yast        = SLE			# yast2-theme-SLE.rpm
 ```
-[Theme SuSE-SLES]
-yast    = SuSELinux			# yast2 theme: yast2-theme-SuSELinux
-splash  = SuSE-SLES			# splash theme: bootsplash-theme-SuSE-SLES
-product = SuSE Linux			# product name (for linuxrc)
-update  = /linux/suse/<arch>-<ul>	# driver update dir
-image   = 96				# memory limit for loading inst-sys: 96 MB
-```
 
-- ```<arch>```: replaced with architecture ('i386')
-- ```<rel>```:  replaced with release number ('8.2')
-- ```<ul>```:   replaced with UL release tag ('ul1')
-- ```<sles>```: replaced with SLES release tag ('sles8')
+Then add an appropriate theme section to `installation-images.spec`.
+
+Note that the actual product name and path for driver updates are
+auto-generated from `/usr/lib/os-release`. For completely new products
+you'll have to adjust `lib/ReadConfig.pm::get_version_info` and please also
+leave a sample of the `os-release` file in `etc/os_sample.txt`.
