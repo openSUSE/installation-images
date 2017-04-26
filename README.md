@@ -36,15 +36,17 @@ drwxr-xr-x         88 Nov  9 16:21 EFI/BOOT
 ```
 
 You can see the kernel (`linux`), the `initrd`, boot loader files belonging to `isolinux` and `grub2`, and
-files like `root`, `rescue`, `common` that are squashfs images containing the installation system with
-the installer [YaST](https://en.opensuse.org/Portal:YaST).
+files like `root`, `rescue`, `common` that are
+[squashfs](http://www.tldp.org/HOWTO/SquashFS-HOWTO)
+images containing the installation system with
+the [YaST](https://en.opensuse.org/Portal:YaST) installer.
 
 If you are going to work on this project, have a look at the documentaion first:
 
 - [General intro](doc/index.md)
 - [Submitting changes to SUSE Build Service](doc/submitting.md)
 - [Modifying the branding](doc/branding.md)
-- [Config options when generating the images](doc/configoptions.md)
+- [Config options for generating the images](doc/configoptions.md)
 - [Adding packages and files to the installation system](doc/files.md)
 - [Kernel modules](doc/modules.md)
 
