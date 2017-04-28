@@ -511,6 +511,7 @@ if exists(xorg-x11-Xvnc)
     /
 endif
 
+Mesa-libGL*:
 Mesa-libEGL*:
 
 libgbm*:
