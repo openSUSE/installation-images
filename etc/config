@@ -116,13 +116,23 @@ systemd     = SLE
 image	    = 600
 release     = caasp
 skelcd      = casp
-skelcd_ctrl = CASP
+skelcd_ctrl = CAASP
 yast        = SLE
 gfxboot     = SLE
 grub2       = SLE
 plymouth    = SLE
 systemd     = CAASP
 
+[Theme Kubic]
+image       = 350
+release     = openSUSE-Kubic
+skelcd      = openSUSE
+skelcd_ctrl = CAASP
+yast        = openSUSE
+gfxboot     = openSUSE
+grub2       = openSUSE
+plymouth    = openSUSE
+systemd     = CAASP
 
 [Theme Zen]
 image       = 600
