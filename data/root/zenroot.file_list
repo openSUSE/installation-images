@@ -155,7 +155,7 @@ netcfg:
   x etc/ssh /lib
   x ../rescue/mount-rootfs-and-do-chroot.sh /bin
 
-openssl:
+openssl*:
   /usr/share/ssl
 
 libopenssl*:
