@@ -159,8 +159,8 @@ openssl:
   /usr/share/ssl
 
 libopenssl*:
-  /lib*/libcrypto.so.*
-  /lib*/libssl.so.*
+  /usr/lib*/libcrypto.so.*
+  /usr/lib*/libssl.so.*
 
 dmidecode:
   /usr/sbin/dmidecode
