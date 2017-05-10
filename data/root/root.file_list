@@ -359,7 +359,11 @@ cracklib: nodeps
   x etc/ssh /lib
   x ../rescue/mount-rootfs-and-do-chroot.sh /bin
 
-openssl:
+if exists(openssl, /usr/share/ssl)
+  openssl:
+else
+  openssl-*:
+endif
   /usr/share/ssl
 
 nscd:
