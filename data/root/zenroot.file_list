@@ -155,12 +155,12 @@ netcfg:
   x etc/ssh /lib
   x ../rescue/mount-rootfs-and-do-chroot.sh /bin
 
-openssl:
+openssl*:
   /usr/share/ssl
 
 libopenssl*:
-  /lib*/libcrypto.so.*
-  /lib*/libssl.so.*
+  /usr/lib*/libcrypto.so.*
+  /usr/lib*/libssl.so.*
 
 dmidecode:
   /usr/sbin/dmidecode
