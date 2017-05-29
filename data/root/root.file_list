@@ -362,6 +362,9 @@ cracklib: nodeps
 if exists(openssl, /usr/share/ssl)
   openssl:
 else
+  # FIXME: for now, ignore old version, else the solver will have multiple
+  # choices and things go down...
+  openssl-1_0_0: ignore
   openssl-*:
 endif
   /usr/share/ssl
