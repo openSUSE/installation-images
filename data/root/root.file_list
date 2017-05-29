@@ -661,10 +661,8 @@ r root mnt tmp proc usr/libexec
 
 x /usr/lib/YaST/.Reh /usr/lib/YaST2
 x etc/inst_setup /sbin/inst_setup
-x etc/adddir /sbin/adddir
 x hostip_from_wicked /sbin/hostip_from_wicked
 c 755 0 0 /sbin/inst_setup
-c 755 0 0 /sbin/adddir
 c 755 0 0 /sbin/hostip_from_wicked
 
 if instsys_complain_root

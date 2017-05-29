@@ -250,10 +250,8 @@ r etc/mtab
 r root mnt tmp proc usr/libexec
 
 x etc/inst_setup /sbin/inst_setup
-x etc/adddir /sbin/adddir
 x hostip_from_wicked /sbin/hostip_from_wicked
 c 755 0 0 /sbin/inst_setup
-c 755 0 0 /sbin/adddir
 c 755 0 0 /sbin/hostip_from_wicked
 
 x /etc/ld.so.conf /etc
