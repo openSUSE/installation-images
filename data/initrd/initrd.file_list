@@ -595,6 +595,9 @@ R s/--lock-media/--unlock-media/g usr/lib/udev/rules.d/60-cdrom_id.rules
 # systemd service start script
 x service_start /bin
 
+# the adddir script used to be in inst-sys but it's needed in initrd, too
+x adddir /sbin
+
 # mini host file
 x etc/host.conf etc
 

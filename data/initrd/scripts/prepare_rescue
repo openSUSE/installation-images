@@ -41,6 +41,14 @@ a=`dd if=/dev/urandom bs=1 count=10 2>/dev/null | md5sum` ; echo ${a%% *} >/etc/
 # preserve hostname
 hostname >/etc/hostname
 
+# driver update: add files to inst-sys
+if [ -d /mounts/initrd/update ] ; then
+  cp -r /mounts/initrd/update /
+  for i in /update/[0-9]*/inst-sys ; do
+    [ -d "$i" ] && /mounts/initrd/sbin/adddir "$i" /
+  done
+fi
+
 # bash >/dev/console 2>&1
 
 rm -f /mounts/initrd/{*,.*}
