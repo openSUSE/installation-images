@@ -37,7 +37,7 @@ s390    = kernel-s390
 [KMP]
 default	=
 i386	= virtualbox-guest,xen
-x86_64	= virtualbox-guest,xen
+x86_64	= virtualbox-guest,xen,drm
 
 
 ; extra firmware packages
