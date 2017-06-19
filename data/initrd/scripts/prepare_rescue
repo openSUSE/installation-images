@@ -1,11 +1,36 @@
 #! /bin/sh
 
-# ensure some trees are completely writable
+# Ensure some directory trees are completely writable.
+#
+# ... but /etc/systemd will be treated specially (see below): move it aside
+# for now.
+#
+mv /etc/systemd /etc_systemd
 for i in /etc /media /root /run /var ; do
   cp -aL $i ${i}_tmp
   rm -rf $i
   mv ${i}_tmp $i
   ln -snf /proc/self/mounts /etc/mtab
+done
+mv /etc_systemd /etc/systemd
+
+# /etc/systemd: keep symlinks instead of files (bsc #1044791)
+#
+# In particular, this keeps symlinks to files except for config files (*.conf)
+# and resolves links to directories.
+#
+for i in /etc/systemd/* /etc/systemd/*/* ; do
+  if [ -L $i ] ; then
+    if [ -d $i ] ; then
+      mv $i ${i}_tmp
+      cp -a ${i}_tmp/ $i
+      rm -f ${i}_tmp
+    elif [ -f $i ] ; then
+      case $i in
+        *.conf) cp -L $i ${i}_tmp ; mv ${i}_tmp $i ;;
+      esac
+    fi
+  fi
 done
 
 if [ -f /mounts/initrd/etc/suse-blinux.conf ] ; then
