@@ -99,6 +99,16 @@ grub2       = SLE
 plymouth    = SLE
 systemd     = SLE
 
+[Theme SLES_SAP]
+image       = 600
+release     = SLES_SAP-installation
+skelcd      = sles
+skelcd_ctrl = SLES
+yast        = SLE
+gfxboot     = SLE
+grub2       = SLE
+plymouth    = SLE
+systemd     = SLE
 
 [Theme SLED]
 image	    = 600
