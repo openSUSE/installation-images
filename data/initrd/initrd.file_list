@@ -432,6 +432,7 @@ openssh: nodeps
 
 udev:
   /
+  E prein
   E groupadd -r tape
 
 # we just want the user & group entries
