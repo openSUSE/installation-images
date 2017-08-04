@@ -562,7 +562,7 @@ arabic-kacst-fonts:
   /usr/share/fonts/truetype/KacstBook.ttf
 
 dmz-icon-theme-cursors:
-  /usr/share/icons/DMZ
+  /usr/share/icons/DMZ-White
 
 multipath-tools:
   /sbin
