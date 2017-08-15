@@ -448,12 +448,7 @@ if arch ne 's390' && arch ne 's390x'
   ?xf86-input-vmmouse:
   xf86-input-void:
   xf86-input-wacom:
-  xf86-video-ati: nodeps
-  xf86-video-cirrus:
   xf86-video-fbdev:
-  xf86-video-nv:
-  xf86-video-r128:
-  xf86-video-sis:
   ?xf86-video-vesa:
 
   ?xf86-video-intel: nodeps
