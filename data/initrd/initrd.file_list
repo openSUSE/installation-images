@@ -433,7 +433,7 @@ openssh: nodeps
 udev:
   /
   E prein
-  E groupadd -r tape
+  E groupadd -r tape || true
 
 # we just want the user & group entries
 polkit: nodeps

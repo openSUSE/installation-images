@@ -555,7 +555,11 @@ arabic-kacst-fonts:
   /usr/share/fonts/truetype/KacstBook.ttf
 
 dmz-icon-theme-cursors:
-  /usr/share/icons/DMZ-White
+  if exists(dmz-icon-theme-cursors, /usr/share/icons/DMZ-White)
+    /usr/share/icons/DMZ-White
+  else
+    /usr/share/icons/DMZ
+  endif
 
 multipath-tools:
   /sbin
