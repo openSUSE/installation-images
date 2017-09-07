@@ -60,6 +60,16 @@ ID="opensuse-kubic"
 ANSI_COLOR="0;32"
 CPE_NAME="cpe:/o:opensuse:opensuse-kubic:1.0"
 
+== openSUSE Tumbleweed Kubic ==
+
+NAME="openSUSE-Tumbleweed-Kubic"
+VERSION="20170905"
+VERSION_ID="20170905"
+PRETTY_NAME="openSUSE Tumbleweed Kubic"
+ID="opensuse-tumbleweed-kubic"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:opensuse-tumbleweed-kubic:20170905"
+
 == sles12 ==
 
 NAME="SLES"
