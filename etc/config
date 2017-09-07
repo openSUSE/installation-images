@@ -135,7 +135,7 @@ systemd     = CAASP
 
 [Theme Kubic]
 image       = 350
-release     = openSUSE-Kubic
+release     = openSUSE-Tumbleweed-Kubic
 skelcd      = openSUSE
 skelcd_ctrl = CAASP
 yast        = openSUSE
