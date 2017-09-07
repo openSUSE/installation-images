@@ -894,7 +894,7 @@ sub get_version_info
   # special enterprise products may have extra text beside SLES or SLED
   $dist = $1 if $dist =~ /(sles|sled)/;
   # don't accept other names than these
-  $dist = "" if $dist !~ /^(casp|caasp|kubic|leap|sles|sled)$/;
+  die "*** unsupported product ***" if $dist !~ /^(casp|caasp|kubic|leap|sles|sled)$/;
 
   my $is_tw = $config{VERSION} eq 'Tumbleweed' || $config{CPE_NAME} =~ /:tumbleweed:/;
 
