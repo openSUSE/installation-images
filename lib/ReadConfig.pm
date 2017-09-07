@@ -894,11 +894,12 @@ sub get_version_info
   # special enterprise products may have extra text beside SLES or SLED
   $dist = $1 if $dist =~ /(sles|sled)/;
   # don't accept other names than these
-  die "*** unsupported product ***" if $dist !~ /^(casp|caasp|kubic|leap|sles|sled)$/;
+
+  die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|leap|sles|sled|tumbleweed)$/;
 
   my $is_tw = $config{VERSION} eq 'Tumbleweed' || $config{CPE_NAME} =~ /:tumbleweed:/;
 
-  $dist .= $is_tw ? 'tw' : $config{VERSION_ID};
+  $dist = $is_tw ? 'tw' : "$dist$config{VERSION_ID}";
   $dist =~ s/\..*$// if $dist =~ /^(sles|sled)/;
 
   # print "dist=\"$dist\"\n";
