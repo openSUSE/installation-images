@@ -50,7 +50,7 @@ BUG_REPORT_URL="https://bugs.opensuse.org"
 HOME_URL="https://opensuse.org/"
 ID_LIKE="suse"
 
-== openSUSE Kubic ==
+== openSUSE Kubic [obsolete] ==
 
 NAME="openSUSE-Kubic"
 VERSION="1.0"

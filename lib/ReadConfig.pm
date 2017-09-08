@@ -895,9 +895,9 @@ sub get_version_info
   $dist = $1 if $dist =~ /(sles|sled)/;
   # don't accept other names than these
 
-  die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|leap|sles|sled|tumbleweed)$/;
+  die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|leap|sles|sled|tumbleweed(-kubic)?)$/;
 
-  my $is_tw = $config{VERSION} eq 'Tumbleweed' || $config{CPE_NAME} =~ /:tumbleweed:/;
+  my $is_tw = $dist =~ /^tumbleweed(-kubic)?$/;
 
   $dist = $is_tw ? 'tw' : "$dist$config{VERSION_ID}";
   $dist =~ s/\..*$// if $dist =~ /^(sles|sled)/;
