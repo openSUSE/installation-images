@@ -81,7 +81,13 @@ variables. The only exceptions to this are `abuild` and `arch`.
 Also, you can use `exists(PACKAGE)` to test for a specific package or
 `exists(PACKAGE, FILE)` to test for a file in a package.
 
-Example:
+Note that the test for `FILE` is made in the unpacked rpm stored in the
+internal cache. So unless it's an absolute path you can walk out of the root
+tree. This can be used to check for the existence of rpm scripts (they are
+cached one level up). Looking at the cache in `tmp/cache/PRODUCT/RPMNAME`
+might make this clearer.
+
+Examples:
 
 ```
 if arch eq 'ppc' && theme eq 'SLES'
@@ -91,6 +97,22 @@ elsif arch eq 'sparc'
 else
 # ...
 endif 
+
+# only if package foo exists
+if exists(foo)
+# ...
+endif
+
+# only if package foo has a file /usr/bin/bar
+if exists(foo, usr/bin/bar)
+# ...
+endif
+
+# only if package foo has a postin script
+if exists(foo, ../postin)
+# ...
+endif
+
 ```
 
 ### Environment variables

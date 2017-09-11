@@ -612,7 +612,15 @@ pango-tools:
   E [ -x /usr/bin/pango-querymodules ] && pango-querymodules >/etc/pango/pango.modules || true
   E [ -x /usr/bin/pango-querymodules-64 ] && pango-querymodules-64 >/etc/pango/pango64.modules || true
 
+# graphviz has been split and the scripts moved to graphviz-plugins-core
+#
 graphviz:
+  /
+  if exists(graphviz, ../postin)
+    E postin
+  endif
+
+?graphviz-plugins-core:
   /
   E postin
 
