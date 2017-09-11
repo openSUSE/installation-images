@@ -116,7 +116,7 @@ linuxrc:
 # add zypp config to initrd to ensure it's writable
 libzypp: nodeps
   /etc
-  if theme eq 'CAASP'
+  if (theme eq 'CAASP') || (theme eq 'Kubic')
     # patch /etc/zypp/zypp.conf (fate #321764); sets
     # solver.onlyRequires = true, rpm.install.excludedocs = yes, multiversion =
     R s/^[#[:space:]]*(solver.onlyRequires)\s+=.*/# minimal CAASP\n$1 = true/ etc/zypp/zypp.conf
