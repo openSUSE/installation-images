@@ -60,7 +60,7 @@ ID="opensuse-kubic"
 ANSI_COLOR="0;32"
 CPE_NAME="cpe:/o:opensuse:opensuse-kubic:1.0"
 
-== openSUSE Tumbleweed Kubic ==
+== openSUSE Tumbleweed Kubic [obsolete] ==
 
 NAME="openSUSE-Tumbleweed-Kubic"
 VERSION="20170905"
@@ -69,6 +69,19 @@ PRETTY_NAME="openSUSE Tumbleweed Kubic"
 ID="opensuse-tumbleweed-kubic"
 ANSI_COLOR="0;32"
 CPE_NAME="cpe:/o:opensuse:opensuse-tumbleweed-kubic:20170905"
+
+== openSUSE Tumbleweed Kubic ==
+
+NAME="openSUSE Tumbleweed Kubic"
+# VERSION="20170909"
+ID="opensuse-tumbleweed-kubic"
+ID_LIKE="suse opensuse"
+VERSION_ID="20170909"
+PRETTY_NAME="openSUSE Tumbleweed Kubic"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:tumbleweed-kubic:20170909"
+BUG_REPORT_URL="https://bugs.opensuse.org"
+HOME_URL="https://www.opensuse.org/"
 
 == sles12 ==
 
