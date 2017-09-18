@@ -16,8 +16,7 @@ kernel/drivers/firewire/
 # kernel/drivers/input/
 -kernel/drivers/input/joystick
 -kernel/drivers/input/gameport
-kernel/drivers/input/mouse/psmouse.ko
-kernel/drivers/input/mouse/appletouch.ko
+kernel/drivers/input/mouse/
 kernel/drivers/input/serio/hyperv-keyboard.ko
 kernel/drivers/input/input-polldev.ko
 kernel/drivers/iseries/
