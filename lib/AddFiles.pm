@@ -61,6 +61,7 @@ $Data::Dumper::Terse = 1;
 $Data::Dumper::Indent = 1;
 
 use ReadConfig;
+use File::Spec;
 
 sub add_pack;
 sub _add_pack;
@@ -265,7 +266,7 @@ sub AddFiles
       if(defined $s) {
         my @tags = split /,/, $s;
 
-        @tags = grep { /^(requires|nodeps|ignore)$/ } @tags;
+        @tags = grep { /^(requires|nodeps|ignore|direct)$/ } @tags;
 
         @{$packs->[-1]{tags}}{@tags} = ();
       }
@@ -407,6 +408,19 @@ sub AddFiles
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Add an RPM as specified in a *.file_list file.
+#
+# add_pack(dir, ext_dir, package)
+#
+# dir: target directory
+# ext_dir: directory extra data (data not in the rpm, cf. 'x' command in
+#   *.file_list) is taken from
+# package: package to install; this is the hash reference as returned by
+#   RealRPM(), not just the rpm name
+#
+# Note: the difference to _add_pack() is that this function takes package
+# dependencies into account (and calls _add_pack() as needed).
+#
 sub add_pack
 {
   local $_;
@@ -482,6 +496,18 @@ sub add_pack
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Add a single RPM as specified in a *.file_list file.
+#
+# _add_pack(dir, ext_dir, package)
+#
+# dir: target directory
+# ext_dir: directory extra data (data not in the rpm, cf. 'x' command in
+#   *.file_list) is taken from
+# package: package to install; this is the hash reference as returned by
+#   RealRPM(), not just the rpm name
+#
+# Note: do not call this function directly but use add_pack() instead.
+#
 sub _add_pack
 {
   local $_;
@@ -491,7 +517,7 @@ sub _add_pack
 
   return if exists $pack->{tags}{ignore};
 
-  return if !defined $pack->{tasks};
+  return unless defined $pack->{tasks} || exists $pack->{tags}{direct};
 
   my $tfile = "${TmpBase}.afile";
 
@@ -514,7 +540,19 @@ sub _add_pack
   }
 
   if($pack->{name} ne '') {
-    print "adding package $pack->{name} [$pack->{version}]$all_scripts$by$t\n";
+    if(exists $pack->{tags}{direct}) {
+      my $rpm_file = "$ConfigData{tmp_cache_dir}/.rpms/$pack->{name}.rpm";
+      print "installing package $pack->{name} [$pack->{version}]$all_scripts$by\n";
+      die "$rpm_file: rpm file missing" unless -r $rpm_file;
+      my $abs_dir = File::Spec->rel2abs($dir);
+      my $err = SUSystem "rpm -i --quiet --nosignature --nodeps --root '$abs_dir' --dbpath /instsys.xxx --rcfile /dev/null '$rpm_file'";
+      SUSystem "rm -rf '$abs_dir/instsys.xxx'";
+      warn "$Script: failed to install $pack->{name}" if $err;
+    }
+    else {
+      print "adding package $pack->{name} [$pack->{version}]$all_scripts$by$t\n";
+    }
+
     $used_packs->{$pack->{name}} = $pack;
   }
 
@@ -523,6 +561,9 @@ sub _add_pack
     $src_line = $t->{src};
 
     if(!/^[a-zA-Z]\s+/) {
+      # if rpm has been used to install the package all files are already there
+      next if exists $pack->{tags}{direct};
+
       if($pack->{rpmdir} eq "") {
         warn "$Script: no package dir";
         next;
