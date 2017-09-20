@@ -135,7 +135,7 @@ and use them everywhere by putting the variable name between `'<'` and `'>'`:
 This syntax can be used to include files from a given package.
 
 ```
-PACKAGE_NAME: [ignore|nodeps|requires]
+PACKAGE_NAME: [direct|ignore|nodeps|requires]
 ```
 
 It unpacks the selected package into a temporary directory.
@@ -146,6 +146,7 @@ are supported:
   - requires: create a file `PACKAGE_NAME.requires` in the image root
   - nodeps: ignore package dependencies when solving
   - ignore: ignore package ('BuildIgnore')
+  - direct: run rpm command to install the package
 
 `PACKAGE_NAME` may be empty which can be used to tell the parser that
 subsequent lines do not belong to any package.
@@ -155,6 +156,11 @@ is used. If `PACKAGE_NAME` ends in `'~'` the last but one version is used.
 
 If `PACKAGE_NAME` starts with a `'?'`, the package is optional.
 This is a handy shortcut if you'd otherwise use an `if` with `exists()`.
+
+If you use 'direct', basically `rpm -i PACKAGE_NAME` is run to install the
+package. This means that all scripts are run and all files are unpacked. If
+you don't need all files from the package you can still use 'r' to remove
+the parts you don't need later.
 
 Examples:
 
