@@ -46,6 +46,8 @@ TEMPLATE dbus-1:
   # not needed
   r /usr/bin/dbus-launch*
 
+TEMPLATE system-user-root: direct
+
 TEMPLATE:
   /
 
