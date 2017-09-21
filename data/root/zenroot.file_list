@@ -22,6 +22,7 @@ r /etc/issue
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+TEMPLATE system-user-root: direct
 
 TEMPLATE:
   /
