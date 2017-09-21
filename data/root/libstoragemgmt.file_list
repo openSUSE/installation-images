@@ -6,7 +6,7 @@ python-libstoragemgmt:
 libstoragemgmt1:
 libstoragemgmt-netapp-plugin:
 libstoragemgmt-smis-plugin:
-python-argparse:
+?python-argparse:
 
 AUTODEPS:
 
