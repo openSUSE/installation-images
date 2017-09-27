@@ -51,9 +51,9 @@ include gen/rpm.file_list
 
 # new skelcd package format: all files are below /usr/lib/skelcd
 skelcd-control-<skelcd_ctrl_theme>:
-  if exists(skelcd-control-<skelcd_ctrl_theme>, /usr/lib/skelcd)
+  if exists(skelcd-control-<skelcd_ctrl_theme>, /usr/lib/skelcd/control.xml)
     m usr/lib/skelcd/CD1/control.xml <tftp_dir>/<instsys_dir>
-  else
+  elsif exists(skelcd-control-<skelcd_ctrl_theme>, /CD1/control.xml)
     m CD1/control.xml <tftp_dir>/<instsys_dir>
   endif
 
