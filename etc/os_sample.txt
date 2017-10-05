@@ -143,3 +143,23 @@ ID="caasp"
 ANSI_COLOR="0;32"
 CPE_NAME="cpe:/o:suse:caasp:1.0"
 
+== caasp20 ==
+
+NAME="CAASP"
+VERSION="2.0"
+VERSION_ID="2.0"
+PRETTY_NAME="SUSE Container as a Service Platform 2.0"
+ID="caasp"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:suse:caasp:2.0"
+
+== caasp30 ==
+
+NAME="CAASP"
+VERSION="3.0"
+VERSION_ID="3.0"
+PRETTY_NAME="SUSE CaaS Platform 3.0"
+ID="caasp"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:suse:caasp:3.0"
+

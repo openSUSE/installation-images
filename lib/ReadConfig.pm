@@ -899,8 +899,15 @@ sub get_version_info
 
   my $is_tw = $dist =~ /^tumbleweed( kubic)?$/;
 
+  # kubic uses 'tw' as dist tag
   $dist = $is_tw ? 'tw' : "$dist$config{VERSION_ID}";
+
+  # there's no separate dist tag for service packs
   $dist =~ s/\..*$// if $dist =~ /^(sles|sled)/;
+
+  # caasp uses the dist it is based on (except for caasp1.0)
+  $dist = "sle12" if $dist eq "caasp2.0";
+  $dist = "sle15" if $dist eq "caasp3.0";
 
   # print "dist=\"$dist\"\n";
 
