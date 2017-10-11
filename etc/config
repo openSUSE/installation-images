@@ -125,7 +125,7 @@ systemd     = SLE
 [Theme CAASP]
 image	    = 600
 release     = caasp
-skelcd      = casp
+skelcd      = caasp
 skelcd_ctrl = CAASP
 yast        = SLE
 gfxboot     = SLE
