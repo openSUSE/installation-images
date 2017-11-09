@@ -1,0 +1,16 @@
+#! /bin/bash
+
+# https://github.com/openSUSE/linuxrc/blob/master/user_defined_url_schemes.txt
+
+fw_base=/sys/firmware/qemu_fw_cfg
+
+set -e
+
+echo "url_dir = '$url_dir'"
+
+if [ -d "$url_dir" -a -d $fw_base ] ; then
+  mount --bind $fw_base  "$url_dir"
+else
+  exit 1
+fi
+
