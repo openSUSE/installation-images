@@ -264,6 +264,8 @@ gpg2:
   /usr/bin/gpg{,2}
   d root/.gnupg
 
+cryptsetup:
+?libcryptsetup4-hmac:
 ?libgcrypt20-hmac:
 
 ntfs-3g:
