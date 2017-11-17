@@ -119,6 +119,8 @@ btrfsprogs:
 bzip2:
 coreutils:
 cpio:
+# Do not remove cryptsetup even though it's also listed in initrd.file_list
+# because of the dropped dependency to cracklib-dict-xxx in the initrd.
 cryptsetup:
 ?libcryptsetup4-hmac:
 device-mapper:
