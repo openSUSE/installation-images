@@ -284,6 +284,7 @@ ruby:
   r /usr/bin/rake*
   r /usr/bin/rdoc*
   r /usr/bin/ri*
+  r /usr/bin/bundle*
   e cd usr/bin ; for i in erb gem irb ruby ; do [ -x $i ] || ln -snf ${i}.ruby2* $i ; done
 
 yast2-devtools:
