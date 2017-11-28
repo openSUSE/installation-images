@@ -404,9 +404,8 @@ perl:
 gpg2:
   /usr/bin/gpg{,2}
 
-ntp:
-  /usr/sbin/ntpdate
-  /usr/sbin/sntp
+# needed for one time ntp sync
+chrony:
 
 glibc-locale:
   /usr/lib*/gconv/ISO8859*
