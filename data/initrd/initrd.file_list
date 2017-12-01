@@ -262,6 +262,7 @@ nfs-client:
 
 gpg2:
   /usr/bin/gpg{,2}
+  /usr/bin/gpg-agent
   d root/.gnupg
 
 cryptsetup:
