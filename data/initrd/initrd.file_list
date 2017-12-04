@@ -383,8 +383,8 @@ systemd:
 
 sysconfig:
   /
-  m /var/adm/fillup-templates/sysconfig.config-network /etc/sysconfig/network/config
-  m /var/adm/fillup-templates/sysconfig.dhcp-network /etc/sysconfig/network/dhcp
+  m /usr/share/fillup-templates/sysconfig.config-network /etc/sysconfig/network/config
+  m /usr/share/fillup-templates/sysconfig.dhcp-network /etc/sysconfig/network/dhcp
   r sbin/rcnetwork
 
 ?fcoe-utils:
@@ -581,7 +581,7 @@ endif
 R s/ Server//g etc/issue
 
 # remove files we don't want to show up at all
-r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
+r /usr/share/{doc,info,locale,man} /usr/src/packages /usr/share/fillup-templates /var/adm/fillup-templates
 r /etc/passwd?* /etc/shadow?* /etc/group?*
 r /etc/profile.d
 if arch ne 's390' && arch ne 's390x'

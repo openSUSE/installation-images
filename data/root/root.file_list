@@ -429,7 +429,7 @@ timezone:
 if !(arch eq 's390' || arch eq 's390x')
   kbd:
     /
-    m /var/adm/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
+    m /usr/share/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
 endif
 
 if roottrans
@@ -648,7 +648,7 @@ e mkfontdir usr/share/fonts/truetype
 r /etc/os-release
 
 # remove files we don't want to show up at all
-r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
+r /usr/share/{doc,info,man} /usr/src/packages /usr/share/fillup-templates /var/adm/fillup-templates
 r /etc/profile.d /etc/profile /etc/bash.bashrc /etc/bash_completion.d
 r /run /var/log/{cache,games,log,lock,mail,opt,spool} /var/run
 r /var/lib/systemd/migrated

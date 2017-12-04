@@ -17,7 +17,7 @@ r media/*
 d media/repo
 
 # remove unnecessary files
-r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+r /usr/share/doc /usr/share/info /usr/share/man /usr/share/fillup-templates /var/adm/fillup-templates
 
 # enable services
 s ../vsftpd.service usr/lib/systemd/system/multi-user.target.wants
