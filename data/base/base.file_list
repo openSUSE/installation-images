@@ -134,7 +134,7 @@ gawk:
 :
 
 # remove things we don't need
-r /usr/share/doc /usr/share/info /usr/share/man /var/adm/fillup-templates
+r /usr/share/doc /usr/share/info /usr/share/man /usr/share/fillup-templates /var/adm/fillup-templates
 
 # remove compat service links
 E rm -f `find usr/sbin -lname service`

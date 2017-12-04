@@ -16,4 +16,4 @@ x libstoragemgmt.init .init
 x libstoragemgmt.done .done
 
 # remove files we don't want to show up at all
-r /usr/share/{doc,info,locale,man} /usr/src/packages /var/adm/fillup-templates
+r /usr/share/{doc,info,locale,man} /usr/src/packages /usr/share/fillup-templates /var/adm/fillup-templates

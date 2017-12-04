@@ -223,13 +223,13 @@ rsyslog:
 r /usr/share/locale
 
 # remove files we don't want to show up at all
-r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
+r /usr/share/{doc,info,man} /usr/src/packages /usr/share/fillup-templates /var/adm/fillup-templates
 
 # remove /etc/os-release so it's not used accidentally
 r /etc/os-release
 
 # remove files we don't want to show up at all
-r /usr/share/{doc,info,man} /usr/src/packages /var/adm/fillup-templates
+r /usr/share/{doc,info,man} /usr/src/packages /usr/share/fillup-templates /var/adm/fillup-templates
 r /etc/profile.d /etc/profile /etc/bash.bashrc /etc/bash_completion.d
 r /run /var/log/{cache,games,log,lock,mail,opt,spool} /var/run
 r /var/lib/systemd/migrated
