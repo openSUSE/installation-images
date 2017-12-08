@@ -328,7 +328,7 @@ nscd:
   d /var/run/nscd
 
 ?virtualbox-guest-tools: nodeps
-  /usr/lib/udev
+  /etc/udev
 
 ?xf86-input-vmmouse: nodeps
   /usr/lib/udev/rules.d
@@ -435,10 +435,13 @@ openssh: nodeps
   E prein
   d etc/ssh
 
+system-group-hardware:
+  /
+  E prein
+
 udev:
   /
   E prein
-  E groupadd -r tape || true
 
 # we just want the user & group entries
 polkit: nodeps
@@ -449,8 +452,9 @@ nscd:
   E prein
 
 # we just want the user & group entries
+# FIXME: assumes nobody group exists - maybe time to drop rpcbind?
 rpcbind:
-  /var/lib
+  E groupadd -r nobody || true
   E prein
 
 # we just want the user & group entries
