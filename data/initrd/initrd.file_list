@@ -452,6 +452,7 @@ nscd:
   E prein
 
 # we just want the user & group entries
+# FIXME: assumes nobody group exists - maybe time to drop rpcbind?
 rpcbind:
   E groupadd -r nobody || true
   E prein
