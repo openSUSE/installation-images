@@ -123,6 +123,17 @@ ID="sles_sap"
 ANSI_COLOR="0;32"
 CPE_NAME="cpe:/o:suse:sles_sap:12:sp1"
 
+== sle15 (unified installer) ==
+
+NAME="SLE"
+VERSION="15"
+VERSION_ID="15"
+PRETTY_NAME="SUSE Linux Enterprise 15"
+ID="sle"
+ID_LIKE="suse"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:suse:sle:15"
+
 == casp10 [obsolete] ==
 
 NAME="CASP"
