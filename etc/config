@@ -90,7 +90,7 @@ systemd     = openSUSE
 
 [Theme SLES]
 image	    = 600
-release     = sles
+release     = unified-installer
 skelcd      = sles
 skelcd_ctrl = leanos
 yast        = SLE
@@ -101,7 +101,7 @@ systemd     = SLE
 
 [Theme SLES_SAP]
 image       = 600
-release     = SLES_SAP-installation
+release     = unified-installer
 skelcd      = sles
 skelcd_ctrl = leanos
 yast        = SLE
@@ -112,7 +112,7 @@ systemd     = SLE
 
 [Theme SLED]
 image	    = 600
-release     = sled
+release     = unified-installer
 skelcd      = sled
 skelcd_ctrl = leanos
 yast        = SLE
@@ -146,7 +146,7 @@ systemd     = CAASP
 
 [Theme Zen]
 image       = 600
-release     = sles
+release     = unified-installer
 skelcd      = sles
 skelcd_ctrl = leanos
 yast        = SLE

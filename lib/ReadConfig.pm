@@ -893,6 +893,11 @@ sub get_version_info
   $dist =~ s/^opensuse[\-\s]*//;
   # special enterprise products may have extra text beside SLES or SLED
   $dist = $1 if $dist =~ /(sles|sled)/;
+
+  # unified installer uses "sle" but we map everything to "sles" as this is
+  # what people are used to
+  $dist = "sles" if $dist eq "sle";
+
   # don't accept other names than these
 
   die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|leap|sles|sled|tumbleweed( kubic)?)$/;
@@ -906,8 +911,8 @@ sub get_version_info
   $dist =~ s/\..*$// if $dist =~ /^(sles|sled)/;
 
   # caasp uses the dist it is based on (except for caasp1.0)
-  $dist = "sle12" if $dist eq "caasp2.0";
-  $dist = "sle15" if $dist eq "caasp3.0";
+  $dist = "sles12" if $dist eq "caasp2.0";
+  $dist = "sles15" if $dist eq "caasp3.0";
 
   # print "dist=\"$dist\"\n";
 
