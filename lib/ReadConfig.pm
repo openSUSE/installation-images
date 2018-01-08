@@ -911,8 +911,8 @@ sub get_version_info
   $dist =~ s/\..*$// if $dist =~ /^(sles|sled)/;
 
   # caasp uses the dist it is based on (except for caasp1.0)
-  $dist = "sle12" if $dist eq "caasp2.0";
-  $dist = "sle15" if $dist eq "caasp3.0";
+  $dist = "sles12" if $dist eq "caasp2.0";
+  $dist = "sles15" if $dist eq "caasp3.0";
 
   # print "dist=\"$dist\"\n";
 
