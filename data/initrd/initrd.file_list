@@ -461,6 +461,10 @@ rpcbind:
 openslp-server:
   E prein
 
+# we just want the user & group entries
+chrony: nodeps
+  E prein
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
