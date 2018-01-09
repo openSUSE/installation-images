@@ -2,7 +2,11 @@ TEMPLATE:
   /
 
 libstoragemgmt:
-python-libstoragemgmt:
+if exists(python3-libstoragemgmt)
+  python3-libstoragemgmt:
+else
+  python-libstoragemgmt:
+endif
 libstoragemgmt1:
 libstoragemgmt-netapp-plugin:
 libstoragemgmt-smis-plugin:
