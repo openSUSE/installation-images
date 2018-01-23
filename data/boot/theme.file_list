@@ -29,11 +29,12 @@ if arch eq 'x86_64' || arch eq 'aarch64'
     d grub2-efi
     ?grub2-branding-<grub2_theme>:
       m /usr/share/grub2/themes grub2-efi
-      m /usr/share/grub2/backgrounds/<grub2_theme>/default-43.png grub2-efi/themes/<grub2_theme>/background.png
+      if exists(grub2-branding-<grub2_theme>, /usr/share/grub2/backgrounds/<grub2_theme>/default-43.png)
+        m /usr/share/grub2/backgrounds/<grub2_theme>/default-43.png grub2-efi/themes/<grub2_theme>/background.png
+      endif
       r grub2-efi/themes/<grub2_theme>/{activate-theme,COPYING.CC-BY-SA-3.0,README}
       R s/\r// grub2-efi/themes/<grub2_theme>/theme.txt
-      p <grub2_theme>-efi.diff
-      R s/PRODUCT/<product_name>/ grub2-efi/themes/<grub2_theme>/theme.txt
+      R s/title-text: ""/title-text: "<product_name>"/ grub2-efi/themes/<grub2_theme>/theme.txt
 
     grub2:
       m /usr/share/grub2/unicode.pf2 grub2-efi
