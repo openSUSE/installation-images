@@ -6,6 +6,8 @@ if arch eq 'i386' || arch eq 'x86_64'
     /
     e cp -a etc/bootsplash/themes/<gfxboot_theme>/cdrom/* loader
     e gfxboot --config-file=loader/gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/openSUSE/driverupdate
+    e gfxboot --config-file=loader/gfxboot.cfg --change-config product="<product_name>"
+    e gfxboot --config-file=loader/gfxboot.cfg --change-config mainmenu.title="<product_name>"
 
   r etc var
 
