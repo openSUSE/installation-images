@@ -241,7 +241,7 @@ sub fix_alternatives_link
     unlink "$dir/usr/sbin/alternatives";
     unlink "$dir/var/log/update-alternatives.log";
     system "rm -r $dir/etc/alternatives/";
-    system "rm -r $dir/var/lib/rpm/alternatives/";
+    system "rm -rf $dir/var/lib{/rpm,}/alternatives/";
   }
 }
 
