@@ -36,7 +36,7 @@ if arch eq 'x86_64' || arch eq 'aarch64'
       endif
       r grub2-efi/themes/<grub2_theme>/{activate-theme,COPYING.CC-BY-SA-3.0,README}
       R s/\r// grub2-efi/themes/<grub2_theme>/theme.txt
-      R s/title-text: ""/title-text: "<product_name>"/ grub2-efi/themes/<grub2_theme>/theme.txt
+      R s/title-text: ""/title-text: "<product_name>"\ntitle-color: "#fff"\ntitle-font: "DejaVu Sans Bold 14"/ grub2-efi/themes/<grub2_theme>/theme.txt
 
     grub2:
       m /usr/share/grub2/unicode.pf2 grub2-efi
