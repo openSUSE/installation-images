@@ -89,8 +89,6 @@ cpio:
 cracklib-dict-full:
 cracklib:
 cryptsetup:
-?libcryptsetup4-hmac:
-?libgcrypt20-hmac:
 curl:
 dd_rescue:
 diffutils:

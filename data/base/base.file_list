@@ -53,6 +53,7 @@ TEMPLATE:
 
 AUTODEPS:
 
+bash:
 ca-certificates-mozilla:
 coreutils:
 cpio:
