@@ -70,6 +70,7 @@ lvm2:
 net-tools:
 ?net-tools-deprecated:
 ntfsprogs:
+open-iscsi:
 parted:
 polkit:
 procps:
@@ -178,10 +179,6 @@ sysconfig:
 
 pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
-
-open-iscsi:
-  /sbin
-  /etc
 
 gawk:
   /usr/bin/gawk
