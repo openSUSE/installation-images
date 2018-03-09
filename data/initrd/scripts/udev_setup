@@ -16,8 +16,9 @@ echo "" > /proc/sys/kernel/hotplug
 echo -n "Starting udevd "
 udevd --daemon
 
-# create devices
-/usr/bin/udevadm trigger
+# create devices (cf. bsc#1084357)
+/usr/bin/udevadm trigger --type=subsystems --action=add
+/usr/bin/udevadm trigger --type=devices --action=add
 
 # 10 min - just long enough
 /usr/bin/udevadm settle --timeout=100
