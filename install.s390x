@@ -46,7 +46,7 @@ mkdir -p $DESTDIR/usr/share
 cp images/mini-iso-rmlist $DESTDIR/usr/share
 
 if [ -d images/tftp ] ; then
-  dst=$DESTDIR/srv/tftpboot
+  dst=$DESTDIR/usr/share/tftpboot-installation
   mkdir -p $dst
   cp -a images/tftp/* $dst
   cp -a $DESTDIR/CD1/* $dst/*
