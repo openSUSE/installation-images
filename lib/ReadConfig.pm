@@ -905,9 +905,9 @@ sub get_version_info
   # there's no separate dist tag for service packs
   $dist =~ s/\..*$// if $dist =~ /^(sles|sled)/;
 
-  # caasp uses the dist it is based on (except for caasp1.0)
-  $dist = "sle12" if $dist eq "caasp2.0";
-  $dist = "sle15" if $dist eq "caasp3.0";
+  # caasp uses the dist it is based on (except for caasp 1.0 & 2.0)
+  $dist = "sles12" if $dist =~ /^caasp3\./;
+  $dist = "sles15" if $dist =~ /^caasp4\./;
 
   # print "dist=\"$dist\"\n";
 
