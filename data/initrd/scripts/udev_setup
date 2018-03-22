@@ -14,7 +14,11 @@ echo "" > /proc/sys/kernel/hotplug
 
 # start udevd
 echo -n "Starting udevd "
-udevd --daemon
+if [ -n "$linuxrc_debug" ] ; then
+  udevd --daemon --debug 2>/var/log/udev.log
+else
+  udevd --daemon
+fi
 
 # create devices (cf. bsc#1084357)
 /usr/bin/udevadm trigger --type=subsystems --action=add
