@@ -188,6 +188,15 @@ p11-kit-tools:
 p11-kit:
 ?sle12-desktop-migration:
 
+novnc:
+python2-websockify: ignore
+python3-setuptools: ignore
+
+python3-websockify:
+  /
+  # avoid update-alternatives
+  e cd usr/bin ; if [ -f websockify-3.* ] ; then ln -snf websockify-3.* websockify ; fi
+
 vim:
   /
   # avoid update-alternatives
