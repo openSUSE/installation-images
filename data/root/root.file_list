@@ -205,6 +205,7 @@ vim:
 # either new yast storage or the old one
 if exists(yast2-storage-ng)
   yast2-storage-ng:
+  libstorage-ng-lang:
   libstorage7: ignore
   yast2-storage: ignore
 endif
