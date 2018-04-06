@@ -71,6 +71,17 @@ if [ ! \( -d "$src" -a -d "$dst" \) ] ; then
   exit 1
 fi
 
+# Before we start: make a copy of the tools we need in case they are updated
+# themselves (bsc#1087901).
+
+tmp_path=`mktemp -d "$dst/adddir.XXXXXX"` || exit 2
+
+for i in chmod chown cp ln mktemp mv readlink rm ; do
+  cp /usr/bin/$i $tmp_path
+done
+
+PATH=$tmp_path:$PATH
 
 add_dir "$src" "$dst"
 
+rm -rf $tmp_path
