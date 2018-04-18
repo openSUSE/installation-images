@@ -202,14 +202,6 @@ vim:
   # avoid update-alternatives
   e cd usr/bin ; if [ -f vim-nox11 ] ; then ln -snf vim-nox11 vim ; fi
 
-# either new yast storage or the old one
-if exists(yast2-storage-ng)
-  yast2-storage-ng:
-  libstorage-ng-lang:
-  libstorage7: ignore
-  yast2-storage: ignore
-endif
-
 <release_theme>-release: nodeps
 
 # pull in yast2 installation related packages via package deps
@@ -601,6 +593,7 @@ rpcbind:
   /
   E postin
 
+# either new yast storage or the old one
 if !exists(yast2-storage-ng)
   yast2-storage:
     /
@@ -609,6 +602,14 @@ if !exists(yast2-storage-ng)
   libstorage*:
     /
     E postin
+else
+  yast2-storage-ng:
+    /
+    E postin
+
+  libstorage-ng-lang:
+  libstorage7: ignore
+  yast2-storage: ignore
 endif
 
 openssh:
