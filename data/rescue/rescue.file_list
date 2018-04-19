@@ -125,7 +125,6 @@ kpartx:
 krb5:
 lsscsi:
 mingetty:
-mozilla-nspr:
 ncurses-utils:
 net-tools:
 ?net-tools-deprecated:
@@ -314,7 +313,7 @@ syslog-service:
 rsyslog:
 util-linux:
 wicked:
-dmraid:
+?dmraid:
 mdadm:
 multipath-tools:
 nfs-client:
