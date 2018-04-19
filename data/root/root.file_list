@@ -124,7 +124,6 @@ cpio:
 cryptsetup:
 ?libcryptsetup*-hmac:
 device-mapper:
-dmraid:
 dosfstools:
 e2fsprogs:
 fbiterm:

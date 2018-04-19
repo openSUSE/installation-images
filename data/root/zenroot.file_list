@@ -49,7 +49,7 @@ coreutils:
 cpio:
 device-mapper:
 diffutils:
-dmraid:
+?dmraid:
 dosfstools:
 e2fsprogs:
 file:
