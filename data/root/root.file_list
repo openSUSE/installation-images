@@ -149,7 +149,6 @@ libyui-qt-pkg*:
 libyui-qt-graph*:
 ?ltrace:
 lvm2:
-mozilla-nspr:
 multipath-tools:
 net-tools:
 ?net-tools-deprecated:
