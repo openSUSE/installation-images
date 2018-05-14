@@ -100,7 +100,7 @@ kmod: ignore
 kmod-compat: ignore
 kbd: ignore
 wicked-service: ignore
-?libsmbios2:
+?libsmbios_c2:
 gpm:
 
 
