@@ -81,6 +81,7 @@ nfsidmap: ignore
 pam-config: ignore
 permissions: ignore
 pinentry: ignore
+python-setuptools: ignore
 python2-setuptools: ignore
 sessreg: ignore
 shared-mime-info: ignore
