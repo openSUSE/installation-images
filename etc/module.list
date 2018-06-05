@@ -13,12 +13,9 @@ kernel/drivers/ide/
 kernel/drivers/ata/
 #-kernel/drivers/ata/pata_
 kernel/drivers/firewire/
-# kernel/drivers/input/
+kernel/drivers/input/
 -kernel/drivers/input/joystick
 -kernel/drivers/input/gameport
-kernel/drivers/input/mouse/
-kernel/drivers/input/serio/hyperv-keyboard.ko
-kernel/drivers/input/input-polldev.ko
 kernel/drivers/iseries/
 kernel/drivers/md/
 kernel/drivers/mmc/
@@ -47,7 +44,6 @@ kernel/drivers/usb/serial/
 kernel/drivers/usb/input/usbhid.ko
 kernel/drivers/hid/
 -kernel/drivers/hid/hid-prodikeys.ko
-kernel/drivers/input/ff-memless.ko
 kernel/drivers/char/nvram.ko
 kernel/drivers/char/agp/
 kernel/drivers/message/fusion/
@@ -109,7 +105,6 @@ kernel/drivers/mfd/
 kernel/drivers/cpufreq/
 kernel/arch/x86/kernel/
 kernel/drivers/platform/
-kernel/drivers/input/sparse-keymap.ko
 kernel/drivers/pci/hotplug/pci_hotplug.ko
 kernel/sound/soundcore.ko
 kernel/sound/core/snd.ko
@@ -156,7 +151,6 @@ kernel/drivers/xen/netfront/
 kernel/drivers/xen/core/
 kernel/drivers/xen/xen-scsiback.ko
 kernel/drivers/video/fbdev/xen-fbfront.ko
-kernel/drivers/input/misc/xen-kbdfront.ko
 
 kernel/net/ieee80211/
 
