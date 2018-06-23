@@ -242,6 +242,7 @@ kernel/drivers/usb/core/ledtrig-usbport.ko
 kernel/drivers/phy/
 kernel/drivers/regulator/
 kernel/drivers/pci/host/
+kernel/drivers/mailbox/
 
 kernel/fs/efivarfs/
 
