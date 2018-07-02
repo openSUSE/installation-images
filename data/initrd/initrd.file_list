@@ -69,6 +69,7 @@ else
 endif
 
 ?biosdevname:
+?bcm43xx-firmware: nodeps
 cpio:
 cracklib-dict-full: ignore
 curl:
