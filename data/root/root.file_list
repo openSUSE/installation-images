@@ -444,6 +444,7 @@ if arch ne 's390' && arch ne 's390x'
 
   xrandr:
   ?xf86-input-evdev:
+  ?xf86-input-synaptics:
   ?xf86-input-libinput:
   xf86-input-wacom:
   xf86-video-fbdev:
