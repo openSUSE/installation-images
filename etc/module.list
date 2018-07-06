@@ -243,6 +243,7 @@ kernel/drivers/phy/
 kernel/drivers/regulator/
 kernel/drivers/pci/host/
 kernel/drivers/mailbox/
+kernel/drivers/pinctrl/
 
 kernel/fs/efivarfs/
 
