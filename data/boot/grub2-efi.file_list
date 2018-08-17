@@ -41,3 +41,14 @@ if arch eq 'x86_64' || arch eq 'aarch64'
     R s/^with_gfx=0/with_gfx=1/ EFI/BOOT/grub.cfg
     R s/THEME/<grub2_theme>/g EFI/BOOT/grub.cfg
 endif
+
+# Add RPi packages if available
+if exists(raspberrypi-firmware)
+  raspberrypi-firmware:
+  raspberrypi-firmware-config:
+  raspberrypi-firmware-dt:
+  u-boot-rpi3:
+    /
+  e mv boot/vc/* .
+  r /boot /usr
+endif
