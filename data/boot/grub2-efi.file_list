@@ -45,8 +45,11 @@ endif
 # Add RPi packages if available
 if exists(raspberrypi-firmware)
   raspberrypi-firmware:
+    /
   raspberrypi-firmware-config:
+    /
   raspberrypi-firmware-dt:
+    /
   u-boot-rpi3:
     /
   e mv boot/vc/* .
