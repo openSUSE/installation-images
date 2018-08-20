@@ -297,7 +297,7 @@
         close W1;
         if($self->{fs} eq 'fat') {
           my $x = " -n '$self->{label}'" if $self->{label} ne "";
-          system "mkfs.vfat -h $pt_size$x $f >/dev/null";
+          system "mkfs.vfat -s 1 -h $pt_size$x $f >/dev/null";
 
           my ($fat, $boot);
 
