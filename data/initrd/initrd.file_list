@@ -68,6 +68,7 @@ else
     /usr/lib*/samba/libwinbind-client*.so
 endif
 
+?bcache-tools:
 ?biosdevname:
 ?bcm43xx-firmware: nodeps
 cpio:
