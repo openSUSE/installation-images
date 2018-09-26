@@ -230,6 +230,7 @@ bash:
   s bash /bin/lsh
 
 ncurses-utils:
+  /usr/bin/clear
   /usr/bin/tset
 
 iproute2:
