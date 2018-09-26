@@ -570,6 +570,12 @@ multipath-tools:
 graphviz-gnome: nodeps
   /usr/lib*/graphviz/libgvplugin_pango.so.*
 
+iptables:
+  /
+  # avoid update-alternatives
+  e cd usr/sbin ; if [ -f iptables-legacy ] ; then for i in iptables{,-restore,-save} ; do ln -snf iptables-legacy $i ; done ; fi
+  e cd usr/sbin ; if [ -f ip6tables-legacy ] ; then for i in ip6tables{,-restore,-save} ; do ln -snf ip6tables-legacy $i ; done ; fi
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
