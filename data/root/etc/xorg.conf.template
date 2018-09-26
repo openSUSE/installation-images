@@ -23,6 +23,7 @@ EndSection
 Section "Device"
   Identifier "modesetting"
   Driver  "modesetting"
+  Option "PreferCloneMode" "true"
 EndSection
 Section "Screen"
   Identifier "modesetting"
