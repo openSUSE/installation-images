@@ -407,7 +407,12 @@ gpg2:
 # needed for one time ntp sync
 chrony:
 
-glibc-locale:
+if exists(glibc-locale-base)
+  glibc-locale: ignore
+  glibc-locale-base:
+else
+  glibc-locale:
+endif
   /usr/lib*/gconv/ISO8859*
   /usr/lib*/gconv/KOI*
   /usr/lib*/gconv/UNICODE*

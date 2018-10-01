@@ -202,7 +202,12 @@ gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
 
-glibc-locale:
+if exists(glibc-locale-base)
+  glibc-locale: ignore
+  glibc-locale-base:
+else
+  glibc-locale:
+endif
   /usr/lib*/gconv/ISO8859*
   /usr/lib*/gconv/KOI*
   /usr/lib*/gconv/UNICODE*
