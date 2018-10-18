@@ -126,7 +126,6 @@ cryptsetup:
 device-mapper:
 dosfstools:
 e2fsprogs:
-fbiterm:
 file:
 fillup:
 findutils:
@@ -529,11 +528,17 @@ icewm-lite:
   /usr/bin/icewm-lite
   s /usr/bin/icewm-lite /usr/bin/icewm
 
+# don't include fonts - it prefers /usr/share/fonts/misc anyway
+fbiterm:
+  /usr/bin/fbiterm
+
 dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
 
 efont-unicode-bitmap-fonts:
+  # fonts used by fbiterm
+  /usr/share/fonts/misc/h16.pcf.gz
   /usr/share/fonts/misc/b16.pcf.gz
 
 ?google-roboto-fonts:
