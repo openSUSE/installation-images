@@ -53,6 +53,11 @@ TEMPLATE skelcd-control-.*:
   # just a template that does nothing
   d .
 
+# avoid 'iterm' terminfo, instead link to generic 'screen'
+TEMPLATE libiterm.*:
+  /
+  s ../s/screen usr/share/terminfo/i/iterm
+
 TEMPLATE:
   /
 
