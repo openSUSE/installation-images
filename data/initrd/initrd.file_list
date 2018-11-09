@@ -35,6 +35,7 @@ TEMPLATE:
 
 AUTODEPS:
 
+binutils: ignore
 dbus-1-x11: ignore
 diffutils: ignore
 dirmngr: ignore

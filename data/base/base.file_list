@@ -54,6 +54,7 @@ TEMPLATE:
 AUTODEPS:
 
 bash:
+binutils: ignore
 ca-certificates-mozilla:
 coreutils:
 cpio:
