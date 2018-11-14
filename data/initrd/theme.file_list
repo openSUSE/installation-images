@@ -14,7 +14,7 @@ if theme eq 'Zen'
     /usr/lib*
 
   e echo "Zen:		2" >>linuxrc.config
-  e echo "SetupCmd:	"\""setctsid \`showconsole\` /bin/bash -c zenworks.s"\" >>linuxrc.config
+  e echo "SetupCmd:	"\""setsid -wc /bin/bash -c zenworks.s"\" >>linuxrc.config
   e echo "Insecure:	1" >>linuxrc.config
 endif
 

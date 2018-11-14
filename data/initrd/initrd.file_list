@@ -251,7 +251,7 @@ util-linux:
   /usr/bin/more
   /usr/bin/mount
   /usr/bin/umount
-  /usr/sbin/setctsid
+  /usr/bin/setsid
   /usr/sbin/losetup
   /usr/sbin/blkid
 
