@@ -24,7 +24,7 @@ s ../vsftpd.service usr/lib/systemd/system/multi-user.target.wants
 s ../smb.service usr/lib/systemd/system/multi-user.target.wants
 s ../nmb.service usr/lib/systemd/system/multi-user.target.wants
 s ../rpcbind.service usr/lib/systemd/system/multi-user.target.wants
-E chkconfig nfsserver on
+E chkconfig nfs-server on
 
 # add motd
 x /etc/motd /etc/motd
