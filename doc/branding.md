@@ -14,7 +14,6 @@ gfxboot     = SLE			# gfxboot-branding-SLE.rpm
 grub2       = SLE			# grub2-branding-SLE.rpm
 plymouth    = SLE			# plymouth-branding-SLE.rpm
 systemd     = SLE			# systemd-presets-branding-SLE.rpm
-yast        = SLE			# yast2-theme-SLE.rpm
 ```
 
 Then add an appropriate theme section to `installation-images.spec`.
