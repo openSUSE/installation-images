@@ -180,6 +180,7 @@ suse-module-tools:
 systemd-presets-branding-<systemd_theme>:
 systemd-sysvinit:
 systemd:
+udftools:
 usbutils:
 util-linux:
 wget:
