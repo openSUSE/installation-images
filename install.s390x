@@ -35,7 +35,7 @@ for theme in $THEMES ; do
   install -m 644 data/initrd/s390/parmfile.hmc $DESTDIR/branding/$theme/CD1/boot/$ARCH/parmfile.hmc
   install -m 644 data/initrd/s390/parmfile.cd $DESTDIR/branding/$theme/CD1/boot/$ARCH/parmfile.cd
 
-  install -m 644 data/initrd/s390/sles12.exec $DESTDIR/branding/$theme/CD1/boot/$ARCH/sles12.exec
+  install -m 644 data/initrd/s390/sles.exec $DESTDIR/branding/$theme/CD1/boot/$ARCH/sles.exec
   install -m 644 tmp/base/usr/share/doc/packages/s390-tools/zpxe.rexx $DESTDIR/branding/$theme/CD1/boot/$ARCH/zpxe.rexx
 
   # create cd.ikr and remove no longer needed parmfile.cd
