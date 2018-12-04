@@ -1,11 +1,11 @@
 /* REXX LOAD EXEC FOR SUSE LINUX S/390 VM GUESTS       */                       
 /* LOADS SUSE LINUX S/390 FILES INTO READER            */                       
 SAY ''                                                                          
-SAY 'LOADING SLES12 FILES INTO READER...'                                       
+SAY 'LOADING SLES FILES INTO READER...'                                         
 'CP CLOSE RDR'                                                                  
 'PURGE RDR ALL'                                                                 
 'SPOOL PUNCH * RDR'                                                             
-'PUNCH SLES12 LINUX A (NOH'                                                     
-'PUNCH SLES12 PARMFILE A (NOH'                                                  
-'PUNCH SLES12 INITRD A (NOH'                                                    
+'PUNCH SLES LINUX A (NOH'                                                       
+'PUNCH SLES PARMFILE A (NOH'                                                    
+'PUNCH SLES INITRD A (NOH'                                                      
 'IPL 00C'                                                                       
