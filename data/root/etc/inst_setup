@@ -151,8 +151,6 @@ fi
 # for yast debugging.
 if grep -iwq y2debug < /proc/cmdline ; then
   export Y2DEBUG=1
-  export Y2MAXLOGSIZE=50000
-  export Y2MAXLOGNUM=5
 fi
 
 export XCURSOR_THEME=DMZ
