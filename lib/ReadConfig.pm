@@ -327,7 +327,6 @@ sub RealRPM
 #
 sub RealRPMs
 {
-  local $_;
   my $pattern = shift;
   my @packages;
 
