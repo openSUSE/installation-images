@@ -170,6 +170,24 @@ glibc:
 systemd: ignore
 ```
 
+### Including packages matching a regexp
+
+To include a group of packages matching a regexp, use `add_all`:
+
+```
+add_all PACKAGE_REGEXP:
+```
+
+Examples:
+
+```
+add_all skelcd-control-.*:
+```
+
+Note that you cannot associate any actions to such an entry directly. Use
+templates (see below) if you don't want to install the packages as a whole.
+
+
 ### Actions
 
 Several actions can be specified using the following syntax:

@@ -165,7 +165,7 @@ require Exporter;
 @ISA = qw ( Exporter );
 @EXPORT = qw (
   $Script $BasePath $LibPath $BinPath $CfgPath $ImagePath $DataPath
-  $TmpBase %ConfigData ReadFile RealRPM ReadRPM $SUBinary SUSystem Print2File $MToolsCfg $AutoBuild
+  $TmpBase %ConfigData ReadFile RealRPM RealRPMs ReadRPM $SUBinary SUSystem Print2File $MToolsCfg $AutoBuild
   ResolveDeps
 );
 
@@ -319,6 +319,31 @@ sub RealRPM
 
     return $rpmData->{$f} = $rpmData->{$rpm_orig} = { name => $f, file => $n{$f} } ;
   }
+}
+
+
+# Return list of RPMs matching (regexp) pattern. The list is empty if no
+# match was found.
+#
+sub RealRPMs
+{
+  my $pattern = shift;
+  my @packages;
+
+  if($ConfigData{obs}) {
+    # running outside obs
+    @packages = @{$ConfigData{packages}};
+    # entries in ConfigData are "PACKAGE PROJECT", remove the PROJECT part
+    map { s/\s.*$// } @packages;
+  }
+  else {
+    # running in an obs build
+    @packages = <$ConfigData{suse_base}/*.rpm>;
+    # remove superfluous file name parts
+    map { s#^.*/|\.rpm$##g } @packages;
+  }
+
+  return [ grep { /^$pattern$/ } @packages ];
 }
 
 

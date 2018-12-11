@@ -330,6 +330,23 @@ sub AddFiles
 
       $packs->[-1]{rpmdir} = $rpm_dir;
     }
+    elsif(/^add_all\s+(\S+):$/) {
+      my $pattern = $1;
+      my $rpms = RealRPMs $pattern;
+      print "add_all: $pattern = (", join(", ", @$rpms), ")\n";
+      for my $p (@$rpms) {
+        my $rpm_dir = ReadRPM $p;
+
+        next unless $rpm_dir;
+
+        my $entry = {};
+        $entry->{name} = RealRPM($p)->{name};
+        $entry->{version} = ReadFile "$rpm_dir/version";
+        $entry->{rpmdir} = $rpm_dir;
+
+        push @$packs, $entry;
+      }
+    }
     else {
       push @{$packs->[-1]{tasks}}, { src => $src_line, line => $_ };
     }
