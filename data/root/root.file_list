@@ -536,6 +536,9 @@ icewm-lite:
 fbiterm:
   /usr/bin/fbiterm
 
+?adobe-sourcesanspro-fonts:
+  /usr/share/fonts/truetype/SourceSansPro-{Regular,Light,Semibold}.otf
+
 dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
