@@ -1,0 +1,44 @@
+#! /usr/bin/perl
+
+# usage: check_fonts DIR
+#
+# Scan DIR for *.css and *.qss files (recursively), extract font families
+# and check if they are available.
+#
+# Exit code is 0 if everything is fine, else 1.
+
+use strict;
+use File::Find;
+
+# We need '.' as the script runs in a somewhat peculiar setup where fc-match
+# will not be available at the usual place.
+$ENV{PATH} = "/usr/bin:/bin/:/usr/sbin:/sbin:.";
+
+my $dir = shift || ".";
+my $error = 0;
+my $fonts;
+
+File::Find::find({
+  wanted => sub {
+    if(/\.[cq]ss$/) {
+      if(open my $f, $_) {
+        map { $fonts->{$2 || $3} = 1 if /\bfont-family:\s*("([^"]+)"|([^\s,;]+))/ } <$f>;
+        close $f;
+      }
+    }
+  },
+  no_chdir => 1
+}, $dir);
+
+for my $font (sort keys %$fonts) {
+  my $match = `fc-match -f '%{family},%{fullname}' '$font'`;
+  exit 1 if $?;
+  my %matches;
+  $matches{$_} = 1 for split /,/, $match;
+  if(!$matches{$font}) {
+    $error = 1;
+    print "Error: font \"$font\" not found; closest match(es): \"", join('", "', sort keys %matches), "\"\n";
+  }
+}
+
+exit $error;

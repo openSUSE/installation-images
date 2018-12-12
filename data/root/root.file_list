@@ -190,8 +190,12 @@ novnc:
 python2-websockify: ignore
 python3-setuptools: ignore
 
-# add all available skelcd-control packages
-add_all skelcd-control-.*:
+if skelcd_all_theme
+  # add all available skelcd-control packages
+  add_all skelcd-control-.*:
+else
+  skelcd-control-<skelcd_ctrl_theme>:
+endif
 
 python3-websockify:
   /
@@ -536,6 +540,9 @@ icewm-lite:
 fbiterm:
   /usr/bin/fbiterm
 
+?adobe-sourcesanspro-fonts:
+  /usr/share/fonts/truetype/SourceSansPro-{Regular,Light,Semibold}.otf
+
 dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
@@ -740,6 +747,11 @@ x lang_fonts /usr/share/libyui/data/lang_fonts
 
 # zypp config is in initrd
 r /etc/zypp
+
+# check font config
+e cp /bin/check_fonts /usr/bin/fc-match .
+E /check_fonts usr/share/YaST2/theme
+e rm check_fonts fc-match
 
 # allowed dangling symlinks
 D ../../sbin/update-ca-certificates /usr/lib64/p11-kit/p11-kit-extract-trust
