@@ -190,8 +190,12 @@ novnc:
 python2-websockify: ignore
 python3-setuptools: ignore
 
-# add all available skelcd-control packages
-add_all skelcd-control-.*:
+if skelcd_all_theme
+  # add all available skelcd-control packages
+  add_all skelcd-control-.*:
+else
+  skelcd-control-<skelcd_ctrl_theme>:
+endif
 
 python3-websockify:
   /
