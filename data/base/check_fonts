@@ -42,4 +42,3 @@ for my $font (sort keys %$fonts) {
 }
 
 exit $error;
- 
