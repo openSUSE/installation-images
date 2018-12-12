@@ -741,6 +741,11 @@ x lang_fonts /usr/share/libyui/data/lang_fonts
 # zypp config is in initrd
 r /etc/zypp
 
+# check font config
+e cp /bin/check_fonts /usr/bin/fc-match .
+E /check_fonts usr/share/YaST2/theme
+e rm check_fonts fc-match
+
 # allowed dangling symlinks
 D ../../sbin/update-ca-certificates /usr/lib64/p11-kit/p11-kit-extract-trust
 D ../../sbin/update-ca-certificates /usr/lib/p11-kit/p11-kit-extract-trust
