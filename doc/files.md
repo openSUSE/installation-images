@@ -284,6 +284,12 @@ absolute path names!
 p <patch>
 ```
 
+- Copy package file (the rpm itself) to directory.
+
+```
+P <dir>
+```
+
 - chown/chmod files
 
 ```

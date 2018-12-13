@@ -556,9 +556,12 @@ sub _add_pack
     }
   }
 
+  my $rpm_file;
+
   if($pack->{name} ne '') {
+    $rpm_file = "$ConfigData{tmp_cache_dir}/.rpms/$pack->{name}.rpm";
+
     if(exists $pack->{tags}{direct}) {
-      my $rpm_file = "$ConfigData{tmp_cache_dir}/.rpms/$pack->{name}.rpm";
       print "installing package $pack->{name} [$pack->{version}]$all_scripts$by\n";
       die "$rpm_file: rpm file missing" unless -r $rpm_file;
       my $abs_dir = File::Spec->rel2abs($dir);
@@ -686,6 +689,15 @@ sub _add_pack
     elsif(/^p\s+(\S+)$/) {
       SUSystem "patch -d $dir -p0 --no-backup-if-mismatch <$ext_dir/$1" and
         warn "$Script: failed to apply patch $1";
+    }
+    elsif(/^P\s+(\S+)$/) {
+      if($rpm_file && -r $rpm_file) {
+        SUSystem "cp -L $rpm_file $dir/$1 2>/dev/null" and
+          warn "$Script: failed to copy rpm to $1";
+      }
+      else {
+        warn "$Script: no package file";
+      }
     }
     elsif(/^A\s+(\S+)\s+(\S+)$/) {
       SUSystem "sh -c 'cat $ext_dir/$1 >>$dir/$2'" and
