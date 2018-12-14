@@ -49,6 +49,10 @@ TEMPLATE rubygem-yard: ignore
   # just a template that does nothing
   d .
 
+TEMPLATE skelcd-control-.*:
+  # just a template that does nothing
+  d .
+
 # avoid 'iterm' terminfo, instead link to generic 'screen'
 TEMPLATE libiterm.*:
   /
@@ -190,12 +194,7 @@ novnc:
 python2-websockify: ignore
 python3-setuptools: ignore
 
-if skelcd_all_theme
-  # add all available skelcd-control packages
-  add_all skelcd-control-.*:
-else
-  skelcd-control-<skelcd_ctrl_theme>:
-endif
+add_all skelcd-fallbackrepo-.*:
 
 python3-websockify:
   /
