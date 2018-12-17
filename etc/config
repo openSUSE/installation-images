@@ -85,7 +85,6 @@ gfxboot     = openSUSE
 grub2       = openSUSE
 plymouth    = openSUSE
 systemd     = openSUSE
-skelcd_all  = 0
 
 [Theme SLES]
 image	    = 600
@@ -96,7 +95,6 @@ gfxboot     = SLE
 grub2       = SLE
 plymouth    = SLE
 systemd     = SLE
-skelcd_all  = 1
 
 [Theme SLES_SAP]
 image       = 600
@@ -107,7 +105,6 @@ gfxboot     = SLE
 grub2       = SLE
 plymouth    = SLE
 systemd     = SLE
-skelcd_all  = 1
 
 [Theme SLED]
 image	    = 600
@@ -118,7 +115,6 @@ gfxboot     = SLE
 grub2       = SLE
 plymouth    = SLE
 systemd     = SLE
-skelcd_all  = 1
 
 [Theme CAASP]
 image	    = 600
@@ -129,7 +125,6 @@ gfxboot     = SLE
 grub2       = SLE
 plymouth    = SLE
 systemd     = CAASP
-skelcd_all  = 1
 
 [Theme Kubic]
 image       = 350
@@ -140,7 +135,6 @@ gfxboot     = openSUSE
 grub2       = openSUSE
 plymouth    = openSUSE
 systemd     = CAASP
-skelcd_all  = 0
 
 [Theme Zen]
 image       = 600
@@ -151,4 +145,3 @@ gfxboot     = SLE
 grub2       = SLE
 plymouth    = SLE
 systemd     = SLE
-skelcd_all  = 0
