@@ -30,6 +30,10 @@ e cp -a /dev/* dev
 
 TEMPLATE system-user-root: direct
 
+# don't add skelcd-fallbackrepo packages, just set linuxrc flag
+TEMPLATE skelcd-fallbackrepo-.*:
+  e echo "NoRepo:		1" >etc/linuxrc.d/02_fallbackrepo
+
 TEMPLATE:
   /
 
@@ -575,6 +579,7 @@ ca-certificates-mozilla: nodeps
 
 d /usr/share/pki/trust/anchors
 
+add_all skelcd-fallbackrepo-.*:
 
 include theme.file_list
 
