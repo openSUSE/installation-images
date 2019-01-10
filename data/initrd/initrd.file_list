@@ -37,7 +37,6 @@ AUTODEPS:
 
 binutils: ignore
 dbus-1-x11: ignore
-diffutils: ignore
 dirmngr: ignore
 fillup: ignore
 gnu-unifont-bitmap-fonts: ignore
@@ -129,6 +128,9 @@ libzypp: nodeps
     R s/^[#[:space:]]*(multiversion)\s+=.*/# minimal CAASP\n$1 =/ etc/zypp/zypp.conf
   endif
 
+diffutils:
+  /usr/bin/cmp
+
 sharutils:
   /usr/bin/uuencode
 
@@ -198,12 +200,14 @@ if exists(wpa_supplicant)
 endif
 
 coreutils:
+  /usr/bin/basename
   /usr/bin/cat
   /usr/bin/chmod
   /usr/bin/chown
   /usr/bin/cp
   /usr/bin/date
   /usr/bin/df
+  /usr/bin/dirname
   /usr/bin/false
   /usr/bin/head
   /usr/bin/ln
@@ -213,6 +217,7 @@ coreutils:
   /usr/bin/mktemp
   /usr/bin/mv
   /usr/bin/readlink
+  /usr/bin/realpath
   /usr/bin/rm
   /usr/bin/rmdir
   /usr/bin/sleep
@@ -220,8 +225,8 @@ coreutils:
   /usr/bin/tail
   /usr/bin/touch
   /usr/bin/tr
-  /usr/bin/tty
   /usr/bin/true
+  /usr/bin/tty
   /usr/bin/uname
   # linuxrc needs it in /bin
   m /usr/bin/rm bin
