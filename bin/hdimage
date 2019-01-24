@@ -177,6 +177,7 @@
           $s = `du --apparent-size -k -s $_ 2>/dev/null`;
           $s =~ s/\s.*$//;
           $s <<= 1;
+          $self->{fit_size_acc} = 0 if !defined $self->{fit_size_acc};
           $self->{fit_size_acc} += $s;
         }
       }
@@ -227,8 +228,9 @@
 
     $self->size($self->{size} + $self->{fit_size_acc}) if $self->{fit_size_acc};
 
-    # using '+-' to work around bigint strangeness in perl 5.16 (bnc #766339)
-    my $p_size = $self->{size} - $self->partition_ofs + -$self->{extra_size};
+    $self->{extra_size} = 0 if !defined $self->{extra_size};
+
+    my $p_size = $self->{size} - $self->partition_ofs - $self->{extra_size};
     return undef if $p_size < 0;
 
     my $c = $self->{c};
