@@ -2,20 +2,36 @@ d /EFI/BOOT
 
 if arch eq 'x86_64'
   grub2-x86_64-efi:
-    a usr/lib64/efi/grub.efi EFI/BOOT/bootx64.efi
+    if exists(grub2-x86_64-efi, /usr/share/efi/x86_64/grub.efi)
+      grub_efi = usr/share/efi/x86_64/grub.efi
+    else
+      grub_efi = usr/lib64/efi/grub.efi
+    endif
+    a <grub_efi> EFI/BOOT/bootx64.efi
 
   # if we have shim, use it
   if exists(shim)
       e mv EFI/BOOT/bootx64.efi EFI/BOOT/grub.efi
-    ?shim:
-      a /usr/lib64/efi/shim.efi EFI/BOOT/bootx64.efi
-      a /usr/lib64/efi/MokManager.efi EFI/BOOT/
+    shim:
+      if exists(shim, /usr/share/efi/x86_64/shim.efi)
+        shim_dir = /usr/share/efi/x86_64
+      else
+        shim_dir = /usr/lib64/efi
+      endif
+      a <shim_dir>/shim.efi EFI/BOOT/bootx64.efi
+      a <shim_dir>/MokManager.efi EFI/BOOT/
   endif
 
   x grub.cfg EFI/BOOT
 elsif arch eq 'aarch64'
   grub2-arm64-efi:
-    a usr/lib/efi/grub.efi EFI/BOOT/bootaa64.efi
+    if exists(grub2-arm64-efi, /usr/share/efi/aarch64/grub.efi)
+      grub_efi = usr/share/efi/aarch64/grub.efi
+    else
+      grub_efi = usr/lib/efi/grub.efi
+    endif
+
+    a <grub_efi> EFI/BOOT/bootaa64.efi
 
   x grub-aarch64.cfg EFI/BOOT/grub.cfg
 endif
@@ -43,7 +59,7 @@ if arch eq 'x86_64' || arch eq 'aarch64'
 endif
 
 # Add RPi packages if available
-if exists(raspberrypi-firmware)
+if arch eq 'aarch64' && exists(raspberrypi-firmware)
   raspberrypi-firmware:
     /
   raspberrypi-firmware-config:

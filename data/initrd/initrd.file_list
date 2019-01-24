@@ -88,7 +88,6 @@ lsscsi:
 mdadm:
 net-tools:
 ?net-tools-deprecated:
-nfsidmap:
 sed:
 ?wicked:
 ?s390-tools-hmcdrvfs:

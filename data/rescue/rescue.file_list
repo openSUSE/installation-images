@@ -129,7 +129,6 @@ ncurses-utils:
 net-tools:
 ?net-tools-deprecated:
 netcat-openbsd:
-nfsidmap:
 nscd:
 ntfsprogs:
 open-iscsi:
@@ -375,9 +374,14 @@ r /usr/share/{doc,info,locale,man} /usr/src/packages /usr/share/fillup-templates
 r dev/mapper dev/stderr dev/initctl
 
 # remove grub2 *.module files, they're not needed
-r usr/lib/grub2/*/*.module
 # ... and strip *.mod files
-S usr/lib/grub2/*/*.mod
+if exists(grub2, /usr/lib/grub2)
+  r usr/lib/grub2/*/*.module
+  S usr/lib/grub2/*/*.mod
+elsif exists(grub2)
+  r usr/share/grub2/*/*.module
+  S usr/share/grub2/*/*.mod
+endif
 
 # we better have one...
 e touch etc/sysconfig/kernel
