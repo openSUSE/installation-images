@@ -119,6 +119,7 @@ yast2-buildtools: nodeps
 
 ?efibootmgr:
 ?elilo:
+bcache-tools:
 btrfsprogs:
 bzip2:
 coreutils:
