@@ -79,6 +79,7 @@ aaa_base-extras:
 attr:
 bash:
 bc:
+bcache-tools:
 bind-utils:
 btrfsprogs:
 bzip2:
