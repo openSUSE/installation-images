@@ -68,9 +68,9 @@ else
     /usr/lib*/samba/libwinbind-client*.so
 endif
 
-?bcache-tools:
 ?biosdevname:
 ?bcm43xx-firmware: nodeps
+bcache-tools:
 cpio:
 cracklib-dict-full: ignore
 curl:
