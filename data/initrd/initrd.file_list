@@ -434,7 +434,7 @@ dbus-1:
 
 # For FIPS installation:
 
-libopenssl*_*-hmac:
+?libopenssl*_*-hmac:
 
 ?openssh-fips:
 ?openssh-hmac:
