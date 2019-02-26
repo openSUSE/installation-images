@@ -15,9 +15,6 @@ firmwarekit:
 
 pciutils:
 
-pciutils-ids:
-  m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
-
 ?acpica:
   /usr/bin/acpixtract
   /usr/bin/iasl

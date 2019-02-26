@@ -394,7 +394,8 @@ shadow:
   /usr/sbin/useradd.local
   d /etc/skel
 
-pciutils-ids:
+# keep for compatibility; can be removed if hwdata is used everywhere
+?pciutils-ids:
   m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
 checkmedia:
