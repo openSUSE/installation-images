@@ -132,6 +132,7 @@ net-tools:
 netcat-openbsd:
 nscd:
 ntfsprogs:
+nvme-cli:
 open-iscsi:
 ?fcoe-utils:
 openslp:
