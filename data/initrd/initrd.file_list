@@ -232,6 +232,7 @@ coreutils:
 
 bash:
   /bin/{sh,bash}
+  /usr/bin/{sh,bash}
   s bash /bin/lsh
 
 ncurses-utils:

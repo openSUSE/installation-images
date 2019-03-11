@@ -226,8 +226,8 @@ gawk:
   s gawk usr/bin/awk
 
 bash:
-  /bin/bash
-  s bash /bin/sh
+  /bin/{sh,bash}
+  /usr/bin/{sh,bash}
 
 nfs-client:
   /sbin/{u,}mount.nfs*
