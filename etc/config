@@ -134,7 +134,7 @@ skelcd_ctrl = Kubic
 gfxboot     = openSUSE
 grub2       = openSUSE
 plymouth    = openSUSE
-systemd     = CAASP
+systemd     = MicroOS
 
 [Theme Zen]
 image       = 600
