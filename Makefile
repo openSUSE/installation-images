@@ -87,7 +87,9 @@ biostest: base
 
 initrd: base
 	theme=$(THEMES) libdeps=initrd image=initrd-base.xz tmpdir=initrd src=initrd filelist=initrd fs=cpio.xz bin/mk_image
-	[ -s tmp/initrd/bin/bash ]
+	# check if a shell really exists (nonzero size) - this is to catch
+	# potential build problems (with file system caching)
+	[ ! -L tmp/initrd/bin/bash -a -s tmp/initrd/bin/bash -o ! -L tmp/initrd/usr/bin/bash -a -s tmp/initrd/usr/bin/bash ]
 
 modules: base
 	theme=$(THEMES) image=modules-config src=initrd fs=none bin/mk_image

@@ -112,8 +112,8 @@ krb5:
   /usr/lib*/libk5crypto.so.*
 
 bash:
-  /bin/bash
-  s bash /bin/sh
+  /bin/{sh,bash}
+  /usr/bin/{sh,bash}
 
 dbus-1: prein
   /
