@@ -60,7 +60,10 @@ for i in usr/$lib_dir/lib* ; do
   mv $i b/usr/$lib_dir
 done
 mkdir -p b/usr/bin
-mv usr/bin/kmod b/usr/bin
+# some things are needed from /usr/bin
+for i in kmod bash sh ; do
+  [ -e usr/bin/$i -o -L usr/bin/$i ] && mv usr/bin/$i b/usr/bin
+done
 mkdir -p a
 mv usr a
 mv b/usr .
