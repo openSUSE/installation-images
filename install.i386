@@ -35,8 +35,7 @@ for theme in $THEMES ; do
   done
 
   if [ -d images/$theme/EFI ] ; then
-    mkdir -p $DESTDIR/branding/$theme/CD1/EFI/BOOT
-    cp -r images/$theme/EFI/EFI/BOOT/* $DESTDIR/branding/$theme/CD1/EFI/BOOT
+    cp -r images/$theme/EFI/* $DESTDIR/branding/$theme/CD1
   fi
 
   # xen initrd
