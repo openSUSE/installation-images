@@ -79,7 +79,7 @@ insserv-compat:
 kbd:
 krb5:
 make:
-mkfontdir:
+?mkfontdir:
 mkfontscale:
 kmod-compat:
 openslp:

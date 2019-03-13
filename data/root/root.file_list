@@ -474,7 +474,7 @@ if arch ne 's390' && arch ne 's390x'
 endif
 
 mkfontscale:
-mkfontdir:
+?mkfontdir:
 setxkbmap:
 xdpyinfo:
 xhost:
