@@ -128,9 +128,19 @@ systemd     = CAASP
 
 [Theme Kubic]
 image       = 350
-release     = openSUSE-Tumbleweed-Kubic
+release     = openSUSE-MicroOS
 skelcd      = openSUSE
 skelcd_ctrl = Kubic
+gfxboot     = openSUSE
+grub2       = openSUSE
+plymouth    = openSUSE
+systemd     = MicroOS
+
+[Theme MicroOS]
+image       = 350
+release     = openSUSE-MicroOS
+skelcd      = openSUSE
+skelcd_ctrl = MicroOS
 gfxboot     = openSUSE
 grub2       = openSUSE
 plymouth    = openSUSE

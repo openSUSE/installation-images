@@ -925,9 +925,9 @@ sub get_version_info
 
   # don't accept other names than these
 
-  die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|leap|sles|sled|tumbleweed( kubic)?)$/;
+  die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|microos|leap|sles|sled|tumbleweed( kubic)?)$/;
 
-  my $is_tw = $dist =~ /^tumbleweed( kubic)?$/;
+  my $is_tw = $dist =~ /^(microos|tumbleweed( kubic)?)$/;
 
   # kubic uses 'tw' as dist tag
   $dist = $is_tw ? 'tw' : "$dist$config{VERSION_ID}";
