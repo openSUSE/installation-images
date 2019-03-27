@@ -1238,7 +1238,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
       if(defined($u) && defined($p)) {
         $u =~ s/(\W)/sprintf("%%%02X", ord $1)/ge;
-        $p =~ s/(\W)/sprintf("%%%02X", ord $1)/ge;
+        $p =~ s/(.)/sprintf("%%%02X", ord $1)/ge;
         $ConfigData{obs_server} =~ s#(://)#$1$u:$p@#;
       }
       elsif($ConfigData{obs_server} =~ /^https:/) {
