@@ -70,7 +70,7 @@ ID="opensuse-tumbleweed-kubic"
 ANSI_COLOR="0;32"
 CPE_NAME="cpe:/o:opensuse:opensuse-tumbleweed-kubic:20170905"
 
-== openSUSE Tumbleweed Kubic ==
+== openSUSE Tumbleweed Kubic [obsolete] ==
 
 NAME="openSUSE Tumbleweed Kubic"
 # VERSION="20170909"
@@ -82,6 +82,20 @@ ANSI_COLOR="0;32"
 CPE_NAME="cpe:/o:opensuse:tumbleweed-kubic:20170909"
 BUG_REPORT_URL="https://bugs.opensuse.org"
 HOME_URL="https://www.opensuse.org/"
+
+== openSUSE MicroOS ==
+
+NAME="openSUSE MicroOS"
+# VERSION="20190301"
+ID="opensuse-microos"
+ID_LIKE="suse opensuse opensuse-tumbleweed"
+VERSION_ID="20190301"
+PRETTY_NAME="openSUSE MicroOS"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:microos:20190301"
+BUG_REPORT_URL="https://bugs.opensuse.org"
+HOME_URL="https://www.opensuse.org/"
+
 
 == sles12 ==
 
