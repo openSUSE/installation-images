@@ -655,7 +655,9 @@ sub read_packages
     $r = $l->[1];
 
     print $f "$p $r\n";
-    die "$Script: failed to create $ConfigData{tmp_cache_dir}/.obs/$p/$r ($!)" unless make_path "$ConfigData{tmp_cache_dir}/.obs/$p/$r";
+    my $new_dir = "$ConfigData{tmp_cache_dir}/.obs/$p/$r";
+    make_path $new_dir;
+    die "$Script: failed to create $new_dir" unless -d $new_dir;
 
     for (`curl -k -s '$ConfigData{obs_server}/build/$p/$r/$ConfigData{obs_arch}/_repository?view=binaryversions&nometa=1'`) {
       if(/<binary\s+name="([^"]+)\.rpm"/) {
@@ -1152,6 +1154,8 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   # print STDERR "abuild = $in_abuild\n";
 
+  die "\nError: *** you must be root to build images ***\n\n" if $>;
+
   if($in_abuild) {
     my $rpmdir;
 
@@ -1220,7 +1224,11 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
     my ($f, $u, $p, $s);
 
-    if($ConfigData{obs_server} !~ /\@/ && -f "$ENV{HOME}/.oscrc") {
+    if($ConfigData{obs_server} !~ /\@/) {
+      if(! -f "$ENV{HOME}/.oscrc") {
+        die "\nError: *** osc config file ~/.oscrc missing ***\n\n";
+      }
+
       if($< == 0) {
         # to avoid problems with restrictive .oscrc permissions
         open $f, "su `stat -c %U $ENV{HOME}/.oscrc` -c 'cat $ENV{HOME}/.oscrc' |";
@@ -1242,8 +1250,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
         $ConfigData{obs_server} =~ s#(://)#$1$u:$p@#;
       }
       elsif($ConfigData{obs_server} =~ /^https:/) {
-        warn "\nWarning: *** no auth data for $ConfigData{obs_server}! ***\n\n";
-        sleep 2;
+        die "\nError: *** no authentication data (user, password) for $ConfigData{obs_server} ***\n\n";
       }
 
       # print "$ConfigData{obs_server}\n";
