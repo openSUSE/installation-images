@@ -23,13 +23,6 @@ tree as it's used on our media.
 
 `make iso` will directly create the .iso file for cd1
 
-> ### Warning
->
-> _There's currently a bug preventing communication to the Build Service if your
-> password contains 'too weird' characters like spaces or some special symbols._
->
-> `make` will just not work, then.
-
 ## Configuring the generation of images
 
 The exact behavior of ```make``` can be influenced by several environment
