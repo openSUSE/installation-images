@@ -67,7 +67,8 @@ floppy	=
 
 ; Define per-theme related values.
 ;
-; 'image' ends up as MemLoadImage entry in linuxrc.config.
+; 'image': MemLoadImage entry in linuxrc.config
+; 'patch_zypp_config': whether to adjust zypp.conf for micro-os & co
 ;
 ; All other values are intended as suffixes for branding packages. Values
 ; can be used as <foo_theme> in *.file_list files.
@@ -77,81 +78,89 @@ floppy	=
 ; You can override settings via env vars of the same name ('foo_theme').
 ;
 [Theme openSUSE]
-image	    = 350
-release     = openSUSE
-skelcd      = openSUSE
-skelcd_ctrl = openSUSE
-gfxboot     = openSUSE
-grub2       = openSUSE
-plymouth    = openSUSE
-systemd     = openSUSE
+image             = 350
+patch_zypp_config = 0
+release           = openSUSE
+skelcd            = openSUSE
+skelcd_ctrl       = openSUSE
+gfxboot           = openSUSE
+grub2             = openSUSE
+plymouth          = openSUSE
+systemd           = openSUSE
 
 [Theme SLES]
-image	    = 600
-release     = unified-installer
-skelcd      = sles
-skelcd_ctrl = leanos
-gfxboot     = SLE
-grub2       = SLE
-plymouth    = SLE
-systemd     = SLE
+image             = 600
+patch_zypp_config = 0
+release           = unified-installer
+skelcd            = sles
+skelcd_ctrl       = leanos
+gfxboot           = SLE
+grub2             = SLE
+plymouth          = SLE
+systemd           = SLE
 
 [Theme SLES_SAP]
-image       = 600
-release     = unified-installer
-skelcd      = sles
-skelcd_ctrl = leanos
-gfxboot     = SLE
-grub2       = SLE
-plymouth    = SLE
-systemd     = SLE
+image             = 600
+patch_zypp_config = 0
+release           = unified-installer
+skelcd            = sles
+skelcd_ctrl       = leanos
+gfxboot           = SLE
+grub2             = SLE
+plymouth          = SLE
+systemd           = SLE
 
 [Theme SLED]
-image	    = 600
-release     = unified-installer
-skelcd      = sled
-skelcd_ctrl = leanos
-gfxboot     = SLE
-grub2       = SLE
-plymouth    = SLE
-systemd     = SLE
+image             = 600
+patch_zypp_config = 0
+release           = unified-installer
+skelcd            = sled
+skelcd_ctrl       = leanos
+gfxboot           = SLE
+grub2             = SLE
+plymouth          = SLE
+systemd           = SLE
 
 [Theme CAASP]
-image	    = 600
-release     = caasp
-skelcd      = caasp
-skelcd_ctrl = CAASP
-gfxboot     = SLE
-grub2       = SLE
-plymouth    = SLE
-systemd     = CAASP
+image             = 600
+patch_zypp_config = 1
+release           = caasp
+skelcd            = caasp
+skelcd_ctrl       = CAASP
+gfxboot           = SLE
+grub2             = SLE
+plymouth          = SLE
+systemd           = CAASP
 
 [Theme Kubic]
-image       = 350
-release     = openSUSE-MicroOS
-skelcd      = openSUSE
-skelcd_ctrl = Kubic
-gfxboot     = openSUSE
-grub2       = openSUSE
-plymouth    = openSUSE
-systemd     = MicroOS
+image             = 350
+patch_zypp_config = 1
+release           = openSUSE-MicroOS
+skelcd            = openSUSE
+skelcd_ctrl       = Kubic
+gfxboot           = openSUSE
+grub2             = openSUSE
+plymouth          = openSUSE
+systemd           = MicroOS
 
 [Theme MicroOS]
-image       = 350
-release     = openSUSE-MicroOS
-skelcd      = openSUSE
-skelcd_ctrl = MicroOS
-gfxboot     = openSUSE
-grub2       = openSUSE
-plymouth    = openSUSE
-systemd     = MicroOS
+image             = 350
+patch_zypp_config = 1
+release           = openSUSE-MicroOS
+skelcd            = openSUSE
+skelcd_ctrl       = MicroOS
+gfxboot           = openSUSE
+grub2             = openSUSE
+plymouth          = openSUSE
+systemd           = MicroOS
 
 [Theme Zen]
-image       = 600
-release     = unified-installer
-skelcd      = sles
-skelcd_ctrl = leanos
-gfxboot     = SLE
-grub2       = SLE
-plymouth    = SLE
-systemd     = SLE
+image             = 600
+patch_zypp_config = 0
+release           = unified-installer
+skelcd            = sles
+skelcd_ctrl       = leanos
+gfxboot           = SLE
+grub2             = SLE
+plymouth          = SLE
+systemd           = SLE
