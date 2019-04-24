@@ -5,15 +5,16 @@ To add a new theme, add a new `Theme` section to etc/config. Example for theme
 
 ```sh
 [Theme SLES]
-image       = 600			# memory limit for loading inst-sys: 600 MB
+image             = 600		# memory limit for loading inst-sys: 600 MB
+patch_zypp_config = 0		# whether to adjust zypp.conf for micro-os-like systems
 # other entries are branding prefixes or suffixes to branding-related packages
-release     = sles			# sles-release.rpm
-skelcd      = sles			# skelcd-sles.rpm
-skelcd_ctrl = SLES			# skelcd-control-SLES.rpm
-gfxboot     = SLE			# gfxboot-branding-SLE.rpm
-grub2       = SLE			# grub2-branding-SLE.rpm
-plymouth    = SLE			# plymouth-branding-SLE.rpm
-systemd     = SLE			# systemd-presets-branding-SLE.rpm
+release           = sles	# sles-release.rpm
+skelcd            = sles	# skelcd-sles.rpm
+skelcd_ctrl       = SLES	# skelcd-control-SLES.rpm
+gfxboot           = SLE		# gfxboot-branding-SLE.rpm
+grub2             = SLE		# grub2-branding-SLE.rpm
+plymouth          = SLE		# plymouth-branding-SLE.rpm
+systemd           = SLE		# systemd-presets-branding-SLE.rpm
 ```
 
 Then add an appropriate theme section to `installation-images.spec`.
