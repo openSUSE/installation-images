@@ -642,6 +642,9 @@ x etc/adjtime etc
 x etc/bashrc /.profile
 x etc/bashrc root/.profile
 
+# prevent raid auto-assembly (bsc#1132688)
+x etc/00-inhibit.rules /etc/udev/rules.d
+
 e ldconfig -r .
 
 # get the gpg keys to trust from build root
