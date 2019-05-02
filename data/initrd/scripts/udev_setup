@@ -12,6 +12,13 @@ done
 # disable hotplug helper, udevd listens to netlink
 echo "" > /proc/sys/kernel/hotplug
 
+# prevent MD/RAID auto-assembly (bsc#1132688)
+# Note: rules in /run are not copied to the target system, unlike those in /etc.
+if [ -n "$linuxrc_no_auto_assembly" ] ; then
+  mkdir -p /run/udev/rules.d
+  echo 'ENV{ANACONDA}="yes"' > /run/udev/rules.d/00-inhibit.rules
+fi
+
 # start udevd
 echo -n "Starting udevd "
 if [ -n "$linuxrc_debug" ] ; then
