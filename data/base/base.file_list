@@ -122,6 +122,7 @@ aaa_base:
   E prein
   E postin
   t etc/fstab
+  /etc
   /sbin/service
   /usr/sbin/service
 
