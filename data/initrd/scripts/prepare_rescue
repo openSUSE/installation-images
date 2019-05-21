@@ -46,10 +46,10 @@ if [ -e /usr/lib/systemd/system/sshd.service -a "$SSH" = 1 ] ; then
   ln -s ../sshd.service /etc/systemd/system/multi-user.target.wants
 fi
 
-if [ -n "$SSHPASSWORDENC" ] ; then
-  echo "root:$SSHPASSWORDENC" | chpasswd -e
-elif [ -n "$SSHPASSWORD" ] ; then
+if [ -n "$SSHPASSWORD" ] ; then
   echo "root:$SSHPASSWORD" | chpasswd
+else
+  echo "root:$SSHPASSWORDENC" | chpasswd -e
 fi
 
 # keep some initrd config files for rescue system
