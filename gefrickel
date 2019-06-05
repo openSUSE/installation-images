@@ -38,7 +38,7 @@ lib_dir=${lib_dir%%/*}
 m_dir=`echo lib/modules/*/initrd`
 [ -d "$m_dir" ] || err "no kernel module dir"
 mkdir -p "b/$m_dir"
-for i in loop squashfs lz4_decompress ; do
+for i in loop squashfs lz4_decompress xxhash zstd_decompress; do
   [ -f $m_dir/$i.ko ] && mv $m_dir/$i.ko b/$m_dir
 done
 mkdir -p a/lib
