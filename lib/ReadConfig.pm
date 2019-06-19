@@ -1327,6 +1327,11 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     $ConfigData{$_ . '_theme'} = $ConfigData{ini}{"Theme $theme"}{$_};
   }
 
+  # if $ConfigData{os}{product_short} is "openSUSE MicroOS" and $theme is "Kubic" then make $ConfigData{os}{product_short} actually equal "openSUSE Kubic"
+  if (($ConfigData{os}{product_short} =~ /openSUSE MicroOS/) && ($theme =~ /Kubic/)) {
+     $ConfigData{os}{product_short} = "openSUSE Kubic"
+  }
+
   $ConfigData{product_name} = $ConfigData{os}{product_mini} || "openSUSE";
   ($ConfigData{product_name_nospaces} = $ConfigData{product_name}) =~ s/\s+/-/g;
   ($ConfigData{product_short} = $ConfigData{os}{product_short} || "SUSE") =~ s/\s+/-/g;
