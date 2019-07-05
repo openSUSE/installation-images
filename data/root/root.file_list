@@ -306,12 +306,6 @@ yast2-installation:
   # hack to make 'repair' option work
   # p repair.diff
 
-# bnc#887406 SuSEfirewall2 configuration needed for AutoYast export
-# both in installation proposal and at the end of installation
-SuSEfirewall2:
-  d /etc/sysconfig/SuSEfirewall2.d/services/
-  /etc/sysconfig/SuSEfirewall2
-
 if arch eq 'ppc' || arch eq 'ppc64'
   pdisk:
     /sbin/pdisk
