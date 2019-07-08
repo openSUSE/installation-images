@@ -247,6 +247,7 @@ kernel/drivers/usb/dwc2/
 kernel/drivers/usb/dwc3/
 kernel/drivers/usb/core/ledtrig-usbport.ko
 kernel/drivers/regulator/
+kernel/drivers/pci/host/
 
 kernel/fs/efivarfs/
 
