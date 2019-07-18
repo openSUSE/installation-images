@@ -142,6 +142,7 @@ gfxboot           = openSUSE
 grub2             = openSUSE
 plymouth          = openSUSE
 systemd           = MicroOS
+product_name      = openSUSE-Kubic
 
 [Theme MicroOS]
 image             = 350
