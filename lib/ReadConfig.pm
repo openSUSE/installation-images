@@ -1329,7 +1329,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   $ConfigData{product_name} = $ConfigData{os}{product_mini} || "openSUSE";
   ($ConfigData{product_name_nospaces} = $ConfigData{product_name}) =~ s/\s+/-/g;
-  ($ConfigData{product_short} = $ConfigData{os}{product_short} || "SUSE") =~ s/\s+/-/g;
+  ($ConfigData{product_short} = $ConfigData{product_name_theme} || $ConfigData{os}{product_short} || "SUSE") =~ s/\s+/-/g;
   $ConfigData{update_dir} = $ConfigData{os}{update};
   $ConfigData{load_image} = $load_image;
 
