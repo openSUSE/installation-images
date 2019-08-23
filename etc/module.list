@@ -197,9 +197,7 @@ kernel/drivers/video/fbdev/hyperv_fb.ko
 
 kernel/drivers/misc/lis3lv02d/lis3lv02d.ko
 kernel/drivers/misc/cs5535-mfgpt.ko
-kernel/drivers/gpio/gpio-cs5535.ko
-kernel/drivers/gpio/gpio-thunderx.ko
-kernel/drivers/gpio/gpio-raspberrypi-exp.ko
+kernel/drivers/gpio/
 kernel/drivers/ptp/
 kernel/drivers/pps/pps_core.ko
 kernel/drivers/usb/class/cdc-wdm.ko
