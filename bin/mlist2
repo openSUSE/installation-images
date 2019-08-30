@@ -155,7 +155,7 @@ for (@cfg_file) {
     $l0 = $l[0];
     for $m1 (@fname_list) {
       $l[0] = $m1;
-      if($fname{$l[0]} =~ m#^$l0$#) {
+      if($fname{$l[0]} =~ m#^$l0(?:\.xz)?$#) {
         # print "$l0 - $fname{$l[0]} - $l[0]\n";
 
         $all{$l[0]} = 1;

@@ -1299,7 +1299,14 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
     $ConfigData{kernel_img} = $k_images[0];
     $ConfigData{kernel_ver} = ReadFile "$k_dir/kernel";
-    $ConfigData{module_type} = 'ko';
+
+    my $mod_type = `find $k_dir/rpm/lib/modules/*/kernel/ -type f -name '*.ko*' -print -quit`;
+    if (!$mod_type) {
+      die "Error: No kernel module found! (Looking for '*.ko*' in '$k_dir/rpm/lib/modules/*/kernel/')\n\n";
+    }
+    chomp $mod_type;
+    $mod_type =~ /\.(ko(?:\.xz)?)$/;
+    $ConfigData{module_type} = $1;
   }
 
   # print STDERR "kernel_img = $ConfigData{kernel_img}\n";

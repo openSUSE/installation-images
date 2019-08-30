@@ -10,7 +10,7 @@ for $rpm (@ARGV) {
   $archs{$arch} = 1;
 
   for (@files) {
-    if(m#^/lib/modules/.*/([^/]+).ko#) {
+    if(m#^/lib/modules/.*/([^/]+)\.ko#) {
       $mod->{$1}{$arch} = 1;
     }
   }
