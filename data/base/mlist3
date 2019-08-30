@@ -8,13 +8,13 @@ $fw_dir = shift;
 
 $err = 0;
 
-for $m (<$modules_dir/*.ko{,.xz}>) {
+for $m (<$modules_dir/*.ko{,.xz,.zst}>) {
   chomp $m;
 
   chomp(@l = `modinfo -F firmware $m`);
 
   $m =~ s#.*/##;
-  $m =~ s#\.ko(?:\.xz)?$##;
+  $m =~ s#\.ko(?:\.xz|\.zst)?$##;
 
   $fw{$m} = [ @l ] if @l;
 }
