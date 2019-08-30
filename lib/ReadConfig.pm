@@ -1325,7 +1325,7 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
       die "Error: No kernel module found! (Looking for '*.ko*' in '$k_dir/rpm/lib/modules/*/kernel/')\n\n";
     }
     chomp $mod_type;
-    $mod_type =~ /\.(ko(?:\.xz)?)$/;
+    $mod_type =~ /\.(ko(?:\.xz|\.zst)?)$/;
     $ConfigData{module_type} = $1;
   }
 
