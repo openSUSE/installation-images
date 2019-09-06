@@ -321,6 +321,8 @@ mdadm:
 multipath-tools:
 nfs-client:
 
+?openssh-fips:
+
 openssh:
   /
   d /etc/sysconfig

@@ -601,6 +601,8 @@ if !exists(yast2-storage-ng)
     E postin
 endif
 
+?openssh-fips:
+
 openssh:
   /
   t /etc/sysconfig/ssh
