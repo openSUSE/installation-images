@@ -631,6 +631,8 @@ else
   yast2-storage: ignore
 endif
 
+?openssh-fips:
+
 openssh:
   /
   t /etc/sysconfig/ssh
