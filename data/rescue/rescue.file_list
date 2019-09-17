@@ -135,6 +135,7 @@ netcat-openbsd:
 nfsidmap:
 nscd:
 ntfsprogs:
+nvme-cli:
 open-iscsi:
 ?fcoe-utils:
 openslp:
