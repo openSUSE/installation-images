@@ -87,6 +87,7 @@ mdadm:
 net-tools:
 ?net-tools-deprecated:
 nfsidmap:
+nvme-cli:
 sed:
 ?wicked:
 ?s390-tools-hmcdrvfs:
