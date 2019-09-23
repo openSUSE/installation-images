@@ -63,7 +63,7 @@ for i in usr/$lib_dir/lib* ; do
 done
 mkdir -p b/usr/bin
 # some things are needed from /usr/bin
-for i in kmod bash sh ; do
+for i in kmod bash mount setsid sh; do
   [ -e usr/bin/$i -o -L usr/bin/$i ] && mv usr/bin/$i b/usr/bin
 done
 mkdir -p a
