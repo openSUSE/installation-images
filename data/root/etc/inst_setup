@@ -248,7 +248,6 @@ nscd --shutdown
 killall slpd >/dev/null 2>&1
 killall Xvnc >/dev/null 2>&1
 killall sshd >/dev/null 2>&1
-killall haveged >/dev/null 2>&1
 
 umount /usr/bin/gdb 2>/dev/null
 umount devpts 2>/dev/null
