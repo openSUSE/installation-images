@@ -163,7 +163,8 @@ suse-module-tools:
   /sbin/qeth_configure
   /sbin/dasdinfo
   /sbin/chzdev
-  /etc/udev
+  /usr/lib/udev
+  /etc/zkey
   /boot
 
 kbd:
