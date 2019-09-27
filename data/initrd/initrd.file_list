@@ -164,6 +164,7 @@ suse-module-tools:
   /sbin/dasdinfo
   /sbin/chzdev
   /etc/udev
+  /etc/zkey
   /boot
 
 kbd:
