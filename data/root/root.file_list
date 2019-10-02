@@ -339,6 +339,7 @@ krb5:
   /usr/lib*/libk5crypto.so.*
 
 pam:
+  /usr/etc/pam.d
   /etc/pam.d
   /etc
   /lib*/security
