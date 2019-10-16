@@ -381,6 +381,7 @@ nscd:
 
 shadow:
   /etc
+  /usr/etc
   /usr/bin
   /usr/sbin/pwunconv
   /usr/sbin/chpasswd

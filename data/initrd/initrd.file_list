@@ -339,6 +339,7 @@ nscd:
 
 shadow:
   /etc
+  /usr/etc
   /usr/sbin/groupadd
   /usr/sbin/useradd
   /usr/sbin/useradd.local
@@ -347,6 +348,7 @@ shadow:
 pam:
   /sbin
   /etc
+  /usr/etc
   /lib*/libpam*.so.*
   /lib*/security/pam_group.so
   /lib*/security/pam_unix*.so
