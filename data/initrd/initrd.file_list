@@ -55,19 +55,6 @@ update-alternatives: ignore
 ?mkinitrd: ignore
 perl: ignore
 filesystem: ignore
-
-if exists(samba-client-libs)
-  samba-client-libs: nodeps
-    /usr/lib*/samba/libreplace*.so
-
-  samba-libs: nodeps
-    /usr/lib*/samba/libwinbind-client*.so
-else
-  samba-libs: nodeps
-    /usr/lib*/samba/libreplace*.so
-    /usr/lib*/samba/libwinbind-client*.so
-endif
-
 ?biosdevname:
 ?bcm43xx-firmware: nodeps
 bcache-tools:
@@ -127,6 +114,9 @@ libzypp: nodeps
     R s/^[#[:space:]]*(rpm.install.excludedocs)\s+=.*/# minimal CAASP\n$1 = yes/ etc/zypp/zypp.conf
     R s/^[#[:space:]]*(multiversion)\s+=.*/# minimal CAASP\n$1 =/ etc/zypp/zypp.conf
   endif
+
+samba-libs: nodeps
+  /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
 
 diffutils:
   /usr/bin/cmp
@@ -339,7 +329,7 @@ nscd:
   d /var/run/nscd
 
 ?virtualbox-guest-tools: nodeps
-  /etc/udev
+  /usr/lib/udev/rules.d
 
 ?xf86-input-vmmouse: nodeps
   /usr/lib/udev/rules.d
@@ -347,11 +337,9 @@ nscd:
 ?xf86-input-wacom: nodeps
   /usr/lib/udev/rules.d
 
-multipath-tools:
-  /var/cache/multipath
-
 shadow:
   /etc
+  /usr/etc
   /usr/sbin/groupadd
   /usr/sbin/useradd
   /usr/sbin/useradd.local
@@ -360,6 +348,7 @@ shadow:
 pam:
   /sbin
   /etc
+  /usr/etc
   /lib*/libpam*.so.*
   /lib*/security/pam_group.so
   /lib*/security/pam_unix*.so

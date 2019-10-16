@@ -178,17 +178,8 @@ vim:
 
 # we have full samba in rescue-server
 if filelist ne 'rescue-server'
-  if exists(samba-client-libs)
-    samba-client-libs: nodeps
-      /usr/lib*/samba/libreplace*.so
-
-    samba-libs: nodeps
-      /usr/lib*/samba/libwinbind-client*.so
-  else
-    samba-libs: nodeps
-      /usr/lib*/samba/libreplace*.so
-      /usr/lib*/samba/libwinbind-client*.so
-  endif
+  samba-libs: nodeps
+    /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
 endif
 
 rpm:
