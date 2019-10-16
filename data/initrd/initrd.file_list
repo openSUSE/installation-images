@@ -337,9 +337,6 @@ nscd:
 ?xf86-input-wacom: nodeps
   /usr/lib/udev/rules.d
 
-multipath-tools:
-  /var/cache/multipath
-
 shadow:
   /etc
   /usr/sbin/groupadd
