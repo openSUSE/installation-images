@@ -329,7 +329,7 @@ nscd:
   d /var/run/nscd
 
 ?virtualbox-guest-tools: nodeps
-  /etc/udev
+  /usr/lib/udev/rules.d
 
 ?xf86-input-vmmouse: nodeps
   /usr/lib/udev/rules.d
