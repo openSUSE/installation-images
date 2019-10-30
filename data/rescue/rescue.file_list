@@ -325,9 +325,8 @@ nfs-client:
 
 openssh:
   /
-  d /etc/sysconfig
-  t /etc/sysconfig/ssh
   E prein
+  E postin
   # enable root login bsc#1118114
   R s/^\s*#\s*(PermitRootLogin)\b.*/$1 yes/ /etc/ssh/sshd_config
 
