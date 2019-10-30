@@ -103,7 +103,6 @@ udev: ignore
 unzip: ignore
 ?dracut: ignore
 ?mkinitrd: ignore
-yast2-schema: ignore
 # handle yast2-registration -> suse-connect -> zypper dependency,
 # yast does not need zypper, just suse-connect, so ignore it
 ?zypper: ignore
