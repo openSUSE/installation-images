@@ -43,7 +43,7 @@ if [ ! -z "$sshpassword" ] ; then
 fi
 chown -R 0.0  /etc/ssh /root /etc/shadow 2>/dev/null
 
-/usr/sbin/sshd-gen-keys-start
+ssh-keygen -A
 
 echo -n "Starting SSH daemon... "
 
@@ -62,4 +62,3 @@ if [ ! "$SSH_FAILED" ] ; then
 fi
 
 [ -f /proc/splash ] && echo verbose >/proc/splash
-
