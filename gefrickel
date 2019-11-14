@@ -70,8 +70,10 @@ if [ -d ${lib_dir}64 ]; then
 fi
 mkdir -p "b/$lib_dir"
 # don't forget .lib*.hmac files (bsc#1178208)
-for i in $lib_dir/lib* $lib_dir/.lib*; do
+# lp64d is needed for riscv64
+for i in $lib_dir/lib* $lib_dir/.lib* $lib_dir/lp64d; do
   case $i in *librpm*) continue ;; esac
+  test -e $i || continue
   mv $i b/$lib_dir
 done
 # need to keep the linker in usrmerge case

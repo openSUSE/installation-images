@@ -51,6 +51,12 @@ INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    :=
 endif
 
+ifneq ($(filter riscv64, $(ARCH)),)
+ALL_TARGETS   := initrd-themes initrd boot boot-grub2-efi boot-themes $(COMMON_TARGETS)
+INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
+BOOT_PARTS    := boot/* initrd efi
+endif
+
 # THEMES must be a single value
 THEMES  := openSUSE
 DESTDIR := images/instsys

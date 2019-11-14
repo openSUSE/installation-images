@@ -12,6 +12,9 @@ elsif arch eq 'armv6l'
 elsif arch eq 'armv7l'
   grub_target = arm
   boot_efi = arm
+elsif arch eq 'riscv64'
+  grub_target = riscv64
+  boot_efi = riscv64
 endif
 
 grub_efi = usr/share/grub2/<grub_target>-efi/grub.efi
