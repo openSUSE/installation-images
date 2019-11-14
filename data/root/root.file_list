@@ -570,8 +570,7 @@ khmeros-fonts:
 
 lklug-fonts:
 
-arabic-kacst-fonts:
-  /usr/share/fonts/truetype/KacstBook.ttf
+noto-naskharabic-fonts:
 
 dmz-icon-theme-cursors:
   if exists(dmz-icon-theme-cursors, /usr/share/icons/DMZ-White)
