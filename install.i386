@@ -47,8 +47,13 @@ for theme in $THEMES ; do
   mkdir -p $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader
 
   # initrd goes to 'loader' dir
-  if [ -e $DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd ] ; then
-    mv $DESTDIR/branding/$theme/CD1/boot/$ARCH/initrd $DESTDIR/branding/$theme/CD1/boot/$ARCH/loader/initrd
+  dir=$DESTDIR/branding/$theme/CD1/boot/$ARCH
+  if [ -e $dir/initrd ] ; then
+    mv $dir/initrd $dir/loader/initrd
+    # check for syslinux 6.x setup
+    if [ ! -e $dir/loader/gfxboot.cfg ] ; then
+      gfxboot -a $dir/loader/bootlogo --change-config install::initrd.size=$(stat -c "%s" $dir/loader/initrd)
+    fi
   fi
 
   # cp etc/README $DESTDIR/branding/$theme/CD1/boot/$ARCH

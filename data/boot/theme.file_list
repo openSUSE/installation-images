@@ -4,10 +4,15 @@ if arch eq 'i386' || arch eq 'x86_64'
 
   gfxboot-branding-<gfxboot_theme>:
     /
-    e cp -a etc/bootsplash/themes/<gfxboot_theme>/cdrom/* loader
-    # e gfxboot --config-file=loader/gfxboot.cfg --change-config install::dud.url=http://download.opensuse.org/update/openSUSE/driverupdate
-    e gfxboot --config-file=loader/gfxboot.cfg --change-config product="<product_name>"
-    e gfxboot --config-file=loader/gfxboot.cfg --change-config mainmenu.title="<product_name>"
+    if exists(syslinux6)
+      e gfxboot -a etc/bootsplash/themes/<gfxboot_theme>/cdrom --pack-archive loader/bootlogo
+      e gfxboot -a loader/bootlogo --change-config product="<product_name>"
+      e gfxboot -a loader/bootlogo --change-config mainmenu.title="<product_name>"
+    else
+      e cp -a etc/bootsplash/themes/<gfxboot_theme>/cdrom/* loader
+      e gfxboot --config-file=loader/gfxboot.cfg --change-config product="<product_name>"
+      e gfxboot --config-file=loader/gfxboot.cfg --change-config mainmenu.title="<product_name>"
+    endif
 
   r etc var
 
