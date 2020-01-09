@@ -294,7 +294,14 @@ dbus-1:
   # not needed
   r /usr/bin/dbus-launch*
   E prein
+
+  # The chmod commands are an evil hack to avoid running chkstat - which
+  # would fail and pass a non-zero exit code as it happens to be the last
+  # command in dbus-1's postin (see bsc#1160594).
+  #
+  E chmod -x /usr/bin/chkstat
   E postin
+  E chmod +x /usr/bin/chkstat
 
 polkit:
   /
