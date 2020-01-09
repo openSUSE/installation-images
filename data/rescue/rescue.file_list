@@ -326,9 +326,8 @@ nfs-client:
 
 openssh:
   /
-  d /etc/sysconfig
-  t /etc/sysconfig/ssh
   E prein
+  E postin
 
 ?ia32el:
   /etc/init.d/ia32el
