@@ -575,6 +575,9 @@ include theme.file_list
 
 :
 
+# keep this udevd compat symlink, it's no longer in the latest udev package
+s /usr/lib/systemd/systemd-udevd /sbin/udevd
+
 # replace issue and motd with our own messages
 include texts.file_list
 
