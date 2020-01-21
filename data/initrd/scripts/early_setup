@@ -80,3 +80,7 @@ while read ifname xxx ; do
 done < <(/etc/wicked/extensions/ibft -l)
 echo "ibftdevices: $ibft" >/etc/ibft_devices
 
+# s390x: I/O device pre-configuration (jsc#SLE-7396)
+if [ -x /sbin/chzdev -a -e /sys/firmware/sclp_sd/config/data ] ; then
+  /sbin/chzdev --import /sys/firmware/sclp_sd/config/data
+fi
