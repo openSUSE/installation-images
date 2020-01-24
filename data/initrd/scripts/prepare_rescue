@@ -74,10 +74,6 @@ if [ -d /mounts/initrd/update ] ; then
   done
 fi
 
-# ensure there's a mountpoint for /, else udevd will have problems
-# cf. bsc #937237, comment 51
-mount --bind / /
-
 if [ "$startshell" = 1 ] ; then
   echo "exit shell to continue startup process..."
   bash >/dev/console 2>&1
