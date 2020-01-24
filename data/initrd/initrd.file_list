@@ -65,6 +65,7 @@ device-mapper:
 ethtool:
 glibc:
 haveged:
+hostname:
 hwinfo:
 iputils:
 iscsiuio:
@@ -73,8 +74,6 @@ kmod-compat:
 krb5:
 lsscsi:
 mdadm:
-net-tools:
-?net-tools-deprecated:
 nvme-cli:
 sed:
 ?wicked:

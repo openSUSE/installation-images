@@ -29,12 +29,10 @@ TEMPLATE:
 
 # install filesystem first and *REMOVE* /var/run link
 filesystem:
-  /etc/{ppp,rc.d,uucp}
   /etc/sysconfig
   /root
   /run
   /etc/init.d
-  /usr/tmp
   /var
   # remove temporarily so that 'mount /sys' doesn't work
   r /sys
@@ -59,6 +57,7 @@ grep:
 gzip:
 hdparm:
 hex:
+hostname:
 hwinfo:
 initviocons:
 insserv-compat:
@@ -67,8 +66,6 @@ iputils:
 joe:
 klogd:
 lvm2:
-net-tools:
-?net-tools-deprecated:
 ntfsprogs:
 open-iscsi:
 parted:
@@ -129,6 +126,7 @@ ncurses-utils:
 
 less:
   /etc/lesskey
+  /usr/etc/lesskey
   /usr/bin/less
 
 psmisc:

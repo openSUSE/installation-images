@@ -152,8 +152,6 @@ libyui-qt-graph*:
 ?ltrace:
 lvm2:
 multipath-tools:
-net-tools:
-?net-tools-deprecated:
 ntfsprogs:
 open-iscsi:
 openslp:
@@ -255,6 +253,7 @@ diffutils:
 
 less:
   /etc/lesskey
+  /usr/etc/lesskey
   /usr/bin/less
 
 strace:
