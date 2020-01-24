@@ -37,12 +37,10 @@ TEMPLATE:
 
 # install filesystem first and *REMOVE* /var/run link
 filesystem:
-  /etc/{ppp,rc.d,uucp}
   /etc/sysconfig
   /root
   /run
   /etc/init.d
-  /usr/tmp
   /var
   # remove temporarily so that 'mount /sys' doesn't work
   r /sys
@@ -110,6 +108,7 @@ grep:
 gzip:
 hdparm:
 hex:
+hostname:
 hwinfo:
 icmpinfo:
 initviocons:
@@ -127,8 +126,6 @@ krb5:
 lsscsi:
 mingetty:
 ncurses-utils:
-net-tools:
-?net-tools-deprecated:
 netcat-openbsd:
 nscd:
 ntfsprogs:
@@ -182,14 +179,6 @@ if filelist ne 'rescue-server'
     /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
 endif
 
-rpm:
-  /bin
-  /usr/bin
-  /{usr,var}/lib/rpm
-  /usr/lib*/librpm*.so.*
-r /usr/lib/rpm/rpm{get,put}text
-r /usr/bin/rpmqpack
-
 gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
@@ -211,8 +200,7 @@ endif
   e cp -a /tmp/locale usr/lib
 
 less:
-  /etc
-  /usr/bin
+  /
   r /usr/bin/lesspipe.sh
   t /usr/bin/lesspipe.sh
   c 0755 0 0 /usr/bin/lesspipe.sh
@@ -281,6 +269,10 @@ s /usr/bin/true /sbin/mkinitrd_setup
 # packages with scripts
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+rpm:
+  /
+  E postin
 
 aaa_base:
   E prein
