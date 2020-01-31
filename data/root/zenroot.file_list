@@ -155,13 +155,6 @@ netcfg:
   x etc/ssh /lib
   x ../rescue/mount-rootfs-and-do-chroot.sh /bin
 
-if exists(openssl, /usr/share/ssl)
-  openssl:
-else
-  openssl-*:
-endif
-  /usr/share/ssl
-
 dmidecode:
   /usr/sbin/dmidecode
 
