@@ -769,12 +769,29 @@ sub _add_pack
         SUSystem "mv $basedir/base/xxxx $dir" and die "oops";
       }
       else {
+        # Set up /proc and /dev/fd if they are missing as a number of tools
+        # rely on these (bsc#1160594).
+
+        my $has_proc = -d "$dir/proc";
+        my $has_dev = -d "$dir/dev";
+        my $has_dev_fd = -e "$dir/dev/fd";
+
+        SUSystem("mkdir $dir/dev") if !$has_dev;
+        SUSystem("ln -s /proc/self/fd $dir/dev/fd") if !$has_dev_fd;
+        SUSystem("mkdir $dir/proc") if !$has_proc;
+        SUSystem("mount -oro -t proc proc $dir/proc");
+
         if($is_script) {
           $r = SUSystem "chroot $dir /bin/sh -c 'sh install/inst.sh 1'";
         }
         else {
           $r = SUSystem "chroot $dir /bin/sh -c '$cmd'";
         }
+
+        SUSystem("umount $dir/proc");
+        SUSystem("rmdir $dir/proc") if !$has_proc;
+        SUSystem("rm $dir/dev/fd") if !$has_dev_fd;
+        SUSystem("rmdir $dir/dev") if !$has_dev;
       }
       warn "$Script: execution of $pm failed" if $r;
 
