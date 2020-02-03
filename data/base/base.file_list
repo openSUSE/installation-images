@@ -83,7 +83,6 @@ make:
 mkfontscale:
 kmod-compat:
 openslp:
-openssl:
 p11-kit-tools:
 p11-kit:
 pam:
@@ -111,12 +110,7 @@ util-linux:
 <release_theme>-release: nodeps
 
 ca-certificates:
-  /usr/sbin/update-ca-certificates
-  /usr/lib/ca-certificates/update.d/*openssl.run
-  /usr/lib/ca-certificates/update.d/*etc_ssl.run
-  /var/lib/ca-certificates/openssl
-  /etc/ssl/certs
-  /var/lib/ca-certificates/pem
+  /
 
 aaa_base:
   E prein

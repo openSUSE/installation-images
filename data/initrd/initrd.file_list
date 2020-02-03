@@ -46,7 +46,6 @@ keyutils: ignore
 libcrack*: ignore
 libmagic*: ignore
 logrotate: ignore
-openssl: ignore
 permissions: ignore
 pinentry: ignore
 suspend: ignore

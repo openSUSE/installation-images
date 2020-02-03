@@ -189,6 +189,7 @@ sub resolve_deps_obs;
 sub resolve_deps_libsolv;
 sub show_package_deps;
 sub get_version_info;
+sub version_cmp;
 
 my ($arch, $realarch, $susearch);
 
@@ -284,7 +285,7 @@ sub RealRPM
 
     return $rpmData->{$rpm_orig} = undef if @f == 0;
 
-    @f = sort @f;
+    @f = sort { &version_cmp } @f;
     # for (@f) { print ">$_<\n"; }
     $f = pop @f;
     $f = pop @f if $back;
@@ -539,20 +540,6 @@ sub KernelImg
   }
 
   return @k_images;
-}
-
-
-sub version_sort
-{
-  my ($i, $j);
-
-  $i = $ConfigData{ini}{Version}{$a};
-  $j = $ConfigData{ini}{Version}{$b};
-
-  $i =~ s/,([^,]+)//;
-  $j =~ s/,([^,]+)//;
-
-  return $i <=> $j;
 }
 
 
@@ -944,6 +931,23 @@ sub get_version_info
   # print "dist=\"$dist\"\n";
 
   $ConfigData{os}{update} = "/linux/suse/$realarch-$dist";
+}
+
+
+# compare version strings
+#
+# Ensuring that e.g. 'foo11' comes after 'foo4'.
+#
+sub version_cmp
+{
+  my $x = $a;
+  my $y = $b;
+
+  # assume numbers will have at most 10 digits...
+  $x =~ s/(\d+)/sprintf "%010s", $1/eg;
+  $y =~ s/(\d+)/sprintf "%010s", $1/eg;
+
+  return $x cmp $y;
 }
 
 
