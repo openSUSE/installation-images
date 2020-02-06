@@ -66,6 +66,7 @@ iputils:
 joe:
 klogd:
 lvm2:
+netcfg:
 ntfsprogs:
 open-iscsi:
 parted:
@@ -141,9 +142,6 @@ x /etc/ld.so.conf /etc
 
 # remove these:
 r root mnt tmp usr/libexec
-
-netcfg:
-  /etc/{services,protocols}
 
 :
   r /lib*/security/pam_userdb.so

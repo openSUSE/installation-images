@@ -73,6 +73,7 @@ kmod-compat:
 krb5:
 lsscsi:
 mdadm:
+netcfg:
 nvme-cli:
 sed:
 ?wicked:
@@ -130,12 +131,6 @@ terminfo-base:
 
 terminfo:
   /usr/share/terminfo/i/ibm3151
-
-netcfg:
-  /etc/hosts
-  /etc/netgroup
-  /etc/protocols
-  /etc/services
 
 ?xf86-input-vmmouse:
   /usr/bin/vmmouse_detect
@@ -402,6 +397,22 @@ autoyast2-installation: nodeps
 # we just need the config files here to ensure they will be writable
 lvm2: nodeps
   /etc
+
+# note: locale files are added in root image
+if exists(glibc-locale-base)
+  glibc-locale: ignore
+  glibc-locale-base:
+else
+  glibc-locale:
+endif
+  # charset encodings we might possibly need
+  /usr/lib*/gconv/IBM1047.so
+  /usr/lib*/gconv/ISO8859-1.so
+  /usr/lib*/gconv/UNICODE.so
+  /usr/lib*/gconv/UTF-16.so
+  /usr/lib*/gconv/UTF-32.so
+  /usr/lib*/gconv/gconv-modules*
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #

@@ -127,6 +127,7 @@ lsscsi:
 mingetty:
 ncurses-utils:
 netcat-openbsd:
+netcfg:
 nscd:
 ntfsprogs:
 nvme-cli:
@@ -189,11 +190,13 @@ if exists(glibc-locale-base)
 else
   glibc-locale:
 endif
-  /usr/lib*/gconv/ISO8859*
-  /usr/lib*/gconv/KOI*
-  /usr/lib*/gconv/UNICODE*
-  /usr/lib*/gconv/gconv-modules*
+  # charset encodings we might possibly need
   /usr/lib*/gconv/IBM1047.so
+  /usr/lib*/gconv/ISO8859-1.so
+  /usr/lib*/gconv/UNICODE.so
+  /usr/lib*/gconv/UTF-16.so
+  /usr/lib*/gconv/UTF-32.so
+  /usr/lib*/gconv/gconv-modules*
 
   # built in base system
   d usr/lib
@@ -210,10 +213,6 @@ less:
   r /usr/bin/lessclose.sh
   t /usr/bin/lessclose.sh
   c 0755 0 0 /usr/bin/lessclose.sh
-
-netcfg:
-  /etc
-  r /etc/{diphosts,ftpusers,hosts.*}
 
 ntfs-3g:
   /
