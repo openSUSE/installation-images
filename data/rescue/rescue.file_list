@@ -127,6 +127,7 @@ lsscsi:
 mingetty:
 ncurses-utils:
 netcat-openbsd:
+netcfg:
 nscd:
 ntfsprogs:
 nvme-cli:
@@ -212,10 +213,6 @@ less:
   r /usr/bin/lessclose.sh
   t /usr/bin/lessclose.sh
   c 0755 0 0 /usr/bin/lessclose.sh
-
-netcfg:
-  /etc
-  r /etc/{diphosts,ftpusers,hosts.*}
 
 ntfs-3g:
   /
