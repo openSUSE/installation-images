@@ -398,20 +398,13 @@ gpg2:
 # needed for one time ntp sync
 chrony:
 
+# note: gconv files are in initrd
 if exists(glibc-locale-base)
   glibc-locale: ignore
   glibc-locale-base:
 else
   glibc-locale:
 endif
-  /usr/lib*/gconv/ISO8859*
-  /usr/lib*/gconv/KOI*
-  /usr/lib*/gconv/UNICODE*
-  /usr/lib*/gconv/UTF-16.so
-  /usr/lib*/gconv/UTF-32.so
-  /usr/lib*/gconv/gconv-modules*
-  /usr/lib*/gconv/IBM1047.so
-
   # built in base system
   d usr/lib
   e cp -a /tmp/locale usr/lib

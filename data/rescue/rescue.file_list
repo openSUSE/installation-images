@@ -189,11 +189,13 @@ if exists(glibc-locale-base)
 else
   glibc-locale:
 endif
-  /usr/lib*/gconv/ISO8859*
-  /usr/lib*/gconv/KOI*
-  /usr/lib*/gconv/UNICODE*
-  /usr/lib*/gconv/gconv-modules*
+  # charset encodings we might possibly need
   /usr/lib*/gconv/IBM1047.so
+  /usr/lib*/gconv/ISO8859-1.so
+  /usr/lib*/gconv/UNICODE.so
+  /usr/lib*/gconv/UTF-16.so
+  /usr/lib*/gconv/UTF-32.so
+  /usr/lib*/gconv/gconv-modules*
 
   # built in base system
   d usr/lib
