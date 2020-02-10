@@ -1,0 +1,11 @@
+TEMPLATE:
+  /
+
+libyui-rest-api*:
+libyui-ncurses-rest-api*:
+libyui-qt-rest-api*:
+
+AUTODEPS:
+
+:
+
