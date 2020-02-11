@@ -67,6 +67,7 @@ X <image_path>/rescue <tftp_dir>/<instsys_dir>
 X <image_path>/bind <tftp_dir>/<instsys_dir>
 X <image_path>/libstoragemgmt <tftp_dir>/<instsys_dir>
 X <image_path>/gdb <tftp_dir>/<instsys_dir>
+X <image_path>/libyui-rest-api <tftp_dir>/<instsys_dir>
 
 # generate digests in 'content' file style
 e cd <tftp_dir>; sha256sum <instsys_dir>/* | sed -e "s/^/HASH SHA256 /" >../content

@@ -11,9 +11,9 @@ PREFIX  := installation-images-$(VERSION)
 BUILD_ID := $(shell [ -f .build_id ] || bin/build_id > .build_id ; cat .build_id)
 
 # build initrd+modules+gefrickel after tftp (it needs the sha256 sums over the other images)
-COMMON_TARGETS	     := rescue root root+rescue bind libstoragemgmt gdb mini-iso-rmlist tftp initrd+modules+gefrickel
+COMMON_TARGETS	     := rescue root root+rescue bind libstoragemgmt gdb libyui-rest-api mini-iso-rmlist tftp initrd+modules+gefrickel
 # keep in sync with data/boot/tftp.file_list
-COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind libstoragemgmt gdb
+COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind libstoragemgmt gdb libyui-rest-api
 
 ifneq ($(filter i386, $(ARCH)),)
 ALL_TARGETS   := initrd-themes initrd boot boot-themes $(COMMON_TARGETS) zenroot
@@ -58,7 +58,7 @@ DESTDIR := images/instsys
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY BUILD_ID
 
 .PHONY: all dirs base fbase biostest initrd \
-	boot boot-efi root rescue root+rescue gdb bind libstoragemgmt clean \
+	boot boot-efi root rescue root+rescue gdb libyui-rest-api bind libstoragemgmt clean \
 	boot-themes initrd-themes zenroot tftp install \
 	install-initrd mini-iso-rmlist debuginfo cd1 iso
 
@@ -185,6 +185,9 @@ root+rescue: base
 
 gdb: base
 	theme=$(THEMES) libdeps=root,gdb image=gdb src=root fs=squashfs disjunct=root bin/mk_image
+
+libyui-rest-api: base
+	theme=$(THEMES) libdeps=root,libyui-rest-api image=libyui-rest-api src=root fs=squashfs disjunct=root bin/mk_image
 
 bind: base
 	theme=$(THEMES) libdeps=root,bind image=bind src=root fs=squashfs disjunct=root bin/mk_image
