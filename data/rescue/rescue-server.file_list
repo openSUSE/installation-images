@@ -6,6 +6,9 @@ vsftpd:
   /
   E prein
 
+system-user-ftp:
+system-user-lp:
+
 ftp:
 nfs-kernel-server:
 samba:
