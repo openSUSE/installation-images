@@ -75,10 +75,13 @@ if [ -d /mounts/initrd/update ] ; then
 fi
 
 if [ "$startshell" = 1 ] ; then
+  mount -t proc proc /proc
   echo "exit shell to continue startup process..."
   bash >/dev/console 2>&1
+  umount /proc
 fi
 
 rm -f /mounts/initrd/{*,.*}
 rmdir /mounts/initrd/* 2>/dev/null
 rm -rf /mounts/initrd/{bin,download,etc,lbin,lib,modules,oldroot,root,sbin,scripts,tmp,usr,var}
+rm -f /mounts/initrd/parts/* 2>/dev/null
