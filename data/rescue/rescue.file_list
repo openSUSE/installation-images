@@ -21,6 +21,12 @@ TEMPLATE binutils:
   r /usr/bin/ld
   s ld.bfd /usr/bin/ld
 
+TEMPLATE system-user-root: direct
+
+TEMPLATE system-user-.*|system-group-.*:
+  /
+  E prein
+
 TEMPLATE nfs-client|device-mapper|rpcbind|rsync|rsyslog|dmraid|multipath-tools:
   /
   E prein
@@ -29,8 +35,6 @@ TEMPLATE nfs-client|device-mapper|rpcbind|rsync|rsyslog|dmraid|multipath-tools:
 TEMPLATE wicked|lvm2|syslog-service|util-linux|mdadm:
   /
   E postin
-
-TEMPLATE system-user-root: direct
 
 TEMPLATE:
   /
@@ -156,6 +160,7 @@ sysconfig:
 sysconfig-netconfig:
 systemd-presets-branding-<systemd_theme>:
 systemd-sysvinit:
+sysuser-shadow:
 tar:
 terminfo-base:
 usbutils:
@@ -268,6 +273,9 @@ s /usr/bin/true /sbin/mkinitrd_setup
 # packages with scripts
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+system-group-hardware:
+system-user-nobody:
 
 rpm:
   /
