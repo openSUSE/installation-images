@@ -66,8 +66,13 @@ if arch eq 'aarch64' && exists(raspberrypi-firmware)
     /
   raspberrypi-firmware-dt:
     /
-  u-boot-rpi3:
-    /
+  if exists(u-boot-rpiarm64)
+    u-boot-rpiarm64:
+      /
+  else
+    u-boot-rpi3:
+      /
+  endif
   e mv boot/vc/* .
   r /boot /usr
 endif
