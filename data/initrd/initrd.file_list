@@ -117,6 +117,9 @@ libzypp: nodeps
 samba-libs: nodeps
   /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
 
+# for samba-libs
+libgnutls*:
+
 diffutils:
   /usr/bin/cmp
 
