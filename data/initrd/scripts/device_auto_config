@@ -1,0 +1,8 @@
+#! /bin/bash
+
+exec >&2
+
+# s390x: I/O device pre-configuration (jsc#SLE-7396)
+if [ -x /sbin/chzdev -a -e /sys/firmware/sclp_sd/config/data ] ; then
+  /sbin/chzdev --import /sys/firmware/sclp_sd/config/data
+fi
