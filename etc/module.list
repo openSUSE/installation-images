@@ -250,6 +250,9 @@ kernel/fs/efivarfs/
 
 kernel/drivers/dma/bcm2835-dma.ko
 
+kernel/fs/vboxsf/
+kernel/drivers/virt/vboxguest/
+
 # kmps
 updates/
 
