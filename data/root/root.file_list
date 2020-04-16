@@ -198,6 +198,11 @@ python3-websockify:
   # avoid update-alternatives
   e cd usr/bin ; if [ -f websockify-3.* ] ; then ln -snf websockify-3.* websockify ; fi
 
+# normally python3-websockify would require python3-numpy but the
+# dependency is actually optional in the code - so avoid it to
+# save **a lot** of space
+python3-numpy: ignore
+
 vim:
   /
   # avoid update-alternatives
