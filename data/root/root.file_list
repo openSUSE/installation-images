@@ -291,9 +291,12 @@ ruby:
   # avoid update-alternatives
   r /etc/alternatives
   r /usr/bin/rake*
+  r /usr/bin/{y2,}racc*
   r /usr/bin/rdoc*
   r /usr/bin/ri*
   r /usr/bin/bundle*
+  /usr/lib64/ruby/*/{racc,rdoc}
+  /usr/lib64/ruby/gems/*/gems/{minitest,racc,rake,rdoc,test-unit}-*
   e cd usr/bin ; for i in erb gem irb ruby ; do [ -x $i ] || ln -snf ${i}.ruby2* $i ; done
 
 yast2-devtools:
