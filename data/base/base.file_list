@@ -53,7 +53,12 @@ TEMPLATE:
 
 AUTODEPS:
 
+# it's using update-alternatives
 bash:
+  /bin/{sh,bash}
+  /usr/bin/bash
+  s bash usr/bin/sh
+
 binutils: ignore
 ca-certificates-mozilla:
 coreutils:

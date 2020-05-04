@@ -227,9 +227,11 @@ gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
 
+# it's using update-alternatives
 bash:
   /bin/{sh,bash}
-  /usr/bin/{sh,bash}
+  /usr/bin/bash
+  s bash usr/bin/sh
 
 nfs-client:
   /sbin/{u,}mount.nfs*
