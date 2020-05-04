@@ -60,6 +60,12 @@ update-alternatives: ignore
 device-mapper-32bit: ignore
 binutils: ignore
 
+# it's using update-alternatives
+bash:
+  /bin/{sh,bash}
+  /usr/bin/bash
+  s bash usr/bin/sh
+
 ?acpica:
 ?efibootmgr:
 ?elilo:
@@ -79,7 +85,6 @@ binutils: ignore
 ?wpa_supplicant:
 aaa_base-extras:
 attr:
-bash:
 bc:
 bcache-tools:
 bind-utils:
