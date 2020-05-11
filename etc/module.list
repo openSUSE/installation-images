@@ -204,6 +204,7 @@ kernel/drivers/usb/class/cdc-wdm.ko
 
 kernel/drivers/hv/
 kernel/drivers/staging/hv/
+kernel/drivers/staging/rtl.*
 
 kernel/drivers/usb/misc/ezusb.ko
 kernel/net/ieee802154/ieee802154.ko
