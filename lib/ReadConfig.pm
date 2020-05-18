@@ -916,9 +916,20 @@ sub get_version_info
 
   die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|microos|microosng|leap|sles|sled|tumbleweed( kubic)?)$/;
 
-  my $is_tw = $dist =~ /^(microos|tumbleweed( kubic)?)$/;
+  # Kubic is based on TW
+  # MicroOS can be based on TW or Leap
 
-  # kubic uses 'tw' as dist tag
+  my $is_tw = $dist =~ /^tumbleweed( kubic)?$/;
+
+  if($dist eq "microos") {
+    if($config{ID_LIKE} =~ /tumbleweed/) {
+      $is_tw = 1;
+    }
+    elsif($config{ID_LIKE} =~ /leap/) {
+      $dist = "leap";
+    }
+  }
+
   $dist = $is_tw ? 'tw' : "$dist$config{VERSION_ID}";
 
   # there's no separate dist tag for service packs

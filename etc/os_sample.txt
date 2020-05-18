@@ -37,7 +37,7 @@ CPE_NAME="cpe:/o:opensuse:tumbleweed:20161125"
 BUG_REPORT_URL="https://bugs.opensuse.org"
 HOME_URL="https://www.opensuse.org/"
 
-== leap ==
+== leap (old) ==
 
 NAME="openSUSE Leap"
 VERSION="42.1"
@@ -49,6 +49,19 @@ CPE_NAME="cpe:/o:opensuse:opensuse:42.1"
 BUG_REPORT_URL="https://bugs.opensuse.org"
 HOME_URL="https://opensuse.org/"
 ID_LIKE="suse"
+
+== leap ==
+
+NAME="openSUSE Leap"
+VERSION="15.0"
+ID="opensuse-leap"
+ID_LIKE="suse opensuse"
+VERSION_ID="15.0"
+PRETTY_NAME="openSUSE Leap 15.0"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:leap:15.0"
+BUG_REPORT_URL="https://bugs.opensuse.org"
+HOME_URL="https://www.opensuse.org/"
 
 == openSUSE Kubic [obsolete] ==
 
@@ -83,7 +96,7 @@ CPE_NAME="cpe:/o:opensuse:tumbleweed-kubic:20170909"
 BUG_REPORT_URL="https://bugs.opensuse.org"
 HOME_URL="https://www.opensuse.org/"
 
-== openSUSE MicroOS ==
+== openSUSE Tumbleweed MicroOS ==
 
 NAME="openSUSE MicroOS"
 # VERSION="20190301"
@@ -96,6 +109,18 @@ CPE_NAME="cpe:/o:opensuse:microos:20190301"
 BUG_REPORT_URL="https://bugs.opensuse.org"
 HOME_URL="https://www.opensuse.org/"
 
+== openSUSE Leap MicroOS ==
+
+NAME="openSUSE MicroOS"
+VERSION="15.2 Alpha"
+ID="opensuse-microos"
+ID_LIKE="suse opensuse opensuse-leap"
+VERSION_ID="15.2"
+PRETTY_NAME="openSUSE MicroOS 15.2 Alpha"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:MicroOS:15.2"
+BUG_REPORT_URL="https://bugs.opensuse.org"
+HOME_URL="https://www.opensuse.org/"
 
 == sles12 ==
 
