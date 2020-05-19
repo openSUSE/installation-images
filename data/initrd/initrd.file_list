@@ -295,6 +295,8 @@ rpm:
   /usr/bin/rpmkeys
   /usr/lib*/librpm{,io}.so.*
   /usr/lib/rpm/rpmrc
+  # the package contains a symlink to /usr, but we need it writable (bsc#1171733)
+  d var/lib/rpm
 
 squashfs:
   /usr/bin/mksquashfs
