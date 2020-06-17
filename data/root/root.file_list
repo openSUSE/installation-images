@@ -233,6 +233,13 @@ bash:
   /usr/bin/bash
   s bash usr/bin/sh
 
+# Note that this does not make it the default shell /bin/sh,
+# only scripts that explicitly want dash will use it,
+# so we are safe even if there are undetected bashisms in some scripts.
+dash:
+  /bin/dash
+  /usr/bin/dash
+
 nfs-client:
   /sbin/{u,}mount.nfs*
   /usr/sbin/rpc.statd
