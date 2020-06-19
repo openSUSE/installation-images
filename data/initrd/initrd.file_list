@@ -10,6 +10,7 @@ d var/lib/systemd/migrated var/lib/polkit var/lib/sshd var/lib/empty
 d var/log/cups var/log/YaST2 var/log/zypp
 d var/spool var/run/libstorage var/run/hotplug var/run/ntp
 d run/dbus run/lock
+d usr/share/YaST2
 
 s /run/lock /var/lock
 s /run/lock /var/spool/locks
