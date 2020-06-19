@@ -1,9 +1,10 @@
+#!/bin/bash
 # will be sourced by /sbin/inst_setup
 # but can also be called manually: $0 [-n] rootpassword
 
 # vim: syntax=sh
 
-if [ "$1" = "-h" -o "$1" = "--help" ] ; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
   echo "Usage: setup_ssh [OPTIONS] [PASSWORD]"
   echo "Setup and run sshd."
   echo
@@ -16,7 +17,7 @@ if [ "$1" = "-h" -o "$1" = "--help" ] ; then
 fi
 
 nosshkey=false
-if [ "$1" = "-n" -o "$1" = "--no-sshkey" ] ; then
+if [ "$1" = "-n" ] || [ "$1" = "--no-sshkey" ] ; then
   nosshkey=true
   shift
 fi
@@ -25,7 +26,7 @@ if grep -qwi nosshkey < /proc/cmdline ; then
   nosshkey=true
 fi
 
-if ! test -z "$1" ; then
+if test -n "$1" ; then
   sshpassword=$1
 fi
 
@@ -37,7 +38,7 @@ if [ "$nosshkey" = "true" ] ; then
   chmod 600 /etc/ssh/*key
 fi
 
-if [ ! -z "$sshpassword" ] ; then
+if [ -n "$sshpassword" ] ; then
   echo "setting temporary root password to '$sshpassword'"
   echo "root:$sshpassword" | chpasswd
 fi
