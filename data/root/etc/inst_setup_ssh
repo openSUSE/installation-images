@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/dash
 # will be sourced by /sbin/inst_setup
 # but can also be called manually: $0 [-n] rootpassword
 

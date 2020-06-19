@@ -1,5 +1,4 @@
-#!/bin/bash
-#
+#!/bin/dash
 
 #
 # Note: linuxrc-based tools are in /lbin.
@@ -161,15 +160,16 @@ export EGL_LOG_LEVEL=fatal
 grep -qwi start_shell /proc/cmdline && START_SHELL=1
 grep -qi "^StartShell:.*1" /etc/install.inf && START_SHELL=1
 # leave a core file if yast crashes
+# shellcheck disable=SC2169 # "ulimit in dash may behave differently"; fine here
 ulimit -c unlimited
 
 # turn off plymouth splash screen
-function plymouth_off {
+plymouth_off() {
   [ -x /usr/bin/plymouth ] && plymouth quit
 }
 
 # start shell, useful on iSeries or via serial console
-function start_shell() {
+start_shell() {
   plymouth_off
   echo 
   echo "ATTENTION: Starting shell... (use 'exit' to proceed with installation)"
@@ -188,7 +188,7 @@ if grep -qi "^VNC:.*1" /etc/install.inf ; then
     (
     sleep 3
     /usr/bin/slptool register "service:YaST.installation.suse:vnc://${host_name}:5901"
-    ) &> /tmp/slptool_register.txt &
+    ) >/tmp/slptool_register.txt 2>&1 &
   else
     echo "slpd returned with exit code $ec, VNC will not be announced"
   fi
@@ -207,7 +207,7 @@ if [ "$YAST2_SSH" = "true" ] ; then
 
 EOF
   cp /etc/issue /etc/motd
-  echo -e "Run yast.ssh to start the installation.\n" >>/etc/motd
+  { echo "Run yast.ssh to start the installation."; echo; } >>/etc/motd
 
   # print more detailed list of ifaces using a function from yast2-installation
   if [ -e /usr/lib/YaST2/startup/common/network.sh ] ; then
