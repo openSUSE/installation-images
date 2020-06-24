@@ -324,6 +324,7 @@ wicked:
 mdadm:
 multipath-tools:
 nfs-client:
+?system-group-wheel:
 
 ?openssh-fips:
 
