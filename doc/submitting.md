@@ -25,6 +25,8 @@ In rare cases branching was unavoidable:
 * branch `sl_11.1`: SLE 11 SP4.
 * branch `sle12`: SLE 12.
 * branch `sle12-sp2`: SLE 12 SP2.
+* branch `sle15-sp1`: SLE 15 SP1.
+* branch `sle15-sp2`: SLE 15 SP2.
 
 You can find more information about the changes auto-generation and the
 tools used for jenkis submissions in the [linuxrc-devtools
