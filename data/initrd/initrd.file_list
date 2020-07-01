@@ -192,6 +192,7 @@ coreutils:
   /usr/bin/chmod
   /usr/bin/chown
   /usr/bin/cp
+  /usr/bin/cut
   /usr/bin/date
   /usr/bin/df
   /usr/bin/dirname
