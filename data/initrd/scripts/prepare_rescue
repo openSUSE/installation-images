@@ -74,6 +74,12 @@ if [ -d /mounts/initrd/update ] ; then
   done
 fi
 
+# create NVMe config files
+mount -t proc proc /proc
+nvme gen-hostnqn > /etc/nvme/hostnqn
+cut -d : -f 3 /etc/nvme/hostnqn > /etc/nvme/hostid
+umount /proc
+
 if [ "$startshell" = 1 ] ; then
   mount -t proc proc /proc
   echo "exit shell to continue startup process..."
