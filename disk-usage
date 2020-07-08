@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# given a repo URL, download the interesting files
+DISTRO=openSUSE-stable
+REPO=https://download.opensuse.org/distribution/$DISTRO/repo/oss/
+
+# .cpio.xz
+INITRD=boot/x86_64/loader/initrd
+# .squashfs
+IMAGES="boot/x86_64/common boot/x86_64/root boot/x86_64/rescue"
+
+# produce for viewing
+# $DISTRO-$IMAGE.du
+# $DISTRO-$IMAGE.qdirstat
+
+rmrf() {
+    chmod -R u+w "$1"           # rm -rf fails on read-only directories
+    rm -rf "$1"
+}
+
+# $1 initrd filename
+# $2 empty writable dir to use as scratch/mount space
+initrd_open() {
+    unxz < "$1" | (cd "$2"; cpio --extract)
+}
+
+# $1 and $2 matching initrd_open
+initrd_close() {
+    rmrf "$2"
+}
+
+# $1 squashfs filename
+# $2 empty writable dir to use as scratch/mount space
+squashfs_open() {
+    local f
+    f="$(pwd)/$1"
+    (cd "$2"; unsquashfs "$f")
+}
+
+# $1 and $2 matching squashfs_open
+squashfs_close() {
+    rmrf "$2"
+}
+
+# measure CWD
+# $1 basename for report
+measure() {
+    du --all --one-file-system > "$1.du"
+    qdirstat-cache-writer . "$1.qdirstat.cache.gz"
+}
+
+# $1 image filename
+# $2 report dir+prefix
+measure_image() {
+    local f="$1"
+    local report_base="$2"
+
+    local dir=$(mktemp -d) || exit
+    local report="${report_base}-$(basename "$f")"
+
+    case "$f" in
+        *initrd) initrd_open "$f" "$dir" ;;
+        *)     squashfs_open "$f" "$dir" ;;
+    esac
+
+    (
+        cd "$dir"
+        measure "$report"
+
+        if test -d parts; then
+            for p in parts/*; do
+                measure_image "$p" "${report_base}"
+            done
+        fi
+    )
+    
+    case "$f" in
+        *initrd) initrd_close "$f" "$dir" ;;
+        *)     squashfs_close "$f" "$dir" ;;
+    esac
+}
+
+# mirror
+# $1 REPO base URL
+# $2 path
+get_file() {
+    mkdir -p "$(dirname "$2")"
+    wget --output-document="$2" "$1/$2"
+}
+
+for f in $INITRD $IMAGES; do
+    :
+#    get_file "$REPO" "$f"
+done
+
+for f in $INITRD $IMAGES; do
+    measure_image "$f" "$(pwd)/$DISTRO"
+done
