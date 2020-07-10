@@ -57,7 +57,7 @@ DESTDIR := images/instsys
 
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY BUILD_ID
 
-.PHONY: all dirs base fbase biostest initrd \
+.PHONY: all check dirs base fbase biostest initrd \
 	boot boot-efi root rescue root+rescue gdb libyui-rest-api bind libstoragemgmt clean \
 	boot-themes initrd-themes zenroot tftp install \
 	install-initrd mini-iso-rmlist debuginfo cd1 iso
@@ -172,7 +172,7 @@ rescue-server:
 	theme=$(THEMES) image=rescue-server src=rescue filelist=rescue-server fs=squashfs bin/mk_image
 
 root+rescue: base
-	# the next two lines just clean up old files
+	# the next two 'mk_image' runs just clean up old files
 	image=root+rescue fs=none bin/mk_image
 	image=root+initrd src=root+rescue fs=none filelist=root+rescue bin/mk_image
 	bin/common_tree --dst tmp/root+initrd tmp/initrd tmp/root
@@ -277,3 +277,11 @@ install-initrd:
 	  cp -a images/$$theme/install-initrd $(DESTDIR)/$$theme ; \
 	done
 
+# Catch bugs early
+# - make sure that the scripts run via dash don't end up with a bashism
+#
+# NOTE: as the current checks do not need the 'all' target,
+#       RPM spec calls this in %prep, before %build, to catch bugs early.
+#       Change .spec if 'check' needs 'all'
+check:
+	shellcheck data/root/etc/inst_setup data/root/etc/inst_setup_ssh
