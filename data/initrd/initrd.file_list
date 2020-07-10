@@ -70,7 +70,8 @@ hwinfo:
 iputils:
 iscsiuio:
 kpartx:
-kmod-compat:
+kmod:
+?kmod-compat:
 krb5:
 lsscsi:
 mdadm:

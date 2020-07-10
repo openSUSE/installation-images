@@ -129,7 +129,8 @@ jfsutils:
 joe:
 ?kexec-tools:
 klogd:
-kmod-compat:
+kmod:
+?kmod-compat:
 kpartx:
 krb5:
 lsscsi:
