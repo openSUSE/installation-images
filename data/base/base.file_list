@@ -86,7 +86,8 @@ krb5:
 make:
 ?mkfontdir:
 mkfontscale:
-kmod-compat:
+kmod:
+?kmod-compat:
 openslp:
 p11-kit-tools:
 p11-kit:
