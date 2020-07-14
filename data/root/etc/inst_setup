@@ -1,5 +1,4 @@
-#! /bin/sh
-#
+#!/bin/dash
 
 #
 # Note: linuxrc-based tools are in /lbin.
@@ -22,14 +21,14 @@ chmod 755 /
 [ -e /proc/sys/vm/local-oom-kill ] && echo 1 > /proc/sys/vm/local-oom-kill
 
 if [ -f /.timestamp ] ; then
-  read build_time < /.timestamp
-  now_time=`TZ= LANG= LC_ALL= date +%Y%m%d`
+  read -r build_time < /.timestamp
+  now_time=$(TZ='' LANG='' LC_ALL='' date +%Y%m%d)
   if [ "$now_time" -lt "$build_time" ] ; then
        echo
        echo "your system time is not correct:"
-       TZ= date
+       TZ='' date
        echo "setting system time to:"
-       TZ= LANG= LC_ALL= date ${build_time#????*}1234${build_time%*????}.56
+       TZ='' LANG='' LC_ALL='' date "${build_time#????*}1234${build_time%*????}.56"
        echo
        /sbin/hwclock --systohc -u &
        sleep 3
@@ -49,14 +48,14 @@ exec < /dev/console > /dev/console 2>&1 3>&1
 
 yast="$1"
 shift
-echo $yast > /tmp/linuxrc_installer_name
+echo "$yast" > /tmp/linuxrc_installer_name
 export YAST2_SSH=false
 unset SSH_FAILED
 stty sane 2>/dev/null
 
 # get hostname & hostips
 hostip_from_wicked /tmp/host_ips /tmp/host_name
-host_name=`[ -f /tmp/host_name ] && cat /tmp/host_name`
+host_name=$([ -f /tmp/host_name ] && cat /tmp/host_name)
 
 #
 # a few files should be restored when installation has completed if we
@@ -145,6 +144,7 @@ done
 # boot with usessh=1 or use linuxrc to enable ssh 
 # vnc=1 will override the install mode
 if grep -q "^SSHD:.*1" /etc/install.inf ; then
+  # shellcheck source=data/root/etc/inst_setup_ssh
   test -x /sbin/inst_setup_ssh && . /sbin/inst_setup_ssh
 fi
 
@@ -160,15 +160,16 @@ export EGL_LOG_LEVEL=fatal
 grep -qwi start_shell /proc/cmdline && START_SHELL=1
 grep -qi "^StartShell:.*1" /etc/install.inf && START_SHELL=1
 # leave a core file if yast crashes
+# shellcheck disable=SC2169 # "ulimit in dash may behave differently"; fine here
 ulimit -c unlimited
 
 # turn off plymouth splash screen
-function plymouth_off {
+plymouth_off() {
   [ -x /usr/bin/plymouth ] && plymouth quit
 }
 
 # start shell, useful on iSeries or via serial console
-function start_shell() {
+start_shell() {
   plymouth_off
   echo 
   echo "ATTENTION: Starting shell... (use 'exit' to proceed with installation)"
@@ -187,7 +188,7 @@ if grep -qi "^VNC:.*1" /etc/install.inf ; then
     (
     sleep 3
     /usr/bin/slptool register "service:YaST.installation.suse:vnc://${host_name}:5901"
-    ) &> /tmp/slptool_register.txt &
+    ) >/tmp/slptool_register.txt 2>&1 &
   else
     echo "slpd returned with exit code $ec, VNC will not be announced"
   fi
@@ -206,12 +207,13 @@ if [ "$YAST2_SSH" = "true" ] ; then
 
 EOF
   cp /etc/issue /etc/motd
-  echo -e "Run yast.ssh to start the installation.\n" >>/etc/motd
+  { echo "Run yast.ssh to start the installation."; echo; } >>/etc/motd
 
   # print more detailed list of ifaces using a function from yast2-installation
   if [ -e /usr/lib/YaST2/startup/common/network.sh ] ; then
     echo "Active interfaces:"
 
+    # shellcheck disable=SC1091 # file in a different repo
     . /usr/lib/YaST2/startup/common/network.sh
     list_ifaces | head -n 20
   fi
@@ -259,6 +261,7 @@ done
 rm -f /etc/modules.conf
 
 # clean up after yast
+# shellcheck disable=SC2016 # the ${} is for sed, not a shell expansion mistake
 sed -n '1{h;n};x;H;${x;p}' /proc/mounts | awk '{ if($2 ~ /^\/var/) system("umount " $2) }'
 
 exit $ec
