@@ -135,7 +135,7 @@ systemd           = CAASP
 [Theme Kubic]
 image             = 350
 patch_zypp_config = 1
-release           = openSUSE-MicroOS
+release           = MicroOS
 skelcd            = openSUSE
 skelcd_ctrl       = Kubic
 gfxboot           = openSUSE
@@ -158,7 +158,7 @@ systemd           = SLE
 [Theme MicroOS]
 image             = 350
 patch_zypp_config = 1
-release           = openSUSE-MicroOS
+release           = MicroOS
 skelcd            = openSUSE
 skelcd_ctrl       = MicroOS
 gfxboot           = openSUSE
