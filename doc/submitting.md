@@ -11,10 +11,9 @@ must be triggered manually.
 
 `*.changes` and version numbers are auto-generated from git commits, you don't have to worry about this.
 
-The spec file is maintained in the Build Service only. If you need to change it for the `master` branch,
-submit to the
-[devel project](https://build.opensuse.org/package/show/system:install:head/installation-images)
-in the build service directly.
+The spec file and other files needed for building in the Build Service are maintained in the `obs` subdirectory.
+
+Never do any independent submit requests to the Devel project.
 
 The current names of the devel projects for other branches can be seen in the jenkins logs.
 
