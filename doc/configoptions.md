@@ -106,14 +106,6 @@ use this to find out actual usage:
 
   create an initrd with gdb; if with_gdb=2 start linuxrc from gdb
 
-- liveeval=1
-
-  create an initrd for LiveEval
-
-- lang=cs_CZ
-
-  [only with liveeval=1] special czech version
-
 
 ## Obsolete options
 
