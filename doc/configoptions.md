@@ -128,28 +128,3 @@ Code still exists for them but it may be broken.
 - dist=8.1, dist=8.1-i386+kde
 
   build for this release
-
-### boot
-
-- boot=small|hd|large|isolinux
-
-  the boot image type we should create; `small` is a 1.44MB image, `hd` for
-  boot CD with hd emulation, `isolinux` for a CD with 'no emulation'; `large` is
-  mainly for ia64 (the image is basically just a dos partition)
-
-- initrd_name=INITRD_NAME (default: `initrd`)
-
-  name of the initrd image we should add; this will be the name
-  on the boot image and the name referenced in syslinux.cfg, too
-
-- fastboot=1
-
-  don't use syslinux' '-s' option for floppies
-
-- liveeval=1
-
-  liveeval bootloader config
-
-- with_floppy=1
-
-  create boot disks, too (i386, x86_86 only)
