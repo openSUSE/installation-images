@@ -2,35 +2,58 @@
 
 # check dynamic lib dependecies
 
+use warnings;
+
+my $verbose = 0;
 while($ARGV[0] eq '-v') {
   shift;
   $verbose++;
 }
+
+# soname => provider
+#           'libSegFault.so' => 'lib64/libSegFault.so',
+#           'libns.so.1603' => 'usr/lib64/libns.so.1603.0.1',
+my %soname;
+
+# libperl.so does not declare SONAME so %soname2 is needed
+# soname => provider
+#           'hostid' => 'usr/bin/hostid',
+#           'libSegFault.so' => 'lib64/libSegFault.so',
+#           'libns.so.1603.0.1' => 'usr/lib64/libns.so.1603.0.1',
+#           'libperl.so' => 'usr/lib/perl5/5.30.1/x86_64-linux-thread-multi/CORE/libperl.so',
+my %soname2;
+
+# soname => absolute path
+#           'libSegFault.so' => '/lib64/libSegFault.so',
+my %ldconfig;
+
+# soname => list of users
+#           'libfdisk.so.1' => [
+#                                'usr/sbin/cfdisk',
+#                                'usr/sbin/fdisk',
+#                                'usr/sbin/sfdisk'
+#                              ],
+#           'liblua5.3.so.5' => [
+#                                 'usr/lib64/librpm.so.9.0.1',
+#                                 'usr/lib64/librpmio.so.9.0.1'
+#                               ],
+my %needed;
 
 while($dir = shift) {
   die "usage: check_libs dir\n" unless -d $dir;
 
   $error = 0;
 
-  undef @type_f;
-  undef @i;
   undef @ELF;
 
   print "finding ELF objects...\n";
 
-  for $f (`cd $dir ; find . -type f`) {
-    chomp $f;
-    next if $f =~ /modules/;              # skip modules
-    push @type_f, $f;
-  }
+  my $cmd = "cd $dir; find . -type f | grep -v modules | xargs file";
+  # for debugging a cache can be useful:
+  # $cmd = "cat .found_files || ($cmd) | tee .found_files";
 
-  @type_f = map(quotemeta, @type_f);
-
-  for($i = 0; $i < @type_f; $i += 100) {
-    push @i, `cd $dir ; file @type_f[$i .. $i + 99]`;
-  }
-
-  for (@i) {
+  my @found_files = `$cmd`;
+  for (@found_files) {
     if(/(.*):.*?\s+ELF\s.*\s(shared\s+object|executable)/) {
       push @ELF, $1;
     }
