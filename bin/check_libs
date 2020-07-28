@@ -2,6 +2,9 @@
 
 # check dynamic lib dependecies
 
+use warnings;
+
+my $verbose = 0;
 while($ARGV[0] eq '-v') {
   shift;
   $verbose++;
@@ -41,25 +44,16 @@ while($dir = shift) {
 
   $error = 0;
 
-  undef @type_f;
-  undef @i;
   undef @ELF;
 
   print "finding ELF objects...\n";
 
-  for $f (`cd $dir ; find . -type f`) {
-    chomp $f;
-    next if $f =~ /modules/;              # skip modules
-    push @type_f, $f;
-  }
+  my $cmd = "cd $dir; find . -type f | grep -v modules | xargs file";
+  # for debugging a cache can be useful:
+  # $cmd = "cat .found_files || ($cmd) | tee .found_files";
 
-  @type_f = map(quotemeta, @type_f);
-
-  for($i = 0; $i < @type_f; $i += 100) {
-    push @i, `cd $dir ; file @type_f[$i .. $i + 99]`;
-  }
-
-  for (@i) {
+  my @found_files = `$cmd`;
+  for (@found_files) {
     if(/(.*):.*?\s+ELF\s.*\s(shared\s+object|executable)/) {
       push @ELF, $1;
     }
