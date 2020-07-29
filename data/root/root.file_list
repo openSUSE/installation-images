@@ -696,6 +696,7 @@ r /var/lib/systemd/migrated
 r /var/adm/autoinstall /var/lib/autoinstall
 e rm -f `find var/log -type f`
 e rm -f `find var/cache -type f`
+e find . -name __pycache__ -print0 | xargs -0 rm -rf
 
 # remove the Ruby gem cache files
 r /usr/lib*/ruby/gems/*/cache/*.gem
