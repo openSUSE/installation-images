@@ -16,12 +16,8 @@ sub fix_alternatives_link;
 
 die "usage: $Script\n" if @ARGV;
 
-# env vars:
-#
-# image, src, tmpdir, disjunct, mode, debug, fs, filelist, nolibs, dostrip
-#
-#
-
+# Instead of program arguments mk_image uses environment variables. (sorry.)
+# See doc/configoptions.md for a reference.
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # some config data

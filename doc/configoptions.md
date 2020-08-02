@@ -5,237 +5,118 @@ in `data/*/*.file_list` (see [file list docu](files.md)).
 
 The options here are environment variables used by `mk_image`. They are typically set in `Makefile`.
 
+Notation: in the reference below, the uppercase FOO is the value of the option
+(environment variable) lowercase foo.
 
 ## General options
 
-- cache=1|2|4
+<!--
+use this to find out actual usage:
+  grep bin/mk_image Makefile | tr ' ' '\n' | sort -u
+-->
 
-  cache the rpms we use, it is actually a bitmask; the most useful value is 4, which
-  will cache the unpacked rpm in a separate directory
+- alternatives=1
 
-- debug=ignore
+  perform a fix-up of update-alternatives links.
+  (Used only for the zenroot image, for other images the links are maintained
+  manually in the *.file_list files.)
 
-  ignore noncritical errors
+- disjunct=DISJUNCT (eg. `initrd`, `root`)
 
-- debug=account
+  The image will include only files that are not in the DISJUNCT image.
+  It's basically a deduplication used for inst-sys 'extensions' (like `bind`,
+  `gdb`...).
 
-  create disk usage statistics, stored in ```tmp/&lt;image_name&gt;.size```
+  The same thing (but done explicitly by calling the `common_tree` script) is
+  done in the `root+rescue` make target to separate `initrd`, `root`, and
+  `rescue` image into 4 disjunct parts.
 
-- dist=8.1, dist=8.1-i386+kde
+- filelist=FILELIST
 
-  build for this release
+  use SRC/FILELIST.file_list
 
-- suserelease=8.0
+- fs=FS (eg. `dir`, `squashfs`, `cpio`, default: `none`)
 
-  obsolete, equivalent to dist=
+  Use FS as the filesystem for the image.
+  May end with `.gz` or `.xz` for compression.
 
-- kernel=&lt;kernel rpm&gt;
+- image=IMAGE (mandatory)
 
-  give kernel package name explicitly
+  Use tmp/IMAGE as temporary directory and image/IMAGE as the final image
 
-- theme=&lt;theme&gt;
-
-  select this theme (default: theme=SuSE)
-
-- themes=&lt;list of themes&gt;
-
-  list of supported themes, support all if empty
-
-## root
-
-- uncompressed_root=1
-
-  build uncompressed image
-
-- keeproot=1
-
-  don't rebuild everything, just recreate (copy the cached tree and compress) the
-  last image (useful to speed up testing)
-
-- filelist=foo
-
-  build using foo.file_list
-
-- nolibs=1
-
-  no ldconfig check
-
-- imagetype=foo / imagetype=foo.gz / imagetype=none
-
-  use foo as filesystem for image (.gz: and compress with gzip);
-  none: don't create an image
-
-- imagename=foo
-
-  use tmp/foo & image/foo as temp dir & final image
-
-- tmpdir=foo
-
-  use foo instead of tmp/root
-
-## rescue
-
-- keeprescue=1
-
-  don't rebuild everything, just recreate (copy the cached tree and compress) the
-  last image (useful to speed up testing)
-
-- filelist=foo
-
-  build using foo.file_list
-
-- imagetype=foo / imagetype=foo.gz / imagetype=none
-
-  use foo as filesystem for image (.gz: and compress with gzip)
-  none: don't create an image
-
-- imagename=foo
-
-  use tmp/foo & image/foo as temp dir & final image
-
-- tmpdir=foo
-
-  use foo instead of tmp/rescue
-
-## base
-
-- full_splash=0
-
-  don't add silent splash image
+- tmpdir=f
 
 
-## initrd
+- kernel=KERNELRPM (eg. `kernel-default`)
 
-- initrd_fs=&lt;fstype&gt;
+  name of kernel RPM, available as `<kernel_rpm>` in *.file_list
 
-  use fstype for initrd (default: ext2)
+- libdeps=DEPS (a comma separated list)
 
-- initramfs=1
+  run `bin/check_libs` on the DEPS (in `tmp/`)
 
-  build initramfs
+- mode=MODE (`add`, `keep`)
 
-- linuxrc=&lt;absolute_filename&gt;
+  The default mode:
+
+  1. erases the TMPDIR
+  2. adds files according to FILELIST
+  3. packs the TMPDIR with FS into IMAGE
+
+  `mode=add` skips (1), and `mode=keep` skips (1) and (2).
+
+- nolinkcheck=1
+
+  don't check for dangling symlinks
+
+- src=SRC (eg. `boot`, `initrd`, `rescue`, `root+rescue`, default: IMAGE)
+
+  look in the `data`/*SRC* directory.
+
+- tmpdir=*TMPDIR*
+
+  Use tmp/TMPDIR instead of tmp/IMAGE as the temporary directory.
+
+  It is similar to RPM BuildRoot as it holds the file tree in the unpacked
+  state just before being packaged (see FS) in the IMAGE.
+
+<!-- old -->
+
+- debug=DEBUG (comma separated tags, eg. `solv`, `filedeps`, `ignore`,
+  `ignorelibs`, `pkg`, `if`)
+
+  `ignore`: ignore noncritical errors
+
+- theme=THEME (default: `openSUSE`)
+
+  select this theme
+
+
+## initrd specific
+
+
+- linuxrc=LINUXRC (a full path or a file name in /usr/sbin)
 
   use the specified linuxrc (taken from the running system!).
   Caveats may apply: please also refer to the
   [linuxrc](https://github.com/openSUSE/linuxrc) docs
   and the [troubleshooting section](#troubleshooting-and-hacks).
 
-- mkdevs=1
-
-  compress device tree
-
-- initrd=small|large
-
-  build a small (for 1.44MB boot images) or large (no size limit) version
-
-- keepinitrd=1
-
-  don't rebuild everything, just recreate (copy the cached tree and compress) the
-  last image (useful to speed up testing)
-
-- nousb=1
-
-  don't add usb modules to initrd
-
-- nopcmcia=1
-
-  don't add the /etc/pcmcia tree to initrd
-
-- fewkeymaps=1
-
-  just english, french and german maps
-
-- bootsplash=0|modules1
-
-  don't add bootsplash or add splash to modules disk 1
-  (default is to add it to boot image)
-
-- initrd_name=&lt;name&gt;
-
-  [default: initrd] name of the final initrd image
-
-- with_smb=1
-
-  add smb support
-
-- with_gdb=1|2
+- with_gdb=1|2|3
 
   create an initrd with gdb; if with_gdb=2 start linuxrc from gdb
 
-- liveeval=1
 
-  create an initrd for LiveEval
+## Obsolete options
 
-- lang=cs_CZ
+They are not used in the current product builds.
+Code still exists for them but it may be broken.
 
-  [only with liveeval=1] special czech version
+- nostrip=1
 
-- extramod=&lt;module&gt;
+  Used in the Makefile but ignored in the code. FIXME. See also
+  [commit c109ec79](https://github.com/openSUSE/installation-images/commit/c109ec79b432b95454b98216dc2fd07fa8c9b8c4). 
 
-  add &lt;module&gt; to initrd; only _one_ module allowed (useful for testing only)
+- dist=8.1, dist=8.1-i386+kde
 
-
-## boot
-
-- boot=small|hd|large|isolinux
-
-  the boot image type we should create; small is a 1.44MB image, hd for
-  boot CD with hd emulation, isolinux for a CD with 'no emulation'; large is
-  mainly for ia64 (the image is basically just a dos partition)
-
-- bootlogo=1|0
-
-  whether to add the graphical boot logo; if unset, the logo will not be added
-  for 'boot=small'
-
-- memtest=yes|no
-
-  whether to add memtest; if unset, memtest will not be added for 'boot=small'
-
-- initrd_name=&lt;name&gt;
-
-  [default: initrd] name of the initrd image we should add; this will be the name
-  on the boot image and the name referenced in syslinux.cfg, too
-
-- noinitrd=&lt;name&gt;
-
-  [only with 'boot=small'] do _not_ add the initrd &lt;name&gt; to the boot image, unless
-  it fits on it; the initrd name on the boot image is 'small'; the name in
-  syslinux.cfg is _not_ adjusted to &lt;name&gt;
-
-- use_k_inst=1
-
-  use kernel image from k_inst for booting
-
-- fastboot=1
-
-  don't use syslinux' '-s' option for floppies
-
-- liveeval=1
-
-  liveeval bootloader config
-
-- is_dvd=1
-
-  create dvd boot config (32/64 bit dual boot)
-
-- with_floppy=1
-
-  create boot disks, too (i386, x86_86 only)
-
-
-## modules
-
-- modules=&lt;number&gt;
-
-  build module disk &lt;number&gt;; Note: module disk #1 has the initrd on it, so you _must_
-  build the initrd explicitly before!
-
-
-## liveeval
-
-- lang=cs_CZ
-
-  special czech version
-
+  build for this release
