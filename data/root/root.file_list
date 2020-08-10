@@ -34,6 +34,11 @@ TEMPLATE ruby.*-rubygem-suse-connect:
   # avoid update-alternatives
   e cd usr/bin ; ln -snf SUSEConnect* SUSEConnect
 
+TEMPLATE ruby.*-rubygem-nokogiri:
+  /
+  # avoid update-alternatives
+  e cd usr/bin ; find . -type l -name nokogiri\* -exec rm -f \{\} \; ; ln -snf nokogiri.ruby*-* nokogiri
+
 # fix the symlinks for the Ruby debugger if it is present
 TEMPLATE ruby.*-rubygem-byebug:
   /

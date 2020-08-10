@@ -72,7 +72,10 @@ if [ -x usr/sbin/wickedd ] ; then
   echo "Starting wicked"
   {
     /usr/sbin/wickedd $debug_opts
-    for i in /usr/lib/wicked/bin/wickedd-* ; do $i $debug_opts ; done
+    # latest wicked moved to /usr/libexec (bsc#1174957), support both locations
+    w_dir=/usr/libexec/wicked
+    [ -d $w_dir ] || w_dir=/usr/lib/wicked
+    for i in $w_dir/bin/wickedd-* ; do $i $debug_opts ; done
     /usr/sbin/wickedd-nanny $debug_opts
   } 2>/var/log/wickedd.log
 fi
