@@ -914,7 +914,7 @@ sub get_version_info
 
   # don't accept other names than these
 
-  die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|microos|microosng|leap|sles|sled|tumbleweed( kubic)?)$/;
+  die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|microos|suse_microos|leap|sles|sled|tumbleweed( kubic)?)$/;
 
   # Kubic is based on TW
   # MicroOS can be based on TW or Leap
