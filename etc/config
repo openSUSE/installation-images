@@ -144,16 +144,16 @@ plymouth          = openSUSE
 systemd           = MicroOS
 product_name      = openSUSE-Kubic
 
-[Theme MicroOSNG]
+[Theme SMO]
 image             = 350
 patch_zypp_config = 1
-release           = MicroOSNG
-skelcd            = MicroOSNG
-skelcd_ctrl       = MicroOSNG
+release           = SUSE_MicroOS
+skelcd            = SMO
+skelcd_ctrl       = SMO
 gfxboot           = SLE
 grub2             = SLE
 plymouth          = SLE
-systemd           = SLE
+systemd           = SMO
 
 [Theme MicroOS]
 image             = 350
