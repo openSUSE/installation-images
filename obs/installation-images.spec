@@ -186,7 +186,7 @@ BuildRequires:  distribution-logos-openSUSE-Kubic
 %define branding_grub2    SLE
 %define branding_gfxboot  SLE
 %define config_bootmenu_no_upgrade 1
-BuildRequires:  SUSE_MicroOS-release
+BuildRequires:  SUSE-MicroOS-release
 %endif
 
 %if "%theme" == "MicroOS"
