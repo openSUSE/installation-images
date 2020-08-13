@@ -57,20 +57,21 @@ ExclusiveArch:  do_not_build
 %if 0%{?is_opensuse}
 %define theme openSUSE
 %if 0%{?sle_version}
-%define the_version %(echo %sle_version | sed -Ee 's/^([0-9][0-9])(0|([0-9]))([0-9]).*/\\1.\\3\\4/')
+# define the_version %(echo %sle_version | sed -Ee 's/^([0-9][0-9])(0|([0-9]))([0-9]).*/\\1.\\3\\4/')
+%define the_version \\$releasever
 %if "%{the_version}" == ""
 %error "bad version string"
 %endif
 %ifarch aarch64 ppc64 ppc64le
-%define net_repo http://download.opensuse.org/ports/%{the_arch}/distribution/leap/%{the_version}/repo/oss/
+%define net_repo https://download.opensuse.org/ports/%{the_arch}/distribution/leap/%{the_version}/repo/oss/
 %else
-%define net_repo http://download.opensuse.org/distribution/leap/%{the_version}/repo/oss
+%define net_repo https://download.opensuse.org/distribution/leap/%{the_version}/repo/oss
 %endif
 %else
 %ifarch aarch64 ppc64 ppc64le
-%define net_repo http://download.opensuse.org/ports/%{the_arch}/tumbleweed/repo/oss/
+%define net_repo https://download.opensuse.org/ports/%{the_arch}/tumbleweed/repo/oss/
 %else
-%define net_repo http://download.opensuse.org/tumbleweed/repo/oss
+%define net_repo https://download.opensuse.org/tumbleweed/repo/oss
 %endif
 %endif
 %endif
