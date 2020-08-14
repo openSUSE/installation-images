@@ -147,7 +147,7 @@ product_name      = openSUSE-Kubic
 [Theme SMO]
 image             = 350
 patch_zypp_config = 1
-release           = SUSE_MicroOS
+release           = SUSE-MicroOS
 skelcd            = SMO
 skelcd_ctrl       = SMO
 gfxboot           = SLE
