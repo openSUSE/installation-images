@@ -29,6 +29,12 @@ The exact behavior of ```make``` can be influenced by several environment
 variables. For a full description of these variables and how they affect each
 image, check the [configoptions.md](configoptions.md) file.
 
+## Setting the default network repository
+
+The default network repository location is product dependent and defined in
+[obs/installation-images.spec](../obs/installation-images.spec) in the `net_repo`
+macro.
+
 ## Committing changes to (open)SUSE
 
 Basically every new commit into the master branch of the repository will be auto-submitted
