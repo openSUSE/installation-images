@@ -340,6 +340,7 @@ BuildRequires:  ed
 BuildRequires:  efont-unicode-bitmap-fonts
 BuildRequires:  elfutils
 BuildRequires:  ethtool
+BuildRequires:  exfatprogs
 BuildRequires:  fbiterm
 BuildRequires:  finger
 BuildRequires:  fonts-config
