@@ -105,6 +105,7 @@ dosfstools:
 ?dracut-fips:
 dump:
 e2fsprogs:
+exfatprogs:
 file-magic:
 file:
 fillup:

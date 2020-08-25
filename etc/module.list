@@ -59,6 +59,7 @@ kernel/drivers/leds/led-class.ko
 kernel/drivers/mmc/core/
 kernel/fs/autofs4/
 kernel/fs/cramfs/
+kernel/fs/exfat/
 kernel/fs/ext2/
 kernel/fs/ext3/
 kernel/fs/ext4/
