@@ -38,6 +38,7 @@ ExclusiveArch:  do_not_build
 %define with_storage_ng 1
 %define with_reiserfs_kmp 0
 %define with_ssl_hmac 1
+%define with_exfat 0
 %bcond_without sbl
 %bcond_without vnc
 %bcond_with xen
@@ -68,6 +69,7 @@ ExclusiveArch:  do_not_build
 %define net_repo https://download.opensuse.org/distribution/leap/%{the_version}/repo/oss
 %endif
 %else
+%define with_exfat 1
 %ifarch aarch64 ppc64 ppc64le
 %define net_repo https://download.opensuse.org/ports/%{the_arch}/tumbleweed/repo/oss/
 %else
@@ -340,7 +342,9 @@ BuildRequires:  ed
 BuildRequires:  efont-unicode-bitmap-fonts
 BuildRequires:  elfutils
 BuildRequires:  ethtool
+%if %with_exfat
 BuildRequires:  exfatprogs
+%endif
 BuildRequires:  fbiterm
 BuildRequires:  finger
 BuildRequires:  fonts-config

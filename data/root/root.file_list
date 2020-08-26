@@ -134,7 +134,7 @@ cryptsetup:
 device-mapper:
 dosfstools:
 e2fsprogs:
-exfatprogs:
+?exfatprogs:
 file:
 fillup:
 findutils:
