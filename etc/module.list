@@ -245,6 +245,7 @@ kernel/drivers/pci/host/
 kernel/drivers/pci/controller/
 kernel/drivers/mailbox/
 kernel/drivers/pinctrl/
+kernel/drivers/watchdog/
 
 kernel/fs/efivarfs/
 
