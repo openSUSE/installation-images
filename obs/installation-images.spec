@@ -224,6 +224,7 @@ BuildRequires:  unified-installer-release
 %define branding_grub2    SLE
 %define branding_gfxboot  SLE
 BuildRequires:  skelcd-fallbackrepo-SLES
+BuildRequires:  system-role-common-criteria
 %ifarch x86_64
 BuildRequires:  skelcd-fallbackrepo-SLED
 BuildRequires:  skelcd-fallbackrepo-SLES_SAP
