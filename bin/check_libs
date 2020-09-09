@@ -48,7 +48,7 @@ while($dir = shift) {
 
   print "finding ELF objects...\n";
 
-  my $cmd = "cd $dir; find . -type f | grep -v modules | xargs file";
+  my $cmd = "cd $dir; find . -type f -o -type l | grep -v modules | xargs file -L";
   # for debugging a cache can be useful:
   # $cmd = "cat .found_files || ($cmd) | tee .found_files";
 
