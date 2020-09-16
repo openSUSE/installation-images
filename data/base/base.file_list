@@ -41,6 +41,13 @@ c 660 0 6 /dev/loop6
 b 7 7 /dev/loop7
 c 660 0 6 /dev/loop7
 
+# create these links udev used to create (bsc#1176610)
+s /proc/kcore /dev/core
+s /proc/self/fd /dev/fd
+s /proc/self/fd/0 /dev/stdin
+s /proc/self/fd/1 /dev/stdout
+s /proc/self/fd/2 /dev/stderr
+
 TEMPLATE dbus-1:
   /
   # not needed
