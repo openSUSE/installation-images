@@ -4,6 +4,13 @@ exec >&2
 
 PATH="/sbin:/bin:/usr/bin:/usr/sbin:/lbin"
 
+# create these links udevd used to create (bsc#1176610)
+ln -snf /proc/kcore /dev/core
+ln -snf /proc/self/fd /dev/fd
+ln -snf /proc/self/fd/0 /dev/stdin
+ln -snf /proc/self/fd/1 /dev/stdout
+ln -snf /proc/self/fd/2 /dev/stderr
+
 # load some modules before udevd
 for i in edd scsi_dh_alua scsi_dh_emc scsi_dh_rdac ; do
   [ -f /modules/$i.ko -o -f /modules/$i.ko.xz ] && modprobe $i
