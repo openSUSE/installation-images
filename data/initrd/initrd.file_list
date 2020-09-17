@@ -369,7 +369,8 @@ if exists(plymouth)
   plymouth-scripts: nodeps
   plymouth-plugin-script:
   plymouth-branding-<plymouth_theme>: nodeps
-      R s/^Theme=.*/Theme=tribar/ /usr/share/plymouth/plymouthd.defaults
+      m /usr/share/plymouth/plymouthd.defaults /etc/plymouthd/plymouthd.conf
+      R s/^Theme=.*/Theme=tribar/ /etc/plymouth/plymouthd.defaults
   ?plymouth-theme-tribar:
 endif
 
