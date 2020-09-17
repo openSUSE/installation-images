@@ -366,10 +366,10 @@ pam:
 if exists(plymouth)
   plymouth:
     /
-    R s/^Theme=.*/Theme=tribar/ /usr/share/plymouth/plymouthd.defaults
   plymouth-scripts: nodeps
   plymouth-plugin-script:
   plymouth-branding-<plymouth_theme>: nodeps
+      R s/^Theme=.*/Theme=tribar/ /usr/share/plymouth/plymouthd.defaults
   ?plymouth-theme-tribar:
 endif
 
