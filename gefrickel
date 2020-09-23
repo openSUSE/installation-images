@@ -61,7 +61,10 @@ for i in usr/$lib_dir/lib* ; do
   case $i in *librpm*) continue ;; esac
   mv $i b/usr/$lib_dir
 done
-mkdir -p b/usr/bin
+
+# empty usr/sbin is needed to avoid bsc#1169094 (cross-filesystem relative
+# symlinks to kmod)
+mkdir -p b/usr/bin b/usr/sbin
 # some things are needed from /usr/bin
 for i in kmod bash mount setsid sh; do
   [ -e usr/bin/$i -o -L usr/bin/$i ] && mv usr/bin/$i b/usr/bin
