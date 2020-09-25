@@ -330,12 +330,17 @@ nfs-client:
 
 ?openssh-fips:
 
-openssh:
-  /
-  E prein
-  E postin
-  # enable root login bsc#1118114
-  R s/^\s*#\s*(PermitRootLogin)\b.*/$1 yes/ /etc/ssh/sshd_config
+if exists(openssh-server)
+  openssh:
+  openssh-server:
+else
+  openssh:
+endif
+    /
+    E prein
+    E postin
+    # enable root login bsc#1118114
+    R s/^\s*#\s*(PermitRootLogin)\b.*/$1 yes/ /etc/ssh/sshd_config
 
 ?ia32el:
   /etc/init.d/ia32el

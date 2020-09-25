@@ -452,9 +452,13 @@ dbus-1:
 
 ?libopenssl*_*-hmac:
 
-openssh: nodeps
-  E prein
-  d etc/ssh
+if exists(openssh-server)
+  openssh-server: nodeps
+else
+  openssh: nodeps
+endif
+    E prein
+    d etc/ssh
 
 system-group-hardware:
   /
