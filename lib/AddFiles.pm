@@ -69,6 +69,8 @@ sub find_missing_packs;
 sub rpm_has_file;
 sub fixup_re;
 sub replace_config_var;
+sub mount_proc_and_stuff;
+sub umount_proc_and_stuff;
 
 my $ignore;
 my $src_line;
@@ -76,6 +78,7 @@ my $templates;
 my $used_packs;
 my $dangling_links;
 my $dir;
+my $mount_proc_state;		# cf. (u)mount_proc_and_stuff functions
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -760,26 +763,24 @@ sub _add_pack
 
       if($e eq 'e') {
         SUSystem "mv $dir $basedir/base/xxxx" and die "oops";
+
+        # cf. bsc#1176972
+        mount_proc_and_stuff("$basedir/base");
+
         if($is_script) {
           $r = SUSystem "chroot $basedir/base /bin/sh -c 'cd xxxx ; sh install/inst.sh 1'";
         }
         else {
           $r = SUSystem "chroot $basedir/base /bin/sh -c 'cd xxxx ; $cmd'";
         }
+
+        umount_proc_and_stuff("$basedir/base");
+
         SUSystem "mv $basedir/base/xxxx $dir" and die "oops";
       }
       else {
-        # Set up /proc and /dev/fd if they are missing as a number of tools
-        # rely on these (bsc#1160594).
-
-        my $has_proc = -d "$dir/proc";
-        my $has_dev = -d "$dir/dev";
-        my $has_dev_fd = -e "$dir/dev/fd";
-
-        SUSystem("mkdir $dir/dev") if !$has_dev;
-        SUSystem("ln -s /proc/self/fd $dir/dev/fd") if !$has_dev_fd;
-        SUSystem("mkdir $dir/proc") if !$has_proc;
-        SUSystem("mount -oro -t proc proc $dir/proc");
+        # cf. bsc#1160594
+        mount_proc_and_stuff($dir);
 
         if($is_script) {
           $r = SUSystem "chroot $dir /bin/sh -c 'sh install/inst.sh 1'";
@@ -788,10 +789,7 @@ sub _add_pack
           $r = SUSystem "chroot $dir /bin/sh -c '$cmd'";
         }
 
-        SUSystem("umount $dir/proc");
-        SUSystem("rmdir $dir/proc") if !$has_proc;
-        SUSystem("rm $dir/dev/fd") if !$has_dev_fd;
-        SUSystem("rmdir $dir/dev") if !$has_dev;
+        umount_proc_and_stuff($dir);
       }
       warn "$Script: execution of $pm failed" if $r;
 
@@ -996,6 +994,66 @@ sub replace_config_var
   print "undefined config var: $name\n";
 
   return "<$name>";
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Set up /proc and /dev/fd in directory dir if they are missing as a number
+# of tools rely on these (bsc#1160594, bsc#1176972).
+#
+# This is necessary when you plan to chroot into this directory and run
+# commands there.
+#
+# Each call to mount_proc_and_stuff must be undone by calling
+# umount_proc_and_stuff for the same directory.
+#
+# mount_proc_and_stuff(dir)
+#
+sub mount_proc_and_stuff
+{
+  my $dir = $_[0];
+
+  # no stacking or fancy stuff
+  return if $mount_proc_state->{$dir};
+
+  # remember current situation
+  $mount_proc_state->{$dir}{proc} = -d "$dir/proc";
+  $mount_proc_state->{$dir}{dev} = -d "$dir/dev";
+  $mount_proc_state->{$dir}{fd} = -e "$dir/dev/fd";
+
+  # create missing parts
+  SUSystem("mkdir $dir/dev") if !$mount_proc_state->{$dir}{dev};
+  SUSystem("ln -s /proc/self/fd $dir/dev/fd") if !$mount_proc_state->{$dir}{fd};
+  SUSystem("mkdir $dir/proc") if !$mount_proc_state->{$dir}{proc};
+
+  # mount proc fs
+  SUSystem("mount -oro -t proc proc $dir/proc");
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Undo whatever mount_proc_and_stuff might have done.
+#
+# Each call to mount_proc_and_stuff() must be undone by calling
+# umount_proc_and_stuff for the same directory.
+#
+# umount_proc_and_stuff(dir)
+#
+sub umount_proc_and_stuff
+{
+  my $dir = $_[0];
+
+  return if !$mount_proc_state->{$dir};
+
+  # umount proc fs
+  SUSystem("umount $dir/proc");
+
+  # remove added parts
+  SUSystem("rmdir $dir/proc") if !$mount_proc_state->{$dir}{proc};
+  SUSystem("rm $dir/dev/fd") if !$mount_proc_state->{$dir}{fd};
+  SUSystem("rmdir $dir/dev") if !$mount_proc_state->{$dir}{dev};
+
+  delete $mount_proc_state->{$dir};
 }
 
 1;
