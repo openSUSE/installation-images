@@ -122,7 +122,6 @@ hostname:
 hwinfo:
 icmpinfo:
 initviocons:
-insserv-compat:
 iproute2:
 iputils:
 iscsiuio:

@@ -2,7 +2,6 @@ aaa_base-extras
 file-magic
 filesystem
 glibc-32bit
-insserv-compat
 libncurses5-32bit
 lilo
 mkfontdir

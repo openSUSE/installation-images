@@ -145,7 +145,6 @@ hex:
 hwinfo:
 ?hyper-v:
 initviocons:
-insserv-compat:
 iputils:
 jfsutils:
 joe:
@@ -744,7 +743,6 @@ x /etc/ld.so.conf /etc
 
 # final clean up
 r /etc/X11/xserver/C
-r /sbin/insserv
 
 # some scripts write to /dev/null...
 r /dev

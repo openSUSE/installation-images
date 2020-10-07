@@ -368,7 +368,6 @@ BuildRequires:  icewm-lite
 BuildRequires:  icmpinfo
 BuildRequires:  indic-fonts
 BuildRequires:  initviocons
-BuildRequires:  insserv-compat
 BuildRequires:  ipa-gothic-fonts
 BuildRequires:  iproute2
 BuildRequires:  iputils

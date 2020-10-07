@@ -60,7 +60,6 @@ hex:
 hostname:
 hwinfo:
 initviocons:
-insserv-compat:
 iproute2:
 iputils:
 joe:
@@ -248,7 +247,6 @@ x /etc/ld.so.conf /etc
 
 # final clean up
 r /etc/X11/xserver/C
-r /sbin/insserv
 
 # some scripts write to /dev/null...
 r /dev
