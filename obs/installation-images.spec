@@ -605,7 +605,6 @@ BuildRequires:  dmidecode
 BuildRequires:  efibootmgr
 BuildRequires:  elilo
 BuildRequires:  fpswa
-BuildRequires:  ia32el
 %endif
 %ifarch s390x
 BuildRequires:  s390-tools-hmcdrvfs
