@@ -406,9 +406,6 @@ s /usr/lib/systemd/system/getty@.service etc/systemd/system/getty.target.wants/g
 R s/^MountFlags=slave\s*// usr/lib/systemd/system/systemd-udevd.service
 R s/^PrivateMounts=.*// usr/lib/systemd/system/systemd-udevd.service
 
-# stripped down kbd init (linuxrc does most)
-x etc/init.d/kbd_simple /etc/init.d/kbd_simple
-e insserv -f etc/init.d/kbd_simple
 e echo RC_LANG=\"en_US.UTF-8\" >>etc/sysconfig/language
 
 # s390 have their own inittab
