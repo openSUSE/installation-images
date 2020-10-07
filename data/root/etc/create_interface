@@ -203,7 +203,7 @@ then
 		sed "s/^WAIT_FOR_INTERFACES=.*/WAIT_FOR_INTERFACES=$WAIT_FOR_INTERFACES/" < $CONFIGFILE > $CONFIGFILETMP
 		[ $? -eq 0 ] && mv $CONFIGFILETMP $CONFIGFILE
 	fi
-	chroot $ROOT chkconfig network on
+	chroot $ROOT systemctl enable network
 
 	if [ -f $TARGET_DEVICEFILE ] ; then
 		echo "$0: $TARGET_DEVICEFILE does already exist, keeping the original"

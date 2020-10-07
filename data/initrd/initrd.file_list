@@ -42,7 +42,6 @@ dirmngr: ignore
 fillup: ignore
 gnu-unifont-bitmap-fonts: ignore
 info: ignore
-insserv-compat: ignore
 keyutils: ignore
 libcrack*: ignore
 libmagic*: ignore

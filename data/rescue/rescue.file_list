@@ -122,7 +122,6 @@ hostname:
 hwinfo:
 icmpinfo:
 initviocons:
-insserv-compat:
 iproute2:
 iputils:
 iscsiuio:
@@ -342,13 +341,6 @@ endif
     # enable root login bsc#1118114
     R s/^\s*#\s*(PermitRootLogin)\b.*/$1 yes/ /etc/ssh/sshd_config
 
-?ia32el:
-  /etc/init.d/ia32el
-  /usr/lib/ia32el
-  r /usr/lib/ia32el/cpuid
-  r /usr/lib/ia32el/auxapp 
-  E insserv etc/init.d/ia32el
-
 
 :
 
@@ -414,9 +406,6 @@ s /usr/lib/systemd/system/getty@.service etc/systemd/system/getty.target.wants/g
 R s/^MountFlags=slave\s*// usr/lib/systemd/system/systemd-udevd.service
 R s/^PrivateMounts=.*// usr/lib/systemd/system/systemd-udevd.service
 
-# stripped down kbd init (linuxrc does most)
-x etc/init.d/kbd_simple /etc/init.d/kbd_simple
-e insserv -f etc/init.d/kbd_simple
 e echo RC_LANG=\"en_US.UTF-8\" >>etc/sysconfig/language
 
 # s390 have their own inittab

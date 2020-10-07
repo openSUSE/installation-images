@@ -36,8 +36,8 @@ done
 if [ -f /mounts/initrd/etc/suse-blinux.conf ] ; then
   grep -q '^brlname=none' /mounts/initrd/etc/suse-blinux.conf || {
     cp /mounts/initrd/etc/suse-blinux.conf /etc
-    insserv brld
-    insserv sbl
+    systemctl enable brld
+    systemctl enable sbl
   }
 fi
 

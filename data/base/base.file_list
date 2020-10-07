@@ -80,7 +80,6 @@ glibc-i18ndata:
 glibc-locale:
 grep:
 gzip:
-insserv-compat:
 kbd:
 krb5:
 make:
