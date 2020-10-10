@@ -39,7 +39,7 @@ INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := initrd
 endif
 
-ifneq ($(filter aarch64, $(ARCH)),)
+ifneq ($(filter aarch64 armv7l armv6l, $(ARCH)),)
 ALL_TARGETS   := initrd-themes initrd boot boot-grub2-efi boot-themes $(COMMON_TARGETS)
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
 BOOT_PARTS    := boot/* initrd efi

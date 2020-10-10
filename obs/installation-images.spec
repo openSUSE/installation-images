@@ -63,14 +63,14 @@ ExclusiveArch:  do_not_build
 %if "%{the_version}" == ""
 %error "bad version string"
 %endif
-%ifarch aarch64 ppc64 ppc64le
+%ifarch %arm aarch64 ppc64 ppc64le
 %define net_repo https://download.opensuse.org/ports/%{the_arch}/distribution/leap/%{the_version}/repo/oss/
 %else
 %define net_repo https://download.opensuse.org/distribution/leap/%{the_version}/repo/oss
 %endif
 %else
 %define with_exfat 1
-%ifarch aarch64 ppc64 ppc64le
+%ifarch %arm aarch64 ppc64 ppc64le
 %define net_repo https://download.opensuse.org/ports/%{the_arch}/tumbleweed/repo/oss/
 %else
 %define net_repo https://download.opensuse.org/tumbleweed/repo/oss
@@ -626,6 +626,9 @@ BuildRequires:  raspberrypi-firmware-config
 BuildRequires:  raspberrypi-firmware-dt
 BuildRequires:  u-boot-rpiarm64
 %endif
+%ifarch %arm
+BuildRequires:  grub2-arm-efi
+%endif
 # inst-sys module for libstoragemgmt
 BuildRequires:  libstoragemgmt-netapp-plugin
 BuildRequires:  libstoragemgmt-smis-plugin
@@ -640,7 +643,6 @@ Name:           installation-images
 Name:           installation-images-%{theme}
 %endif
 AutoReqProv:    off
-ExcludeArch:    %arm
 Summary:        Installation Image Files for %theme
 License:        GPL-2.0-or-later
 Group:          Metapackages

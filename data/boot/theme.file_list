@@ -29,7 +29,7 @@ if arch eq 'i386' || arch eq 'x86_64'
 endif
 
 
-if arch eq 'x86_64' || arch eq 'aarch64'
+if arch eq 'x86_64' || arch eq 'aarch64' || arch eq 'armv7l' || arch eq 'armv6l'
   # grub2-efi with graphics
   # grub.cfg is patched in grub2-efi.file_list
   if 1

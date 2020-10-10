@@ -90,6 +90,7 @@ checkmedia:
 ?grub2-i386-pc: ignore
 ?grub2-x86_64-efi: ignore
 ?grub2-arm64-efi: ignore
+?grub2-arm-efi: ignore
 ?grub2-powerpc-ieee1275: ignore
 ?grub2:
 dbus-1-x11: ignore
