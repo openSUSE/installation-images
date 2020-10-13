@@ -34,10 +34,28 @@ elsif arch eq 'aarch64'
     a <grub_efi> EFI/BOOT/bootaa64.efi
 
   x grub-aarch64.cfg EFI/BOOT/grub.cfg
+elsif arch eq 'armv7l' || arch eq 'armv6l'
+  grub2-arm-efi:
+    if exists(grub2-arm-efi, /usr/share/efi/armv6hl/grub.efi)
+      grub_efi = usr/share/efi/armv6hl/grub.efi
+    elsif exists(grub2-arm-efi, /usr/share/efi/armv7hl/grub.efi)
+      grub_efi = usr/share/efi/armv7hl/grub.efi
+    else
+      grub_efi = usr/lib/efi/grub.efi
+    endif
+
+    a <grub_efi> EFI/BOOT/bootarm.efi
+
+  if arch eq 'armv7l'
+    x grub-armv7l.cfg EFI/BOOT/grub.cfg
+  else
+    x grub-armv6l.cfg EFI/BOOT/grub.cfg
+  endif
+endif
 endif
 
 
-if arch eq 'x86_64' || arch eq 'aarch64'
+if arch eq 'x86_64' || arch eq 'aarch64' || arch eq 'armv7l' || arch eq 'armv6l'
   # show product name in title instead of default grub string
   d EFI/BOOT/locale
   x grub2_head.po .
@@ -59,7 +77,8 @@ if arch eq 'x86_64' || arch eq 'aarch64'
 endif
 
 # Add RPi packages if available
-if arch eq 'aarch64' && exists(raspberrypi-firmware)
+if arch eq 'aarch64' || arch eq 'armv7l' || arch eq 'armv6l'
+ if exists(raspberrypi-firmware)
   raspberrypi-firmware:
     /
   raspberrypi-firmware-config:
@@ -75,4 +94,5 @@ if arch eq 'aarch64' && exists(raspberrypi-firmware)
   endif
   e mv boot/vc/* .
   r /boot /usr
+ endif
 endif
