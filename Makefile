@@ -57,7 +57,7 @@ DESTDIR := images/instsys
 
 export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY BUILD_ID
 
-.PHONY: all check dirs base fbase biostest initrd \
+.PHONY: all test dirs base fbase biostest initrd \
 	boot boot-efi root rescue root+rescue gdb libyui-rest-api bind libstoragemgmt clean \
 	boot-themes initrd-themes zenroot tftp install \
 	install-initrd mini-iso-rmlist debuginfo cd1 iso
@@ -260,6 +260,7 @@ clean:
 	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/cd1/gen package
 	-@rm -f gpg/trustdb.gpg gpg/random_seed
 	-@rm -f .build_id
+	-@rm -rf test_results
 
 install: base
 	-@rm -rf $(DESTDIR)
@@ -277,11 +278,6 @@ install-initrd:
 	  cp -a images/$$theme/install-initrd $(DESTDIR)/$$theme ; \
 	done
 
-# Catch bugs early
-# - make sure that the scripts run via dash don't end up with a bashism
-#
-# NOTE: as the current checks do not need the 'all' target,
-#       RPM spec calls this in %prep, before %build, to catch bugs early.
-#       Change .spec if 'check' needs 'all'
-check:
-	shellcheck data/root/etc/inst_setup data/root/etc/inst_setup_ssh
+# run tests
+test:
+	./run_tests
