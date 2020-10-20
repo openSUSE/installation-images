@@ -89,6 +89,11 @@ sub MakeExt2Image
 
   ( $file_name, $blocks, $inodes ) = @_;
 
+  die "Error: you must be root to build images\n" if $>;
+
+  $blocks = 64 if $blocks < 64;
+  $inodes = 64 if $inodes < 64;
+
   system "dd if=/dev/zero of=$file_name bs=1k count=$blocks 2>/dev/null" and return ( );
 
   $inodes = "-N $inodes" if defined $inodes;
@@ -102,10 +107,10 @@ sub MakeExt2Image
     $xbsize = $1 if /^Block size:\s*(\d+)/;
   }
 
-  SUSystem "mount -oloop $file_name /mnt" and die "$Script: mount failed";
+  system "mount -oloop $file_name /mnt" and die "$Script: mount failed";
 
   # remove 'lost+found'
-  SUSystem "rmdir /mnt/lost+found";
+  system "rmdir /mnt/lost+found";
 
   for ( `df -Pk /mnt 2>/dev/null` ) {
     ($blks, $ublks ) = ($1, $2) if /^\S+\s+(\d+)\s+(\d+)/;
@@ -116,7 +121,7 @@ sub MakeExt2Image
   }
 
   system "sync";
-  SUSystem "umount /mnt" and die "$Script: umount failed";
+  system "umount /mnt" and die "$Script: umount failed";
 
   return () unless $xinodes;
 
