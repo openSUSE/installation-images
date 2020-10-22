@@ -9,7 +9,7 @@ my $Script = "test";
 
 use CompressImage;
 
-my $tmp_file = File::Temp->new();
+my $tmp_file = File::Temp->new(TEMPLATE => "/tmp/test.XXXXXXXX");
 
 # supported image types
 my $todo = [
