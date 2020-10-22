@@ -1,11 +1,34 @@
 #! /usr/bin/perl
 
-# Usage:
-#
-#   use CompressImage
-#
-#   exported functions:
-#     CompressImage();
+=head1 NAME
+
+CompressImage -  compress image file.
+
+=head1 SYNOPSIS
+
+  use CompressImage;
+
+  # compress "foo.img" using XZ compression
+  CompressImage("foo.img", "xz");
+
+=head1 DESCRIPTION
+
+This module compresses an image file.
+
+=head1 INTERFACE
+
+  CompressImage(image_name, type);
+
+Supported types are "gzip" and "xz". If not type is specified "gzip" is assumed.
+
+CompressImage returns the compressed file size on success; if compression fails,
+it will call die with a suitable error message.
+
+CompressImage has some magic that will append the image size to the filename before compression
+so it gets stored in the gzip header. That information was used by the installer to get size info
+for transport protocols that don't have any (like tftp).
+
+=cut
 
 
 require Exporter;
