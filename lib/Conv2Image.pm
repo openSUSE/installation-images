@@ -1,14 +1,44 @@
 #! /usr/bin/perl
 
-# Usage:
-#
-#   use Conv2Image;
-#
-#   exported functions:
-#     Conv2Image();
+=head1 NAME
 
+Conv2Image -  convert a directory tree into a (file system) image or archive.
 
-=head1 Conv2Image
+=head1 SYNOPSIS
+
+  use Conv2Image;
+
+  # create squashfs image "foo.img" with content from directory "foo"
+  Conv2Image("foo.img", "foo", "squashfs");
+
+  # create ext2 image "foo.img" with content from directory "foo"
+  #
+  # - the initial size estimation is 1000 kbyte, 100 inodes
+  # - the final image will have (roughly) 5000 kbyte free space and 400 free inodes
+  Conv2Image("foo.img", "foo", "ext2", 1000, 100, 5000, 400);
+
+=head1 DESCRIPTION
+
+This module converts a directory tree into a file system image or an archive.
+
+=head1 INTERFACE
+
+For types "cramfs", "squashfs", and "cpio":
+
+  Conv2Image(image_name, dir, type);
+
+For type "ext2":
+
+  Conv2Image(image_name, dir, type, start_size, start_inodes, extra_size, extra_inodes);
+
+  start_size and extra_size are in kbyte units.
+
+Conv2Image returns on success; if image creation fails, it will call die with a suitable error message.
+
+For ext2 it is necessary to specify an initial size guess. It does not have to be exact but has to be
+large enough to hold the directory content. The file system is created in two passes: the first with
+the initial size estimate and then a second taking the desired extra space into account. This is done
+to accomodate the (unknown) file system meta data size.
 
 =cut
 
@@ -70,15 +100,14 @@ sub Conv2Image
     die "ERRROR: no support for \"$fs\"!\n"
   }
 
+  # run two passes; the first is to get an approximation of filesystem metadata overhead
   while($cnt <= 2) {
-#    print ">>$c_k, $c_inodes\n";
     ( $tmp_k, $blk_size, $tmp_inodes ) = MakeExt2Image($image, $c_k, $c_inodes);
 
     die "$Script: failed to create a $fs fs on \"$image\"" unless $tmp_inodes;
 
     print STDERR "$Script: Warning: inode number much smaller than expected ($tmp_inodes < $c_inodes)!\n" if $tmp_inodes < $c_inodes - 100;
 
-#    printf "$Script: created ${cnt}. image \"%s\": %u kbyte, %u inodes\n", $image, $tmp_k, $tmp_inodes;
     if($cnt == 2) {
       printf "$Script: created \"%s\": %u kbyte, %u inodes\n", $image, $tmp_k, $tmp_inodes;
     }
@@ -104,8 +133,6 @@ sub Conv2Image
 
     # unmount it
     system "umount $tmp_dir" and die "$Script: umount failed";
-
-#    print "$Script: $image: ${ublks}k/${blks}k used ($uinds/$inds inodes)\n";
 
     $c_k += $x_k - ($blks - $ublks);
     $c_inodes += $x_inodes - ($inds - $uinds);
