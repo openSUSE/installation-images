@@ -1,0 +1,23 @@
+#! /usr/bin/perl
+
+use Getopt::Long;
+use TAP::Harness;
+
+$ENV{PERL_TEST_HARNESS_DUMP_TAP} = "test_results";
+
+my $opt_verbose = 0;
+
+GetOptions(
+  "verbose|v" => \$opt_verbose,
+);
+
+my $args = {
+  verbosity => $opt_verbose,
+  color     => 1,
+  lib       => [ 'lib', '../lib' ],
+};
+
+my $harness = TAP::Harness->new($args);
+my $aggregator = $harness->runtests(<test/*.t>);
+
+exit $aggregator->{exit};

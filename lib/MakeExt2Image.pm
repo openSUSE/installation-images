@@ -1,73 +1,51 @@
 #! /usr/bin/perl -w
 
-# Create an empty ext2 fs.
-#
-# Usage:
-#
-#   use MakeExt2Image;
-#
-#   exported functions:
-#     MakeExt2Image(file_name, size_in_kbyte, inodes);
+=head1 NAME
 
+MakeExt2Image - create ext2 file system.
 
-=head1 MakeExt2Image
+=head1 SYNOPSIS
 
-C<MakeExt2Image.pm> is a perl module that can be used to create Ext2 file
-systems. It exports the following symbols:
+  use MakeExt2Image;
 
-=over
+  # create a 5000 kbyte file system with 300 inodes.
+  MakeExt2Image("foo.img", 5000, 300);
 
-=item *
+=head1 DESCRIPTION
 
-C<MakeExt2Image(file_name, size_in_kbyte, inodes)>
+Create an (empty) ext2 file system image.
 
-=back
+=head1 INTERFACE
 
-=head2 Usage
+  MakeExt2Image(file_name, size_in_kbyte, inodes);
 
-use MakeExt2Image;
+Create ext2 file system image; size_in_kbyte is the size of the image, inodes is the number of usable inodes.
 
-=head2 Description
+The inodes argument is optional and may be omitted.
 
-=over
+Note that size_in_kbyte is the size of the entire file system, not the number of usable blocks.
 
-=item *
+MakeExt2Image returns a list with 3 elements:
 
-C<MakeExt2Image(file_name, size_in_kbyte, inodes)>
-
-C<MakeExt2Image> creates an empty Ext2 file system image in C<file_name>. 
-C<size_in_kbyte> is the size of the I<image>. C<inodes> is the number of inodes
-the filesystem should have I<at least>.
-
-The C<inodes> argument is optional and may be omitted.
-
-B<Return Values>
-
-C<MakeExt2Image> returns a list with 3 elements:
-
-C<(blocks, block_size, inodes)>
+  (usable_blocks, block_size, inodes)
 
 =over
 
 =item *
 
-C<blocks> is the number of blocks that can be used on that file system
+usable_blocks: the number of blocks that can be used on that file system
 
 =item *
 
-C<block_size> is the size of a block in bytes
+block_size: block size in bytes
 
 =item *
 
-C<inodes> is the actual number of usable inodes
+inodes: number of usable inodes
 
 =back
 
-So, C<blocks * block_size> gives the usable file system size in bytes.
-
-On any failure, C<( )> is returned.
-
-=back
+On any failure, an empty list is returned.
 
 =cut
 
@@ -89,6 +67,11 @@ sub MakeExt2Image
 
   ( $file_name, $blocks, $inodes ) = @_;
 
+  die "Error: you must be root to build images\n" if $>;
+
+  $blocks = 64 if $blocks < 64;
+  $inodes = 64 if $inodes < 64;
+
   system "dd if=/dev/zero of=$file_name bs=1k count=$blocks 2>/dev/null" and return ( );
 
   $inodes = "-N $inodes" if defined $inodes;
@@ -102,10 +85,10 @@ sub MakeExt2Image
     $xbsize = $1 if /^Block size:\s*(\d+)/;
   }
 
-  SUSystem "mount -oloop $file_name /mnt" and die "$Script: mount failed";
+  system "mount -oloop $file_name /mnt" and die "$Script: mount failed";
 
   # remove 'lost+found'
-  SUSystem "rmdir /mnt/lost+found";
+  system "rmdir /mnt/lost+found";
 
   for ( `df -Pk /mnt 2>/dev/null` ) {
     ($blks, $ublks ) = ($1, $2) if /^\S+\s+(\d+)\s+(\d+)/;
@@ -116,7 +99,7 @@ sub MakeExt2Image
   }
 
   system "sync";
-  SUSystem "umount /mnt" and die "$Script: umount failed";
+  system "umount /mnt" and die "$Script: umount failed";
 
   return () unless $xinodes;
 

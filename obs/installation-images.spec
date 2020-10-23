@@ -752,6 +752,9 @@ export BOOTMENU_NO_UPGRADE=1
 %if 0%{?config_yast_selfupdate:1}
 export YAST_SELFUPDATE=%{config_yast_selfupdate}
 %endif
+# check that we are generally ok
+make test
+# build it
 make THEMES=%theme
 %ifarch %ix86 x86_64
 %if %{with xen}
