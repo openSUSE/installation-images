@@ -57,9 +57,10 @@ rm -rf a b
 # keep libs for linuxrc
 #
 mkdir -p "b/usr/$lib_dir"
-for i in usr/$lib_dir/lib* ; do
+# don't forget .lib*.hmac files (bsc#1178208)
+for i in usr/$lib_dir/lib* usr/$lib_dir/.lib* ; do
   case $i in *librpm*) continue ;; esac
-  mv $i b/usr/$lib_dir
+  [ -e "$i" ] && mv $i b/usr/$lib_dir
 done
 
 # empty usr/sbin is needed to avoid bsc#1169094 (cross-filesystem relative
