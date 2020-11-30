@@ -437,7 +437,7 @@ BuildRequires:  perl-solv
 BuildRequires:  pinentry
 BuildRequires:  plymouth-theme-tribar
 BuildRequires:  python3-websockify
-BuildRequires:  raleway-fonts
+BuildRequires:  google-worksans-fonts
 BuildRequires:  samba
 BuildRequires:  snapper
 BuildRequires:  suse-module-tools

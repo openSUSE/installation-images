@@ -563,7 +563,7 @@ efont-unicode-bitmap-fonts:
 
 ?noto-sans-fonts:
 
-?raleway-fonts:
+?google-worksans-fonts:
 
 # various asiatic & arabic fonts
 indic-fonts:
