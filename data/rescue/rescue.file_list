@@ -282,6 +282,7 @@ s /usr/bin/true /sbin/mkinitrd_setup
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 system-group-hardware:
+system-group-kvm:
 system-user-nobody:
 
 rpm:
