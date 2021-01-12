@@ -190,6 +190,8 @@ BuildRequires:  distribution-logos-openSUSE-Kubic
 %define branding_gfxboot  SLE
 %define config_bootmenu_no_upgrade 1
 BuildRequires:  SUSE-MicroOS-release
+# system-group-kvm needed for 15-SP2 based MicroOS
+BuildRequires:  system-group-kvm 
 %endif
 
 %if "%theme" == "MicroOS"
