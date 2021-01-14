@@ -912,6 +912,10 @@ sub get_version_info
   # what people are used to
   $dist = "sles" if $dist eq "sle";
 
+  # SUSE MicroOS is kept called MicroOS insternally, but the product NAME
+  # is now SLE Micro
+  $dist = "suse-microos" if $dist eq "sle micro";
+
   # don't accept other names than these
 
   die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|microos|suse-microos|leap|sles|sled|tumbleweed( kubic)?)$/;
