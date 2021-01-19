@@ -370,8 +370,8 @@ if exists(plymouth)
   plymouth-branding-<plymouth_theme>: nodeps
     /
     e cp usr/share/plymouth/plymouthd.defaults etc/plymouth/plymouthd.conf
-    R s/^Theme=.*/Theme=tribar/ /etc/plymouth/plymouthd.conf
-  ?plymouth-theme-tribar:
+    R s/^Theme=.*/Theme=bgrt/ /etc/plymouth/plymouthd.conf
+  ?plymouth-theme-bgrt:
 endif
 
 procps:
