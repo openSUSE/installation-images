@@ -437,13 +437,6 @@ BuildRequires:  perl-XML-Parser
 BuildRequires:  perl-XML-Simple
 BuildRequires:  perl-solv
 BuildRequires:  pinentry
-# SLE lacks bgrt/spinner branding image and doesn't require bgrt theme
-# in their branding, so using default bgrt theme package
-%if 0%{?is_opensuse}
-BuildRequires:  plymouth-branding-openSUSE
-%else
-BuildRequires:  plymouth-theme-bgrt
-%endif
 BuildRequires:  python3-websockify
 BuildRequires:  raleway-fonts
 BuildRequires:  samba
@@ -463,6 +456,12 @@ BuildRequires:  plymouth
 BuildRequires:  plymouth-branding
 BuildRequires:  plymouth-plugin-script
 BuildRequires:  plymouth-scripts
+# SLE needs to stay with tribar
+%if 0%{?is_opensuse}
+BuildRequires:  plymouth-branding-openSUSE
+%else
+BuildRequires:  plymouth-theme-tribar
+%endif
 %endif
 BuildRequires:  klogd
 BuildRequires:  ltrace
