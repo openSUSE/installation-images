@@ -332,7 +332,6 @@ BuildRequires:  cups-libs
 BuildRequires:  curl
 BuildRequires:  dash
 BuildRequires:  dbus-1-x11
-BuildRequires:  dd_rescue
 BuildRequires:  dejavu-fonts
 BuildRequires:  dhcp-server
 BuildRequires:  dmraid
@@ -356,6 +355,7 @@ BuildRequires:  gdb
 BuildRequires:  gettext-runtime-mini
 BuildRequires:  glibc-i18ndata
 BuildRequires:  gpart
+BuildRequires:  gnu_ddrescue
 BuildRequires:  gpg2
 BuildRequires:  gpm
 BuildRequires:  gptfdisk

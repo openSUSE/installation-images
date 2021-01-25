@@ -99,7 +99,6 @@ cracklib-dict-full:
 cracklib:
 cryptsetup:
 curl:
-dd_rescue:
 diffutils:
 dosfstools:
 ?dracut:
@@ -113,6 +112,7 @@ fillup:
 findutils:
 finger:
 glibc:
+gnu_ddrescue:
 gpart:
 ?gptfdisk:
 grep:
