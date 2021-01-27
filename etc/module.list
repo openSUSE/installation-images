@@ -252,6 +252,7 @@ kernel/drivers/watchdog/
 kernel/fs/efivarfs/
 
 kernel/drivers/dma/bcm2835-dma.ko
+kernel/drivers/dma/tegra20-apb-dma.ko
 
 kernel/fs/vboxsf/
 kernel/drivers/virt/vboxguest/
