@@ -169,6 +169,7 @@ plymouth_off() {
 # start shell, useful on iSeries or via serial console
 start_shell() {
   plymouth_off
+  echo -n \\033c
   echo 
   echo "ATTENTION: Starting shell... (use 'exit' to proceed with installation)"
   bash -l
