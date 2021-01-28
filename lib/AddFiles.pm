@@ -594,7 +594,7 @@ sub _add_pack
       my $files = $_;
       $files =~ s.(^|\s)/.$1.g;
       $files = "." if $files =~ /^\s*$/;
-      SUSystem "sh -c '( cd $tdir; tar --sparse -cf - $files 2>$tfile ) | tar -C $dir -xpf -'" and
+      SUSystem "sh -c '( cd $tdir; tar --sparse -cf - $files 2>$tfile ) | tar --keep-directory-symlink -C $dir -xpf -'" and
         warn "$Script: failed to copy $files";
 
       my (@f, $f);
@@ -676,7 +676,7 @@ sub _add_pack
       }
       else {
         for $l (@l) {
-          SUSystem "sh -c '( cd $start_dir; tar -cf - $l 2>$tfile ) | tar -C $dir -xpf -'" and
+          SUSystem "sh -c '( cd $start_dir; tar -cf - $l 2>$tfile ) | tar --keep-directory-symlink -C $dir -xpf -'" and
             warn "$Script: failed to copy files";
 
           my (@f, $f);
