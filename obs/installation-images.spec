@@ -500,7 +500,7 @@ BuildRequires:  usbutils
 BuildRequires:  util-linux
 BuildRequires:  util-linux-systemd
 BuildRequires:  valgrind
-BuildRequires:  vim
+BuildRequires:  vim-small
 BuildRequires:  wget
 BuildRequires:  wicked
 BuildRequires:  wireless-tools
