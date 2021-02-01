@@ -208,10 +208,10 @@ python3-websockify:
 # save **a lot** of space
 python3-numpy: ignore
 
-vim:
+vim-small:
   /
   # avoid update-alternatives
-  e cd usr/bin ; if [ -f vim-nox11 ] ; then ln -snf vim-nox11 vim ; fi
+  e cd usr/bin ; if [ -f vim-small ] ; then ln -snf vim-small vim ; ln -snf vim-small vi ;fi
 
 <release_theme>-release: nodeps
 
