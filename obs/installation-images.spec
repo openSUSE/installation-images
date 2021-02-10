@@ -438,7 +438,7 @@ BuildRequires:  perl-XML-Simple
 BuildRequires:  perl-solv
 BuildRequires:  pinentry
 BuildRequires:  python3-websockify
-BuildRequires:  raleway-fonts
+BuildRequires:  google-poppins-fonts
 BuildRequires:  samba
 BuildRequires:  snapper
 BuildRequires:  suse-module-tools
