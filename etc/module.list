@@ -257,6 +257,15 @@ kernel/drivers/dma/tegra20-apb-dma.ko
 kernel/fs/vboxsf/
 kernel/drivers/virt/vboxguest/
 
+# RPi4
+kernel/drivers/reset/reset-raspberrypi.ko
+kernel/drivers/clk/bcm/clk-raspberrypi.ko
+kernel/drivers/cpufreq/raspberrypi-cpufreq.ko
+kernel/drivers/cpufreq/cpufreq-dt.ko
+kernel/drivers/mmc/host/sdhci-iproc.ko
+kernel/drivers/gpio/gpio-raspberrypi-exp.ko
+kernel/drivers/net/mdio/mdio-bcm-unimac.ko
+
 # kmps
 updates/
 
