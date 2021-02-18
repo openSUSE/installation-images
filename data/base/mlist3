@@ -25,17 +25,15 @@ close F;
 
 for $m (sort keys %fw) {
   for $fw (@{$fw{$m}}) {
-    $f = undef;
-    $f = "$fw" if -f "$fw_dir/$fw";
-    $f = "$kv/$fw" if -f "$fw_dir/$kv/$fw";
-
-    if($f) {
-      system "install -m 644 -D $fw_dir/$f lib/firmware/$f\n";
+    my $ok = 0;
+    for my $f (<$fw_dir/$fw $fw_dir/$kv/$fw>) {
+      if(-r $f) {
+        $f =~ s#^$fw_dir/##;
+        system "install -m 644 -D $fw_dir/$f lib/firmware/$f\n";
+        $ok = 1;
+      }
     }
-    else {
-      $err = 1;
-      print "missing firmware: $fw ($m.ko)\n";
-    }
+    print "missing firmware: $fw ($m.ko)\n" if !$ok;
   }
 }
 
