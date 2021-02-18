@@ -133,7 +133,7 @@ less:
   /usr/bin/less
 
 psmisc:
-  m /bin/fuser /usr/bin
+  /usr/bin/fuser
   /usr/bin/killall
   /usr/bin/pstree
 
