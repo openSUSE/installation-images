@@ -23,37 +23,32 @@ if arch eq 'x86_64'
   endif
 
   x grub.cfg EFI/BOOT
-elsif arch eq 'aarch64'
-  grub2-arm64-efi:
-    if exists(grub2-arm64-efi, /usr/share/efi/aarch64/grub.efi)
-      grub_efi = usr/share/efi/aarch64/grub.efi
-    else
-      grub_efi = usr/lib/efi/grub.efi
-    endif
+elsif arch eq 'aarch64' || arch eq 'armv7l' || arch eq 'armv6l'
+  R s/@arch@/<arch>/ grub-arm.cfg
+  if arch eq 'aarch64'
+    grub2-arm64-efi:
+      if exists(grub2-arm64-efi, /usr/share/efi/aarch64/grub.efi)
+        grub_efi = usr/share/efi/aarch64/grub.efi
+      else
+        grub_efi = usr/lib/efi/grub.efi
+      endif
 
-    a <grub_efi> EFI/BOOT/bootaa64.efi
-
-  x grub-aarch64.cfg EFI/BOOT/grub.cfg
-elsif arch eq 'armv7l' || arch eq 'armv6l'
-  grub2-arm-efi:
-    if exists(grub2-arm-efi, /usr/share/efi/armv6hl/grub.efi)
-      grub_efi = usr/share/efi/armv6hl/grub.efi
-    elsif exists(grub2-arm-efi, /usr/share/efi/armv7hl/grub.efi)
-      grub_efi = usr/share/efi/armv7hl/grub.efi
-    else
-      grub_efi = usr/lib/efi/grub.efi
-    endif
-
-    a <grub_efi> EFI/BOOT/bootarm.efi
-
-  if arch eq 'armv7l'
-    x grub-armv7l.cfg EFI/BOOT/grub.cfg
+      a <grub_efi> EFI/BOOT/bootaa64.efi
+      x grub-arm.cfg EFI/BOOT/grub.cfg
   else
-    x grub-armv6l.cfg EFI/BOOT/grub.cfg
+    grub2-arm-efi:
+      if exists(grub2-arm-efi, /usr/share/efi/armv6hl/grub.efi)
+        grub_efi = usr/share/efi/armv6hl/grub.efi
+      elsif exists(grub2-arm-efi, /usr/share/efi/armv7hl/grub.efi)
+        grub_efi = usr/share/efi/armv7hl/grub.efi
+      else
+        grub_efi = usr/lib/efi/grub.efi
+      endif
+
+      a <grub_efi> EFI/BOOT/bootarm.efi
+      x grub-arm.cfg EFI/BOOT/grub.cfg
   endif
 endif
-endif
-
 
 if arch eq 'x86_64' || arch eq 'aarch64' || arch eq 'armv7l' || arch eq 'armv6l'
   # show product name in title instead of default grub string
