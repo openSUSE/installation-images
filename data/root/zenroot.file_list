@@ -133,7 +133,7 @@ less:
   /usr/bin/less
 
 psmisc:
-  m /bin/fuser /usr/bin
+  /usr/bin/fuser
   /usr/bin/killall
   /usr/bin/pstree
 
@@ -167,10 +167,6 @@ sysconfig:
   d etc/sysconfig/network
   e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
   # /sbin/modify_resolvconf
-
-# keep for compatibility; can be removed if hwdata is used everywhere
-?pciutils-ids:
-  m /usr/share/pci.ids.d/pci.ids.dist /usr/share/pci.ids
 
 gawk:
   /usr/bin/gawk

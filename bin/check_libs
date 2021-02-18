@@ -1,154 +1,266 @@
 #! /usr/bin/perl
 
-# check dynamic lib dependecies
+# check dynamic library dependecies
 
+use strict;
 use warnings;
+use File::Find;
+use Getopt::Long;
 
-my $verbose = 0;
-while($ARGV[0] eq '-v') {
-  shift;
-  $verbose++;
-}
+use Data::Dumper;
+$Data::Dumper::Sortkeys = 1;
+$Data::Dumper::Terse = 1;
+$Data::Dumper::Indent = 1;
 
-# soname => provider
-#           'libSegFault.so' => 'lib64/libSegFault.so',
-#           'libns.so.1603' => 'usr/lib64/libns.so.1603.0.1',
-my %soname;
+sub find_elf_files;
+sub resolve_links;
+sub is_elf;
 
-# libperl.so does not declare SONAME so %soname2 is needed
-# soname => provider
-#           'hostid' => 'usr/bin/hostid',
-#           'libSegFault.so' => 'lib64/libSegFault.so',
-#           'libns.so.1603.0.1' => 'usr/lib64/libns.so.1603.0.1',
-#           'libperl.so' => 'usr/lib/perl5/5.30.1/x86_64-linux-thread-multi/CORE/libperl.so',
-my %soname2;
+my $opt_verbose = 0;
 
-# soname => absolute path
-#           'libSegFault.so' => '/lib64/libSegFault.so',
-my %ldconfig;
+GetOptions(
+  'verbose|v'        => sub { $opt_verbose++ },
+);
 
-# soname => list of users
-#           'libfdisk.so.1' => [
-#                                'usr/sbin/cfdisk',
-#                                'usr/sbin/fdisk',
-#                                'usr/sbin/sfdisk'
-#                              ],
-#           'liblua5.3.so.5' => [
-#                                 'usr/lib64/librpm.so.9.0.1',
-#                                 'usr/lib64/librpmio.so.9.0.1'
-#                               ],
-my %needed;
+# hash of all ELF objects with file name as key
+#
+# - 'aliases' are symlinks to the same file
+# - 'sonames' can have duplicate entries
+#
+# sample entry:
+#
+#  'usr/lib64/libcrypt.so.1.1.0' => {
+#    'aliases' => [
+#      'usr/lib64/libowcrypt.so.1',
+#      'usr/lib64/libcrypt.so.1'
+#    ],
+#    'elf' => {
+#      'build_id' => '205ebdb358b973faa8f1dfed1202614f6f76e50a',
+#      'needed' => [
+#        'libc.so.6'
+#      ],
+#      'sonames' => [
+#        'libcrypt.so.1',
+#        'libowcrypt.so.1',
+#        'libcrypt.so.1',
+#        'libcrypt.so.1.1.0'
+#      ]
+#    }
+#  },
+#
+my $elf_files = {};
 
-while($dir = shift) {
+# hash of all SONAME records with SONAME as key and file name as value
+#
+# sample entry
+#
+#  'libowcrypt.so.1' => 'usr/lib64/libcrypt.so.1.1.0',
+#  'libp11-kit.so.0' => 'usr/lib64/libp11-kit.so.0.1.0',
+#  'libpam.so.0' => 'lib64/libpam.so.0.84.2',
+#
+my $sonames;
+
+# hash with all NEEDED records with NEEDED as key and array of file names as value
+#
+# sample entry
+#
+#  'libncursesw.so.6' => [
+#    'usr/bin/pinentry-curses',
+#    'usr/bin/watch',
+#    'usr/lib64/libformw.so.6.1',
+#    'usr/lib64/libmenuw.so.6.1',
+#    'usr/lib64/libncurses++w.so.6.1',
+#    'usr/lib64/libpanelw.so.6.1',
+#    'usr/sbin/cfdisk',
+#    'usr/sbin/cgdisk',
+#    'usr/sbin/powertop'
+#  ],
+#
+my $needed;
+
+# hash of ld.so.cache entries with SONAME as key and file name as value
+#
+# sample entry
+#
+# 'libSegFault.so' => 'lib64/libSegFault.so',
+#
+my $ldconfig;
+
+# set to 1 if a config error is detected
+my $error = 0;
+
+for my $dir (@ARGV) {
   die "usage: check_libs dir\n" unless -d $dir;
 
-  $error = 0;
+  print "analyzing ELF objects in $dir...\n";
 
-  undef @ELF;
+  find_elf_files($dir, $elf_files);
 
-  print "finding ELF objects...\n";
-
-  my $cmd = "cd $dir; find . -type f -o -type l | grep -v modules | xargs file -L";
-  # for debugging a cache can be useful:
-  # $cmd = "cat .found_files || ($cmd) | tee .found_files";
-
-  my @found_files = `$cmd`;
-  for (@found_files) {
-    if(/(.*):.*?\s+ELF\s.*\s(shared\s+object|executable)/) {
-      push @ELF, $1;
+  # write build ids
+  if(open my $f, ">$dir.debugids") {
+    for my $file (sort keys %$elf_files) {
+      print $f "$elf_files->{$file}{elf}{build_id} $file\n" if $elf_files->{$file}{elf}{build_id}
     }
-  }
-
-  # extract build ids
-  open(DLOG, ">$dir.debugids");
-  for my $f (@ELF) {
-    for (`readelf -n '$dir/$f'`) {
-      if (m/\sBuild ID:\s*([0-9a-z]*)/) {
-	print "Build-ID: $1 $f\n" if ($verbose >= 1);
-	print DLOG "$1 $f\n";
-      }
-    }
-  }
-  close(DLOG);
-
-  print "extracting shared object dependencies...\n";
-
-  @ELF = map(quotemeta, @ELF);
-
-  for (`cd $dir ; objdump -p @ELF`)
-  {
-    if (m-(.*):\s+file format-) {
-      $f = $1;
-      $f0 = $f;
-      $f0 =~ s/^\.\///;
-      ($fn = $f0) =~ s#.*/##;
-      print "$f0\n" if $verbose >= 2;
-      $soname2{$fn} = $f0 if $fn ne "";
-    }
-    push @{$needed{$1}}, $f0 if /^\s+NEEDED\s+(\S+)\s*$/;
-    $soname{$1} = $f0 if /^\s+SONAME\s+(\S+)\s*$/;
+    close $f;
   }
 
   if( -f "$dir/etc/ld.so.cache") {
-    @l = `ldconfig -C $dir/etc/ld.so.cache -p`;
-    shift @l;
-    for (@l) {
-      $ldconfig{$1} = $2 if /^\s+(\S+)\s*.*=>\s*(\S+)/;
+    for (`ldconfig -C $dir/etc/ld.so.cache -p`) {
+      $ldconfig->{$1} = $2 if /^\s+(\S+)\s*.*=>\s*\/(\S+)/;
     }
   }
 }
 
+# print Dumper($elf_files);
+
+for my $file (sort keys %$elf_files) {
+  for my $s (@{$elf_files->{$file}{elf}{sonames}}) {
+    $sonames->{$s} = $file;
+  }
+
+  for my $n (@{$elf_files->{$file}{elf}{needed}}) {
+    push @{$needed->{$n}}, $file;
+  }
+}
+
+exit $error if $error;
 
 print "checking ld.so.cache...\n";
-if(%ldconfig) {
-  $first = 1;
-  for (keys %soname) {
-    next if $soname{$_} =~ m#^usr/lib/YaST2/plugin#;
-    next unless exists $needed{$_};
+if($ldconfig) {
+  my $first = 1;
+  for (keys %$sonames) {
+    # next if $sonames->{$_} =~ m#^usr/lib/YaST2/plugin#;
+    next unless exists $needed->{$_};
 
-    if(!exists $ldconfig{$_}) {
+    if(!exists $ldconfig->{$_}) {
       print "libs not in ld.so.cache:\n" if $first;
-      printf "  %-24s  %s\n", $_, $soname{$_};
-      printf "  [needed by: %s]\n", join(', ', @{$needed{$_}}) if $verbose >= 1;
+      printf "  %-32s  %s\n", $_, $sonames->{$_};
+      printf "  [needed by: %s]\n", join(', ', @{$needed->{$_}}) if $opt_verbose >= 1;
       $first = 0;
-#      $error = 1;
     }
   }
   print "ok\n" if $first;
 }
 else {
   print "no ld.so.cache found\n";
-#  $error = 1;
 }
 
 print "checking for missing libs...\n";
-$first = 1;
-for (sort keys %needed) {
-  if(!exists($soname{$_}) && !exists($soname2{$_}) && !exists($ldconfig{$_})) {
-    printf "  %-24s  %s\n", $_, join(', ', @{$needed{$_}});
+my $first = 1;
+for (sort keys %$needed) {
+  if(!exists($sonames->{$_})) {
+    printf "  %-32s  %s\n", $_, join(', ', @{$needed->{$_}});
     $first = 0;
     $error = 1;
   }
 }
 print "ok\n" if $first;
 
-print "checking for unused libs...\n";
-$first = 1;
-for (sort keys %soname) {
-  if(!exists $needed{$_}) {
-    if(
-      $soname{$_} !~ m#^usr/lib(64)?/YaST2/plugin# &&
-      $soname{$_} !~ m#^lib(64)?/libnss_# &&
-      $soname{$_} !~ m#^lib(64)?/security/pam_# &&
-      $soname{$_} !~ m#^usr/lib(64)?/suse-blinux# &&
-      $soname{$_} !~ m#^usr/lib(64)?/alsa-lib#
-    ) {
-      printf "  %-24s  %s\n", $_, $soname{$_};
-      $first = 0;
-    }
-  }
-}
-print "ok\n" if $first;
-
 exit $error;
 
+
+# Scan dir for ELF files, analyze them, and add the result to list.
+#
+# find_elf_files(dir, list)
+#
+# dir: directory to scan
+# list: hash ref to add results to
+#
+# Note: all file names are relative to dir.
+#
+sub find_elf_files
+{
+  my $dir = $_[0];
+  my $elf_files = $_[1];
+  my $files;
+
+  File::Find::find({
+    wanted => sub {
+      # skip kernel module directory
+      return if m#/modules/#;
+      my $aliases;
+      ( $_, $aliases ) = resolve_links($dir, $_) if -l;
+      my $elf = is_elf($_);
+      if($elf) {
+        for my $alias (@$aliases, $_) {
+          $alias =~ s#^$dir/##;
+          my $a = $alias;
+          $a =~ s#.*/##;
+          push @{$elf->{sonames}}, $a if $a ne "";
+        }
+        s#^$dir/##;
+        $elf_files->{$_} = { aliases => $aliases, elf => $elf };
+      }
+    },
+    no_chdir => 1
+  }, $dir);
+}
+
+
+# Resolve symlinks.
+#
+# (file, aliases) = resolve_links(dir, link)
+#
+# Resolve link recursively, assuming dir as base directory.
+#
+# Returns the final file name and a list of all symlinks encountered as aliases.
+#
+sub resolve_links
+{
+  my $dir = $_[0];
+  my $file = $_[1];
+  my $aliases;
+
+  while(-l $file) {
+    my $link = readlink $file;
+    $aliases->{$file} = $link;
+    if($link =~ m#^/#) {
+      $file = "$dir$link";
+    }
+    else {
+      $file =~ s#[^/]*$#$link#;
+    }
+    if($aliases->{$file}) {
+      print "symlink loop detected: $file -> $aliases->{$file}\n";
+      $error = 1;
+      last;
+    }
+  }
+
+  return ( $file, [ sort keys %$aliases ] );
+}
+
+
+# Analyze ELF file.
+#
+# result = is_elf(file)
+#
+# Return undef if file is not an ELF file. Otherwise some ELF header data are returned.
+#
+# See decscription of global variable $elf_files for a sample result record.
+#
+sub is_elf
+{
+  my $file = $_[0];
+
+  if(-f($file) && open(my $f, "<", $file)) {
+    my $buf;
+    sysread $f, $buf, 4;
+    close $f;
+
+    return undef if $buf ne "\x7fELF";
+  }
+  else {
+    return undef;
+  }
+
+  my $elf;
+
+  for (`readelf -d -n $file 2>/dev/null`) {
+    push @{$elf->{needed}}, $1 if /\s\(NEEDED\)\s*Shared\slibrary:\s*\[(\S+)\]/;
+    push @{$elf->{sonames}}, $1 if /\s\(SONAME\)\s*Library\ssoname:\s*\[(\S+)\]/;
+    $elf->{build_id} = $1 if /\sBuild ID:\s*([0-9a-z]*)/;
+  }
+
+  return $elf
+}
