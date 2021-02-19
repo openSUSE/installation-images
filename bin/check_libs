@@ -24,28 +24,18 @@ GetOptions(
 
 # hash of all ELF objects with file name as key
 #
-# - 'aliases' are symlinks to the same file
-# - 'sonames' can have duplicate entries
-#
 # sample entry:
 #
 #  'usr/lib64/libcrypt.so.1.1.0' => {
-#    'aliases' => [
-#      'usr/lib64/libowcrypt.so.1',
-#      'usr/lib64/libcrypt.so.1'
+#    'build_id' => '205ebdb358b973faa8f1dfed1202614f6f76e50a',
+#    'needed' => [
+#      'libc.so.6'
 #    ],
-#    'elf' => {
-#      'build_id' => '205ebdb358b973faa8f1dfed1202614f6f76e50a',
-#      'needed' => [
-#        'libc.so.6'
-#      ],
-#      'sonames' => [
-#        'libcrypt.so.1',
-#        'libowcrypt.so.1',
-#        'libcrypt.so.1',
-#        'libcrypt.so.1.1.0'
-#      ]
-#    }
+#    'sonames' => [
+#      'libcrypt.so.1',
+#      'libcrypt.so.1.1.0'
+#      'libowcrypt.so.1',
+#    ]
 #  },
 #
 my $elf_files = {};
@@ -99,7 +89,7 @@ for my $dir (@ARGV) {
   # write build ids
   if(open my $f, ">$dir.debugids") {
     for my $file (sort keys %$elf_files) {
-      print $f "$elf_files->{$file}{elf}{build_id} $file\n" if $elf_files->{$file}{elf}{build_id}
+      print $f "$elf_files->{$file}{build_id} $file\n" if $elf_files->{$file}{build_id}
     }
     close $f;
   }
@@ -114,11 +104,11 @@ for my $dir (@ARGV) {
 # print Dumper($elf_files);
 
 for my $file (sort keys %$elf_files) {
-  for my $s (@{$elf_files->{$file}{elf}{sonames}}) {
+  for my $s (@{$elf_files->{$file}{sonames}}) {
     $sonames->{$s} = $file;
   }
 
-  for my $n (@{$elf_files->{$file}{elf}{needed}}) {
+  for my $n (@{$elf_files->{$file}{needed}}) {
     push @{$needed->{$n}}, $file;
   }
 }
@@ -180,7 +170,10 @@ sub find_elf_files
       return if m#/modules/#;
       my $aliases;
       ( $_, $aliases ) = resolve_links($dir, $_) if -l;
-      my $elf = is_elf($_);
+      my $short_name = $_;
+      $short_name =~ s#^$dir/##;
+      # if the file has been analyzed before, just add new symlinks as sonames
+      my $elf = $elf_files->{$short_name} ? $elf_files->{$short_name} : is_elf($_);
       if($elf) {
         for my $alias (@$aliases, $_) {
           $alias =~ s#^$dir/##;
@@ -188,8 +181,10 @@ sub find_elf_files
           $a =~ s#.*/##;
           push @{$elf->{sonames}}, $a if $a ne "";
         }
-        s#^$dir/##;
-        $elf_files->{$_} = { aliases => $aliases, elf => $elf };
+        my $so;
+        $so->{$_} = 1 for (@{$elf->{sonames}});
+        $elf->{sonames} = [ sort keys %$so ];
+        $elf_files->{$short_name} = $elf;
       }
     },
     no_chdir => 1

@@ -628,6 +628,9 @@ BuildRequires:  raspberrypi-firmware
 BuildRequires:  raspberrypi-firmware-config
 BuildRequires:  raspberrypi-firmware-dt
 BuildRequires:  u-boot-rpiarm64
+%if %with_shim
+BuildRequires:  shim
+%endif
 %endif
 %ifarch %arm
 BuildRequires:  grub2-arm-efi
