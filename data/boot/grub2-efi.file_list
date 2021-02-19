@@ -20,6 +20,11 @@ shim_dir = usr/share/efi/<arch>
 x grub-efi.cfg EFI/BOOT/grub.cfg
 R s/\@arch\@/<arch>/g EFI/BOOT/grub.cfg
 
+# kernel & initrd are in a different dir on x86_64
+if arch eq 'x86_64'
+  R s/(\/(linux|initrd))/\/loader$1/g EFI/BOOT/grub.cfg
+endif
+
 # keep everything between <foo>...</foo> when foo == arch and drop everything between <foo>...</foo> when foo != arch
 #
 # <foo> and </foo> must be alone on separate lines
