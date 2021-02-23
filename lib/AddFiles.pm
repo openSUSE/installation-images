@@ -810,7 +810,7 @@ sub _add_pack
       close F1;
       SUSystem "rm -f $tfile";
 
-      if($re =~ /\/s; 1$/) {	# multi line
+      if($re =~ /\/sg?; 1$/) {	# multi line
         $_ = join '', @f;
         $ignore += 10;
         $i = eval $re;

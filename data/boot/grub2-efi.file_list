@@ -30,7 +30,7 @@ endif
 # <foo> and </foo> must be alone on separate lines
 #
 R s/<\/?<arch>>\n// EFI/BOOT/grub.cfg
-R s/<([a-z_0-9]+)>.*?<\/\1>\n//s EFI/BOOT/grub.cfg
+R s/<([a-z_0-9]+)>.*?<\/\1>\n//sg EFI/BOOT/grub.cfg
 
 grub2-<grub_target>-efi:
   a <grub_efi> EFI/BOOT/boot<boot_efi>.efi
