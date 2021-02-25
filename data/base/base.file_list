@@ -1,5 +1,13 @@
 # some basic directories
-d bin dev etc lib mnt proc sbin tmp var
+d dev etc mnt proc tmp var usr/{bin,sbin,lib,lib64}
+# filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
+if exists(compat-usrmerge-tools)
+s usr/bin /bin
+s usr/sbin /sbin
+s usr/lib /lib
+s usr/lib64 /lib64
+endif
+
 d run/lock
 c 1777 0 0 tmp
 
@@ -54,6 +62,7 @@ TEMPLATE:
 AUTODEPS:
 
 # it's using update-alternatives
+# XXX: usrmerge
 bash:
   /bin/{sh,bash}
   /usr/bin/bash

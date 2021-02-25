@@ -1,7 +1,15 @@
 d run var
 d run/lock
 s ../run var
-d bin dev etc home lib mnt proc sys sbin tmp root
+d dev etc home mnt proc sys tmp root usr/{bin,sbin,lib,lib64}
+# filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
+if exists(compat-usrmerge-tools)
+s usr/bin /bin
+s usr/sbin /sbin
+s usr/lib /lib
+s usr/lib64 /lib64
+endif
+
 d media/{cdrom,floppy}
 c 1777 0 0 tmp
 d var/lib/systemd/migrated
@@ -32,10 +40,12 @@ filesystem:
   /etc/sysconfig
   /root
   /run
-  /etc/init.d
   /var
   # remove temporarily so that 'mount /sys' doesn't work
   r /sys
+
+?compat-usrmerge: ignore
+?compat-usrmerge-tools: ignore
 
 AUTODEPS:
 
@@ -110,6 +120,7 @@ krb5:
   /usr/lib*/libk5crypto.so.*
 
 # it's using update-alternatives
+# XXX: usrmerge
 bash:
   /bin/{sh,bash}
   /usr/bin/bash
@@ -145,8 +156,10 @@ x /etc/ld.so.conf /etc
 # remove these:
 r root mnt tmp usr/libexec
 
+# XXX: usrmerge
 :
   r /lib*/security/pam_userdb.so
+  r /usr/lib*/security/pam_userdb.so
 
   x etc/inst_setup_ssh /sbin/
   c 755 0 0 /sbin/inst_setup_ssh
@@ -161,8 +174,10 @@ dmidecode:
 acpica:
   /usr/sbin/acpidump
 
+# XXX: usrmerge
 sysconfig:
   /sbin
+  /usr/sbin
   # for modify_resolvconf
   d etc/sysconfig/network
   e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config
