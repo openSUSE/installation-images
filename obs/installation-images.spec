@@ -456,12 +456,7 @@ BuildRequires:  plymouth
 BuildRequires:  plymouth-branding
 BuildRequires:  plymouth-plugin-script
 BuildRequires:  plymouth-scripts
-# SLE needs to stay with tribar
-%if 0%{?is_opensuse}
-BuildRequires:  plymouth-branding-openSUSE
-%else
 BuildRequires:  plymouth-theme-tribar
-%endif
 %endif
 BuildRequires:  klogd
 BuildRequires:  ltrace
