@@ -363,6 +363,16 @@ pam:
   /lib*/security/pam_deny.so
 
 if exists(plymouth)
+  # Do not EVER consider another plymouth theme before ensuring it doesn't
+  # drag in tons of weird dependencies (bsc#1182755).
+  if exists(plymouth-theme-tribar)
+    p_theme = tribar
+  # elsif exists(plymouth-theme-XXX)
+  #  p_theme = XXX
+  else
+    p_theme = PLYMOUTH_THEME_IS_MISSING
+  endif
+
   plymouth:
     /
   plymouth-scripts: nodeps
@@ -370,15 +380,9 @@ if exists(plymouth)
   plymouth-branding-<plymouth_theme>: nodeps
     /
     e cp usr/share/plymouth/plymouthd.defaults etc/plymouth/plymouthd.conf
-  if exists(plymouth-theme-tribar)
-    plymouth-theme-tribar:
-      /
-      R s/^Theme=.*/Theme=tribar/ /etc/plymouth/plymouthd.conf
-  elsif exists(plymouth-theme-bgrt)
-    plymouth-theme-bgrt:
-      /
-      R s/^Theme=.*/Theme=bgrt/ /etc/plymouth/plymouthd.conf
-  endif
+  plymouth-theme-<p_theme>:
+    /
+    R s/^Theme=.*/Theme=<p_theme>/ /etc/plymouth/plymouthd.conf
 endif
 
 procps:
