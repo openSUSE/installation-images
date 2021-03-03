@@ -1,0 +1,17 @@
+#! /bin/sh
+
+# zram size is passed as first argument
+size=$1
+
+PATH=/usr/bin:/usr/sbin:/bin:/sbin
+
+# no modprobe
+for i in zram jbd2 mbcache crc16 ext4 ; do
+  m=/modules/$i.ko.xz
+  [ -f $m ] && insmod $m
+done
+
+echo zstd > /sys/block/zram0/comp_algorithm
+echo $size > /sys/block/zram0/disksize
+
+mkfs.ext2 -q /dev/zram0

@@ -35,10 +35,12 @@ lib_dir=${lib_dir%%/*}
 #
 # all mods ex loop & squashfs
 #
+base_modules="loop squashfs lz4_decompress xxhash zstd_decompress zram ext4 crc16 mbcache jbd2"
+echo "$base_modules" > .base_modules
 m_dir=`echo lib/modules/*/initrd`
 [ -d "$m_dir" ] || err "no kernel module dir"
 mkdir -p "b/$m_dir"
-for i in loop squashfs lz4_decompress xxhash zstd_decompress; do
+for i in $base_modules ; do
   for suffix in ko ko.xz; do
     [ -f $m_dir/$i.$suffix ] && mv $m_dir/$i.$suffix b/$m_dir
   done
@@ -67,8 +69,12 @@ done
 # symlinks to kmod)
 mkdir -p b/usr/bin b/usr/sbin
 # some things are needed from /usr/bin
-for i in kmod bash mount setsid sh; do
+for i in kmod bash mount setsid sh ; do
   [ -e usr/bin/$i -o -L usr/bin/$i ] && mv usr/bin/$i b/usr/bin
+done
+# some things are needed from /usr/sbin
+for i in mkfs.ext2 ; do
+  [ -e usr/sbin/$i -o -L usr/sbin/$i ] && mv usr/sbin/$i b/usr/sbin
 done
 mkdir -p a
 mv usr a

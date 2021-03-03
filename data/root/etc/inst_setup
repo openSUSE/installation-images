@@ -175,6 +175,48 @@ start_shell() {
   bash -l
 }
 
+zram_swap_on() {
+  zram_swap=`awk '/^zram_swap:/ { print $2 }' /etc/install.inf`
+  if [ -n "$zram_swap" ] ; then
+    modprobe zram
+    zram_dev_index=`cat /sys/class/zram-control/hot_add`
+    zram_swap_dev=/dev/zram$zram_dev_index
+    if [ -b $zram_swap_dev ] ; then
+      echo zstd > /sys/block/zram$zram_dev_index/comp_algorithm
+      echo "$zram_swap" > /sys/block/zram$zram_dev_index/disksize
+      mkswap $zram_swap_dev >/dev/null
+      swapon $zram_swap_dev
+      create_zram_swap_disable_hook
+    fi
+  fi
+}
+
+zram_swap_off() {
+  if [ -b $zram_swap_dev ] ; then
+    swapoff $zram_swap_dev
+    echo $zram_dev_index > /sys/class/zram-control/hot_remove
+  fi
+}
+
+create_zram_swap_disable_hook() {
+  tmp_dir=$(mktemp -d)
+  hook_dir=/var/lib/YaST2/hooks/installation
+  script=before_instsys_cleanup_10_zram_swap
+
+  # make $hook_dir writable
+  mkdir -p $tmp_dir/$hook_dir
+  adddir $tmp_dir /
+
+  cat > $hook_dir/$script <<XXX
+#! /bin/sh -x
+swapoff $zram_swap_dev
+echo $zram_dev_index > /sys/class/zram-control/hot_remove
+XXX
+  chmod +x $hook_dir/$script
+}
+
+zram_swap_on
+
 [ -f /tmp/host_ips ] && cat /tmp/host_ips
 
 [ "$START_SHELL" ] && start_shell
@@ -262,6 +304,8 @@ rm -f /etc/modules.conf
 # clean up after yast
 # shellcheck disable=SC2016 # the ${} is for sed, not a shell expansion mistake
 sed -n '1{h;n};x;H;${x;p}' /proc/mounts | awk '{ if($2 ~ /^\/var/) system("umount " $2) }'
+
+zram_swap_off
 
 exit $ec
 

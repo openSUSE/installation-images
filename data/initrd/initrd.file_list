@@ -436,6 +436,9 @@ endif
   /usr/lib*/gconv/UTF-32.so
   /usr/lib*/gconv/gconv-modules*
 
+# needed for zram support
+e2fsprogs:
+  /usr/sbin/mkfs.ext2
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
