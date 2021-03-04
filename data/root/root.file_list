@@ -1,6 +1,13 @@
-d bin dev etc lib mnt root sbin tmp usr var proc
+d dev etc mnt root tmp usr var proc
 c 1777 0 0 tmp
 d /usr/{bin,lib,lib64,libexec,sbin,share}
+# filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
+if exists(compat-usrmerge-tools)
+s usr/bin /bin
+s usr/sbin /sbin
+s usr/lib /lib
+s usr/lib64 /lib64
+endif
 
 # add some /etc files
 x /etc/* /etc
@@ -218,6 +225,7 @@ vim-small:
 # pull in yast2 installation related packages via package deps
 skelcd-control-<skelcd_ctrl_theme>:
 
+# XXX: usrmerge
 rpm:
   /bin
   /etc
@@ -233,6 +241,7 @@ gawk:
   s gawk usr/bin/awk
 
 # it's using update-alternatives
+# XXX: usrmerge
 bash:
   /bin/{sh,bash}
   /usr/bin/bash
@@ -241,12 +250,14 @@ bash:
 # Note that this does not make it the default shell /bin/sh,
 # only scripts that explicitly want dash will use it,
 # so we are safe even if there are undetected bashisms in some scripts.
+# XXX: usrmerge
 dash:
   /bin/dash
   /usr/bin/dash
 
 nfs-client:
   /sbin/{u,}mount.nfs*
+  /usr/sbin/{u,}mount.nfs*
   /usr/sbin/rpc.statd
   /usr/sbin/start-statd
   /usr/sbin/showmount
@@ -324,8 +335,10 @@ yast2-installation:
   # p repair.diff
 
 if arch eq 'ppc' || arch eq 'ppc64'
+  # XXX: usrmerge
   pdisk:
     /sbin/pdisk
+    /usr/sbin/pdisk
 
   hfsutils:
     /usr/bin/hattrib
@@ -344,9 +357,8 @@ if arch eq 'ppc' || arch eq 'ppc64'
    s hattrib /usr/bin/hvol
 endif
 
+# XXX: usrmerge
 sysvinit-tools:
-  /
-  c 755 0 0 /sbin/showconsole
 
 krb5:
   /etc
@@ -355,6 +367,7 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
+# XXX: usrmerge
 pam:
   /usr/etc/pam.d
   /etc/pam.d
@@ -364,6 +377,11 @@ pam:
   /lib*/libpam_misc.so.*
   /lib*
   /sbin
+  /usr/lib*/security
+  /usr/lib*/libpam.so.*
+  /usr/lib*/libpam_misc.so.*
+  /usr/lib*
+  /usr/sbin
 
 cracklib: nodeps
   /usr/sbin/cracklib-check
@@ -587,8 +605,10 @@ dmz-icon-theme-cursors:
     /usr/share/icons/DMZ
   endif
 
+# XXX: usrmerge
 multipath-tools:
   /sbin
+  /usr/sbin
 
 graphviz-gnome: nodeps
   /usr/lib*/graphviz/libgvplugin_pango.so.*

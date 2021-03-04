@@ -27,9 +27,9 @@ cd $dir
 
 [ -z "$mksquashfs" ] && err "mksquashfs missing"
 
-# lib vs. lib64
-lib_dir=`echo lib*/libc.so.*`
-lib_dir=${lib_dir%%/*}
+if [ -L lib ]; then
+  pfx="usr/"
+fi
 
 # - - -  lib/{modules,firmware}  - - -
 #
@@ -37,7 +37,7 @@ lib_dir=${lib_dir%%/*}
 #
 base_modules="loop squashfs lz4_decompress xxhash zstd_decompress zram ext4 crc16 mbcache jbd2"
 echo "$base_modules" > .base_modules
-m_dir=`echo lib/modules/*/initrd`
+m_dir=`echo ${pfx}lib/modules/*/initrd`
 [ -d "$m_dir" ] || err "no kernel module dir"
 mkdir -p "b/$m_dir"
 for i in $base_modules ; do
@@ -45,12 +45,12 @@ for i in $base_modules ; do
     [ -f $m_dir/$i.$suffix ] && mv $m_dir/$i.$suffix b/$m_dir
   done
 done
-mkdir -p a/lib
-mv lib/modules a/lib
-[ -d lib/firmware ] && mv lib/firmware a/lib
+mkdir -p a/${pfx}lib
+mv ${pfx}lib/modules a/${pfx}lib
+[ -d ${pfx}lib/firmware ] && mv ${pfx}lib/firmware a/${pfx}lib
 # but NOT udev
 # [ -d lib/udev ] && mv lib/udev a/lib
-mv b/lib/modules lib
+mv b/${pfx}lib/modules ${pfx}lib
 squash a 00_lib
 rm -rf a b
 
@@ -58,22 +58,33 @@ rm -rf a b
 #
 # keep libs for linuxrc
 #
-mkdir -p "b/usr/$lib_dir"
+# lib vs. lib64
+lib_dir=usr/lib
+mkdir -p "b/$lib_dir"
+# for usrmerge
+if [ -e  "$lib_dir/modules" ]; then
+  mv "$lib_dir/modules" "b/$lib_dir"
+fi
+if [ -d ${lib_dir}64 ]; then
+  lib_dir=${lib_dir}64
+fi
+mkdir -p "b/$lib_dir"
 # don't forget .lib*.hmac files (bsc#1178208)
-for i in usr/$lib_dir/lib* usr/$lib_dir/.lib* ; do
+for i in $lib_dir/lib* $lib_dir/.lib*; do
   case $i in *librpm*) continue ;; esac
-  [ -e "$i" ] && mv $i b/usr/$lib_dir
+  mv $i b/$lib_dir
 done
+# need to keep the linker in usrmerge case
+if [ -n "$pfx" ]; then
+  mv $lib_dir/ld-* b/$lib_dir || :
+fi
 
 # empty usr/sbin is needed to avoid bsc#1169094 (cross-filesystem relative
 # symlinks to kmod)
 mkdir -p b/usr/bin b/usr/sbin
-# some things are needed from /usr/bin
-for i in kmod bash mount setsid sh ; do
+# some things are needed from /usr/bin or /usr/sbin
+for i in kmod bash mount setsid sh ln touch chmod mkdir insmod mkfs.ext2 ; do
   [ -e usr/bin/$i -o -L usr/bin/$i ] && mv usr/bin/$i b/usr/bin
-done
-# some things are needed from /usr/sbin
-for i in mkfs.ext2 ; do
   [ -e usr/sbin/$i -o -L usr/sbin/$i ] && mv usr/sbin/$i b/usr/sbin
 done
 mkdir -p a
