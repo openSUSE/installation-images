@@ -317,8 +317,6 @@ if exists(blog)
   sysvinit-tools: nodeps
     /sbin/startproc
     /usr/sbin/startproc
-
-  libblogger2:
 else
   sysvinit-tools: nodeps
     /sbin/showconsole
