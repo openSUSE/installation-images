@@ -1,6 +1,13 @@
 d run var
 s ../run var
-d bin mnt proc sys tmp mounts root download scripts
+d mnt proc sys tmp mounts root download scripts usr/{bin,sbin,lib,lib64}
+# filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
+if exists(compat-usrmerge-tools)
+s usr/bin /bin
+s usr/sbin /sbin
+s usr/lib /lib
+s usr/lib64 /lib64
+endif
 d dev/pts dev/shm
 d etc/sysconfig/hardware etc/YaST2 etc/X11
 d var/tmp var/adm/mount
@@ -143,6 +150,7 @@ terminfo:
 suse-module-tools:
   /etc/modprobe.d
 
+# XXX: usrmerge
 ?s390-tools:
   /sbin/zfcp_*_configure
   /sbin/zfcp_san_disc
@@ -151,6 +159,13 @@ suse-module-tools:
   /sbin/qeth_configure
   /sbin/dasdinfo
   /sbin/chzdev
+  /usr/sbin/zfcp_*_configure
+  /usr/sbin/zfcp_san_disc
+  /usr/sbin/iucv_configure
+  /usr/sbin/ctc_configure
+  /usr/sbin/qeth_configure
+  /usr/sbin/dasdinfo
+  /usr/sbin/chzdev
   /usr/lib/udev
   /etc/zkey
   /boot
@@ -164,8 +179,10 @@ kbd:
   /usr/share/kbd/consoletrans/trivial
   /usr/share/kbd/consolefonts/default8x16.psfu.gz
 
+# XXX: usrmerge
 cifs-utils:
   /sbin/mount.cifs
+  /usr/sbin/mount.cifs
 
 ?acpica:
   /usr/sbin/acpidump
@@ -173,8 +190,10 @@ cifs-utils:
 ?dmidecode:
   /usr/sbin/dmidecode
 
+# XXX: usrmerge
 ?bootsplash:
   /sbin/splash
+  /usr/sbin/splash
 
 if exists(wpa_supplicant)
   wpa_supplicant:
@@ -222,19 +241,22 @@ coreutils:
   m /usr/bin/rm bin
 
 # it's using update-alternatives
+# XXX: usrmerge
 bash:
   /bin/{sh,bash}
   /usr/bin/bash
   s bash usr/bin/sh
-  s bash /bin/lsh
+  s bash usr/bin/lsh
 
 ncurses-utils:
   /usr/bin/clear
   /usr/bin/tset
 
+# XXX: usrmerge
 iproute2:
-  /bin/ip 
+  /bin/ip
   /sbin/ip
+  /usr/bin/ip
   /usr/sbin/ip
 
 open-iscsi:
@@ -253,11 +275,16 @@ util-linux:
   /usr/sbin/losetup
   /usr/sbin/blkid
 
+# XXX: usrmerge
 nfs-client:
   /sbin/mount.nfs
   /sbin/mount.nfs4
   /sbin/umount.nfs
   /sbin/umount.nfs4
+  /sbin/mount.nfs
+  /usr/sbin/mount.nfs4
+  /usr/sbin/umount.nfs
+  /usr/sbin/umount.nfs4
   /etc/idmapd.conf
   /usr/sbin/rpc.idmapd
   /var/lib/nfs
@@ -271,26 +298,31 @@ cryptsetup:
 ?libcryptsetup*-hmac:
 ?libgcrypt20-hmac:
 
+# XXX: usrmerge
 ntfs-3g:
   /
   s mount.ntfs-3g /sbin/mount.ntfs
+  s mount.ntfs-3g /usr/sbin/mount.ntfs
 
 ?kexec-tools: nodeps
   /usr/sbin/kexec
 
+# XXX: usrmerge
 if exists(blog)
   blog:
     /usr/lib*
     /sbin/showconsole
-    c 755 0 0 /sbin/showconsole
+    /usr/sbin/showconsole
 
   sysvinit-tools: nodeps
     /sbin/startproc
+    /usr/sbin/startproc
 else
   sysvinit-tools: nodeps
     /sbin/showconsole
-    c 755 0 0 /sbin/showconsole
     /sbin/startproc
+    /usr/sbin/showconsole
+    /usr/sbin/startproc
 endif
 
 rpm:
@@ -348,8 +380,10 @@ shadow:
   /usr/sbin/useradd.local
   d /etc/skel
 
+# XXX: usrmerge
 pam:
   /sbin
+  /usr/sbin
   /etc
   /usr/etc
   /lib*/libpam*.so.*
@@ -361,6 +395,15 @@ pam:
   /lib*/security/pam_rootok.so
   /lib*/security/pam_permit.so
   /lib*/security/pam_deny.so
+  /usr/lib*/libpam*.so.*
+  /usr/lib*/security/pam_group.so
+  /usr/lib*/security/pam_unix*.so
+  /usr/lib*/security/pam_env.so
+  /usr/lib*/security/pam_limits.so
+  /usr/lib*/security/pam_umask.so
+  /usr/lib*/security/pam_rootok.so
+  /usr/lib*/security/pam_permit.so
+  /usr/lib*/security/pam_deny.so
 
 if exists(plymouth)
   # Do not EVER consider another plymouth theme before ensuring it doesn't
@@ -387,6 +430,7 @@ endif
 
 procps:
   /bin/ps
+  /usr/bin/ps
 
 # maybe we don't need everything...
 systemd:
@@ -514,8 +558,10 @@ if with_gdb
   valgrind:
     /
 
+  # XXX: usrmerge
   kbd:
     /bin/kbd_mode
+    /usr/bin/kbd_mode
 
   strace:
     /usr/bin/strace
@@ -526,14 +572,18 @@ if with_gdb
   libpython2_6-1_0:
     /usr/lib*
 
+  # XXX: usrmerge
   libexpat1:
     /lib*/libexpat.so.*
+    /usr/lib*/libexpat.so.*
 
   libprocps*:
     /
 
+  # XXX: usrmerge
   psmisc:
     /bin/fuser
+    /usr/bin/fuser
     /usr/bin/killall
     /usr/bin/pstree
 

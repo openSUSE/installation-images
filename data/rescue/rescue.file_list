@@ -1,7 +1,14 @@
 d run var
 d run/lock
 s ../run var
-d bin dev etc home lib mnt proc sys sbin tmp root
+d dev etc home mnt proc sys tmp root usr/{bin,sbin,lib,lib64}
+# filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
+if exists(compat-usrmerge-tools)
+s usr/bin /bin
+s usr/sbin /sbin
+s usr/lib /lib
+s usr/lib64 /lib64
+endif
 d media/{cdrom,floppy}
 c 1777 0 0 tmp
 d var/lib/systemd/migrated
@@ -44,10 +51,12 @@ filesystem:
   /etc/sysconfig
   /root
   /run
-  /etc/init.d
   /var
   # remove temporarily so that 'mount /sys' doesn't work
   r /sys
+
+?compat-usrmerge: ignore
+?compat-usrmerge-tools: ignore
 
 AUTODEPS:
 
@@ -61,6 +70,7 @@ device-mapper-32bit: ignore
 binutils: ignore
 
 # it's using update-alternatives
+# XXX: usrmerge
 bash:
   /bin/{sh,bash}
   /usr/bin/bash
@@ -226,9 +236,11 @@ less:
   t /usr/bin/lessclose.sh
   c 0755 0 0 /usr/bin/lessclose.sh
 
+# XXX: usrmerge
 ntfs-3g:
   /
   s mount.ntfs-3g /sbin/mount.ntfs
+  s mount.ntfs-3g /usr/sbin/mount.ntfs
 
 pam:
   /
@@ -393,6 +405,7 @@ e touch etc/sysconfig/kernel
 e mv usr/bin/mount usr/bin/mount.bin
 x mount usr/bin
 
+# XXX: usrmerge
 x mount-rootfs-and-do-chroot.sh /bin
 
 # run getty on tty1
@@ -424,7 +437,6 @@ E echo "proc /proc proc defaults 0 0" >>/etc/fstab
 E echo "sysfs /sys sysfs noauto 0 0" >>/etc/fstab
 # E echo "usbfs /proc/bus/usb usbfs defaults 0 0" >>/etc/fstab
 E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
-# E /sbin/SuSEconfig --force --norestarts
 
 d usr/lib/microcode
 
