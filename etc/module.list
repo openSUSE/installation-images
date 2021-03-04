@@ -57,46 +57,79 @@ kernel/drivers/misc/ioc4.ko
 kernel/drivers/ssb/
 kernel/drivers/leds/led-class.ko
 kernel/drivers/mmc/core/
+
+kernel/fs/9p/
 kernel/fs/autofs4/
+kernel/fs/binfmt_misc.ko
+kernel/fs/btrfs/
+kernel/fs/cifs/
+kernel/fs/configfs/
 kernel/fs/cramfs/
+kernel/fs/dmapi/
+kernel/fs/efivarfs/
 kernel/fs/exfat/
+kernel/fs/exofs/libore.ko
+kernel/fs/exportfs/
 kernel/fs/ext2/
 kernel/fs/ext3/
 kernel/fs/ext4/
 kernel/fs/fat/
+kernel/fs/fscache/
 kernel/fs/fuse/
 kernel/fs/hfs/
 kernel/fs/hfsplus/
 kernel/fs/hpfs/
 kernel/fs/isofs/
-kernel/fs/udf/
 kernel/fs/jbd/
 kernel/fs/jbd2/
 kernel/fs/jfs/
-kernel/fs/ntfs/
-kernel/fs/reiserfs/
-kernel/fs/reiser4/
-kernel/fs/smbfs/
-kernel/fs/squashfs/
-kernel/fs/cifs/
-kernel/fs/vfat/
-kernel/fs/xfs/
-kernel/fs/dmapi/
-kernel/fs/exportfs/
+kernel/fs/lockd/
+kernel/fs/mbcache.ko
 kernel/fs/ncpfs/
-kernel/fs/nls/
-kernel/fs/binfmt_misc.ko
 kernel/fs/nfs/
 kernel/fs/nfs_common/
 kernel/fs/nfsd/
-kernel/fs/lockd/
-kernel/fs/mbcache.ko
-kernel/fs/configfs/
-kernel/fs/btrfs/
-kernel/fs/exofs/libore.ko
+kernel/fs/nls/
+kernel/fs/ntfs/
 kernel/fs/overlayfs/
+kernel/fs/reiser4/
+kernel/fs/reiserfs/
+kernel/fs/smbfs/
+kernel/fs/squashfs/
+kernel/fs/udf/
+kernel/fs/vboxsf/
+kernel/fs/vfat/
+kernel/fs/xfs/
+
+kernel/net/9p/
 kernel/net/sunrpc/sunrpc.ko
 kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
+kernel/net/packet/
+kernel/net/rfkill/rfkill.ko
+kernel/net/iucv/
+kernel/net/ipv6/ipv6.ko
+kernel/net/ipv4/gre.ko
+kernel/net/ieee80211/
+kernel/net/mac80211/mac80211.ko
+kernel/net/mac80211/rc80211_simple.ko
+kernel/net/wireless/
+kernel/net/wimax/
+kernel/net/ceph/
+kernel/net/802/tr.ko
+kernel/net/802/fddi.ko
+kernel/net/phonet/phonet.ko
+kernel/net/ieee802154/ieee802154.ko
+kernel/net/mac802154/
+kernel/net/dsa/dsa_core.ko
+kernel/net/ipv4/ip_tunnel.ko
+kernel/net/dns_resolver/dns_resolver.ko
+kernel/net/ipv4/inet_lro.ko
+kernel/net/8021q/
+kernel/net/802/garp.ko
+kernel/net/802/stp.ko
+kernel/net/802/mrp.ko
+kernel/net/llc/
+
 kernel/drivers/power/power_supply.ko
 kernel/drivers/firmware/
 kernel/drivers/acpi/
@@ -112,15 +145,12 @@ kernel/sound/core/snd.ko
 kernel/drivers/hwmon/hwmon.ko
 kernel/drivers/thermal/thermal_sys.ko
 
-
 # kernel pcmcia
 # see data/initrd/initrd_base.list
 /pcmcia/
 -kernel/drivers/char/pcmcia/synclink_cs.ko
 -/sound/pcmcia/
 
-kernel/net/packet/
-kernel/net/rfkill/rfkill.ko
 kernel/lib/
 kernel/arch/ia64/sn/kernel
 kernel/drivers/sn
@@ -128,9 +158,6 @@ extra/megaide.ko
 
 kernel/arch/s390/
 kernel/drivers/s390/
-kernel/net/iucv/
-kernel/net/ipv6/ipv6.ko
-kernel/net/ipv4/gre.ko
 
 kernel/crypto/
 kernel/arch/[^/]*/crypto/
@@ -153,12 +180,6 @@ kernel/drivers/xen/core/
 kernel/drivers/xen/xen-scsiback.ko
 kernel/drivers/video/fbdev/xen-fbfront.ko
 
-kernel/net/ieee80211/
-
-kernel/net/mac80211/mac80211.ko
-kernel/net/mac80211/rc80211_simple.ko
-kernel/net/wireless/
-
 kernel/drivers/bcma/
 
 kernel/drivers/rtc/
@@ -173,13 +194,8 @@ kernel/arch/powerpc/sysdev/bestcomm/bestcomm-fec.ko
 
 kernel/drivers/virtio/
 
-kernel/net/wimax/
-kernel/net/ceph/
 kernel/drivers/usb/wusbcore/
 kernel/drivers/uwb/
-kernel/fs/fscache/
-kernel/net/802/tr.ko
-kernel/net/802/fddi.ko
 
 kernel/drivers/misc/tifm_core.ko
 kernel/drivers/usb/misc/ftdi-elan.ko
@@ -189,7 +205,6 @@ kernel/drivers/mfd/pcf50633-core.ko
 kernel/drivers/connector/
 kernel/drivers/uio/uio.ko
 kernel/drivers/misc/cb710/
-kernel/net/phonet/phonet.ko
 kernel/drivers/mfd/ab3100-core.ko
 kernel/drivers/gpu/drm/
 # kernel/drivers/gpu/drm/drm.ko
@@ -208,28 +223,16 @@ kernel/drivers/staging/hv/
 kernel/drivers/staging/rtl.*
 
 kernel/drivers/usb/misc/ezusb.ko
-kernel/net/ieee802154/ieee802154.ko
-kernel/net/mac802154/
 kernel/drivers/media/rc/rc-core.ko
 kernel/sound/ac97_bus.ko
 kernel/drivers/target/target_core_mod.ko
-kernel/net/dsa/dsa_core.ko
-kernel/net/ipv4/ip_tunnel.ko
 
 kernel/drivers/leds/led-class.ko
-kernel/net/dns_resolver/dns_resolver.ko
 kernel/drivers/rapidio/rapidio.ko
 kernel/drivers/ntb/ntb.ko
 
-kernel/net/ipv4/inet_lro.ko
 kernel/drivers/target/iscsi/iscsi_target_mod.ko
 kernel/drivers/infiniband/
-
-kernel/net/8021q/
-kernel/net/802/garp.ko
-kernel/net/802/stp.ko
-kernel/net/802/mrp.ko
-kernel/net/llc/
 
 kernel/drivers/vhost/vringh.ko
 
@@ -249,12 +252,10 @@ kernel/drivers/mailbox/
 kernel/drivers/pinctrl/
 kernel/drivers/watchdog/
 
-kernel/fs/efivarfs/
 
 kernel/drivers/dma/bcm2835-dma.ko
 kernel/drivers/dma/tegra20-apb-dma.ko
 
-kernel/fs/vboxsf/
 kernel/drivers/virt/vboxguest/
 
 # RPi4
