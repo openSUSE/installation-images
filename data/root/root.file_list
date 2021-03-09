@@ -184,6 +184,7 @@ sed:
 sg3_utils:
 snapper:
 suse-module-tools:
+susepaste:
 ?syslinux:
 systemd-presets-branding-<systemd_theme>:
 systemd-sysvinit:

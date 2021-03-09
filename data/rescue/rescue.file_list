@@ -173,6 +173,7 @@ squashfs:
 star:
 strace:
 suse-module-tools:
+susepaste:
 sysconfig:
 sysconfig-netconfig:
 systemd-presets-branding-<systemd_theme>:

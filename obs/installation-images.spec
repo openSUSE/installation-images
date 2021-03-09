@@ -442,6 +442,7 @@ BuildRequires:  google-poppins-fonts
 BuildRequires:  samba
 BuildRequires:  snapper
 BuildRequires:  suse-module-tools
+BuildRequires:  susepaste
 BuildRequires:  systemd
 BuildRequires:  systemd-presets-branding
 BuildRequires:  sysvinit-tools
