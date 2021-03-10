@@ -1,12 +1,17 @@
 d dev etc mnt root tmp usr var proc
 c 1777 0 0 tmp
-d /usr/{bin,lib,lib64,libexec,sbin,share}
+d /usr/{bin,lib,libexec,sbin,share}
+if exists(filesystem, usr/lib64)
+d usr/lib64
+endif
 # filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
 if exists(compat-usrmerge-tools)
 s usr/bin /bin
 s usr/sbin /sbin
 s usr/lib /lib
+if exists(filesystem, usr/lib64)
 s usr/lib64 /lib64
+endif
 endif
 
 # add some /etc files
