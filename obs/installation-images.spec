@@ -17,6 +17,9 @@
 # needsrootforbuild
 # needsbinariesforbuild
 
+# This is for building a test iso for debugging. Note when building
+# locally with osc you need --nopreinstallimage --userootforbuild
+%bcond_with iso
 
 # The files from i-i are, in parts, extracted and published in the FTP Tree
 # Since they are all auto-generated files, so they keep on changing. Having the mtime
@@ -641,6 +644,13 @@ BuildRequires:  libstoragemgmt-smis-plugin
 # our images are not reproducible and it's taking time
 #!BuildIgnore:  build-compare
 
+%if %{with iso}
+BuildRequires:  createrepo_c
+BuildRequires:  mkisofs
+BuildRequires:  mksusecd
+BuildRequires:  skelcd-openSUSE
+%endif
+
 %if "@BUILD_FLAVOR@" == ""
 # This package is never built - but it helps the bots seeing that this package
 # is intentionally as messed up as it is
@@ -776,6 +786,10 @@ image=initrd-default kernel=kernel-default MOD_CFG=ppc64 make initrd+modules+gef
 image=initrd-default kernel=kernel-default MOD_CFG=ppc64le make initrd+modules+gefrickel THEMES=%theme
 %endif
 
+%if %{with iso}
+make THEMES=%theme iso
+%endif
+
 %install
 BUILD_DISTRIBUTION_NAME="%distribution"
 export BUILD_DISTRIBUTION_NAME
@@ -828,6 +842,10 @@ if [ -n "%{net_repo}" ] ; then
     rm -rf tmp_xxx
   fi
 fi
+
+%if %{with iso}
+install -D -m 644 images/cd1.iso %{_topdir}/ISO/cd1.iso
+%endif
 
 %post -n install-initrd-%{theme}
 /bin/ln -snf %theme /usr/lib/install-initrd/branding 2>/dev/null || true
