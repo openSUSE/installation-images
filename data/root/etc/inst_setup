@@ -209,8 +209,12 @@ create_zram_swap_disable_hook() {
 
   cat > $hook_dir/$script <<XXX
 #! /bin/sh -x
-swapoff $zram_swap_dev
-echo $zram_dev_index > /sys/class/zram-control/hot_remove
+
+# at least 2 swap devices
+if [ "\$(wc -l < /proc/swaps)" != 2 ] ; then
+  swapoff $zram_swap_dev
+  echo $zram_dev_index > /sys/class/zram-control/hot_remove
+fi
 XXX
   chmod +x $hook_dir/$script
 }
