@@ -155,6 +155,7 @@ ExclusiveArch:  do_not_build
 %define branding_gfxboot  openSUSE
 BuildRequires:  adobe-sourcesanspro-fonts
 BuildRequires:  openSUSE-release
+BuildRequires:  susepaste
 %if 0%{?is_opensuse} && !0%{?sle_version}
 BuildRequires:  distribution-logos-openSUSE-Tumbleweed
 %else
@@ -442,7 +443,6 @@ BuildRequires:  google-poppins-fonts
 BuildRequires:  samba
 BuildRequires:  snapper
 BuildRequires:  suse-module-tools
-BuildRequires:  susepaste
 BuildRequires:  systemd
 BuildRequires:  systemd-presets-branding
 BuildRequires:  sysvinit-tools
