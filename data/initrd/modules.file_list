@@ -5,7 +5,11 @@ s lib/modules/<kernel_ver>/initrd modules
 <kernel_rpm>:
 
   # temporary
-  L lib/firmware fw
+  if exists(compat-usrmerge-tools)
+    L usr/lib/firmware fw
+  else
+    L lib/firmware fw
+  endif
 
   /lib/modules/<kernel_ver>/modules.order
   e perl -pi -e "s#.*/#initrd/#" lib/modules/<kernel_ver>/modules.order
@@ -58,9 +62,11 @@ e /sbin/depmod -a -b . -F System.map <kernel_ver>
 r System.map
 
 # copy needed firmware files
-# XXX: usrmerge
-d usr/lib/firmware
-d lib/firmware
+if exists(compat-usrmerge-tools)
+  d usr/lib/firmware
+else
+  d lib/firmware
+endif
 e mlist3 <kernel_ver> fw || true
 
 # remove temp firmware dir
