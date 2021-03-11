@@ -74,6 +74,12 @@ if [ -d /mounts/initrd/update ] ; then
   done
 fi
 
+# ensure all base modules are loaded - they will not be available in the
+# rescue system (bsc#1183388)
+for i in $(cat /mounts/initrd/.base_modules) ; do
+  modprobe -q -d /mounts/initrd $i
+done
+
 # create NVMe config files
 mount -t proc proc /proc
 nvme gen-hostnqn > /etc/nvme/hostnqn
