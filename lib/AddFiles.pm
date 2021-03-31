@@ -71,6 +71,7 @@ sub fixup_re;
 sub replace_config_var;
 sub mount_proc_and_stuff;
 sub umount_proc_and_stuff;
+sub parse_alternatives;
 
 my $ignore;
 my $src_line;
@@ -309,8 +310,10 @@ sub AddFiles
           $packs->[-1]{all_scripts} = $_;
           my @scripts = split /,/;
           @{$packs->[-1]{scripts}}{@scripts} = ();
-        }
 
+          my $update_links = parse_alternatives "$rpm_dir/postin";
+          $packs->[-1]{alternatives} = $update_links if $update_links;
+        }
       }
       else {
         ($packs->[-1]{name} = $p) =~ s/^\?//;
@@ -480,6 +483,9 @@ sub add_pack
     $new_pack->{all_scripts} = ReadFile "$rpm_dir/scripts";
     my @scripts = split /,/, $new_pack->{all_scripts};
     @{$new_pack->{scripts}}{@scripts} = ();
+
+    my $update_links = parse_alternatives "$rpm_dir/postin";
+    $new_pack->{alternatives} = $update_links if $update_links;
 
     if(exists $pack->{tags}{requires}) {
       $_ = ReadFile "$rpm_dir/requires";
@@ -837,6 +843,20 @@ sub _add_pack
       die "$Script: unknown entry: \"$_\"\n";
     }
   }
+
+  if($pack->{alternatives}) {
+    print "-- update-alternative symlinks --\n";
+    for my $l (sort keys %{$pack->{alternatives}}) {
+      my $lt = $pack->{alternatives}{$l};
+      if(-e "$dir/$lt" ) {
+        print "  adding $l --> $lt\n";
+        SUSystem "ln -sf $lt $dir/$l" and warn "$Script: failed to symlink $lt to $l";
+      }
+      else {
+        print "  skipping $l --> $lt\n";
+      }
+    }
+  }
 }
 
 
@@ -1054,6 +1074,55 @@ sub umount_proc_and_stuff
   SUSystem("rmdir $dir/dev") if !$mount_proc_state->{$dir}{dev};
 
   delete $mount_proc_state->{$dir};
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Parse package postinstall script for update-alternative calls.
+#
+# Return hash with symlinks or undef if update-alternative was not used.
+#
+# parse_alternatives(file)
+#
+sub parse_alternatives
+{
+  my $file = $_[0];
+
+  my $update_links;
+  my $update_lines;
+
+  if(open my $f, $file) {
+    my $update_cont;
+    while(<$f>) {
+      chomp;
+      my $next_cont = s/\\$// ? 1 : 0;
+      if($update_cont) {
+        $update_lines->[-1] .= "$_";
+      }
+      elsif(/update-alternatives\s/) {
+        push @$update_lines, $_;
+      }
+      else {
+        next;
+      }
+      $update_cont = $next_cont;
+    }
+    close $f;
+  }
+
+  if($update_lines) {
+    for (@$update_lines) {
+      while(/--(?:install|slave)\s+(\S+)\s+(?:\S+)\s+(\S+)/g) {
+        my $l = $1;
+        my $lt = $2;
+        $l =~ s/^(["'])(.*)\1$/$2/;
+        $lt =~ s/^(["'])(.*)\1$/$2/;
+        $update_links->{$l} = $lt;
+      }
+    }
+  }
+
+  return $update_links;
 }
 
 1;
