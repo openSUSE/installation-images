@@ -74,7 +74,6 @@ update-alternatives: ignore
 device-mapper-32bit: ignore
 binutils: ignore
 
-# it's using update-alternatives
 # XXX: usrmerge
 bash:
   /bin/{sh,bash}
@@ -187,6 +186,7 @@ sysuser-shadow:
 tar:
 terminfo-base:
 usbutils:
+vim-small:
 vlan:
 wget:
 ?wicked:
@@ -197,10 +197,6 @@ xz:
 
 <release_theme>-release: nodeps
 
-vim-small:
-  /
-  # avoid update-alternatives
-  e cd usr/bin ; if [ -f vim-small ] ; then ln -snf vim-small vim ; ln -snf vim-small vi ;fi
 
 # we have full samba in rescue-server
 if filelist ne 'rescue-server'
