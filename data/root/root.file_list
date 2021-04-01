@@ -41,22 +41,6 @@ TEMPLATE binutils:
   r /usr/bin/ld
   s ld.bfd /usr/bin/ld
 
-TEMPLATE ruby.*-rubygem-suse-connect:
-  /
-  # avoid update-alternatives
-  e cd usr/bin ; ln -snf SUSEConnect* SUSEConnect
-
-TEMPLATE ruby.*-rubygem-nokogiri:
-  /
-  # avoid update-alternatives
-  e cd usr/bin ; find . -type l -name nokogiri\* -exec rm -f \{\} \; ; ln -snf nokogiri.ruby*-* nokogiri
-
-# fix the symlinks for the Ruby debugger if it is present
-TEMPLATE ruby.*-rubygem-byebug:
-  /
-  # avoid update-alternatives, remove the dangling symlinks and create a new one
-  e cd usr/bin ; find . -type l | grep byebug | xargs rm -rf ; ln -snf byebug.ruby* byebug
-
 # ruby maintainers can't really make up their minds on how to name their packages...
 TEMPLATE ruby.*-rubygem-yard: ignore
   # just a template that does nothing
@@ -212,9 +196,6 @@ python3-setuptools: ignore
 add_all skelcd-fallbackrepo-.*:
 
 python3-websockify:
-  /
-  # avoid update-alternatives
-  e cd usr/bin ; if [ -f websockify-3.* ] ; then ln -snf websockify-3.* websockify ; fi
 
 # normally python3-websockify would require python3-numpy but the
 # dependency is actually optional in the code - so avoid it to
@@ -222,9 +203,6 @@ python3-websockify:
 python3-numpy: ignore
 
 vim-small:
-  /
-  # avoid update-alternatives
-  e cd usr/bin ; if [ -f vim-small ] ; then ln -snf vim-small vim ; ln -snf vim-small vi ;fi
 
 <release_theme>-release: nodeps
 
@@ -246,7 +224,6 @@ gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
 
-# it's using update-alternatives
 # XXX: usrmerge
 bash:
   /bin/{sh,bash}
@@ -316,8 +293,6 @@ yast2:
 
 ruby:
   /
-  # avoid update-alternatives
-  r /etc/alternatives
   r /usr/bin/rake*
   r /usr/bin/{y2,}racc*
   r /usr/bin/rdoc*
@@ -465,10 +440,6 @@ endif
 
 if arch ne 's390' && arch ne 's390x'
   xorg-x11-server:
-    /
-    # avoid update-alternatives
-    e [ -f usr/<lib>/xorg/modules/extensions/xorg/xorg-libglx.so ] && ln -snf xorg/xorg-libglx.so usr/<lib>/xorg/modules/extensions/libglx.so ; true
-
   xrandr:
   ?xf86-input-evdev:
   ?xf86-input-libinput:
@@ -487,6 +458,7 @@ if arch ne 's390' && arch ne 's390x'
 
 endif
 
+iptables:
 mkfontscale:
 ?mkfontdir:
 setxkbmap:
@@ -561,7 +533,6 @@ libgbm*:
 
 icewm-lite:
   /usr/bin/icewm-lite
-  s /usr/bin/icewm-lite /usr/bin/icewm
 
 # don't include fonts - it prefers /usr/share/fonts/misc anyway
 fbiterm:
@@ -619,11 +590,6 @@ multipath-tools:
 graphviz-gnome: nodeps
   /usr/lib*/graphviz/libgvplugin_pango.so.*
 
-iptables:
-  /
-  # avoid update-alternatives
-  e cd usr/sbin ; if [ -f iptables-legacy ] ; then for i in iptables{,-restore,-save} ; do ln -snf iptables-legacy $i ; done ; fi
-  e cd usr/sbin ; if [ -f ip6tables-legacy ] ; then for i in ip6tables{,-restore,-save} ; do ln -snf ip6tables-legacy $i ; done ; fi
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

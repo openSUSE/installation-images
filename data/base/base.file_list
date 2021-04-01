@@ -66,12 +66,10 @@ TEMPLATE:
 
 AUTODEPS:
 
-# it's using update-alternatives
 # XXX: usrmerge
 bash:
   /bin/{sh,bash}
   /usr/bin/bash
-  s bash usr/bin/sh
 
 binutils: ignore
 ca-certificates-mozilla:

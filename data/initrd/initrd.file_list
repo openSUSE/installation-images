@@ -245,12 +245,10 @@ coreutils:
   # linuxrc needs it in /bin
   m /usr/bin/rm bin
 
-# it's using update-alternatives
 # XXX: usrmerge
 bash:
   /bin/{sh,bash}
   /usr/bin/bash
-  s bash usr/bin/sh
   s bash usr/bin/lsh
 
 ncurses-utils:
