@@ -54,7 +54,10 @@ fi
 
 # keep some initrd config files for rescue system
 cd /mounts/initrd
-for i in etc/modprobe.d/blacklist.conf etc/modprobe.d/noload.conf etc/resolv.conf etc/sysconfig/network/* root/.ssh ; do
+for i in \
+  etc/modprobe.d/blacklist.conf etc/modprobe.d/noload.conf etc/resolv.conf \
+  etc/sysconfig/network/* root/.ssh etc/nvme \
+  ; do
   [ -f "$i" ] && cp -f "$i" "/$i"
   [ -d "$i" ] && cp -fr --parents "$i" /
 done
@@ -79,12 +82,6 @@ fi
 for i in $(cat /mounts/initrd/.base_modules) ; do
   modprobe -q -d /mounts/initrd $i
 done
-
-# create NVMe config files
-mount -t proc proc /proc
-nvme gen-hostnqn > /etc/nvme/hostnqn
-cut -d : -f 3 /etc/nvme/hostnqn > /etc/nvme/hostid
-umount /proc
 
 if [ "$startshell" = 1 ] ; then
   mount -t proc proc /proc
