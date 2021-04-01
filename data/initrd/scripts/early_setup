@@ -56,7 +56,7 @@ fi
 
 # create NVMe config files
 if [ -x /usr/sbin/nvme ] ; then
-  /usr/sbin/nvme gen-hostnqn > /etc/nvme/hostnqn
+  { /usr/sbin/nvme-gen-hostnqn || /usr/sbin/nvme gen-hostnqn ; } > /etc/nvme/hostnqn
   cut -d : -f 3 /etc/nvme/hostnqn > /etc/nvme/hostid
 fi
 
