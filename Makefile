@@ -256,7 +256,7 @@ clean:
 	-@rm -rf /tmp/mk_initrd_* /tmp/mk_image_* 
 	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/cd1/gen package
 	-@rm -f gpg/trustdb.gpg gpg/random_seed
-	-@rm -f .build_id changelog
+	-@rm -f .build_id changelog VERSION
 	-@rm -rf test_results
 
 install: base
