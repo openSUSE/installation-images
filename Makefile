@@ -62,11 +62,8 @@ export ARCH THEMES DESTDIR INSTSYS_PARTS BOOT_PARTS WITH_FLOPPY BUILD_ID
 	boot-themes initrd-themes zenroot tftp install \
 	install-initrd mini-iso-rmlist debuginfo cd1 iso
 
-all: $(ALL_TARGETS) VERSION changelog
+all: $(ALL_TARGETS) VERSION
 	@rm images/*.log
-
-changelog: $(GITDEPS)
-	$(GIT2LOG) --changelog changelog
 
 version.h: VERSION
 	@echo "#define LXRC_VERSION \"`cut -d. -f1-2 VERSION`\"" >$@
@@ -244,11 +241,11 @@ add-xxx-key:
 debuginfo:
 	./install.debuginfo
 
-archive: changelog
+archive:
 	@if [ ! -d .git ] ; then echo no git repo ; false ; fi
 	mkdir -p package
 	git archive --prefix=$(PREFIX)/ $(BRANCH) > package/$(PREFIX).tar
-	tar -r -f package/$(PREFIX).tar --mode=0664 --owner=root --group=root --mtime="`git show -s --format=%ci`" --transform='s:^:$(PREFIX)/:' VERSION changelog
+	tar -r -f package/$(PREFIX).tar --mode=0664 --owner=root --group=root --mtime="`git show -s --format=%ci`" --transform='s:^:$(PREFIX)/:' VERSION
 	xz -f package/$(PREFIX).tar
 
 clean:
@@ -259,7 +256,7 @@ clean:
 	-@rm -rf /tmp/mk_initrd_* /tmp/mk_image_* 
 	-@rm -rf data/initrd/gen data/boot/gen data/base/gen data/cd1/gen package
 	-@rm -f gpg/trustdb.gpg gpg/random_seed
-	-@rm -f .build_id
+	-@rm -f .build_id changelog VERSION
 	-@rm -rf test_results
 
 install: base
