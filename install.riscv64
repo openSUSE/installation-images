@@ -1,0 +1,38 @@
+#! /bin/sh
+
+# gets ARCH, THEMES, DESTDIR, INSTSYS_PARTS, BOOT_PARTS, WITH_FLOPPY via env
+
+set -e
+
+# create directory layout
+mkdir -p $DESTDIR/CD1/boot/$ARCH
+for theme in $THEMES ; do
+  mkdir -p $DESTDIR/branding/$theme/CD1/boot/$ARCH
+done
+
+# copy branding independent parts
+for i in $INSTSYS_PARTS $BOOT_PARTS ; do
+  [ -e images/$i ] && cp -r images/$i $DESTDIR/CD1/boot/$ARCH
+done
+
+# copy branding dependent parts
+for theme in $THEMES ; do
+  for i in $INSTSYS_PARTS $BOOT_PARTS ; do
+    [ -e images/$theme/$i ] && cp -r images/$theme/$i $DESTDIR/branding/$theme/CD1/boot/$ARCH
+  done
+
+  if [ -d images/$theme/EFI ] ; then
+    cp -r images/$theme/EFI/EFI $DESTDIR/branding/$theme/CD1
+  fi
+done
+
+mkdir -p $DESTDIR/usr/share
+cp images/mini-iso-rmlist $DESTDIR/usr/share
+
+if [ -d images/tftp ] ; then
+  dst=$DESTDIR/usr/share/tftpboot-installation
+  mkdir -p $dst
+  cp -a images/tftp/* $dst
+  cp -a $DESTDIR/CD1/* $dst/*
+  cp -a $DESTDIR/branding/$THEMES/CD1/* $dst/*
+fi

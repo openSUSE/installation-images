@@ -88,6 +88,7 @@ bash:
 ?grub2-arm64-efi:
 ?grub2-arm-efi:
 ?grub2-powerpc-ieee1275:
+?grub2-riscv64-efi:
 ?grub2:
 ?hyper-v:
 ?iprutils:
