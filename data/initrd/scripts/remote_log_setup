@@ -1,8 +1,14 @@
 #! /bin/bash
 #USAGE: requires the LOGHOST variable to be set
 
+[ -n "$LOGHOST" ] || exit 0
+
+if [[ ! "$LOGHOST" =~ :[0-9]+$ ]]; then
+	LOGHOST="$LOGHOST:514"
+fi
+
 #set loghost
-echo "*.*@${LOGHOST}:514" > /etc/rsyslog.d/loghost.conf
+echo "*.*@${LOGHOST}" > /etc/rsyslog.d/loghost.conf
 
 echo -n "starting rsyslogd (logging to /var/log/messages)..."
 if /usr/sbin/rsyslogd ; then
