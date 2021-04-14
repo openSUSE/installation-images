@@ -285,7 +285,7 @@ BuildRequires:  plymouth-branding-%branding_plymouth
 %ifarch %ix86 x86_64
 BuildRequires:  gfxboot-branding-%branding_gfxboot
 %endif
-%ifarch %ix86 x86_64 aarch64 riscv64
+%ifarch %ix86 x86_64 aarch64 %{arm} riscv64
 BuildRequires:  grub2-branding-%branding_grub2
 %endif
 
@@ -622,7 +622,7 @@ BuildRequires:  s390-tools-hmcdrvfs
 %ifarch %ix86 x86_64
 BuildRequires:  gfxboot-branding
 %endif
-%ifarch %ix86 x86_64 aarch64 riscv64
+%ifarch %ix86 x86_64 aarch64 %{arm} riscv64
 BuildRequires:  grub2-branding
 %endif
 %ifnarch s390 s390x
