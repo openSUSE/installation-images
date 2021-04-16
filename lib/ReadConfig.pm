@@ -463,13 +463,26 @@ sub ReadRPM
     SUSystem "find $tdir -type d -exec chmod a+rx '{}' \\;";
 
     my $kv;
+    my $kmd;
 
-    $kv = <$tdir/lib/modules/*>;
+    for my $p ('', '/usr') {
+      if (-d "$tdir$p/lib/modules") {
+        $kmd = "$p/lib/modules";
+        last;
+      }
+    }
+
+    if (!$kmd) {
+      die "couldn't find module dir in $tdir\n";
+    }
+
+    $kv = <$tdir$kmd/*>;
 
     if(-d $kv) {
       $kv =~ s#.*/##;
+      print "writing $kv $kmd to $dir/kernel\n";
       open $f, ">$dir/kernel";
-      print $f $kv;
+      print $f "$kv $kmd";
       close $f;
     }
     else {
@@ -497,11 +510,11 @@ sub ReadRPM
     SUSystem "find $tdir -type d -exec chmod a+rx '{}' \\;";
 
     # if kmp version differs, copy files to real kernel tree
-    for (<$tdir/lib/modules/*>) {
+    for (<$tdir$kmd/*>) {
       s#.*/##;
       next if $_ eq $kv;
       print "warning: kmp/firmware version mismatch: $_\n";
-      SUSystem "sh -c 'tar -C $tdir/lib/modules/$_ -cf - . | tar -C $tdir/lib/modules/$kv -xf -'";
+      SUSystem "sh -c 'tar -C $tdir$kmd/$_ -cf - . | tar -C $tdir$kmd/$kv -xf -'";
     }
   }
 
@@ -550,9 +563,13 @@ sub KernelImg
   chomp @$k_files;
 
   for (@$k_files) {
-    s#.*/boot/##;
+    next unless s#.*/boot/##;
     next if /autoconf|config|shipped|version/;		# skip obvious garbage
-    push @k_images, $_ if m#^$ConfigData{kernel_img}#;
+    my ($f, $l) = split(/ /);
+    if($f =~ m#^$ConfigData{kernel_img}#) {
+      $l =~ s#.*/## if ($l);
+      push @k_images, $l?$l:$f;
+    }
   }
 
   return @k_images;
@@ -1216,7 +1233,8 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   my $k_dir = ReadRPM $ConfigData{kernel_rpm};
   if($k_dir) {
-    my @k_images = KernelImg [ `find $k_dir/rpm/boot -type f` ];
+    my $fn = RealRPM($ConfigData{kernel_rpm})->{file};
+    my @k_images = KernelImg [ `rpm --nosignature -q $fn --qf '[%{FILENAMES} %{FILELINKTOS}\n]' 2>/dev/null` ];
 
     if(!@k_images) {
       die "Error: No kernel image identified! (Looking for \"$ConfigData{kernel_img}\".)\n\n";
@@ -1227,11 +1245,13 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     }
 
     $ConfigData{kernel_img} = $k_images[0];
-    $ConfigData{kernel_ver} = ReadFile "$k_dir/kernel";
+    ($ConfigData{kernel_ver}, $ConfigData{kernel_module_dir}) = split(' ', ReadFile "$k_dir/kernel");
+    print "kernel_ver: $ConfigData{kernel_ver}\n";
+    print "kernel_module_dir: $ConfigData{kernel_module_dir}\n";
 
-    my $mod_type = `find $k_dir/rpm/lib/modules/*/kernel/ -type f -name '*.ko*' -print -quit`;
+    my $mod_type = `find $k_dir/rpm$ConfigData{kernel_module_dir}/*/kernel/ -type f -name '*.ko*' -print -quit`;
     if (!$mod_type) {
-      die "Error: No kernel module found! (Looking for '*.ko*' in '$k_dir/rpm/lib/modules/*/kernel/')\n\n";
+      die "Error: No kernel module found! (Looking for '*.ko*' in '$k_dir/rpm$ConfigData{kernel_module_dir}/*/kernel/')\n\n";
     }
     chomp $mod_type;
     $mod_type =~ /\.(ko(?:\.xz)?)$/;
