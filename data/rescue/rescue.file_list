@@ -435,6 +435,10 @@ e echo console >>etc/securetty
 # enable sysrq
 e perl -pi -e '\''s/^(ENABLE_SYSRQ=).*/$1"yes"/'\'' etc/sysconfig/sysctl
 
+# setup multipath config
+x etc/multipath.conf /etc
+E systemctl enable multipathd
+
 e ldconfig -r .
 
 # now run SuSEconfig
