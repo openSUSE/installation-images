@@ -43,6 +43,7 @@ ExclusiveArch:  do_not_build
 %define with_reiserfs_kmp 0
 %define with_ssl_hmac 1
 %define with_exfat 0
+%define with_kernel_extra 0
 %bcond_without sbl
 %bcond_without vnc
 %bcond_with xen
@@ -64,6 +65,7 @@ ExclusiveArch:  do_not_build
 %if 0%{?is_opensuse}
 %define theme openSUSE
 %if 0%{?sle_version}
+%define with_kernel_extra 1
 # define the_version %(echo %sle_version | sed -Ee 's/^([0-9][0-9])(0|([0-9]))([0-9]).*/\\1.\\3\\4/')
 %define the_version \\$releasever
 %if "%{the_version}" == ""
@@ -385,6 +387,9 @@ BuildRequires:  jfsutils
 BuildRequires:  joe
 BuildRequires:  kbd
 BuildRequires:  kernel-default
+%if %with_kernel_extra
+BuildRequires:  kernel-default-extra
+%endif
 BuildRequires:  kernel-firmware
 BuildRequires:  kexec-tools
 BuildRequires:  khmeros-fonts
