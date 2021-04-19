@@ -73,7 +73,6 @@ mkdir -p "b/$lib_dir"
 # lp64d is needed for riscv64
 for i in $lib_dir/lib* $lib_dir/.lib* $lib_dir/lp64d; do
   case $i in *librpm*) continue ;; esac
-  test -e $i || continue
   mv $i b/$lib_dir
 done
 # need to keep the linker in usrmerge case
