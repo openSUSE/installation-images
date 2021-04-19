@@ -696,6 +696,11 @@ endif
 r /etc/mtab
 s /proc/self/mounts /etc/mtab
 
+# override allow_unsupported_modules to allow loading all modules
+# this is needed in case kernel-default-{extra,optional} were used
+# see bsc#1184413, bsc#1183140
+x etc/99-unsupported-modules.conf /etc/modprobe.d
+
 # our own rules file which loads only pnp subsystem mods
 x etc/80-drivers.rules /usr/lib/udev/80-drivers.rules.no_modprobe
 
