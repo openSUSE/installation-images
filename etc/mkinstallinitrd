@@ -116,9 +116,11 @@ for (@mod_files) {
   system "cd $kernel_dir/ ; cp -a '$_' $tmp_dir/i/lib/modules/$override/initrd";
 }
 
-die "no kernel symbols\n" unless -f "$kernel_dir/boot/System.map-$opt_kernel-$opt_kernel_style";
+my $system_map = "$kernel_dir/lib/modules/System.map-$opt_kernel-$opt_kernel_style";
+$system_map = "$kernel_dir/boot/System.map-$opt_kernel-$opt_kernel_style" unless -f $system_map;
+die "no kernel symbols\n" unless -f $system_map;
 
-system "depmod -a -b $tmp_dir/i -F $kernel_dir/boot/System.map-$opt_kernel-$opt_kernel_style $opt_kernel-$opt_kernel_style";
+system "depmod -a -b $tmp_dir/i -F $system_map $opt_kernel-$opt_kernel_style";
 
 system "cp $lib_dir/$opt_style/module.config $tmp_dir/i/modules";
 

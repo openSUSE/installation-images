@@ -534,9 +534,13 @@ sub KernelImg
   chomp @$k_files;
 
   for (@$k_files) {
-    s#.*/boot/##;
+    next unless s#.*/boot/##;
     next if /autoconf|config|shipped|version/;		# skip obvious garbage
-    push @k_images, $_ if m#^$ConfigData{kernel_img}#;
+    my ($f, $l) = split(/ /);
+    if($f =~ m#^$ConfigData{kernel_img}#) {
+      $l =~ s#.*/## if ($l);
+      push @k_images, $l?$l:$f;
+    }
   }
 
   return @k_images;
@@ -1306,7 +1310,8 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   my $k_dir = ReadRPM $ConfigData{kernel_rpm};
   if($k_dir) {
-    my @k_images = KernelImg [ `find $k_dir/rpm/boot -type f` ];
+    my $fn = RealRPM($ConfigData{kernel_rpm})->{file};
+    my @k_images = KernelImg [ `rpm --nosignature -q $fn --qf '[%{FILENAMES} %{FILELINKTOS}\n]' 2>/dev/null` ];
 
     if(!@k_images) {
       die "Error: No kernel image identified! (Looking for \"$ConfigData{kernel_img}\".)\n\n";
