@@ -389,6 +389,7 @@ BuildRequires:  kbd
 BuildRequires:  kernel-default
 %if %with_kernel_extra
 BuildRequires:  kernel-default-extra
+BuildRequires:  kernel-default-optional
 %endif
 BuildRequires:  kernel-firmware
 BuildRequires:  kexec-tools
