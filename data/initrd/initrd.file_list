@@ -704,6 +704,9 @@ x etc/99-unsupported-modules.conf /etc/modprobe.d
 # our own rules file which loads only pnp subsystem mods
 x etc/80-drivers.rules /usr/lib/udev/80-drivers.rules.no_modprobe
 
+# udev rules for NVMf autoconnect in the installation system (bsc#1184908)
+x etc/90-nvmf-discovery.rules /usr/lib/udev/rules.d
+
 # don't let udev lock the DVD tray
 R s/--lock-media/--unlock-media/g usr/lib/udev/rules.d/60-cdrom_id.rules
 
