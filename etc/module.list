@@ -251,7 +251,7 @@ kernel/drivers/pci/controller/
 kernel/drivers/mailbox/
 kernel/drivers/pinctrl/
 kernel/drivers/watchdog/
-
+kernel/drivers/usb/typec/
 
 kernel/drivers/dma/bcm2835-dma.ko
 kernel/drivers/dma/tegra20-apb-dma.ko
