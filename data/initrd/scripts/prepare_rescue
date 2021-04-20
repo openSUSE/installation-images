@@ -55,7 +55,7 @@ fi
 # keep some initrd config files for rescue system
 cd /mounts/initrd
 for i in \
-  etc/modprobe.d/blacklist.conf etc/modprobe.d/noload.conf etc/resolv.conf \
+  etc/modprobe.d/{blacklist,noload,99-unsupported-modules}.conf etc/resolv.conf \
   etc/sysconfig/network/* root/.ssh etc/nvme \
   ; do
   [ -f "$i" ] && cp -f "$i" "/$i"
