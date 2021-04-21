@@ -93,14 +93,12 @@ ExclusiveArch:  do_not_build
 %endif
 
 %if "%flavor" == "SMO"
+%if 0%{?is_smo}
 # build for both Leap and SLE
 %if 0%{?sle_version}
 %ifnarch %ix86
 %define theme SMO
 %endif
-# SMO is built based on 15-SP2, which does not include shim for aarch64
-%ifarch aarch64
-%define with_shim 0
 %endif
 %endif
 %endif
