@@ -37,6 +37,16 @@ done
 rm -rf /var/run
 ln -s ../run /var/run
 
+lib=/lib
+if [ -L "$lib" ]; then
+  lib=/usr/$lib
+else
+  mkdir -p "$lib"
+fi
+for i in modules firmware; do
+  ln -sf /parts/mp_0000$lib/$i $lib/$i
+done
+
 if [ -f /mounts/initrd/etc/suse-blinux.conf ] ; then
   grep -q '^brlname=none' /mounts/initrd/etc/suse-blinux.conf || {
     cp /mounts/initrd/etc/suse-blinux.conf /etc
