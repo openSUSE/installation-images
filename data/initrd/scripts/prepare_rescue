@@ -33,6 +33,10 @@ for i in /etc/systemd/* /etc/systemd/*/* ; do
   fi
 done
 
+# /var/run needs to be a link
+rm -rf /var/run
+ln -s ../run /var/run
+
 if [ -f /mounts/initrd/etc/suse-blinux.conf ] ; then
   grep -q '^brlname=none' /mounts/initrd/etc/suse-blinux.conf || {
     cp /mounts/initrd/etc/suse-blinux.conf /etc
