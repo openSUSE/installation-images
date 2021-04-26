@@ -2,7 +2,6 @@ TEMPLATE:
   /
 
 libstoragemgmt:
-libstoragemgmt-netapp-plugin:
 libstoragemgmt-smis-plugin:
 
 AUTODEPS:
