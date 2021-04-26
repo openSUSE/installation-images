@@ -4,8 +4,8 @@ s lib/modules/<kernel_ver>/initrd modules
 
 <kernel_rpm>:
 
-  # temporary
-  if exists(compat-usrmerge-tools)
+  # temporary: usrmerge
+  if exists(filesystem, /lib, l)
     L usr/lib/firmware fw
   else
     L lib/firmware fw
@@ -61,8 +61,8 @@ L boot/System.map* System.map
 e /sbin/depmod -a -b . -F System.map <kernel_ver>
 r System.map
 
-# copy needed firmware files
-if exists(compat-usrmerge-tools)
+# usrmerge: copy needed firmware files
+if exists(filesystem, /lib, l)
   d usr/lib/firmware
 else
   d lib/firmware
