@@ -5,8 +5,8 @@ d dev etc home mnt proc sys tmp root usr/{bin,sbin,lib}
 if exists(filesystem, usr/lib64)
 d usr/lib64
 endif
-# filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
-if exists(compat-usrmerge-tools)
+# filesystem has /lib link in usrmerged case
+if exists(filesystem, /lib, l)
 s usr/bin /bin
 s usr/sbin /sbin
 s usr/lib /lib
