@@ -79,7 +79,8 @@ variables don't have a starting `'$'` and are implicitly environment
 variables. The only exceptions to this are `abuild` and `arch`.
 
 Also, you can use `exists(PACKAGE)` to test for a specific package or
-`exists(PACKAGE, FILE)` to test for a file in a package.
+`exists(PACKAGE, FILE)` to test for a file in a package or
+`exists(PACKAGE, FILE, TYPE)` to test for a file of a specific type.
 
 Note that the test for `FILE` is made in the unpacked rpm stored in the
 internal cache. So unless it's an absolute path you can walk out of the root
@@ -105,6 +106,11 @@ endif
 
 # only if package foo has a file /usr/bin/bar
 if exists(foo, usr/bin/bar)
+# ...
+endif
+
+# only if package foo has a link /usr/bin/bar
+if exists(foo, usr/bin/bar, l)
 # ...
 endif
 

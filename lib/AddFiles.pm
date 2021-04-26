@@ -942,13 +942,16 @@ sub find_missing_packs
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Check if an rpm contains a file.
 #
-# rpm_has_file(rpm, file)
+# rpm_has_file(rpm, file, type)
 #
 # If file is missing, verifies only existence of rpm.
+# If type is specified, types must match.
+#
+# type is perl's -X operator (without the '-').
 #
 sub rpm_has_file
 {
-  my ($rpm, $file) = @_;
+  my ($rpm, $file, $type) = @_;
 
   return 0 if !RealRPM $rpm;
 
@@ -958,7 +961,9 @@ sub rpm_has_file
 
   return 0 if !$rpm_dir;
 
-  return -e "$rpm_dir/rpm/$file";
+  $type = 'e' if !$type;
+
+  return eval "-$type \"$rpm_dir/rpm/$file\"";
 }
 
 
@@ -982,8 +987,7 @@ sub fixup_re
     substr($re, length($2), length($3)) = $val;
   }
 
-  $re =~ s/\bexists\(([^),]+),\s*([^)]*)\)/rpm_has_file($1, $2) ? 1 : 0/eg;
-  $re =~ s/\bexists\(([^)]*)\)/rpm_has_file($1) ? 1 : 0/eg;
+  $re =~ s/\bexists\(([^),]+)(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/rpm_has_file($1, $2, $3) ? 1 : 0/eg;
 
   return $re;
 }
