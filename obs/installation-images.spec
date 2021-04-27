@@ -650,7 +650,6 @@ BuildRequires:  grub2-arm-efi
 BuildRequires:  grub2-riscv64-efi
 %endif
 # inst-sys module for libstoragemgmt
-BuildRequires:  libstoragemgmt-netapp-plugin
 BuildRequires:  libstoragemgmt-smis-plugin
 # our images are not reproducible and it's taking time
 #!BuildIgnore:  build-compare
