@@ -38,6 +38,9 @@ fi
 /usr/bin/udevadm trigger --type=subsystems --action=add
 /usr/bin/udevadm trigger --type=devices --action=add
 
+# add fc nvme devices (bsc#1184908)
+echo add > /sys/class/fc/fc_udev_device/nvme_discovery
+
 # 10 min - just long enough
 /usr/bin/udevadm settle --timeout=100
 
