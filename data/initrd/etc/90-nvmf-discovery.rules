@@ -1,6 +1,3 @@
-ACTION=="add", SUBSYSTEM=="fc", DEVPATH=="/devices/virtual/fc/fc_udev_device", \
-      RUN+="/bin/sh -c 'echo add > /sys/class/fc/fc_udev_device/nvme_discovery'"
-
 ACTION=="change", SUBSYSTEM=="fc", ENV{FC_EVENT}=="nvmediscovery", \
       ENV{NVMEFC_HOST_TRADDR}=="*", ENV{NVMEFC_TRADDR}=="*", \
       RUN+="/usr/sbin/nvme connect-all --transport=fc --host-traddr=$env{NVMEFC_HOST_TRADDR} --traddr=$env{NVMEFC_TRADDR}"
