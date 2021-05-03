@@ -861,6 +861,18 @@ sub _add_pack
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+=head2 find_missing_packs(\@packs)
+
+A @packs entry is a hash ref $p from which we ask:
+- $p->{name}
+- $p->{tags}{ignore}
+- $p->{tags}{nodeps}
+
+Return: autodeps hash ref:
+  string package_name -> string "package_name < required_by < required_by"
+
+=cut
+
 sub find_missing_packs
 {
   my $packs = shift;
@@ -891,7 +903,7 @@ sub find_missing_packs
       close $f;
     }
     else {
-      die "$old->{dir}.romlog: $old package list missing";
+      die "$old->{dir}.rpmlog: $old package list missing";
     }
     if(open my $f, "$old->{dir}.solv") {
       while(<$f>) {

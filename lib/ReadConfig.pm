@@ -214,6 +214,21 @@ sub DebugInfo
 }
 
 
+=head2 ResolveDeps(\@packages, \@ignore, \%old)
+
+@packages strings, package names to include, with their dependencies
+
+@ignore strings, package names to ignore, with their dependencies
+
+%old
+
+Return: autodeps hash ref:
+  string package_name -> string "package_name < required_by < required_by"
+
+Also print out the return value, and the package count
+
+=cut
+
 sub ResolveDeps
 {
   local $_;
@@ -723,6 +738,14 @@ sub resolve_deps_obs
 }
 
 
+=head2 resolve_deps_libsolv(\@packages, \@ignore)
+
+Return hash ref:
+- keys: string package name,
+- values: string which (one) package required the key
+
+=cut
+
 sub resolve_deps_libsolv
 {
   local $_;
@@ -840,6 +863,17 @@ sub resolve_deps_libsolv
   return \%p;
 }
 
+=head2 show_package_deps($package_name, \%deps)
+
+$package_name string
+
+%deps keys: string package name,
+      values: string which (one) package required the key
+
+return string dependency chain, starting with $package_name, for example
+"augeas < ruby2.7-rubygem-ruby-augeas < ruby2.7-rubygem-cfa < yast2"
+
+=cut
 
 sub show_package_deps
 {  
