@@ -26,6 +26,12 @@ if [ -n "$linuxrc_no_auto_assembly" ] ; then
   echo 'ENV{ANACONDA}="yes"' > /run/udev/rules.d/00-inhibit.rules
 fi
 
+# create NVMe config files before udevd is started (bsc#1184908)
+if [ ! -f /etc/nvme/hostnqn -a -x /usr/sbin/nvme ] ; then
+  { /usr/sbin/nvme-gen-hostnqn || /usr/sbin/nvme gen-hostnqn ; } > /etc/nvme/hostnqn
+  cut -d : -f 3 /etc/nvme/hostnqn > /etc/nvme/hostid
+fi
+
 # start udevd
 echo -n "Starting udevd "
 if [ -n "$linuxrc_debug" ] ; then
@@ -37,6 +43,9 @@ fi
 # create devices (cf. bsc#1084357)
 /usr/bin/udevadm trigger --type=subsystems --action=add
 /usr/bin/udevadm trigger --type=devices --action=add
+
+# add fc nvme devices (bsc#1184908)
+echo add > /sys/class/fc/fc_udev_device/nvme_discovery
 
 # 10 min - just long enough
 /usr/bin/udevadm settle --timeout=100
