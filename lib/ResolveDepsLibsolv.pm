@@ -9,7 +9,7 @@ use vars qw ( $Script );
 
 eval "use solv";
 
-=head2 resolve_deps_libsolv(\@packages, \@ignore)
+=head2 resolve_deps_libsolv(\@packages, \@ignore, $solv_filename)
 
 Return hash ref:
 - keys: string package name,
@@ -22,6 +22,7 @@ sub resolve_deps_libsolv
   local $_;
   my $packages = shift;
   my $ignore = shift;
+  my $solv_filename = shift;
 
   my $ignore_file_deps = $ENV{debug} =~ /filedeps/ ? 0 : 1;
 
@@ -29,12 +30,12 @@ sub resolve_deps_libsolv
 
   my $pool = solv::Pool->new();
   my $repo = $pool->add_repo("instsys");
-  $repo->add_solv("/tmp/instsys.solv") or die "/tmp/instsys.solv: no solv file";
+  $repo->add_solv($solv_filename) or die "$solv_filename: no solv file";
   $pool->addfileprovides();
   $pool->createwhatprovides();
   $pool->set_debuglevel(4) if $ENV{debug} =~ /solv/;
 
-  my $jobs;
+  my $jobs = [];
   for (@$packages) {
     push @$jobs, $pool->Job($solv::Job::SOLVER_INSTALL | $solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
   }

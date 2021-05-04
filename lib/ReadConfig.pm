@@ -243,7 +243,7 @@ sub ResolveDeps
   }
   else {
     die "oops, no libsolv" unless $ConfigData{libsolv_ok};
-    $p1 = resolve_deps_libsolv $packages, $ignore;
+    $p1 = resolve_deps_libsolv $packages, $ignore, "/tmp/instsys.solv";
   }
 
   my $p2;
