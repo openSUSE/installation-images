@@ -339,6 +339,7 @@ BuildRequires:  curl
 BuildRequires:  dash
 BuildRequires:  dbus-1-x11
 BuildRequires:  dd_rescue
+BuildRequires:  debuginfod-client
 BuildRequires:  dejavu-fonts
 BuildRequires:  dhcp-server
 BuildRequires:  dmraid
