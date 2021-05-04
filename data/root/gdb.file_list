@@ -3,6 +3,8 @@ TEMPLATE:
 
 gdb:
 ?valgrind: nodeps
+# helps valgrind download debuginfos
+?debuginfod-client:
 yast2-buildtools: ignore
 
 AUTODEPS:

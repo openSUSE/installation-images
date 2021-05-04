@@ -423,6 +423,6 @@ somewhere.
 AUTODEPS:
 ```
 
-If you don't specify any actions in AUTODEPS, templates are appied to
+If you don't specify any actions in AUTODEPS, templates are applied to
 each individual package.
 
