@@ -633,16 +633,13 @@ endif
 
 ?openssh-fips:
 
-if exists(openssh-server)
-  openssh:
-  openssh-server:
-else
-  openssh:
-endif
-    /
-    t /etc/sysconfig/ssh
-    # enable root login bsc#1118114
-    R s/^\s*#\s*(PermitRootLogin)\b.*/$1 yes/ /etc/ssh/sshd_config
+openssh:
+openssh-server:
+  /
+  E prein
+  E postin
+  # enable root login bsc#1118114
+  e echo "PermitRootLogin yes" > etc/ssh/sshd_config.d/10_root_login.conf
 
 fonts-config:
   /
