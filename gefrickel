@@ -78,6 +78,12 @@ done
 # need to keep the linker in usrmerge case
 if [ -n "$pfx" ]; then
   mv $lib_dir/ld-* b/$lib_dir || :
+  # If ^ moved from lib64, move from lib as well.
+  # aarch64 has lib64, but yet uses /lib/ld-linux-aarch64.so.1.
+  if [ -d ${pfx}lib64 ] && stat ${pfx}lib/ld-* >/dev/null 2>&1; then
+    mkdir -p b/${pfx}lib
+    mv ${pfx}lib/ld-* b/${pfx}lib || :
+  fi
 fi
 
 # empty usr/sbin is needed to avoid bsc#1169094 (cross-filesystem relative
