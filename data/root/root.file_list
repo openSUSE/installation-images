@@ -346,6 +346,8 @@ yast2-installation:
   # hack to make 'repair' option work
   # p repair.diff
 
+yast2-widget-demo:
+
 if arch eq 'ppc' || arch eq 'ppc64'
   # XXX: usrmerge
   pdisk:

@@ -530,6 +530,7 @@ BuildRequires:  xz
 BuildRequires:  yast2-devtools
 BuildRequires:  yast2-schema
 BuildRequires:  yast2-trans-allpacks
+BuildRequires:  yast2-widget-demo
 %if 0%{?with_storage_ng}
 BuildRequires:  libstorage-ng-lang
 BuildRequires:  yast2-storage-ng
