@@ -1,2 +1,6 @@
 <kernel_rpm>:
-  m /boot/<kernel_img> /linux
+  if exists(<kernel_rpm>, /boot/<kernel_img>)
+    m /boot/<kernel_img> /linux
+  else
+    m /usr/lib/modules/<kernel_ver>/<kernel_img> /linux
+  endif

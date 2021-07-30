@@ -1,8 +1,13 @@
 <kernel_rpm>:
 
   # generate modules.alias, modules.dep
-  L lib .
-  L boot/System.map* System.map
+  if exists(<kernel_rpm>, <kernel_module_dir>/<kernel_ver>/System.map)
+    L <kernel_module_dir>/<kernel_ver>/System.map System.map
+    L usr/lib .
+  else
+    L lib .
+    L boot/System.map* System.map
+  endif
   e /sbin/depmod -a -b . -F System.map <kernel_ver>
   e cp lib/modules/<kernel_ver>/modules.dep .
   e find lib/modules/<kernel_ver> -name '*.ko' -o -name '*.ko.xz' | xargs modinfo >modules.info
