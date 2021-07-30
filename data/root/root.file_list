@@ -540,8 +540,15 @@ icewm-lite:
 fbiterm:
   /usr/bin/fbiterm
 
-?adobe-sourcesanspro-fonts:
-  /usr/share/fonts/truetype/SourceSansPro-{Regular,Light,Semibold}.otf
+if exists(adobe-sourcesanspro-fonts,/usr/share/fonts/truetype/SourceSansPro-Regular.otf)
+  adobe-sourcesanspro-fonts:
+    /usr/share/fonts/truetype/SourceSansPro-{Regular,Light,Semibold}.otf
+endif
+
+if exists(adobe-sourcesanspro-fonts,/usr/share/fonts/truetype/SourceSans3-Regular.otf)
+  adobe-sourcesanspro-fonts:
+    /usr/share/fonts/truetype/SourceSans3-{Regular,Light,Semibold}.otf
+endif
 
 dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
