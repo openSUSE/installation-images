@@ -14,7 +14,7 @@ repository = standard
 ; *** These are actually perl regexps! ***
 ;
 [KernelImage]
-default	= vmlinuz-
+default	= vmlinuz
 alpha	= vmlinuz
 ppc	= vmlinux
 ppc64	= vmlinux
