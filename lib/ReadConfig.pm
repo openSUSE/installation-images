@@ -566,7 +566,9 @@ sub KernelImg
     next unless s#.*/boot/##;
     next if /autoconf|config|shipped|version/;		# skip obvious garbage
     my ($f, $l) = split(/ /);
-    if($f =~ m#^$ConfigData{kernel_img}#) {
+    # Explicitly require the kernel file to have a version number attached
+    # with a '-', like NAME-VERSION-VARIANT.
+    if($f =~ m#^$ConfigData{kernel_img}\-#) {
       $l =~ s#.*/## if ($l);
       push @k_images, $l?$l:$f;
     }
