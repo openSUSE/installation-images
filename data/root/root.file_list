@@ -59,6 +59,12 @@ TEMPLATE libiterm.*:
   /
   s ../s/screen usr/share/terminfo/i/iterm
 
+# ensure /usr/share/pci.ids exists
+TEMPLATE hwdata:
+  /
+  e [ -e usr/share/pci.ids ] || ln -s pci.ids.d/pci.ids.dist usr/share/pci.ids
+  e [ -e usr/share/pci.ids ] || { echo "pci ids missing" ; false ; }
+
 TEMPLATE:
   /
 
