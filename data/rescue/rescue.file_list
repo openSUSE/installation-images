@@ -33,7 +33,12 @@ TEMPLATE binutils:
   r /usr/bin/ld
   s ld.bfd /usr/bin/ld
 
+# Some packages use LUA for their pre/post scripts; there's nothing else
+# than running rpm to install these - marked with the 'direct' tag.
+
 TEMPLATE system-user-root: direct
+
+TEMPLATE crypto-policies: direct
 
 TEMPLATE system-user-.*|system-group-.*:
   /
