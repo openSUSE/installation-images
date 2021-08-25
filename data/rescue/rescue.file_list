@@ -48,6 +48,12 @@ TEMPLATE wicked|lvm2|syslog-service|util-linux|mdadm:
   /
   E postin
 
+# ensure /usr/share/pci.ids exists
+TEMPLATE hwdata:
+  /
+  e [ -e usr/share/pci.ids ] || ln -s pci.ids.d/pci.ids.dist usr/share/pci.ids
+  e [ -e usr/share/pci.ids ] || { echo "pci ids missing" ; false ; }
+
 TEMPLATE:
   /
 
