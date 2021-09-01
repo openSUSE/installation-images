@@ -192,10 +192,10 @@ zram_swap_on() {
 }
 
 zram_swap_off() {
-  if [ -b $zram_swap_dev ] ; then
-    swapoff $zram_swap_dev
-    echo $zram_dev_index > /sys/class/zram-control/hot_remove
-  fi
+  [ -b "$zram_swap_dev" ] || return
+
+  swapoff $zram_swap_dev
+  echo $zram_dev_index > /sys/class/zram-control/hot_remove
 }
 
 create_zram_swap_disable_hook() {
@@ -211,7 +211,7 @@ create_zram_swap_disable_hook() {
 #! /bin/sh -x
 
 # at least 2 swap devices
-if [ "\$(wc -l < /proc/swaps)" != 2 ] ; then
+if [ -b "$zram_swap_dev" ] && [ "\$(wc -l < /proc/swaps)" != 2 ] ; then
   swapoff $zram_swap_dev
   echo $zram_dev_index > /sys/class/zram-control/hot_remove
 fi
