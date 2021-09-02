@@ -181,7 +181,7 @@ zram_swap_on() {
     modprobe zram
     zram_dev_index=`cat /sys/class/zram-control/hot_add`
     zram_swap_dev=/dev/zram$zram_dev_index
-    if [ -b $zram_swap_dev ] ; then
+    if [ -b "$zram_swap_dev" ] ; then
       echo zstd > /sys/block/zram$zram_dev_index/comp_algorithm
       echo "$zram_swap" > /sys/block/zram$zram_dev_index/disksize
       mkswap $zram_swap_dev >/dev/null
@@ -192,7 +192,7 @@ zram_swap_on() {
 }
 
 zram_swap_off() {
-  if [ -b $zram_swap_dev ] ; then
+  if [ -b "$zram_swap_dev" ] ; then
     swapoff $zram_swap_dev
     echo $zram_dev_index > /sys/class/zram-control/hot_remove
   fi
