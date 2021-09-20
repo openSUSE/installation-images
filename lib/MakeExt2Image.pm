@@ -69,7 +69,7 @@ sub MakeExt2Image
 
   die "Error: you must be root to build images\n" if $>;
 
-  $blocks = 64 if $blocks < 64;
+  $blocks = 128 if $blocks < 128;
   $inodes = 64 if $inodes < 64;
 
   system "dd if=/dev/zero of=$file_name bs=1k count=$blocks 2>/dev/null" and return ( );
