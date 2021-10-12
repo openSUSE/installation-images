@@ -317,7 +317,6 @@ BuildRequires:  audit-libs
 BuildRequires:  bc
 BuildRequires:  bcache-tools
 BuildRequires:  bcm43xx-firmware
-BuildRequires:  bind-libs
 BuildRequires:  bind-utils
 BuildRequires:  blueprint-cursor-theme
 BuildRequires:  btrfsprogs
