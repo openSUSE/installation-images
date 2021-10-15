@@ -184,6 +184,8 @@ parted:
 pciutils:
 perl-XML-Bare:
 perl-XML-NamespaceSupport:
+# ensure perl-XML-Simple stays in SLE15 (bsc#1191498)
+perl-XML-Simple:
 perl-gettext:
 polkit:
 procinfo:
