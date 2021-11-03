@@ -10,6 +10,6 @@
   endif
   e /sbin/depmod -a -b . -F System.map <kernel_ver>
   e cp lib/modules/<kernel_ver>/modules.dep .
-  e find lib/modules/<kernel_ver> -name '*.ko' -o -name '*.ko.xz' | xargs modinfo >modules.info
+  e find lib/modules/<kernel_ver> -name '*.ko' -o -name '*.ko.xz' -o -name '*.ko.zst' | xargs modinfo >modules.info
   r System.map lib
 

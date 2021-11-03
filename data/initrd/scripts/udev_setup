@@ -13,7 +13,7 @@ ln -snf /proc/self/fd/2 /dev/stderr
 
 # load some modules before udevd
 for i in edd scsi_dh_alua scsi_dh_emc scsi_dh_rdac ; do
-  [ -f /modules/$i.ko -o -f /modules/$i.ko.xz ] && modprobe $i
+  [ -f /modules/$i.ko -o -f /modules/$i.ko.xz -o -f /modules/$i.ko.zst ] && modprobe $i
 done
 
 # disable hotplug helper, udevd listens to netlink
