@@ -196,17 +196,16 @@ p11-kit:
 ?sle12-desktop-migration:
 
 novnc:
-python2-websockify: ignore
-python3-setuptools: ignore
+python38-setuptools: ignore
 
 add_all skelcd-fallbackrepo-.*:
 
-python3-websockify:
+python38-websockify:
 
-# normally python3-websockify would require python3-numpy but the
+# normally python38-websockify would require python38-numpy but the
 # dependency is actually optional in the code - so avoid it to
 # save **a lot** of space
-python3-numpy: ignore
+python38-numpy: ignore
 
 vim-small:
 
