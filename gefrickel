@@ -41,7 +41,7 @@ m_dir=`echo ${pfx}lib/modules/*/initrd`
 [ -d "$m_dir" ] || err "no kernel module dir"
 mkdir -p "b/$m_dir"
 for i in $base_modules ; do
-  for suffix in ko ko.xz; do
+  for suffix in ko ko.xz ko.zst; do
     [ -f $m_dir/$i.$suffix ] && mv $m_dir/$i.$suffix b/$m_dir
   done
 done

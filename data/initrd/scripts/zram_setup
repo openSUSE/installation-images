@@ -7,8 +7,10 @@ PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
 # no modprobe
 for i in zram jbd2 mbcache crc16 ext4 ; do
-  m=/modules/$i.ko.xz
-  [ -f $m ] && insmod $m
+  for ext in .ko .ko.xz .ko.zst ; do
+    m=/modules/$i$ext
+    [ -f $m ] && insmod $m
+  done
 done
 
 echo zstd > /sys/block/zram0/comp_algorithm
