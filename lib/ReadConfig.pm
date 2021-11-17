@@ -844,6 +844,7 @@ sub get_version_info
   # SUSE MicroOS is kept called MicroOS insternally, but the product NAME
   # is now SLE Micro
   $dist = "suse-microos" if $dist eq "sle micro";
+  $dist = "suse-microos" if $dist eq "leap micro";
 
   # don't accept other names than these
 
