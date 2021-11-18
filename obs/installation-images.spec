@@ -101,6 +101,7 @@ ExclusiveArch:  do_not_build
 %endif
 %endif
 %endif
+%endif
 
 %if "%flavor" == "LeapMicro"
 %define theme LeapMicro
