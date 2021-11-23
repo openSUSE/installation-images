@@ -310,9 +310,7 @@ ExcludeArch:    %ix86
 %if %with_reiserfs_kmp
 BuildRequires:  reiserfs-kmp-default
 %endif
-%ifnarch s390x
 BuildRequires:  xf86-input-libinput
-%endif
 BuildRequires:  google-roboto-fonts
 BuildRequires:  noto-sans-fonts
 %ifarch ia64 %ix86 x86_64
