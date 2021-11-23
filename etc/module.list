@@ -254,6 +254,7 @@ kernel/drivers/watchdog/
 kernel/drivers/usb/typec/
 kernel/drivers/usb/chipidea/
 kernel/drivers/usb/phy/
+kernel/drivers/usb/isp1760/
 
 kernel/drivers/dma/bcm2835-dma.ko
 kernel/drivers/dma/tegra20-apb-dma.ko
