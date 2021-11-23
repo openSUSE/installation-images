@@ -41,7 +41,12 @@ e cp -a /dev/* dev
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# Some packages use LUA for their pre/post scripts; there's nothing else
+# than running rpm to install these - marked with the 'direct' tag.
+
 TEMPLATE system-user-root: direct
+
+TEMPLATE crypto-policies: direct
 
 TEMPLATE:
   /
@@ -551,7 +556,6 @@ openslp-server:
 # we just want the user & group entries
 chrony: nodeps
   E prein
-
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
