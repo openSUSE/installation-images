@@ -128,6 +128,7 @@ krb5:
 bash:
   /bin/{sh,bash}
   /usr/bin/bash
+  s bash usr/bin/sh
 
 dbus-1: prein
   /
