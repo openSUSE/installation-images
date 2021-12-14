@@ -9,7 +9,7 @@ To build a new image, you have to:
 
 * be root
 * put the installation-images directory on a *local* file system (ie. not NFS)
-* have a valid .oscrc
+* have a valid ~/.oscrc or ~/.config/osc/oscrc
 
 Then you must run ```make``` once to build all parts.
 

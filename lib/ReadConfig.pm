@@ -1174,16 +1174,25 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     my ($f, $u, $p, $s);
 
     if($ConfigData{obs_server} !~ /\@/) {
-      if(! -f "$ENV{HOME}/.oscrc") {
-        die "\nError: *** osc config file ~/.oscrc missing ***\n\n";
+      my $oscrc_old = "$ENV{HOME}/.oscrc";
+      my $oscrc_new = "$ENV{HOME}/.config/osc/oscrc";
+      my $oscrc;
+      if (-f $oscrc_old) {
+	      $oscrc = $oscrc_old;
+      }
+      elsif (-f $oscrc_new) {
+	      $oscrc = $oscrc_new;
+      }
+      if(! -f $oscrc_old && ! -f $oscrc_new) {
+        die "\nError: *** osc config file ~/.oscrc or ~/.config/osc/oscrc missing ***\n\n";
       }
 
       if($< == 0) {
-        # to avoid problems with restrictive .oscrc permissions
-        open $f, "su `stat -c %U $ENV{HOME}/.oscrc` -c 'cat $ENV{HOME}/.oscrc' |";
+        # to avoid problems with restrictive oscrc permissions
+        open $f, "su `stat -c %U $oscrc` -c 'cat $oscrc' |";
       }
       else {
-        open $f, "$ENV{HOME}/.oscrc";
+        open $f, $oscrc;
       }
       while(<$f>) {
         undef $s if /^\s*\[/;
