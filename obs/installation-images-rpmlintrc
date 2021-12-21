@@ -1,1 +1,2 @@
-addFilter("arch-independent-package-contains-binary-or-object ")
+addFilter("arch-independent-package-contains-binary-or-object ");
+addFilter("missing-PT_GNU_STACK-section ");
