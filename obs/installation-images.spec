@@ -368,7 +368,9 @@ BuildRequires:  fbiterm
 BuildRequires:  finger
 BuildRequires:  fonts-config
 BuildRequires:  gamin-server
+%ifnarch ppc ppc64
 BuildRequires:  gdb
+%endif
 BuildRequires:  gettext-runtime-mini
 BuildRequires:  glibc-i18ndata
 BuildRequires:  gpart
