@@ -55,6 +55,9 @@ ExclusiveArch:  do_not_build
 %ifarch ppc64 ppc64le
 %define the_arch ppc
 %endif
+%ifarch s390x
+%define the_arch zsystems
+%endif
 %ifarch riscv64
 %define the_arch riscv
 %endif
