@@ -128,8 +128,13 @@ libzypp: nodeps
     R s/^[#[:space:]]*(multiversion)\s+=.*/# minimal CAASP\n$1 =/ etc/zypp/zypp.conf
   endif
 
-samba-libs: nodeps
-  /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
+if exists(samba-client-libs)
+  samba-client-libs: nodeps
+    /usr/lib*/libwbclient.*
+else
+  samba-libs: nodeps
+endif
+    /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
 
 # for samba-libs
 libgnutls*:
