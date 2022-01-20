@@ -77,6 +77,8 @@ if arch eq 'aarch64' || arch eq 'armv7l' || arch eq 'armv6l'
     if exists(u-boot-rpiarm64)
       u-boot-rpiarm64:
         /
+      arm-trusted-firmware-rpi4:
+        /
     else
       u-boot-rpi3:
         /
