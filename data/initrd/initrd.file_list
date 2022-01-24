@@ -427,13 +427,11 @@ autoyast2-installation: nodeps
 lvm2: nodeps
   /etc
 
-# note: locale files are added in root image
-if exists(glibc-locale-base)
-  glibc-locale: ignore
-  glibc-locale-base:
-else
-  glibc-locale:
-endif
+# note: more locale files are added in root image
+glibc-locale: ignore
+glibc-locale-base:
+  /usr/lib/locale/en_US.utf8
+  s en_US.utf8 usr/lib/locale/C.utf8
   # charset encodings we might possibly need
   /usr/lib*/gconv/IBM1047.so
   /usr/lib*/gconv/ISO8859-1.so

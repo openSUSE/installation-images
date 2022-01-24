@@ -224,12 +224,8 @@ gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
 
-if exists(glibc-locale-base)
-  glibc-locale: ignore
-  glibc-locale-base:
-else
-  glibc-locale:
-endif
+glibc-locale: ignore
+glibc-locale-base:
   # charset encodings we might possibly need
   /usr/lib*/gconv/IBM1047.so
   /usr/lib*/gconv/ISO8859-1.so

@@ -404,12 +404,8 @@ gpg2:
 chrony:
 
 # note: gconv files are in initrd
-if exists(glibc-locale-base)
-  glibc-locale: ignore
-  glibc-locale-base:
-else
-  glibc-locale:
-endif
+glibc-locale: ignore
+glibc-locale-base:
   # built in base system
   d usr/lib
   e cp -a /tmp/locale usr/lib
