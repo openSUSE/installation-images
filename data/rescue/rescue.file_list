@@ -49,7 +49,7 @@ TEMPLATE nfs-client|device-mapper|rpcbind|rsync|rsyslog|dmraid|multipath-tools:
   E prein
   E postin
 
-TEMPLATE wicked|lvm2|syslog-service|util-linux|mdadm:
+TEMPLATE wicked|lvm2|syslog-service|util-linux|mdadm|permissions-config:
   /
   E postin
 
@@ -74,6 +74,13 @@ filesystem:
 ?compat-usrmerge: ignore
 ?compat-usrmerge-tools: ignore
 
+glibc:
+bash:
+  /usr/bin/bash
+  s bash usr/bin/sh
+fillup:
+coreutils:
+
 AUTODEPS:
 
 dbus-1-x11: ignore
@@ -84,12 +91,6 @@ shared-mime-info: ignore
 update-alternatives: ignore
 device-mapper-32bit: ignore
 binutils: ignore
-
-# XXX: usrmerge
-bash:
-  /bin/{sh,bash}
-  /usr/bin/bash
-  s bash usr/bin/sh
 
 ?acpica:
 ?efibootmgr:
@@ -119,7 +120,6 @@ btrfsprogs:
 bzip2:
 checkmedia:
 cifs-utils:
-coreutils:
 cpio:
 cracklib-dict-full:
 cracklib:
@@ -135,10 +135,8 @@ e2fsprogs:
 ?exfatprogs:
 file-magic:
 file:
-fillup:
 findutils:
 finger:
-glibc:
 gpart:
 ?gptfdisk:
 grep:
@@ -198,6 +196,7 @@ sysuser-shadow:
 tar:
 terminfo-base:
 usbutils:
+util-linux:
 vim-small:
 vlan:
 wget:
@@ -348,7 +347,6 @@ rpcbind:
 rsync:
 syslog-service:
 rsyslog:
-util-linux:
 wicked:
 ?dmraid:
 mdadm:
@@ -439,9 +437,6 @@ e echo RC_LANG=\"en_US.UTF-8\" >>etc/sysconfig/language
 #endif
 
 e echo console >>etc/securetty
-
-# enable sysrq
-e perl -pi -e '\''s/^(ENABLE_SYSRQ=).*/$1"yes"/'\'' etc/sysconfig/sysctl
 
 # setup multipath config
 x etc/multipath.conf /etc

@@ -165,15 +165,7 @@ terminfo:
 suse-module-tools:
   /etc/modprobe.d
 
-# XXX: usrmerge
 ?s390-tools:
-  /sbin/zfcp_*_configure
-  /sbin/zfcp_san_disc
-  /sbin/iucv_configure
-  /sbin/ctc_configure
-  /sbin/qeth_configure
-  /sbin/dasdinfo
-  /sbin/chzdev
   /usr/sbin/zfcp_*_configure
   /usr/sbin/zfcp_san_disc
   /usr/sbin/iucv_configure
@@ -194,9 +186,7 @@ kbd:
   /usr/share/kbd/consoletrans/trivial
   /usr/share/kbd/consolefonts/default8x16.psfu.gz
 
-# XXX: usrmerge
 cifs-utils:
-  /sbin/mount.cifs
   /usr/sbin/mount.cifs
 
 ?acpica:
@@ -204,11 +194,6 @@ cifs-utils:
 
 ?dmidecode:
   /usr/sbin/dmidecode
-
-# XXX: usrmerge
-?bootsplash:
-  /sbin/splash
-  /usr/sbin/splash
 
 if exists(wpa_supplicant)
   wpa_supplicant:
@@ -255,9 +240,7 @@ coreutils:
   # linuxrc needs it in /bin
   m /usr/bin/rm bin
 
-# XXX: usrmerge
 bash:
-  /bin/{sh,bash}
   /usr/bin/bash
   s bash usr/bin/sh
   s bash usr/bin/lsh
@@ -266,10 +249,7 @@ ncurses-utils:
   /usr/bin/clear
   /usr/bin/tset
 
-# XXX: usrmerge
 iproute2:
-  /bin/ip
-  /sbin/ip
   /usr/bin/ip
   /usr/sbin/ip
 
@@ -277,7 +257,6 @@ open-iscsi:
   # must be writable
   /etc/iscsi
   c 644 0 0 /etc/iscsi/iscsid.conf
-
 
 util-linux:
   /usr/sbin/mkswap
@@ -288,14 +267,10 @@ util-linux:
   /usr/bin/setsid
   /usr/sbin/losetup
   /usr/sbin/blkid
+  /usr/sbin/nologin
 
-# XXX: usrmerge
 nfs-client:
-  /sbin/mount.nfs
-  /sbin/mount.nfs4
-  /sbin/umount.nfs
-  /sbin/umount.nfs4
-  /sbin/mount.nfs
+  /usr/sbin/mount.nfs
   /usr/sbin/mount.nfs4
   /usr/sbin/umount.nfs
   /usr/sbin/umount.nfs4
@@ -312,32 +287,18 @@ cryptsetup:
 ?libcryptsetup*-hmac:
 ?libgcrypt20-hmac:
 
-# XXX: usrmerge
 ntfs-3g:
   /
-  s mount.ntfs-3g /sbin/mount.ntfs
   s mount.ntfs-3g /usr/sbin/mount.ntfs
 
 ?kexec-tools: nodeps
   /usr/sbin/kexec
 
-# XXX: usrmerge
-if exists(blog)
-  blog:
-    /usr/lib*
-    /sbin/showconsole
-    /usr/sbin/showconsole
+blog:
+  /usr/sbin/showconsole
 
-  sysvinit-tools: nodeps
-    /sbin/startproc
-    /usr/sbin/startproc
-else
-  sysvinit-tools: nodeps
-    /sbin/showconsole
-    /sbin/startproc
-    /usr/sbin/showconsole
-    /usr/sbin/startproc
-endif
+sysvinit-tools: nodeps
+  /usr/sbin/startproc
 
 rpm:
   /usr/bin/rpm2cpio
@@ -394,30 +355,18 @@ shadow:
   /usr/sbin/useradd.local
   d /etc/skel
 
-# XXX: usrmerge
 pam:
-  /sbin
   /usr/sbin
   /etc
   /usr/etc
-  /lib*/libpam*.so.*
-  /lib*/security/pam_group.so
-  /lib*/security/pam_unix*.so
-  /lib*/security/pam_env.so
-  /lib*/security/pam_limits.so
-  /lib*/security/pam_umask.so
-  /lib*/security/pam_rootok.so
-  /lib*/security/pam_permit.so
-  /lib*/security/pam_deny.so
   /usr/lib*/libpam*.so.*
-  /usr/lib*/security/pam_group.so
-  /usr/lib*/security/pam_unix*.so
-  /usr/lib*/security/pam_env.so
-  /usr/lib*/security/pam_limits.so
-  /usr/lib*/security/pam_umask.so
-  /usr/lib*/security/pam_rootok.so
-  /usr/lib*/security/pam_permit.so
   /usr/lib*/security/pam_deny.so
+  /usr/lib*/security/pam_env.so
+  /usr/lib*/security/pam_group.so
+  /usr/lib*/security/pam_limits.so
+  /usr/lib*/security/pam_permit.so
+  /usr/lib*/security/pam_rootok.so
+  /usr/lib*/security/pam_umask.so
 
 if exists(plymouth)
   # Do not EVER consider another plymouth theme before ensuring it doesn't
@@ -443,7 +392,6 @@ if exists(plymouth)
 endif
 
 procps:
-  /bin/ps
   /usr/bin/ps
 
 # maybe we don't need everything...
@@ -555,6 +503,7 @@ rpcbind:
 
 # we just want the user & group entries
 openslp-server:
+  E groupadd -r daemon || true
   E prein
 
 # we just want the user & group entries
@@ -571,9 +520,7 @@ if with_gdb
   valgrind:
     /
 
-  # XXX: usrmerge
   kbd:
-    /bin/kbd_mode
     /usr/bin/kbd_mode
 
   strace:
@@ -585,17 +532,13 @@ if with_gdb
   libpython2_6-1_0:
     /usr/lib*
 
-  # XXX: usrmerge
   libexpat1:
-    /lib*/libexpat.so.*
     /usr/lib*/libexpat.so.*
 
   libprocps*:
     /
 
-  # XXX: usrmerge
   psmisc:
-    /bin/fuser
     /usr/bin/fuser
     /usr/bin/killall
     /usr/bin/pstree
