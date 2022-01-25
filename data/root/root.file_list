@@ -65,6 +65,17 @@ TEMPLATE hwdata:
   e [ -e usr/share/pci.ids ] || ln -s pci.ids.d/pci.ids.dist usr/share/pci.ids
   e [ -e usr/share/pci.ids ] || { echo "pci ids missing" ; false ; }
 
+TEMPLATE ruby\d+\.\d+:
+  /
+  r /usr/bin/rake*
+  r /usr/bin/{y2,}racc*
+  r /usr/bin/rdoc*
+  r /usr/bin/ri*
+  r /usr/bin/bundle*
+  r /usr/bin/rbs*
+  r /usr/bin/typeprof*
+  r /usr/bin/rdbg*
+
 TEMPLATE:
   /
 
@@ -214,9 +225,7 @@ vim-small:
 # pull in yast2 installation related packages via package deps
 skelcd-control-<skelcd_ctrl_theme>:
 
-# XXX: usrmerge
 rpm:
-  /bin
   /etc
   /usr/bin
   /usr/lib*
@@ -229,22 +238,17 @@ gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
 
-# XXX: usrmerge
 bash:
-  /bin/{sh,bash}
   /usr/bin/bash
   s bash usr/bin/sh
 
 # Note that this does not make it the default shell /bin/sh,
 # only scripts that explicitly want dash will use it,
 # so we are safe even if there are undetected bashisms in some scripts.
-# XXX: usrmerge
 dash:
-  /bin/dash
   /usr/bin/dash
 
 nfs-client:
-  /sbin/{u,}mount.nfs*
   /usr/sbin/{u,}mount.nfs*
   /usr/sbin/rpc.statd
   /usr/sbin/start-statd
@@ -270,7 +274,6 @@ diffutils:
   /usr/bin/{cmp,diff}
 
 less:
-  /etc/lesskey
   /usr/etc/lesskey
   /usr/bin/less
 
@@ -297,18 +300,6 @@ yast2:
   s /usr/sbin/yast2 /sbin/yast.ssh
 
 ruby:
-  /
-  r /usr/bin/rake*
-  r /usr/bin/{y2,}racc*
-  r /usr/bin/rdoc*
-  r /usr/bin/ri*
-  r /usr/bin/bundle*
-  r /usr/bin/rbs*
-  r /usr/bin/typeprof*
-  r /usr/bin/rdbg*
-  /usr/lib64/ruby/*/{racc,rdoc}
-  /usr/lib64/ruby/gems/*/gems/{minitest,racc,rake,rdoc,test-unit}-*
-  e cd usr/bin ; for i in erb gem irb ruby ; do [ -x $i ] || ln -snf ${i}.ruby2* $i ; done
 
 yast2-devtools:
   /usr/share/YaST2/data/devtools/bin/showy2log
@@ -326,9 +317,7 @@ yast2-installation:
 yast2-widget-demo:
 
 if arch eq 'ppc' || arch eq 'ppc64'
-  # XXX: usrmerge
   pdisk:
-    /sbin/pdisk
     /usr/sbin/pdisk
 
   hfsutils:
@@ -348,7 +337,6 @@ if arch eq 'ppc' || arch eq 'ppc64'
    s hattrib /usr/bin/hvol
 endif
 
-# XXX: usrmerge
 sysvinit-tools:
 
 krb5:
@@ -358,16 +346,9 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
-# XXX: usrmerge
 pam:
   /usr/etc/pam.d
-  /etc/pam.d
   /etc
-  /lib*/security
-  /lib*/libpam.so.*
-  /lib*/libpam_misc.so.*
-  /lib*
-  /sbin
   /usr/lib*/security
   /usr/lib*/libpam.so.*
   /usr/lib*/libpam_misc.so.*
@@ -423,12 +404,8 @@ gpg2:
 chrony:
 
 # note: gconv files are in initrd
-if exists(glibc-locale-base)
-  glibc-locale: ignore
-  glibc-locale-base:
-else
-  glibc-locale:
-endif
+glibc-locale: ignore
+glibc-locale-base:
   # built in base system
   d usr/lib
   e cp -a /tmp/locale usr/lib
@@ -457,7 +434,7 @@ if exists(xorg-x11-server,/usr/bin/Xorg)
   ?xf86-video-vesa:
 
   ?virtualbox-guest-x11: nodeps
-    /etc
+    /usr/etc
     /usr/<lib>/xorg/modules
 endif
 
@@ -576,7 +553,7 @@ indic-fonts:
   /usr/share/fonts/truetype/TSCu_Paranar.ttf
 
 thai-fonts:
-  /usr/share/fonts/truetype/Loma*.ttf
+  /usr/share/fonts/opentype/thai/Loma*.otf
 
 khmeros-fonts:
   /usr/share/fonts/truetype/KhmerOS_sys.ttf
@@ -592,9 +569,7 @@ dmz-icon-theme-cursors:
     /usr/share/icons/DMZ
   endif
 
-# XXX: usrmerge
 multipath-tools:
-  /sbin
   /usr/sbin
 
 graphviz-gnome: nodeps
@@ -682,6 +657,9 @@ e mkfontdir usr/share/fonts/misc
 
 e mkfontscale usr/share/fonts/truetype
 e mkfontdir usr/share/fonts/truetype
+
+e mkfontscale usr/share/fonts/opentype
+e mkfontdir usr/share/fonts/opentype
 
 # remove /etc/os-release so it's not used accidentally
 r /etc/os-release
