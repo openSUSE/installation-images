@@ -546,7 +546,11 @@ BuildRequires:  xset
 BuildRequires:  xterm
 BuildRequires:  xz
 BuildRequires:  yast2-devtools
-BuildRequires:  yast2-schema
+%if "%flavor" == "SMO" || "%flavor" == "LeapMicro" || "%flavor" == "MicroOS"
+BuildRequires:  yast2-schema-micro
+%else
+BuildRequires:  yast2-schema-default
+%endif
 BuildRequires:  yast2-trans-allpacks
 BuildRequires:  yast2-widget-demo
 %if 0%{?with_storage_ng}
