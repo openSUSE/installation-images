@@ -25,6 +25,7 @@ while ( <$f> ){
 
  # black list strange binaries
  next if ($file =~ m,/usr/bin/syslinux,);
+ next if ($file =~ m,/usr/bin/syslinux-mtools,);
  next if ($file =~ m,/sbin/lilo,);
  next if ($file =~ m,/usr/lib/getconf/,);
  # non-stripped
