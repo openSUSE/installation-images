@@ -200,7 +200,6 @@ suse-module-tools:
 ?susepaste:
 ?syslinux:
 systemd-presets-branding-<systemd_theme>:
-systemd-sysvinit:
 systemd:
 udftools:
 usbutils:

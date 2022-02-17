@@ -195,7 +195,6 @@ suse-module-tools:
 sysconfig:
 sysconfig-netconfig:
 systemd-presets-branding-<systemd_theme>:
-systemd-sysvinit:
 sysuser-shadow:
 tar:
 terminfo-base:

@@ -511,7 +511,6 @@ BuildRequires:  sqlite3
 BuildRequires:  squashfs
 BuildRequires:  star
 BuildRequires:  strace
-BuildRequires:  systemd-sysvinit
 BuildRequires:  tcpd-devel
 BuildRequires:  termcap
 BuildRequires:  terminfo
