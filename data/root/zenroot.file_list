@@ -89,7 +89,6 @@ procps:
 reiserfs:
 systemd-presets-branding-<systemd_theme>: ignore
 systemd:
-systemd-sysvinit:
 tar:
 unzip:
 usbutils:
