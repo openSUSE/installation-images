@@ -1,12 +1,8 @@
 d grub2-ieee1275
   grub2-powerpc-ieee1275:
-    if exists(grub2-powerpc-ieee1275, /usr/share/grub2/powerpc-ieee1275)
-      grub2_dir = /usr/share/grub2/powerpc-ieee1275
-    else
-      grub2_dir = /usr/lib/grub2/powerpc-ieee1275
-    endif
+    grub2_dir = /usr/share/grub2/powerpc-ieee1275
     d grub2-ieee1275/powerpc-ieee1275
-    e grub2-mkimage -d <grub2_dir> -O powerpc-ieee1275 -o grub2-ieee1275/core.elf -p "()/boot/<arch>/grub2-ieee1275" iso9660 ext2 ofnet net tftp http
+    m <grub2_dir>/grub.elf grub2-ieee1275/core.elf
     f <grub2_dir> *.mod grub2-ieee1275/powerpc-ieee1275/
     f <grub2_dir> *.lst grub2-ieee1275/powerpc-ieee1275/
   x grub-powerpc.cfg grub2-ieee1275/grub.cfg
