@@ -48,6 +48,10 @@ TEMPLATE system-user-root: direct
 
 TEMPLATE crypto-policies: direct
 
+TEMPLATE system-user-.*|system-group-.*:
+  /
+  E prein
+
 TEMPLATE:
   /
 
@@ -440,13 +444,12 @@ e2fsprogs:
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+system-user-daemon:
+system-group-kvm:
+
 aaa_base:
   E prein
   /
-  # steal them from base image
-  e cp /etc/passwd etc
-  e cp /etc/group etc
-  e cp /etc/shadow etc
   t /run/utmp
 
 dbus-1:
@@ -484,14 +487,11 @@ nscd:
   E prein
 
 # we just want the user & group entries
-# FIXME: assumes nobody group exists - maybe time to drop rpcbind?
 rpcbind:
-  E groupadd -r nobody || true
   E prein
 
 # we just want the user & group entries
 openslp-server:
-  E groupadd -r daemon || true
   E prein
 
 # we just want the user & group entries
