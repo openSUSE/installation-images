@@ -254,11 +254,12 @@ gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
 
-# it's using update-alternatives
+# update-alternatives & bash-sh split - give up and create expected symlinks manually
 # XXX: usrmerge
 bash:
-  /bin/{sh,bash}
   /usr/bin/bash
+  s /usr/bin/bash bin/bash
+  s /usr/bin/sh bin/sh
   s bash usr/bin/sh
 
 # Note that this does not make it the default shell /bin/sh,
