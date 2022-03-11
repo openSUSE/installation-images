@@ -165,25 +165,7 @@ terminfo:
 suse-module-tools:
   /etc/modprobe.d
 
-# XXX: usrmerge
 ?s390-tools:
-  /sbin/zfcp_*_configure
-  /sbin/zfcp_san_disc
-  /sbin/iucv_configure
-  /sbin/ctc_configure
-  /sbin/qeth_configure
-  /sbin/dasdinfo
-  /sbin/chzdev
-  /usr/sbin/zfcp_*_configure
-  /usr/sbin/zfcp_san_disc
-  /usr/sbin/iucv_configure
-  /usr/sbin/ctc_configure
-  /usr/sbin/qeth_configure
-  /usr/sbin/dasdinfo
-  /usr/sbin/chzdev
-  /usr/lib/udev
-  /etc/zkey
-  /boot
 
 kbd:
   /usr/bin/dumpkeys
