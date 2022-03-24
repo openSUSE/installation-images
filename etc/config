@@ -92,6 +92,17 @@ grub2             = openSUSE
 plymouth          = openSUSE
 systemd           = openSUSE
 
+[Theme LeapMicro]
+image             = 350
+patch_zypp_config = 1
+release           = Leap-Micro
+skelcd            = SMO
+skelcd_ctrl       = SMO
+gfxboot           = openSUSE
+grub2             = openSUSE
+plymouth          = openSUSE
+systemd           = SMO
+
 [Theme SLES]
 image             = 600
 patch_zypp_config = 0
