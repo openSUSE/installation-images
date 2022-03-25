@@ -539,6 +539,8 @@ rpcbind:
 
 # we just want the user & group entries
 openslp-server:
+  # The script assumes the group daemon exists (bsc#1196331, bsc#1197222)
+  E groupadd -r daemon || true
   E prein
 
 # we just want the user & group entries
