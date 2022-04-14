@@ -114,7 +114,7 @@ sessreg: ignore
 shared-mime-info: ignore
 update-alternatives: ignore
 xinetd: ignore
-xrdb: ignore
+xrdb: nodeps
 icewm: ignore
 pkg-config: ignore
 syslog-service: ignore
