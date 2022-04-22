@@ -2,7 +2,11 @@
 
 exec >&2
 
-# s390x: I/O device pre-configuration (jsc#SLE-7396)
-if [ -x /sbin/chzdev -a -e /sys/firmware/sclp_sd/config/data ] ; then
-  /sbin/chzdev --import /sys/firmware/sclp_sd/config/data
+# dummy definition to make parse-zdev.sh happy
+# 'rd.zdev=no-auto' case is handled in linuxrc
+getargs () { true ; }
+
+# s390x: I/O device pre-configuration (jsc#SLE-7396, bsc#1198326)
+if [ -x /usr/lib/dracut/modules.d/95zdev/parse-zdev.sh ] ; then
+  . /usr/lib/dracut/modules.d/95zdev/parse-zdev.sh
 fi
