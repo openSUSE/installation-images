@@ -7,6 +7,6 @@ exec >&2
 getargs () { true ; }
 
 # s390x: I/O device pre-configuration (jsc#SLE-7396, bsc#1198326)
-if -x [ /usr/lib/dracut/modules.d/95zdev/parse-zdev.sh ] ; then
+if [ -x /usr/lib/dracut/modules.d/95zdev/parse-zdev.sh ] ; then
   . /usr/lib/dracut/modules.d/95zdev/parse-zdev.sh
 fi
