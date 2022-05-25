@@ -5,8 +5,8 @@ d dev etc home mnt proc sys tmp root usr/{bin,sbin,lib}
 if exists(filesystem, usr/lib64)
 d usr/lib64
 endif
-# filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
-if exists(compat-usrmerge-tools)
+# filesystem has /lib link in usrmerged case
+if exists(filesystem, /lib, l)
 s usr/bin /bin
 s usr/sbin /sbin
 s usr/lib /lib
@@ -89,7 +89,6 @@ procps:
 reiserfs:
 systemd-presets-branding-<systemd_theme>: ignore
 systemd:
-systemd-sysvinit:
 tar:
 unzip:
 usbutils:
@@ -124,10 +123,9 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
-# XXX: usrmerge
 bash:
-  /bin/{sh,bash}
   /usr/bin/bash
+  s bash usr/bin/sh
 
 dbus-1: prein
   /
@@ -142,7 +140,6 @@ ncurses-utils:
   /usr/bin/tset
 
 less:
-  /etc/lesskey
   /usr/etc/lesskey
   /usr/bin/less
 
@@ -159,9 +156,7 @@ x /etc/ld.so.conf /etc
 # remove these:
 r root mnt tmp usr/libexec
 
-# XXX: usrmerge
 :
-  r /lib*/security/pam_userdb.so
   r /usr/lib*/security/pam_userdb.so
 
   x etc/inst_setup_ssh /sbin/
@@ -177,10 +172,8 @@ dmidecode:
 acpica:
   /usr/sbin/acpidump
 
-# XXX: usrmerge
 sysconfig:
-  /sbin
-  /usr/sbin
+  /
   # for modify_resolvconf
   d etc/sysconfig/network
   e echo MODIFY_RESOLV_CONF_DYNAMICALLY=\"yes\" >etc/sysconfig/network/config

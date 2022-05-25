@@ -4,8 +4,8 @@ d /usr/{bin,lib,libexec,sbin,share}
 if exists(filesystem, usr/lib64)
 d usr/lib64
 endif
-# filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
-if exists(compat-usrmerge-tools)
+# filesystem has /lib link in usrmerged case
+if exists(filesystem, /lib, l)
 s usr/bin /bin
 s usr/sbin /sbin
 s usr/lib /lib
@@ -59,6 +59,23 @@ TEMPLATE libiterm.*:
   /
   s ../s/screen usr/share/terminfo/i/iterm
 
+# ensure /usr/share/pci.ids exists
+TEMPLATE hwdata:
+  /
+  e [ -e usr/share/pci.ids ] || ln -s pci.ids.d/pci.ids.dist usr/share/pci.ids
+  e [ -e usr/share/pci.ids ] || { echo "pci ids missing" ; false ; }
+
+TEMPLATE ruby\d+\.\d+:
+  /
+  r /usr/bin/rake*
+  r /usr/bin/{y2,}racc*
+  r /usr/bin/rdoc*
+  r /usr/bin/ri*
+  r /usr/bin/bundle*
+  r /usr/bin/rbs*
+  r /usr/bin/typeprof*
+  r /usr/bin/rdbg*
+
 TEMPLATE:
   /
 
@@ -92,7 +109,7 @@ sessreg: ignore
 shared-mime-info: ignore
 update-alternatives: ignore
 xinetd: ignore
-xrdb: ignore
+xrdb: nodeps
 icewm: ignore
 pkg-config: ignore
 syslog-service: ignore
@@ -176,7 +193,6 @@ suse-module-tools:
 ?susepaste:
 ?syslinux:
 systemd-presets-branding-<systemd_theme>:
-systemd-sysvinit:
 systemd:
 udftools:
 usbutils:
@@ -190,17 +206,16 @@ p11-kit:
 ?sle12-desktop-migration:
 
 novnc:
-python2-websockify: ignore
-python3-setuptools: ignore
+python38-setuptools: ignore
 
 add_all skelcd-fallbackrepo-.*:
 
-python3-websockify:
+python38-websockify:
 
-# normally python3-websockify would require python3-numpy but the
+# normally python38-websockify would require python38-numpy but the
 # dependency is actually optional in the code - so avoid it to
 # save **a lot** of space
-python3-numpy: ignore
+python38-numpy: ignore
 
 vim-small:
 
@@ -209,9 +224,7 @@ vim-small:
 # pull in yast2 installation related packages via package deps
 skelcd-control-<skelcd_ctrl_theme>:
 
-# XXX: usrmerge
 rpm:
-  /bin
   /etc
   /usr/bin
   /usr/lib*
@@ -224,22 +237,17 @@ gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
 
-# XXX: usrmerge
 bash:
-  /bin/{sh,bash}
   /usr/bin/bash
   s bash usr/bin/sh
 
 # Note that this does not make it the default shell /bin/sh,
 # only scripts that explicitly want dash will use it,
 # so we are safe even if there are undetected bashisms in some scripts.
-# XXX: usrmerge
 dash:
-  /bin/dash
   /usr/bin/dash
 
 nfs-client:
-  /sbin/{u,}mount.nfs*
   /usr/sbin/{u,}mount.nfs*
   /usr/sbin/rpc.statd
   /usr/sbin/start-statd
@@ -265,7 +273,6 @@ diffutils:
   /usr/bin/{cmp,diff}
 
 less:
-  /etc/lesskey
   /usr/etc/lesskey
   /usr/bin/less
 
@@ -292,15 +299,6 @@ yast2:
   s /usr/sbin/yast2 /sbin/yast.ssh
 
 ruby:
-  /
-  r /usr/bin/rake*
-  r /usr/bin/{y2,}racc*
-  r /usr/bin/rdoc*
-  r /usr/bin/ri*
-  r /usr/bin/bundle*
-  /usr/lib64/ruby/*/{racc,rdoc}
-  /usr/lib64/ruby/gems/*/gems/{minitest,racc,rake,rdoc,test-unit}-*
-  e cd usr/bin ; for i in erb gem irb ruby ; do [ -x $i ] || ln -snf ${i}.ruby2* $i ; done
 
 yast2-devtools:
   /usr/share/YaST2/data/devtools/bin/showy2log
@@ -315,10 +313,10 @@ yast2-installation:
   # hack to make 'repair' option work
   # p repair.diff
 
+yast2-widget-demo:
+
 if arch eq 'ppc' || arch eq 'ppc64'
-  # XXX: usrmerge
   pdisk:
-    /sbin/pdisk
     /usr/sbin/pdisk
 
   hfsutils:
@@ -338,7 +336,6 @@ if arch eq 'ppc' || arch eq 'ppc64'
    s hattrib /usr/bin/hvol
 endif
 
-# XXX: usrmerge
 sysvinit-tools:
 
 krb5:
@@ -348,16 +345,9 @@ krb5:
   /usr/lib*/libgssapi_krb5.so.*
   /usr/lib*/libk5crypto.so.*
 
-# XXX: usrmerge
 pam:
   /usr/etc/pam.d
-  /etc/pam.d
   /etc
-  /lib*/security
-  /lib*/libpam.so.*
-  /lib*/libpam_misc.so.*
-  /lib*
-  /sbin
   /usr/lib*/security
   /usr/lib*/libpam.so.*
   /usr/lib*/libpam_misc.so.*
@@ -413,12 +403,8 @@ gpg2:
 chrony:
 
 # note: gconv files are in initrd
-if exists(glibc-locale-base)
-  glibc-locale: ignore
-  glibc-locale-base:
-else
-  glibc-locale:
-endif
+glibc-locale: ignore
+glibc-locale-base:
   # built in base system
   d usr/lib
   e cp -a /tmp/locale usr/lib
@@ -428,34 +414,27 @@ timezone:
   r /usr/share/zoneinfo/posix*
   r /usr/share/zoneinfo/right
 
-if !(arch eq 's390' || arch eq 's390x')
-  kbd:
-    /
-    m /usr/share/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
-endif
+kbd:
+  /
+  m /usr/share/fillup-templates/sysconfig.keyboard /etc/sysconfig/keyboard
 
 if roottrans
   include ../../tmp/base/yast2-trans.inc
 endif
 
-if arch ne 's390' && arch ne 's390x'
+# a 'real' X server might not always exist (on s390x, for example)
+if exists(xorg-x11-server,/usr/bin/Xorg)
   xorg-x11-server:
   xrandr:
   ?xf86-input-evdev:
   ?xf86-input-libinput:
-  xf86-input-wacom:
-  xf86-video-fbdev:
+  ?xf86-input-wacom:
+  ?xf86-video-fbdev:
   ?xf86-video-vesa:
-  ?xf86-video-qxl:
-  ?xf86-video-amdgpu:
-
-  ?xf86-video-intel: nodeps
-    /usr/<lib>/xorg
 
   ?virtualbox-guest-x11: nodeps
-    /etc
+    /usr/etc
     /usr/<lib>/xorg/modules
-
 endif
 
 iptables:
@@ -538,8 +517,15 @@ icewm-lite:
 fbiterm:
   /usr/bin/fbiterm
 
-?adobe-sourcesanspro-fonts:
-  /usr/share/fonts/truetype/SourceSansPro-{Regular,Light,Semibold}.otf
+if exists(adobe-sourcesanspro-fonts,/usr/share/fonts/truetype/SourceSansPro-Regular.otf)
+  adobe-sourcesanspro-fonts:
+    /usr/share/fonts/truetype/SourceSansPro-{Regular,Light,Semibold}.otf
+endif
+
+if exists(adobe-sourcesanspro-fonts,/usr/share/fonts/truetype/SourceSans3-Regular.otf)
+  adobe-sourcesanspro-fonts:
+    /usr/share/fonts/truetype/SourceSans3-{Regular,Light,Semibold}.otf
+endif
 
 dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
@@ -566,7 +552,7 @@ indic-fonts:
   /usr/share/fonts/truetype/TSCu_Paranar.ttf
 
 thai-fonts:
-  /usr/share/fonts/truetype/Loma*.ttf
+  /usr/share/fonts/opentype/thai/Loma*.otf
 
 khmeros-fonts:
   /usr/share/fonts/truetype/KhmerOS_sys.ttf
@@ -582,9 +568,7 @@ dmz-icon-theme-cursors:
     /usr/share/icons/DMZ
   endif
 
-# XXX: usrmerge
 multipath-tools:
-  /sbin
   /usr/sbin
 
 graphviz-gnome: nodeps
@@ -633,16 +617,13 @@ endif
 
 ?openssh-fips:
 
-if exists(openssh-server)
-  openssh:
-  openssh-server:
-else
-  openssh:
-endif
-    /
-    t /etc/sysconfig/ssh
-    # enable root login bsc#1118114
-    R s/^\s*#\s*(PermitRootLogin)\b.*/$1 yes/ /etc/ssh/sshd_config
+openssh:
+openssh-server:
+  /
+  E prein
+  E postin
+  # enable root login bsc#1118114
+  e echo "PermitRootLogin yes" > etc/ssh/sshd_config.d/10_root_login.conf
 
 fonts-config:
   /
@@ -675,6 +656,9 @@ e mkfontdir usr/share/fonts/misc
 
 e mkfontscale usr/share/fonts/truetype
 e mkfontdir usr/share/fonts/truetype
+
+e mkfontscale usr/share/fonts/opentype
+e mkfontdir usr/share/fonts/opentype
 
 # remove /etc/os-release so it's not used accidentally
 r /etc/os-release

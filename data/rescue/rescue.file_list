@@ -5,8 +5,8 @@ d dev etc home mnt proc sys tmp root usr/{bin,sbin,lib}
 if exists(filesystem, usr/lib64)
 d usr/lib64
 endif
-# filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
-if exists(compat-usrmerge-tools)
+# filesystem has /lib link in usrmerged case
+if exists(filesystem, /lib, l)
 s usr/bin /bin
 s usr/sbin /sbin
 s usr/lib /lib
@@ -33,7 +33,12 @@ TEMPLATE binutils:
   r /usr/bin/ld
   s ld.bfd /usr/bin/ld
 
+# Some packages use LUA for their pre/post scripts; there's nothing else
+# than running rpm to install these - marked with the 'direct' tag.
+
 TEMPLATE system-user-root: direct
+
+TEMPLATE crypto-policies: direct
 
 TEMPLATE system-user-.*|system-group-.*:
   /
@@ -44,9 +49,15 @@ TEMPLATE nfs-client|device-mapper|rpcbind|rsync|rsyslog|dmraid|multipath-tools:
   E prein
   E postin
 
-TEMPLATE wicked|lvm2|syslog-service|util-linux|mdadm:
+TEMPLATE wicked|lvm2|syslog-service|util-linux|mdadm|permissions-config:
   /
   E postin
+
+# ensure /usr/share/pci.ids exists
+TEMPLATE hwdata:
+  /
+  e [ -e usr/share/pci.ids ] || ln -s pci.ids.d/pci.ids.dist usr/share/pci.ids
+  e [ -e usr/share/pci.ids ] || { echo "pci ids missing" ; false ; }
 
 TEMPLATE:
   /
@@ -63,6 +74,13 @@ filesystem:
 ?compat-usrmerge: ignore
 ?compat-usrmerge-tools: ignore
 
+glibc:
+bash:
+  /usr/bin/bash
+  s bash usr/bin/sh
+fillup:
+coreutils:
+
 AUTODEPS:
 
 dbus-1-x11: ignore
@@ -73,12 +91,6 @@ shared-mime-info: ignore
 update-alternatives: ignore
 device-mapper-32bit: ignore
 binutils: ignore
-
-# XXX: usrmerge
-bash:
-  /bin/{sh,bash}
-  /usr/bin/bash
-  s bash usr/bin/sh
 
 ?acpica:
 ?efibootmgr:
@@ -108,7 +120,6 @@ btrfsprogs:
 bzip2:
 checkmedia:
 cifs-utils:
-coreutils:
 cpio:
 cracklib-dict-full:
 cracklib:
@@ -124,10 +135,8 @@ e2fsprogs:
 ?exfatprogs:
 file-magic:
 file:
-fillup:
 findutils:
 finger:
-glibc:
 gpart:
 ?gptfdisk:
 grep:
@@ -182,11 +191,11 @@ suse-module-tools:
 sysconfig:
 sysconfig-netconfig:
 systemd-presets-branding-<systemd_theme>:
-systemd-sysvinit:
 sysuser-shadow:
 tar:
 terminfo-base:
 usbutils:
+util-linux:
 vim-small:
 vlan:
 wget:
@@ -201,20 +210,21 @@ xz:
 
 # we have full samba in rescue-server
 if filelist ne 'rescue-server'
-  samba-libs: nodeps
-    /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
+  if exists(samba-client-libs)
+    samba-client-libs: nodeps
+      /usr/lib*/libwbclient.*
+  else
+    samba-libs: nodeps
+  endif
+      /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
 endif
 
 gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
 
-if exists(glibc-locale-base)
-  glibc-locale: ignore
-  glibc-locale-base:
-else
-  glibc-locale:
-endif
+glibc-locale: ignore
+glibc-locale-base:
   # charset encodings we might possibly need
   /usr/lib*/gconv/IBM1047.so
   /usr/lib*/gconv/ISO8859-1.so
@@ -332,7 +342,6 @@ rpcbind:
 rsync:
 syslog-service:
 rsyslog:
-util-linux:
 wicked:
 ?dmraid:
 mdadm:
@@ -342,18 +351,13 @@ nfs-client:
 
 ?openssh-fips:
 
-if exists(openssh-server)
-  openssh:
-  openssh-server:
-else
-  openssh:
-endif
-    /
-    E prein
-    E postin
-    # enable root login bsc#1118114
-    R s/^\s*#\s*(PermitRootLogin)\b.*/$1 yes/ /etc/ssh/sshd_config
-
+openssh:
+openssh-server:
+  /
+  E prein
+  E postin
+  # enable root login bsc#1118114
+  e echo "PermitRootLogin yes" > etc/ssh/sshd_config.d/10_root_login.conf
 
 :
 
@@ -428,9 +432,6 @@ e echo RC_LANG=\"en_US.UTF-8\" >>etc/sysconfig/language
 #endif
 
 e echo console >>etc/securetty
-
-# enable sysrq
-e perl -pi -e '\''s/^(ENABLE_SYSRQ=).*/$1"yes"/'\'' etc/sysconfig/sysctl
 
 # setup multipath config
 x etc/multipath.conf /etc

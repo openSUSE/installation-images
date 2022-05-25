@@ -8,7 +8,11 @@ if arch eq 'i386' || arch eq 'x86_64'
   endif
 
   <kernel_rpm>:
-    a /boot/<kernel_img> /loader/linux
+    if exists(<kernel_rpm>,/usr/lib/modules/<kernel_ver>/<kernel_img>)
+      a /usr/lib/modules/<kernel_ver>/<kernel_img> /loader/linux
+    else
+      a /boot/<kernel_img> /loader/linux
+    endif
 
   memtest86+:
     m /boot/memtest.bin /loader/memtest
@@ -29,7 +33,11 @@ if arch eq 'i386' || arch eq 'x86_64'
 
 elsif arch eq 'aarch64' || arch eq 'armv7l' || arch eq 'armv6l' || arch eq 'riscv64'
   <kernel_rpm>:
-    a /boot/<kernel_img> /linux
+    if exists(<kernel_rpm>,/usr/lib/modules/<kernel_ver>/<kernel_img>)
+      a /usr/lib/modules/<kernel_ver>/<kernel_img> /linux
+    else
+      a /boot/<kernel_img> /linux
+    endif
 
 endif
 

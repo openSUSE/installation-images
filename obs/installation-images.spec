@@ -55,6 +55,9 @@ ExclusiveArch:  do_not_build
 %ifarch ppc64 ppc64le
 %define the_arch ppc
 %endif
+%ifarch s390x
+%define the_arch zsystems
+%endif
 %ifarch riscv64
 %define the_arch riscv
 %endif
@@ -71,10 +74,14 @@ ExclusiveArch:  do_not_build
 %if "%{the_version}" == ""
 %error "bad version string"
 %endif
+%ifarch %arm
+%define net_repo https://download.opensuse.org/ports/%{the_arch}/distribution/leap/%{the_version}/repo/oss
+%else
 %define net_repo https://download.opensuse.org/distribution/leap/%{the_version}/repo/oss
+%endif
 %else
 %define with_exfat 1
-%ifarch %arm aarch64 ppc64 ppc64le riscv64
+%ifarch %arm aarch64 ppc64 ppc64le riscv64 s390x
 %define net_repo https://download.opensuse.org/ports/%{the_arch}/tumbleweed/repo/oss/
 %else
 %define net_repo https://download.opensuse.org/tumbleweed/repo/oss
@@ -101,6 +108,10 @@ ExclusiveArch:  do_not_build
 %endif
 %endif
 %endif
+%endif
+
+%if "%flavor" == "LeapMicro"
+%define theme LeapMicro
 %endif
 
 %if "%flavor" == "MicroOS"
@@ -187,16 +198,24 @@ BuildRequires:  distribution-logos-openSUSE-Kubic
 %global product_name openSUSE-Kubic
 %endif
 
-%if "%theme" == "SMO"
+%if "%theme" == "SMO" || "%theme" == "LeapMicro"
 %define with_storage_ng 1
 %define with_ssl_hmac 0
 %define branding_skelcd   SMO
 %define branding_systemd  SMO
+%if "%theme" == "LeapMicro"
+BuildRequires:  Leap-Micro-release
+BuildRequires:  distribution-logos-openSUSE-LeapMicro
+%define branding_plymouth openSUSE
+%define branding_grub2    openSUSE
+%define branding_gfxboot  openSUSE
+%else
+BuildRequires:  SLE-Micro-release
 %define branding_plymouth SLE
 %define branding_grub2    SLE
 %define branding_gfxboot  SLE
+%endif
 %define config_bootmenu_no_upgrade 1
-BuildRequires:  SLE-Micro-release
 # system-group-kvm needed for 15-SP2 based MicroOS
 BuildRequires:  system-group-kvm 
 %endif
@@ -299,9 +318,7 @@ ExcludeArch:    %ix86
 %if %with_reiserfs_kmp
 BuildRequires:  reiserfs-kmp-default
 %endif
-%ifnarch s390x
 BuildRequires:  xf86-input-libinput
-%endif
 BuildRequires:  google-roboto-fonts
 BuildRequires:  noto-sans-fonts
 %ifarch ia64 %ix86 x86_64
@@ -339,6 +356,7 @@ BuildRequires:  curl
 BuildRequires:  dash
 BuildRequires:  dbus-1-x11
 BuildRequires:  dd_rescue
+BuildRequires:  debuginfod-client
 BuildRequires:  dejavu-fonts
 BuildRequires:  dhcp-server
 BuildRequires:  dmraid
@@ -387,6 +405,7 @@ BuildRequires:  kbd
 BuildRequires:  kernel-default
 %if %with_kernel_extra
 BuildRequires:  kernel-default-extra
+BuildRequires:  kernel-default-optional
 %endif
 BuildRequires:  kernel-firmware
 BuildRequires:  kexec-tools
@@ -496,7 +515,6 @@ BuildRequires:  sqlite3
 BuildRequires:  squashfs
 BuildRequires:  star
 BuildRequires:  strace
-BuildRequires:  systemd-sysvinit
 BuildRequires:  tcpd-devel
 BuildRequires:  termcap
 BuildRequires:  terminfo
@@ -532,8 +550,13 @@ BuildRequires:  xset
 BuildRequires:  xterm
 BuildRequires:  xz
 BuildRequires:  yast2-devtools
-BuildRequires:  yast2-schema
+%if "%flavor" == "SMO" || "%flavor" == "LeapMicro" || "%flavor" == "MicroOS"
+BuildRequires:  yast2-schema-micro
+%else
+BuildRequires:  yast2-schema-default
+%endif
 BuildRequires:  yast2-trans-allpacks
+BuildRequires:  yast2-widget-demo
 %if 0%{?with_storage_ng}
 BuildRequires:  libstorage-ng-lang
 BuildRequires:  yast2-storage-ng
@@ -637,6 +660,7 @@ BuildRequires:  grub2-arm64-efi
 BuildRequires:  raspberrypi-firmware
 BuildRequires:  raspberrypi-firmware-config
 BuildRequires:  raspberrypi-firmware-dt
+BuildRequires:  arm-trusted-firmware-rpi4
 BuildRequires:  u-boot-rpiarm64
 %if %with_shim
 BuildRequires:  shim
@@ -649,7 +673,6 @@ BuildRequires:  grub2-arm-efi
 BuildRequires:  grub2-riscv64-efi
 %endif
 # inst-sys module for libstoragemgmt
-BuildRequires:  libstoragemgmt-netapp-plugin
 BuildRequires:  libstoragemgmt-smis-plugin
 # our images are not reproducible and it's taking time
 #!BuildIgnore:  build-compare

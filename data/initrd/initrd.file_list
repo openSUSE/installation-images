@@ -4,8 +4,8 @@ d mnt proc sys tmp mounts root download scripts usr/{bin,sbin,lib}
 if exists(filesystem, usr/lib64)
 d usr/lib64
 endif
-# filesystem requires compat-usrmerge-tools in usrmerged case, so trigger on that.
-if exists(compat-usrmerge-tools)
+# filesystem has /lib link in usrmerged case
+if exists(filesystem, /lib, l)
 s usr/bin /bin
 s usr/sbin /sbin
 s usr/lib /lib
@@ -41,7 +41,16 @@ e cp -a /dev/* dev
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# Some packages use LUA for their pre/post scripts; there's nothing else
+# than running rpm to install these - marked with the 'direct' tag.
+
 TEMPLATE system-user-root: direct
+
+TEMPLATE crypto-policies: direct
+
+TEMPLATE system-user-.*|system-group-.*:
+  /
+  E prein
 
 TEMPLATE:
   /
@@ -128,8 +137,13 @@ libzypp: nodeps
     R s/^[#[:space:]]*(multiversion)\s+=.*/# minimal CAASP\n$1 =/ etc/zypp/zypp.conf
   endif
 
-samba-libs: nodeps
-  /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
+if exists(samba-client-libs)
+  samba-client-libs: nodeps
+    /usr/lib*/libwbclient.*
+else
+  samba-libs: nodeps
+endif
+    /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
 
 # for samba-libs
 libgnutls*:
@@ -155,25 +169,7 @@ terminfo:
 suse-module-tools:
   /etc/modprobe.d
 
-# XXX: usrmerge
 ?s390-tools:
-  /sbin/zfcp_*_configure
-  /sbin/zfcp_san_disc
-  /sbin/iucv_configure
-  /sbin/ctc_configure
-  /sbin/qeth_configure
-  /sbin/dasdinfo
-  /sbin/chzdev
-  /usr/sbin/zfcp_*_configure
-  /usr/sbin/zfcp_san_disc
-  /usr/sbin/iucv_configure
-  /usr/sbin/ctc_configure
-  /usr/sbin/qeth_configure
-  /usr/sbin/dasdinfo
-  /usr/sbin/chzdev
-  /usr/lib/udev
-  /etc/zkey
-  /boot
 
 kbd:
   /usr/bin/dumpkeys
@@ -184,9 +180,7 @@ kbd:
   /usr/share/kbd/consoletrans/trivial
   /usr/share/kbd/consolefonts/default8x16.psfu.gz
 
-# XXX: usrmerge
 cifs-utils:
-  /sbin/mount.cifs
   /usr/sbin/mount.cifs
 
 ?acpica:
@@ -194,11 +188,6 @@ cifs-utils:
 
 ?dmidecode:
   /usr/sbin/dmidecode
-
-# XXX: usrmerge
-?bootsplash:
-  /sbin/splash
-  /usr/sbin/splash
 
 if exists(wpa_supplicant)
   wpa_supplicant:
@@ -245,20 +234,16 @@ coreutils:
   # linuxrc needs it in /bin
   m /usr/bin/rm bin
 
-# XXX: usrmerge
 bash:
-  /bin/{sh,bash}
   /usr/bin/bash
+  s bash usr/bin/sh
   s bash usr/bin/lsh
 
 ncurses-utils:
   /usr/bin/clear
   /usr/bin/tset
 
-# XXX: usrmerge
 iproute2:
-  /bin/ip
-  /sbin/ip
   /usr/bin/ip
   /usr/sbin/ip
 
@@ -266,7 +251,6 @@ open-iscsi:
   # must be writable
   /etc/iscsi
   c 644 0 0 /etc/iscsi/iscsid.conf
-
 
 util-linux:
   /usr/sbin/mkswap
@@ -277,14 +261,10 @@ util-linux:
   /usr/bin/setsid
   /usr/sbin/losetup
   /usr/sbin/blkid
+  /usr/sbin/nologin
 
-# XXX: usrmerge
 nfs-client:
-  /sbin/mount.nfs
-  /sbin/mount.nfs4
-  /sbin/umount.nfs
-  /sbin/umount.nfs4
-  /sbin/mount.nfs
+  /usr/sbin/mount.nfs
   /usr/sbin/mount.nfs4
   /usr/sbin/umount.nfs
   /usr/sbin/umount.nfs4
@@ -301,32 +281,18 @@ cryptsetup:
 ?libcryptsetup*-hmac:
 ?libgcrypt20-hmac:
 
-# XXX: usrmerge
 ntfs-3g:
   /
-  s mount.ntfs-3g /sbin/mount.ntfs
   s mount.ntfs-3g /usr/sbin/mount.ntfs
 
 ?kexec-tools: nodeps
   /usr/sbin/kexec
 
-# XXX: usrmerge
-if exists(blog)
-  blog:
-    /usr/lib*
-    /sbin/showconsole
-    /usr/sbin/showconsole
+blog:
+  /usr/sbin/showconsole
 
-  sysvinit-tools: nodeps
-    /sbin/startproc
-    /usr/sbin/startproc
-else
-  sysvinit-tools: nodeps
-    /sbin/showconsole
-    /sbin/startproc
-    /usr/sbin/showconsole
-    /usr/sbin/startproc
-endif
+sysvinit-tools: nodeps
+  /usr/sbin/startproc
 
 rpm:
   /usr/bin/rpm2cpio
@@ -383,30 +349,18 @@ shadow:
   /usr/sbin/useradd.local
   d /etc/skel
 
-# XXX: usrmerge
 pam:
-  /sbin
   /usr/sbin
   /etc
   /usr/etc
-  /lib*/libpam*.so.*
-  /lib*/security/pam_group.so
-  /lib*/security/pam_unix*.so
-  /lib*/security/pam_env.so
-  /lib*/security/pam_limits.so
-  /lib*/security/pam_umask.so
-  /lib*/security/pam_rootok.so
-  /lib*/security/pam_permit.so
-  /lib*/security/pam_deny.so
   /usr/lib*/libpam*.so.*
-  /usr/lib*/security/pam_group.so
-  /usr/lib*/security/pam_unix*.so
-  /usr/lib*/security/pam_env.so
-  /usr/lib*/security/pam_limits.so
-  /usr/lib*/security/pam_umask.so
-  /usr/lib*/security/pam_rootok.so
-  /usr/lib*/security/pam_permit.so
   /usr/lib*/security/pam_deny.so
+  /usr/lib*/security/pam_env.so
+  /usr/lib*/security/pam_group.so
+  /usr/lib*/security/pam_limits.so
+  /usr/lib*/security/pam_permit.so
+  /usr/lib*/security/pam_rootok.so
+  /usr/lib*/security/pam_umask.so
 
 if exists(plymouth)
   # Do not EVER consider another plymouth theme before ensuring it doesn't
@@ -432,7 +386,6 @@ if exists(plymouth)
 endif
 
 procps:
-  /bin/ps
   /usr/bin/ps
 
 # maybe we don't need everything...
@@ -468,13 +421,11 @@ autoyast2-installation: nodeps
 lvm2: nodeps
   /etc
 
-# note: locale files are added in root image
-if exists(glibc-locale-base)
-  glibc-locale: ignore
-  glibc-locale-base:
-else
-  glibc-locale:
-endif
+# note: more locale files are added in root image
+glibc-locale: ignore
+glibc-locale-base:
+  /usr/lib/locale/en_US.utf8
+  s en_US.utf8 usr/lib/locale/C.utf8
   # charset encodings we might possibly need
   /usr/lib*/gconv/IBM1047.so
   /usr/lib*/gconv/ISO8859-1.so
@@ -493,13 +444,12 @@ e2fsprogs:
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+system-user-daemon:
+system-group-kvm:
+
 aaa_base:
   E prein
   /
-  # steal them from base image
-  e cp /etc/passwd etc
-  e cp /etc/group etc
-  e cp /etc/shadow etc
   t /run/utmp
 
 dbus-1:
@@ -537,9 +487,7 @@ nscd:
   E prein
 
 # we just want the user & group entries
-# FIXME: assumes nobody group exists - maybe time to drop rpcbind?
 rpcbind:
-  E groupadd -r nobody || true
   E prein
 
 # we just want the user & group entries
@@ -549,7 +497,6 @@ openslp-server:
 # we just want the user & group entries
 chrony: nodeps
   E prein
-
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
@@ -561,9 +508,7 @@ if with_gdb
   valgrind:
     /
 
-  # XXX: usrmerge
   kbd:
-    /bin/kbd_mode
     /usr/bin/kbd_mode
 
   strace:
@@ -575,17 +520,13 @@ if with_gdb
   libpython2_6-1_0:
     /usr/lib*
 
-  # XXX: usrmerge
   libexpat1:
-    /lib*/libexpat.so.*
     /usr/lib*/libexpat.so.*
 
   libprocps*:
     /
 
-  # XXX: usrmerge
   psmisc:
-    /bin/fuser
     /usr/bin/fuser
     /usr/bin/killall
     /usr/bin/pstree
@@ -694,8 +635,16 @@ endif
 r /etc/mtab
 s /proc/self/mounts /etc/mtab
 
+# override allow_unsupported_modules to allow loading all modules
+# this is needed in case kernel-default-{extra,optional} were used
+# see bsc#1184413, bsc#1183140
+x etc/99-unsupported-modules.conf /etc/modprobe.d
+
 # our own rules file which loads only pnp subsystem mods
 x etc/80-drivers.rules /usr/lib/udev/80-drivers.rules.no_modprobe
+
+# udev rules for NVMf autoconnect in the installation system (bsc#1184908)
+x etc/90-nvmf-discovery.rules /usr/lib/udev/rules.d
 
 # don't let udev lock the DVD tray
 R s/--lock-media/--unlock-media/g usr/lib/udev/rules.d/60-cdrom_id.rules

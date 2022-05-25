@@ -70,7 +70,7 @@ e echo "defaultrepo:	`default_repo`" >>linuxrc.config
 
 e echo "KexecReboot:    1" >>linuxrc.config
 
-e echo "PTOptions:	AutoUpgrade,productprofile,addon,XVideo,Screenmode,specialproduct,reboot_timeout" >>linuxrc.config
+e echo "PTOptions:	AutoUpgrade,productprofile,addon,XVideo,Screenmode,specialproduct,reboot_timeout,LIBSTORAGE_*,YAST_*,Y2*" >>linuxrc.config
 
 if YAST_SELFUPDATE ne ""
   e echo "SelfUpdate:	<YAST_SELFUPDATE>" >>linuxrc.config

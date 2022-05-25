@@ -861,6 +861,18 @@ sub _add_pack
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+=head2 find_missing_packs(\@packs)
+
+A @packs entry is a hash ref $p from which we ask:
+- $p->{name}
+- $p->{tags}{ignore}
+- $p->{tags}{nodeps}
+
+Return: autodeps hash ref:
+  string package_name -> string "package_name < required_by < required_by"
+
+=cut
+
 sub find_missing_packs
 {
   my $packs = shift;
@@ -891,7 +903,7 @@ sub find_missing_packs
       close $f;
     }
     else {
-      die "$old->{dir}.romlog: $old package list missing";
+      die "$old->{dir}.rpmlog: $old package list missing";
     }
     if(open my $f, "$old->{dir}.solv") {
       while(<$f>) {
@@ -942,13 +954,16 @@ sub find_missing_packs
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Check if an rpm contains a file.
 #
-# rpm_has_file(rpm, file)
+# rpm_has_file(rpm, file, type)
 #
 # If file is missing, verifies only existence of rpm.
+# If type is specified, types must match.
+#
+# type is perl's -X operator (without the '-').
 #
 sub rpm_has_file
 {
-  my ($rpm, $file) = @_;
+  my ($rpm, $file, $type) = @_;
 
   return 0 if !RealRPM $rpm;
 
@@ -958,7 +973,9 @@ sub rpm_has_file
 
   return 0 if !$rpm_dir;
 
-  return -e "$rpm_dir/rpm/$file";
+  $type = 'e' if !$type;
+
+  return eval "-$type \"$rpm_dir/rpm/$file\"";
 }
 
 
@@ -982,8 +999,7 @@ sub fixup_re
     substr($re, length($2), length($3)) = $val;
   }
 
-  $re =~ s/\bexists\(([^),]+),\s*([^)]*)\)/rpm_has_file($1, $2) ? 1 : 0/eg;
-  $re =~ s/\bexists\(([^)]*)\)/rpm_has_file($1) ? 1 : 0/eg;
+  $re =~ s/\bexists\(([^),]+)(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/rpm_has_file($1, $2, $3) ? 1 : 0/eg;
 
   return $re;
 }

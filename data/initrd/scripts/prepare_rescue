@@ -33,6 +33,20 @@ for i in /etc/systemd/* /etc/systemd/*/* ; do
   fi
 done
 
+# /var/run needs to be a link
+rm -rf /var/run
+ln -s ../run /var/run
+
+lib=/lib
+if [ -L "$lib" ]; then
+  lib=/usr/$lib
+else
+  mkdir -p "$lib"
+fi
+for i in modules firmware; do
+  ln -sf /parts/mp_0000$lib/$i $lib/$i
+done
+
 if [ -f /mounts/initrd/etc/suse-blinux.conf ] ; then
   grep -q '^brlname=none' /mounts/initrd/etc/suse-blinux.conf || {
     cp /mounts/initrd/etc/suse-blinux.conf /etc
@@ -55,7 +69,7 @@ fi
 # keep some initrd config files for rescue system
 cd /mounts/initrd
 for i in \
-  etc/modprobe.d/blacklist.conf etc/modprobe.d/noload.conf etc/resolv.conf \
+  etc/modprobe.d/{blacklist,noload,99-unsupported-modules}.conf etc/resolv.conf \
   etc/sysconfig/network/* root/.ssh etc/nvme \
   ; do
   [ -f "$i" ] && cp -f "$i" "/$i"

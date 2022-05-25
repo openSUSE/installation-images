@@ -4,17 +4,17 @@ s lib/modules/<kernel_ver>/initrd modules
 
 <kernel_rpm>:
 
-  # temporary
-  if exists(compat-usrmerge-tools)
+  # temporary: usrmerge
+  if exists(filesystem, /lib, l)
     L usr/lib/firmware fw
   else
     L lib/firmware fw
   endif
 
-  /lib/modules/<kernel_ver>/modules.order
-  e perl -pi -e "s#.*/#initrd/#" lib/modules/<kernel_ver>/modules.order
-  /lib/modules/<kernel_ver>/modules.builtin
-  e perl -pi -e "s#.*/#initrd/#" lib/modules/<kernel_ver>/modules.builtin
+  <kernel_module_dir>/<kernel_ver>/modules.order
+  e perl -pi -e "s#.*/#initrd/#" ./<kernel_module_dir>/<kernel_ver>/modules.order
+  <kernel_module_dir>/<kernel_ver>/modules.builtin
+  e perl -pi -e "s#.*/#initrd/#" ./<kernel_module_dir>/<kernel_ver>/modules.builtin
 
 x module.help modules/module.config
 
@@ -57,12 +57,16 @@ if 0
 endif
 
 # add modules.alias, modules.dep
-L boot/System.map* System.map
+if exists(<kernel_rpm>, usr/lib/modules/<kernel_ver>/System.map)
+  L usr/lib/modules/<kernel_ver>/System.map System.map
+else
+  L boot/System.map* System.map
+endif
 e /sbin/depmod -a -b . -F System.map <kernel_ver>
 r System.map
 
-# copy needed firmware files
-if exists(compat-usrmerge-tools)
+# usrmerge: copy needed firmware files
+if exists(filesystem, /lib, l)
   d usr/lib/firmware
 else
   d lib/firmware

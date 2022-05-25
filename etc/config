@@ -1,5 +1,5 @@
 ; OBS access data
-; looks at ~/.oscrc for user & password if necessary
+; looks at ~/.oscrc or ~/.config/osc/oscrc for user & password if necessary
 [OBS]
 # server     = http://buildservice:5352
 server     = https://api.opensuse.org
@@ -14,7 +14,7 @@ repository = standard
 ; *** These are actually perl regexps! ***
 ;
 [KernelImage]
-default	= vmlinuz-
+default	= vmlinuz
 alpha	= vmlinuz
 ppc	= vmlinux
 ppc64	= vmlinux
@@ -91,6 +91,17 @@ gfxboot           = openSUSE
 grub2             = openSUSE
 plymouth          = openSUSE
 systemd           = openSUSE
+
+[Theme LeapMicro]
+image             = 350
+patch_zypp_config = 1
+release           = Leap-Micro
+skelcd            = SMO
+skelcd_ctrl       = SMO
+gfxboot           = openSUSE
+grub2             = openSUSE
+plymouth          = openSUSE
+systemd           = SMO
 
 [Theme SLES]
 image             = 600
@@ -169,6 +180,17 @@ gfxboot           = openSUSE
 grub2             = openSUSE
 plymouth          = openSUSE
 systemd           = MicroOS
+
+[Theme LeapMicro]
+image             = 350
+patch_zypp_config = 1
+release           = Leap-Micro
+skelcd            = SMO
+skelcd_ctrl       = SMO
+gfxboot           = openSUSE
+grub2             = openSUSE
+plymouth          = openSUSE
+systemd           = SMO
 
 [Theme Zen]
 image             = 600

@@ -179,6 +179,7 @@ use vars qw (
 use Cwd;
 use File::Path 'make_path';
 use File::Spec 'abs2rel';
+use ResolveDepsLibsolv;
 
 eval "use solv";
 
@@ -186,7 +187,6 @@ sub get_repo_list;
 sub read_meta;
 sub read_packages;
 sub resolve_deps_obs;
-sub resolve_deps_libsolv;
 sub show_package_deps;
 sub get_version_info;
 sub version_cmp;
@@ -214,6 +214,21 @@ sub DebugInfo
 }
 
 
+=head2 ResolveDeps(\@packages, \@ignore, \%old)
+
+@packages strings, package names to include, with their dependencies
+
+@ignore strings, package names to ignore, with their dependencies
+
+%old
+
+Return: autodeps hash ref:
+  string package_name -> string "package_name < required_by < required_by"
+
+Also print out the return value, and the package count
+
+=cut
+
 sub ResolveDeps
 {
   local $_;
@@ -228,7 +243,7 @@ sub ResolveDeps
   }
   else {
     die "oops, no libsolv" unless $ConfigData{libsolv_ok};
-    $p1 = resolve_deps_libsolv $packages, $ignore;
+    $p1 = resolve_deps_libsolv $packages, $ignore, "/tmp/instsys.solv";
   }
 
   my $p2;
@@ -448,13 +463,26 @@ sub ReadRPM
     SUSystem "find $tdir -type d -exec chmod a+rx '{}' \\;";
 
     my $kv;
+    my $kmd;
 
-    $kv = <$tdir/lib/modules/*>;
+    for my $p ('', '/usr') {
+      if (-d "$tdir$p/lib/modules") {
+        $kmd = "$p/lib/modules";
+        last;
+      }
+    }
+
+    if (!$kmd) {
+      die "couldn't find module dir in $tdir\n";
+    }
+
+    $kv = <$tdir$kmd/*>;
 
     if(-d $kv) {
       $kv =~ s#.*/##;
+      print "writing $kv $kmd to $dir/kernel\n";
       open $f, ">$dir/kernel";
-      print $f $kv;
+      print $f "$kv $kmd";
       close $f;
     }
     else {
@@ -464,6 +492,7 @@ sub ReadRPM
 
     UnpackRPM RealRPM("$rpm->{name}-base"), $tdir;
     UnpackRPM RealRPM("$rpm->{name}-extra"), $tdir;
+    UnpackRPM RealRPM("$rpm->{name}-optional"), $tdir;
 
     my $kmp;
     for (split(',', $ConfigData{kmp_list})) {
@@ -481,11 +510,11 @@ sub ReadRPM
     SUSystem "find $tdir -type d -exec chmod a+rx '{}' \\;";
 
     # if kmp version differs, copy files to real kernel tree
-    for (<$tdir/lib/modules/*>) {
+    for (<$tdir$kmd/*>) {
       s#.*/##;
       next if $_ eq $kv;
       print "warning: kmp/firmware version mismatch: $_\n";
-      SUSystem "sh -c 'tar -C $tdir/lib/modules/$_ -cf - . | tar -C $tdir/lib/modules/$kv -xf -'";
+      SUSystem "sh -c 'tar -C $tdir$kmd/$_ -cf - . | tar -C $tdir$kmd/$kv -xf -'";
     }
   }
 
@@ -534,9 +563,15 @@ sub KernelImg
   chomp @$k_files;
 
   for (@$k_files) {
-    s#.*/boot/##;
+    next unless s#.*/boot/##;
     next if /autoconf|config|shipped|version/;		# skip obvious garbage
-    push @k_images, $_ if m#^$ConfigData{kernel_img}#;
+    my ($f, $l) = split(/ /);
+    # Explicitly require the kernel file to have a version number attached
+    # with a '-', like NAME-VERSION-VARIANT.
+    if($f =~ m#^$ConfigData{kernel_img}\-#) {
+      $l =~ s#.*/## if ($l);
+      push @k_images, $l?$l:$f;
+    }
   }
 
   return @k_images;
@@ -722,123 +757,17 @@ sub resolve_deps_obs
 }
 
 
-sub resolve_deps_libsolv
-{
-  local $_;
-  my $packages = shift;
-  my $ignore = shift;
+=head2 show_package_deps($package_name, \%deps)
 
-  my $ignore_file_deps = $ENV{debug} =~ /filedeps/ ? 0 : 1;
+$package_name string
 
-  my %p;
+%deps keys: string package name,
+      values: string which (one) package required the key
 
-  my $pool = solv::Pool->new();
-  my $repo = $pool->add_repo("instsys");
-  $repo->add_solv("/tmp/instsys.solv") or die "/tmp/instsys.solv: no solv file";
-  $pool->addfileprovides();
-  $pool->createwhatprovides();
-  $pool->set_debuglevel(4) if $ENV{debug} =~ /solv/;
+return string dependency chain, starting with $package_name, for example
+"augeas < ruby2.7-rubygem-ruby-augeas < ruby2.7-rubygem-cfa < yast2"
 
-  my $jobs;
-  for (@$packages) {
-    push @$jobs, $pool->Job($solv::Job::SOLVER_INSTALL | $solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
-  }
-
-  my $blackpkg = $repo->add_solvable();
-  $blackpkg->{evr} = "1-1";
-  $blackpkg->{name} = "blacklist_package";
-  $blackpkg->{arch} = "noarch";
-
-  my %blacklisted;
-  for (@$ignore) {
-    my $id = $pool->str2id($_);
-    next if $pool->Job($solv::Job::SOLVER_SOLVABLE_NAME, $id)->solvables();
-    $blackpkg->add_deparray($solv::SOLVABLE_PROVIDES, $id);
-    $blacklisted{$_} = 1;
-  }
-
-  $pool->createwhatprovides();
-
-  if(defined &solv::XSolvable::unset) {
-    for (@$ignore) {
-      my $job = $pool->Job($solv::Job::SOLVER_SOLVABLE_NAME, $pool->str2id($_));
-      for my $s ($job->solvables()) {
-        $s->unset($solv::SOLVABLE_REQUIRES);
-        $s->unset($solv::SOLVABLE_RECOMMENDS);
-        $s->unset($solv::SOLVABLE_SUPPLEMENTS);
-      }
-    }
-
-    if($ignore_file_deps) {
-      for ($pool->Selection_all()->solvables()) {
-        my @deps = $_->lookup_idarray($solv::SOLVABLE_REQUIRES, 0);
-        @deps = grep { $pool->id2str($_) !~ /^\// } @deps;
-        $_->unset($solv::SOLVABLE_REQUIRES);
-        for my $id (@deps) {
-          $_->add_deparray($solv::SOLVABLE_REQUIRES, $id, 0);
-        }
-      }  
-    }
-
-    if (%blacklisted) {
-      for ($pool->Selection_all()->solvables()) {
-        my @deps = $_->lookup_idarray($solv::SOLVABLE_CONFLICTS, 0);
-        my @fdeps = grep { !$blacklisted{$pool->id2str($_)} } @deps;
-        next if @fdeps == @deps;
-        $_->unset($solv::SOLVABLE_CONFLICTS);
-        for my $id (@fdeps) {
-          $_->add_deparray($solv::SOLVABLE_CONFLICTS, $id, 0);
-        }
-      }
-    }
-  }
-  else {
-    warn "$Script: outdated perl-solv: solver will not work properly";
-  }
-
-  my $solver = $pool->Solver();
-  $solver->set_flag($solv::Solver::SOLVER_FLAG_IGNORE_RECOMMENDED, 1);
-
-  my @problems = $solver->solve($jobs);
-
-  if(@problems) {
-    my @err;
-
-    for my $problem (@problems) {
-      for my $pr ($problem->findallproblemrules()) {
-        push @err, "$Script: " . $pr->info()->problemstr() . "\n";
-      }
-    }
-
-    warn join('', @err);
-
-    return \%p;
-  }
-
-  my $trans = $solver->transaction();
-
-  for ($trans->newsolvables()) {
-    my $dep;
-
-    if(defined &solv::Solver::describe_decision) {
-      my ($reason, $rule) = $solver->describe_decision($_);
-      if ($rule && $rule->{type} == $solv::Solver::SOLVER_RULE_RPM) {
-        $dep = $rule->info()->{solvable}{name};
-      }
-      else {
-        # print "XXX $_->{name}: type = $rule->{type}\n";
-      }
-    }  
-
-    $p{$_->{name}} = $dep;
-  }
-
-  delete $p{$_} for (@$packages, @$ignore);
-  delete $p{$blackpkg->{name}};
-
-  return \%p;
-}
-
+=cut
 
 sub show_package_deps
 {  
@@ -915,6 +844,7 @@ sub get_version_info
   # SUSE MicroOS is kept called MicroOS insternally, but the product NAME
   # is now SLE Micro
   $dist = "suse-microos" if $dist eq "sle micro";
+  $dist = "suse-microos" if $dist eq "leap micro";
 
   # don't accept other names than these
 
@@ -1244,16 +1174,25 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     my ($f, $u, $p, $s);
 
     if($ConfigData{obs_server} !~ /\@/) {
-      if(! -f "$ENV{HOME}/.oscrc") {
-        die "\nError: *** osc config file ~/.oscrc missing ***\n\n";
+      my $oscrc_old = "$ENV{HOME}/.oscrc";
+      my $oscrc_new = "$ENV{HOME}/.config/osc/oscrc";
+      my $oscrc;
+      if (-f $oscrc_old) {
+	      $oscrc = $oscrc_old;
+      }
+      elsif (-f $oscrc_new) {
+	      $oscrc = $oscrc_new;
+      }
+      if(! -f $oscrc_old && ! -f $oscrc_new) {
+        die "\nError: *** osc config file ~/.oscrc or ~/.config/osc/oscrc missing ***\n\n";
       }
 
       if($< == 0) {
-        # to avoid problems with restrictive .oscrc permissions
-        open $f, "su `stat -c %U $ENV{HOME}/.oscrc` -c 'cat $ENV{HOME}/.oscrc' |";
+        # to avoid problems with restrictive oscrc permissions
+        open $f, "su `stat -c %U $oscrc` -c 'cat $oscrc' |";
       }
       else {
-        open $f, "$ENV{HOME}/.oscrc";
+        open $f, $oscrc;
       }
       while(<$f>) {
         undef $s if /^\s*\[/;
@@ -1306,7 +1245,8 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
 
   my $k_dir = ReadRPM $ConfigData{kernel_rpm};
   if($k_dir) {
-    my @k_images = KernelImg [ `find $k_dir/rpm/boot -type f` ];
+    my $fn = RealRPM($ConfigData{kernel_rpm})->{file};
+    my @k_images = KernelImg [ `rpm --nosignature -q $fn --qf '[%{FILENAMES} %{FILELINKTOS}\n]' 2>/dev/null` ];
 
     if(!@k_images) {
       die "Error: No kernel image identified! (Looking for \"$ConfigData{kernel_img}\".)\n\n";
@@ -1317,14 +1257,16 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
     }
 
     $ConfigData{kernel_img} = $k_images[0];
-    $ConfigData{kernel_ver} = ReadFile "$k_dir/kernel";
+    ($ConfigData{kernel_ver}, $ConfigData{kernel_module_dir}) = split(' ', ReadFile "$k_dir/kernel");
+    print "kernel_ver: $ConfigData{kernel_ver}\n";
+    print "kernel_module_dir: $ConfigData{kernel_module_dir}\n";
 
-    my $mod_type = `find $k_dir/rpm/lib/modules/*/kernel/ -type f -name '*.ko*' -print -quit`;
+    my $mod_type = `find $k_dir/rpm$ConfigData{kernel_module_dir}/*/kernel/ -type f -name '*.ko*' -print -quit`;
     if (!$mod_type) {
-      die "Error: No kernel module found! (Looking for '*.ko*' in '$k_dir/rpm/lib/modules/*/kernel/')\n\n";
+      die "Error: No kernel module found! (Looking for '*.ko*' in '$k_dir/rpm$ConfigData{kernel_module_dir}/*/kernel/')\n\n";
     }
     chomp $mod_type;
-    $mod_type =~ /\.(ko(?:\.xz)?)$/;
+    $mod_type =~ /\.(ko(?:\.xz|\.zst)?)$/;
     $ConfigData{module_type} = $1;
   }
 

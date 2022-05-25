@@ -155,7 +155,7 @@ for (@cfg_file) {
     $l0 = $l[0];
     for $m1 (@fname_list) {
       $l[0] = $m1;
-      if($fname{$l[0]} =~ m#^$l0(?:\.xz)?$#) {
+      if($fname{$l[0]} =~ m#^$l0(?:\.xz|\.zst)?$#) {
         # print "$l0 - $fname{$l[0]} - $l[0]\n";
 
         $all{$l[0]} = 1;
@@ -326,7 +326,7 @@ for (@sect) {
   for $f (sort { $fname{$a} cmp $fname{$b} } keys %{$sect{$_}{'a'}}) {
     next if $sect{$_}{'r'}{$f};
     if($fname{$f}) {
-      print W "a /lib/modules/<kernel_ver>/$fname{$f} /modules\n";
+      print W "a <kernel_module_dir>/<kernel_ver>/$fname{$f} /modules\n";
     }
   }
   close W;
@@ -336,7 +336,7 @@ for (@sect) {
     for $f (sort { $fname{$a} cmp $fname{$b} } keys %{$sect{$_}{'a'}}) {
       next if $sect{$_}{'r'}{$f};
       if($fname{$f}) {
-        print W "  /lib/modules/<kernel_ver>/$fname{$f}\n";
+        print W "  <kernel_module_dir>/<kernel_ver>/$fname{$f}\n";
       }
     }
     close W;
