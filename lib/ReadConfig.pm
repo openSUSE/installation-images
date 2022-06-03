@@ -850,10 +850,9 @@ sub get_version_info
 
   die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|microos|suse-microos|leap|sles|sled|tumbleweed( kubic)?)$/;
 
-  # Kubic is based on TW
   # MicroOS can be based on TW or Leap
 
-  my $is_tw = $dist =~ /^tumbleweed( kubic)?$/;
+  my $is_tw = $dist =~ /^tumbleweed$/;
 
   if($dist eq "microos") {
     if($config{ID_LIKE} =~ /tumbleweed/) {
