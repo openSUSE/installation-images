@@ -147,18 +147,6 @@ grub2             = SLE
 plymouth          = SLE
 systemd           = CAASP
 
-[Theme Kubic]
-image             = 350
-patch_zypp_config = 1
-release           = MicroOS
-skelcd            = openSUSE
-skelcd_ctrl       = Kubic
-gfxboot           = openSUSE
-grub2             = openSUSE
-plymouth          = openSUSE
-systemd           = MicroOS
-product_name      = openSUSE-Kubic
-
 [Theme SMO]
 image             = 350
 patch_zypp_config = 1
