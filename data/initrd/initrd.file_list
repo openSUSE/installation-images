@@ -122,6 +122,7 @@ linuxrc:
   else
     m /usr/sbin/linuxrc /init
   endif
+  /usr/bin/edid-write
   s /lbin/extend /bin
   d /etc/linuxrc.d
 
