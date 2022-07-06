@@ -345,7 +345,11 @@ krb5:
   /usr/lib*/libk5crypto.so.*
 
 pam:
-  /usr/etc/pam.d
+  if exists(pam, /usr/lib/pam.d)
+    /usr/lib/pam.d
+  else
+    /usr/etc/pam.d
+  endif
   /etc
   /usr/lib*/security
   /usr/lib*/libpam.so.*

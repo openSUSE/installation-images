@@ -257,7 +257,9 @@ ntfs-3g:
 
 pam:
   /
-  if exists(pam, /usr/etc/pam.d/common-auth)
+  if exists(pam, /usr/lib/pam.d/common-auth)
+    pam_common_auth = /usr/lib/pam.d/common-auth
+  elsif exists(pam, /usr/etc/pam.d/common-auth)
     pam_common_auth = /usr/etc/pam.d/common-auth
   else
     pam_common_auth = /etc/pam.d/common-auth
