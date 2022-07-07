@@ -61,6 +61,8 @@ rm -rf a b
 # lib vs. lib64
 lib_dir=usr/lib
 mkdir -p "b/$lib_dir"
+# ensure firmware dir stays writable
+mkdir -p "b/$lib_dir/firmware"
 # for usrmerge
 if [ -e  "$lib_dir/modules" ]; then
   mv "$lib_dir/modules" "b/$lib_dir"
