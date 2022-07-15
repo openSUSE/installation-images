@@ -183,7 +183,7 @@ BuildRequires:  distribution-logos-openSUSE-LeapMicro
 %define branding_grub2    openSUSE
 %define branding_gfxboot  openSUSE
 %else
-BuildRequires:  SUSE-MicroOS-release
+BuildRequires:  SLE-Micro-release
 %define branding_plymouth SLE
 %define branding_grub2    SLE
 %define branding_gfxboot  SLE
