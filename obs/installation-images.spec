@@ -102,6 +102,7 @@ ExclusiveArch:  do_not_build
 %endif
 %endif
 %endif
+%endif
 
 %if "%flavor" == "LeapMicro"
 # build only on Leap
