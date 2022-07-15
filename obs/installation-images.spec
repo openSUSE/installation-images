@@ -102,7 +102,10 @@ ExclusiveArch:  do_not_build
 %endif
 
 %if "%flavor" == "LeapMicro"
+# build only on Leap
+%if 0%{?is_opensuse} && 0%{?sle_version}
 %define theme LeapMicro
+%endif
 %endif
 
 %if "%flavor" == "MicroOS"
