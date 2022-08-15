@@ -593,7 +593,7 @@ efont-unicode-bitmap-fonts:
 
 # various asiatic & arabic fonts
 indic-fonts:
-  /usr/share/fonts/truetype/MuktiNarrow.ttf
+  /usr/share/fonts/truetype/Mukti.ttf
   /usr/share/fonts/truetype/Lohit-Gujarati.ttf
   /usr/share/fonts/truetype/Lohit-Devanagari.ttf
   /usr/share/fonts/truetype/Lohit-Marathi.ttf
