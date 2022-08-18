@@ -379,8 +379,12 @@ nscd:
   R s/(enable-cache\s+(passwd|group)\s+)yes/$1no/g /etc/nscd.conf
 
 shadow:
+  if exists(shadow, /usr/lib/pam.d)
+    /usr/lib/pam.d
+  else
+    /usr/etc/pam.d
+  endif
   /etc
-  /usr/etc
   /usr/bin
   /usr/sbin/pwunconv
   /usr/sbin/chpasswd
