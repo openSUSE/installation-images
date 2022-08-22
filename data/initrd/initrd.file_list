@@ -143,8 +143,9 @@ if exists(samba-client-libs)
     /usr/lib*/libwbclient.*
 else
   samba-libs: nodeps
+    /usr/lib*/samba/libwinbind-client-samba4.so
 endif
-    /usr/lib*/samba/lib{replace,winbind-client,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
+    /usr/lib*/samba/lib{replace,genrand,samba-debug,socket-blocking,sys-rw,time-basic,iov-buf}-samba4.so
 
 # for samba-libs
 libgnutls*:
