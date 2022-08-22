@@ -344,7 +344,11 @@ nscd:
 
 shadow:
   /etc
-  /usr/etc
+  if exists(shadow, /usr/lib/pam.d)
+    /usr/lib/pam.d
+  else
+    /usr/etc/pam.d
+  endif
   /usr/sbin/groupadd
   /usr/sbin/useradd
   /usr/sbin/useradd.local
