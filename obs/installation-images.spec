@@ -355,6 +355,7 @@ BuildRequires:  gamin-server
 BuildRequires:  gdb
 BuildRequires:  gettext-runtime-mini
 BuildRequires:  glibc-i18ndata
+BuildRequires:  glibc-locale
 BuildRequires:  gpart
 BuildRequires:  gpg2
 BuildRequires:  gpm
