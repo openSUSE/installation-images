@@ -196,7 +196,7 @@ if exists(wpa_supplicant)
 
   wireless-tools:
     /usr/sbin
-    /etc
+    /usr/lib
     r /usr/sbin/switch_prism_driver
     r /usr/sbin/install_acx100_firmware
     r /usr/sbin/install_intersil_firmware
