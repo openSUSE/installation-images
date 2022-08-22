@@ -468,9 +468,6 @@ endif
 gpm:
   /usr/sbin/gpm
 
-xdm:
-  /etc/X11/xdm/Keyboard.map
-
 rgb:
   /usr/share/X11/rgb.txt
 
