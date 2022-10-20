@@ -183,7 +183,6 @@ polkit:
 procinfo:
 procps:
 psmisc:
-reiserfs:
 screen:
 sed:
 sg3_utils:

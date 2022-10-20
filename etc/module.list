@@ -92,8 +92,6 @@ kernel/fs/nfsd/
 kernel/fs/nls/
 kernel/fs/ntfs/
 kernel/fs/overlayfs/
-kernel/fs/reiser4/
-kernel/fs/reiserfs/
 kernel/fs/smbfs/
 kernel/fs/squashfs/
 kernel/fs/udf/
