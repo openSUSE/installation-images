@@ -38,9 +38,9 @@ s390    = kernel-s390
 
 ; extra kmps we need (',' separated list)
 [KMP]
-default	= reiserfs
-i386	= virtualbox-guest,xen,reiserfs
-x86_64	= virtualbox-guest,xen,drm,reiserfs
+default	=
+i386	= virtualbox-guest,xen
+x86_64	= virtualbox-guest,xen,drm
 
 
 ; extra firmware packages

@@ -175,7 +175,6 @@ pciutils:
 procinfo:
 procps:
 psmisc:
-reiserfs:
 sdparm:
 sed:
 setserial:
