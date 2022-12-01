@@ -35,10 +35,13 @@ fi
 # start udevd
 echo -n "Starting udevd "
 if [ -n "$linuxrc_debug" ] ; then
-  udevd --daemon --debug 2>/var/log/udev.log
+  udev_opt=--debug
 else
-  udevd --daemon
+  udev_opt=
 fi
+
+echo "# boot with udev.log_level=debug or linuxrc.debug=1 to get udev debug output logged here" >/var/log/udev.log
+udevd --daemon $udev_opt 2>>/var/log/udev.log
 
 # create devices (cf. bsc#1084357)
 /usr/bin/udevadm trigger --type=subsystems --action=add
