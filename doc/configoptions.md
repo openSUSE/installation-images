@@ -80,6 +80,12 @@ use this to find out actual usage:
   It is similar to RPM BuildRoot as it holds the file tree in the unpacked
   state just before being packaged (see FS) in the IMAGE.
 
+- ignore_packages=package1,package2,...
+
+  List of packages that should always be ignored. Useful for resolving package ambiguities.
+
+  Only valid when building outside OBS.
+
 <!-- old -->
 
 - debug=DEBUG (comma separated tags, eg. `solv`, `filedeps`, `ignore`,
