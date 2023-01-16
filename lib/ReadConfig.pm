@@ -183,6 +183,9 @@ use ResolveDepsLibsolv;
 
 eval "use solv";
 
+sub api_get;
+sub api_get_file;
+sub api_post;
 sub get_repo_list;
 sub read_meta;
 sub read_packages;
@@ -377,8 +380,7 @@ sub UnpackRPM
   if($rpm->{obs} && ! -f $rpm->{file}) {
     # retry up to 3 times
     for ($i = 0; $i < 3; $i++) {
-      $log .= `curl -k -o '$rpm->{file}' '$ConfigData{obs_server}/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm' 2>&1`;
-      # system "curl -k -s -o '$rpm->{file}' '$ConfigData{obs_url}/$rpm->{obs}'";
+      api_get_file "/build/$rpm->{obs}/$ConfigData{obs_arch}/_repository/$rpm->{name}.rpm", $rpm->{file}, \$log;
       last if -f $rpm->{file};
     }
     if(! -f $rpm->{file}) {
@@ -578,6 +580,47 @@ sub KernelImg
 }
 
 
+sub api_get_file
+{
+  my $api_cmd = $_[0];
+  my $file = $_[1];
+  my $log = $_[2];
+  my $err;
+
+  $$log .= `runuser -u $ConfigData{obs_user} -- osc -A $ConfigData{obs_server} api '${api_cmd}' 2>&1 >$file`;
+
+  $err = $?;
+
+  unlink $file if $err;
+
+  return $err;
+}
+
+
+sub api_get
+{
+  my $api_cmd = $_[0];
+  my @res;
+
+  @res = `runuser -u $ConfigData{obs_user} -- osc -A $ConfigData{obs_server} api '${api_cmd}' 2>/dev/null`;
+
+  return @res;
+}
+
+
+sub api_post
+{
+  my $api_cmd = $_[0];
+  my $file = $_[1];
+  my @res;
+
+  # --add-header=Content-Type application/octet-stream
+  @res = `runuser -u $ConfigData{obs_user} -- osc -A $ConfigData{obs_server} api -T $file -X POST '${api_cmd}'`;
+
+  return @res;
+}
+
+
 sub get_repo_list
 {
   local $_;
@@ -589,7 +632,7 @@ sub get_repo_list
 
   # print "($prj, $repo)\n";
 
-  for (`curl -k -s '$ConfigData{obs_server}/source/$prj/_meta'`) {
+  for (api_get "/source/$prj/_meta") {
     if($inrepo) {
       if(/<path/) {
         my $x;
@@ -681,7 +724,7 @@ sub read_packages
     make_path $new_dir;
     die "$Script: failed to create $new_dir" unless -d $new_dir;
 
-    for (`curl -k -s '$ConfigData{obs_server}/build/$p/$r/$ConfigData{obs_arch}/_repository?view=binaryversions&nometa=1'`) {
+    for (api_get "/build/$p/$r/$ConfigData{obs_arch}/_repository?view=binaryversions&nometa=1") {
       if(/<binary\s+name="([^"]+)\.rpm"/) {
         push @packages, "$1 $p/$r" unless $seen{$1};
         $seen{$1} = 1;
@@ -727,18 +770,16 @@ sub resolve_deps_obs
   my %p;
   my @err;
   my %added;
+  my @post_result;
 
-  my $cmd = "curl -k -s -T $t -H 'Content-Type: application/octet-stream' -X POST '$ConfigData{obs_server}/build/$prj/$repo/$ConfigData{obs_arch}/_repository/_buildinfo?debug=1'";
+  @post_result = api_post "/build/$prj/$repo/$ConfigData{obs_arch}/_repository/_buildinfo?debug=1", $t;
 
-  print "== $cmd ==\n" if $ENV{debug} =~ /solv/;
-  open $f, "$cmd |";
-  while(<$f>) {
+  for (@post_result) {
     print $_ if $ENV{debug} =~ /solv/;
     $added{$1} = $3 if /^added (\S+?)(\@\S+)? because of (\S+?)(:|$)/;
     $p{$1} = "" if /<bdep\s+name=\"([^"]+)\"/;
     push @err, $1 if /<error>([^<]+)</;
   }
-  close $f;
 
   unlink $t;
 
@@ -1170,7 +1211,9 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
       $ConfigData{obs_server} = $ENV{obsurl};
     }
 
-    my ($f, $u, $p, $s);
+    my ($f, $u, $s);
+
+    chomp($ConfigData{obs_user} = `stat --format %U $ENV{HOME}`);
 
     if($ConfigData{obs_server} !~ /\@/) {
       my $oscrc_old = "$ENV{HOME}/.oscrc";
@@ -1197,23 +1240,13 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
         undef $s if /^\s*\[/;
         $s = 1 if /^\s*\[\Q$ConfigData{obs_server}\E\/?\]/;
         $u = $1 if $s && /^\s*user\s*=\s*(\S+)/;
-        $p = $1 if $s && /^\s*pass\s*=\s*(\S+)/;
       }
       close $f;
 
-      if(defined($u) && defined($p)) {
-        $u =~ s/(\W)/sprintf("%%%02X", ord $1)/ge;
-        $p =~ s/(\W)/sprintf("%%%02X", ord $1)/ge;
-        $ConfigData{obs_server} =~ s#(://)#$1$u:$p@#;
+      if(!defined($u) && $ConfigData{obs_server} =~ /^https:/) {
+        die "\nError: *** no authentication data for $ConfigData{obs_server} ***\n\n";
       }
-      elsif($ConfigData{obs_server} =~ /^https:/) {
-        die "\nError: *** no authentication data (user, password) for $ConfigData{obs_server} ***\n\n";
-      }
-
-      # print "$ConfigData{obs_server}\n";
     }
-
-    $ConfigData{obs_url} = "$ConfigData{obs_server}/build/$ConfigData{obs_proj}/$ConfigData{obs_repo}/$ConfigData{obs_arch}/_repository";
 
     $ConfigData{suse_base} = "$ConfigData{obs_proj}/$ConfigData{obs_repo}/$ConfigData{obs_arch}";
 
