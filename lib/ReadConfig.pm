@@ -731,6 +731,7 @@ sub resolve_deps_obs
   print $f "#!BuildIgnore: simple_expansion_hack\nName: foo\n";
   print $f "BuildRequires: $_\n" for (@$packages);
   print $f "#!BuildIgnore: $_\n" for (@$ignore);
+  print $f "#!BuildIgnore: $_\n" for (split /,/, $ENV{ignore_packages});
   close $f;
 
   my %p;
