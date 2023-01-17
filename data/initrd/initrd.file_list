@@ -95,6 +95,7 @@ netcfg:
 nvme-cli:
 sed:
 ?wicked:
+?wicked-nbft:
 ?s390-tools-hmcdrvfs:
 rsyslog:
 sysconfig-netconfig:
