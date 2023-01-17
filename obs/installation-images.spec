@@ -495,6 +495,7 @@ BuildRequires:  valgrind
 BuildRequires:  vim-small
 BuildRequires:  wget
 BuildRequires:  wicked
+BuildRequires:  wicked-nbft
 BuildRequires:  wireless-tools
 %ifnarch s390 s390x
 BuildRequires:  wpa_supplicant
