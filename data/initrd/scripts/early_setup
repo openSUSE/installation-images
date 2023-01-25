@@ -74,11 +74,42 @@ if [ -x usr/sbin/wickedd ] ; then
   } 2>/var/log/wickedd.log
 fi
 
-# gather list of ibft interfaces for linuxrc
-ibft=
-while read ifname xxx ; do
-  [ -z "$ifname" ] && continue
-  [ -n "$ibft" ] && ibft="$ibft",
-  ibft="$ibft$ifname"
-done < <(/etc/wicked/extensions/ibft -l)
-echo "ibftdevices: $ibft" >/etc/ibft_devices
+# New wicked: gather list of firmware interfaces for linuxrc.
+#
+# Parse lines like: 'fw_type interface_1 interface_2 ...' and store a
+# comma-separated list of all interfaces and types in:
+#
+# /etc/firmware_devices (interface list)
+# /etc/firmware_types (type list)
+#
+fw_types=
+fw_interfaces=
+while read -a fw ; do
+  fw_types="$fw_types,${fw[0]}"
+  unset fw[0]
+  for i in ${fw[@]} ; do
+    fw_interfaces="$fw_interfaces,$i"
+  done
+done < <(wicked firmware interfaces 2>/dev/null)
+
+fw_types=${fw_types#,}
+fw_interfaces=${fw_interfaces#,}
+
+if [ -n "$fw_interfaces" ] ; then
+  echo "firmwaredevices: $fw_interfaces" >/etc/firmware_devices
+fi
+
+if [ -n "$fw_types" ] ; then
+  echo "firmwaretypes: $fw_types" >/etc/firmware_types
+fi
+
+if [ ! -f /etc/firmware_devices ] ; then
+  # Old wicked: gather list of ibft interfaces for linuxrc.
+  ibft=
+  while read ifname xxx ; do
+    [ -z "$ifname" ] && continue
+    [ -n "$ibft" ] && ibft="$ibft",
+    ibft="$ibft$ifname"
+  done < <(/etc/wicked/extensions/ibft -l)
+  echo "ibftdevices: $ibft" >/etc/ibft_devices
+fi
