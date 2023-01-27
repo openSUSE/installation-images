@@ -41,7 +41,7 @@ ExclusiveArch:  do_not_build
 %define with_shim 1
 %define with_storage_ng 1
 %define with_reiserfs_kmp 0
-%define with_ssl_hmac 1
+%define with_fips 1
 %define with_exfat 0
 %define with_kernel_extra 0
 %bcond_without sbl
@@ -161,7 +161,7 @@ ExclusiveArch:  do_not_build
 
 %if "%theme" == "openSUSE"
 %define with_storage_ng 1
-%define with_ssl_hmac 0
+%define with_fips 0
 %define branding_skelcd   openSUSE
 %define branding_systemd  openSUSE
 %define branding_plymouth openSUSE
@@ -197,7 +197,7 @@ BuildRequires:  distribution-logos-openSUSE-Kubic
 
 %if "%theme" == "SMO" || "%theme" == "LeapMicro"
 %define with_storage_ng 1
-%define with_ssl_hmac 0
+%define with_fips 0
 %define branding_skelcd   SMO
 %define branding_systemd  SMO
 %if "%theme" == "LeapMicro"
@@ -218,7 +218,7 @@ BuildRequires:  system-group-kvm
 
 %if "%theme" == "MicroOS"
 %define with_storage_ng 1
-%define with_ssl_hmac 0
+%define with_fips 0
 %define branding_skelcd   MicroOS
 %define branding_systemd  MicroOS
 %define branding_plymouth openSUSE
@@ -356,7 +356,6 @@ BuildRequires:  dejavu-fonts
 BuildRequires:  dhcp-server
 BuildRequires:  dmraid
 BuildRequires:  dosfstools
-BuildRequires:  dracut-fips
 BuildRequires:  dump
 BuildRequires:  e2fsprogs
 BuildRequires:  ed
@@ -408,7 +407,9 @@ BuildRequires:  khmeros-fonts
 BuildRequires:  kmod-compat
 BuildRequires:  krb5-devel
 BuildRequires:  less
-%if %with_ssl_hmac
+%if %with_fips
+BuildRequires:  dracut-fips
+BuildRequires:  openssh-fips
 BuildRequires:  libopenssl1_1-hmac
 %endif
 BuildRequires:  libpcsclite1
@@ -444,7 +445,6 @@ BuildRequires:  open-iscsi
 BuildRequires:  openldap2-client
 BuildRequires:  openslp-server
 BuildRequires:  openssh
-BuildRequires:  openssh-fips
 BuildRequires:  pango
 BuildRequires:  pango-tools
 BuildRequires:  parted
