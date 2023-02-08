@@ -604,6 +604,10 @@ BuildRequires:  shim
 BuildRequires:  efibootmgr
 #!BuildIgnore:  glibc-32bit
 %endif
+%ifarch %ix86
+BuildRequires:  grub2-i386-efi
+BuildRequires:  efibootmgr
+%endif
 %ifarch ia64
 BuildRequires:  acpica
 BuildRequires:  dmidecode
