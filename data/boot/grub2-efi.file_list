@@ -42,8 +42,8 @@ grub2-<grub_target>-efi:
   a <grub_efi> EFI/BOOT/boot<boot_efi>.efi
 
 # dual 32 bit and 64 bit bootable
-if arch eq 'x86_64'
-  ?grub2-i386-efi:
+if arch eq 'x86_64' && exists(grub2-i386-efi)
+  grub2-i386-efi:
     a usr/share/grub2/i386-efi/grub.efi EFI/BOOT/bootia32.efi
 endif
 
