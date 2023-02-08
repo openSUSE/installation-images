@@ -16,9 +16,9 @@ COMMON_TARGETS	     := rescue root root+rescue bind libstoragemgmt gdb libyui-re
 COMMON_INSTSYS_PARTS := config rpmlist root common rescue bind libstoragemgmt gdb libyui-rest-api
 
 ifneq ($(filter i386, $(ARCH)),)
-ALL_TARGETS   := initrd-themes initrd boot boot-themes $(COMMON_TARGETS) zenroot
+ALL_TARGETS   := initrd-themes initrd boot-grub2-efi boot boot-themes $(COMMON_TARGETS) zenroot
 INSTSYS_PARTS := $(COMMON_INSTSYS_PARTS)
-BOOT_PARTS    := boot/* initrd
+BOOT_PARTS    := boot/* initrd efi
 endif
 
 ifneq ($(filter x86_64, $(ARCH)),)

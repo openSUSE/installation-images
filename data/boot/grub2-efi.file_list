@@ -3,6 +3,9 @@ d /EFI/BOOT
 if arch eq 'x86_64'
   grub_target = x86_64
   boot_efi = x64
+elsif arch eq 'i386'
+  grub_target = i386
+  boot_efi = ia32
 elsif arch eq 'aarch64'
   grub_target = arm64
   boot_efi = aa64
@@ -24,7 +27,7 @@ x grub-efi.cfg EFI/BOOT/grub.cfg
 R s/\@arch\@/<arch>/g EFI/BOOT/grub.cfg
 
 # kernel & initrd are in a different dir on x86_64
-if arch eq 'x86_64'
+if arch eq 'x86_64' || arch eq 'i386'
   R s/(\/(linux|initrd))/\/loader$1/g EFI/BOOT/grub.cfg
 endif
 
@@ -37,6 +40,12 @@ R s/<([a-z_0-9]+)>.*?<\/\1>\n//sg EFI/BOOT/grub.cfg
 
 grub2-<grub_target>-efi:
   a <grub_efi> EFI/BOOT/boot<boot_efi>.efi
+
+# dual 32 bit and 64 bit bootable
+if arch eq 'x86_64'
+  ?grub2-i386-efi:
+    a usr/share/grub2/i386-efi/grub.efi EFI/BOOT/bootia32.efi
+endif
 
 # use shim if available
 if exists(shim)
