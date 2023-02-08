@@ -170,7 +170,6 @@ libyui-qt-graph*:
 lvm2:
 multipath-tools:
 ntfsprogs:
-open-iscsi:
 openslp:
 openslp-server:
 ?pam-modules:
