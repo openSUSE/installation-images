@@ -601,10 +601,9 @@ BuildRequires:  grub2-x86_64-efi
 %if %with_shim
 BuildRequires:  shim
 %endif
-BuildRequires:  efibootmgr
 #!BuildIgnore:  glibc-32bit
 %endif
-%ifarch %ix86
+%ifarch %ix86 x86_64
 BuildRequires:  grub2-i386-efi
 BuildRequires:  efibootmgr
 %endif
