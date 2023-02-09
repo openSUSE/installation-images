@@ -498,7 +498,9 @@ openslp-server:
   E prein
 
 # we just want the user & group entries
+# add /var parts to make them writable
 chrony: nodeps
+  /var
   E prein
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
