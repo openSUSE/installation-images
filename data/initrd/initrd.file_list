@@ -98,6 +98,7 @@ mdadm:
 netcfg:
 nvme-cli:
 open-iscsi:
+patch:
 sed:
 ?wicked:
 ?wicked-nbft:
@@ -629,7 +630,7 @@ endif
 R s/ Server//g etc/issue
 
 # remove files we don't want to show up at all
-r /usr/share/{doc,info,locale,man} /usr/src/packages /usr/share/fillup-templates /var/adm/fillup-templates
+r /usr/share/{doc,info,licenses,locale,man} /usr/src/packages /usr/share/fillup-templates /var/adm/fillup-templates
 r /etc/passwd?* /etc/shadow?* /etc/group?*
 r /etc/profile.d
 if arch ne 's390' && arch ne 's390x'
