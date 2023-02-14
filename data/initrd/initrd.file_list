@@ -98,6 +98,7 @@ mdadm:
 netcfg:
 nvme-cli:
 open-iscsi:
+patch:
 sed:
 ?wicked:
 ?wicked-nbft:
