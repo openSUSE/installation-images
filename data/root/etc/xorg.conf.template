@@ -1,46 +1,24 @@
 Section "Device"
-  Identifier "vboxvideo"
-  Driver  "vboxvideo"
-EndSection
-
-Section "Screen"
-  Identifier "vboxvideo"
-  Device "vboxvideo"
-EndSection
-
-
-Section "Device"
-  Identifier "vmware"
-  Driver  "vmware"
-EndSection
-
-Section "Screen"
-  Identifier "vmware"
-  Device "vmware"
-EndSection
-
-
-Section "Device"
   Identifier "modesetting"
   Driver  "modesetting"
   Option "PreferCloneMode" "true"
   Option "AccelMethod" "none"
 EndSection
+
 Section "Screen"
   Identifier "modesetting"
   Device "modesetting"
 EndSection
 
-
 Section "Device"
   Identifier "fbdev"
   Driver  "fbdev"
 EndSection
+
 Section "Screen"
   Identifier "fbdev"
   Device "fbdev"
 EndSection
-
 
 Section "Device"
   Identifier "vesa"
@@ -52,11 +30,8 @@ Section "Screen"
   Device "vesa"
 EndSection
 
-
 Section "ServerLayout"
   Identifier "Layout"
-  Screen  "vboxvideo"
-  Screen  "vmware"
   Screen  "modesetting"
   Screen  "fbdev"
   Screen  "vesa"
