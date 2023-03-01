@@ -462,6 +462,11 @@ dbus-1:
   r /usr/bin/dbus-launch*
   E prein
 
+# prein script for messagebus user
+dbus-1-common:
+  /
+  E prein
+
 # For FIPS installation:
 
 ?libopenssl*_*-hmac:
