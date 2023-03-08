@@ -197,7 +197,6 @@ BuildRequires:  distribution-logos-openSUSE-Kubic
 
 %if "%theme" == "SMO" || "%theme" == "LeapMicro"
 %define with_storage_ng 1
-%define with_ssl_hmac 0
 %define branding_skelcd   SMO
 %define branding_systemd  SMO
 %if "%theme" == "LeapMicro"
@@ -205,10 +204,12 @@ BuildRequires:  Leap-Micro-release Leap-Micro-release-dvd
 %define branding_plymouth openSUSE
 %define branding_grub2    openSUSE
 %define branding_gfxboot  openSUSE
+%define with_ssl_hmac 0
 %else
 %define branding_plymouth SLE
 %define branding_grub2    SLE
 %define branding_gfxboot  SLE
+%define with_ssl_hmac 1
 %define config_bootmenu_no_upgrade 1
 BuildRequires:  SLE-Micro-release
 %endif
