@@ -175,10 +175,10 @@ BuildRequires:  distribution-logos-openSUSE-Leap
 
 %if "%theme" == "SMO" || "%theme" == "LeapMicro"
 %define with_storage_ng 1
-%define with_fips 0
 %define branding_skelcd   SMO
 %define branding_systemd  SMO
 %if "%theme" == "LeapMicro"
+%define with_fips 0
 BuildRequires:  Leap-Micro-release
 BuildRequires:  distribution-logos-openSUSE-LeapMicro
 %define branding_plymouth openSUSE
