@@ -312,7 +312,6 @@ rpm:
   E postin
 
 aaa_base:
-  E prein
   /
   t /etc/fstab
   E postin

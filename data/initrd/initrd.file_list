@@ -452,7 +452,6 @@ system-user-daemon:
 system-group-kvm:
 
 aaa_base:
-  E prein
   /
   t /run/utmp
 
