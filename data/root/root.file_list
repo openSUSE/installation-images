@@ -368,7 +368,7 @@ cracklib: nodeps
   s inst_setup_ssh /sbin/setup_ssh
   # for Olaf
   x etc/ssh /lib
-  x ../rescue/mount-rootfs-and-do-chroot.sh /bin
+  x ../rescue/mount-rootfs-and-do-chroot /bin
 
 nscd:
   /etc
