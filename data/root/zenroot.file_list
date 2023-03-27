@@ -195,7 +195,6 @@ unzip:
   E postin
 
 aaa_base:
-  E prein
   /
   E postin
   r /run/utmp
