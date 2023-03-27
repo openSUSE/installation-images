@@ -412,8 +412,7 @@ e touch etc/sysconfig/kernel
 e mv usr/bin/mount usr/bin/mount.bin
 x mount usr/bin
 
-# XXX: usrmerge
-x mount-rootfs-and-do-chroot.sh /bin
+x mount-rootfs-and-do-chroot /usr/bin
 
 # run getty on tty1
 d etc/systemd/system/getty.target.wants
@@ -436,6 +435,9 @@ e echo console >>etc/securetty
 # setup multipath config
 x etc/multipath.conf /etc
 E systemctl enable multipathd
+
+# add motd
+x /etc/motd_normal /etc/motd
 
 e ldconfig -r .
 

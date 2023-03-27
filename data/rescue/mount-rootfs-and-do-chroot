@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# trivial option parser
+while true ; do
+  case $1 in
+    -r|--readonly) ro="-r" ; shift ; continue ;;
+    -h|--help) show_usage=1 ; shift ; continue ;;
+  esac
+  break
+done
+
+rootfs="$1"
+
+if [ -n "$show_usage" -o ! -b "$rootfs" ] ; then
+  cat <<EOF
+Usage: mount-rootfs-and-do-chroot [OPTIONS] DEVICE
+
+Mount root filesystem found on DEVICE to temporary location, taking care
+of special mount points like /dev, /sys, and /proc.
+
+Options:
+    -r, --readonly  Mount DEVICE read-only.
+    -h, --help      Show these usage instructions.
+EOF
+  exit 1
+fi
+
+mount_points="dev dev/pts proc sys sys/firmware/efi/efivars"
+
+mnt=/rootfs.$$
+
+if mkdir -pv "$mnt" && mount -v $ro "$rootfs" "$mnt" ; then
+  for i in $mount_points ; do
+    if test -d "/$i" && test -d "$mnt/$i" && test "`stat -c %D /`" != "`stat -c %D /$i`" ; then
+      mount -v --bind "/$i" "$mnt/$i"
+    fi
+  done
+
+  echo -e "Performing chroot into ${rootfs}.\n\nUse 'exit' or 'CTRL+d' to leave chroot shell."
+  echo "To mount additional filesystems from /etc/fstab (e.g. btrfs subvolumes), run 'mount -a'."
+
+  chroot "$mnt" su -
+
+  while read b m rest ; do
+    case "$m" in
+      $mnt|$mnt/*) mounts="$m $mounts" ;;
+    esac
+  done < /proc/mounts
+
+  for i in $mounts ; do
+    umount -v "$i"
+  done
+
+  rmdir -v "$mnt"
+fi
