@@ -122,6 +122,7 @@ checkmedia:
 cifs-utils:
 coreutils:
 cpio:
+cpio-mt:
 cracklib-dict-full:
 cracklib:
 cryptsetup:
