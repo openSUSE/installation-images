@@ -1,20 +1,19 @@
-d lib/modules/<kernel_ver>
-d lib/modules/<kernel_ver>/initrd
-s lib/modules/<kernel_ver>/initrd modules
+# for depmod; also to indicate usrmerge in "gefrickel" script
+s usr/lib lib
+
+d usr/lib/modules/<kernel_ver>
+d usr/lib/modules/<kernel_ver>/initrd
+s usr/lib/modules/<kernel_ver>/initrd modules
 
 <kernel_rpm>:
 
-  # temporary: usrmerge
-  if exists(filesystem, /lib, l)
-    L usr/lib/firmware fw
-  else
-    L lib/firmware fw
-  endif
+  L usr/lib/firmware fw
 
   <kernel_module_dir>/<kernel_ver>/modules.order
   e perl -pi -e "s#.*/#initrd/#" ./<kernel_module_dir>/<kernel_ver>/modules.order
   <kernel_module_dir>/<kernel_ver>/modules.builtin
   e perl -pi -e "s#.*/#initrd/#" ./<kernel_module_dir>/<kernel_ver>/modules.builtin
+  <kernel_module_dir>/<kernel_ver>/modules.builtin.modinfo
 
 x module.help modules/module.config
 
@@ -53,26 +52,17 @@ endif
 
 if 0
 # add alsa modules
-  lib/modules/<kernel_ver>/kernel/sound
+  usr/lib/modules/<kernel_ver>/kernel/sound
 endif
 
 # add modules.alias, modules.dep
-if exists(<kernel_rpm>, usr/lib/modules/<kernel_ver>/System.map)
-  L usr/lib/modules/<kernel_ver>/System.map System.map
-else
-  L boot/System.map* System.map
-endif
+L usr/lib/modules/<kernel_ver>/System.map System.map
 e /sbin/depmod -a -b . -F System.map <kernel_ver>
 r System.map
 
-# usrmerge: copy needed firmware files
-if exists(filesystem, /lib, l)
-  d usr/lib/firmware
-else
-  d lib/firmware
-endif
+# copy needed firmware files
+d usr/lib/firmware
 e mlist3 <kernel_ver> fw || true
 
 # remove temp firmware dir
 r fw
-
