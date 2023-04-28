@@ -315,6 +315,7 @@ BuildRequires:  ca-certificates-mozilla
 BuildRequires:  cairo
 BuildRequires:  checkmedia
 BuildRequires:  cifs-utils
+BuildRequires:  cpio-mt
 BuildRequires:  cracklib
 BuildRequires:  cracklib-dict-full
 BuildRequires:  cron
