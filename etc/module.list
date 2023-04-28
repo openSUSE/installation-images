@@ -129,6 +129,7 @@ kernel/net/802/garp.ko
 kernel/net/802/stp.ko
 kernel/net/802/mrp.ko
 kernel/net/llc/
+kernel/net/qrtr
 
 kernel/drivers/power/power_supply.ko
 kernel/drivers/firmware/
