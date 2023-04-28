@@ -1,5 +1,6 @@
 # for depmod; also to indicate usrmerge in "gefrickel" script
-s usr/lib lib
+# don't use 's usr/lib lib' as link might already exist
+e ln -snf usr/lib lib
 
 d usr/lib/modules/<kernel_ver>
 d usr/lib/modules/<kernel_ver>/initrd
