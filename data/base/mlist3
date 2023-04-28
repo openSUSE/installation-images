@@ -29,7 +29,7 @@ for $m (sort keys %fw) {
     for my $f (<$fw_dir/$fw $fw_dir/$kv/$fw>) {
       if(-r $f) {
         $f =~ s#^$fw_dir/##;
-        system "install -m 644 -D $fw_dir/$f lib/firmware/$f\n";
+        system "install -m 644 -D '$fw_dir/$f' 'lib/firmware/$f'\n";
         $ok = 1;
       }
     }
