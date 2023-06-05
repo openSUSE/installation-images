@@ -85,7 +85,7 @@ for (@ml_all) {
   my ($m, $p);
   my $y = 1;
 
-  s#^/lib/modules/[^/]+/##;
+  s#^(/usr)?/lib/modules/[^/]+/##;
   if(/^(\S+):/) {
     $m = $1;
   }

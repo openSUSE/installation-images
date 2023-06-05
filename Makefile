@@ -107,7 +107,7 @@ initrd+modules: base
 	theme=$(THEMES) image=modules-config src=initrd fs=none bin/mk_image
 	theme=$(THEMES) bin/mlist1
 	theme=$(THEMES) bin/mlist2
-	rm -rf tmp/initrd/modules tmp/initrd/lib/modules
+	rm -rf tmp/initrd/modules tmp/initrd/lib/modules tmp/initrd/usr/lib/modules
 	theme=$(THEMES) mode=add tmpdir=initrd image=modules src=initrd fs=none bin/mk_image
 	theme=$(THEMES) mode=add tmpdir=initrd image=digests src=initrd fs=none bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
@@ -119,7 +119,7 @@ initrd+modules+gefrickel: base
 	theme=$(THEMES) image=modules-config src=initrd fs=none bin/mk_image
 	theme=$(THEMES) bin/mlist1
 	theme=$(THEMES) bin/mlist2
-	rm -rf tmp/initrd/modules tmp/initrd/lib/modules tmp/initrd_gefrickel
+	rm -rf tmp/initrd/modules tmp/initrd/lib/modules tmp/initrd/usr/lib/modules tmp/initrd_gefrickel
 	# work on a copy to not modify the origial tree
 	cp -a tmp/initrd tmp/initrd_gefrickel
 	theme=$(THEMES) mode=add tmpdir=initrd_gefrickel image=modules src=initrd fs=none bin/mk_image

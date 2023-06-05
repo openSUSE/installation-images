@@ -3,13 +3,14 @@
   # generate modules.alias, modules.dep
   if exists(<kernel_rpm>, <kernel_module_dir>/<kernel_ver>/System.map)
     L <kernel_module_dir>/<kernel_ver>/System.map System.map
-    L usr/lib .
+    e mkdir -p usr
+    L usr/lib usr
   else
     L lib .
     L boot/System.map* System.map
   endif
   e /sbin/depmod -a -b . -F System.map <kernel_ver>
-  e cp lib/modules/<kernel_ver>/modules.dep .
-  e find lib/modules/<kernel_ver> -name '*.ko' -o -name '*.ko.xz' -o -name '*.ko.zst' | xargs modinfo >modules.info
-  r System.map lib
+  e cp .<kernel_module_dir>/<kernel_ver>/modules.dep .
+  e find .<kernel_module_dir>/<kernel_ver> -name '*.ko' -o -name '*.ko.xz' -o -name '*.ko.zst' | sed -e 's#^[.]/##' | xargs modinfo >modules.info
+  r System.map usr lib
 

@@ -48,6 +48,13 @@ die "base file \"$opt_base.xz\" missing\n" unless -f "$lib_dir/$opt_base.xz";
 mkdir "$tmp_dir/i", 0755;
 
 my $kernel_dir = "";
+my $kernel_module_dir = "";
+
+if ( -d "$kernel_dir/usr/lib/modules/") {
+  $kernel_module_dir = "/usr/lib/modules";
+} else {
+  $kernel_module_dir = "/lib/modules";
+}
 
 if(defined $opt_kernel_rpm) {
   my $opt_kernel_base = $opt_kernel_rpm;
@@ -62,7 +69,13 @@ if(defined $opt_kernel_rpm) {
   system "cd $tmp_dir/k; rpm2cpio $opt_kernel_rpm | cpio --quiet --extract --unconditional --preserve-modification-time --make-directories";
   $kernel_dir = "$tmp_dir/k";
 
-  $_ = <$kernel_dir/lib/modules/*/kernel>;
+  if ( -d "$kernel_dir/usr/lib/modules/") {
+    $kernel_module_dir = "/usr/lib/modules";
+  } else {
+    $kernel_module_dir = "/lib/modules";
+  }
+
+  $_ = <$kernel_dir$kernel_module_dir/*/kernel>;
 
   if(m#/lib/modules/(.*?)/kernel#) {
     $opt_kernel = $1;
@@ -95,10 +108,11 @@ chomp (my @modules = (<F>));
 close F;
 
 my @mod_files;
+my $noslash_kernel_module_dir = substr($kernel_module_dir, 0, -1);
 
-if(-d "$kernel_dir/lib/modules/$opt_kernel-$opt_kernel_style") {
+if(-d "$kernel_dir$kernel_module_dir/$opt_kernel-$opt_kernel_style") {
   for (@modules) {
-    push @mod_files, scalar(`cd $kernel_dir/ ; find lib/modules/$opt_kernel-$opt_kernel_style/{updates,weak-updates,extra,} -name $_ 2>/dev/null | head -n 1`);
+    push @mod_files, scalar(`cd $kernel_dir/ ; find $noslash_kernel_module_dir/$opt_kernel-$opt_kernel_style/{updates,weak-updates,extra,} -name $_ 2>/dev/null | head -n 1`);
   }
 }
 
@@ -108,15 +122,15 @@ chomp @mod_files;
 
 warn "warning: no modules\n" if @mod_files == 0;
 
-system "mkdir -p $tmp_dir/i/lib/modules/$override/initrd $tmp_dir/i/lib/modules/$opt_kernel-$opt_kernel_style";
-symlink "../$override", "$tmp_dir/i/lib/modules/$opt_kernel-$opt_kernel_style/updates";
-symlink "lib/modules/$override/initrd", "$tmp_dir/i/modules";
+system "mkdir -p $tmp_dir/i$kernel_module_dir/$override/initrd $tmp_dir/i$kernel_module_dir/$opt_kernel-$opt_kernel_style";
+symlink "../$override", "$tmp_dir/i$kernel_module_dir/$opt_kernel-$opt_kernel_style/updates";
+symlink "$noslash_kernel_module_dir/$override/initrd", "$tmp_dir/i/modules";
 
 for (@mod_files) {
-  system "cd $kernel_dir/ ; cp -a '$_' $tmp_dir/i/lib/modules/$override/initrd";
+  system "cd $kernel_dir/ ; cp -a '$_' $tmp_dir/i$kernel_module_dir/$override/initrd";
 }
 
-my $system_map = "$kernel_dir/lib/modules/System.map-$opt_kernel-$opt_kernel_style";
+my $system_map = "$kernel_dir$kernel_module_dir/System.map-$opt_kernel-$opt_kernel_style";
 $system_map = "$kernel_dir/boot/System.map-$opt_kernel-$opt_kernel_style" unless -f $system_map;
 die "no kernel symbols\n" unless -f $system_map;
 
