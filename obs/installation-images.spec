@@ -601,6 +601,7 @@ BuildRequires:  tftp
 BuildRequires:  grub2-x86_64-efi
 %if %with_shim
 BuildRequires:  shim
+BuildRequires:  mokutil
 %endif
 #!BuildIgnore:  glibc-32bit
 %endif

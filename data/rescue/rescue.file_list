@@ -96,12 +96,15 @@ binutils: ignore
 ?efibootmgr:
 ?elilo:
 ?grub2-i386-pc:
+?grub2-i386-efi:
 ?grub2-x86_64-efi:
 ?grub2-arm64-efi:
 ?grub2-arm-efi:
 ?grub2-powerpc-ieee1275:
 ?grub2-riscv64-efi:
 ?grub2:
+?shim:
+?mokutil:
 ?hyper-v:
 ?iprutils:
 ?pdisk:
