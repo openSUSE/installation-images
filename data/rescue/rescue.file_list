@@ -49,7 +49,7 @@ TEMPLATE nfs-client|device-mapper|rpcbind|rsync|rsyslog|dmraid|multipath-tools:
   E prein
   E postin
 
-TEMPLATE wicked|lvm2|syslog-service|util-linux|mdadm|permissions-config:
+TEMPLATE wicked|lvm2|syslog-service|util-linux|mdadm|permissions-config|ca-certificates.*:
   /
   E postin
 
@@ -362,6 +362,9 @@ openssh-server:
   E postin
   # enable root login bsc#1118114
   e echo "PermitRootLogin yes" > etc/ssh/sshd_config.d/10_root_login.conf
+
+ca-certificates:
+ca-certificates-mozilla:
 
 :
 
