@@ -200,7 +200,8 @@ BuildRequires:  distribution-logos-openSUSE-Kubic
 %define branding_skelcd   SMO
 %define branding_systemd  SMO
 %if "%theme" == "LeapMicro"
-BuildRequires:  Leap-Micro-release Leap-Micro-release-dvd
+BuildRequires:  Leap-Micro-release
+BuildRequires:  distribution-logos-openSUSE-LeapMicro
 %define branding_plymouth openSUSE
 %define branding_grub2    openSUSE
 %define branding_gfxboot  openSUSE
