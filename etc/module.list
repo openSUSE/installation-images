@@ -269,6 +269,8 @@ kernel/drivers/mmc/host/sdhci-iproc.ko
 kernel/drivers/gpio/gpio-raspberrypi-exp.ko
 kernel/drivers/net/mdio/mdio-bcm-unimac.ko
 
+kernel/drivers/reset/reset-rzg2l-usbphy-ctrl.ko
+
 # kmps
 updates/
 
