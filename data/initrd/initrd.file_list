@@ -482,6 +482,10 @@ system-group-hardware:
   /
   E prein
 
+system-user-lp:
+  /
+  E prein
+
 udev:
   /
   E prein
