@@ -514,7 +514,6 @@ BuildRequires:  util-linux
 BuildRequires:  util-linux-systemd
 BuildRequires:  valgrind
 BuildRequires:  vim-small
-BuildRequires:  wget
 BuildRequires:  wicked
 BuildRequires:  wicked-nbft
 BuildRequires:  wireless-tools
