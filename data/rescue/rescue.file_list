@@ -201,7 +201,6 @@ usbutils:
 util-linux:
 vim-small:
 vlan:
-wget:
 ?wicked:
 ?xen-tools-domU:
 xfsdump:
