@@ -495,6 +495,8 @@ BuildRequires:  util-linux-systemd
 BuildRequires:  valgrind
 BuildRequires:  vim-small
 BuildRequires:  wget
+# wget pulls in libproxy1, which in turn pulls in libpxbackend-1_0; to counter cycles, this exists as mini
+#!BuildConflicts: libpxbackend-1_0-mini
 BuildRequires:  wicked
 BuildRequires:  wicked-nbft
 BuildRequires:  wireless-tools
