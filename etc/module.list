@@ -272,6 +272,13 @@ kernel/drivers/net/mdio/mdio-bcm-unimac.ko
 
 kernel/drivers/reset/reset-rzg2l-usbphy-ctrl.ko
 
+# Lenovo X13s (aarch64)
+kernel/drivers/clk/qcom/clk-rpmh.ko
+kernel/drivers/clk/qcom/dispcc-sc8280xp.ko
+kernel/drivers/clk/qcom/gcc-sc8280xp.ko
+kernel/drivers/remoteproc/qcom_q6v5.ko
+kernel/drivers/remoteproc/qcom_q6v5_pas.ko
+
 # kmps
 updates/
 
