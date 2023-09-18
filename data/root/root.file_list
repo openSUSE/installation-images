@@ -236,6 +236,10 @@ vim-small:
 # pull in yast2 installation related packages via package deps
 skelcd-control-<skelcd_ctrl_theme>:
 
+# explicit dependency needed by libproxy1 < libzypp
+# to avoid picking libpxbackend-1_0-mini (see bsc#1215290)
+libpxbackend-*:
+
 # XXX: usrmerge
 rpm:
   /bin
