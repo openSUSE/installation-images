@@ -272,6 +272,24 @@ kernel/drivers/mmc/host/sdhci-iproc.ko
 kernel/drivers/gpio/gpio-raspberrypi-exp.ko
 kernel/drivers/net/mdio/mdio-bcm-unimac.ko
 
+kernel/drivers/reset/reset-rzg2l-usbphy-ctrl.ko
+
+# Lenovo X13s (aarch64)
+kernel/drivers/clk/qcom/clk-rpmh.ko
+kernel/drivers/clk/qcom/dispcc-sc8280xp.ko
+kernel/drivers/clk/qcom/gcc-sc8280xp.ko
+kernel/drivers/clk/qcom/gpucc-sc8280xp.ko
+kernel/drivers/hwspinlock/qcom_hwspinlock.ko
+kernel/drivers/interconnect/qcom/qnoc-sc8280xp.ko
+kernel/drivers/leds/rgb/leds-qcom-lpg.ko
+kernel/drivers/nvmem/nvmem_qcom-spmi-sdam.ko
+kernel/drivers/remoteproc/qcom_q6v5.ko
+kernel/drivers/remoteproc/qcom_q6v5_pas.ko
+kernel/drivers/soc/qcom/pmic_glink.ko
+kernel/drivers/soc/qcom/pmic_glink_altmode.ko
+kernel/drivers/soc/qcom/smp2p.ko
+kernel/drivers/spmi/spmi-pmic-arb.ko
+
 # kmps
 updates/
 
