@@ -288,6 +288,11 @@ kernel/drivers/soc/qcom/pmic_glink_altmode.ko
 kernel/drivers/soc/qcom/smp2p.ko
 kernel/drivers/spmi/spmi-pmic-arb.ko
 
+kernel/drivers/soc/mediatek/mtk-pmic-wrap.ko
+kernel/drivers/power/supply/mt6360_charger.ko
+kernel/drivers/nvmem/nvmem_mtk-efuse.ko
+kernel/drivers/clk/
+
 # kmps
 updates/
 
