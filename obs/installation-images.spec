@@ -485,7 +485,6 @@ BuildRequires:  squashfs
 BuildRequires:  star
 BuildRequires:  strace
 BuildRequires:  tcpd-devel
-BuildRequires:  termcap
 BuildRequires:  terminfo
 BuildRequires:  udftools
 BuildRequires:  un-fonts
