@@ -91,8 +91,14 @@ if arch eq 'aarch64' || arch eq 'armv7l' || arch eq 'armv6l'
     else
       u-boot-rpi3:
         /
+    endif
+    e mv boot/vc/* .
+    r /boot /usr
   endif
-  e mv boot/vc/* .
-  r /boot /usr
+  if exists(lenovo-x13s-firmware-dt)
+    lenovo-x13s-firmware-dt:
+      /
+    e cp usr/share/arm64laptop-firmware-dt/lenovo-x13s/* .
+    r /usr
   endif
 endif
