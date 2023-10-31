@@ -636,6 +636,7 @@ BuildRequires:  raspberrypi-firmware-config
 BuildRequires:  raspberrypi-firmware-dt
 BuildRequires:  arm-trusted-firmware-rpi4
 BuildRequires:  u-boot-rpiarm64
+BuildRequires:  lenovo-x13s-firmware-dt
 %if %with_shim
 BuildRequires:  shim
 %endif
