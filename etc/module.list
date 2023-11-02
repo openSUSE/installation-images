@@ -287,6 +287,7 @@ kernel/drivers/soc/qcom/pmic_glink.ko
 kernel/drivers/soc/qcom/pmic_glink_altmode.ko
 kernel/drivers/soc/qcom/smp2p.ko
 kernel/drivers/spmi/spmi-pmic-arb.ko
+kernel/drivers/spmi/spmi-mtk-pmif.ko
 
 kernel/drivers/soc/mediatek/mtk-pmic-wrap.ko
 kernel/drivers/power/supply/mt6360_charger.ko
