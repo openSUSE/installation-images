@@ -108,6 +108,8 @@ sysconfig-netconfig:
 sg3_utils:
 systemd-presets-branding-<systemd_theme>:
 tar:
+tpm2.0-tools:
+tpm2.0-abrmd:
 util-linux-systemd:
 vlan:
 which:
@@ -449,6 +451,7 @@ e2fsprogs:
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 system-user-daemon:
+system-user-tss:
 system-group-kvm:
 
 aaa_base:
