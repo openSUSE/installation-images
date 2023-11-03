@@ -188,6 +188,8 @@ sub check_link
     next if $dangling_links->{$ds} eq $x;
 
     if($x =~ /^\//) {
+      # absolute links
+
       next if $x =~ m#^/lbin/#;
       next if $x =~ m#^/proc/#;
       next if $x =~ m#^/dev/#;
@@ -196,8 +198,12 @@ sub check_link
       next if -l "$dir$x" || -e _;
     }
     else {
+      # relative links
+
+      my $s = $ds;
+      $s =~ s#[^/]+$#$x#;
       # don't verify symlinks to symlinks
-      next if -l || -e _;
+      next if -l "$dir/$s" || -e _;
     }
     $err = 1;
     my $n = $_;
