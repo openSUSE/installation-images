@@ -113,3 +113,8 @@ if [ ! -f /etc/firmware_devices ] ; then
   done < <(/etc/wicked/extensions/ibft -l)
   echo "ibftdevices: $ibft" >/etc/ibft_devices
 fi
+
+# tpm support
+if [ -c /dev/tpm0 -a -x /usr/sbin/tpm2-abrmd ] ; then
+  /usr/sbin/tpm2-abrmd --allow-root > /var/log/tpm.log 2>&1 &
+fi
