@@ -697,3 +697,10 @@ e ldconfig -r .
 # get the gpg keys to trust from build root
 d /usr/lib/rpm/gnupg/keys
 X /usr/lib/rpm/gnupg/keys /usr/lib/rpm/gnupg
+
+# allowed dangling symlinks
+D ../share/cracklib/pw_dict.pwi /usr/lib/cracklib_dict.pwi
+D ../share/cracklib/pw_dict.pwd /usr/lib/cracklib_dict.pwd
+D ../share/cracklib/pw_dict.hwm /usr/lib/cracklib_dict.hwm
+D ../../../var/cache/gio-2.0/gnome-mimeapps.list /usr/share/applications/gnome-mimeapps.list
+D brcmfmac43455-sdio.raspberrypi,4-model-b.txt.xz /usr/lib/firmware/brcm/brcmfmac43455-sdio.raspberrypi,4-compute-module.txt.xz

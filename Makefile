@@ -122,8 +122,8 @@ initrd+modules+gefrickel: base
 	rm -rf tmp/initrd/modules tmp/initrd/lib/modules tmp/initrd_gefrickel
 	# work on a copy to not modify the origial tree
 	cp -a tmp/initrd tmp/initrd_gefrickel
-	theme=$(THEMES) mode=add tmpdir=initrd_gefrickel image=modules src=initrd fs=none bin/mk_image
-	theme=$(THEMES) mode=add tmpdir=initrd_gefrickel image=digests src=initrd fs=none bin/mk_image
+	theme=$(THEMES) mode=add tmpdir=initrd_gefrickel image=modules src=initrd fs=none nolinkcheck=1 bin/mk_image
+	theme=$(THEMES) mode=add tmpdir=initrd_gefrickel image=digests src=initrd fs=none nolinkcheck=1 bin/mk_image
 	mkdir -p images/module-config/$${MOD_CFG:-default}
 	ls -I module.config tmp/initrd_gefrickel/modules | sed -e 's#.*/##' >images/module-config/$${MOD_CFG:-default}/module.list
 	cp tmp/initrd_gefrickel/modules/module.config images/module-config/$${MOD_CFG:-default}
@@ -162,7 +162,7 @@ tftp: base
 	for i in `cat images/rpmlist` ; do \
 	  echo -e "$$i:\n  X <rpm_file> <tftp_dir>/<instsys_dir>\n" >> data/boot/gen/rpm.file_list; \
 	done
-	theme=$(THEMES) image=tftp src=boot fs=dir bin/mk_image
+	theme=$(THEMES) image=tftp src=boot fs=dir nolinkcheck=1 bin/mk_image
 	rm -f images/tftp/{.packages.tftp,content}
 
 root: base
