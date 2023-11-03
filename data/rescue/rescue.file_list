@@ -458,7 +458,6 @@ E echo "devpts /dev/pts devpts mode=0620,gid=5 0 0" >>/etc/fstab
 d usr/lib/microcode
 
 # allowed dangling symlinks
-D /var/cache/gio-2.0/gnome-defaults.list /usr/share/applications/defaults.list
-D /var/cache/gio-2.0/gnome-mimeapps.list /usr/share/applications/gnome-mimeapps.list
-D /var/cache/gio-2.0/gnome-mimeapps.list /usr/share/applications/mimeapps.list
+D ../../../etc/sysctl.conf /usr/lib/sysctl.d/99-sysctl.conf
+D ../../../var/cache/gio-2.0/gnome-mimeapps.list /usr/share/applications/gnome-mimeapps.list
 D /etc/machine-id /var/lib/dbus/machine-id

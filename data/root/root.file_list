@@ -690,7 +690,7 @@ r /etc/passwd* /etc/shadow* /etc/group*
 r etc/mtab
 
 # remove these, we don't want them symlinked
-r root mnt tmp proc usr/libexec
+r root mnt tmp proc
 
 x /usr/lib/YaST/.Reh /usr/lib/YaST2
 x etc/inst_setup /sbin/inst_setup
@@ -742,11 +742,11 @@ E /check_fonts usr/share/YaST2/theme
 e rm check_fonts fc-match
 
 # allowed dangling symlinks
-D ../../sbin/update-ca-certificates /usr/lib64/p11-kit/p11-kit-extract-trust
-D ../../sbin/update-ca-certificates /usr/lib/p11-kit/p11-kit-extract-trust
-D /var/cache/gio-2.0/gnome-defaults.list /usr/share/applications/defaults.list
-D /var/cache/gio-2.0/gnome-mimeapps.list /usr/share/applications/gnome-mimeapps.list
-D /var/cache/gio-2.0/gnome-mimeapps.list /usr/share/applications/mimeapps.list
+D ../systemd-firstboot.service /usr/lib/systemd/system/sysinit.target.wants/systemd-firstboot.service
+D system-generators/systemd-fstab-generator /usr/lib/systemd/systemd-sysroot-fstab-check
+D ../../../etc/sysctl.conf /usr/lib/sysctl.d/99-sysctl.conf
+D ../../sbin/update-ca-certificates /usr/libexec/p11-kit/p11-kit-extract-trust
+D ../../../var/cache/gio-2.0/gnome-mimeapps.list /usr/share/applications/gnome-mimeapps.list
 D ../share/cracklib/pw_dict.pwi /usr/lib/cracklib_dict.pwi
 D ../share/cracklib/pw_dict.pwd /usr/lib/cracklib_dict.pwd
 D ../share/cracklib/pw_dict.hwm /usr/lib/cracklib_dict.hwm

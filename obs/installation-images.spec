@@ -445,6 +445,8 @@ BuildRequires:  systemd-presets-branding
 BuildRequires:  sysvinit-tools
 BuildRequires:  tftpboot-installation-common
 BuildRequires:  thai-fonts
+BuildRequires:  tpm2.0-abrmd
+BuildRequires:  tpm2.0-tools
 BuildRequires:  tunctl
 BuildRequires:  udev
 BuildRequires:  vlan
