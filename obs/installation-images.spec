@@ -514,6 +514,8 @@ BuildRequires:  strace
 BuildRequires:  tcpd-devel
 BuildRequires:  termcap
 BuildRequires:  terminfo
+BuildRequires:  tpm2.0-abrmd
+BuildRequires:  tpm2.0-tools
 BuildRequires:  udftools
 BuildRequires:  un-fonts
 BuildRequires:  usbutils
