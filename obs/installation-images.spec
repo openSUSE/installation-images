@@ -459,9 +459,7 @@ BuildRequires:  plymouth-scripts
 BuildRequires:  plymouth-theme-tribar
 %endif
 BuildRequires:  klogd
-%ifnarch riscv64
 BuildRequires:  ltrace
-%endif
 BuildRequires:  nscd
 BuildRequires:  polkit
 BuildRequires:  popt-devel

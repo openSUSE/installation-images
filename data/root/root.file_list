@@ -70,7 +70,8 @@ TEMPLATE ruby\d+\.\d+:
   r /usr/bin/rake*
   r /usr/bin/{y2,}racc*
   r /usr/bin/rdoc*
-  r /usr/bin/ri*
+  r /usr/bin/ri
+  r /usr/bin/ri.*
   r /usr/bin/bundle*
   r /usr/bin/rbs*
   r /usr/bin/typeprof*
