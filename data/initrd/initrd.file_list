@@ -59,6 +59,7 @@ AUTODEPS:
 
 binutils: ignore
 dbus-1-x11: ignore
+dbus-broker: ignore
 dirmngr: ignore
 fillup: ignore
 gnu-unifont-bitmap-fonts: ignore
@@ -468,6 +469,9 @@ dbus-1:
 dbus-1-common:
   /
   E prein
+
+dbus-1-daemon:
+  /usr/bin/dbus-daemon
 
 # For FIPS installation:
 
