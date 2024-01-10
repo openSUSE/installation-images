@@ -310,8 +310,7 @@ strace:
   /usr/share/YaST2/lib/y2system_role_handlers/sles4sap_role_finish.rb
 
 ?system-role-common-criteria: nodeps
-  /usr/share/YaST2/lib/y2system_role_handlers/cc_role_finish.rb
-  /usr/share/YaST2/clients/inst_cc_mode.rb
+  /
 
 yast2:
   /etc
