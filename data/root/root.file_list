@@ -564,7 +564,7 @@ khmeros-fonts:
 
 lklug-fonts:
 
-noto-naskharabic-fonts:
+google-noto-naskharabic-fonts:
 
 dmz-icon-theme-cursors:
   if exists(dmz-icon-theme-cursors, /usr/share/icons/DMZ-White)
