@@ -323,6 +323,7 @@ BuildRequires:  cryptsetup
 BuildRequires:  cups-libs
 BuildRequires:  curl
 BuildRequires:  dash
+BuildRequires:  dbus-1-daemon
 BuildRequires:  dbus-1-x11
 BuildRequires:  dd_rescue
 BuildRequires:  debuginfod-client
