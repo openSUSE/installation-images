@@ -337,7 +337,7 @@ BuildRequires:  ed
 BuildRequires:  efont-unicode-bitmap-fonts
 BuildRequires:  elfutils
 BuildRequires:  ethtool
-BuildRequires:  noto-naskharabic-fonts
+BuildRequires:  google-noto-naskharabic-fonts
 %if %with_exfat
 BuildRequires:  exfatprogs
 %endif
