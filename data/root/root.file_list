@@ -592,9 +592,11 @@ aaa_base:
   E postin
   r /run/utmp
 
-?s390-tools:
-  /
-  E postin
+if arch eq 's390x'
+  s390-tools:
+    /
+    E postin
+endif
 
 rpcbind:
   /

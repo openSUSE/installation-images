@@ -110,7 +110,9 @@ procinfo:
 procps:
 psmisc:
 rpm:
-?s390-tools:
+if arch eq 's390x'
+  s390-tools:
+endif
 sed:
 shadow:
 squashfs:
