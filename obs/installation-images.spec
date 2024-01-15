@@ -342,7 +342,6 @@ BuildRequires:  google-noto-naskharabic-fonts
 BuildRequires:  exfatprogs
 %endif
 BuildRequires:  fbiterm
-BuildRequires:  finger
 BuildRequires:  fonts-config
 BuildRequires:  gamin-server
 BuildRequires:  gdb

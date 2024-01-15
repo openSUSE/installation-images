@@ -142,7 +142,6 @@ e2fsprogs:
 file-magic:
 file:
 findutils:
-finger:
 gpart:
 ?gptfdisk:
 grep:
