@@ -44,9 +44,9 @@ x86_64	= virtualbox-guest,xen,drm,reiserfs
 
 ; extra firmware packages
 [Firmware]
-default = kernel-firmware,adaptec-firmware
-i386    = kernel-firmware,adaptec-firmware,ipw-firmware,iwl4965-ucode,iwl5000-ucode,atmel-firmware,ralink-firmware
-x86_64  = kernel-firmware,adaptec-firmware,ipw-firmware,iwl4965-ucode,iwl5000-ucode,atmel-firmware,ralink-firmware
+default = kernel-firmware-all,adaptec-firmware
+i386    = kernel-firmware-all,adaptec-firmware,ipw-firmware,iwl4965-ucode,iwl5000-ucode,atmel-firmware,ralink-firmware
+x86_64  = kernel-firmware-all,adaptec-firmware,ipw-firmware,iwl4965-ucode,iwl5000-ucode,atmel-firmware,ralink-firmware
 
 
 ; lib directory

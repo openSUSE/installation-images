@@ -405,7 +405,7 @@ BuildRequires:  kernel-default
 BuildRequires:  kernel-default-extra
 BuildRequires:  kernel-default-optional
 %endif
-BuildRequires:  kernel-firmware
+BuildRequires:  kernel-firmware-all
 BuildRequires:  kexec-tools
 BuildRequires:  khmeros-fonts
 BuildRequires:  kmod-compat
