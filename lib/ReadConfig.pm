@@ -166,7 +166,7 @@ require Exporter;
 @EXPORT = qw (
   $Script $BasePath $LibPath $BinPath $CfgPath $ImagePath $DataPath
   $TmpBase %ConfigData ReadFile RealRPM RealRPMs ReadRPM $SUBinary SUSystem Print2File $MToolsCfg $AutoBuild
-  ResolveDeps
+  ResolveDeps CopyRPM
 );
 
 use strict 'vars';
@@ -403,6 +403,23 @@ sub UnpackRPM
 
 
 #
+# Unpack rpm_name to target_dir and return path to cache dir or undef if failed.
+#
+sub CopyRPM
+{
+  my $rpm_name = $_[0];
+  my $target_dir = $_[1];
+
+  my $cache_dir = ReadRPM($rpm_name);
+  if($cache_dir) {
+    system "tar -C '$cache_dir/rpm' -cf - . | tar -C '$target_dir' -xf -";
+  }
+
+  return $cache_dir;
+}
+
+
+#
 # Unpack rpm to cache dir and return path to dir or undef if failed.
 #
 sub ReadRPM
@@ -492,20 +509,35 @@ sub ReadRPM
       undef $kv;
     }
 
-    UnpackRPM RealRPM("$rpm->{name}-base"), $tdir;
-    UnpackRPM RealRPM("$rpm->{name}-extra"), $tdir;
-    UnpackRPM RealRPM("$rpm->{name}-optional"), $tdir;
+    CopyRPM "$rpm->{name}-base", $tdir;
+    CopyRPM "$rpm->{name}-extra", $tdir;
+    CopyRPM "$rpm->{name}-optional", $tdir;
 
     my $kmp;
     for (split(',', $ConfigData{kmp_list})) {
       ($kmp = $rpm->{name}) =~ s/^kernel/$_-kmp/;
       print "adding kmp $kmp\n";
-      UnpackRPM RealRPM($kmp), $tdir;
+      CopyRPM $kmp, $tdir;
     }
 
     for (split(',', $ConfigData{fw_list})) {
-      print "adding firmware $_\n";
-      UnpackRPM RealRPM($_), $tdir;
+      if($_ eq 'kernel-firmware-all') {
+        my $rpm = ReadRPM($_);
+        if($rpm) {
+          my $deps = ReadFile "$rpm/requires";
+          for my $fw (split /\n/, $deps) {
+            if($fw =~ /^(kernel-firmware-\S+)/) {
+              $fw = $1;
+              print "adding firmware $fw\n";
+              CopyRPM $fw, $tdir;
+            }
+          }
+        }
+      }
+      else {
+        print "adding firmware $_\n";
+        CopyRPM $_, $tdir;
+      }
     }
 
     # keep it readable
