@@ -26,7 +26,7 @@ close F;
 for $m (sort keys %fw) {
   for $fw (@{$fw{$m}}) {
     my $ok = 0;
-    for my $f (<$fw_dir/$fw $fw_dir/$kv/$fw>) {
+    for my $f (<$fw_dir/$fw $fw_dir/$kv/$fw $fw_dir/$fw.xz $fw_dir/$kv/$fw.xz $fw_dir/$fw.zst $fw_dir/$kv/$fw.zst>) {
       if(-r $f) {
         $f =~ s#^$fw_dir/##;
         system "install -m 644 -D '$fw_dir/$f' 'lib/firmware/$f'\n";
