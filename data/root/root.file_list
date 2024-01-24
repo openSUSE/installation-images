@@ -76,6 +76,7 @@ TEMPLATE ruby\d+\.\d+:
   r /usr/bin/rbs*
   r /usr/bin/typeprof*
   r /usr/bin/rdbg*
+  r /usr/bin/syntax_suggest*
 
 TEMPLATE:
   /
