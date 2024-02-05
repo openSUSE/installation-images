@@ -1,2 +1,2 @@
-TERM=xterm manual=1 console=ttyS1
+TERM=xterm manual=1 console=ttysclp0
 
