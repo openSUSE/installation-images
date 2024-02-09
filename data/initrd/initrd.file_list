@@ -510,10 +510,6 @@ dbus-1:
   r /usr/bin/dbus-launch*
   E prein
 
-# For FIPS installation:
-
-?libopenssl*_*-hmac:
-
 if exists(openssh-server)
   openssh-server: nodeps
 else
