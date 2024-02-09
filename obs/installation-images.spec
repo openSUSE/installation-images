@@ -41,7 +41,6 @@ ExclusiveArch:  do_not_build
 %define with_shim 1
 %define with_storage_ng 1
 %define with_reiserfs_kmp 0
-%define with_ssl_hmac 1
 %define with_exfat 0
 %define with_kernel_extra 0
 %bcond_without sbl
@@ -161,7 +160,6 @@ ExclusiveArch:  do_not_build
 
 %if "%theme" == "openSUSE"
 %define with_storage_ng 1
-%define with_ssl_hmac 0
 %define branding_skelcd   openSUSE
 %define branding_systemd  openSUSE
 %define branding_plymouth openSUSE
@@ -179,7 +177,6 @@ BuildRequires:  distribution-logos-openSUSE-Leap
 
 %if "%theme" == "Kubic"
 %define with_storage_ng 1
-%define with_ssl_hmac 0
 %define branding_skelcd   Kubic
 %define branding_systemd  MicroOS
 %define branding_plymouth openSUSE
@@ -205,12 +202,10 @@ BuildRequires:  distribution-logos-openSUSE-LeapMicro
 %define branding_plymouth openSUSE
 %define branding_grub2    openSUSE
 %define branding_gfxboot  openSUSE
-%define with_ssl_hmac 0
 %else
 %define branding_plymouth SLE
 %define branding_grub2    SLE
 %define branding_gfxboot  SLE
-%define with_ssl_hmac 1
 %define config_bootmenu_no_upgrade 1
 BuildRequires:  SLE-Micro-release
 %endif
@@ -220,7 +215,6 @@ BuildRequires:  system-group-kvm
 
 %if "%theme" == "MicroOS"
 %define with_storage_ng 1
-%define with_ssl_hmac 0
 %define branding_skelcd   MicroOS
 %define branding_systemd  MicroOS
 %define branding_plymouth openSUSE
@@ -411,9 +405,6 @@ BuildRequires:  khmeros-fonts
 BuildRequires:  kmod-compat
 BuildRequires:  krb5-devel
 BuildRequires:  less
-%if %with_ssl_hmac
-BuildRequires:  libopenssl1_1-hmac
-%endif
 BuildRequires:  libpcsclite1
 BuildRequires:  libyui-ncurses
 BuildRequires:  libyui-ncurses-pkg
