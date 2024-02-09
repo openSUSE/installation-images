@@ -96,7 +96,9 @@ nvme-cli:
 sed:
 ?wicked:
 ?wicked-nbft:
-?s390-tools-hmcdrvfs:
+if arch eq 's390x'
+  s390-tools-hmcdrvfs:
+endif
 rsyslog:
 sysconfig-netconfig:
 sg3_utils:
@@ -168,7 +170,9 @@ terminfo:
 suse-module-tools:
   /etc/modprobe.d
 
-?s390-tools:
+if arch eq 's390x'
+  s390-tools:
+endif
 
 kbd:
   /usr/bin/dumpkeys
@@ -722,8 +726,8 @@ x etc/rsyslog.conf etc
 
 # additional scripts for linuxrc
 x scripts /
-# hmc exists only on s390
-if !exists(s390-tools-hmcdrvfs)
+# hmc exists only on s390x
+if arch ne 's390x'
   r /scripts/url/hmc
 endif
 

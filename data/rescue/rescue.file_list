@@ -107,7 +107,9 @@ bash:
 ?pdisk:
 ?powerpc-utils:
 ?powertop:
-?s390-tools:
+if arch eq 's390x'
+  s390-tools:
+endif
 ?silo:
 ?wireless-tools:
 ?wpa_supplicant:
