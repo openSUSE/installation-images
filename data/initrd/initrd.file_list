@@ -477,10 +477,6 @@ dbus-1-common:
 dbus-1-daemon:
   /usr/bin/dbus-daemon
 
-# For FIPS installation:
-
-?libopenssl*_*-hmac:
-
 if exists(openssh-server)
   openssh-server: nodeps
 else
