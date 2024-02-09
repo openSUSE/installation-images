@@ -385,7 +385,6 @@ BuildRequires:  less
 %if %with_fips
 BuildRequires:  dracut-fips
 BuildRequires:  openssh-fips
-BuildRequires:  libopenssl1_1-hmac
 %endif
 BuildRequires:  libpcsclite1
 BuildRequires:  libyui-ncurses
