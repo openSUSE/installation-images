@@ -300,8 +300,6 @@ gpg2:
   d root/.gnupg
 
 cryptsetup:
-?libcryptsetup*-hmac:
-?libgcrypt20-hmac:
 
 # XXX: usrmerge
 ntfs-3g:
