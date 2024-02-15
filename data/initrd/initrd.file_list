@@ -85,7 +85,6 @@ curl:
 device-mapper:
 ethtool:
 glibc:
-haveged:
 hostname:
 hwinfo:
 iputils:

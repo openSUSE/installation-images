@@ -354,7 +354,6 @@ BuildRequires:  gpm
 BuildRequires:  gptfdisk
 BuildRequires:  graphviz
 BuildRequires:  graphviz-gnome
-BuildRequires:  haveged
 BuildRequires:  hdparm
 BuildRequires:  hex
 BuildRequires:  hfsutils
