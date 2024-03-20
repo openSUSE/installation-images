@@ -294,6 +294,9 @@ kernel/drivers/power/supply/mt6360_charger.ko
 kernel/drivers/nvmem/nvmem_mtk-efuse.ko
 kernel/drivers/clk/
 
+kernel/drivers/spi/
+kernel/drivers/dma/pl330.ko
+
 # kmps
 updates/
 
