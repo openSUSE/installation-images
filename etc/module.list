@@ -290,6 +290,9 @@ kernel/drivers/soc/qcom/pmic_glink_altmode.ko
 kernel/drivers/soc/qcom/smp2p.ko
 kernel/drivers/spmi/spmi-pmic-arb.ko
 
+kernel/drivers/spi/
+kernel/drivers/dma/pl330.ko
+
 # kmps
 updates/
 
