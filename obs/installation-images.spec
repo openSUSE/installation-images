@@ -292,7 +292,7 @@ BuildRequires:  noto-sans-fonts
 %ifarch ia64 %ix86 x86_64
 BuildRequires:  libsmbios_c2
 %endif
-BuildRequires:  Mesa
+BuildRequires:  Mesa-dri
 BuildRequires:  Mesa-libEGL1
 BuildRequires:  Mesa-libGL1
 BuildRequires:  aaa_base
