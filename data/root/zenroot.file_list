@@ -37,6 +37,8 @@ r /etc/issue
 
 TEMPLATE system-user-root: direct
 
+TEMPLATE crypto-policies: direct
+
 TEMPLATE:
   /
 
