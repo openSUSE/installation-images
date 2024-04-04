@@ -61,6 +61,8 @@ TEMPLATE dbus-1:
 
 TEMPLATE system-user-root: direct
 
+TEMPLATE crypto-policies: direct
+
 TEMPLATE:
   /
 

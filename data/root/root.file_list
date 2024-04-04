@@ -31,6 +31,8 @@ r /etc/issue
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+TEMPLATE crypto-policies: direct
+
 TEMPLATE dbus-1:
   /
   # not needed
