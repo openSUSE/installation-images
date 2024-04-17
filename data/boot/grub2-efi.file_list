@@ -55,6 +55,11 @@ if exists(shim)
     a <shim_dir>/MokManager.efi EFI/BOOT/
 endif
 
+if arch eq 'x86_64' && exists(memtest86+,/usr/lib/memtest86/memtest.efi)
+  memtest86+:
+    m /usr/lib/memtest86/memtest.efi EFI/BOOT/
+endif
+
 # show product name in title instead of default grub string
 d EFI/BOOT/locale
 x grub2_head.po .
