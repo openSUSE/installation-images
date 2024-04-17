@@ -15,7 +15,11 @@ if arch eq 'i386' || arch eq 'x86_64'
     endif
 
   memtest86+:
-    m /boot/memtest.bin /loader/memtest
+    if exists(memtest86+,/boot/memtest.bin)
+      m /boot/memtest.bin /loader/memtest
+    else
+      m /usr/lib/memtest86/memtest.bin /loader/memtest
+    endif
 
   if exists(syslinux6)
     syslinux6:
