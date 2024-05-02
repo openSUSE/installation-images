@@ -142,6 +142,8 @@ e2fsprogs:
 file-magic:
 file:
 findutils:
+# grub2 dependency; add explicitly to avoid gettext-runtime-mini (bsc#1223775)
+gettext-runtime:
 gpart:
 ?gptfdisk:
 grep:

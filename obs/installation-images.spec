@@ -345,7 +345,7 @@ BuildRequires:  fbiterm
 BuildRequires:  fonts-config
 BuildRequires:  gamin-server
 BuildRequires:  gdb
-BuildRequires:  gettext-runtime-mini
+BuildRequires:  gettext-runtime
 BuildRequires:  glibc-i18ndata
 BuildRequires:  glibc-locale
 BuildRequires:  gpart

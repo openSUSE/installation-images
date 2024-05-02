@@ -70,6 +70,8 @@ e2fsprogs:
 file:
 fillup:
 findutils:
+# grub2 dependency; add explicitly to avoid gettext-runtime-mini (bsc#1223775)
+gettext-runtime:
 grep:
 gzip:
 hdparm:
