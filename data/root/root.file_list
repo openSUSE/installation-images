@@ -93,7 +93,7 @@ curl: ignore
 dbus-1-x11: ignore
 dirmngr: ignore
 gdk-pixbuf-query-loaders: ignore
-gettext-tools-mini: ignore
+gettext-tools: ignore
 gtk2-tools: ignore
 info: ignore
 libLLVM: ignore

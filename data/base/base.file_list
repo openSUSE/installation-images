@@ -89,7 +89,7 @@ filesystem:
 fillup:
 findutils:
 fontconfig:
-gettext-runtime-mini:
+gettext-runtime:
 ?gfxboot: nodeps
 glibc-i18ndata:
 glibc-locale:
