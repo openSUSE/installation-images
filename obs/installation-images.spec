@@ -341,7 +341,6 @@ BuildRequires:  google-noto-naskharabic-fonts
 %if %with_exfat
 BuildRequires:  exfatprogs
 %endif
-BuildRequires:  fbiterm
 BuildRequires:  fonts-config
 BuildRequires:  gamin-server
 BuildRequires:  gdb
