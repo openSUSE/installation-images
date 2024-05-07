@@ -55,6 +55,7 @@ $imagetype = $ENV{fs};
 $imagetype = "none" unless $imagetype;
 $use_compress = 'gzip' if $imagetype =~ s/\.gz$//;
 $use_compress = 'xz' if $imagetype =~ s/\.xz$//;
+$use_compress = 'zstd' if $imagetype =~ s/\.zst$//;
 
 # modes: keep, add, "" (default)
 @mode{split ",", $ENV{mode}} = ( 1 .. 10 );
