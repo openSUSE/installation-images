@@ -60,7 +60,7 @@ sub CompressImage
   print "compressing $image...\n";
 
   $prog_opt = '-cf9N' if $prog eq 'gzip';
-  $prog_opt = '--threads=0 --check=crc32 -cf' if $prog eq 'xz';
+  $prog_opt = '--threads=0 -9 --check=crc32 -cf' if $prog eq 'xz';
 
   die "$Script: $prog failed" if system "$prog $prog_opt '$image2' >'$image2.tmp'";
 
