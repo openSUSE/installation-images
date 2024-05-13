@@ -520,10 +520,6 @@ libgbm*:
 icewm-lite:
   /usr/bin/icewm-lite
 
-# don't include fonts - it prefers /usr/share/fonts/misc anyway
-fbiterm:
-  /usr/bin/fbiterm
-
 if exists(adobe-sourcesanspro-fonts,/usr/share/fonts/truetype/SourceSansPro-Regular.otf)
   adobe-sourcesanspro-fonts:
     /usr/share/fonts/truetype/SourceSansPro-{Regular,Light,Semibold}.otf
@@ -537,11 +533,6 @@ endif
 dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
-
-efont-unicode-bitmap-fonts:
-  # fonts used by fbiterm
-  /usr/share/fonts/misc/h16.pcf.gz
-  /usr/share/fonts/misc/b16.pcf.gz
 
 ?google-roboto-fonts:
 
