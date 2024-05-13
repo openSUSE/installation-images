@@ -920,6 +920,10 @@ sub get_version_info
   $dist = "suse-microos" if $dist eq "sle micro";
   $dist = "suse-microos" if $dist eq "leap micro";
 
+  # Treat Slowroll variants like Tumbleweed/MicroOS
+  $dist = "tumbleweed" if $dist eq "tumbleweed-slowroll";
+  $dist = "microos" if $dist eq "microos-slowroll";
+
   # don't accept other names than these
 
   die "*** unsupported product: $dist ***" if $dist !~ /^(casp|caasp|kubic|microos|suse-microos|leap|sles|sled|tumbleweed( kubic)?)$/;
