@@ -334,14 +334,12 @@ BuildRequires:  dosfstools
 BuildRequires:  dump
 BuildRequires:  e2fsprogs
 BuildRequires:  ed
-BuildRequires:  efont-unicode-bitmap-fonts
 BuildRequires:  elfutils
 BuildRequires:  ethtool
 BuildRequires:  google-noto-naskharabic-fonts
 %if %with_exfat
 BuildRequires:  exfatprogs
 %endif
-BuildRequires:  fbiterm
 BuildRequires:  fonts-config
 BuildRequires:  gamin-server
 BuildRequires:  gdb
