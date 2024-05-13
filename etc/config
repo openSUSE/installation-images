@@ -92,6 +92,17 @@ grub2             = openSUSE
 plymouth          = openSUSE
 systemd           = openSUSE
 
+[Theme Slowroll]
+image             = 350
+patch_zypp_config = 0
+release           = openSUSE
+skelcd            = openSUSE
+skelcd_ctrl       = openSUSE-Slowroll
+gfxboot           = openSUSE
+grub2             = openSUSE
+plymouth          = openSUSE
+systemd           = openSUSE
+
 [Theme LeapMicro]
 image             = 350
 patch_zypp_config = 1
