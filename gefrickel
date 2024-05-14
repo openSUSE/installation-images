@@ -10,8 +10,18 @@ function err {
 }
 
 function squash {
+  local compression
   mkdir -p parts
-  $mksquashfs $1 parts/$2 -comp xz -noappend -no-progress
+  case $(uname -m) in
+    ppc64le)
+      compression=-no-compression
+      ;;
+    *)
+      compression='-comp xz'
+      ;;
+  esac
+
+  $mksquashfs $1 parts/$2 $compression -noappend -no-progress
   chmod 644 parts/$2
 }
 
@@ -39,6 +49,23 @@ base_modules="loop squashfs lz4_decompress xxhash zstd_decompress zram ext4 crc1
 echo "$base_modules" > .base_modules
 m_dir=`echo ${pfx}lib/modules/*/initrd`
 [ -d "$m_dir" ] || err "no kernel module dir"
+kernel_ver=$(basename $(dirname $m_dir))
+case $(uname -m) in
+  ppc64le)
+    find ${pfx}lib/modules -type f -name \*.zst -exec unzstd -v --rm '{}' \;
+    if [ -d ${pfx}lib/firmware ] ; then
+      broken="$(find -L ${pfx}lib/firmware -type l)"
+      echo Broken links: "$broken"
+      find ${pfx}lib/firmware -type l -name \*.xz -exec unxz -vv '{}' \;
+      find ${pfx}lib/firmware -type f -name \*.xz -exec unxz -vv '{}' \;
+      broken_after="$(find -L ${pfx}lib/firmware -type l)"
+      if [ "$broken" != "$broken_after" ] ; then
+        echo ERROR: Broken links after decompression "$broken_after"
+      fi
+    fi
+    /sbin/depmod -a -b . -F /boot/System.map* $kernel_ver || err "Failed to regenerate modules.dep"
+    ;;
+esac
 mkdir -p "b/$m_dir"
 for i in $base_modules ; do
   for suffix in ko ko.xz ko.zst; do
