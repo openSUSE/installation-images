@@ -768,6 +768,10 @@ Package that holds debuginfo dependencies for image files in installation-image.
 %define __debuginfo_path       ^/usr/share/debuginfodeps
 
 %prep
+if [ "$UID" != 0 ] ; then
+    echo "ERROR: need to run this as root. e.g. with osc build --userootforbuild"
+    exit 1
+fi
 %setup -n installation-images-%{version}
 rm -f /usr/lib/build/checks/04-check-filelist
 
