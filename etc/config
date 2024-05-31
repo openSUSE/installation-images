@@ -102,6 +102,7 @@ gfxboot           = openSUSE
 grub2             = openSUSE
 plymouth          = openSUSE
 systemd           = openSUSE
+product_name      = openSUSE-Tumbleweed-Slowroll
 
 [Theme LeapMicro]
 image             = 350
