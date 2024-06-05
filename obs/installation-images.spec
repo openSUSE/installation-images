@@ -547,6 +547,7 @@ BuildRequires:  yast2-widget-demo
 %if 0%{?with_storage_ng}
 BuildRequires:  libstorage-ng-lang
 BuildRequires:  yast2-storage-ng
+BuildRequires:  zstd
 #!BuildIgnore:  yast2-storage
 #!BuildIgnore:  libstorage7
 %endif
