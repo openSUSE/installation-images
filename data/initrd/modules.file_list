@@ -58,8 +58,6 @@ e /sbin/depmod -a -b . -F System.map <kernel_ver>
 r System.map
 
 # copy needed firmware files
-# XXX: usrmerge
-d usr/lib/firmware
 d lib/firmware
 e mlist3 <kernel_ver> fw || true
 
