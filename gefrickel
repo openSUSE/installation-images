@@ -20,7 +20,7 @@ dir=$1
 [ -d "$dir" ] || err "$dir: not a directory"
 cd $dir
 
-[ -d "parts" ] && { echo "$dir: already gefrickelt" ; exit 1 ; }
+[ -d "parts" ] && err "$dir: already gefrickelt"
 
 [ -x "/usr/bin/mksquashfs" ] && mksquashfs="/usr/bin/mksquashfs"
 [ -x "/usr/bin/mksquashfs4" ] && mksquashfs="/usr/bin/mksquashfs4"
