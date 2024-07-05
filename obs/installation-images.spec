@@ -321,6 +321,7 @@ BuildRequires:  adaptec-firmware
 BuildRequires:  alsa
 BuildRequires:  alsa-utils
 BuildRequires:  arphic-uming-fonts
+BuildRequires:  attr
 BuildRequires:  audit-libs
 BuildRequires:  bc
 BuildRequires:  bcache-tools
