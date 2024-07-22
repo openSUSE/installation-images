@@ -1213,6 +1213,8 @@ $ConfigData{fw_list} = $ConfigData{ini}{Firmware}{$arch} if $ConfigData{ini}{Fir
   $in_abuild = $ConfigData{buildenv}{BUILD_BASENAME} ? 1 : 0;
   $in_abuild = 1 if -d "$ConfigData{buildroot}/.build.binaries";
 
+  $ConfigData{in_abuild} = $in_abuild;
+
   # print STDERR "abuild = $in_abuild\n";
 
   die "\nError: *** you must be root to build images ***\n\n" if $>;

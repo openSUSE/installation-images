@@ -60,8 +60,12 @@ sub CompressImage
   print "compressing $image...\n";
 
   $prog_opt = '-cf9N' if $prog eq 'gzip';
-  $prog_opt = '--threads=0 -9 --check=crc32 -cf' if $prog eq 'xz';
-  $prog_opt = '--threads=0 -19 -cf' if $prog eq 'zstd';
+
+  # build system provides at least 4 cpus
+  my $threads = $ConfigData{in_abuild} ? 4 : 0;
+
+  $prog_opt = "--threads=$threads -9 --check=crc32 -cf" if $prog eq 'xz';
+  $prog_opt = "--threads=$threads -19 -cf" if $prog eq 'zstd';
 
   die "$Script: $prog failed" if system "$prog $prog_opt '$image2' >'$image2.tmp'";
 
