@@ -550,6 +550,41 @@ sub ReadRPM
       print "warning: kmp/firmware version mismatch: $_\n";
       SUSystem "sh -c 'tar -C $tdir$kmd/$_ -cf - . | tar -C $tdir$kmd/$kv -xf -'";
     }
+
+    # unpack kernel modules if requested
+    # see doc/compression.md
+    if($ENV{instsys_no_compression} =~ /modules/) {
+      my $dir = "$tdir/usr/lib/modules";
+      $dir = "$tdir/lib/modules" if ! -d $dir;
+
+      print "uncompressing kernel modules...\n";
+
+      SUSystem "find $dir -type f -name \*.ko.zst -exec zstd -d --quiet --rm '{}' \\;";
+      SUSystem "find $dir -type f -name \*.ko.xz -exec xz -d '{}' \\;";
+      SUSystem "find $dir -type f -name \*.ko.gz -exec gzip -d '{}' \\;";
+    }
+
+    # unpack kernel firmware if requested
+    # see doc/compression.md
+    if($ENV{instsys_no_compression} =~ /firmware/) {
+      my $dir = "$tdir/usr/lib/firmware";
+      $dir = "$tdir/lib/firmware" if ! -d $dir;
+
+      print "uncompressing kernel firmware...\n";
+
+      # rename symlinks
+      for my $suffix ("zst", "xz", "gz") {
+        SUSystem "find $dir -type l -name \*.$suffix -exec rename -sl .$suffix '' '{}' \\; -exec rename -l .$suffix '' '{}' \\;";
+      }
+
+      # unpack files
+      SUSystem "find $dir -type f -name \*.zst -exec zstd -d --quiet --rm '{}' \\;";
+      SUSystem "find $dir -type f -name \*.xz -exec xz -d '{}' \\;";
+      SUSystem "find $dir -type f -name \*.gz -exec gzip -d '{}' \\;";
+
+      my $broken = `find $dir -follow -type l`;
+      die "firmware uncompressing left broken symlinks:\n$broken\n" if $broken ne "";
+    }
   }
 
   return $err ? undef : $dir;

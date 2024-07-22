@@ -10,8 +10,13 @@ function err {
 }
 
 function squash {
+  local compression="-comp xz"
+  # see doc/compression.md
+  if [[ "$instsys_no_compression" =~ "squashfs" ]] ; then
+    compression="-no-compression"
+  fi
   mkdir -p parts
-  $mksquashfs $1 parts/$2 -comp xz -noappend -no-progress
+  $mksquashfs $1 parts/$2 $compression -noappend -no-progress
   chmod 644 parts/$2
 }
 
@@ -29,6 +34,11 @@ cd $dir
 
 if [ -L lib ]; then
   pfx="usr/"
+fi
+
+if [ -n "$instsys_no_compression" ] ; then
+  echo "$instsys_no_compression" > .no_compression
+  echo "using no compression in squashfs\n"
 fi
 
 # - - -  lib/{modules,firmware}  - - -
