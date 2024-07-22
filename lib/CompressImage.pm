@@ -38,6 +38,8 @@ require Exporter;
 use strict 'vars';
 use integer;
 
+use vars qw (%ConfigData);
+
 sub CompressImage
 {
   local $_;
