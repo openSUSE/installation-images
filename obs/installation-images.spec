@@ -775,6 +775,10 @@ export BUILD_DISTRIBUTION_NAME
 test ! -z "$BUILD_DISTRIBUTION_NAME"
 # build id (for linuxrc to start the correct instsys)
 export instsys_build_id=`bin/build_id`
+%ifarch ppc64 ppc64le
+# ppc64: optimize for smaller compressed initrd size
+export instsys_no_compression=squashfs
+%endif
 # beta only: warn testers about wrong instsys
 export instsys_complain=1
 # careful: will make all non-matching initrds fail hard
