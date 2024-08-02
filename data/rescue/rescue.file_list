@@ -202,6 +202,7 @@ tar:
 terminfo-base:
 usbutils:
 vlan:
+wget:
 ?wicked:
 ?xen-tools-domU:
 xfsdump:
