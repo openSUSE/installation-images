@@ -516,6 +516,7 @@ BuildRequires:  valgrind
 BuildRequires:  vim-small
 # libproxy1 requires libpxbackend-1_0; to counter cycles, this exists also as mini (bsc#215290)
 #!BuildConflicts: libpxbackend-1_0-mini
+BuildRequires:  wget
 BuildRequires:  wicked
 BuildRequires:  wicked-nbft
 BuildRequires:  wireless-tools
