@@ -197,6 +197,7 @@ systemd:
 udftools:
 usbutils:
 util-linux:
+wget:
 xfsdump:
 xfsprogs:
 xz:
