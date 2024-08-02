@@ -204,6 +204,8 @@ usbutils:
 util-linux:
 vim-small:
 vlan:
+# require explicitly to avoid libpxbackend-* vs. libpxbackend-*-mini hassle when building outside OBS
+libpxbackend-*:
 wget:
 ?wicked:
 ?xen-tools-domU:
