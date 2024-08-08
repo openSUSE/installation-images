@@ -62,12 +62,15 @@ sub CompressImage
   print "compressing $image...\n";
 
   $prog_opt = '-cf9N' if $prog eq 'gzip';
+  $prog_opt = '-9 --check=crc32 -cf' if $prog eq 'xz';
+  $prog_opt = '-19 -cf' if $prog eq 'zstd';
 
-  # build system provides at least 4 cpus
-  my $threads = $ConfigData{in_abuild} ? 4 : 0;
-
-  $prog_opt = "--threads=$threads -9 --check=crc32 -cf" if $prog eq 'xz';
-  $prog_opt = "--threads=$threads -19 -cf" if $prog eq 'zstd';
+  # if compression is being optimized do not use threads
+  if($ENV{instsys_no_compression} !~ /./) {
+    # build system provides at least 4 cpus
+    my $threads = $ConfigData{in_abuild} ? 4 : 0;
+    $prog_opt = "--threads=$threads $prog_opt" if ($prog eq 'zstd') or ($prog eq 'xz');
+  }
 
   die "$Script: $prog failed" if system "$prog $prog_opt '$image2' >'$image2.tmp'";
 
