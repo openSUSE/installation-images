@@ -535,6 +535,10 @@ dejavu-fonts:
   /usr/share/fonts/truetype/DejaVuSans*.ttf
   r /usr/share/fonts/truetype/DejaVuSansCondensed*
 
+# needed by yast as fallback for CJK languages
+efont-unicode-bitmap-fonts:
+  /usr/share/fonts/misc/b16.pcf.gz
+
 ?google-roboto-fonts:
 
 ?noto-sans-fonts:
