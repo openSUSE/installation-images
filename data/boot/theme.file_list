@@ -43,8 +43,11 @@ if arch eq 'i386' || 'x86_64' || arch eq 'aarch64' || arch eq 'armv7l' || arch e
       R s/\r// grub2-efi/themes/<grub2_theme>/theme.txt
       R s/title-text: ""/title-text: "<product_name>"/ grub2-efi/themes/<grub2_theme>/theme.txt
 
-    grub2:
-      m /usr/share/grub2/unicode.pf2 grub2-efi
+    if exists(grub2-common,/usr/share/grub2/unicode.pf2)
+      grub2-common:
+    else
+      grub2:
+    endif
+        m /usr/share/grub2/unicode.pf2 grub2-efi
   endif
-
 endif
