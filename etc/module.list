@@ -204,6 +204,7 @@ kernel/drivers/mfd/pcf50633-core.ko
 
 kernel/drivers/connector/
 kernel/drivers/uio/uio.ko
+kernel/drivers/uio/uio_hv_generic.ko
 kernel/drivers/misc/cb710/
 kernel/drivers/mfd/ab3100-core.ko
 kernel/drivers/gpu/drm/
