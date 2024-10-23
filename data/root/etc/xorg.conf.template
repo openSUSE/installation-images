@@ -11,16 +11,6 @@ Section "Screen"
 EndSection
 
 Section "Device"
-  Identifier "fbdev"
-  Driver  "fbdev"
-EndSection
-
-Section "Screen"
-  Identifier "fbdev"
-  Device "fbdev"
-EndSection
-
-Section "Device"
   Identifier "vesa"
   Driver  "vesa"
 EndSection
@@ -33,6 +23,5 @@ EndSection
 Section "ServerLayout"
   Identifier "Layout"
   Screen  "modesetting"
-  Screen  "fbdev"
   Screen  "vesa"
 EndSection
