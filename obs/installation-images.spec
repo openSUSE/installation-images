@@ -589,7 +589,6 @@ BuildRequires:  xf86-video-qxl
 BuildRequires:  xf86-video-vesa
 %endif
 BuildRequires:  xf86-input-wacom
-BuildRequires:  xf86-video-fbdev
 %endif
 BuildRequires:  grub2
 %ifarch ppc ppc64 ppc64le
