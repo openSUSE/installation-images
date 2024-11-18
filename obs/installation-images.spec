@@ -367,7 +367,6 @@ BuildRequires:  exfatprogs
 BuildRequires:  fbiterm
 BuildRequires:  finger
 BuildRequires:  fonts-config
-BuildRequires:  gamin-server
 BuildRequires:  gdb
 BuildRequires:  gettext-runtime-mini
 BuildRequires:  glibc-i18ndata
