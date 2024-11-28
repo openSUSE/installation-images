@@ -209,6 +209,8 @@ create_zram_swap_disable_hook() {
 # at least 2 swap devices
 if [ "\$(wc -l < /proc/swaps)" != 2 ] ; then
   swapoff $zram_swap_dev
+  sync
+  sleep 1
   echo $zram_dev_index > /sys/class/zram-control/hot_remove
 fi
 XXX
