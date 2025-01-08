@@ -76,6 +76,10 @@ filesystem:
 
 AUTODEPS:
 
+# explicit dependency needed by libproxy1 < wget
+# to avoid picking libpxbackend-1_0-mini (see bsc#1215290)
+libpxbackend-*:
+
 dbus-1-x11: ignore
 info: ignore
 logrotate: ignore
