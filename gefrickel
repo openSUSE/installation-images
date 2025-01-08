@@ -45,7 +45,9 @@ fi
 #
 # all mods ex loop & squashfs
 #
-base_modules="loop squashfs lz4_decompress xxhash zstd_decompress zram ext4 crc16 mbcache jbd2"
+# see also data/initrd/scripts/zram_setup
+#
+base_modules="loop squashfs lz4_decompress lz4_compress lz4hc_compress 842_compress 842_decompress xxhash zstd_decompress zram ext4 crc16 mbcache jbd2"
 echo "$base_modules" > .base_modules
 m_dir=`echo ${pfx}lib/modules/*/initrd`
 [ -d "$m_dir" ] || err "no kernel module dir"
