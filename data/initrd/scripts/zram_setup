@@ -6,7 +6,7 @@ size=$1
 PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
 # no modprobe
-for i in zram jbd2 mbcache crc16 ext4 ; do
+for i in 842_decompress 842_compress lz4_compress lz4hc_compress zram jbd2 mbcache crc16 ext4 ; do
   for ext in .ko .ko.xz .ko.zst ; do
     m=/modules/$i$ext
     [ -f $m ] && insmod $m
