@@ -300,6 +300,7 @@ sysvinit-tools: nodeps
 
 rpm:
   /usr/bin/rpm2cpio
+  /usr/bin/rpm2archive
   /usr/bin/rpmkeys
   /usr/lib*/librpm{,io}.so.*
   /usr/lib/rpm/rpmrc
