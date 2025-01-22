@@ -170,7 +170,6 @@ mingetty:
 ncurses-utils:
 netcat-openbsd:
 netcfg:
-nscd:
 ntfsprogs:
 nvme-cli:
 open-iscsi:

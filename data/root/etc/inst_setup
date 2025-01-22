@@ -107,18 +107,6 @@ if [ -x /sbin/klogd ] ; then
   }
 fi
 
-# start nscd (bnc #530440, bnc #878904)
-if [ -x /usr/sbin/nscd ] ; then
-  checkproc /usr/sbin/nscd || {
-    echo -n "starting nscd..."
-    if /usr/sbin/nscd ; then
-      echo " ok"
-    else
-      echo " failed"
-    fi
-  }
-fi
-
 # Update module config.
 #
 # Note: modules are all from initrd, but new ones might have come in via
@@ -285,8 +273,6 @@ fi
 
 # start shell, useful on iSeries or via serial console
 [ "$START_SHELL" ] && start_shell
-
-nscd --shutdown
 
 # stop various daemons
 # killall dbus-daemon >/dev/null 2>&1

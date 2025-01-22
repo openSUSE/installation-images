@@ -333,10 +333,6 @@ gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
 
-nscd:
-  # remaining files are in root image
-  d /var/run/nscd
-
 ?virtualbox-guest-tools: nodeps
   /usr/lib/udev/rules.d
 
@@ -497,10 +493,6 @@ udev:
 
 # we just want the user & group entries
 polkit: nodeps
-  E prein
-
-# we just want the user & group entries
-nscd:
   E prein
 
 # we just want the user & group entries
