@@ -368,12 +368,6 @@ cracklib: nodeps
   x etc/ssh /lib
   x ../rescue/mount-rootfs-and-do-chroot /bin
 
-nscd:
-  /etc
-  /usr
-  # turn off passwd & group caching
-  R s/(enable-cache\s+(passwd|group)\s+)yes/$1no/g /etc/nscd.conf
-
 shadow:
   if exists(shadow, /usr/lib/pam.d)
     /usr/lib/pam.d

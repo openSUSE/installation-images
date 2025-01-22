@@ -477,7 +477,6 @@ BuildRequires:  plymouth-theme-tribar
 %endif
 BuildRequires:  klogd
 BuildRequires:  ltrace
-BuildRequires:  nscd
 BuildRequires:  polkit
 BuildRequires:  popt-devel
 BuildRequires:  pothana2000
