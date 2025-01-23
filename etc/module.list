@@ -315,3 +315,14 @@ updates/
 -updates/net/sunrpc/
 -updates/fs/lockd/
 -updates/fs/nfs*
+
+<ppc64le>
+# for the source of this module list, see bsc#1213879 comment 35
+-kernel/drivers/net/wireless/
+-kernel/net/ieee80211/
+-kernel/net/mac80211/
+-kernel/net/wireless/
+-kernel/net/wimax/
+-kernel/drivers/gpu/
+-kernel/drivers/video/
+</ppc64le>

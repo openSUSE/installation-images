@@ -85,6 +85,8 @@ if(open my $f, $ex) {
       next;
     }
 
+    next if !$cond_ok;
+
     if(s/^\-//) {
       $ex_no .= "|$_";
     }
