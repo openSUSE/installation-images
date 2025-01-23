@@ -58,11 +58,34 @@ else {
   die "$0: $md: $!\n";
 }
 
+my $cond_arch;
+my $cond_ok = 1;
 
 if(open my $f, $ex) {
   while(<$f>) {
     s/\s*$//;
     next if /^\s*(#|$)/;
+
+    # keep everything between <ARCH>...</ARCH> when ARCH == $ConfigData{arch}
+    # and drop everything between <ARCH>...</ARCH> when ARCH != $ConfigData{arch}
+    #
+    # <ARCH> and </ARCH> must be alone on separate lines
+
+    if(/<(\/?)([^>]*)>/) {
+      if($1) {
+        die "$ex($.): improper nesting" if $cond_arch ne $2;
+        undef $cond_arch;
+        $cond_ok = 1;
+      }
+      else {
+        die "$ex($.): nesting not allowed" if $cond_arch;
+        $cond_arch = $2;
+        $cond_ok = $cond_arch eq $ConfigData{arch};
+      }
+      next;
+    }
+
+    next if !$cond_ok;
 
     if(s/^\-//) {
       $ex_no .= "|$_";
