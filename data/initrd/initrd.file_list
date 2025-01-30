@@ -450,6 +450,7 @@ e2fsprogs:
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 system-user-daemon:
+system-user-nobody:
 system-user-tss:
 system-group-kvm:
 
