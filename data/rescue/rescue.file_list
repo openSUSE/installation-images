@@ -183,7 +183,6 @@ procps:
 psmisc:
 sdparm:
 sed:
-setserial:
 sg3_utils:
 smartmontools:
 smp_utils:
