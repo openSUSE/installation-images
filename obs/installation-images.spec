@@ -489,7 +489,6 @@ BuildRequires:  rsync
 BuildRequires:  rsyslog
 BuildRequires:  screen
 BuildRequires:  sdparm
-BuildRequires:  setserial
 BuildRequires:  setxkbmap
 BuildRequires:  sg3_utils
 BuildRequires:  sharutils
