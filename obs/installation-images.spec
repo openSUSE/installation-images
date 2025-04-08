@@ -441,7 +441,6 @@ BuildRequires:  pango
 BuildRequires:  pango-tools
 BuildRequires:  parted
 BuildRequires:  pciutils
-BuildRequires:  pcre-devel
 BuildRequires:  pcsc-lite
 BuildRequires:  perl-Config-Crontab
 BuildRequires:  perl-HTML-Parser
