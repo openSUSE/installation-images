@@ -66,3 +66,10 @@ e mlist3 <kernel_ver> fw || true
 # remove temp firmware dir
 r fw
 
+# extra firmware files that are needed but not reached via modinfo
+#
+# (note: all firmware packages are aggregated in the default kernel
+# package, so they can be picked up here)
+#
+# bsc#1243020
+/lib/firmware/iwlwifi-gl-c0-fm-c0-92.ucode.xz
