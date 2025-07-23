@@ -266,6 +266,10 @@ kernel/drivers/dma/tegra20-apb-dma.ko
 
 kernel/drivers/virt/vboxguest/
 
+#NXP i.MX8MP
+kernel/drivers/interconnect/imx/imx-interconnect.ko
+kernel/drivers/interconnect/imx/imx8mp-interconnect.ko
+
 # RPi4
 kernel/drivers/reset/reset-raspberrypi.ko
 kernel/drivers/clk/bcm/clk-raspberrypi.ko
