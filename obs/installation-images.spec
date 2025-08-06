@@ -379,7 +379,6 @@ BuildRequires:  hostname
 BuildRequires:  icewm-lite
 BuildRequires:  icmpinfo
 BuildRequires:  indic-fonts
-BuildRequires:  initviocons
 BuildRequires:  ipa-gothic-fonts
 BuildRequires:  iproute2
 BuildRequires:  iptables
