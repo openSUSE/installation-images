@@ -78,7 +78,6 @@ hdparm:
 hex:
 hostname:
 hwinfo:
-initviocons:
 iproute2:
 iputils:
 joe:

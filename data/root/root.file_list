@@ -159,7 +159,6 @@ gzip:
 hex:
 hwinfo:
 ?hyper-v:
-initviocons:
 iputils:
 jfsutils:
 joe:
