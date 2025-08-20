@@ -676,6 +676,8 @@ endif
 
 ?openssh-fips:
 
+?libopenssl-3-fips-provider:
+
 if exists(openssh-server)
   openssh:
   openssh-server:

@@ -406,6 +406,7 @@ BuildRequires:  krb5-devel
 BuildRequires:  less
 BuildRequires:  libpcsclite1
 BuildRequires:  libsolv-tools
+BuildRequires:  libopenssl-3-fips-provider
 BuildRequires:  libyui-ncurses
 BuildRequires:  libyui-ncurses-pkg
 BuildRequires:  libyui-ncurses-rest-api
