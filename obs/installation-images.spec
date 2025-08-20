@@ -404,6 +404,7 @@ BuildRequires:  khmeros-fonts
 BuildRequires:  kmod-compat
 BuildRequires:  krb5-devel
 BuildRequires:  less
+BuildRequires:  libopenssl-3-fips-provider
 BuildRequires:  libpcsclite1
 BuildRequires:  libsolv-tools
 BuildRequires:  libyui-ncurses

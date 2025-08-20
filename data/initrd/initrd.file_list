@@ -89,6 +89,7 @@ kpartx:
 kmod:
 ?kmod-compat:
 krb5:
+?libopenssl-3-fips-provider:
 lsscsi:
 mdadm:
 netcfg:
