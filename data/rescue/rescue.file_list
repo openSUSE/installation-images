@@ -168,6 +168,7 @@ kmod:
 ?kmod-compat:
 kpartx:
 krb5:
+?libopenssl-3-fips-provider:
 lsscsi:
 mingetty:
 ncurses-utils:
