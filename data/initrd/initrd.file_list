@@ -349,6 +349,7 @@ shadow:
   else
     /usr/etc/pam.d
   endif
+  /usr/bin/chage
   /usr/sbin/groupadd
   /usr/sbin/useradd
   /usr/sbin/useradd.local
