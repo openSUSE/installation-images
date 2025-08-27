@@ -302,6 +302,9 @@ kernel/drivers/spmi/spmi-mtk-pmif.ko
 kernel/drivers/interconnect/qcom/qnoc-sc7280.ko
 kernel/drivers/ufs/host/ufs-qcom.ko
 
+# Qcom rb8
+kernel/drivers/interconnect/qcom/qnoc-sa8775p.ko
+
 kernel/drivers/soc/mediatek/mtk-pmic-wrap.ko
 kernel/drivers/power/supply/mt6360_charger.ko
 kernel/drivers/nvmem/nvmem_mtk-efuse.ko
