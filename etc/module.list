@@ -307,7 +307,7 @@ kernel/drivers/power/supply/mt6360_charger.ko
 kernel/drivers/nvmem/nvmem_mtk-efuse.ko
 kernel/drivers/clk/
 kernel/drivers/usb/mtu3/
-kernel/drivers/misc/onboard_usb_dev.ko
+kernel/drivers/usb/misc/onboard_usb_dev.ko
 
 kernel/drivers/spi/
 kernel/drivers/dma/pl330.ko
