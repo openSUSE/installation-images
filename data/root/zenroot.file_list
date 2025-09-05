@@ -89,6 +89,7 @@ open-iscsi:
 parted:
 polkit:
 procps:
+sed:
 systemd-presets-branding-<systemd_theme>: ignore
 systemd:
 tar:
