@@ -130,14 +130,6 @@ bash:
   /usr/bin/bash
   s bash usr/bin/sh
 
-dbus-1: prein
-  /
-  # not needed
-  r /usr/bin/dbus-launch*
-  e save_cfg etc/passwd etc/shadow etc/group
-  e prein
-  e restore_cfg etc/passwd etc/shadow etc/group
-
 ncurses-utils:
   /usr/bin/reset
   /usr/bin/tset
