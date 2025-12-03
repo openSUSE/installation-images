@@ -323,13 +323,6 @@ aaa_base:
   t /etc/fstab
   E postin
 
-dbus-1:
-  /
-  # not needed
-  r /usr/bin/dbus-launch*
-  E prein
-  E postin
-
 polkit:
   /
   E prein

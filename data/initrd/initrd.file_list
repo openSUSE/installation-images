@@ -459,12 +459,6 @@ aaa_base:
   /
   t /run/utmp
 
-dbus-1:
-  /
-  # not needed
-  r /usr/bin/dbus-launch*
-  E prein
-
 # prein script for messagebus user
 dbus-1-common:
   /
