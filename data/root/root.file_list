@@ -79,6 +79,7 @@ TEMPLATE ruby\d+\.\d+:
   r /usr/bin/typeprof*
   r /usr/bin/rdbg*
   r /usr/bin/syntax_suggest*
+  r /usr/bin/test-unit*
 
 TEMPLATE:
   /
