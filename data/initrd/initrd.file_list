@@ -135,7 +135,9 @@ linuxrc:
 
 # add zypp config to initrd to ensure it's writable
 libzypp: nodeps
-  /
+  /etc
+  /usr/etc
+  /var
 
 if exists(samba-client-libs)
   samba-client-libs: nodeps
