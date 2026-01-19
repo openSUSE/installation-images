@@ -135,15 +135,7 @@ linuxrc:
 
 # add zypp config to initrd to ensure it's writable
 libzypp: nodeps
-  /etc
-  /var/lib/zypp
-  if patch_zypp_config_theme
-    # patch /etc/zypp/zypp.conf (fate #321764); sets
-    # solver.onlyRequires = true, rpm.install.excludedocs = yes, multiversion =
-    R s/^[#[:space:]]*(solver.onlyRequires)\s+=.*/# minimal CAASP\n$1 = true/ etc/zypp/zypp.conf
-    R s/^[#[:space:]]*(rpm.install.excludedocs)\s+=.*/# minimal CAASP\n$1 = yes/ etc/zypp/zypp.conf
-    R s/^[#[:space:]]*(multiversion)\s+=.*/# minimal CAASP\n$1 =/ etc/zypp/zypp.conf
-  endif
+  /
 
 if exists(samba-client-libs)
   samba-client-libs: nodeps
