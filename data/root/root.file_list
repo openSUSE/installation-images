@@ -489,10 +489,6 @@ endif
   x /etc/xorg.conf.template /etc/X11
   R s#usr/lib/xorg/modules#usr/<lib>/xorg/modules# /etc/X11/xorg.conf.template
 
-xkeyboard-config:
-  /usr/share
-  /var/lib
-
 if exists(xorg-x11-Xvnc)
   xorg-x11-Xvnc:
     /
@@ -636,6 +632,11 @@ graphviz:
   /
   E postin
 
+xkeyboard-config:
+  /usr/share
+  /var/lib
+  /usr/lib/tmpfiles.d
+  E /usr/bin/systemd-tmpfiles --create /usr/lib/tmpfiles.d/xkeyboard-config.conf
 
 :
 
