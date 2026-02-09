@@ -556,6 +556,7 @@ BuildRequires:  sbl
 %endif
 %if %{with vnc}
 BuildRequires:  xorg-x11-Xvnc
+#!BuildConflicts: ffmpeg-8-mini-libs
 %endif
 # kmps
 %ifarch %ix86 x86_64
