@@ -307,6 +307,9 @@ BuildRequires:  grub2-branding-%branding_grub2
 ExcludeArch:    %ix86
 %endif
 
+BuildRequires:  zypp-excludedocs
+BuildRequires:  zypp-no-multiversion
+BuildRequires:  zypp-no-recommends
 BuildRequires:  xf86-input-libinput
 BuildRequires:  google-roboto-fonts
 BuildRequires:  noto-sans-fonts
