@@ -138,6 +138,11 @@ libzypp: nodeps
   /etc
   /usr/etc
   /var
+if patch_zypp_config_theme
+  zypp-no-recommends:
+  zypp-excludedocs:
+  zypp-no-multiversion:
+endif
 
 if exists(samba-client-libs)
   samba-client-libs: nodeps
