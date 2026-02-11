@@ -18,6 +18,7 @@ d etc/sysconfig/hardware etc/YaST2 etc/X11
 d var/tmp var/adm/mount
 d var/cache/fontconfig var/cache/zypp
 d var/lib/YaST2 var/lib/hardware/unique-keys var/lib/autoinstall var/lib/xkb/compiled
+d var/lib/hardware/udi
 d var/lib/systemd/migrated var/lib/polkit var/lib/sshd var/lib/empty
 d var/log/cups var/log/YaST2 var/log/zypp
 d var/spool var/run/libstorage var/run/hotplug var/run/ntp
