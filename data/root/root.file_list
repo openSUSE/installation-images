@@ -490,8 +490,14 @@ endif
   R s#usr/lib/xorg/modules#usr/<lib>/xorg/modules# /etc/X11/xorg.conf.template
 
 if exists(xorg-x11-Xvnc)
+  # libpipewire is needed only by w0vncserver
+  # not using 'ignore' since with 'ignore' the '*' version glob does not work
+  libpipewire-*-*: nodeps
+    # a no-op; ensures to include no files
+    e true
   xorg-x11-Xvnc:
     /
+    r usr/bin/w0vncserver
 endif
 
 Mesa-libGL*:
