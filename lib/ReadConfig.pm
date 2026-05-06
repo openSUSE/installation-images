@@ -178,7 +178,6 @@ use vars qw (
 
 use Cwd;
 use File::Path 'make_path';
-use File::Spec 'abs2rel';
 use ResolveDepsLibsolv;
 
 eval "use solv";

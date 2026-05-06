@@ -55,9 +55,15 @@ if exists(shim)
     a <shim_dir>/MokManager.efi EFI/BOOT/
 endif
 
-if arch eq 'x86_64' && exists(memtest86+,/usr/lib/memtest86/memtest.efi)
+if arch eq 'x86_64'
   memtest86+:
-    m /usr/lib/memtest86/memtest.efi EFI/BOOT/
+    if exists(memtest86+,/usr/lib/memtest86/memtest.efi)
+      m /usr/lib/memtest86/memtest.efi EFI/BOOT/
+    elsif exists(memtest86+,/usr/lib/memtest86/mt86plus.efi)
+      m /usr/lib/memtest86/mt86plus.efi EFI/BOOT/memtest.efi
+    else
+      R s/\s*menuentry 'Memory Test'[^}]*\}//s EFI/BOOT/grub.cfg
+    endif
 endif
 
 # show product name in title instead of default grub string
