@@ -427,6 +427,9 @@ x mount-rootfs-and-do-chroot /usr/bin
 d etc/systemd/system/getty.target.wants
 s /usr/lib/systemd/system/getty@.service etc/systemd/system/getty.target.wants/getty@tty1.service
 
+# add dbus service compat symlink
+s /usr/lib/systemd/system/dbus-broker.service etc/systemd/system/dbus.service
+
 # don't try to set mount flags
 # it will lead to problems and is not necessary; see bsc #937237 for details
 R s/^MountFlags=slave\s*// usr/lib/systemd/system/systemd-udevd.service
