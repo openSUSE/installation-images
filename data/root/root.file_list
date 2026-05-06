@@ -226,6 +226,11 @@ rpm:
   /usr/bin
   /usr/lib*
   r /usr/lib*/rpm-plugins/sepolicy.so
+  # Link back usr/lib/sysimage/rpm to /var/lib/rpm.
+  # This ensures the directory is writable.
+  r usr/lib/sysimage/rpm
+  d var/lib/rpm
+  s /var/lib/rpm usr/lib/sysimage/rpm
 
 ?grub2: nodeps
   /usr/bin/grub2-mkpasswd-pbkdf2

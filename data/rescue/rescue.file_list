@@ -317,6 +317,12 @@ system-user-nobody:
 rpm:
   /
   E postin
+  # Link back usr/lib/sysimage/rpm to /var/lib/rpm.
+  # This has to be consistent with root image.
+  r usr/lib/sysimage/rpm
+  r var/lib/rpm
+  d var/lib/rpm
+  s /var/lib/rpm usr/lib/sysimage/rpm
 
 aaa_base:
   /
