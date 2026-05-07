@@ -19,6 +19,8 @@ if arch eq 'i386' || arch eq 'x86_64'
       m /boot/memtest.bin /loader/memtest
     elsif exists(memtest86+,/usr/lib/memtest86/memtest.bin)
       m /usr/lib/memtest86/memtest.bin /loader/memtest
+    elsif exists(memtest86+,/usr/lib/memtest86/mt86plus.efi)
+      m /usr/lib/memtest86/mt86plus.efi /loader/memtest
     else
       R s/\n# memory test.*?\n\n/\n/s loader/isolinux.cfg
     endif
