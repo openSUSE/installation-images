@@ -310,6 +310,7 @@ kernel/drivers/interconnect/qcom/qnoc-qcs8300.ko
 
 kernel/drivers/interconnect/qcom/qnoc-sm8750.ko
 kernel/drivers/interconnect/qcom/qnoc-kaanapali.ko
+kernel/drivers/interconnect/qcom/qnoc-glymur.ko
 
 kernel/drivers/soc/mediatek/mtk-pmic-wrap.ko
 kernel/drivers/power/supply/mt6360_charger.ko
