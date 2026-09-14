@@ -150,6 +150,12 @@ gawk:
   /usr/bin/gawk
   s gawk usr/bin/awk
 
+xkeyboard-config:
+  /usr/share
+  /var/lib
+  /usr/lib/tmpfiles.d
+  E /usr/bin/systemd-tmpfiles --create /usr/lib/tmpfiles.d/xkeyboard-config.conf
+
 :
 
 # remove things we don't need

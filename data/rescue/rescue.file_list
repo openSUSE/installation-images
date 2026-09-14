@@ -194,6 +194,7 @@ suse-module-tools:
 sysconfig:
 sysconfig-netconfig:
 systemd-presets-branding-<systemd_theme>:
+systemd:
 sysuser-shadow:
 tar:
 terminfo-base:
@@ -294,6 +295,12 @@ sysvinit-tools:
 
 terminfo:
   /usr/share/terminfo/i/ibm3151
+
+xkeyboard-config:
+  /usr/share
+  /var/lib
+  /usr/lib/tmpfiles.d
+  E /usr/bin/systemd-tmpfiles --create /usr/lib/tmpfiles.d/xkeyboard-config.conf
 
 :
 
