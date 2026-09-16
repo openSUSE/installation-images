@@ -305,6 +305,9 @@ kernel/drivers/ufs/host/ufs-qcom.ko
 # Qcom rb8
 kernel/drivers/interconnect/qcom/qnoc-sa8775p.ko
 
+# Qcom qcs615
+kernel/drivers/interconnect/qcom/qnoc-qcs615.ko
+
 # Qcom rb4
 kernel/drivers/interconnect/qcom/qnoc-qcs8300.ko
 
