@@ -38,7 +38,7 @@ fi
 
 if [ -n "$instsys_no_compression" ] ; then
   echo "$instsys_no_compression" > .no_compression
-  echo "using no compression in squashfs\n"
+  echo "using no compression in squashfs: '$instsys_no_compression'\n"
 fi
 
 # - - -  lib/{modules,firmware}  - - -
