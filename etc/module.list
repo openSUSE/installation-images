@@ -305,12 +305,17 @@ kernel/drivers/ufs/host/ufs-qcom.ko
 # Qcom rb8
 kernel/drivers/interconnect/qcom/qnoc-sa8775p.ko
 
+# Qcom qcs615
+kernel/drivers/interconnect/qcom/qnoc-qcs615.ko
+
 # Qcom rb4
 kernel/drivers/interconnect/qcom/qnoc-qcs8300.ko
 
 kernel/drivers/interconnect/qcom/qnoc-sm8750.ko
 kernel/drivers/interconnect/qcom/qnoc-kaanapali.ko
 kernel/drivers/interconnect/qcom/qnoc-glymur.ko
+# Qcom x1e80100
+kernel/drivers/interconnect/qcom/qnoc-x1e80100.ko
 
 kernel/drivers/soc/mediatek/mtk-pmic-wrap.ko
 kernel/drivers/power/supply/mt6360_charger.ko

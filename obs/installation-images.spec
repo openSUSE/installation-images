@@ -508,7 +508,9 @@ BuildRequires:  un-fonts
 BuildRequires:  usbutils
 BuildRequires:  util-linux
 BuildRequires:  util-linux-systemd
+%ifnarch armv6l armv6hl
 BuildRequires:  valgrind
+%endif
 BuildRequires:  vim-small
 # libproxy1 requires libpxbackend-1_0; to counter cycles, this exists also as mini (bsc#215290)
 #!BuildConflicts: libpxbackend-1_0-mini
