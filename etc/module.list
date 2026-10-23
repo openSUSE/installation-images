@@ -311,6 +311,9 @@ kernel/drivers/interconnect/qcom/qnoc-qcs615.ko
 # Qcom rb4
 kernel/drivers/interconnect/qcom/qnoc-qcs8300.ko
 
+kernel/drivers/interconnect/qcom/qnoc-sm8750.ko
+kernel/drivers/interconnect/qcom/qnoc-kaanapali.ko
+kernel/drivers/interconnect/qcom/qnoc-glymur.ko
 # Qcom x1e80100
 kernel/drivers/interconnect/qcom/qnoc-x1e80100.ko
 
