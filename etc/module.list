@@ -187,6 +187,7 @@ kernel/drivers/video/fbdev/xen-fbfront.ko
 kernel/drivers/bcma/
 
 kernel/drivers/rtc/
+-kernel/drivers/rtc/rtc-pm8xxx.ko
 kernel/drivers/mfd/wm8350.ko
 kernel/drivers/misc/eeprom/eeprom_93cx6.ko
 kernel/drivers/mfd/mc13783-core.ko
